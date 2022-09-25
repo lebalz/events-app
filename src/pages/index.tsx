@@ -1,0 +1,71 @@
+import React from 'react';
+import clsx from 'clsx';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from '@theme/Layout';
+
+import styles from './index.module.css';
+import { useStore } from '../stores/hooks';
+import { observer } from 'mobx-react-lite';
+
+function HomepageHeader() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      <div className="container">
+        <h1 className="hero__title">{siteConfig.title}</h1>
+        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <div className={styles.buttons}>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/intro">
+            Docusaurus Tutorial - 5min ⏱️
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+const Home = observer(() => {
+  const {siteConfig} = useDocusaurusContext();
+  const eventStore = useStore('eventStore');
+  const userStore = useStore('userStore');
+  return (
+    <Layout
+      title={`Hello from ${siteConfig.title}`}
+      description="Description will go into a meta tag in <head />">
+      <HomepageHeader />
+      <main>
+        <pre>
+          <code>
+            {JSON.stringify(userStore.current, undefined, 2)}
+          </code>
+        </pre>
+        <div className="container">
+          <div className="row">
+          <div className="col col--6">
+            <h1 className="hero__title">Events</h1>
+            <pre>
+              <code>
+                {JSON.stringify(eventStore.events.slice(), undefined, 2)}
+              </code>
+            </pre>
+
+          </div>
+            <div className="col col--6">
+            <h1 className="hero__title">Users</h1>
+              <pre>
+                <code>
+                  {JSON.stringify(userStore.users.slice(), undefined, 2)}
+                </code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </main>
+    </Layout>
+  );
+})
+
+export default Home;

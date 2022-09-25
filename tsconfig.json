@@ -1,0 +1,14 @@
+{
+  // This file is not used in compilation. It is here just for a nice editor experience.
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["esnext"],
+    "target": "ES5",
+    "useDefineForClassFields": true,
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "esModuleInterop":true,
+    "resolveJsonModule": true,
+  }
+}
