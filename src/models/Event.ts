@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 import { Event as EventProps, EventState } from '../api/event';
 
 export default class Event {
@@ -22,10 +22,10 @@ export default class Event {
   location: string;
   
   @observable
-  endTime: Date;
+  end: Date;
   
   @observable
-  startTime: Date;
+  start: Date;
 
   @observable
   isOutdated: boolean = false;
@@ -39,11 +39,31 @@ export default class Event {
     this.responsibleIds.replace(props.responsibleIds);
     this.description = props.description;
     this.descriptionLong = props.descriptionLong;
-    this.startTime = new Date(props.startTime);
-    this.endTime = new Date(props.endTime);
+    this.start = new Date(props.start);
+    this.end = new Date(props.end);
     this.createdAt = new Date(props.createdAt);
     this.updatedAt = new Date(props.updatedAt);
 
     makeObservable(this);
+  }
+
+  @computed
+  get durationMS() {
+    return this.end.getTime() - this.start.getTime();
+  }
+
+  @computed
+  get progress() {
+    const prog = Date.now() - this.start.getTime();
+    if (prog > this.durationMS) {
+      return 100;
+    }
+    if (prog < 0) {
+      return 0;
+    }
+    if (this.durationMS === 0) {
+      return 100;
+    }
+    return Math.round(prog / this.durationMS * 100)
   }
 }

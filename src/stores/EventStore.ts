@@ -40,7 +40,7 @@ export class EventStore {
                     fetchEvents(this.cancelToken)
                         .then(
                             action(({ data }) => {
-                                const events = data.map((u) => new Event(u));
+                                const events = data.map((u) => new Event(u)).sort((a, b) => a.start.getTime() - b.start.getTime());
                                 this.events.replace(events);
                             })
                         )

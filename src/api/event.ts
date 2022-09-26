@@ -16,8 +16,8 @@ export interface Event {
     description: string;
     descriptionLong: string;
     location: string;
-    endTime: string;
-    startTime: string;
+    end: string;
+    start: string;
     responsibleIds: string[];
     state: EventState;
     createdAt: string;
