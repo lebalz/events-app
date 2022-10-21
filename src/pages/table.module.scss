@@ -1,0 +1,14 @@
+.badge {
+    &.gym {
+        background: var(--gym);
+        border-color: var(--gym);
+    }
+    &.fms {
+        background: var(--fms);
+        border-color: var(--fms);
+    }
+    &.wms {
+        background: var(--wms);
+        border-color: var(--wms);
+    }
+}

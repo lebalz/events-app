@@ -7,7 +7,7 @@ import {
 } from '@azure/msal-browser';
 import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { API, loginRequest } from '../authConfig';
-import { RootStore } from './stores';
+import type { RootStore } from './stores';
 import api, { isLive } from '../api/base';
 
 export class MSALStore {
@@ -109,11 +109,12 @@ export class MSALStore {
 
     @computed
     get loggedIn(): boolean {
-        return !!this.account;
+        return true || !!this.account;
     }
 
     @action
     login() {
+        return;
         this.msalInstance.loginRedirect(loginRequest).catch((e) => {
             console.warn(e);
         });
@@ -153,6 +154,7 @@ export class MSALStore {
     }
 
     withToken(): Promise<boolean | void> {
+        return Promise.resolve(true);
         return this.getTokenRedirect().then((res) => {
             if (res) {
                 (api.defaults.headers as any).Authorization = `Bearer ${res.accessToken}`;

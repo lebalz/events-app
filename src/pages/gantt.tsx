@@ -9,8 +9,8 @@ const GanttView = observer(() => {
     const eventStore = useStore('eventStore');
     const tasks: Task[] = eventStore.events.map((e, idx) => {
         return {
-          start: e.start,
-          end: e.end,
+          start: e.start.toDate(),
+          end: e.end.toDate(),
           name: e.description,
           id: e.id || `id-${idx}`,
           type: 'task',
@@ -19,7 +19,6 @@ const GanttView = observer(() => {
           styles: { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' },
         }
     });
-    console.log(tasks);
     return (
         <div>
             {tasks.length > 0 && (

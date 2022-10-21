@@ -18,6 +18,7 @@ export interface Event {
     location: string;
     end: string;
     start: string;
+    allDay: boolean;
     responsibleIds: string[];
     state: EventState;
     createdAt: string;

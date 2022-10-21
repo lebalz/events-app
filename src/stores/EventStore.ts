@@ -1,18 +1,16 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { events as fetchEvents } from '../api/event';
-import Event from '../models/Event';
-import { RootStore } from './stores';
+import SchoolEvent from '../models/SchoolEvent';
+import type { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
 
 export class EventStore {
     private readonly root: RootStore;
-    events = observable<Event>([]);
+    events = observable<SchoolEvent>([]);
 
     cancelToken = axios.CancelToken.source();
-
-    @observable initialized: boolean = false;
     constructor(root: RootStore) {
         this.root = root;
 
@@ -30,6 +28,15 @@ export class EventStore {
         this.cancelToken = axios.CancelToken.source();
     }
 
+    find = computedFn(
+        function (this: EventStore, id?: string): SchoolEvent | undefined {
+            if (!id) {
+                return;
+            }
+            return this.events.find((e) => e.id === id);
+        },
+        { keepAlive: true }
+    );
 
     @action
     reload() {
@@ -40,7 +47,7 @@ export class EventStore {
                     fetchEvents(this.cancelToken)
                         .then(
                             action(({ data }) => {
-                                const events = data.map((u) => new Event(u)).sort((a, b) => a.start.getTime() - b.start.getTime());
+                                const events = data.map((u) => new SchoolEvent(u)).sort((a, b) => a.start.diff(b.start, 'milliseconds'));
                                 this.events.replace(events);
                             })
                         )

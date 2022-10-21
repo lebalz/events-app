@@ -12,6 +12,7 @@ export interface User {
     shortName: string;
     firstName: string;
     lastName: string;
+    untisId?: number;
     department: string;
     role: Role;
     createdAt: string;

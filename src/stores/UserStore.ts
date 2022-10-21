@@ -2,17 +2,16 @@ import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { users as fetchUsers } from '../api/user';
 import User from '../models/User';
-import { RootStore } from './stores';
+import type { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
+import Teacher from '../models/Untis/Teacher';
 
 export class UserStore {
     private readonly root: RootStore;
     users = observable<User>([]);
 
     cancelToken = axios.CancelToken.source();
-
-    @observable initialized: boolean = false;
     constructor(root: RootStore) {
         this.root = root;
 
@@ -34,6 +33,10 @@ export class UserStore {
     @computed
     get current(): User | undefined {
         return this.users.find((u) => u.email.toLowerCase() === this.root.msalStore.account?.username.toLowerCase());
+    }
+
+    findUntisUser(shortName: string): Teacher | undefined {
+        return this.root.untisStore.findTeacherByShortName(shortName);
     }
 
 
@@ -58,7 +61,7 @@ export class UserStore {
                     fetchUsers(this.cancelToken)
                         .then(
                             action(({ data }) => {
-                                const users = data.map((u) => new User(u));
+                                const users = data.map((u) => new User(u, this));
                                 this.users.replace(users);
                             })
                         )
