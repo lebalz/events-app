@@ -8,21 +8,29 @@ export enum EventState {
     Published = 'PUBLISHED',
     Deleted = 'DELETED',
 }
+
+export enum Departements {
+    GYM = 'GYM',
+    FMS = 'FMS',
+    WMS = 'WMS'
+}
+
 export interface Event {
     id: string;
     authorId: string;
-    categories: string[];
-    classes: string[];
-    description: string;
-    descriptionLong: string;
-    location: string;
-    end: string;
     start: string;
+    end: string;
     allDay: boolean;
-    responsibleIds: string[];
-    state: EventState;
+    location:  string;
+    description:  string;
+    descriptionLong: string;
+    departements: Departements[];
+    classes: string[];
     createdAt: string;
     updatedAt: string;
+    state: EventState;
+    onlyKLP: boolean;
+    responsibleIds: string[];
 }
 
 export function events(cancelToken: CancelTokenSource): AxiosPromise<Event[]> {

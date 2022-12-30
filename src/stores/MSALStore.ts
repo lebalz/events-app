@@ -7,11 +7,11 @@ import {
 } from '@azure/msal-browser';
 import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { API, loginRequest } from '../authConfig';
-import type { RootStore } from './stores';
+import { RootStore } from './stores';
 import api, { isLive } from '../api/base';
 
 export class MSALStore {
-    private readonly root: RootStore;
+    // private readonly root: RootStore;
     @observable.ref
     account?: AccountInfo;
 
@@ -32,20 +32,19 @@ export class MSALStore {
     offlineModeConfirmed = false;
     cancelToken: CancelTokenSource = axios.CancelToken.source();
 
-    constructor(root: RootStore) {
-        makeObservable(this);
-        this.root = root;
+    constructor() {
+        // this.root = root;
         setInterval(
             action(() => {
                 this.timer = Date.now();
             }),
             1000
-        );
-
-        reaction(
-            () => this.offlineTimer,
-            (offlineTime) => {
-                // if (!offlineTime || this.ignoreOfflineState) {
+            );
+            
+            reaction(
+                () => this.offlineTimer,
+                (offlineTime) => {
+                    // if (!offlineTime || this.ignoreOfflineState) {
                 if (!offlineTime) {
                     return;
                 }
@@ -63,8 +62,9 @@ export class MSALStore {
                     .catch((err) => {
                         return;
                     });
-            }
+                }
         );
+        makeObservable(this);
     }
 
     @action

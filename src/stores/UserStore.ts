@@ -1,8 +1,8 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { users as fetchUsers } from '../api/user';
+import { RootStore } from './stores';
 import User from '../models/User';
-import type { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
 import Teacher from '../models/Untis/Teacher';

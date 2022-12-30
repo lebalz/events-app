@@ -9,8 +9,8 @@ const GanttView = observer(() => {
     const eventStore = useStore('eventStore');
     const tasks: Task[] = eventStore.events.map((e, idx) => {
         return {
-          start: e.start.toDate(),
-          end: e.end.toDate(),
+          start: e.localStart,
+          end: e.localEnd,
           name: e.description,
           id: e.id || `id-${idx}`,
           type: 'task',
@@ -22,7 +22,15 @@ const GanttView = observer(() => {
     return (
         <div>
             {tasks.length > 0 && (
-                <Gantt tasks={tasks} viewMode={ViewMode.Day} listCellWidth={''} ganttHeight={500} rowHeight={20} locale="gsw"/>
+                <Gantt 
+                    tasks={tasks} 
+                    viewMode={ViewMode.Day} 
+                    listCellWidth={''} 
+                    ganttHeight={800} 
+                    viewDate={new Date()}
+                    rowHeight={20} 
+                    locale="gsw"
+                />
             )}
         </div>
     )

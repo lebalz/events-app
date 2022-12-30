@@ -3,7 +3,7 @@
   "extends": "@tsconfig/docusaurus/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": ["esnext", "DOM"],
+    "lib": ["ESNext", "DOM"],
     "target": "ES5",
     "useDefineForClassFields": true,
     "experimentalDecorators": true,

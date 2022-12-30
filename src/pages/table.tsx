@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import moment from 'moment';
 import { useStore } from '../stores/hooks';
 import { runInAction } from 'mobx';
 import styles from './table.module.scss';
@@ -25,7 +24,8 @@ const Table = observer(() => {
                             <th>Datum Ende</th>
                             <th>Zeit Ende</th>
                             <th>Ort</th>
-                            <th>Kategorien</th>
+                            <th>Schulen</th>
+                            <th>Klassen</th>
                             <th>Beschreibung</th>
                         </tr>
                     </thead>
@@ -35,7 +35,7 @@ const Table = observer(() => {
                                 <tr
                                     key={idx}
                                     onClick={() => {
-                                        console.log(userStore.current.isAffected(event));
+                                        // console.log(userStore.current.isAffected(event));
                                     }}
                                 >
                                     <td>{event.kw}</td>
@@ -47,7 +47,7 @@ const Table = observer(() => {
                                     <td>{event.allDay ? '' : event.endTime}</td>
                                     <td>{event.location}</td>
                                     <td>
-                                        {event.categories.map((c, idx) => (
+                                        {event.departements.map((c, idx) => (
                                             <span
                                                 key={idx}
                                                 className={clsx(
@@ -55,6 +55,19 @@ const Table = observer(() => {
                                                     'badge--primary',
                                                     styles.badge,
                                                     styles[c.toLowerCase()]
+                                                )}
+                                            >
+                                                {c}
+                                            </span>
+                                        ))}
+                                    </td>
+                                    <td>
+                                        {event.classes.map((c, idx) => (
+                                            <span
+                                                key={idx}
+                                                className={clsx(
+                                                    'badge',
+                                                    'badge--secondary'
                                                 )}
                                             >
                                                 {c}

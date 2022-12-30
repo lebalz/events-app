@@ -5,8 +5,21 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
-import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
+import { useStore } from '../stores/hooks';
+
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value) || key === 'root' || key === 'store' || key === 'rootStore') {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -39,7 +52,12 @@ const Home = observer(() => {
       <main>
         <pre>
           <code>
-            {JSON.stringify(userStore.current, undefined, 2)}
+            { JSON.stringify(userStore.current, getCircularReplacer(), 2)}
+          </code>
+        </pre>
+        <pre>
+          <code>
+            { JSON.stringify(userStore.current.untisTeacher?.lessons?.map(l => `${l.subjectName}: ${l.startTimeStr}-${l.endTimeStr}`), getCircularReplacer(), 2)}
           </code>
         </pre>
         <div className="container">
@@ -57,7 +75,7 @@ const Home = observer(() => {
             <h1 className="hero__title">Users</h1>
               <pre>
                 <code>
-                  {JSON.stringify(userStore.users.slice(), undefined, 2)}
+                  {JSON.stringify(userStore.users, getCircularReplacer(), 2)}
                 </code>
               </pre>
             </div>

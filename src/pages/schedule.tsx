@@ -11,13 +11,10 @@ const localizer = momentLocalizer(moment)
 
 const Schedule = observer(() => {
     const userStore = useStore('userStore');
-    const monday = moment().utc().startOf("isoWeek");
     const lessons = (userStore.current?.untisTeacher?.lessons || []).map((l, idx) => {
-        const start = monday.clone().add(l.start_time, 'milliseconds').subtract(moment().utcOffset(), 'minutes').toDate();
-        const ende = monday.clone().add(l.end_time, 'milliseconds').subtract(moment().utcOffset(), 'minutes').toDate();
         return {
-          start: start,
-          end: ende,
+          start: l.startTime,
+          end: l.endTime,
           title: `${l.subjectName}:${l.classes.map(c => c.name).join(', ')}`,
           description: l.subjectName,
           id: l.id

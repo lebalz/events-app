@@ -18,17 +18,9 @@ const COLOR = {
 const Calendar = observer(() => {
     const eventStore = useStore('eventStore');
     const tasks = eventStore.events.map((e, idx) => {
-        // const start = new Date(e.start.getTime());
-        // const end = new Date(e.end.getTime());
-        // if (fullDay) {
-        //     start.setHours(0);
-        //     start.setMinutes(0);
-        //     end.setHours(24);
-        //     end.setMinutes(0);
-        // }
         return {
-          start: e.start,
-          end: e.end,
+          start: e.localStart,
+          end: e.localEnd,
           title: e.description,
           description: e.descriptionLong,
           id: e.id
@@ -39,9 +31,9 @@ const Calendar = observer(() => {
         if (!e) {
             return {};
         }
-        if (e.categories.length === 1) {
+        if (e.departements.length === 1) {
             return {style: {
-                backgroundColor: COLOR[e.categories[0]]
+                backgroundColor: COLOR[e.departements[0]]
             }}
         }
         return {}
@@ -55,7 +47,7 @@ const Calendar = observer(() => {
                     events={tasks}
                     startAccessor="start"
                     endAccessor="end"
-                    style={{ height: 500 }}
+                    style={{ height: '95vh' }}
                     onSelectEvent={(record) => console.log(eventStore.find(record.id))}
                     eventPropGetter={eventStyleGetter}
                     popup

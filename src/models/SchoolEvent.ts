@@ -1,14 +1,34 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { Event as EventProps, EventState } from '../api/event';
 
-moment.locale('de-CH');
-
-export const getTime = (date: Date) => {
-    return date.toISOString().slice(11, 16)
+const formatTime = (date: Date) => {
+    return `${date.getUTCHours()}:${date.getMinutes()}`;
 }
-const getDate = (date: Date) => {
-    return date.toISOString().slice(0, 10).split('-').reverse().join('.')
+
+const formatDate = (date: Date) => {
+    return `${date.getUTCDate()}.${date.getUTCMonth() + 1}.${date.getUTCFullYear()}`;
+}
+
+const SEC_2_MS = 1000;
+const MINUTE_2_MS = 60 * SEC_2_MS;
+const HOUR_2_MS = 60 * MINUTE_2_MS;
+const DAY_2_MS = 24 * HOUR_2_MS;
+const DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
+
+const getWeekdayOffsetMS = (date: Date) => {
+    const days = date.getUTCDay() - 1;
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    const seconds = date.getUTCSeconds();
+    return days * DAY_2_MS + hours * HOUR_2_MS + minutes * MINUTE_2_MS + seconds * SEC_2_MS;
+}
+
+const getKW = (date: Date) => {
+    const year = new Date(date.getTime());
+    year.setUTCHours(0, 0, 0, 0);
+    year.setUTCMonth(0, 0)
+    return Math.ceil((date.getTime() - year.getTime()) / DAY_2_MS / 7);
 }
 
 export default class SchoolEvent {
@@ -18,7 +38,7 @@ export default class SchoolEvent {
     readonly updatedAt: Date;
     readonly state: EventState;
 
-    categories = observable<string>([]);
+    departements = observable<string>([]);
     classes = observable<string>([]);
     responsibleIds = observable<string>([]);
 
@@ -47,11 +67,12 @@ export default class SchoolEvent {
         this.id = props.id;
         this.state = props.state;
         this.authorId = props.authorId;
-        this.categories.replace(props.categories);
+        this.departements.replace(props.departements);
         this.classes.replace(props.classes);
         this.responsibleIds.replace(props.responsibleIds);
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
+        this.location = props.location;
         this._start = props.start;
         this._end = props.end;
         this.createdAt = new Date(props.createdAt);
@@ -62,48 +83,51 @@ export default class SchoolEvent {
     }
 
     get start() {
-        return moment.utc(this._start);
+        return new Date(this._start);
     }
 
     get end() {
-        return moment.utc(this._end);
+        return new Date(this._end);
+    }
+
+    get localStart() {
+        const s = this.start
+        return new Date(s.getTime() + s.getTimezoneOffset() * MINUTE_2_MS)
+    }
+
+    get localEnd() {
+        const e = this.end
+        return new Date(e.getTime() + e.getTimezoneOffset() * MINUTE_2_MS)
     }
 
     @action
-    setStart(date: moment.Moment) {
-        this._start = date.utc().format();
+    setStart(date: Date) {
+        this._start = date.toISOString();
     }
 
     @action
-    setEnd(date: moment.Moment) {
-        this._end = date.utc().format();
+    setEnd(date: Date) {
+        this._end = date.toISOString();
     }
 
     get startTime() {
-        return this.start.format('HH:mm');
+        return formatTime(this.start);
     }
 
     get endTime() {
-        return this.end.format('HH:mm');
+        return formatTime(this.end);
     }
 
     get startDate() {
-        return this.start.format('DD.MM.YYYY');
+        return formatDate(this.start);
     }
 
     get endDate() {
-        return this.end.format('DD.MM.YYYY');
-    }
-
-    /**
-     * returns the weeks monday as utc moment
-     */
-    get weeksMonday() {
-        return this.start.startOf('isoWeek');
+        return formatDate(this.end);
     }
 
     get weekOffsetMS_start() {
-        return this.start.diff(this.weeksMonday, 'milliseconds')
+        return getWeekdayOffsetMS(this.start);
     }
 
     get weekOffsetMS_end() {
@@ -111,21 +135,21 @@ export default class SchoolEvent {
     }
 
     get kw() {
-        return this.start.isoWeek();
+        return getKW(this.start);
     }
 
     get weekday() {
-        return this.start.format('dddd');
+        return DAYS[this.start.getUTCDay()];
     }
 
     @computed
     get durationMS() {
-        return this.end.diff(this.start, 'milliseconds');
+        return this.end.getTime() - this.start.getTime();
     }
 
     @computed
     get progress() {
-        const prog = moment.utc().diff(this.start, 'milliseconds');
+        const prog = Date.now() - this.start.getTime();
         if (prog > this.durationMS) {
             return 100;
         }
@@ -135,6 +159,6 @@ export default class SchoolEvent {
         if (this.durationMS === 0) {
             return 100;
         }
-        return Math.round((prog / this.durationMS) * 100);
+        return (prog / this.durationMS) * 100 ;
     }
 }

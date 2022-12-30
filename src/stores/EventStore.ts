@@ -2,7 +2,7 @@ import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { events as fetchEvents } from '../api/event';
 import SchoolEvent from '../models/SchoolEvent';
-import type { RootStore } from './stores';
+import { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -47,7 +47,7 @@ export class EventStore {
                     fetchEvents(this.cancelToken)
                         .then(
                             action(({ data }) => {
-                                const events = data.map((u) => new SchoolEvent(u)).sort((a, b) => a.start.diff(b.start, 'milliseconds'));
+                                const events = data.map((u) => new SchoolEvent(u)).sort((a, b) => a.start.getTime() - b.start.getTime());
                                 this.events.replace(events);
                             })
                         )

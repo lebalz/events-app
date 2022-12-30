@@ -1,8 +1,6 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { untis as fetchUntis } from '../api/untis';
-import User from '../models/User';
-import type { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
 import Department from '../models/Untis/Department';
@@ -11,6 +9,7 @@ import Lesson from '../models/Untis/Lesson';
 import Subject from '../models/Untis/Subject';
 import Teacher from '../models/Untis/Teacher';
 import Schoolyear from '../models/Untis/Schoolyear';
+import { RootStore } from './stores';
 
 export class UntisStore {
     private readonly root: RootStore;

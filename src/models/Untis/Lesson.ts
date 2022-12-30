@@ -1,8 +1,10 @@
-import { UntisStore } from '@site/src/stores/UntisStore';
-import { computed, makeObservable, observable } from 'mobx';
-import moment from 'moment';
+import type { UntisStore } from '@site/src/stores/UntisStore';
+import { computed, makeObservable } from 'mobx';
 import { Lesson as LessonProps } from '../../api/untis';
-import SchoolEvent, { getTime } from '../SchoolEvent';
+import SchoolEvent from '../SchoolEvent';
+import { getLastMonday } from './helpers';
+
+const MONDAY = Object.freeze(getLastMonday());
 
 export default class Lesson {
     readonly id: number;
@@ -14,6 +16,10 @@ export default class Lesson {
     readonly teacher_ids: number[];
     readonly subject_id: number;
     readonly schoolyear_id: number;
+
+    readonly _local_timestamp_start: number;
+    readonly _local_timestamp_end: number;
+
     private readonly store: UntisStore;
 
     constructor(props: LessonProps, schoolyear_id: number, store: UntisStore) {
@@ -27,6 +33,15 @@ export default class Lesson {
         this.subject_id = props.subject_id;
         this.schoolyear_id = schoolyear_id;
         this.store = store;
+
+        
+        const start = new Date(MONDAY.getTime())
+        start.setMilliseconds(this.start_time);
+        this._local_timestamp_start = start.getTime() + start.getTimezoneOffset() * 60000;
+        
+        const ende = new Date(MONDAY.getTime());
+        ende.setMilliseconds(this.end_time);
+        this._local_timestamp_end = ende.getTime() + ende.getTimezoneOffset() * 60000;
 
         makeObservable(this);
     }
@@ -63,13 +78,26 @@ export default class Lesson {
         return this.subject.name;
     }
 
+    get startTime() {
+        // const start = new Date(MONDAY.getTime())
+        // start.setMilliseconds(this.start_time);
+        // return start;
+        return new Date(this._local_timestamp_start);
+    }
+
     get startTimeStr() {
-        const monday = moment().utc().startOf('isoWeek');
-        return monday.add(this.start_time, 'milliseconds').format('HH:mm');
+        const start = this.startTime
+        return `${start.getHours()}:${start.getMinutes()}`;
+    }
+    get endTime() {
+        // const ende = new Date(MONDAY.getTime())
+        // ende.setMilliseconds(this.end_time);
+        // return ende;
+        return new Date(this._local_timestamp_end);
     }
     get endTimeStr() {
-        const monday = moment().utc().startOf('isoWeek');
-        return monday.add(this.end_time, 'milliseconds').format('HH:mm');
+        const ende = this.endTime
+        return `${ende.getHours()}:${ende.getMinutes()}`;
     }
 
     isAffected(event: SchoolEvent) {
