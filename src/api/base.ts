@@ -11,6 +11,7 @@ export namespace Api {
 
 const api = axios.create({
   baseURL: Api.BASE_API_URL,
+  withCredentials: true,
   headers: {}
 });
 

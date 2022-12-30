@@ -109,12 +109,11 @@ export class MSALStore {
 
     @computed
     get loggedIn(): boolean {
-        return true || !!this.account;
+        return !!this.account;
     }
 
     @action
     login() {
-        return;
         this.msalInstance.loginRedirect(loginRequest).catch((e) => {
             console.warn(e);
         });
@@ -154,7 +153,6 @@ export class MSALStore {
     }
 
     withToken(): Promise<boolean | void> {
-        return Promise.resolve(true);
         return this.getTokenRedirect().then((res) => {
             if (res) {
                 (api.defaults.headers as any).Authorization = `Bearer ${res.accessToken}`;

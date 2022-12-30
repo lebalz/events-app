@@ -57,7 +57,7 @@ const Home = observer(() => {
         </pre>
         <pre>
           <code>
-            { JSON.stringify(userStore.current.untisTeacher?.lessons?.map(l => `${l.subjectName}: ${l.startTimeStr}-${l.endTimeStr}`), getCircularReplacer(), 2)}
+            { JSON.stringify(userStore.current?.untisTeacher?.lessons?.map(l => `${l.subjectName}: ${l.startTimeStr}-${l.endTimeStr}`), getCircularReplacer(), 2)}
           </code>
         </pre>
         <div className="container">

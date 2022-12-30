@@ -34,7 +34,7 @@ const Login = observer(() => {
                 <div className={styles.loginPage}>
                     {loggedIn ? (
                         <>
-                            <h3>Eingeloggt als {account.username}</h3>
+                            <h3>Eingeloggt als {account?.username}</h3>
                             <div style={{height: '3em'}}></div>
                             <button className="button button--danger" style={{color: 'black'}} onClick={() => msalStore.logout()}>
                                 Logout
