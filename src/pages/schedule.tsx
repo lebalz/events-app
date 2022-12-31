@@ -7,36 +7,39 @@ import moment from 'moment'
 
 moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import Layout from '@theme/Layout';
 const localizer = momentLocalizer(moment)
 
 const Schedule = observer(() => {
     const userStore = useStore('userStore');
-    const lessons = (userStore.current?.untisTeacher?.lessons || []).map((l, idx) => {
+    const lessons = (userStore.current?.untisTeacher?.lessons || []).map((l, idx) => {
         return {
-          start: l.startTime,
-          end: l.endTime,
-          title: `${l.subjectName}:${l.classes.map(c => c.name).join(', ')}`,
-          description: l.subjectName,
-          id: l.id
+            start: l.startTime,
+            end: l.endTime,
+            title: `${l.subjectName}:${l.classes.map(c => c.name).join(', ')}`,
+            description: l.subjectName,
+            id: l.id
         }
     });
     return (
-        <div>
-            {lessons.length > 0 && (
-                <BigCalendar
-                    defaultView='week'
-                    defaultDate={moment().toDate()}
-                    localizer={localizer}
-                    events={lessons}
-                    startAccessor="start"
-                    endAccessor="end"
-                    style={{ height: 1700 }}
-                    popup
-                    selectable
+        <Layout>
+            <div>
+                {lessons.length > 0 && (
+                    <BigCalendar
+                        defaultView='week'
+                        defaultDate={moment().toDate()}
+                        localizer={localizer}
+                        events={lessons}
+                        startAccessor="start"
+                        endAccessor="end"
+                        style={{ height: 1700 }}
+                        popup
+                        selectable
 
-              />
-            )}
-        </div>
+                    />
+                )}
+            </div>
+        </Layout>
     )
 });
 

@@ -3,11 +3,17 @@ import moment, { Moment } from 'moment';
 import { Event as EventProps, EventState } from '../api/event';
 
 const formatTime = (date: Date) => {
-    return `${date.getUTCHours()}:${date.getMinutes()}`;
+    const hours = `${date.getUTCHours()}`.padStart(2, '0');
+    const minutes = `${date.getUTCMinutes()}`.padStart(2, '0');
+    return `${hours}:${minutes}`;
 }
 
-const formatDate = (date: Date) => {
-    return `${date.getUTCDate()}.${date.getUTCMonth() + 1}.${date.getUTCFullYear()}`;
+const formatDate = (date: Date) => {    
+    const day = `${date.getUTCDate()}`.padStart(2, '0');
+    const month = `${date.getUTCMonth()}`.padStart(2, '0');
+    const year = `${date.getUTCFullYear()}`.padStart(4, '0');
+
+    return `${day}.${month}.${year}`;
 }
 
 const SEC_2_MS = 1000;

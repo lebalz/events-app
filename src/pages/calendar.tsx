@@ -7,6 +7,7 @@ import moment from 'moment'
 
 moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import Layout from '@theme/Layout';
 const localizer = momentLocalizer(moment)
 
 const COLOR = {
@@ -19,11 +20,11 @@ const Calendar = observer(() => {
     const eventStore = useStore('eventStore');
     const tasks = eventStore.events.map((e, idx) => {
         return {
-          start: e.localStart,
-          end: e.localEnd,
-          title: e.description,
-          description: e.descriptionLong,
-          id: e.id
+            start: e.localStart,
+            end: e.localEnd,
+            title: e.description,
+            description: e.descriptionLong,
+            id: e.id
         }
     });
     const eventStyleGetter = (event, start, end, isSelected) => {
@@ -32,30 +33,34 @@ const Calendar = observer(() => {
             return {};
         }
         if (e.departements.length === 1) {
-            return {style: {
-                backgroundColor: COLOR[e.departements[0]]
-            }}
+            return {
+                style: {
+                    backgroundColor: COLOR[e.departements[0]]
+                }
+            }
         }
         return {}
     };
     return (
-        <div>
-            {tasks.length > 0 && (
-                <BigCalendar            
-                    defaultDate={moment().toDate()}
-                    localizer={localizer}
-                    events={tasks}
-                    startAccessor="start"
-                    endAccessor="end"
-                    style={{ height: '95vh' }}
-                    onSelectEvent={(record) => console.log(eventStore.find(record.id))}
-                    eventPropGetter={eventStyleGetter}
-                    popup
-                    selectable
+        <Layout>
+            <div>
+                {tasks.length > 0 && (
+                    <BigCalendar
+                        defaultDate={moment().toDate()}
+                        localizer={localizer}
+                        events={tasks}
+                        startAccessor="start"
+                        endAccessor="end"
+                        style={{ height: '95vh' }}
+                        onSelectEvent={(record) => console.log(eventStore.find(record.id))}
+                        eventPropGetter={eventStyleGetter}
+                        popup
+                        selectable
 
-              />
-            )}
-        </div>
+                    />
+                )}
+            </div>
+        </Layout>
     )
 });
 

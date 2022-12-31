@@ -64,24 +64,16 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
+        title: 'Events',
         logo: {
           alt: 'My Site Logo',
           src: 'img/logo.svg',
         },
         items: [
-          {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Tutorial',
-          },
-          {to: '/blog', label: 'Blog', position: 'left'},
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
-          },
+          {to: '/calendar', label: 'Kalender', position: 'left'},
+          {to: '/table', label: 'Tabelle', position: 'left'},
+          {to: '/gantt', label: 'GANTT', position: 'left'},
+          {to: '/login', label: 'Login 🔑', position: 'right'},
         ],
       },
       footer: {

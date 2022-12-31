@@ -19,10 +19,10 @@ const Table = observer(() => {
                             <th>KW</th>
                             <th>Wochentag</th>
                             <th>Stichwort</th>
-                            <th>Datum Beginn</th>
-                            <th>Zeit Beginn</th>
-                            <th>Datum Ende</th>
-                            <th>Zeit Ende</th>
+                            <th>Beginn</th>
+                            <th></th>
+                            <th>Ende</th>
+                            <th></th>
                             <th>Ort</th>
                             <th>Schulen</th>
                             <th>Klassen</th>
