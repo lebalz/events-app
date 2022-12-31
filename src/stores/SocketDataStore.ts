@@ -94,8 +94,8 @@ export class SocketDataStore {
             console.log(this.socket.id);
             this.setLiveState(false);
         });
-        this.socket.on('connect_error', () => {
-            console.log('connection error');
+        this.socket.on('connect_error', (err) => {
+            console.log('connection error', err);
             this.setLiveState(false);
             this.checkLogin()
         });

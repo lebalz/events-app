@@ -23,5 +23,5 @@ export function user(cancelToken: CancelTokenSource): AxiosPromise<User> {
   return api.get('user', { cancelToken: cancelToken.token });
 }
 export function users(cancelToken: CancelTokenSource): AxiosPromise<User[]> {
-    return api.get('users', { cancelToken: cancelToken.token });
+    return api.get('user/all', { cancelToken: cancelToken.token });
 }

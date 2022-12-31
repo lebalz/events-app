@@ -5,7 +5,7 @@ export namespace Api {
   export const BASE_API_URL = eventsApiUrl();
 
   function eventsApiUrl() {
-    return `${API}/api/`;
+    return `${API}/api/v1/`;
   }
 }
 
