@@ -9,6 +9,8 @@ import Teacher from '../models/Untis/Teacher';
 
 export class UserStore {
     private readonly root: RootStore;
+    @observable
+    initialized = false;
     users = observable<User>([]);
 
     cancelToken = axios.CancelToken.source();
@@ -58,11 +60,14 @@ export class UserStore {
         if (this.root.msalStore.account) {
             this.root.msalStore.withToken().then((ok) => {
                 if (ok) {
+                    this.cancelToken.cancel();
+                    this.cancelToken = axios.CancelToken.source();
                     fetchUsers(this.cancelToken)
                         .then(
                             action(({ data }) => {
                                 const users = data.map((u) => new User(u, this));
                                 this.users.replace(users);
+                                this.initialized = true;
                             })
                         )
                         .catch((err) => {

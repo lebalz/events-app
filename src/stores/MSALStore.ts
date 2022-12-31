@@ -38,13 +38,14 @@ export class MSALStore {
             action(() => {
                 this.timer = Date.now();
             }),
-            1000
-            );
-            
-            reaction(
-                () => this.offlineTimer,
-                (offlineTime) => {
-                    // if (!offlineTime || this.ignoreOfflineState) {
+            500
+        );
+        makeObservable(this);
+
+        reaction(
+            () => this.offlineTimer,
+            (offlineTime) => {
+                // if (!offlineTime || this.ignoreOfflineState) {
                 if (!offlineTime) {
                     return;
                 }
@@ -62,9 +63,8 @@ export class MSALStore {
                     .catch((err) => {
                         return;
                     });
-                }
+            }
         );
-        makeObservable(this);
     }
 
     @action

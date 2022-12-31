@@ -19,4 +19,8 @@ export function isLive(cancelToken: CancelTokenSource) {
   return api.get('', { cancelToken: cancelToken.token });
 }
 
+export function checkLogin(cancelToken: CancelTokenSource) {
+  return api.get('checklogin', { cancelToken: cancelToken.token });
+}
+
 export default api;
