@@ -37,12 +37,12 @@ export function events(cancelToken: CancelTokenSource): AxiosPromise<Event[]> {
     return api.get('event/all', { cancelToken: cancelToken.token });
 }
 
-export function create(data: Event, cancelToken: CancelTokenSource): AxiosPromise<Event> {
-    return api.post('event', { cancelToken: cancelToken.token });
+export function create(data: Partial<Event>, cancelToken: CancelTokenSource): AxiosPromise<Event> {
+    return api.post('event', data, { cancelToken: cancelToken.token });
 }
 
 export function update(data: Event, cancelToken: CancelTokenSource): AxiosPromise<Event> {
-    return api.put('event', { cancelToken: cancelToken.token });
+    return api.put('event', data, { cancelToken: cancelToken.token });
 }
 
 export function destroy(event: Event, cancelToken: CancelTokenSource) {

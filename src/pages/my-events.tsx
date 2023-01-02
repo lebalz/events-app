@@ -10,7 +10,7 @@ import Event from '../components/Event';
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
     const userStore = useStore('userStore');
-    console.log(eventStore.events.length);
+    const myEvents = eventStore.byUser(userStore.current.id).sort((a, b) => b.start.getTime() - a.start.getTime());
     return (
         <Layout>
             <div>
@@ -32,7 +32,7 @@ const Table = observer(() => {
                         </tr>
                     </thead>
                     <tbody>
-                        {eventStore.events.map((event, idx) => {
+                        {myEvents.map((event, idx) => {
                             return (
                                 <tr
                                     key={idx}

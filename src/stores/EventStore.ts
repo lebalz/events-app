@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { events as fetchEvents } from '../api/event';
+import { events as fetchEvents, create as apiCreate } from '../api/event';
 import SchoolEvent from '../models/SchoolEvent';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -37,6 +37,35 @@ export class EventStore {
         },
         { keepAlive: true }
     );
+
+    byUser = computedFn(
+        function (this: EventStore, userId?: string): SchoolEvent[] {
+            if (!userId) {
+                return [];
+            }
+            return this.events.filter((e) => e.authorId === userId);
+        },
+        { keepAlive: true }
+    );
+
+    @action
+    newEvent() {
+        if (this.root.msalStore.account) {
+            this.root.msalStore.withToken().then((ok) => {
+                const d = new Date();
+                const s = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()))
+                if (ok) {
+                    apiCreate({start: s.toISOString(), end: s.toISOString()}, this.cancelToken)
+                        .then(
+                            action(({ data }) => {
+                                const event = new SchoolEvent(data);
+                                this.events.push(event);
+                            })
+                        )
+                }
+            })
+        }
+    }
 
     @action
     reload() {

@@ -10,7 +10,7 @@ const formatTime = (date: Date) => {
 
 const formatDate = (date: Date) => {    
     const day = `${date.getUTCDate()}`.padStart(2, '0');
-    const month = `${date.getUTCMonth()}`.padStart(2, '0');
+    const month = `${date.getUTCMonth() + 1}`.padStart(2, '0');
     const year = `${date.getUTCFullYear()}`.padStart(4, '0');
 
     return `${day}.${month}.${year}`;

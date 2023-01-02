@@ -73,6 +73,7 @@ const config = {
           {to: '/calendar', label: 'Kalender', position: 'left'},
           {to: '/table', label: 'Tabelle', position: 'left'},
           {to: '/gantt', label: 'GANTT', position: 'left'},
+          {to: '/my-events', label: 'Meine', position: 'left'},
           {to: '/login', label: 'Login 🔑', position: 'right'},
         ],
       },
