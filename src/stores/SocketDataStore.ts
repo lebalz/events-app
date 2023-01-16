@@ -3,14 +3,22 @@ import { io, Socket } from "socket.io-client";
 import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi, createCancelToken } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
+import iStore from './iStore';
 const WS_PORT = process.env.NODE_ENV === 'production' ? '' : ':3002';
 
+class Message {
+    type: string;
+    message: string;
+}
 
-export class SocketDataStore {
+export class SocketDataStore implements iStore<Message[]> {
     private readonly root: RootStore;
     private cancelToken?: CancelTokenSource;
     @observable.ref
     socket?: Socket;
+
+    messages = observable<Message>([]);
+
 
     @observable
     isLive: boolean = false;
@@ -26,17 +34,6 @@ export class SocketDataStore {
                     this.disconnect();
                 }
                 return Promise.reject(error);
-            }
-        );
-
-        reaction(
-            () => this.root.sessionStore.account,
-            (account) => {
-                this.checkLogin().then((live) => {
-                    if (live) {
-                        this.connect();
-                    }
-                })
             }
         );
         reaction(
@@ -97,7 +94,11 @@ export class SocketDataStore {
         this.socket.on('connect_error', (err) => {
             console.log('connection error', err);
             this.setLiveState(false);
-            this.checkLogin()
+            this.checkLogin().then((reconnect) => {
+                if (reconnect) {
+                    this.reconnect();
+                }
+            })
         });
 
         this.socket.onAny((eventName, ...args) => {
@@ -111,17 +112,13 @@ export class SocketDataStore {
             this.cancelToken?.cancel('Another request spawned before this one finished.');
             this.cancelToken = source;
             return pingApi(this.cancelToken)
-                .then(
-                    action(({ status }) => {
-                        if (status === 200 && !this.isLive) {
-                            this.reconnect()
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    })
-                )
-                .catch((err) => {
+                .then(({ status }) => {
+                    if (status === 200 && !this.isLive) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).catch((err) => {
                     console.log(err);
                     return false;
                 });
@@ -132,6 +129,22 @@ export class SocketDataStore {
     @action
     echo() {
         this.socket?.emit('echo', 'Hello');
+    }
+
+    @action
+    reset() {
+        this.disconnect();
+        this.messages.clear();
+    }
+
+    @action
+    load() {
+        return this.checkLogin().then((reconnect) => {
+            if (reconnect) {
+                this.reconnect();
+            }
+            return []
+        })
     }
 
 }

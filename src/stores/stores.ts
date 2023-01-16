@@ -6,9 +6,10 @@ import { UserStore } from "./UserStore";
 import { EventStore } from "./EventStore";
 import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
+import iStore from "./iStore";
 
 export class RootStore {
-  stores = observable([]);
+  stores = observable<iStore<any>>([]);
   @observable 
   initialized = false;
 
@@ -19,14 +20,23 @@ export class RootStore {
   socketStore: SocketDataStore;
   constructor() {
     makeObservable(this);
-    this.sessionStore = new SessionStore();
+    this.sessionStore = new SessionStore(this);
+
     this.untisStore = new UntisStore(this);
+    this.stores.push(this.untisStore);
+
     this.userStore = new UserStore(this);
+    this.stores.push(this.userStore);
+
     this.eventStore = new EventStore(this);
+    this.stores.push(this.eventStore);
+
     this.socketStore = new SocketDataStore(this);
+    this.stores.push(this.socketStore);
+
     runInAction(() => {
       this.initialized = true;
-    })
+    });
   }
 }
 

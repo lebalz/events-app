@@ -5,21 +5,15 @@ import SchoolEvent from '../models/SchoolEvent';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
+import iStore from './iStore';
 
-export class EventStore {
+export class EventStore implements iStore<SchoolEvent[]> {
     private readonly root: RootStore;
     events = observable<SchoolEvent>([]);
 
     cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
         this.root = root;
-
-        reaction(
-            () => this.root.sessionStore.account,
-            (account) => {
-                this.reload();
-            }
-        );
         makeObservable(this);
     }
 
@@ -67,14 +61,27 @@ export class EventStore {
     reload() {
         this.events.replace([]);
         if (this.root.sessionStore.account) {
-            fetchEvents(this.cancelToken)
-                .then(
-                    action(({ data }) => {
-                        const events = data.map((u) => new SchoolEvent(u)).sort((a, b) => a.start.getTime() - b.start.getTime());
-                        this.events.replace(events);
-                    })
-                )
+            this.load();
         }
+    }
+
+    @action
+    load() {
+        this.cancelRequest();
+        return fetchEvents(this.cancelToken)
+            .then(
+                action(({ data }) => {
+                    const events = data.map((u) => new SchoolEvent(u)).sort((a, b) => a.start.getTime() - b.start.getTime());
+                    this.events.replace(events);
+                    return this.events;
+                })
+            )
+    }
+
+    @action
+    reset() {
+        this.cancelRequest()
+        this.events.replace([]);
     }
 
 }

@@ -6,8 +6,9 @@ import User from '../models/User';
 import _ from 'lodash';
 import axios from 'axios';
 import Teacher from '../models/Untis/Teacher';
+import iStore from './iStore';
 
-export class UserStore {
+export class UserStore implements iStore<User[]> {
     private readonly root: RootStore;
     @observable
     initialized = false;
@@ -16,13 +17,6 @@ export class UserStore {
     cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
         this.root = root;
-
-        reaction(
-            () => this.root.sessionStore.account,
-            (account) => {
-                this.reload();
-            }
-        );
         makeObservable(this);
     }
 
@@ -69,4 +63,23 @@ export class UserStore {
         }
     }
 
+    
+    @action
+    load() {
+        return fetchUsers(this.cancelToken)
+            .then(
+                action(({ data }) => {
+                    const users = data.map((u) => new User(u, this));
+                    this.users.replace(users);
+                    this.initialized = true;
+                    return this.users;
+                })
+            )
+    }
+
+    @action
+    reset() {
+        this.cancelRequest()
+        this.users.replace([]);
+    }
 }

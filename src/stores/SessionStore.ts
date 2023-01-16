@@ -10,44 +10,63 @@ import { API, loginRequest } from '../authConfig';
 import { RootStore } from './stores';
 import api, { isLive } from '../api/base';
 
-export class SessionStore {
-    // private readonly root: RootStore;
+class State {    
     @observable.ref
     account?: AccountInfo;
 
-    @observable
-    isLoggedIn: boolean = false;
-    
     @observable.ref
     _msalInstance?: PublicClientApplication;
 
+    constructor() {
+        makeObservable(this);
+    }
+}
+
+export class SessionStore {
+    private readonly root: RootStore;
+    @observable.ref
+    private state: State = new State();
+
+    @observable
+    isLoggedIn: boolean = false;
+
     cancelToken: CancelTokenSource = axios.CancelToken.source();
 
-    constructor() {
+
+    constructor(store: RootStore) {
+        this.root = store;
         makeObservable(this);
     }
 
     @computed
     get msalInstance(): PublicClientApplication {
-        if (!this._msalInstance) {
+        if (!this.state._msalInstance) {
             throw 'No MSAL Instance set!';
         }
-        return this._msalInstance;
+        return this.state._msalInstance;
+    }
+
+    @computed
+    get account(): AccountInfo | undefined {
+        return this.state.account;
     }
 
     @action
     setMsalInstance(msalInstance: PublicClientApplication) {
-        this._msalInstance = msalInstance;
+        this.state._msalInstance = msalInstance;
     }
 
     @action
     setAccount(account?: AccountInfo) {
-        this.account = account;
+        this.state.account = account;
+        this.root.stores.forEach((store) => {
+            store.load();
+        });
     }
 
     @computed
     get loggedIn(): boolean {
-        return !!this.account;
+        return !!this.state.account;
     }
 
     @action
@@ -62,31 +81,16 @@ export class SessionStore {
         if (!this.loggedIn) {
             return;
         }
+        this.root.stores.forEach((store) => {
+            store.reset();
+        });
         const logoutRequest = {
-            account: this.msalInstance.getAccountByUsername(this.account.username),
+            account: this.msalInstance.getAccountByUsername(this.state.account.username),
         };
         this.msalInstance.logoutRedirect(logoutRequest).catch((e) => {
             console.warn(e);
-        });
-    }
-
-    @action
-    getTokenRedirect(): Promise<void | AuthenticationResult> {
-        if (!this.account) {
-            throw 'No Login Present!';
-        }
-        const request = {
-            scopes: [`${API}/api/access_as_user`],
-            account: this.msalInstance.getAccountByUsername(this.account.username),
-        };
-        return this.msalInstance.acquireTokenSilent(request).catch((error) => {
-            console.error(error);
-            console.warn('silent token acquisition fails. acquiring token using popup');
-            if (error instanceof InteractionRequiredAuthError) {
-                // fallback to interaction when silent call fails
-                return this.msalInstance.acquireTokenRedirect(request);
-            }
-            throw error;
+        }).then(() => {
+            this.state = new State();
         });
     }
 }

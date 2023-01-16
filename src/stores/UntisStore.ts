@@ -1,6 +1,6 @@
 import { action, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { untis as fetchUntis } from '../api/untis';
+import { untis as fetchUntis, Untis as UntisData } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
 import Department from '../models/Untis/Department';
@@ -10,8 +10,9 @@ import Subject from '../models/Untis/Subject';
 import Teacher from '../models/Untis/Teacher';
 import Schoolyear from '../models/Untis/Schoolyear';
 import { RootStore } from './stores';
+import iStore from './iStore';
 
-export class UntisStore {
+export class UntisStore implements iStore<UntisData> {
     private readonly root: RootStore;
     deparments = observable<Department>([]);
     classes = observable<Klass>([]);
@@ -23,13 +24,6 @@ export class UntisStore {
     cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
         this.root = root;
-
-        reaction(
-            () => this.root.sessionStore.account,
-            (account) => {
-                this.reload();
-            }
-        );
         makeObservable(this);
     }
 
@@ -132,20 +126,36 @@ export class UntisStore {
     @action
     reload() {
         if (this.root.sessionStore.account) {
-            fetchUntis(this.cancelToken)
-                .then(
-                    action(({ data }) => {
-                        const sy = new Schoolyear(data.schoolyear);
-                        this.schoolyears.replace([sy]);
-                        this.classes.replace(data.classes.map((c) => new Klass(c, sy.id, this)));
-                        this.teachers.replace(data.teachers.map((t) => new Teacher(t, sy.id, this)));
-                        this.deparments.replace(
-                            data.departments.map((dep) => new Department(dep, sy.id, this))
-                        );
-                        this.lessons.replace(data.lessons.map((l) => new Lesson(l, sy.id, this)));
-                        this.subjects.replace(data.subjects.map((s) => new Subject(s, sy.id, this)));
-                    })
-                )
+            this.load();
         }
+    }
+
+    @action
+    load() {
+        return fetchUntis(this.cancelToken)
+            .then(
+                action(({ data }) => {
+                    const sy = new Schoolyear(data.schoolyear);
+                    this.schoolyears.replace([sy]);
+                    this.classes.replace(data.classes.map((c) => new Klass(c, sy.id, this)));
+                    this.teachers.replace(data.teachers.map((t) => new Teacher(t, sy.id, this)));
+                    this.deparments.replace(
+                        data.departments.map((dep) => new Department(dep, sy.id, this))
+                    );
+                    this.lessons.replace(data.lessons.map((l) => new Lesson(l, sy.id, this)));
+                    this.subjects.replace(data.subjects.map((s) => new Subject(s, sy.id, this)));
+                    return data;
+                })
+            )
+    }
+
+    @action
+    reset() {
+        this.deparments.clear();
+        this.classes.clear();
+        this.lessons.clear();
+        this.subjects.clear();
+        this.teachers.clear();
+        this.schoolyears.clear();
     }
 }
