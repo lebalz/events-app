@@ -25,7 +25,7 @@ export class UntisStore {
         this.root = root;
 
         reaction(
-            () => this.root.msalStore.account,
+            () => this.root.sessionStore.account,
             (account) => {
                 this.reload();
             }
@@ -131,32 +131,21 @@ export class UntisStore {
 
     @action
     reload() {
-        if (this.root.msalStore.account) {
-            this.root.msalStore.withToken().then((ok) => {
-                if (ok) {
-                    fetchUntis(this.cancelToken)
-                        .then(
-                            action(({ data }) => {
-                                const sy = new Schoolyear(data.schoolyear);
-                                this.schoolyears.replace([sy]);
-                                this.classes.replace(data.classes.map((c) => new Klass(c, sy.id, this)));
-                                this.teachers.replace(data.teachers.map((t) => new Teacher(t, sy.id, this)));
-                                this.deparments.replace(
-                                    data.departments.map((dep) => new Department(dep, sy.id, this))
-                                );
-                                this.lessons.replace(data.lessons.map((l) => new Lesson(l, sy.id, this)));
-                                this.subjects.replace(data.subjects.map((s) => new Subject(s, sy.id, this)));
-                            })
-                        )
-                        .catch((err) => {
-                            if (err.message?.startsWith('Network Error')) {
-                                this.root.msalStore.setApiOfflineState(true);
-                            } else {
-                                return;
-                            }
-                        });
-                }
-            });
+        if (this.root.sessionStore.account) {
+            fetchUntis(this.cancelToken)
+                .then(
+                    action(({ data }) => {
+                        const sy = new Schoolyear(data.schoolyear);
+                        this.schoolyears.replace([sy]);
+                        this.classes.replace(data.classes.map((c) => new Klass(c, sy.id, this)));
+                        this.teachers.replace(data.teachers.map((t) => new Teacher(t, sy.id, this)));
+                        this.deparments.replace(
+                            data.departments.map((dep) => new Department(dep, sy.id, this))
+                        );
+                        this.lessons.replace(data.lessons.map((l) => new Lesson(l, sy.id, this)));
+                        this.subjects.replace(data.subjects.map((s) => new Subject(s, sy.id, this)));
+                    })
+                )
         }
     }
 }

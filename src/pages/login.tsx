@@ -23,9 +23,9 @@ function HomepageHeader() {
 
 
 const Login = observer(() => {
-    const msalStore = useStore('msalStore');
+    const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
-    const { account, loggedIn } = msalStore;
+    const { account, loggedIn } = sessionStore;
     const { current } = userStore;
     return (
         <Layout>
@@ -36,12 +36,12 @@ const Login = observer(() => {
                         <>
                             <h3>Eingeloggt als {account?.username}</h3>
                             <div style={{height: '3em'}}></div>
-                            <button className="button button--danger" style={{color: 'black'}} onClick={() => msalStore.logout()}>
+                            <button className="button button--danger" style={{color: 'black'}} onClick={() => sessionStore.logout()}>
                                 Logout
                             </button>
                         </>
                     ) : (
-                        <Link to="/" onClick={() => msalStore.login()} className="button button--warning" style={{color: 'black'}}>
+                        <Link to="/" onClick={() => sessionStore.login()} className="button button--warning" style={{color: 'black'}}>
                             Login mit GBSL Account
                         </Link>
                     )}

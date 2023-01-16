@@ -44,7 +44,7 @@ export default class User {
   }
 
   isAffected(event: SchoolEvent) {
-    console.log(this.untisTeacher.lessons.filter(l => l.isAffected(event)).map(l => `${l.subjectName} ${l.startTimeStr}-${l.endTimeStr},${l.teachers.map(t => t.name)}:${l.durationMinutes}`));
+    // console.log(this.untisTeacher.lessons.filter(l => l.isAffected(event)).map(l => `${l.subjectName} ${l.startTimeStr}-${l.endTimeStr},${l.teachers.map(t => t.name)}:${l.durationMinutes}`));
     return this.untisTeacher.lessons.some((lesson) => lesson.isAffected(event));
   }
 }

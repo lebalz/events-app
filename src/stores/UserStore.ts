@@ -18,7 +18,7 @@ export class UserStore {
         this.root = root;
 
         reaction(
-            () => this.root.msalStore.account,
+            () => this.root.sessionStore.account,
             (account) => {
                 this.reload();
             }
@@ -34,14 +34,12 @@ export class UserStore {
 
     @computed
     get current(): User | undefined {
-        return this.users.find((u) => u.email.toLowerCase() === this.root.msalStore.account?.username.toLowerCase());
+        return this.users.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username.toLowerCase());
     }
 
     findUntisUser(shortName: string): Teacher | undefined {
         return this.root.untisStore.findTeacherByShortName(shortName);
     }
-
-
 
     find = computedFn(
         function (this: UserStore, shortName?: string): User | undefined {
@@ -57,28 +55,17 @@ export class UserStore {
     @action
     reload() {
         this.users.replace([]);
-        if (this.root.msalStore.account) {
-            this.root.msalStore.withToken().then((ok) => {
-                if (ok) {
-                    this.cancelToken.cancel();
-                    this.cancelToken = axios.CancelToken.source();
-                    fetchUsers(this.cancelToken)
-                        .then(
-                            action(({ data }) => {
-                                const users = data.map((u) => new User(u, this));
-                                this.users.replace(users);
-                                this.initialized = true;
-                            })
-                        )
-                        .catch((err) => {
-                            if (err.message?.startsWith('Network Error')) {
-                                this.root.msalStore.setApiOfflineState(true);
-                            } else {
-                                return;
-                            }
-                        });
-                }
-            });
+        if (this.root.sessionStore.account) {
+            this.cancelToken.cancel();
+            this.cancelToken = axios.CancelToken.source();
+            fetchUsers(this.cancelToken)
+                .then(
+                    action(({ data }) => {
+                        const users = data.map((u) => new User(u, this));
+                        this.users.replace(users);
+                        this.initialized = true;
+                    })
+                )
         }
     }
 

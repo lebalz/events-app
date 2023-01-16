@@ -1,20 +1,20 @@
 import { RootStore } from './stores';
 import { io, Socket } from "socket.io-client";
 import { action, makeObservable, observable, reaction } from 'mobx';
-import { default as api, checkLogin as pingApi } from '../api/base';
-import axios from 'axios';
+import { default as api, checkLogin as pingApi, createCancelToken } from '../api/base';
+import axios, { CancelTokenSource } from 'axios';
 const WS_PORT = process.env.NODE_ENV === 'production' ? '' : ':3002';
 
 
 export class SocketDataStore {
     private readonly root: RootStore;
+    private cancelToken?: CancelTokenSource;
     @observable.ref
     socket?: Socket;
 
     @observable
     isLive: boolean = false;
 
-    cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
         this.root = root;
         makeObservable(this);
@@ -30,7 +30,7 @@ export class SocketDataStore {
         );
 
         reaction(
-            () => this.root.msalStore.account,
+            () => this.root.sessionStore.account,
             (account) => {
                 this.checkLogin().then((live) => {
                     if (live) {
@@ -91,7 +91,7 @@ export class SocketDataStore {
         });
 
         this.socket.on('disconnect', () => {
-            console.log(this.socket.id);
+            console.log('disconnect', this.socket.id);
             this.setLiveState(false);
         });
         this.socket.on('connect_error', (err) => {
@@ -106,30 +106,25 @@ export class SocketDataStore {
     }
 
     checkLogin() {
-        if (this.root.msalStore.account) {
-            return this.root.msalStore.withToken().then((ok) => {
-                if (ok) {
-                    this.cancelToken.cancel();
-                    this.cancelToken = axios.CancelToken.source();
-                    return pingApi(this.cancelToken)
-                        .then(
-                            action(({ status }) => {
-                                if (status === 200) {
-                                    // this.isLive = true;
-                                    return true;
-                                } else {
-                                    // this.isLive = false;
-                                    return false;
-                                }
-                            })
-                        )
-                        .catch((err) => {
-                            console.log(err);
+        if (this.root.sessionStore.account) {
+            const [source, token] = createCancelToken();
+            this.cancelToken?.cancel('Another request spawned before this one finished.');
+            this.cancelToken = source;
+            return pingApi(this.cancelToken)
+                .then(
+                    action(({ status }) => {
+                        if (status === 200 && !this.isLive) {
+                            this.reconnect()
+                            return true;
+                        } else {
                             return false;
-                        });
-                }
-                return Promise.resolve(false);
-            });
+                        }
+                    })
+                )
+                .catch((err) => {
+                    console.log(err);
+                    return false;
+                });
         }
         return Promise.resolve(false);
     }

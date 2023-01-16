@@ -1,7 +1,7 @@
 
 import React from "react";
 import { makeObservable, observable, runInAction } from "mobx";
-import { MSALStore } from "./MSALStore";
+import { SessionStore } from "./SessionStore";
 import { UserStore } from "./UserStore";
 import { EventStore } from "./EventStore";
 import { UntisStore } from './UntisStore';
@@ -12,14 +12,14 @@ export class RootStore {
   @observable 
   initialized = false;
 
-  msalStore: MSALStore;
+  sessionStore: SessionStore;
   untisStore: UntisStore;
   userStore: UserStore;
   eventStore: EventStore;
   socketStore: SocketDataStore;
   constructor() {
     makeObservable(this);
-    this.msalStore = new MSALStore();
+    this.sessionStore = new SessionStore();
     this.untisStore = new UntisStore(this);
     this.userStore = new UserStore(this);
     this.eventStore = new EventStore(this);

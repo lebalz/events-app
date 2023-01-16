@@ -1,4 +1,4 @@
-import axios, { AxiosPromise, AxiosResponse, CancelTokenSource } from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 import {
     AccountInfo,
     AuthenticationResult,
@@ -10,83 +10,21 @@ import { API, loginRequest } from '../authConfig';
 import { RootStore } from './stores';
 import api, { isLive } from '../api/base';
 
-export class MSALStore {
+export class SessionStore {
     // private readonly root: RootStore;
     @observable.ref
     account?: AccountInfo;
 
-
     @observable
-    timer = 0;
-
+    isLoggedIn: boolean = false;
+    
     @observable.ref
     _msalInstance?: PublicClientApplication;
 
-    @observable
-    isApiOffline: boolean = false;
-
-    @observable.ref
-    offlineSince?: Date = undefined;
-
-    @observable
-    offlineModeConfirmed = false;
     cancelToken: CancelTokenSource = axios.CancelToken.source();
 
     constructor() {
-        // this.root = root;
-        setInterval(
-            action(() => {
-                this.timer = Date.now();
-            }),
-            500
-        );
         makeObservable(this);
-
-        reaction(
-            () => this.offlineTimer,
-            (offlineTime) => {
-                // if (!offlineTime || this.ignoreOfflineState) {
-                if (!offlineTime) {
-                    return;
-                }
-                this.cancelToken.cancel();
-                this.cancelToken = axios.CancelToken.source();
-                isLive(this.cancelToken)
-                    .then((res) => {
-                        if (res.status === 200) {
-                            runInAction(() => {
-                                this.setApiOfflineState(false);
-                                this.offlineModeConfirmed = false;
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        return;
-                    });
-            }
-        );
-    }
-
-    @action
-    setApiOfflineState(offline: boolean) {
-        if (this.isApiOffline !== offline) {
-            this.isApiOffline = offline;
-            if (offline) {
-                this.offlineSince = new Date();
-            } else {
-                const period = this.offlineSince ? Date.now() - this.offlineSince.getTime() : -1;
-                this.offlineSince = undefined;
-            }
-        }
-    }
-
-    @computed
-    get offlineTimer() {
-        if (!this.offlineSince) {
-            return;
-        }
-        const tspan = this.timer - this.offlineSince.getTime();
-        return tspan < 0 ? 0 : tspan;
     }
 
     @computed
@@ -149,17 +87,6 @@ export class MSALStore {
                 return this.msalInstance.acquireTokenRedirect(request);
             }
             throw error;
-        });
-    }
-
-    withToken(): Promise<boolean | void> {
-        return this.getTokenRedirect().then((res) => {
-            if (res) {
-                (api.defaults.headers as any).Authorization = `Bearer ${res.accessToken}`;
-                return true;
-            }
-            console.warn('No Login Token Found');
-            return false;
         });
     }
 }

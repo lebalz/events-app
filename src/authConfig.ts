@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { LogLevel } from "@azure/msal-browser";
+import { LogLevel, PublicClientApplication } from "@azure/msal-browser";
 export const DOMAIN =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
@@ -17,6 +17,8 @@ const CLIENT_ID =
     ? "d47ad32d-d977-4fdb-8b00-86f780e10c46"
     : "d47ad32d-d977-4fdb-8b00-86f780e10c46";
 
+export const TENANT_ID = "49068363-8361-4607-9549-62b6b55794aa";
+
 /**
  * Configuration object to be passed to MSAL instance on creation.
  * For a full list of MSAL.js configuration parameters, visit:
@@ -25,8 +27,7 @@ const CLIENT_ID =
 export const msalConfig = {
   auth: {
     clientId: CLIENT_ID,
-    authority:
-      "https://login.microsoftonline.com/49068363-8361-4607-9549-62b6b55794aa",
+    authority: `https://login.microsoftonline.com/${TENANT_ID}`,
     redirectUri: DOMAIN,
   },
   cache: {
@@ -64,10 +65,12 @@ export const msalConfig = {
   },
 };
 
+export const scopes = [`${API}/api/access_as_user`];
+
 // Add here the endpoints and scopes for the web API you would like to use.
 export const apiConfig = {
   uri: `${API}/api`,
-  scopes: [`${API}/api/access_as_user`],
+  scopes: scopes,
 };
 /**
  * Scopes you add here will be prompted for user consent during sign-in.
@@ -76,7 +79,7 @@ export const apiConfig = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-  scopes: ["User.Read", "openid", "profile"],
+  scopes: scopes,
 };
 
 /**
@@ -87,3 +90,5 @@ export const loginRequest = {
 export const tokenRequest = {
   scopes: [...apiConfig.scopes],
 };
+
+export const msalInstance = new PublicClientApplication(msalConfig);
