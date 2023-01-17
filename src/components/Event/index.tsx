@@ -19,24 +19,6 @@ const Event = observer((props: Props) => {
             >
                 + Neues Event
             </button>
-
-            <div className={clsx('card')}>
-                <div className={clsx('card__header')}>
-                    Neuer Termin
-                </div>
-                <div className={clsx('card__body')}>
-                    <label htmlFor='start'>Datum Start</label>
-                    <input type="datetime-local" id="start" name="start" value={Date.now()} />
-                    <br></br>
-                    <label htmlFor='ende'>Datum Start</label>
-                    <input type="datetime-local" id="ende" name="ende" />
-                </div>
-                <div className={clsx('card__footer')}>
-                    <button className={clsx('button', 'button--danger')}>Löschen</button>
-                    <button className={clsx('button', 'button--success')}>Eingeben</button>
-                </div>
-
-            </div>
         </div>
     )
 });

@@ -10,7 +10,7 @@ import Event from '../components/Event';
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
     const userStore = useStore('userStore');
-    const myEvents = eventStore.byUser(userStore.current.id).sort((a, b) => b.start.getTime() - a.start.getTime());
+    const myEvents = eventStore.byUser(userStore.current?.id).sort((a, b) => b.start.getTime() - a.start.getTime());
     return (
         <Layout>
             <div>

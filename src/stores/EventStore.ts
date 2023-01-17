@@ -1,15 +1,24 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { events as fetchEvents, create as apiCreate } from '../api/event';
+import { events as fetchEvents, create as apiCreate, event as fetchEvent } from '../api/event';
 import SchoolEvent from '../models/SchoolEvent';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
 import iStore from './iStore';
+import { v4 as uuidv4 } from 'uuid';
+import { createCancelToken } from '../api/base';
+import { IoEvent } from './IoEventTypes';
+
+interface PendingIoEvent {
+    type: IoEvent;
+    id: string;
+}
 
 export class EventStore implements iStore<SchoolEvent[]> {
     private readonly root: RootStore;
     events = observable<SchoolEvent>([]);
+    pendingApiCalls = observable<PendingIoEvent>([]);
 
     cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
@@ -46,15 +55,38 @@ export class EventStore implements iStore<SchoolEvent[]> {
     newEvent() {
         if (this.root.sessionStore.account) {
             const d = new Date();
-            const s = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()))
-            apiCreate({ start: s.toISOString(), end: s.toISOString() }, this.cancelToken)
+            const s = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()));
+            const id = uuidv4();
+            const pending = {id: id, type: IoEvent.NEW_RECORD}
+            this.pendingApiCalls.push(pending);
+            apiCreate({ start: s.toISOString(), end: s.toISOString(), id: id }, this.cancelToken)
                 .then(
                     action(({ data }) => {
                         const event = new SchoolEvent(data);
                         this.events.push(event);
+                        const rem = this.pendingApiCalls.find(p => p.id === pending.id && p.type === pending.type)
+                        console.log('removed: ', this.pendingApiCalls.remove(rem));
                     })
                 )
         }
+    }
+
+    @action
+    loadEvent(id: string) {
+        const [ct] = createCancelToken();
+        return fetchEvent(id, ct).then(action(({ data }) => {
+            const event = new SchoolEvent(data);
+            const current = this.find(event.id);
+            if (current) {
+                this.events.remove(current);
+            }
+            this.events.push(event);
+            return event;
+        }))
+    }
+
+    isPending(id: string, type: IoEvent) {
+        return this.pendingApiCalls.find(p => p.id === id && p.type === type) !== undefined;
     }
 
     @action

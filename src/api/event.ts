@@ -33,6 +33,9 @@ export interface Event {
     responsibleIds: string[];
 }
 
+export function event(id: string, cancelToken: CancelTokenSource): AxiosPromise<Event> {
+    return api.get(`event/${id}`, { cancelToken: cancelToken.token });
+}
 export function events(cancelToken: CancelTokenSource): AxiosPromise<Event[]> {
     return api.get('event/all', { cancelToken: cancelToken.token });
 }
