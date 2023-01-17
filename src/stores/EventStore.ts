@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { events as fetchEvents, create as apiCreate, find as findEvent, update as updateEvent } from '../api/event';
+import { events as fetchEvents, create as apiCreate, find as findEvent, update as updateEvent, Event as EventProps } from '../api/event';
 import SchoolEvent from '../models/SchoolEvent';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -62,8 +62,13 @@ export class EventStore implements iStore<SchoolEvent[]> {
             apiCreate({ start: s.toISOString(), end: s.toISOString(), id: id }, this.cancelToken)
                 .then(
                     action(({ data }) => {
-                        const event = new SchoolEvent(data);
-                        this.events.push(event);
+                        const event = new SchoolEvent(data, this);
+                        const events = this.events.slice();
+                        const idx = events.findIndex((e) => e.id === event.id);
+                        if (idx !== -1) {
+                            events.splice(idx, 1);
+                        }
+                        this.events.replace([...events, event].sort((a, b) => a.compare(b)));
                         const rem = this.pendingApiCalls.find(p => p.id === pending.id && p.type === pending.type)
                         console.log('removed: ', this.pendingApiCalls.remove(rem));
                     })
@@ -72,15 +77,26 @@ export class EventStore implements iStore<SchoolEvent[]> {
     }
 
     @action
+    updateEvent(eventId: string, params: Partial<EventProps>) {
+        const event = this.find(eventId);
+        if (!event) {
+            return;
+        }
+        event.update(params);
+
+    }
+
+    @action
     loadEvent(id: string) {
         const [ct] = createCancelToken();
         return findEvent(id, ct).then(action(({ data }) => {
-            const event = new SchoolEvent(data);
-            const current = this.find(event.id);
-            if (current) {
-                this.events.remove(current);
+            const event = new SchoolEvent(data, this);
+            const events = this.events.slice();
+            const idx = events.findIndex((e) => e.id === event.id);
+            if (idx !== -1) {
+                events.splice(idx, 1);
             }
-            this.events.push(event);
+            this.events.replace([...events, event].sort((a, b) => a.compare(b)));
             return event;
         }))
     }
@@ -103,7 +119,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
         return fetchEvents(this.cancelToken)
             .then(
                 action(({ data }) => {
-                    const events = data.map((u) => new SchoolEvent(u)).sort((a, b) => a.start.getTime() - b.start.getTime());
+                    const events = data.map((u) => new SchoolEvent(u, this)).sort((a, b) => a.compare(b));
                     this.events.replace(events);
                     return this.events;
                 })

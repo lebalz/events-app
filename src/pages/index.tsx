@@ -60,7 +60,7 @@ const Home = observer(() => {
             <h1 className="hero__title">Events</h1>
             <pre>
               <code>
-                {JSON.stringify(eventStore.events.slice(), undefined, 2)}
+                {JSON.stringify(eventStore.events.slice(), getCircularReplacer(), 2)}
               </code>
             </pre>
 

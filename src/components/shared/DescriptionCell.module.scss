@@ -1,0 +1,8 @@
+.cell {
+    cursor: pointer;
+    display: inline-block;
+    &.locked {
+        cursor: text;
+        font-style: italic;
+    }
+}

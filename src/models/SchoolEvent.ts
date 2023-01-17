@@ -1,6 +1,7 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import moment, { Moment } from 'moment';
 import { Departements, Event as EventProps, EventState } from '../api/event';
+import { EventStore } from '../stores/EventStore';
 
 const formatTime = (date: Date) => {
     const hours = `${date.getUTCHours()}`.padStart(2, '0');
@@ -38,6 +39,7 @@ const getKW = (date: Date) => {
 }
 
 export default class SchoolEvent {
+    private readonly store: EventStore;
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
@@ -70,7 +72,8 @@ export default class SchoolEvent {
     @observable
     isOutdated: boolean = false;
 
-    constructor(props: EventProps) {
+    constructor(props: EventProps, store: EventStore) {
+        this.store = store;
         this.id = props.id;
         this.state = props.state;
         this.authorId = props.authorId;
@@ -105,6 +108,16 @@ export default class SchoolEvent {
     get localEnd() {
         const e = this.end
         return new Date(e.getTime() + e.getTimezoneOffset() * MINUTE_2_MS)
+    }
+
+    compare(other: SchoolEvent) {
+        if (this.start.getTime() === other.start.getTime()) {
+            if (this.end.getTime() === other.end.getTime()) {
+                return this.updatedAt.getTime() - other.updatedAt.getTime();
+            }
+            return this.end.getTime() - other.end.getTime();
+        }
+        return this.start.getTime() - other.start.getTime();
     }
 
     @action
@@ -188,5 +201,37 @@ export default class SchoolEvent {
             onlyKLP: false,
             allDay: this.allDay
         }
+    }
+
+    @action
+    update(props: Partial<EventProps>) {
+        if (props.departements) {
+            this.departements.replace(props.departements);
+        }
+        if (props.classes) {
+            this.classes.replace(props.classes);
+        }
+        if (props.responsibleIds) {
+            this.responsibleIds.replace(props.responsibleIds);
+        }
+        if (props.description) {
+            this.description = props.description;
+        }
+        if (props.descriptionLong) {
+            this.descriptionLong = props.descriptionLong;
+        }
+        if (props.location) {
+            this.location = props.location;
+        }
+        if (props.start) {
+            this._start = props.start;
+        }
+        if (props.end) {
+            this._end = props.end;
+        }
+        if (props.allDay) {
+            this.allDay = props.allDay;
+        }
+        this.store.save(this.id);
     }
 }
