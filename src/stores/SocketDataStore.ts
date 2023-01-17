@@ -4,7 +4,7 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi, createCancelToken } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
 import iStore from './iStore';
-import { IoEvent, NewRecord } from './IoEventTypes';
+import { ChangedRecord, IoEvent, NewRecord } from './IoEventTypes';
 const WS_PORT = process.env.NODE_ENV === 'production' ? '' : ':3002';
 
 class Message {
@@ -101,9 +101,14 @@ export class SocketDataStore implements iStore<Message[]> {
             })
         });
         this.socket.on(IoEvent.NEW_RECORD, (data) => {
-
             const record: NewRecord = JSON.parse(data);
             if (record && !this.root.eventStore.isPending(record.id, IoEvent.NEW_RECORD)) {
+                this.root.eventStore.loadEvent(record.id);
+            }
+        });
+        this.socket.on(IoEvent.CHANGED_RECORD, (data) => {
+            const record: ChangedRecord = JSON.parse(data);
+            if (record && !this.root.eventStore.isPending(record.id, IoEvent.CHANGED_RECORD)) {
                 this.root.eventStore.loadEvent(record.id);
             }
         });

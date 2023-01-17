@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import moment, { Moment } from 'moment';
-import { Event as EventProps, EventState } from '../api/event';
+import { Departements, Event as EventProps, EventState } from '../api/event';
 
 const formatTime = (date: Date) => {
     const hours = `${date.getUTCHours()}`.padStart(2, '0');
@@ -41,10 +41,11 @@ export default class SchoolEvent {
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
-    readonly updatedAt: Date;
+    @observable.ref
+    updatedAt: Date;
     readonly state: EventState;
 
-    departements = observable<string>([]);
+    departements = observable<Departements>([]);
     classes = observable<string>([]);
     responsibleIds = observable<string>([]);
 
@@ -166,5 +167,26 @@ export default class SchoolEvent {
             return 100;
         }
         return (prog / this.durationMS) * 100 ;
+    }
+
+    @computed
+    get props(): EventProps {
+        return {
+            id: this.id,
+            state: this.state,
+            authorId: this.authorId,
+            departements: this.departements.slice(),
+            classes: this.classes.slice(),
+            responsibleIds: this.responsibleIds.slice(),
+            description: this.description,
+            descriptionLong: this.descriptionLong,
+            location: this.location,
+            createdAt: this.createdAt.toISOString(),
+            updatedAt: this.updatedAt.toISOString(),
+            start: (new Date(this._start)).toISOString(),
+            end: (new Date(this._end)).toISOString(),
+            onlyKLP: false,
+            allDay: this.allDay
+        }
     }
 }

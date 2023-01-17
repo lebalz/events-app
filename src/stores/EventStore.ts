@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { events as fetchEvents, create as apiCreate, event as fetchEvent } from '../api/event';
+import { events as fetchEvents, create as apiCreate, find as findEvent, update as updateEvent } from '../api/event';
 import SchoolEvent from '../models/SchoolEvent';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -74,7 +74,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
     @action
     loadEvent(id: string) {
         const [ct] = createCancelToken();
-        return fetchEvent(id, ct).then(action(({ data }) => {
+        return findEvent(id, ct).then(action(({ data }) => {
             const event = new SchoolEvent(data);
             const current = this.find(event.id);
             if (current) {
@@ -106,6 +106,25 @@ export class EventStore implements iStore<SchoolEvent[]> {
                     const events = data.map((u) => new SchoolEvent(u)).sort((a, b) => a.start.getTime() - b.start.getTime());
                     this.events.replace(events);
                     return this.events;
+                })
+            )
+    }
+
+    @action
+    save(id: string) {
+        const [source, token] = createCancelToken();
+        const ev = this.find(id);
+        if (!ev) {
+            return Promise.resolve(undefined);
+        }
+        const pending = {id: ev.id, type: IoEvent.CHANGED_RECORD};
+        this.pendingApiCalls.push(pending);
+        return updateEvent(id, ev.props, source)
+            .then(
+                action(({ data }) => {
+                    ev.updatedAt = new Date(data.updatedAt);
+                    const rem = this.pendingApiCalls.find(p => p.id === pending.id && p.type === pending.type);
+                    console.log('removed: ', this.pendingApiCalls.remove(rem));
                 })
             )
     }

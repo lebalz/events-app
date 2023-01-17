@@ -21,8 +21,8 @@ export interface Event {
     start: string;
     end: string;
     allDay: boolean;
-    location:  string;
-    description:  string;
+    location: string;
+    description: string;
     descriptionLong: string;
     departements: Departements[];
     classes: string[];
@@ -33,7 +33,7 @@ export interface Event {
     responsibleIds: string[];
 }
 
-export function event(id: string, cancelToken: CancelTokenSource): AxiosPromise<Event> {
+export function find(id: string, cancelToken: CancelTokenSource): AxiosPromise<Event> {
     return api.get(`event/${id}`, { cancelToken: cancelToken.token });
 }
 export function events(cancelToken: CancelTokenSource): AxiosPromise<Event[]> {
@@ -44,8 +44,8 @@ export function create(data: Partial<Event>, cancelToken: CancelTokenSource): Ax
     return api.post('event', data, { cancelToken: cancelToken.token });
 }
 
-export function update(data: Event, cancelToken: CancelTokenSource): AxiosPromise<Event> {
-    return api.put('event', data, { cancelToken: cancelToken.token });
+export function update(id: string, data: Event, cancelToken: CancelTokenSource): AxiosPromise<{ updatedAt: string }> {
+    return api.put(`event/${id}`, {data: data}, { cancelToken: cancelToken.token });
 }
 
 export function destroy(event: Event, cancelToken: CancelTokenSource) {
