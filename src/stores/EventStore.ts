@@ -31,6 +31,10 @@ export class EventStore implements iStore<SchoolEvent[]> {
         this.cancelToken = axios.CancelToken.source();
     }
 
+    canEdit(event: SchoolEvent) {
+        return this.root.userStore.current?.id === event.authorId;
+    }
+
     find = computedFn(
         function (this: EventStore, id?: string): SchoolEvent | undefined {
             if (!id) {

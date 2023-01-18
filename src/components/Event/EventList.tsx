@@ -1,4 +1,5 @@
 import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import styles from './EventList.module.scss';
@@ -22,16 +23,16 @@ const EventList = observer((props: Props) => {
     const events = (props.onlyMyEvents ? eventStore.byUser(userId) : eventStore.events)
 
     return (
-        <table>
+        <table className={clsx(styles.table)}>
             <thead>
                 <tr>
                     <th>KW</th>
                     <th>Wochentag</th>
                     <th>Stichwort</th>
-                    <th>Beginn</th>
-                    <th></th>
+                    <th>Zeitraum</th>
+                    {/* <th></th>
                     <th>Ende</th>
-                    <th></th>
+                    <th></th> */}
                     <th>Ort</th>
                     <th>Schulen</th>
                     <th>Klassen</th>

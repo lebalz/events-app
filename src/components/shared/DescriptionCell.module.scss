@@ -1,8 +1,22 @@
-.cell {
-    cursor: pointer;
-    display: inline-block;
-    &.locked {
-        cursor: text;
-        font-style: italic;
+.td {
+    padding: 0;
+    // width: max-content;
+    .cell {
+        cursor: pointer;
+        display: inline-block;
+        &.locked {
+            cursor: text;
+            font-style: italic;
+        }
+        // form {
+        //     height: 100%;
+        //     margin: 0;
+        //     padding: 0;
+        //     width: 100%;
+        // }
+        // pre {
+        //     background: inherit;
+        //     margin: 0;
+        // }
     }
 }

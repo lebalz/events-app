@@ -92,6 +92,12 @@ export default class SchoolEvent {
         makeObservable(this);
     }
 
+
+    @computed
+    get isEditable() {
+        return this.store.canEdit(this);
+    }
+
     get start() {
         return new Date(this._start);
     }
@@ -118,6 +124,27 @@ export default class SchoolEvent {
             return this.end.getTime() - other.end.getTime();
         }
         return this.start.getTime() - other.start.getTime();
+    }
+
+    
+    @action
+    setDateRange(start: Date, end: Date) {
+        const startD = new Date(start.getTime() - start.getTimezoneOffset() * MINUTE_2_MS);
+        const endD = new Date(end.getTime() - end.getTimezoneOffset() * MINUTE_2_MS);
+        this._start = startD.toISOString();
+        this._end = endD.toISOString();
+    }
+
+    @action
+    setStartDate(date: Date) {
+        const d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), this.start.getHours(), this.start.getMinutes(), this.start.getSeconds());
+        this._start = d.toISOString();
+    }
+
+    @action
+    setEndDate(date: Date) {
+        const d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), this.start.getHours(), this.start.getMinutes(), this.start.getSeconds());
+        this._end = d.toISOString();
     }
 
     @action
@@ -201,6 +228,11 @@ export default class SchoolEvent {
             onlyKLP: false,
             allDay: this.allDay
         }
+    }
+
+    @action
+    save() {
+        this.store.save(this.id);
     }
 
     @action

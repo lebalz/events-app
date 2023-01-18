@@ -1,6 +1,5 @@
 import React from "react";
 import { MsalProvider } from "@azure/msal-react";
-
 import { StoresProvider, rootStore } from "../stores/stores";
 import { observer } from "mobx-react-lite";
 import { msalConfig, msalInstance, TENANT_ID } from "../authConfig";

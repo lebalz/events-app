@@ -73,6 +73,7 @@ export class SocketDataStore implements iStore<Message[]> {
         const ws_url = `${protocol}://${window.location.hostname}${WS_PORT}`;
         this.socket = io(ws_url, {
             withCredentials: true,
+            transports: ['websocket'],
         });
         this._socketConfig();
         this.socket.connect();

@@ -51,7 +51,8 @@ const DescriptionCell = (props: CellProps) => {
         setEditingText(false);
     }
 
-    return (<td onMouseDown={onSelect}>
+    return (
+        <td onMouseDown={onSelect} className={clsx(styles.td)}>
         {editingText ? (
             <form>
                 <textarea
@@ -60,7 +61,6 @@ const DescriptionCell = (props: CellProps) => {
                     onChange={onTextChange}
                     onBlur={onTextBlur}
                     autoFocus={editingText}
-                    rows={3}
                     disabled={props.locked}
                 />
             </form>
@@ -68,7 +68,9 @@ const DescriptionCell = (props: CellProps) => {
             <span
                 className={clsx(styles.cell, props.locked && styles.locked)}
             >
-                {props.description || '-'}
+                {/* <pre> */}
+                    {props.description || '-'}
+                {/* </pre> */}
             </span>
         )}
     </td>)
