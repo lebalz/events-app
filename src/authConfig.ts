@@ -6,7 +6,6 @@
 import { LogLevel, PublicClientApplication } from "@azure/msal-browser";
 import siteConfig from '@generated/docusaurus.config';
 
-
 export interface CustomFields {
   DOMAIN: string;
   EVENTS_API: string;
@@ -17,7 +16,6 @@ export interface CustomFields {
 
 /** The Domain Name of this app */
 export const {EVENTS_API, CLIENT_ID, DOMAIN, TENANT_ID, API_URI} = siteConfig.customFields as any as CustomFields;
-
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
