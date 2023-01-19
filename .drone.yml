@@ -31,6 +31,16 @@ steps:
     NODE_OPTIONS: "--max_old_space_size=12288"
     GITHUB_PRIVATE_KEY:
       from_secret: "git_deploy_private_key"
+    REACT_APP_DOMAIN:
+      from_secret: "REACT_APP_DOMAIN"
+    REACT_APP_EVENTS_API:
+      from_secret: "REACT_APP_EVENTS_API"
+    REACT_APP_CLIENT_ID:
+      from_secret: "REACT_APP_CLIENT_ID"
+    REACT_APP_TENANT_ID:
+      from_secret: "REACT_APP_TENANT_ID"
+    REACT_APP_API_URI:
+      from_secret: "REACT_APP_API_URI"
   when:
     event:
       include:
