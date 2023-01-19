@@ -19,7 +19,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'lebalz', // Usually your GitHub org/user name.
-  projectName: 'events', // Usually your repo name.
+  projectName: 'events-app', // Usually your repo name.
   customFields: {
     apiUrl: process.env.API_URL,
     clientID: process.env.CLIENT_ID,
