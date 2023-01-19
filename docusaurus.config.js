@@ -132,6 +132,13 @@ const config = {
     }),
   plugins: [
     'docusaurus-plugin-sass',
+    [
+      'docusaurus2-dotenv',
+      {
+        systemvars: true,
+        path: './.env'
+      }
+    ]
   ]
 };
 

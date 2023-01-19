@@ -4,20 +4,16 @@
  */
 
 import { LogLevel, PublicClientApplication } from "@azure/msal-browser";
-export const DOMAIN =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://events.gbsl.website";
-export const API =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3002"
-    : "https://event-api.gbsl.website";
-const CLIENT_ID =
-  process.env.NODE_ENV === "development"
-    ? "d47ad32d-d977-4fdb-8b00-86f780e10c46"
-    : "d47ad32d-d977-4fdb-8b00-86f780e10c46";
-
-export const TENANT_ID = "49068363-8361-4607-9549-62b6b55794aa";
+/** The Domain Name of this app */
+export const DOMAIN = process.env.DOMAIN || 'http://localhost:3000';
+/** The Domain Name where the api is running */
+export const API = process.env.EVENTS_API || 'http://localhost:3002';
+/** The application id generated in https://portal.azure.com */
+const CLIENT_ID = process.env.CLIENT_ID || 'a1b2c3d4-1234-5678-90ab-cdef12345678';
+/** The application id uri generated in https://portal.azure.com */
+const API_URI = process.env.API_URI || 'api://a1b2c3d4-1234-5678-90ab-cdef12345678';
+/** Tenant / Verzeichnis-ID (Mandant) */
+export const TENANT_ID = process.env.TENANT_ID || 'a1b2c3d4-1234-5678-90ab-cdef12345678';
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
@@ -65,11 +61,11 @@ export const msalConfig = {
   },
 };
 
-export const scopes = [`${API}/api/access_as_user`];
+export const scopes = [`${API_URI}/access_as_user`];
 
 // Add here the endpoints and scopes for the web API you would like to use.
 export const apiConfig = {
-  uri: `${API}/api`,
+  uri: API_URI,
   scopes: scopes,
 };
 /**
