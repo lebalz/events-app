@@ -1,8 +1,9 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
-
+require('dotenv').config()
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -21,9 +22,16 @@ const config = {
   organizationName: 'lebalz', // Usually your GitHub org/user name.
   projectName: 'events-app', // Usually your repo name.
   customFields: {
-    apiUrl: process.env.API_URL,
-    clientID: process.env.CLIENT_ID,
-    domain: process.env.DOMAIN
+    /** The Domain Name where the api is running */
+    DOMAIN: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
+    /** The Domain Name of this app */
+    EVENTS_API: process.env.REACT_APP_EVENTS_API  || 'http://localhost:3002',
+    /** The application id generated in https://portal.azure.com */
+    CLIENT_ID: process.env.REACT_APP_CLIENT_ID,
+    /** Tenant / Verzeichnis-ID (Mandant) */
+    TENANT_ID: process.env.REACT_APP_TENANT_ID,
+    /** The application id uri generated in https://portal.azure.com */
+    API_URI: process.env.REACT_APP_API_URI,
   },
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -33,7 +41,6 @@ const config = {
     defaultLocale: 'de',
     locales: ['de'],
   },
-
   presets: [
     [
       'classic',
@@ -114,12 +121,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/lebalz',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer`,
       },
       prism: {
         theme: lightCodeTheme,
@@ -127,14 +134,7 @@ const config = {
       },
     }),
   plugins: [
-    'docusaurus-plugin-sass',
-    [
-      'docusaurus2-dotenv',
-      {
-        systemvars: true,
-        path: './.env'
-      }
-    ]
+    'docusaurus-plugin-sass'
   ]
 };
 

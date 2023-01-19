@@ -4,16 +4,25 @@
  */
 
 import { LogLevel, PublicClientApplication } from "@azure/msal-browser";
+import siteConfig from '@generated/docusaurus.config';
+
+
+export interface CustomFields {
+  DOMAIN: string;
+  EVENTS_API: string;
+  CLIENT_ID: string;
+  TENANT_ID: string;
+  API_URI: string;
+}
+
 /** The Domain Name of this app */
-export const DOMAIN = process.env.DOMAIN || 'http://localhost:3000';
-/** The Domain Name where the api is running */
-export const API = process.env.EVENTS_API || 'http://localhost:3002';
-/** The application id generated in https://portal.azure.com */
-const CLIENT_ID = process.env.CLIENT_ID || 'a1b2c3d4-1234-5678-90ab-cdef12345678';
-/** The application id uri generated in https://portal.azure.com */
-const API_URI = process.env.API_URI || 'api://a1b2c3d4-1234-5678-90ab-cdef12345678';
-/** Tenant / Verzeichnis-ID (Mandant) */
-export const TENANT_ID = process.env.TENANT_ID || 'a1b2c3d4-1234-5678-90ab-cdef12345678';
+export const {EVENTS_API, CLIENT_ID, DOMAIN, TENANT_ID, API_URI} = siteConfig.customFields as any as CustomFields;
+console.log('DOMAIN', DOMAIN);
+console.log('EVENTS_API', EVENTS_API);
+console.log('CLIENT_ID', CLIENT_ID);
+console.log('TENANT_ID', TENANT_ID);
+console.log('API_URI', API_URI);
+
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
