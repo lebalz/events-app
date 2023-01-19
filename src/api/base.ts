@@ -1,11 +1,11 @@
 import axios, { CancelTokenSource, CancelToken, AxiosRequestConfig } from 'axios';
-import { API, apiConfig, msalInstance, TENANT_ID } from '../authConfig';
+import { EVENTS_API, apiConfig, msalInstance, TENANT_ID } from '../authConfig';
 
 export namespace Api {
   export const BASE_API_URL = eventsApiUrl();
 
   function eventsApiUrl() {
-    return `${API}/api/v1/`;
+    return `${EVENTS_API}/api/v1/`;
   }
 }
 

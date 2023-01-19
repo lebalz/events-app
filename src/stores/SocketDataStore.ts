@@ -5,8 +5,7 @@ import { default as api, checkLogin as pingApi, createCancelToken } from '../api
 import axios, { CancelTokenSource } from 'axios';
 import iStore from './iStore';
 import { ChangedRecord, IoEvent, NewRecord } from './IoEventTypes';
-const WS_PORT = process.env.NODE_ENV === 'production' ? '' : ':3002';
-
+import { EVENTS_API } from '../authConfig';
 class Message {
     type: string;
     message: string;
@@ -69,8 +68,7 @@ export class SocketDataStore implements iStore<Message[]> {
         if (this.socket?.connected) {
             return;
         }
-        const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-        const ws_url = `${protocol}://${window.location.hostname}${WS_PORT}`;
+        const ws_url = EVENTS_API;
         this.socket = io(ws_url, {
             withCredentials: true,
             transports: ['websocket'],
