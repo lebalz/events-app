@@ -32,6 +32,7 @@ const config = {
     TENANT_ID: process.env.REACT_APP_TENANT_ID,
     /** The application id uri generated in https://portal.azure.com */
     API_URI: process.env.REACT_APP_API_URI,
+    GIT_COMMIT_SHA: process.env.REACT_DRONE_COMMIT || 'local',
   },
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -126,7 +127,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer`,
+        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer - V${(process.env.REACT_DRONE_COMMIT || 'local').substring(0, 7)}}}`,
       },
       prism: {
         theme: lightCodeTheme,
