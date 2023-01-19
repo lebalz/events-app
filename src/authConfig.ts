@@ -17,11 +17,6 @@ export interface CustomFields {
 
 /** The Domain Name of this app */
 export const {EVENTS_API, CLIENT_ID, DOMAIN, TENANT_ID, API_URI} = siteConfig.customFields as any as CustomFields;
-console.log('DOMAIN', DOMAIN);
-console.log('EVENTS_API', EVENTS_API);
-console.log('CLIENT_ID', CLIENT_ID);
-console.log('TENANT_ID', TENANT_ID);
-console.log('API_URI', API_URI);
 
 
 /**
