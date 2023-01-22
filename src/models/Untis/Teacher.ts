@@ -11,34 +11,30 @@ export default class Teacher {
     readonly title: string;
     readonly active: boolean;
     readonly dids: { id: number }[];
-    readonly schoolyear_id: number;
     private readonly store: UntisStore;
 
-  constructor(props: TeacherProps, schoolyear_id: number, store: UntisStore) {
+  constructor(props: TeacherProps,store: UntisStore) {
     this.id = props.id;
     this.name = props.name;
-    this.foreName = props.foreName;
     this.longName = props.longName;
     this.title = props.title;
     this.active = props.active;
-    this.dids = props.dids;
-    this.schoolyear_id = schoolyear_id;
     this.store = store;
 
     makeObservable(this);
   }
 
-  @computed
-  get schoolyear() {
-    return this.store.findSchoolyear(this.schoolyear_id);
-  }
+  // @computed
+  // get schoolyear() {
+  //   return this.store.findSchoolyear(this.schoolyear_id);
+  // }
 
-  @computed
-  get departments() {
-    return this.dids.map((did) => this.store.findDepartment(did.id));
-  }
-  @computed
-  get lessons() {
-    return this.store.filterLessonsByTeacher(this.id);
-  }
+  // @computed
+  // get departments() {
+  //   return this.dids.map((did) => this.store.findDepartment(did.id));
+  // }
+  // @computed
+  // get lessons() {
+  //   return this.store.filterLessonsByTeacher(this.id);
+  // }
 }

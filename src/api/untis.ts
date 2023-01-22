@@ -23,11 +23,9 @@ export interface Schoolyear {
 export interface Teacher {
     id: number;
     name: string;
-    foreName: string;
     longName: string;
     title: string;
     active: boolean;
-    dids: { id: number }[];
 }
 
 export interface Department {
@@ -64,6 +62,9 @@ export interface Untis {
     classes: Klass[];
     lessons: Lesson[];
 }
-export function untis(cancelToken: CancelTokenSource): AxiosPromise<Untis> {
-    return api.get('untis', { cancelToken: cancelToken.token });
+export function teachers(cancelToken: CancelTokenSource): AxiosPromise<Teacher[]> {
+    return api.get('untis/teachers', { cancelToken: cancelToken.token });
+}
+export function sync(cancelToken: CancelTokenSource): AxiosPromise<any> {
+    return api.post('untis/sync', { cancelToken: cancelToken.token });
 }

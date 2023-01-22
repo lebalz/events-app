@@ -127,7 +127,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer - V.${(process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7)).substring(0, 7)}`,
+        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer - V${(process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7)).substring(0, 7)}`,
       },
       prism: {
         theme: lightCodeTheme,
