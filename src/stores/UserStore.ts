@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { users as fetchUsers } from '../api/user';
 import { RootStore } from './stores';
@@ -31,16 +31,16 @@ export class UserStore implements iStore<User[]> {
         return this.users.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username.toLowerCase());
     }
 
-    findUntisUser(shortName: string): Teacher | undefined {
-        return this.root.untisStore.findTeacherByShortName(shortName);
+    findUntisUser(untisId: number): Teacher | undefined {
+        return this.root.untisStore.findTeacher(untisId) as Teacher | undefined;
     }
 
     find = computedFn(
-        function (this: UserStore, shortName?: string): User | undefined {
-            if (!shortName) {
+        function (this: UserStore, id?: string): User | undefined {
+            if (!id) {
                 return;
             }
-            return this.users.find((user) => user.shortName === shortName);
+            return this.users.find((user) => user.id === id);
         },
         { keepAlive: true }
     );

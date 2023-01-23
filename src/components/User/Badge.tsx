@@ -12,7 +12,7 @@ const Badge = observer(() => {
         return (
             <Link to={'/login'}>
                 <div className={clsx(styles.login, 'badge', 'badge--primary')}>
-                    {userStore.current.shortName}
+                    {userStore.current.shortName || userStore.current.firstName}
                 </div>
             </Link>
         )

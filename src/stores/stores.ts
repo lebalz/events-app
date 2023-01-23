@@ -7,6 +7,7 @@ import { EventStore } from "./EventStore";
 import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
 import iStore from "./iStore";
+import { computedFn } from "mobx-utils";
 
 export class RootStore {
   stores = observable<iStore<any>>([]);

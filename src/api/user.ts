@@ -1,23 +1,23 @@
 import api from './base';
 import { AxiosPromise, CancelTokenSource } from 'axios';
 
-export enum Role {
-    admin = 'ADMIN',
-    user = 'USER',
-}
 
-export interface User {
-    id: string;
-    email: string;
-    shortName: string;
-    firstName: string;
-    lastName: string;
-    untisId?: number;
-    department: string;
-    role: Role;
-    createdAt: string;
-    updatedAt: string;
-}
+export enum Role {
+    STUDENT = 'STUDENT',
+    USER = 'USER',
+    ADMIN = 'ADMIN'
+  };
+
+export type User = {
+    id: string
+    email: string
+    untisId?: number
+    firstName: string
+    lastName: string
+    role: Role
+    createdAt: Date
+    updatedAt: Date
+  }
 
 export function user(cancelToken: CancelTokenSource): AxiosPromise<User> {
   return api.get('user', { cancelToken: cancelToken.token });

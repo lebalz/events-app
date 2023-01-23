@@ -1,6 +1,6 @@
 import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable, observable } from 'mobx';
-import { Teacher as TeacherProps } from '../../api/untis';
+import { UntisTeacher } from '../../api/untis';
 
 
 export default class Teacher {
@@ -13,7 +13,7 @@ export default class Teacher {
     readonly dids: { id: number }[];
     private readonly store: UntisStore;
 
-  constructor(props: TeacherProps,store: UntisStore) {
+  constructor(props: UntisTeacher,store: UntisStore) {
     this.id = props.id;
     this.name = props.name;
     this.longName = props.longName;
@@ -22,6 +22,11 @@ export default class Teacher {
     this.store = store;
 
     makeObservable(this);
+  }
+
+  @computed
+  get shortName() {
+    return this.name;
   }
 
   // @computed
