@@ -6,11 +6,9 @@ import { UntisTeacher } from '../../api/untis';
 export default class Teacher {
     readonly id: number;
     readonly name: string;
-    readonly foreName: string;
     readonly longName: string;
     readonly title: string;
     readonly active: boolean;
-    readonly dids: { id: number }[];
     private readonly store: UntisStore;
 
   constructor(props: UntisTeacher,store: UntisStore) {

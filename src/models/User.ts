@@ -1,11 +1,14 @@
-import { computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import moment from 'moment';
 import { Role, User as UserProps } from '../api/user';
 import { UserStore } from '../stores/UserStore';
-import SchoolEvent from './SchoolEvent';
 import Teacher from './Untis/Teacher';
 
-export default class User {
+interface iUser {
+  untisTeacher?: Teacher;
+}
+
+export default class User implements iUser {
   private readonly store: UserStore;
   readonly id: string;
   readonly email: string;
@@ -37,12 +40,22 @@ export default class User {
   }
 
   @computed
-  get untisTeacher(): Teacher | undefined {
+  get untisTeacher() {
     return this.store.findUntisUser(this.untisId);
   }
 
   @computed
   get shortName() {
     return this.store.findUntisUser(this.untisId)?.shortName;
+  }
+
+  @action
+  setUntisId(untisId: number | undefined) {
+    this.untisId = untisId;
+  }
+
+  @action
+  linkUntis(untisId: number | undefined) {
+    this.store.linkUserToUntis(this, untisId);
   }
 }

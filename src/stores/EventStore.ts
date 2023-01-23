@@ -10,15 +10,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { createCancelToken } from '../api/base';
 import { IoEvent } from './IoEventTypes';
 
-interface PendingIoEvent {
-    type: IoEvent;
-    id: string;
-}
 
 export class EventStore implements iStore<SchoolEvent[]> {
     private readonly root: RootStore;
     events = observable<SchoolEvent>([]);
-    pendingApiCalls = observable<PendingIoEvent>([]);
 
     cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
@@ -61,8 +56,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
             const d = new Date();
             const s = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()));
             const id = uuidv4();
-            const pending = {id: id, type: IoEvent.NEW_RECORD}
-            this.pendingApiCalls.push(pending);
+            this.root.socketStore.setPendingApiCall(IoEvent.NEW_RECORD, id);
             apiCreate({ start: s.toISOString(), end: s.toISOString(), id: id }, this.cancelToken)
                 .then(
                     action(({ data }) => {
@@ -73,8 +67,8 @@ export class EventStore implements iStore<SchoolEvent[]> {
                             events.splice(idx, 1);
                         }
                         this.events.replace([...events, event].sort((a, b) => a.compare(b)));
-                        const rem = this.pendingApiCalls.find(p => p.id === pending.id && p.type === pending.type)
-                        console.log('removed: ', this.pendingApiCalls.remove(rem));
+                        this.root.socketStore.rmPendingApiCall(IoEvent.NEW_RECORD, id);
+
                     })
                 )
         }
@@ -105,10 +99,6 @@ export class EventStore implements iStore<SchoolEvent[]> {
         }))
     }
 
-    isPending(id: string, type: IoEvent) {
-        return this.pendingApiCalls.find(p => p.id === id && p.type === type) !== undefined;
-    }
-
     @action
     reload() {
         this.events.replace([]);
@@ -137,14 +127,12 @@ export class EventStore implements iStore<SchoolEvent[]> {
         if (!ev) {
             return Promise.resolve(undefined);
         }
-        const pending = {id: ev.id, type: IoEvent.CHANGED_RECORD};
-        this.pendingApiCalls.push(pending);
+        this.root.socketStore.setPendingApiCall(IoEvent.CHANGED_RECORD, ev.id);
         return updateEvent(id, ev.props, source)
             .then(
                 action(({ data }) => {
                     ev.updatedAt = new Date(data.updatedAt);
-                    const rem = this.pendingApiCalls.find(p => p.id === pending.id && p.type === pending.type);
-                    console.log('removed: ', this.pendingApiCalls.remove(rem));
+                    this.root.socketStore.rmPendingApiCall(IoEvent.CHANGED_RECORD, ev.id);
                 })
             )
     }

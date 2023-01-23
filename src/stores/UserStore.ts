@@ -1,12 +1,14 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { users as fetchUsers } from '../api/user';
+import { users as fetchUsers, find as findUser, linkToUntis } from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
 import axios from 'axios';
 import Teacher from '../models/Untis/Teacher';
 import iStore from './iStore';
+import { createCancelToken } from '../api/base';
+import { IoEvent } from './IoEventTypes';
 
 export class UserStore implements iStore<User[]> {
     private readonly root: RootStore;
@@ -31,8 +33,8 @@ export class UserStore implements iStore<User[]> {
         return this.users.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username.toLowerCase());
     }
 
-    findUntisUser(untisId: number): Teacher | undefined {
-        return this.root.untisStore.findTeacher(untisId) as Teacher | undefined;
+    findUntisUser(untisId: number) {
+        return this.root.untisStore.findTeacher(untisId);
     }
 
     find = computedFn(
@@ -44,7 +46,11 @@ export class UserStore implements iStore<User[]> {
         },
         { keepAlive: true }
     );
-
+    
+    @computed
+    get currentUsersEvents() {
+        return this.root.eventStore.events.slice().filter((e) => e.authorId === this.current?.id);
+    }
 
     @action
     reload() {
@@ -75,6 +81,31 @@ export class UserStore implements iStore<User[]> {
                     return this.users;
                 })
             )
+    }
+
+    @action
+    linkUserToUntis(user: User, untisId: number) {
+        const [ct] = createCancelToken();
+        this.root.socketStore.setPendingApiCall(IoEvent.CHANGED_RECORD, user.id);
+        linkToUntis(user.id, untisId, ct).then(({data}) => {
+            this.root.socketStore.rmPendingApiCall(IoEvent.CHANGED_RECORD, user.id);
+            user.setUntisId(data.untisId);
+        });
+    }
+
+    @action
+    loadUser(id: string) {
+        const [ct] = createCancelToken();
+        return findUser(id, ct).then(action(({ data }) => {
+            const user = new User(data, this);
+            const users = this.users.slice();
+            const idx = users.findIndex((e) => e.id === user.id);
+            if (idx !== -1) {
+                users.splice(idx, 1);
+            }
+            this.users.replace([...users, user]);
+            return user;
+        }))
     }
 
     @action

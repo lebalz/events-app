@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: 3em;
+
+    :global .col {
+        display: flex;
+        align-items: center;
+    }
+    :global .row {
+        margin-bottom: 1.5em;
+    }
+    .label {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
+
+@media screen and (min-width: 996px) {
+    .container {
+        .label {
+            justify-content: end;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .icon {
+            justify-content: end;
+        }
+    }
+}

@@ -7,6 +7,7 @@ import { default as indexStyles } from './index.module.css';
 import { useStore } from '../stores/hooks';
 import Link from '@docusaurus/Link';
 import { observer } from 'mobx-react-lite';
+import { Redirect } from '@docusaurus/router';
 
 
 function HomepageHeader() {
@@ -27,24 +28,19 @@ const Login = observer(() => {
     const userStore = useStore('userStore');
     const { account, loggedIn } = sessionStore;
     const { current } = userStore;
+    if (loggedIn) {
+        return (
+            <Redirect to={'/user'} />
+        );
+    }
     return (
         <Layout>
             <HomepageHeader />
             <main>
                 <div className={styles.loginPage}>
-                    {loggedIn ? (
-                        <>
-                            <h3>Eingeloggt als {account?.username}</h3>
-                            <div style={{height: '3em'}}></div>
-                            <button className="button button--danger" style={{color: 'black'}} onClick={() => sessionStore.logout()}>
-                                Logout
-                            </button>
-                        </>
-                    ) : (
-                        <Link to="/" onClick={() => sessionStore.login()} className="button button--warning" style={{color: 'black'}}>
-                            Login mit GBSL Account
-                        </Link>
-                    )}
+                    <Link to="/" onClick={() => sessionStore.login()} className="button button--warning" style={{color: 'black'}}>
+                        Login mit GBSL Account
+                    </Link>
                 </div>
             </main>
         </Layout>
