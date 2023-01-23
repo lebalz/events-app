@@ -5,7 +5,6 @@ import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
 import axios from 'axios';
-import Teacher from '../models/Untis/Teacher';
 import iStore from './iStore';
 import { createCancelToken } from '../api/base';
 import { IoEvent } from './IoEventTypes';
@@ -72,9 +71,13 @@ export class UserStore implements iStore<User[]> {
     
     @action
     load() {
-        return fetchUsers(this.cancelToken)
+        const [ct] = createCancelToken();
+        return fetchUsers(ct)
             .then(
                 action(({ data }) => {
+                    if (!data) {
+                        return;
+                    }
                     const users = data.map((u) => new User(u, this));
                     this.users.replace(users);
                     this.initialized = true;
