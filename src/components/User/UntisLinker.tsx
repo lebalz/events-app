@@ -1,4 +1,4 @@
-import React, { useState, type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './untisLinker.module.scss';
@@ -16,6 +16,8 @@ const UntisLinker = observer(() => {
     return (
         <div className={clsx(styles.container)}>
             <Select
+                className={clsx(styles.select)}
+                classNamePrefix="select"
                 value={{value: current.untisId, label: current.untisTeacher ? `${current.shortName} - ${current.untisTeacher?.longName}` : '-'}}
                 options={
                     untisStore.teachers.slice().map((t) => ({

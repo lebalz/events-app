@@ -1,14 +1,11 @@
 import axios, { CancelTokenSource } from 'axios';
 import {
     AccountInfo,
-    AuthenticationResult,
-    InteractionRequiredAuthError,
     PublicClientApplication,
 } from '@azure/msal-browser';
-import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { loginRequest } from '../authConfig';
 import { RootStore } from './stores';
-import api, { isLive } from '../api/base';
 
 class State {    
     @observable.ref
