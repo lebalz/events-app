@@ -85,7 +85,6 @@ export class SocketDataStore implements iStore<Message[]> {
 
 
     isPending(id: string, type: IoEvent) {
-        console.log('is pending', id, type);
         return this.pendingApiCalls.find(p => p.id === id && p.type === type) !== undefined;
     }
 
