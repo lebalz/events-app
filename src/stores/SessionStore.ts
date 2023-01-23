@@ -6,7 +6,7 @@ import {
     PublicClientApplication,
 } from '@azure/msal-browser';
 import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
-import { API, loginRequest } from '../authConfig';
+import { loginRequest } from '../authConfig';
 import { RootStore } from './stores';
 import api, { isLive } from '../api/base';
 
