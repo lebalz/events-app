@@ -4,6 +4,29 @@ require('dotenv').config()
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
+/** @type (
+    | string
+    | {
+        src: string;
+        [key: string]: string | boolean | undefined;
+      }
+  )[] */
+const scripts = []
+
+if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
+  scripts.push(
+    {
+      src: process.env.REACT_APP_UMAMI_SRC,
+      ['data-website-id']: process.env.REACT_APP_UMAMI_ID,
+      ['data-domains']: 'events.gbsl.website',
+      async: true,
+      defer: true
+    }
+  )
+}
+
+
+
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -135,14 +158,7 @@ const config = {
       },
     }),
   scripts: [
-    // Object format.
-    {
-      src: process.env.REACT_APP_UMAMI_SRC,
-      ['data-website-id']: process.env.REACT_APP_UMAMI_ID,
-      ['data-domains']: 'events.gbsl.website',
-      async: true,
-      defer: true
-    },
+    ...scripts
   ],
   plugins: [
     'docusaurus-plugin-sass'
