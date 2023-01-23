@@ -134,6 +134,16 @@ const config = {
         darkTheme: darkCodeTheme,
       },
     }),
+  scripts: [
+    // Object format.
+    {
+      src: process.env.REACT_APP_UMAMI_SRC,
+      ['data-website-id']: process.env.REACT_APP_UMAMI_ID,
+      ['data-domains']: 'events.gbsl.website',
+      async: true,
+      defer: true
+    },
+  ],
   plugins: [
     'docusaurus-plugin-sass'
   ]
