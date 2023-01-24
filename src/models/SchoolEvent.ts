@@ -49,7 +49,6 @@ export default class SchoolEvent {
 
     departements = observable<Departements>([]);
     classes = observable<string>([]);
-    responsibleIds = observable<string>([]);
 
     @observable
     description: string;
@@ -79,7 +78,6 @@ export default class SchoolEvent {
         this.authorId = props.authorId;
         this.departements.replace(props.departements);
         this.classes.replace(props.classes);
-        this.responsibleIds.replace(props.responsibleIds);
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
@@ -217,7 +215,6 @@ export default class SchoolEvent {
             authorId: this.authorId,
             departements: this.departements.slice(),
             classes: this.classes.slice(),
-            responsibleIds: this.responsibleIds.slice(),
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,
@@ -225,7 +222,6 @@ export default class SchoolEvent {
             updatedAt: this.updatedAt.toISOString(),
             start: (new Date(this._start)).toISOString(),
             end: (new Date(this._end)).toISOString(),
-            onlyKLP: false,
             allDay: this.allDay
         }
     }
@@ -242,9 +238,6 @@ export default class SchoolEvent {
         }
         if (props.classes) {
             this.classes.replace(props.classes);
-        }
-        if (props.responsibleIds) {
-            this.responsibleIds.replace(props.responsibleIds);
         }
         if (props.description) {
             this.description = props.description;

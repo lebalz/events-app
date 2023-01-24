@@ -1,6 +1,5 @@
 import { AxiosPromise, CancelTokenSource } from 'axios';
 import api from './base';
-import type { User } from './user';
 
 export enum EventState {
     Draft = 'DRAFT',
@@ -29,8 +28,6 @@ export interface Event {
     createdAt: string;
     updatedAt: string;
     state: EventState;
-    onlyKLP: boolean;
-    responsibleIds: string[];
 }
 
 export function find(id: string, cancelToken: CancelTokenSource): AxiosPromise<Event> {
