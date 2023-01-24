@@ -44,35 +44,10 @@ const EventRow = observer((props: RowProps) => {
                         value={[event.localStart, event.localEnd]}
                         locale='gsw-u-sd-chzh' 
                     />
-                    // <DatePicker
-                    //     value={event.start}
-                    //     onChange={action((d) => {
-                    //         event.setStartDate(d);
-                    //     })}
-                    //     locale='gsw-u-sd-chzh' 
-                    // />
-
                 ) : (
                     <span>{event.startDate}</span>
                 )}
             </td>
-            <td></td>
-            {/* <td>{event.allDay ? '' : event.startTime}</td> */}
-            {/* <td>
-                {event.isEditable && !event.allDay ? (
-                    <DatePicker
-                        value={event.end}
-                        onChange={action((d) => {
-                            event.setEndDate(d);
-                        })}
-                        locale='gsw-u-sd-chzh'
-                    />
-
-                ) : (
-                    <span>{event.allDay && event.startDate === event.endDate ? '' : event.endDate}</span>
-                )}
-            </td>
-            <td>{event.allDay ? '' : event.endTime}</td> */}
             <td>{event.location}</td>
             <td>
                 {event.departements.map((c, idx) => (
