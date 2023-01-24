@@ -51,3 +51,7 @@ export function update(id: string, data: Event, cancelToken: CancelTokenSource):
 export function destroy(event: Event, cancelToken: CancelTokenSource) {
     return api.delete('event', { cancelToken: cancelToken.token });
 }
+
+export function importExcel(formData: FormData) {
+    return api.post('event/import', formData);
+}
