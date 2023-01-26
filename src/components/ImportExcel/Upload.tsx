@@ -3,22 +3,19 @@ import clsx from 'clsx';
 
 import styles from './Upload.module.scss';
 import { importExcel } from '@site/src/api/event';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '@site/src/stores/hooks';
 
 
-const Upload = () => {
-    const [selectedFile, setSelectedFile] = useState(null);
+const Upload = observer(() => {
+    const [selectedFile, setSelectedFile] = useState<File>(null);
+    const jobStore = useStore('jobStore');
 
-    const handleFileUpload = (event) => {
+    const handleFileUpload = () => {
         if (!selectedFile) {
           throw 'No file was selected';
         }
-        
-        const fd = new FormData();
-        fd.append('terminplan', selectedFile);
-    
-        importExcel(fd).then((response) => {
-            console.log(response);
-        });
+        jobStore.importExcel(selectedFile);        
     }
 
     return (
@@ -36,6 +33,6 @@ const Upload = () => {
             </form>
         </div>
     );
-}
+});
 
 export default Upload;

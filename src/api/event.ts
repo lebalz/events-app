@@ -1,5 +1,6 @@
 import { AxiosPromise, CancelTokenSource } from 'axios';
 import api from './base';
+import { Job } from './job';
 
 export enum EventState {
     Draft = 'DRAFT',
@@ -15,19 +16,20 @@ export enum Departements {
 }
 
 export interface Event {
-    id: string;
-    authorId: string;
-    start: string;
-    end: string;
-    allDay: boolean;
-    location: string;
-    description: string;
-    descriptionLong: string;
-    departements: Departements[];
-    classes: string[];
-    createdAt: string;
-    updatedAt: string;
-    state: EventState;
+    id: string
+    authorId: string
+    start: string
+    end: string
+    allDay: boolean
+    location: string
+    description: string
+    descriptionLong: string
+    departements: Departements[]
+    classes: string[]
+    state: EventState
+    jobId: string | null
+    createdAt: string
+    updatedAt: string
 }
 
 export function find(id: string, cancelToken: CancelTokenSource): AxiosPromise<Event> {
@@ -49,6 +51,6 @@ export function destroy(event: Event, cancelToken: CancelTokenSource) {
     return api.delete('event', { cancelToken: cancelToken.token });
 }
 
-export function importExcel(formData: FormData) {
-    return api.post('event/import', formData);
+export function importExcel(formData: FormData, cancelToken: CancelTokenSource): AxiosPromise<Job> {
+    return api.post('event/import', formData, { cancelToken: cancelToken.token});
 }

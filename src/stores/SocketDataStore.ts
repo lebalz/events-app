@@ -115,6 +115,9 @@ export class SocketDataStore implements iStore<Message[]> {
                 case 'USER':
                     this.root.userStore.loadUser(record.id);
                     break;
+                case 'JOB':
+                    this.root.jobStore.loadJob(record.id);
+                    break;
             }
         })
     };

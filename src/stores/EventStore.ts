@@ -50,6 +50,16 @@ export class EventStore implements iStore<SchoolEvent[]> {
         { keepAlive: true }
     );
 
+    byJob = computedFn(
+        function (this: EventStore, jobId?: string): SchoolEvent[] {
+            if (!jobId) {
+                return [];
+            }
+            return this.events.filter((e) => e.jobId === jobId);
+        },
+        { keepAlive: true }
+    );
+
     @action
     newEvent() {
         if (this.root.sessionStore.account) {
@@ -136,6 +146,38 @@ export class EventStore implements iStore<SchoolEvent[]> {
                 })
             )
     }
+
+    @action
+    appendEvents(events?: EventProps[]) {
+        if (!events?.length) {
+            return;
+        }
+        const current = this.events.slice();
+        events.forEach((event) => {
+            const idx = current.findIndex((e) => e.id === event.id);
+            if (idx !== -1) {
+                current.splice(idx, 1);
+            }
+        })
+        const newEvents = events.map((e) => new SchoolEvent(e, this));
+        this.events.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
+    }
+
+    @action
+    removeEvents(events: SchoolEvent[]) {
+        if (!events?.length) {
+            return;
+        }
+        const current = this.events.slice();
+        events.forEach((event) => {
+            const idx = current.findIndex((e) => e.id === event.id);
+            if (idx !== -1) {
+                current.splice(idx, 1);
+            }
+        })
+        this.events.replace(current);
+    }
+
 
     @action
     reset() {

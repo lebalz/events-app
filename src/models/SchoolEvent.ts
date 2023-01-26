@@ -43,6 +43,7 @@ export default class SchoolEvent {
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
+    readonly jobId: string;
     @observable.ref
     updatedAt: Date;
     readonly state: EventState;
@@ -74,6 +75,7 @@ export default class SchoolEvent {
     constructor(props: EventProps, store: EventStore) {
         this.store = store;
         this.id = props.id;
+        this.jobId = props.jobId;
         this.state = props.state;
         this.authorId = props.authorId;
         this.departements.replace(props.departements);
@@ -86,8 +88,12 @@ export default class SchoolEvent {
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         this.allDay = props.allDay;
-
         makeObservable(this);
+    }
+
+    @computed
+    get invalid(): boolean {
+        return this.durationMS <= 0
     }
 
 
@@ -211,6 +217,7 @@ export default class SchoolEvent {
     get props(): EventProps {
         return {
             id: this.id,
+            jobId: this.jobId,
             state: this.state,
             authorId: this.authorId,
             departements: this.departements.slice(),

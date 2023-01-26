@@ -1,6 +1,6 @@
 
 import React from "react";
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable, reaction, runInAction } from "mobx";
 import { SessionStore } from "./SessionStore";
 import { UserStore } from "./UserStore";
 import { EventStore } from "./EventStore";
@@ -8,6 +8,7 @@ import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
 import iStore from "./iStore";
 import { computedFn } from "mobx-utils";
+import { JobStore } from "./JobStore";
 
 export class RootStore {
   stores = observable<iStore<any>>([]);
@@ -19,6 +20,7 @@ export class RootStore {
   userStore: UserStore;
   eventStore: EventStore;
   socketStore: SocketDataStore;
+  jobStore: JobStore;
   constructor() {
     makeObservable(this);
     this.sessionStore = new SessionStore(this);
@@ -35,9 +37,23 @@ export class RootStore {
     this.socketStore = new SocketDataStore(this);
     this.stores.push(this.socketStore);
 
+    this.jobStore = new JobStore(this);
+    this.stores.push(this.jobStore);
+
     runInAction(() => {
       this.initialized = true;
     });
+
+    reaction(
+      () => this.sessionStore.account,
+      (account) => {
+        if (account) {
+          this.stores.forEach((store) => store.load());
+        } else {
+          this.stores.forEach((store) => store.reset());
+        }
+      }
+    )
   }
 }
 

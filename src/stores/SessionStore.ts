@@ -56,9 +56,6 @@ export class SessionStore {
     @action
     setAccount(account?: AccountInfo) {
         this.state.account = account;
-        this.root.stores.forEach((store) => {
-            store.load();
-        });
     }
 
     @computed
@@ -78,16 +75,13 @@ export class SessionStore {
         if (!this.loggedIn) {
             return;
         }
-        this.root.stores.forEach((store) => {
-            store.reset();
-        });
+        const msalInstance = this.msalInstance;
         const logoutRequest = {
-            account: this.msalInstance.getAccountByUsername(this.state.account.username),
+            account: msalInstance.getAccountByUsername(this.state.account.username),
         };
-        this.msalInstance.logoutRedirect(logoutRequest).catch((e) => {
+        this.state = new State();
+        msalInstance.logoutRedirect(logoutRequest).catch((e) => {
             console.warn(e);
-        }).then(() => {
-            this.state = new State();
         });
     }
 }
