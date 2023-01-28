@@ -4,7 +4,7 @@ import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { computedFn } from 'mobx-utils';
-import { jobs as fetchJobs, find as fetchJob, destroy as deleteJob } from '../api/job';
+import { jobs as fetchJobs, find as fetchJob, destroy as deleteJob, JobType, JobState } from '../api/job';
 import { importExcel as postExcel } from '../api/event';
 import { createCancelToken } from '../api/base';
 import Job from '../models/Job';
@@ -58,14 +58,33 @@ export class JobStore implements iStore<Job[]> {
         const [ct] = createCancelToken();
         return fetchJob(id, ct).then(action(({ data }) => {
             const job = new Job(data, this);
-            this.root.eventStore.appendEvents(data.events);
-            const old = this.findJob(id);
-            if (old) {
-                this.jobs.remove(old);
+            if (job.state === JobState.DONE) {
+                this.removeFromStore(id);
+                if (job.type === JobType.SYNC_UNTIS) {
+                    this.root.eventStore.reload();
+                }
+                this.root.eventStore.appendEvents(data.events);
+            } else {
+                const oldJob = this.findJob(id);
+                if (oldJob) {
+                    this.jobs.remove(oldJob);
+                }
             }
             this.jobs.push(job);
             return job;
         }))
+    }
+
+    @action
+    removeFromStore(id: string) {
+        const job = this.findJob(id);
+        if (job) {
+            if ([JobType.CLONE, JobType.IMPORT].includes(job.type)) {
+                const events = this.root.eventStore.events.slice().filter((e) => e.jobId === job.id);
+                this.root.eventStore.removeEvents(events);
+            }
+            this.jobs.remove(job);
+        }
     }
 
     @action

@@ -12,6 +12,7 @@ export default class Job {
     readonly log: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
+    readonly filename?: string;
 
     constructor(props: JobProps, store: JobStore) {
         this.store = store;
@@ -20,6 +21,7 @@ export default class Job {
         this.state = props.state;
         this.userId = props.userId;
         this.log = props.log;
+        this.filename = props.filename;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
 

@@ -89,7 +89,13 @@ export class SocketDataStore implements iStore<Message[]> {
                     this.root.userStore.loadUser(record.id);
                     break;
                 case 'JOB':
-                    this.root.jobStore.loadJob(record.id);
+                    switch (type) {
+                        case IoEvent.DELETED_RECORD:
+                            this.root.jobStore.removeFromStore(record.id);
+                            break;
+                        default:
+                            this.root.jobStore.loadJob(record.id);
+                    }
                     break;
             }
         })
@@ -100,7 +106,6 @@ export class SocketDataStore implements iStore<Message[]> {
             return;
         }
         this.socket.on('connect', () => {
-            console.log(this.socket.id);
             api.defaults.headers.common['x-metadata-socketid'] = this.socket.id;
             this.setLiveState(true);
         });
@@ -120,6 +125,7 @@ export class SocketDataStore implements iStore<Message[]> {
         });
         this.socket.on(IoEvent.NEW_RECORD, (this.handleReload(IoEvent.NEW_RECORD)));
         this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));
+        this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
 
         this.socket.onAny((eventName, ...args) => {
             console.log(eventName, args);
@@ -154,6 +160,7 @@ export class SocketDataStore implements iStore<Message[]> {
     @action
     reset() {
         this.disconnect();
+        api.defaults.headers.common['x-metadata-socketid'] = undefined;
         this.messages.clear();
     }
 

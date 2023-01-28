@@ -8,6 +8,7 @@ export type Job = {
     state: JobState
     userId: string
     log: string
+    filename?: string
     createdAt: Date
     updatedAt: Date
 }
@@ -18,7 +19,8 @@ type JobAndEvents = Job & {
 
 export enum JobType {
     IMPORT = 'IMPORT',
-    CLONE = 'CLONE'
+    CLONE = 'CLONE',
+    SYNC_UNTIS = 'SYNC_UNTIS'
 };
 
 export enum JobState {
