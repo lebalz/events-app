@@ -25,7 +25,7 @@ const Example = observer(() => {
                         }>
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        {job.user.email} - {job.filename || '|'} - {job.state} - {job.events.length}
+                        {job.user?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
                     </div>
                 )
             })}
