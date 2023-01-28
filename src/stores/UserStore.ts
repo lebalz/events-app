@@ -7,7 +7,6 @@ import _ from 'lodash';
 import axios from 'axios';
 import iStore from './iStore';
 import { createCancelToken } from '../api/base';
-import { IoEvent } from './IoEventTypes';
 
 export class UserStore implements iStore<User[]> {
     private readonly root: RootStore;
@@ -89,9 +88,7 @@ export class UserStore implements iStore<User[]> {
     @action
     linkUserToUntis(user: User, untisId: number) {
         const [ct] = createCancelToken();
-        this.root.socketStore.setPendingApiCall(IoEvent.CHANGED_RECORD, user.id);
         linkToUntis(user.id, untisId, ct).then(({data}) => {
-            this.root.socketStore.rmPendingApiCall(IoEvent.CHANGED_RECORD, user.id);
             user.setUntisId(data.untisId);
         });
     }

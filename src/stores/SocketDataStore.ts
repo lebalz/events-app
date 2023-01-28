@@ -10,15 +10,10 @@ class Message {
     type: string;
     message: string;
 }
-interface PendingIoEvent {
-    type: IoEvent;
-    id: string;
-}
 
 export class SocketDataStore implements iStore<Message[]> {
     private readonly root: RootStore;
     private cancelToken?: CancelTokenSource;
-    pendingApiCalls = observable<PendingIoEvent>([]);
     @observable.ref
     socket?: Socket;
 
@@ -83,31 +78,9 @@ export class SocketDataStore implements iStore<Message[]> {
         this.socket.connect();
     }
 
-
-    isPending(id: string, type: IoEvent) {
-        return this.pendingApiCalls.find(p => p.id === id && p.type === type) !== undefined;
-    }
-
-    @action
-    setPendingApiCall(type: IoEvent, id: string) {
-        const pending = { type: type, id: id };
-        this.pendingApiCalls.push(pending);
-    }
-
-    @action
-    rmPendingApiCall(type: IoEvent, id: string) {
-        const pending = this.pendingApiCalls.find((p) => p.type === type && p.id === id);
-        if (pending) {
-            this.pendingApiCalls.remove(pending);
-        }
-    }
-
     handleReload = (type: IoEvent) => {
         return action((data: string) => {
             const record: ChangedRecord = JSON.parse(data);
-            if (this.isPending(record.id, type)) {
-                return;
-            }
             switch (record.record) {
                 case 'EVENT':
                     this.root.eventStore.loadEvent(record.id);
@@ -128,6 +101,7 @@ export class SocketDataStore implements iStore<Message[]> {
         }
         this.socket.on('connect', () => {
             console.log(this.socket.id);
+            api.defaults.headers.common['x-metadata-socketid'] = this.socket.id;
             this.setLiveState(true);
         });
 

@@ -66,7 +66,6 @@ export class EventStore implements iStore<SchoolEvent[]> {
             const d = new Date();
             const s = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()));
             const id = uuidv4();
-            this.root.socketStore.setPendingApiCall(IoEvent.NEW_RECORD, id);
             apiCreate({ start: s.toISOString(), end: s.toISOString(), id: id }, this.cancelToken)
                 .then(
                     action(({ data }) => {
@@ -77,7 +76,6 @@ export class EventStore implements iStore<SchoolEvent[]> {
                             events.splice(idx, 1);
                         }
                         this.events.replace([...events, event].sort((a, b) => a.compare(b)));
-                        this.root.socketStore.rmPendingApiCall(IoEvent.NEW_RECORD, id);
 
                     })
                 )
@@ -137,12 +135,10 @@ export class EventStore implements iStore<SchoolEvent[]> {
         if (!ev) {
             return Promise.resolve(undefined);
         }
-        this.root.socketStore.setPendingApiCall(IoEvent.CHANGED_RECORD, ev.id);
         return updateEvent(id, ev.props, source)
             .then(
                 action(({ data }) => {
                     ev.updatedAt = new Date(data.updatedAt);
-                    this.root.socketStore.rmPendingApiCall(IoEvent.CHANGED_RECORD, ev.id);
                 })
             )
     }
