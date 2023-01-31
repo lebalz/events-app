@@ -14,7 +14,7 @@ const Table = observer(() => {
         <Layout>
             <div>
                 <Event />
-                <EventList />
+                <EventList events={eventStore.published} />
             </div>
         </Layout>
     );

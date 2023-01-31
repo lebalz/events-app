@@ -1,3 +1,4 @@
+import SchoolEvent from '@site/src/models/SchoolEvent';
 import { useStore } from '@site/src/stores/hooks';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
@@ -6,7 +7,7 @@ import styles from './EventList.module.scss';
 import EventRow from './EventRow';
 
 interface Props {
-    onlyMyEvents?: boolean;
+    events: SchoolEvent[];
 }
 
 const EventList = observer((props: Props) => {
@@ -19,8 +20,6 @@ const EventList = observer((props: Props) => {
     };
     const userStore = useStore('userStore');
     const userId = userStore.current?.id;
-
-    const events = (props.onlyMyEvents ? eventStore.byUser(userId) : eventStore.events)
 
     return (
         <table className={clsx(styles.table)}>
@@ -40,7 +39,7 @@ const EventList = observer((props: Props) => {
                 </tr>
             </thead>
             <tbody>
-                {events.map((event) => (<EventRow key={event.id} event={event} onChange={onChange} locked={event.authorId !== userId} />))}
+                {props.events.map((event) => (<EventRow key={event.id} event={event} onChange={onChange} locked={event.authorId !== userId} />))}
             </tbody>
         </table>
     );

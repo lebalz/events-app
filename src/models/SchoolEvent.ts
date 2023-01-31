@@ -17,10 +17,10 @@ const formatDate = (date: Date) => {
     return `${day}.${month}.${year}`;
 }
 
-const SEC_2_MS = 1000;
-const MINUTE_2_MS = 60 * SEC_2_MS;
-const HOUR_2_MS = 60 * MINUTE_2_MS;
-const DAY_2_MS = 24 * HOUR_2_MS;
+export const SEC_2_MS = 1000;
+export const MINUTE_2_MS = 60 * SEC_2_MS;
+export const HOUR_2_MS = 60 * MINUTE_2_MS;
+export const DAY_2_MS = 24 * HOUR_2_MS;
 const DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
 
 const getWeekdayOffsetMS = (date: Date) => {

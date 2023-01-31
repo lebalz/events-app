@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { events as fetchEvents, create as apiCreate, find as findEvent, update as updateEvent, Event as EventProps } from '../api/event';
-import SchoolEvent from '../models/SchoolEvent';
+import { events as fetchEvents, create as apiCreate, find as findEvent, update as updateEvent, Event as EventProps, EventState } from '../api/event';
+import SchoolEvent, { HOUR_2_MS } from '../models/SchoolEvent';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
@@ -28,6 +28,11 @@ export class EventStore implements iStore<SchoolEvent[]> {
 
     canEdit(event: SchoolEvent) {
         return this.root.userStore.current?.id === event.authorId;
+    }
+
+    @computed
+    get published() {
+        return this.events.filter((e) => e.state === EventState.Published);
     }
 
     find = computedFn(
@@ -157,6 +162,30 @@ export class EventStore implements iStore<SchoolEvent[]> {
         })
         const newEvents = events.map((e) => new SchoolEvent(e, this));
         this.events.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
+    }
+
+    @computed
+    get eventRangeStartMS() {
+        if (this.events.length < 1) {
+            return Date.now();
+        }
+        const first = this.events[0];
+        return first.localStart.getTime();
+    }
+
+    @computed
+    get eventRangeEndMS() {
+        if (this.events.length < 1) {
+            return this.eventRangeStartMS + HOUR_2_MS;
+        }
+        const last = this.events[this.events.length - 1];
+        return last.localEnd.getTime();
+    }
+
+
+    @computed
+    get eventRangeMS() {
+        return [this.eventRangeStartMS, this.eventRangeEndMS];   
     }
 
     @action
