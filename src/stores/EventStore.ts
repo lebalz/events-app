@@ -35,6 +35,12 @@ export class EventStore implements iStore<SchoolEvent[]> {
         return this.events.filter((e) => e.state === EventState.Published);
     }
 
+    @computed
+    get publishedAndMine() {
+        const myId = this.root.userStore.current?.id;
+        return this.events.filter((e) => e.state === EventState.Published || e.authorId === myId);
+    }
+
     find = computedFn(
         function (this: EventStore, id?: string): SchoolEvent | undefined {
             if (!id) {
