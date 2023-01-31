@@ -63,7 +63,9 @@ export class JobStore implements iStore<Job[]> {
                 if (job.type === JobType.SYNC_UNTIS) {
                     this.root.eventStore.reload();
                 }
-                this.root.eventStore.appendEvents(data.events);
+                if (data.events) {
+                    this.root.eventStore.appendEvents(data.events);
+                }
             } else {
                 const oldJob = this.findJob(id);
                 if (oldJob) {
@@ -78,11 +80,9 @@ export class JobStore implements iStore<Job[]> {
     @action
     removeFromStore(id: string) {
         const job = this.findJob(id);
+        const eventsToRemove = this.root.eventStore.events.slice().filter((e) => e.jobId === job.id);
+        this.root.eventStore.removeEvents(eventsToRemove);
         if (job) {
-            if ([JobType.CLONE, JobType.IMPORT].includes(job.type)) {
-                const events = this.root.eventStore.events.slice().filter((e) => e.jobId === job.id);
-                this.root.eventStore.removeEvents(events);
-            }
             this.jobs.remove(job);
         }
     }
