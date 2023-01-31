@@ -78,7 +78,10 @@ export class JobStore implements iStore<Job[]> {
     }
 
     @action
-    removeFromStore(id: string) {
+    removeFromStore(id?: string) {
+        if (!id) {
+            return;
+        }
         const job = this.findJob(id);
         const eventsToRemove = this.root.eventStore.events.slice().filter((e) => e.jobId === job.id);
         this.root.eventStore.removeEvents(eventsToRemove);
