@@ -18,7 +18,7 @@ const COLOR = {
 
 const Calendar = observer(() => {
     const eventStore = useStore('eventStore');
-    const tasks = eventStore.events.map((e, idx) => {
+    const tasks = eventStore.publishedAndMine.map((e, idx) => {
         return {
             start: e.localStart,
             end: e.localEnd,
