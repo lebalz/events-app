@@ -8,7 +8,7 @@ import Layout from '@theme/Layout';
 
 const GanttView = observer(() => {
     const eventStore = useStore('eventStore');
-    const tasks: Task[] = eventStore.published.filter((e) => !e.invalid).map((e, idx) => {
+    const tasks: Task[] = eventStore.publishedAndMine.filter((e) => !e.invalid).map((e, idx) => {
         return {
             start: e.localStart,
             end: e.localEnd,
