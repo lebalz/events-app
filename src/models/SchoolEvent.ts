@@ -193,6 +193,11 @@ export default class SchoolEvent {
         return DAYS[this.start.getUTCDay()];
     }
 
+    @action
+    setDescription(description: string) {
+        this.description = description;
+    }
+
     @computed
     get durationMS() {
         return this.end.getTime() - this.start.getTime();
