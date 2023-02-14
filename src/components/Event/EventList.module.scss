@@ -1,3 +1,25 @@
-.table {
-    display: table;
+.container {
+    position: relative;
+    max-height: 90vh;
+    max-width: 90vw;
+    overflow-x: auto;
+    overflow-y: auto;
+    overflow-anchor: none;
+    margin: 0.5rem;
+    .table {
+        display: table;
+        overflow-x: unset;
+        overflow-y: unset;
+        --ifm-table-cell-padding: 0.2rem;
+        --ifm-table-head-background: var(--ifm-hero-background-color);
+        thead {
+            position: sticky;
+            top: 0;
+            th {
+                background: var(--ifm-hero-background-color);
+                padding: 0;
+                min-width: 2.5rem;
+            }
+        }
+    }
 }

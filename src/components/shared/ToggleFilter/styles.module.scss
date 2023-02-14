@@ -1,0 +1,30 @@
+.toggleFilter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .toggle {
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        --ifm-badge-border-color: var(--color);
+        --ifm-badge-border-width: 1px;
+        color: var(--color);
+        // padding: calc(var(--ifm-badge-padding-vertical) - 0.5px) calc(var(--ifm-badge-padding-horizontal) - 0.5px);
+        &.active {
+            border-color: var(--color);
+            // border-width: 0;
+            background: var(--color);
+            color: white;
+            // padding: var(--ifm-badge-padding-vertical)  var(--ifm-badge-padding-horizontal);
+        }
+        --ifm-badge-border-radius: 0;
+        &:first-of-type {
+            border-top-left-radius: var(--ifm-global-radius);
+            border-bottom-left-radius: var(--ifm-global-radius);
+        }
+        &:last-of-type {
+            border-top-right-radius: var(--ifm-global-radius);
+            border-bottom-right-radius: var(--ifm-global-radius);
+        }
+    }
+}

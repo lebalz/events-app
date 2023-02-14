@@ -3,17 +3,17 @@
 }
 
 .gym {
-  --ifm-badge-background-color: #008066;
-  --ifm-badge-border-color: #019174;
-  --ifm-badge-color: #eaeaea;
+  --ifm-badge-background-color: var(--gym);
+  --ifm-badge-border-color: var(--gym-border);
+  --ifm-badge-color: var(--ifm-color-white);
 }
 .fms {
-  --ifm-badge-background-color: #043797;
-  --ifm-badge-border-color: #002d80;
-  --ifm-badge-color: #eaeaea;
+  --ifm-badge-background-color: var(--fms);
+  --ifm-badge-border-color: var(--fms-border);
+  --ifm-badge-color: var(--ifm-color-white);
 }
 .wms {
-  --ifm-badge-background-color: #c4b403;
-  --ifm-badge-border-color: #b3a402;
-  --ifm-badge-color: #eaeaea;
+  --ifm-badge-background-color: var(--wms);
+  --ifm-badge-border-color: var(--wms-border);
+  --ifm-badge-color: var(--ifm-color-white);
 }

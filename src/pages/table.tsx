@@ -7,14 +7,13 @@ import Event from '../components/Event';
 import EventList from '../components/Event/EventList';
 
 const Table = observer(() => {
-    const eventStore = useStore('eventStore');
+    const viewStore = useStore('viewStore');
     const userStore = useStore('userStore');
-    console.log(eventStore.events.length);
     return (
         <Layout>
             <div>
                 <Event />
-                <EventList events={eventStore.publishedAndMine} />
+                <EventList events={viewStore.eventTable.events} />
             </div>
         </Layout>
     );
