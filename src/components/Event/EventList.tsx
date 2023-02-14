@@ -13,6 +13,7 @@ interface Props {
 }
 
 const EventList = observer((props: Props) => {
+    // const {isSticky, tableRef} = useStickyHeader();
     const eventStore = useStore('eventStore');
     const viewStore = useStore('viewStore');
 
@@ -26,47 +27,44 @@ const EventList = observer((props: Props) => {
 
     return (
         <div className={clsx(styles.container)}>
-        <table className={clsx(styles.table)}>
-            <thead>
-                <tr>
-                    <th>KW</th>
-                    <th>Wochentag</th>
-                    <th>Stichwort</th>
-                    <th>Start</th>
-                    <th>Ende</th>
-                    {/* <th></th>
-                    <th>Ende</th>
-                    <th></th> */}
-                    <th>Ort</th>
-                    <th>
-                        <div>
-                            Schulen
-                        </div>
-                        {
-                            <ToggleFilter
-                                values={Object.values(Departements).map((key) => ({
-                                    value: key,
-                                    active: viewStore.eventTable.departments.has(key),
-                                    color: `var(--${key.toLowerCase()})`
-                                }))}
-                                onChange={(value) => {
-                                    if (viewStore.eventTable.departments.has(value)) {
-                                        viewStore.eventTable.departments.delete(value);
-                                    } else {
-                                        viewStore.eventTable.departments.add(value);
-                                    }
-                                }}
-                            />
-                        }
-                    </th>
-                    <th>Klassen</th>
-                    <th>Beschreibung</th>
-                </tr>
-            </thead>
-            <tbody>
-                {props.events.map((event) => (<EventRow key={event.id} event={event} onChange={onChange} locked={event.authorId !== userId} />))}
-            </tbody>
-        </table>
+            <table className={clsx(styles.table)}>
+                <thead>
+                    <tr>
+                        <th>KW</th>
+                        <th>Wochentag</th>
+                        <th>Stichwort</th>
+                        <th>Start</th>
+                        <th>Ende</th>
+                        <th>Ort</th>
+                        <th>
+                            <div>
+                                Schulen
+                            </div>
+                            {
+                                <ToggleFilter
+                                    values={Object.values(Departements).map((key) => ({
+                                        value: key,
+                                        active: viewStore.eventTable.departments.has(key),
+                                        color: `var(--${key.toLowerCase()})`
+                                    }))}
+                                    onChange={(value) => {
+                                        if (viewStore.eventTable.departments.has(value)) {
+                                            viewStore.eventTable.departments.delete(value);
+                                        } else {
+                                            viewStore.eventTable.departments.add(value);
+                                        }
+                                    }}
+                                />
+                            }
+                        </th>
+                        <th>Klassen</th>
+                        <th>Beschreibung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.events.map((event) => (<EventRow key={event.id} event={event} onChange={onChange} locked={event.authorId !== userId} />))}
+                </tbody>
+            </table>
         </div>
     );
 });
