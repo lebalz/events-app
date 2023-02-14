@@ -13,10 +13,10 @@ interface Props {
 const EventList = observer((props: Props) => {
     const eventStore = useStore('eventStore');
 
-    const onChange = (event: any, adrgId: string) => {
+    const onChange = (event: any, id: string) => {
         const param: any = {};
         param[event.target.name] = event.target.value;
-        eventStore.updateEvent(adrgId, param);
+        eventStore.updateEvent(id, param);
     };
     const userStore = useStore('userStore');
     const userId = userStore.current?.id;
@@ -28,7 +28,8 @@ const EventList = observer((props: Props) => {
                     <th>KW</th>
                     <th>Wochentag</th>
                     <th>Stichwort</th>
-                    <th>Zeitraum</th>
+                    <th>Start</th>
+                    <th>Ende</th>
                     {/* <th></th>
                     <th>Ende</th>
                     <th></th> */}
