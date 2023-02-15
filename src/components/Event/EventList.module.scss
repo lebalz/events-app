@@ -20,7 +20,9 @@
         overflow-anchor: none;
         margin: 0.5rem;
         position: relative;
-
+        &.fullscreen {
+            max-height: 98%;
+        }
         .table {
             display: table;
             overflow-x: unset;

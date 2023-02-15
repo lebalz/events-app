@@ -70,7 +70,7 @@ const EventList = observer((props: Props) => {
                     </div>
                 </div>
             )}
-            <div className={clsx(styles.scrollContainer)}>
+            <div className={clsx(styles.scrollContainer, viewStore.fullscreen && styles.fullscreen)}>
                 <table className={clsx(styles.table)}>
                     <thead>
                         <tr>
