@@ -7,14 +7,14 @@ import { getLastMonday } from './helpers';
 const MONDAY = Object.freeze(getLastMonday());
 
 export default class Lesson {
-    readonly id: number;
-    readonly room: string;
-    readonly subject: string;
-    readonly description: string;
-    readonly semester: string;
-    readonly weekDay: number;
-    readonly startDHHMM: number;
-    readonly endDHHMM: number;
+    readonly id: number
+    readonly room: string
+    readonly subject: string
+    readonly description: string
+    readonly semester: string
+    readonly weekDay: number
+    readonly startDHHMM: number
+    readonly endDHHMM: number
 
 
     private readonly store: UntisStore;
