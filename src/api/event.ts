@@ -9,6 +9,7 @@ export enum EventState {
     Deleted = 'DELETED',
 }
 
+
 export enum Departments {
     GBSL = 'GBSL',
     GBJB = 'GBJB',
@@ -18,7 +19,7 @@ export enum Departments {
     WMS = 'WMS',
     ESC = 'ESC',
     MSOP = 'MSOP'
-  };
+}
 
 export interface Event {
     id: string
@@ -49,7 +50,7 @@ export function create(data: Partial<Event>, cancelToken: CancelTokenSource): Ax
 }
 
 export function update(id: string, data: Event, cancelToken: CancelTokenSource): AxiosPromise<{ updatedAt: string }> {
-    return api.put(`event/${id}`, {data: data}, { cancelToken: cancelToken.token });
+    return api.put(`event/${id}`, { data: data }, { cancelToken: cancelToken.token });
 }
 
 export function destroy(event: Event, cancelToken: CancelTokenSource) {
@@ -57,5 +58,5 @@ export function destroy(event: Event, cancelToken: CancelTokenSource) {
 }
 
 export function importExcel(formData: FormData, cancelToken: CancelTokenSource): AxiosPromise<Job> {
-    return api.post('event/import', formData, { cancelToken: cancelToken.token});
+    return api.post('event/import', formData, { cancelToken: cancelToken.token });
 }
