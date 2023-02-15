@@ -9,6 +9,8 @@ import styles from './EventList.module.scss';
 import EventRow from './EventRow';
 import Icon from '@mdi/react';
 import { mdiFullscreen, mdiFullscreenExit } from '@mdi/js';
+import { reaction } from 'mobx';
+import FullScreenButton from '../shared/FullScreenButton';
 
 interface Props {
     events: SchoolEvent[];
@@ -19,12 +21,33 @@ const EventList = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     const viewStore = useStore('viewStore');
     const containerRef = React.useRef<HTMLDivElement>(null);
-    const [isFullscreen, setIsFullscreen] = React.useState(false);
+    
+    React.useEffect(() => {
+        viewStore.setShowFullscreenButton(true);
+        return () => viewStore.setShowFullscreenButton(false);
+    }, []);
 
+    React.useEffect(
+        () =>
+            reaction(
+                () => viewStore.fullscreen,
+                (fullscreen) => {
+                    if (fullscreen) {
+                        containerRef.current?.requestFullscreen();
+                    } else if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    }
+                    console.log('fullscreen', viewStore.fullscreen);
+                }
+            ),
+        []
+    );
     // Watch for fullscreenchange
     React.useEffect(() => {
-        function onFullscreenChange() {
-            setIsFullscreen(Boolean(document.fullscreenElement));
+        const onFullscreenChange = () => {
+            if (!!document.fullscreenElement !== viewStore.fullscreen) {
+                viewStore.setFullscreen(!!document.fullscreenElement);
+            }
         }
         document.addEventListener('fullscreenchange', onFullscreenChange);
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
@@ -39,26 +62,15 @@ const EventList = observer((props: Props) => {
     const userId = userStore.current?.id;
 
     return (
-        <div className={clsx(styles.container)}>
-            <div className={clsx(styles.fullscreenButton)} onClick={() => {
-                if (containerRef.current) {
-                    try {
-                        if (isFullscreen) {
-                            document.exitFullscreen();
-                        } else {
-                            const fn = containerRef.current.requestFullscreen;
-                            if (fn) {
-                                fn.call(containerRef.current);
-                            }
-                        }
-                    } catch (e) {
-                        console.error(e);
-                    }
-                }
-            }}>
-                <Icon path={isFullscreen ? mdiFullscreenExit : mdiFullscreen} size={1} />
-            </div>
-            <div className={clsx(styles.scrollContainer)} ref={containerRef}>
+        <div className={clsx(styles.container)} ref={containerRef}>
+            {viewStore.fullscreen && (
+                <div className={clsx(styles.navbar)}>
+                    <div className={clsx(styles.button)}>
+                        <FullScreenButton />
+                    </div>
+                </div>
+            )}
+            <div className={clsx(styles.scrollContainer)}>
                 <table className={clsx(styles.table)}>
                     <thead>
                         <tr>

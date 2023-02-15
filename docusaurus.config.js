@@ -107,6 +107,10 @@ const config = {
           {to: '/gantt', label: 'GANTT', position: 'left'},
           {to: '/my-events', label: 'Meine', position: 'left'},
           {
+            type: 'custom-fullScreenButton',
+            position: 'right'
+          },
+          {
             type: 'custom-userBadge',
             position: 'right'
           },

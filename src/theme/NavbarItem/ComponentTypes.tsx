@@ -10,6 +10,7 @@ import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdown
 
 import type {ComponentTypesObject} from '@theme/NavbarItem/ComponentTypes';
 import {default as UserBadge} from '@site/src/components/User/Badge';
+import FullScreenButton from '@site/src/components/shared/FullScreenButton';
 
 const ComponentTypes: ComponentTypesObject = {
   default: DefaultNavbarItem,
@@ -21,6 +22,7 @@ const ComponentTypes: ComponentTypesObject = {
   docSidebar: DocSidebarNavbarItem,
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
+  ['custom-fullScreenButton']: FullScreenButton,
   ['custom-userBadge']: UserBadge
 };
 

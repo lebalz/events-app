@@ -1,27 +1,18 @@
 .container {
-    position:relative;
-    .fullscreenButton {
-        position: absolute;
-        line-height: 1;
-        top: 0px;
-        right: 0px;
-        margin: 0;
-        margin-left: 0.5rem;
-        margin-bottom: 0.5rem;
-        z-index: calc(1 + var(--ifm-z-index-dropdown));
-        cursor: pointer;
-        color: var(--ifm-color-primary);
-        background: var(--ifm-color-content-inverse);
-        border: 1px solid var(--ifm-color-primary);
-        border-radius: var(--ifm-badge-border-radius);
-        &:hover {
-            background: var(--ifm-color-primary);
-            color: var(--ifm-color-content-inverse);
-        }
+    position: relative;
+    background: var(--ifm-color-content-inverse);
+    .navbar {
+        height: 1em;
+        .button {
+            z-index: calc(var(--ifm-z-index-dropdown) + 1);
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        } 
+
     }
     .scrollContainer {
         height: max-content;
-        background: var(--ifm-color-content-inverse);
         max-width: 100%;
         max-height: 90vh;
         overflow-x: auto;
@@ -29,7 +20,7 @@
         overflow-anchor: none;
         margin: 0.5rem;
         position: relative;
-        
+
         .table {
             display: table;
             overflow-x: unset;

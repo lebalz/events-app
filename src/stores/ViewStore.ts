@@ -27,12 +27,28 @@ class EventTable {
 
 export class ViewStore implements iStore<undefined> {
     private readonly root: RootStore;
+
+    @observable
+    showFullscreenButton = false;
+    @observable
+    fullscreen = false;
+
     @observable.ref
     eventTable: EventTable;
     constructor(store: RootStore) {
         this.root = store;
         this.eventTable = new EventTable(this.root.eventStore);
         makeObservable(this);
+    }
+
+    @action
+    setShowFullscreenButton(show: boolean): void {
+        this.showFullscreenButton = show;
+    }
+
+    @action
+    setFullscreen(fullscreen: boolean): void {
+        this.fullscreen = fullscreen;
     }
 
     @action
