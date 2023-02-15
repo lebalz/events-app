@@ -16,15 +16,15 @@ export interface UntisTeacher {
 }
 
 export interface UntisTeacherComplete extends UntisTeacher {
-    lessons: UntisLesson[]
-    classes: UntisClass[]
+    lessons: UntisLessonWithTeacher[]
+    classes: UntisClassWithTeacher[]
 }
 
 /**
  * Model UntisLesson
  * 
  */
-export type UntisLesson = {
+export interface UntisLesson {
     id: number
     room: string
     subject: string
@@ -35,15 +35,26 @@ export type UntisLesson = {
     endDHHMM: number
 }
 
+export interface UntisLessonWithTeacher extends UntisLesson {
+    teachers: { id: number }[]
+    classes: { id: number }[]
+}
+
+
+
 /**
  * Model UntisClass
  * 
  */
-export type UntisClass = {
+export interface UntisClass {
     id: number
     name: string
     sf: string
     department: Departments
+}
+export interface UntisClassWithTeacher extends UntisClass {
+    teachers: { id: number }[]
+    lessons: { id: number }[]
 }
 
 export function teachers(cancelToken: CancelTokenSource): AxiosPromise<UntisTeacher[]> {

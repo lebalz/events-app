@@ -8,7 +8,7 @@ import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
 import Icon from '@mdi/react';
-import { mdiAccount, mdiAccountBadge, mdiAccountCircle, mdiAccountCircleOutline, mdiCalendarBlankMultiple, mdiLink, mdiLinkOff } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool } from '@mdi/js';
 import UntisLinker from '../components/User/UntisLinker';
 
 
@@ -34,6 +34,19 @@ const User = observer(() => {
         return (
             <Redirect to={'/login'} />
         );
+    }
+    const classes: string[] = [];
+    if (current?.untisTeacher) {
+        userStore.current.untisTeacher.lessons.forEach(l => {
+            const k = l.classes.reduce((curr, k) => {
+                if (curr.length === 0) {
+                    return k.name;
+                } else {
+                    return curr + k.letter;
+                }
+            }, '');
+            classes.push(k);
+        });
     }
     return (
         <Layout>
@@ -76,6 +89,45 @@ const User = observer(() => {
                                         {userStore.currentUsersEvents.length}
                                     </div>
                                 </div>
+                                {
+                                    current.untisTeacher && (
+                                        <>
+                                        <div className={clsx('row')}>
+                                            <div className={clsx('col', 'col--3', styles.label)}>
+                                                <span>Schulen</span>
+                                            </div>
+                                            <div className={clsx('col', 'col--1', styles.icon)}>
+                                                <Icon path={mdiOfficeBuilding} size={1} />
+                                            </div>
+                                            <div className={clsx('col', 'col--6', styles.value)}>
+                                                {[...new Set(current.untisTeacher.departments)].join(', ')}
+                                            </div>
+                                        </div>
+                                        <div className={clsx('row')}>
+                                            <div className={clsx('col', 'col--3', styles.label)}>
+                                                <span>Klassen</span>
+                                            </div>
+                                            <div className={clsx('col', 'col--1', styles.icon)}>
+                                                <Icon path={mdiAccountGroup} size={1} />
+                                            </div>
+                                            <div className={clsx('col', 'col--6', styles.value)}>
+                                                {[...new Set(classes)].join(', ')}
+                                            </div>
+                                        </div>
+                                        <div className={clsx('row')}>
+                                            <div className={clsx('col', 'col--3', styles.label)}>
+                                                <span>Fächer</span>
+                                            </div>
+                                            <div className={clsx('col', 'col--1', styles.icon)}>
+                                                <Icon path={mdiSchool} size={1} />
+                                            </div>
+                                            <div className={clsx('col', 'col--6', styles.value)}>
+                                                {[...new Set(current.untisTeacher.lessons.map(l => l.subject))].join(', ')}
+                                            </div>
+                                        </div>
+                                        </>
+                                    )
+                                }
                             </div>
                         )
                     }

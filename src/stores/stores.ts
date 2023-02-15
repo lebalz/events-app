@@ -27,11 +27,11 @@ export class RootStore {
     makeObservable(this);
     this.sessionStore = new SessionStore(this);
 
-    this.untisStore = new UntisStore(this);
-    this.stores.push(this.untisStore);
-
     this.userStore = new UserStore(this);
     this.stores.push(this.userStore);
+
+    this.untisStore = new UntisStore(this);
+    this.stores.push(this.untisStore);
 
     this.eventStore = new EventStore(this);
     this.stores.push(this.eventStore);

@@ -11,6 +11,7 @@ import Icon from '@mdi/react';
 import { mdiFullscreen, mdiFullscreenExit } from '@mdi/js';
 import { reaction } from 'mobx';
 import FullScreenButton from '../shared/FullScreenButton';
+import { department2school, SCHOOL, school2departments } from '@site/src/stores/ViewStore';
 
 interface Props {
     events: SchoolEvent[];
@@ -90,16 +91,20 @@ const EventList = observer((props: Props) => {
                                 </div>
                                 {
                                     <ToggleFilter
-                                        values={Object.values(Departments).map((key) => ({
+                                        values={['GYM', 'FMS', 'WMS'].map((key) => ({
                                             value: key,
-                                            active: viewStore.eventTable.departments.has(key),
+                                            active: viewStore.eventTable.departments.has(school2departments(key as SCHOOL)[0]),
                                             color: `var(--${key.toLowerCase()})`
                                         }))}
                                         onChange={(value) => {
-                                            if (viewStore.eventTable.departments.has(value)) {
-                                                viewStore.eventTable.departments.delete(value);
+                                            if (viewStore.eventTable.departments.has(school2departments(value as SCHOOL)[0])) {
+                                                school2departments(value as SCHOOL).forEach((dep) => {
+                                                    viewStore.eventTable.departments.delete(dep);
+                                                });
                                             } else {
-                                                viewStore.eventTable.departments.add(value);
+                                                school2departments(value as SCHOOL).forEach((dep) => {
+                                                    viewStore.eventTable.departments.add(dep);
+                                                });
                                             }
                                         }}
                                     />

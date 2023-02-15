@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, reaction } from 'mobx';
 import { teachers as fetchTeachers, teacher as fetchTeacher, UntisTeacher, sync as syncUntis } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
@@ -20,6 +20,15 @@ export class UntisStore implements iStore<UntisTeacher[]> {
     constructor(root: RootStore) {
         this.root = root;
         makeObservable(this);
+        reaction(
+            () => this.root.userStore.current?.untisId,
+            (id) => {
+                console.log('untisId changed', id);
+                if (id) {
+                    this.loadUntisTeacher(id);
+                }
+            }
+        )
     }
 
     findTeacher = computedFn(
@@ -37,17 +46,35 @@ export class UntisStore implements iStore<UntisTeacher[]> {
             if (!id) {
                 return;
             }
-            return this.lessons.find((l) => l.id === id);
+            return this.lessons.find((l) => id === l.id);
+        },
+        { keepAlive: true }
+    )
+    findLessonsByTeacher = computedFn(
+        function (this: UntisStore, teacherId?: number): Lesson[] {
+            if (!teacherId) {
+                return;
+            }
+            return this.lessons.filter((l) => l.teacherIds.includes(teacherId));
         },
         { keepAlive: true }
     )
 
+    findClassesByTeacher = computedFn(
+        function (this: UntisStore, teacherId?: number): Klass[] {
+            if (!teacherId) {
+                return;
+            }
+            return this.classes.filter((kl) => kl.teacherIds.includes(teacherId));
+        },
+        { keepAlive: true }
+    )
     findClass = computedFn(
         function (this: UntisStore, id?: number): Klass | undefined {
             if (!id) {
                 return;
             }
-            return this.classes.find((kl) => kl.id === id);
+            return this.classes.find((kl) => id === kl.id);
         },
         { keepAlive: true }
     )
@@ -69,26 +96,33 @@ export class UntisStore implements iStore<UntisTeacher[]> {
         return fetchTeachers(this.cancelToken)
             .then(
                 action(async ({ data }) => {
+                    console.log(data)
                     this.teachers.replace(data.map((t) => new Teacher(t, this)));
                     if (this.root.userStore.current?.untisId) {
-                        await fetchTeacher(this.root.userStore.current?.untisId, this.cancelToken).then(({ data }) => {
-                            const classes = this.classes.slice();
-                            const lessons = this.lessons.slice();
-                            data.classes.forEach((c) => {
-                                const klass = new Klass(c, this);
-                                replaceOrAdd(classes, klass, (a, b) => a.id === b.id);
-                            });
-                            data.lessons.forEach((l) => {
-                                const lesson = new Lesson(l, this);
-                                replaceOrAdd(lessons, lesson, (a, b) => a.id === b.id);
-                            });
-                            this.classes.replace(classes);
-                            this.lessons.replace(lessons);
-                        });
+                        await this.loadUntisTeacher(this.root.userStore.current.untisId);
                     }
                     return data;
                 })
             )
+    }
+
+    @action
+    loadUntisTeacher(id: number) {
+        return fetchTeacher(this.root.userStore.current?.untisId, this.cancelToken).then(action(({ data }) => {
+            console.log(data)
+            const classes = this.classes.slice();
+            const lessons = this.lessons.slice();
+            data.classes.forEach((c) => {
+                const klass = new Klass(c, this);
+                replaceOrAdd(classes, klass, (a, b) => a.id === b.id);
+            });
+            data.lessons.forEach((l) => {
+                const lesson = new Lesson(l, this);
+                replaceOrAdd(lessons, lesson, (a, b) => a.id === b.id);
+            });
+            this.classes.replace(classes);
+            this.lessons.replace(lessons);
+        }));
     }
 
     @action

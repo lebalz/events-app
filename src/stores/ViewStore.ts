@@ -4,6 +4,34 @@ import iStore from './iStore';
 import { EventStore } from './EventStore';
 import { Departments } from '../api/event';
 
+export type SCHOOL = 'GYM' | 'FMS' | 'WMS';
+
+export const department2school = (department: Departments): SCHOOL => {
+    switch (department) {
+        case Departments.GBSL:
+        case Departments.GBJB:
+            return 'GYM';
+        case Departments.FMS:
+        case Departments.FMPaed:
+        case Departments.ECG:
+        case Departments.MSOP:
+            return 'FMS';
+        case Departments.WMS:
+        case Departments.ESC:
+            return 'WMS';
+    }
+}
+export const school2departments = (school: SCHOOL): Departments[] => {
+    switch (school) {
+        case 'GYM':
+            return [Departments.GBSL, Departments.GBJB];
+        case 'FMS':
+            return [Departments.FMS, Departments.FMPaed, Departments.ECG, Departments.MSOP]
+        case 'WMS':
+            return [Departments.WMS, Departments.ESC]
+    }
+}
+
 class EventTable {
     private readonly store: EventStore;
 

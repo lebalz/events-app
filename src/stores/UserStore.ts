@@ -31,10 +31,6 @@ export class UserStore implements iStore<User[]> {
         return this.users.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username.toLowerCase());
     }
 
-    findUntisUser(untisId: number) {
-        return this.root.untisStore.findTeacher(untisId);
-    }
-
     find = computedFn(
         function (this: UserStore, id?: string): User | undefined {
             if (!id) {
@@ -59,7 +55,7 @@ export class UserStore implements iStore<User[]> {
             fetchUsers(this.cancelToken)
                 .then(
                     action(({ data }) => {
-                        const users = data.map((u) => new User(u, this));
+                        const users = data.map((u) => new User(u, this, this.root.untisStore));
                         this.users.replace(users);
                         this.initialized = true;
                     })
@@ -77,7 +73,7 @@ export class UserStore implements iStore<User[]> {
                     if (!data) {
                         return;
                     }
-                    const users = data.map((u) => new User(u, this));
+                    const users = data.map((u) => new User(u, this, this.root.untisStore));
                     this.users.replace(users);
                     this.initialized = true;
                     return this.users;
@@ -97,7 +93,7 @@ export class UserStore implements iStore<User[]> {
     loadUser(id: string) {
         const [ct] = createCancelToken();
         return findUser(id, ct).then(action(({ data }) => {
-            const user = new User(data, this);
+            const user = new User(data, this, this.root.untisStore);
             const users = this.users.slice();
             const idx = users.findIndex((e) => e.id === user.id);
             if (idx !== -1) {
