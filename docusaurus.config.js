@@ -100,6 +100,7 @@ const config = {
           alt: 'My Site Logo',
           src: 'img/logo.svg',
         },
+        hideOnScroll: true,
         items: [
           {to: '/calendar', label: 'Kalender', position: 'left'},
           {to: '/table', label: 'Tabelle', position: 'left'},
