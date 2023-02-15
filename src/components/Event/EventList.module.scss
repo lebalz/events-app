@@ -1,12 +1,29 @@
 .container {
-    // max-height: max-content;
     height: max-content;
+    background: var(--ifm-color-content-inverse);
     max-width: 100%;
+    max-height: 90vh;
     overflow-x: auto;
     overflow-y: auto;
     overflow-anchor: none;
     margin: 0.5rem;
     position: relative;
+    .fullscreenButton {
+        position: absolute;
+        line-height: 1;
+        top: 0;
+        right: 0;
+        z-index: calc(1 + var(--ifm-z-index-overlay));
+        margin: 0.5rem;
+        cursor: pointer;
+        color: var(--ifm-color-primary);
+        border: 1px solid var(--ifm-color-primary);
+        border-radius: var(--ifm-badge-border-radius);
+        &:hover {
+            background: var(--ifm-color-primary);
+            color: var(--ifm-color-content-inverse);
+        }
+    }
     .table {
         display: table;
         overflow-x: unset;
@@ -17,8 +34,9 @@
             position: sticky;
             inset-block-start: 0;
             top: 0;
+            z-index: var(--ifm-z-index-overlay);
             th {
-                background: var(--ifm-hero-background-color);
+                background: var(--ifm-color-content-inverse);
                 padding: 0;
                 min-width: 2.5rem;
             }

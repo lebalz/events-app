@@ -12,7 +12,6 @@ const Table = observer(() => {
     return (
         <Layout>
             <div>
-                <Event />
                 <EventList events={viewStore.eventTable.events} />
             </div>
         </Layout>
