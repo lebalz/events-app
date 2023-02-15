@@ -1,22 +1,17 @@
 .container {
-    height: max-content;
-    background: var(--ifm-color-content-inverse);
-    max-width: 100%;
-    max-height: 90vh;
-    overflow-x: auto;
-    overflow-y: auto;
-    overflow-anchor: none;
-    margin: 0.5rem;
-    position: relative;
+    position:relative;
     .fullscreenButton {
         position: absolute;
         line-height: 1;
-        top: 0;
-        right: 0;
-        z-index: calc(1 + var(--ifm-z-index-overlay));
-        margin: 0.5rem;
+        top: 0px;
+        right: 0px;
+        margin: 0;
+        margin-left: 0.5rem;
+        margin-bottom: 0.5rem;
+        z-index: calc(1 + var(--ifm-z-index-dropdown));
         cursor: pointer;
         color: var(--ifm-color-primary);
+        background: var(--ifm-color-content-inverse);
         border: 1px solid var(--ifm-color-primary);
         border-radius: var(--ifm-badge-border-radius);
         &:hover {
@@ -24,25 +19,37 @@
             color: var(--ifm-color-content-inverse);
         }
     }
-    .table {
-        display: table;
-        overflow-x: unset;
-        overflow-y: unset;
-        --ifm-table-cell-padding: 0.2rem;
-        --ifm-table-head-background: var(--ifm-hero-background-color);
-        thead {
-            position: sticky;
-            inset-block-start: 0;
-            top: 0;
-            z-index: var(--ifm-z-index-overlay);
-            th {
-                background: var(--ifm-color-content-inverse);
-                padding: 0;
-                min-width: 2.5rem;
+    .scrollContainer {
+        height: max-content;
+        background: var(--ifm-color-content-inverse);
+        max-width: 100%;
+        max-height: 90vh;
+        overflow-x: auto;
+        overflow-y: auto;
+        overflow-anchor: none;
+        margin: 0.5rem;
+        position: relative;
+        
+        .table {
+            display: table;
+            overflow-x: unset;
+            overflow-y: unset;
+            --ifm-table-cell-padding: 0.2rem;
+            --ifm-table-head-background: var(--ifm-hero-background-color);
+            thead {
+                position: sticky;
+                inset-block-start: 0;
+                top: 0;
+                z-index: var(--ifm-z-index-dropdown);
+                th {
+                    background: var(--ifm-color-content-inverse);
+                    padding: 0;
+                    min-width: 2.5rem;
+                }
             }
-        }
-        tbody {
-            position: relative;
+            tbody {
+                position: relative;
+            }
         }
     }
 }

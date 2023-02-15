@@ -39,64 +39,65 @@ const EventList = observer((props: Props) => {
     const userId = userStore.current?.id;
 
     return (
-        <div className={clsx(styles.container)} ref={containerRef}>
-                
-            <table className={clsx(styles.table)}>
-                <thead>
-                    <div className={clsx(styles.fullscreenButton)} onClick={() => {
-                        if (containerRef.current) {
-                            try {
-                                if (isFullscreen) {
-                                    document.exitFullscreen();
-                                } else {
-                                    const fn = containerRef.current.requestFullscreen;
-                                    if (fn) {
-                                        fn.call(containerRef.current);
-                                    }
-                                }
-                            } catch (e) {
-                                console.error(e);
+        <div className={clsx(styles.container)}>
+            <div className={clsx(styles.fullscreenButton)} onClick={() => {
+                if (containerRef.current) {
+                    try {
+                        if (isFullscreen) {
+                            document.exitFullscreen();
+                        } else {
+                            const fn = containerRef.current.requestFullscreen;
+                            if (fn) {
+                                fn.call(containerRef.current);
                             }
                         }
-                    }}>
-                        <Icon path={isFullscreen ? mdiFullscreenExit : mdiFullscreen} size={1} />
-                    </div>
-                    <tr>
-                        <th>KW</th>
-                        <th>Wochentag</th>
-                        <th>Stichwort</th>
-                        <th>Start</th>
-                        <th>Ende</th>
-                        <th>Ort</th>
-                        <th>
-                            <div>
-                                Schulen
-                            </div>
-                            {
-                                <ToggleFilter
-                                    values={Object.values(Departements).map((key) => ({
-                                        value: key,
-                                        active: viewStore.eventTable.departments.has(key),
-                                        color: `var(--${key.toLowerCase()})`
-                                    }))}
-                                    onChange={(value) => {
-                                        if (viewStore.eventTable.departments.has(value)) {
-                                            viewStore.eventTable.departments.delete(value);
-                                        } else {
-                                            viewStore.eventTable.departments.add(value);
-                                        }
-                                    }}
-                                />
-                            }
-                        </th>
-                        <th>Klassen</th>
-                        <th>Beschreibung</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.events.map((event) => (<EventRow key={event.id} event={event} onChange={onChange} locked={event.authorId !== userId} />))}
-                </tbody>
-            </table>
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
+            }}>
+                <Icon path={isFullscreen ? mdiFullscreenExit : mdiFullscreen} size={1} />
+            </div>
+            <div className={clsx(styles.scrollContainer)} ref={containerRef}>
+                <table className={clsx(styles.table)}>
+                    <thead>
+                        <tr>
+                            <th>KW</th>
+                            <th>Wochentag</th>
+                            <th>Stichwort</th>
+                            <th>Start</th>
+                            <th>Ende</th>
+                            <th>Ort</th>
+                            <th>
+                                <div>
+                                    Schulen
+                                </div>
+                                {
+                                    <ToggleFilter
+                                        values={Object.values(Departements).map((key) => ({
+                                            value: key,
+                                            active: viewStore.eventTable.departments.has(key),
+                                            color: `var(--${key.toLowerCase()})`
+                                        }))}
+                                        onChange={(value) => {
+                                            if (viewStore.eventTable.departments.has(value)) {
+                                                viewStore.eventTable.departments.delete(value);
+                                            } else {
+                                                viewStore.eventTable.departments.add(value);
+                                            }
+                                        }}
+                                    />
+                                }
+                            </th>
+                            <th>Klassen</th>
+                            <th>Beschreibung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {props.events.map((event) => (<EventRow key={event.id} event={event} onChange={onChange} locked={event.authorId !== userId} />))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 });
