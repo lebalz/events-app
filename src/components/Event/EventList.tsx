@@ -14,6 +14,7 @@ import FullScreenButton from '../shared/FullScreenButton';
 
 interface Props {
     events: SchoolEvent[];
+    showFullscreenButton?: boolean;
 }
 
 const EventList = observer((props: Props) => {
@@ -23,8 +24,11 @@ const EventList = observer((props: Props) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     
     React.useEffect(() => {
-        viewStore.setShowFullscreenButton(true);
-        return () => viewStore.setShowFullscreenButton(false);
+        const current = viewStore.fullscreen;
+        if (props.showFullscreenButton) {
+            viewStore.setShowFullscreenButton(true);
+        }
+        return () => viewStore.setShowFullscreenButton(current);
     }, []);
 
     React.useEffect(

@@ -12,7 +12,7 @@ const Table = observer(() => {
     return (
         <Layout>
             <div>
-                <EventList events={viewStore.eventTable.events} />
+                <EventList events={viewStore.eventTable.events} showFullscreenButton />
             </div>
         </Layout>
     );
