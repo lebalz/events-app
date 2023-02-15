@@ -9,11 +9,16 @@ export enum EventState {
     Deleted = 'DELETED',
 }
 
-export enum Departements {
-    GYM = 'GYM',
+export enum Departments {
+    GBSL = 'GBSL',
+    GBJB = 'GBJB',
     FMS = 'FMS',
-    WMS = 'WMS'
-}
+    FMPaed = 'FMPaed',
+    ECG = 'ECG',
+    WMS = 'WMS',
+    ESC = 'ESC',
+    MSOP = 'MSOP'
+  };
 
 export interface Event {
     id: string
@@ -24,7 +29,7 @@ export interface Event {
     location: string
     description: string
     descriptionLong: string
-    departements: Departements[]
+    departments: Departments[]
     classes: string[]
     state: EventState
     jobId: string | null

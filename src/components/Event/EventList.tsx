@@ -1,4 +1,4 @@
-import { Departements } from '@site/src/api/event';
+import { Departments } from '@site/src/api/event';
 import SchoolEvent from '@site/src/models/SchoolEvent';
 import { useStore } from '@site/src/stores/hooks';
 import clsx from 'clsx';
@@ -90,7 +90,7 @@ const EventList = observer((props: Props) => {
                                 </div>
                                 {
                                     <ToggleFilter
-                                        values={Object.values(Departements).map((key) => ({
+                                        values={Object.values(Departments).map((key) => ({
                                             value: key,
                                             active: viewStore.eventTable.departments.has(key),
                                             color: `var(--${key.toLowerCase()})`

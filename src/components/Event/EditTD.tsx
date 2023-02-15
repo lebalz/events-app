@@ -50,7 +50,7 @@ const EditTD = observer(React.forwardRef((props: RowProps, ref?: React.RefObject
             </td>
             <td>{event.location}</td>
             <td>
-                {event.departements.map((c, idx) => (
+                {event.departments.map((c, idx) => (
                     <span
                         key={idx}
                         className={clsx(

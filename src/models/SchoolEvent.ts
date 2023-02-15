@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import moment, { Moment } from 'moment';
-import { Departements, Event as EventProps, EventState } from '../api/event';
+import { Departments, Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 
 const formatTime = (date: Date) => {
@@ -48,7 +48,7 @@ export default class SchoolEvent {
     updatedAt: Date;
     readonly state: EventState;
 
-    departements = observable<Departements>([]);
+    departments = observable<Departments>([]);
     classes = observable<string>([]);
 
     @observable
@@ -78,7 +78,7 @@ export default class SchoolEvent {
         this.jobId = props.jobId;
         this.state = props.state;
         this.authorId = props.authorId;
-        this.departements.replace(props.departements);
+        this.departments.replace(props.departments);
         this.classes.replace(props.classes);
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
@@ -225,7 +225,7 @@ export default class SchoolEvent {
             jobId: this.jobId,
             state: this.state,
             authorId: this.authorId,
-            departements: this.departements.slice(),
+            departments: this.departments.slice(),
             classes: this.classes.slice(),
             description: this.description,
             descriptionLong: this.descriptionLong,
@@ -245,8 +245,8 @@ export default class SchoolEvent {
 
     @action
     update(props: Partial<EventProps>) {
-        if (props.departements) {
-            this.departements.replace(props.departements);
+        if (props.departments) {
+            this.departments.replace(props.departments);
         }
         if (props.classes) {
             this.classes.replace(props.classes);

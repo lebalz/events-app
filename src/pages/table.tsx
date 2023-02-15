@@ -8,7 +8,6 @@ import EventList from '../components/Event/EventList';
 
 const Table = observer(() => {
     const viewStore = useStore('viewStore');
-    const userStore = useStore('userStore');
     return (
         <Layout>
             <div>

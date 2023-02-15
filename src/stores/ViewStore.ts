@@ -2,12 +2,12 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { EventStore } from './EventStore';
-import { Departements } from '../api/event';
+import { Departments } from '../api/event';
 
 class EventTable {
     private readonly store: EventStore;
 
-    departments = observable.set<Departements>();
+    departments = observable.set<Departments>();
 
     constructor(store: EventStore) {
         this.store = store;
@@ -20,7 +20,7 @@ class EventTable {
             if (this.departments.size === 0) {
                 return true;
             }
-            return event.departements.some((d) => this.departments.has(d));
+            return event.departments.some((d) => this.departments.has(d));
         });
     }
 }

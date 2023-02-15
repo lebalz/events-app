@@ -19,7 +19,7 @@ const SimpleTD = observer(React.forwardRef((props: RowProps, ref?: React.RefObje
             <td>{`${event.startDate} ${event.startTime}`}</td>
             <td>{`${event.endDate} ${event.endTime}`}</td>
             <td>{event.location}</td>
-            <td>{event.departements.map((c, idx) => (
+            <td>{event.departments.map((c, idx) => (
                 <span
                     key={idx}
                     className={clsx(

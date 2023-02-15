@@ -18,7 +18,7 @@ const Table = observer(() => {
         <Layout>
             <div>
                 <Event />
-                <EventList events={eventStore.byUser(userId).filter(e => !e.jobId)} />
+                <EventList events={eventStore.byUser(userId).filter(e => !e.jobId)} showFullscreenButton={false} />
                 {jobStore.jobs.map((job, idx) => {
                     return (
                         <Details key={idx} summary={
@@ -36,7 +36,7 @@ const Table = observer(() => {
                                 }>
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <EventList events={job.events} />
+                                <EventList events={job.events} showFullscreenButton={false} />
                             </div>
                         </Details>
                     )
