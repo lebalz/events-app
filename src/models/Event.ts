@@ -1,6 +1,7 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import moment, { Moment } from 'moment';
-import { Departments, Event as EventProps, EventState } from '../api/event';
+import { Department } from '../api/department';
+import { Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 
 const formatTime = (date: Date) => {
@@ -38,7 +39,7 @@ const getKW = (date: Date) => {
     return Math.ceil((date.getTime() - year.getTime()) / DAY_2_MS / 7);
 }
 
-export default class SchoolEvent {
+export default class Event {
     private readonly store: EventStore;
     readonly id: string;
     readonly authorId: string;
@@ -48,7 +49,7 @@ export default class SchoolEvent {
     updatedAt: Date;
     readonly state: EventState;
 
-    departments = observable<Departments>([]);
+    departmentIds = observable<string>([]);
     classes = observable<string>([]);
 
     @observable
@@ -78,7 +79,7 @@ export default class SchoolEvent {
         this.jobId = props.jobId;
         this.state = props.state;
         this.authorId = props.authorId;
-        this.departments.replace(props.departments);
+        this.departmentIds.replace(props.departmentIds);
         this.classes.replace(props.classes);
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
@@ -120,7 +121,7 @@ export default class SchoolEvent {
         return new Date(e.getTime() + e.getTimezoneOffset() * MINUTE_2_MS)
     }
 
-    compare(other: SchoolEvent) {
+    compare(other: Event) {
         if (this.start.getTime() === other.start.getTime()) {
             if (this.end.getTime() === other.end.getTime()) {
                 return this.updatedAt.getTime() - other.updatedAt.getTime();
@@ -149,6 +150,16 @@ export default class SchoolEvent {
     setEndDate(date: Date) {
         const d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), this.start.getHours(), this.start.getMinutes(), this.start.getSeconds());
         this._end = d.toISOString();
+    }
+
+    @computed
+    get deparments() {
+        return this.store.getDepartments(this.departmentIds);
+    }
+
+    @computed
+    get departmentNames() {
+        return this.deparments.map(d => d.name);
     }
 
     @action
@@ -225,7 +236,7 @@ export default class SchoolEvent {
             jobId: this.jobId,
             state: this.state,
             authorId: this.authorId,
-            departments: this.departments.slice(),
+            departmentIds: this.departmentIds.slice(),
             classes: this.classes.slice(),
             description: this.description,
             descriptionLong: this.descriptionLong,
@@ -245,8 +256,8 @@ export default class SchoolEvent {
 
     @action
     update(props: Partial<EventProps>) {
-        if (props.departments) {
-            this.departments.replace(props.departments);
+        if (props.departmentIds) {
+            this.departmentIds.replace(props.departmentIds);
         }
         if (props.classes) {
             this.classes.replace(props.classes);

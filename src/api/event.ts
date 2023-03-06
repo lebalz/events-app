@@ -8,19 +8,6 @@ export enum EventState {
     Published = 'PUBLISHED',
     Deleted = 'DELETED',
 }
-
-
-export enum Departments {
-    GBSL = 'GBSL',
-    GBJB = 'GBJB',
-    FMS = 'FMS',
-    FMPaed = 'FMPaed',
-    ECG = 'ECG',
-    WMS = 'WMS',
-    ESC = 'ESC',
-    MSOP = 'MSOP'
-}
-
 export interface Event {
     id: string
     authorId: string
@@ -30,7 +17,7 @@ export interface Event {
     location: string
     description: string
     descriptionLong: string
-    departments: Departments[]
+    departmentIds: string[]
     classes: string[]
     state: EventState
     jobId: string | null

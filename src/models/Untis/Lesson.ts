@@ -1,7 +1,7 @@
 import type { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
-import SchoolEvent from '../SchoolEvent';
+import Event from '../Event';
 import { getLastMonday } from './helpers';
 
 const MONDAY = Object.freeze(getLastMonday());

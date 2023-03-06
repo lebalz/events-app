@@ -60,6 +60,7 @@ export class JobStore implements iStore<Job[]> {
             const job = new Job(data, this);
             if (job.state === JobState.DONE) {
                 this.removeFromStore(id);
+                this.root.departmentStore.reload();
                 if (job.type === JobType.SYNC_UNTIS) {
                     this.root.eventStore.reload();
                 }

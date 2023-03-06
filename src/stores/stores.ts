@@ -10,6 +10,7 @@ import iStore from "./iStore";
 import { computedFn } from "mobx-utils";
 import { JobStore } from "./JobStore";
 import { ViewStore } from "./ViewStore";
+import { DepartmentStore } from "./DepartmentStore";
 
 export class RootStore {
   stores = observable<iStore<any>>([]);
@@ -22,6 +23,7 @@ export class RootStore {
   eventStore: EventStore;
   socketStore: SocketDataStore;
   jobStore: JobStore;
+  departmentStore: DepartmentStore;
   viewStore: ViewStore;
   constructor() {
     makeObservable(this);
@@ -42,6 +44,8 @@ export class RootStore {
     this.jobStore = new JobStore(this);
     this.stores.push(this.jobStore);
 
+    this.departmentStore = new DepartmentStore(this);
+    this.stores.push(this.departmentStore);
     this.viewStore = new ViewStore(this);
     this.stores.push(this.viewStore);
 

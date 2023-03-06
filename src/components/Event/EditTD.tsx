@@ -1,4 +1,4 @@
-import SchoolEvent from '@site/src/models/SchoolEvent';
+import Event from '@site/src/models/Event';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -9,7 +9,7 @@ import styles from './EventRow.module.scss';
 import { action } from 'mobx';
 
 interface RowProps {
-    event: SchoolEvent;
+    event: Event;
     onChange: (event: any, eventId: string) => void;
     locked: boolean;
 }
@@ -50,7 +50,7 @@ const EditTD = observer(React.forwardRef((props: RowProps, ref?: React.RefObject
             </td>
             <td>{event.location}</td>
             <td>
-                {event.departments.map((c, idx) => (
+                {event.departmentNames.map((c, idx) => (
                     <span
                         key={idx}
                         className={clsx(

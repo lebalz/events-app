@@ -32,10 +32,10 @@ const Calendar = observer(() => {
         if (!e) {
             return {};
         }
-        if (e.departments.length === 1) {
+        if (e.departmentNames.length === 1) {
             return {
                 style: {
-                    backgroundColor: COLOR[e.departments[0]]
+                    backgroundColor: COLOR[e.departmentNames[0]]
                 }
             }
         }

@@ -1,0 +1,77 @@
+.datePicker {
+  width: max-content;
+}
+
+.gbsl {
+  --ifm-badge-background-color: var(--gym);
+  --ifm-badge-border-color: var(--gym-border);
+  --ifm-badge-color: var(--ifm-color-white);
+}
+.fms {
+  --ifm-badge-background-color: var(--fms);
+  --ifm-badge-border-color: var(--fms-border);
+  --ifm-badge-color: var(--ifm-color-white);
+}
+.wms {
+  --ifm-badge-background-color: var(--wms);
+  --ifm-badge-border-color: var(--wms-border);
+  --ifm-badge-color: var(--ifm-color-white);
+}
+
+// :global([data-theme='dark']) {
+//   tr.eventRow {
+//     --ifm-table-stripe-background: rgb(40, 40, 40);
+//   }
+// }
+tr.eventRow {
+  td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    // max-width: 18em;
+    &.kw {
+      text-align: end;
+    }
+    &.weekday {
+      &::after {
+        content: ".";
+      }
+    }
+    // see @ViewStore#EventTable for dynamic column widths
+    &.description {
+      max-width: 18em;
+    }
+    &.location {
+      max-width: 7em;
+    }
+    &.descriptionLong {
+      max-width: 30em;
+    }
+    // sticky columns start & time
+    &:nth-child(4),
+    &:nth-child(5) {
+      position: sticky;
+      left: 0;
+    }
+    &:nth-child(5) {
+      left: 5em;
+    }
+  }
+  &.expanded {
+    td {
+      // max-width: unset;
+      white-space: normal;
+    }
+  }
+}
+
+tr:nth-child(2n) {
+  td {
+    background: var(--ifm-color-emphasis-100);
+  }
+}
+tr:nth-child(2n - 1) {
+  td {
+    background: var(--ifm-color-emphasis-0);
+  }
+}

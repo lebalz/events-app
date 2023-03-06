@@ -1,7 +1,7 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { events as fetchEvents, create as apiCreate, find as findEvent, update as updateEvent, Event as EventProps, EventState } from '../api/event';
-import SchoolEvent, { HOUR_2_MS } from '../models/SchoolEvent';
+import Event, { HOUR_2_MS } from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import axios from 'axios';
@@ -9,11 +9,12 @@ import iStore from './iStore';
 import { v4 as uuidv4 } from 'uuid';
 import { createCancelToken } from '../api/base';
 import { IoEvent } from './IoEventTypes';
+import Department from '../models/Department';
 
 
-export class EventStore implements iStore<SchoolEvent[]> {
+export class EventStore implements iStore<Event[]> {
     private readonly root: RootStore;
-    events = observable<SchoolEvent>([]);
+    events = observable<Event>([]);
 
     cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
@@ -26,7 +27,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
         this.cancelToken = axios.CancelToken.source();
     }
 
-    canEdit(event: SchoolEvent) {
+    canEdit(event: Event) {
         return this.root.userStore.current?.id === event.authorId;
     }
 
@@ -42,7 +43,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
     }
 
     find = computedFn(
-        function (this: EventStore, id?: string): SchoolEvent | undefined {
+        function (this: EventStore, id?: string): Event | undefined {
             if (!id) {
                 return;
             }
@@ -52,7 +53,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
     );
 
     byUser = computedFn(
-        function (this: EventStore, userId?: string): SchoolEvent[] {
+        function (this: EventStore, userId?: string): Event[] {
             if (!userId) {
                 return [];
             }
@@ -62,7 +63,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
     );
 
     byJob = computedFn(
-        function (this: EventStore, jobId?: string): SchoolEvent[] {
+        function (this: EventStore, jobId?: string): Event[] {
             if (!jobId) {
                 return [];
             }
@@ -80,7 +81,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
             apiCreate({ start: s.toISOString(), end: s.toISOString(), id: id }, this.cancelToken)
                 .then(
                     action(({ data }) => {
-                        const event = new SchoolEvent(data, this);
+                        const event = new Event(data, this);
                         const events = this.events.slice();
                         const idx = events.findIndex((e) => e.id === event.id);
                         if (idx !== -1) {
@@ -107,7 +108,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
     loadEvent(id: string) {
         const [ct] = createCancelToken();
         return findEvent(id, ct).then(action(({ data }) => {
-            const event = new SchoolEvent(data, this);
+            const event = new Event(data, this);
             const events = this.events.slice();
             const idx = events.findIndex((e) => e.id === event.id);
             if (idx !== -1) {
@@ -132,7 +133,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
         return fetchEvents(this.cancelToken)
             .then(
                 action(({ data }) => {
-                    const events = data.map((u) => new SchoolEvent(u, this)).sort((a, b) => a.compare(b));
+                    const events = data.map((u) => new Event(u, this)).sort((a, b) => a.compare(b));
                     this.events.replace(events);
                     return this.events;
                 })
@@ -166,8 +167,12 @@ export class EventStore implements iStore<SchoolEvent[]> {
                 current.splice(idx, 1);
             }
         })
-        const newEvents = events.map((e) => new SchoolEvent(e, this));
+        const newEvents = events.map((e) => new Event(e, this));
         this.events.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
+    }
+
+    getDepartments(ids: string[]): Department[] {
+        return ids.map((id) => this.root.departmentStore.departments.find((d) => d.id === id)).filter((d) => !!d);
     }
 
     @computed
@@ -195,7 +200,7 @@ export class EventStore implements iStore<SchoolEvent[]> {
     }
 
     @action
-    removeEvents(events: SchoolEvent[]) {
+    removeEvents(events: Event[]) {
         if (!events?.length) {
             return;
         }

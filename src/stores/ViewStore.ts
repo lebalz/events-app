@@ -2,53 +2,78 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { EventStore } from './EventStore';
-import { Departments } from '../api/event';
+import Department from '../models/Department';
 
-export type SCHOOL = 'GYM' | 'FMS' | 'WMS';
+const MIN_TABLE_WIDTH = 1450;
+const MIN_COLUMN_WIDTH_EM = {
+    description: 18,
+    location: 7,
+    descriptionLong: 30
+};
 
-export const department2school = (department: Departments): SCHOOL => {
-    switch (department) {
-        case Departments.GBSL:
-        case Departments.GBJB:
-            return 'GYM';
-        case Departments.FMS:
-        case Departments.FMPaed:
-        case Departments.ECG:
-        case Departments.MSOP:
-            return 'FMS';
-        case Departments.WMS:
-        case Departments.ESC:
-            return 'WMS';
-    }
-}
-export const school2departments = (school: SCHOOL): Departments[] => {
-    switch (school) {
-        case 'GYM':
-            return [Departments.GBSL, Departments.GBJB];
-        case 'FMS':
-            return [Departments.FMS, Departments.FMPaed, Departments.ECG, Departments.MSOP]
-        case 'WMS':
-            return [Departments.WMS, Departments.ESC]
-    }
-}
-
+/**
+ * route: /table
+ */
 class EventTable {
     private readonly store: EventStore;
 
-    departments = observable.set<Departments>();
+    departmentIds = observable.set<number>();
+    @observable
+    clientWidth = 900;
+    @observable
+    baseFontSize = 16;
 
     constructor(store: EventStore) {
         this.store = store;
         makeObservable(this);
     }
 
+    @action
+    setClientWidth(width: number): void {
+        if (width !== this.clientWidth) {
+            this.clientWidth = width;
+            console.log('setClientWidth', width);
+        }
+    }
+
+    @action
+    setBaseFontSize(size: number): void {
+        if (size !== this.baseFontSize) {
+            this.baseFontSize = size;
+        }
+    }
+
+    maxWidth(colName: keyof typeof MIN_COLUMN_WIDTH_EM): string {
+        if (this.clientWidth < MIN_TABLE_WIDTH) {
+            return `${MIN_COLUMN_WIDTH_EM[colName]}em`;
+        }
+        const total = Object.values(MIN_COLUMN_WIDTH_EM).reduce((a, b) => a + b, 0) * this.baseFontSize;
+        const dt = this.clientWidth - MIN_TABLE_WIDTH;
+        const colBase = MIN_COLUMN_WIDTH_EM[colName] * this.baseFontSize;
+        const width = dt * (colBase / total) + colBase;
+        return `${width}px`;
+    }
+
+    @computed
+    get maxWidthDescription(): string {
+        return this.maxWidth('description');
+    }
+    @computed
+    get maxWidthDescriptionLong(): string {
+        return this.maxWidth('descriptionLong');
+    }
+    @computed
+    get maxWidthLocation(): string {
+        return this.maxWidth('location');
+    }
+
     @computed
     get events() {
         return this.store.publishedAndMine.filter((event) => {
-            if (this.departments.size === 0) {
+            if (this.departmentIds.size === 0) {
                 return true;
             }
-            return event.departments.some((d) => this.departments.has(d));
+            return event.departmentIds.some((d) => this.departmentIds.has(d));
         });
     }
 }

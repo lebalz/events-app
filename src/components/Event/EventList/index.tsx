@@ -1,20 +1,16 @@
-import { Departments } from '@site/src/api/event';
-import SchoolEvent from '@site/src/models/SchoolEvent';
+import Event from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import ToggleFilter from '../shared/ToggleFilter';
-import styles from './EventList.module.scss';
+import styles from './styles.module.scss';
 import EventRow from './EventRow';
 import Icon from '@mdi/react';
-import { mdiFullscreen, mdiFullscreenExit } from '@mdi/js';
 import { reaction } from 'mobx';
-import FullScreenButton from '../shared/FullScreenButton';
-import { department2school, SCHOOL, school2departments } from '@site/src/stores/ViewStore';
+import FullScreenButton from '../../shared/FullScreenButton';
 
 interface Props {
-    events: SchoolEvent[];
+    events: Event[];
     showFullscreenButton?: boolean;
 }
 
@@ -31,6 +27,24 @@ const EventList = observer((props: Props) => {
         }
         return () => viewStore.setShowFullscreenButton(current);
     }, []);
+
+    /**
+     * Handle Resize
+     */
+    React.useEffect(() => {
+        const onResize = () => {
+            if (containerRef.current){
+                viewStore.eventTable.setClientWidth(containerRef.current.clientWidth);
+                /* get the current font size in pixels */
+                const px = parseFloat(getComputedStyle(containerRef.current).fontSize);
+                viewStore.eventTable.setBaseFontSize(px);
+            }
+        }
+        if (containerRef.current){
+            window.addEventListener('resize', onResize);
+        }
+        return () => window.removeEventListener('resize', onResize);
+    }, [containerRef, viewStore]);
 
     React.useEffect(
         () =>
@@ -80,16 +94,18 @@ const EventList = observer((props: Props) => {
                     <thead>
                         <tr>
                             <th>KW</th>
-                            <th>Wochentag</th>
+                            <th>Tag</th>
                             <th>Stichwort</th>
                             <th>Start</th>
+                            <th>Zeit</th>
                             <th>Ende</th>
+                            <th>Zeit</th>
                             <th>Ort</th>
                             <th>
                                 <div>
                                     Schulen
                                 </div>
-                                {
+                                {/* {
                                     <ToggleFilter
                                         values={['GYM', 'FMS', 'WMS'].map((key) => ({
                                             value: key,
@@ -108,14 +124,14 @@ const EventList = observer((props: Props) => {
                                             }
                                         }}
                                     />
-                                }
+                                } */}
                             </th>
                             <th>Klassen</th>
                             <th>Beschreibung</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {props.events.map((event) => (<EventRow key={event.id} event={event} onChange={onChange} locked={event.authorId !== userId} />))}
+                        {props.events.map((event) => (<EventRow key={event.id} event={event} locked={event.authorId !== userId} />))}
                     </tbody>
                 </table>
             </div>
