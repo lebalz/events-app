@@ -7,10 +7,11 @@ import { EventStore } from "./EventStore";
 import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
 import iStore from "./iStore";
-import { computedFn } from "mobx-utils";
 import { JobStore } from "./JobStore";
 import { ViewStore } from "./ViewStore";
 import { DepartmentStore } from "./DepartmentStore";
+import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
+import { SemesterStore } from "./SemesterStore";
 
 export class RootStore {
   stores = observable<iStore<any>>([]);
@@ -24,6 +25,9 @@ export class RootStore {
   socketStore: SocketDataStore;
   jobStore: JobStore;
   departmentStore: DepartmentStore;
+  semesterStore: SemesterStore;
+  registrationPeriodStore: RegistrationPeriodStore;
+
   viewStore: ViewStore;
   constructor() {
     makeObservable(this);
@@ -46,8 +50,16 @@ export class RootStore {
 
     this.departmentStore = new DepartmentStore(this);
     this.stores.push(this.departmentStore);
+
+    this.semesterStore = new SemesterStore(this);
+    this.stores.push(this.semesterStore);
+
+    this.registrationPeriodStore = new RegistrationPeriodStore(this);
+    this.stores.push(this.registrationPeriodStore);
+
     this.viewStore = new ViewStore(this);
     this.stores.push(this.viewStore);
+
 
     runInAction(() => {
       this.initialized = true;
