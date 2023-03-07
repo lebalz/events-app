@@ -18,7 +18,7 @@ const MAX_COLUMN_WIDTH = 'calc(95vw - 8em)';
 class EventTable {
     private readonly store: EventStore;
 
-    departmentIds = observable.set<number>();
+    departmentIds = observable.set<string>();
     @observable
     clientWidth = 900;
     @observable
