@@ -33,7 +33,7 @@ const Example = observer(() => {
                             <span aria-hidden="true">&times;</span>
                         </button>
                         {job.type === JobType.SYNC_UNTIS && (
-                            `Sync Untis: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} ${StateSymbol[job.state]}}`
+                            `Sync Untis: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} ${StateSymbol[job.state]}`
                         )}
                         {job.type === JobType.IMPORT && (
                             `Import....: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}: ${StateSymbol[job.state]} "${job.filename}" -> ${job.events.length}`
