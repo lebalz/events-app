@@ -13,7 +13,7 @@ export type Job = {
     updatedAt: Date
 }
 
-type JobAndEvents = Job & {
+export type JobAndEvents = Job & {
     events: Event[]
 }
 

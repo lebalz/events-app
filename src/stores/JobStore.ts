@@ -4,7 +4,7 @@ import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { computedFn } from 'mobx-utils';
-import { jobs as fetchJobs, find as fetchJob, destroy as deleteJob, JobType, JobState } from '../api/job';
+import { JobAndEvents as JobAndEventsProps, Job as JobProps, jobs as fetchJobs, find as fetchJob, destroy as deleteJob, JobType, JobState } from '../api/job';
 import { importExcel as postExcel } from '../api/event';
 import { createCancelToken } from '../api/base';
 import Job from '../models/Job';
@@ -53,28 +53,36 @@ export class JobStore implements iStore<Job[]> {
             )
     }
 
+    
+    addJob(data: JobProps): Job
+    @action
+    addJob(data: JobAndEventsProps): Job {
+        const job = new Job(data, this);
+        if (job.state === JobState.DONE) {
+            if (this.removeFromStore(data.id)) {
+                this.root.departmentStore.reload();
+            }
+            if (job.type === JobType.SYNC_UNTIS) {
+                this.root.eventStore.reload();
+            }
+            if (data.events) {
+                this.root.eventStore.appendEvents(data.events);
+            }
+        } else {
+            const oldJob = this.findJob(data.id);
+            if (oldJob) {
+                this.jobs.remove(oldJob);
+            }
+        }
+        this.jobs.push(job);
+        return job;
+    }
+
     @action
     loadJob(id: string) {
         const [ct] = createCancelToken();
         return fetchJob(id, ct).then(action(({ data }) => {
-            const job = new Job(data, this);
-            if (job.state === JobState.DONE) {
-                this.removeFromStore(id);
-                this.root.departmentStore.reload();
-                if (job.type === JobType.SYNC_UNTIS) {
-                    this.root.eventStore.reload();
-                }
-                if (data.events) {
-                    this.root.eventStore.appendEvents(data.events);
-                }
-            } else {
-                const oldJob = this.findJob(id);
-                if (oldJob) {
-                    this.jobs.remove(oldJob);
-                }
-            }
-            this.jobs.push(job);
-            return job;
+            return this.addJob(data);
         }))
     }
 
@@ -94,6 +102,7 @@ export class JobStore implements iStore<Job[]> {
         const job = this.findJob(id);
         if (job) {
             this.jobs.remove(job);
+            return true;
         }
     }
 

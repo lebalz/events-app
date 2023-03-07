@@ -1,4 +1,3 @@
-import { Departments } from '@site/src/api/event';
 import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
@@ -7,7 +6,7 @@ export default class Klass {
     readonly id: number
     readonly name: string
     readonly sf: string
-    readonly department?: Departments
+    readonly departmentIds: string[]
     readonly teacherIds: number[]
     readonly lessonIds: number[]
     private readonly store: UntisStore;
@@ -16,7 +15,7 @@ export default class Klass {
         this.id = props.id;
         this.name = props.name;
         this.sf = props.sf;
-        this.department = props.department;
+        this.departmentIds = props.departmentIds;
         this.teacherIds = props.teachers.map(t => t.id);
         this.lessonIds = props.lessons.map(t => t.id);
 

@@ -1,6 +1,6 @@
 import api from './base';
 import { AxiosPromise, CancelTokenSource } from 'axios';
-import { Departments } from './event';
+import { Job } from './job';
 
 
 /**
@@ -13,11 +13,6 @@ export interface UntisTeacher {
     longName: string
     title: string
     active: boolean
-}
-
-export interface UntisTeacherComplete extends UntisTeacher {
-    lessons: UntisLessonWithTeacher[]
-    classes: UntisClassWithTeacher[]
 }
 
 /**
@@ -50,11 +45,16 @@ export interface UntisClass {
     id: number
     name: string
     sf: string
-    department: Departments
+    departmentIds: string[]
 }
 export interface UntisClassWithTeacher extends UntisClass {
     teachers: { id: number }[]
     lessons: { id: number }[]
+}
+
+export interface UntisTeacherComplete extends UntisTeacher {
+    lessons: UntisLessonWithTeacher[]
+    classes: UntisClassWithTeacher[]
 }
 
 export function teachers(cancelToken: CancelTokenSource): AxiosPromise<UntisTeacher[]> {
@@ -63,6 +63,6 @@ export function teachers(cancelToken: CancelTokenSource): AxiosPromise<UntisTeac
 export function teacher(untisId: number, cancelToken: CancelTokenSource): AxiosPromise<UntisTeacherComplete> {
     return api.get(`untis/teacher/${untisId}`, { cancelToken: cancelToken.token });
 }
-export function sync(cancelToken: CancelTokenSource): AxiosPromise<any> {
+export function sync(cancelToken: CancelTokenSource): AxiosPromise<Job> {
     return api.post('untis/sync', { cancelToken: cancelToken.token });
 }
