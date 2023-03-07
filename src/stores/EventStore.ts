@@ -12,7 +12,7 @@ import { IoEvent } from './IoEventTypes';
 import Department from '../models/Department';
 
 
-export class EventStore implements iStore<Event[]> {
+export class EventStore implements iStore<Event> {
     private readonly root: RootStore;
     events = observable<Event>([]);
 

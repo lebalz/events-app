@@ -7,7 +7,7 @@ import { computedFn } from 'mobx-utils';
 import {departments as fetchDepartments} from '../api/department';
 import Department from '../models/Department';
 
-export class DepartmentStore implements iStore<Department[]> {
+export class DepartmentStore implements iStore<Department> {
     private readonly root: RootStore;
     departments = observable<Department>([]);
     cancelToken = axios.CancelToken.source();

@@ -8,7 +8,7 @@ import {semesters as fetchSemesters} from '../api/semester';
 import Semester from '../models/Semester';
 import RegistrationPeriod from '../models/RegistrationPeriod';
 
-export class RegistrationPeriodStore implements iStore<RegistrationPeriod[]> {
+export class RegistrationPeriodStore implements iStore<RegistrationPeriod> {
     private readonly root: RootStore;
     periods = observable<RegistrationPeriod>([]);
     cancelToken = axios.CancelToken.source();

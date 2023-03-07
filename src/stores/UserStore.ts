@@ -8,7 +8,7 @@ import axios from 'axios';
 import iStore from './iStore';
 import { createCancelToken } from '../api/base';
 
-export class UserStore implements iStore<User[]> {
+export class UserStore implements iStore<User> {
     private readonly root: RootStore;
     @observable
     initialized = false;

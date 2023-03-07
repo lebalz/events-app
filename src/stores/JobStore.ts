@@ -9,7 +9,7 @@ import { importExcel as postExcel } from '../api/event';
 import { createCancelToken } from '../api/base';
 import Job from '../models/Job';
 
-export class JobStore implements iStore<Job[]> {
+export class JobStore implements iStore<Job> {
     private readonly root: RootStore;
     jobs = observable<Job>([]);
     cancelToken = axios.CancelToken.source();

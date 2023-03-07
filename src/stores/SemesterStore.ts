@@ -7,7 +7,7 @@ import { computedFn } from 'mobx-utils';
 import {semesters as fetchSemesters} from '../api/semester';
 import Semester from '../models/Semester';
 
-export class SemesterStore implements iStore<Semester[]> {
+export class SemesterStore implements iStore<Semester> {
     private readonly root: RootStore;
     semesters = observable<Semester>([]);
     cancelToken = axios.CancelToken.source();

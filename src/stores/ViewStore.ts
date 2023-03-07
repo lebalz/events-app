@@ -79,7 +79,7 @@ class EventTable {
     }
 }
 
-export class ViewStore implements iStore<undefined> {
+export class ViewStore {
     private readonly root: RootStore;
 
     @observable
@@ -103,19 +103,6 @@ export class ViewStore implements iStore<undefined> {
     @action
     setFullscreen(fullscreen: boolean): void {
         this.fullscreen = fullscreen;
-    }
-
-    @action
-    load(): Promise<undefined> {
-        return Promise.resolve(undefined);
-    }
-
-    @action
-    reset(): void {
-    }
-
-    @action
-    resetEventTableState() {
     }
 
 }

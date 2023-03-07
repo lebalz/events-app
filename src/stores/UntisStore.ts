@@ -10,7 +10,7 @@ import iStore from './iStore';
 import { computedFn } from 'mobx-utils';
 import { replaceOrAdd } from './helpers/replaceOrAdd';
 
-export class UntisStore implements iStore<UntisTeacher[]> {
+export class UntisStore implements iStore<UntisTeacher> {
     private readonly root: RootStore;
     classes = observable<Klass>([]);
     lessons = observable<Lesson>([]);

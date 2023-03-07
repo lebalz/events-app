@@ -1,12 +1,12 @@
 
 import React from "react";
-import { makeObservable, observable, reaction, runInAction } from "mobx";
+import { action, makeObservable, observable, reaction, runInAction } from "mobx";
 import { SessionStore } from "./SessionStore";
 import { UserStore } from "./UserStore";
 import { EventStore } from "./EventStore";
 import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
-import iStore from "./iStore";
+import { LoadeableStore, ResettableStore } from "./iStore";
 import { JobStore } from "./JobStore";
 import { ViewStore } from "./ViewStore";
 import { DepartmentStore } from "./DepartmentStore";
@@ -14,7 +14,9 @@ import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
 
 export class RootStore {
-  stores = observable<iStore<any>>([]);
+  loadableStores = observable<LoadeableStore<any>>([]);
+  resettableStores = observable<ResettableStore>([]);
+
   @observable 
   initialized = false;
 
@@ -34,32 +36,30 @@ export class RootStore {
     this.sessionStore = new SessionStore(this);
 
     this.userStore = new UserStore(this);
-    this.stores.push(this.userStore);
+    this.subscribeTo(this.userStore, ['load', 'reset']);
 
     this.untisStore = new UntisStore(this);
-    this.stores.push(this.untisStore);
+    this.subscribeTo(this.untisStore, ['load', 'reset']);
 
     this.eventStore = new EventStore(this);
-    this.stores.push(this.eventStore);
+    this.subscribeTo(this.eventStore, ['load', 'reset']);
 
     this.socketStore = new SocketDataStore(this);
-    this.stores.push(this.socketStore);
+    this.subscribeTo(this.socketStore, ['load', 'reset']);
 
     this.jobStore = new JobStore(this);
-    this.stores.push(this.jobStore);
+    this.subscribeTo(this.jobStore, ['load', 'reset']);
 
     this.departmentStore = new DepartmentStore(this);
-    this.stores.push(this.departmentStore);
+    this.subscribeTo(this.departmentStore, ['load', 'reset']);
 
     this.semesterStore = new SemesterStore(this);
-    this.stores.push(this.semesterStore);
+    this.subscribeTo(this.semesterStore, ['load', 'reset']);
 
     this.registrationPeriodStore = new RegistrationPeriodStore(this);
-    this.stores.push(this.registrationPeriodStore);
+    this.subscribeTo(this.registrationPeriodStore, ['load', 'reset']);
 
     this.viewStore = new ViewStore(this);
-    this.stores.push(this.viewStore);
-
 
     runInAction(() => {
       this.initialized = true;
@@ -69,12 +69,26 @@ export class RootStore {
       () => this.sessionStore.account,
       (account) => {
         if (account) {
-          this.stores.forEach((store) => store.load());
+          this.loadableStores.forEach((store) => store.load());
         } else {
-          this.stores.forEach((store) => store.reset());
+          this.resettableStores.forEach((store) => store.reset());
         }
       }
     )
+  }
+
+  
+  subscribeTo(store: ResettableStore, events: ['reset'])
+  subscribeTo(store: LoadeableStore<any>, events: ['load'])
+  subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset'])
+  @action
+  subscribeTo(store: any, events: any) {
+    if (events.includes('load')) {
+      this.loadableStores.push(store);
+    }
+    if (events.includes('reset')) {
+      this.resettableStores.push(store);
+    }
   }
 }
 
