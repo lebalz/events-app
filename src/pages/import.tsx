@@ -5,7 +5,13 @@ import clsx from 'clsx';
 import Upload from '../components/ImportExcel/Upload';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
-import { JobType } from '../api/job';
+import { JobState, JobType } from '../api/job';
+
+const StateSymbol = {
+    [JobState.PENDING]: '🏃',
+    [JobState.DONE]: '✅',
+    [JobState.ERROR]: '❌',
+}
 
 const Example = observer(() => {
     const untisStore = useStore('untisStore');
@@ -27,10 +33,10 @@ const Example = observer(() => {
                             <span aria-hidden="true">&times;</span>
                         </button>
                         {job.type === JobType.SYNC_UNTIS && (
-                            `Sync Untis: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}`
+                            `Sync Untis: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} ${StateSymbol[job.state]}}`
                         )}
                         {job.type === JobType.IMPORT && (
-                            `Import....: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}: "${job.filename}" -> ${job.events.length}`
+                            `Import....: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}: ${StateSymbol[job.state]} "${job.filename}" -> ${job.events.length}`
                         )}
                     </div>
                 )
