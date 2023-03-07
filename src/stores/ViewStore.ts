@@ -8,8 +8,9 @@ const MIN_TABLE_WIDTH = 1450;
 const MIN_COLUMN_WIDTH_EM = {
     description: 18,
     location: 7,
-    descriptionLong: 30
+    descriptionLong: 28
 };
+const MAX_COLUMN_WIDTH = 'calc(95vw - 8em)';
 
 /**
  * route: /table
@@ -45,13 +46,13 @@ class EventTable {
 
     maxWidth(colName: keyof typeof MIN_COLUMN_WIDTH_EM): string {
         if (this.clientWidth < MIN_TABLE_WIDTH) {
-            return `${MIN_COLUMN_WIDTH_EM[colName]}em`;
+            return `min(${MIN_COLUMN_WIDTH_EM[colName]}em, ${MAX_COLUMN_WIDTH})`;
         }
         const total = Object.values(MIN_COLUMN_WIDTH_EM).reduce((a, b) => a + b, 0) * this.baseFontSize;
         const dt = this.clientWidth - MIN_TABLE_WIDTH;
         const colBase = MIN_COLUMN_WIDTH_EM[colName] * this.baseFontSize;
         const width = dt * (colBase / total) + colBase;
-        return `${width}px`;
+        return `min(${width}px, ${MAX_COLUMN_WIDTH})`;
     }
 
     @computed

@@ -15,9 +15,9 @@ const Example = observer(() => {
             <Upload />
         </div>
         <div>
-            {jobStore.jobs.map((job) => {
+            {jobStore.jobs.map((job, idx) => {
                 return (
-                    <div className={clsx('alert', 'alert--info')} role="alert">
+                    <div className={clsx('alert', 'alert--info')} role="alert" key={idx}>
                         <button aria-label="Close" className="clean-btn close" type="button" onClick={
                             () => {
                                 jobStore.destroy(job);

@@ -42,6 +42,7 @@ const EventList = observer((props: Props) => {
         }
         if (containerRef.current){
             window.addEventListener('resize', onResize);
+            onResize();
         }
         return () => window.removeEventListener('resize', onResize);
     }, [containerRef, viewStore]);

@@ -44,37 +44,7 @@ const Home = observer(() => {
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
       <main>
-        <pre>
-          <code>
-            { JSON.stringify(userStore.current, getCircularReplacer(), 2)}
-          </code>
-        </pre>
-        <pre>
-          <code>
-            { JSON.stringify(userStore.current?.untisTeacher?.lessons?.map(l => `${l.subjectName}: ${l.startTimeStr}-${l.endTimeStr}`), getCircularReplacer(), 2)}
-          </code>
-        </pre>
-        <div className="container">
-          <div className="row">
-          <div className="col col--6">
-            <h1 className="hero__title">Events</h1>
-            <pre>
-              <code>
-                {JSON.stringify(eventStore.events.slice(), getCircularReplacer(), 2)}
-              </code>
-            </pre>
-
-          </div>
-            <div className="col col--6">
-            <h1 className="hero__title">Users</h1>
-              <pre>
-                <code>
-                  {JSON.stringify(userStore.users, getCircularReplacer(), 2)}
-                </code>
-              </pre>
-            </div>
-          </div>
-        </div>
+        
       </main>
     </Layout>
   );

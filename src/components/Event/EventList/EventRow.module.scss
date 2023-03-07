@@ -39,13 +39,13 @@ tr.eventRow {
     }
     // see @ViewStore#EventTable for dynamic column widths
     &.description {
-      max-width: 18em;
+      max-width: min(18em, 95vw);
     }
     &.location {
-      max-width: 7em;
+      max-width: min(7em, 95vw);
     }
     &.descriptionLong {
-      max-width: 30em;
+      max-width: min(30em, 95vw);
     }
     // sticky columns start & time
     &:nth-child(4) {
