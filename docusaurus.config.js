@@ -26,7 +26,7 @@ if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
 }
 
 
-
+const GIT_COMMIT_SHA = process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7);
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -120,29 +120,25 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Dataimport',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Excel',
+                to: '/import',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'Dashboard',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'Socket.IO Admin',
+                href: 'https://admin.socket.io/',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
-              },
+                label: 'GBSL',
+                href: 'https://gbsl.ch',
+              }
             ],
           },
           {
@@ -150,12 +146,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/lebalz',
+                href: 'https://github.com/lebalz/events-app',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer - V${(process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7)).substring(0, 7)}`,
+        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer <br /><a class="badge badge--primary" href="https://github.com/lebalz/events-app/commit/${GIT_COMMIT_SHA}">ᚶ ${GIT_COMMIT_SHA.substring(0, 7)}</a>`,
       },
       prism: {
         theme: lightCodeTheme,
