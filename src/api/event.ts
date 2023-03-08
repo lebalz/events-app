@@ -36,8 +36,8 @@ export function create(data: Partial<Event>, cancelToken: CancelTokenSource): Ax
     return api.post('event', data, { cancelToken: cancelToken.token });
 }
 
-export function update(id: string, data: Event, cancelToken: CancelTokenSource): AxiosPromise<{ updatedAt: string }> {
-    return api.put(`event/${id}`, { data: data }, { cancelToken: cancelToken.token });
+export function update(id: string, delta: Partial<Event>, cancelToken: CancelTokenSource): AxiosPromise<{ updatedAt: string }> {
+    return api.patch(`event/${id}`, { data: delta }, { cancelToken: cancelToken.token });
 }
 
 export function destroy(event: Event, cancelToken: CancelTokenSource) {

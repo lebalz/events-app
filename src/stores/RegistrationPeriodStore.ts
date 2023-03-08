@@ -52,4 +52,8 @@ export class RegistrationPeriodStore implements iStore<RegistrationPeriod> {
     reset() {
         this.periods.clear();
     }
+    @action
+    save(model) {
+        throw new Error('Not implemented');
+    }
 }

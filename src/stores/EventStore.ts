@@ -141,8 +141,9 @@ export class EventStore implements iStore<Event> {
     }
 
     @action
-    save(id: string) {
+    save(model: Event) {
         const [source, token] = createCancelToken();
+        const id = model.id;
         const ev = this.find(id);
         if (!ev) {
             return Promise.resolve(undefined);

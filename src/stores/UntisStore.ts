@@ -140,4 +140,8 @@ export class UntisStore implements iStore<UntisTeacher> {
         this.lessons.clear();
         this.teachers.clear();
     }
+    @action
+    save(model) {
+        throw new Error('Not implemented');
+    }
 }

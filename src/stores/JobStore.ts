@@ -133,4 +133,10 @@ export class JobStore implements iStore<Job> {
     jobEvents(jobId: string) {
         return this.root.eventStore.byJob(jobId);
     }
+
+    
+    @action
+    save(model) {
+        throw new Error('Not implemented');
+    }
 }

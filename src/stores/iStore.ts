@@ -1,3 +1,4 @@
+import { action } from "mobx";
 import { RootStore } from "./stores";
 
 export class ResettableStore {
@@ -23,6 +24,14 @@ class iStore<T> extends ResettableStore implements LoadeableStore<T> {
     load(): Promise<T[] | T> {
         /**
          * Load the data from the api
+         */
+        throw new Error('Not implemented');
+    }
+
+    @action
+    save(model: T) {
+        /**
+         * Save the model to the api
          */
         throw new Error('Not implemented');
     }

@@ -109,4 +109,8 @@ export class UserStore implements iStore<User> {
         this.cancelRequest()
         this.users.replace([]);
     }
+    @action
+    save(model) {
+        throw new Error('Not implemented');
+    }
 }

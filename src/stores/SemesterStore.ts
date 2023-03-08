@@ -51,4 +51,8 @@ export class SemesterStore implements iStore<Semester> {
     reset() {
         this.semesters.clear();
     }
+    @action
+    save(model) {
+        throw new Error('Not implemented');
+    }
 }

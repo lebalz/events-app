@@ -97,6 +97,16 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                             this.root.jobStore.loadJob(record.id);
                     }
                     break;
+                case 'DEPARTMENT':
+                    switch (type) {
+                        case IoEvent.DELETED_RECORD:
+                            this.root.departmentStore.removeFromStore(record.id);
+                            break;
+                        default:
+                            this.root.departmentStore.loadDepartment(record.id);
+                    }
+                    break;
+
             }
         })
     };

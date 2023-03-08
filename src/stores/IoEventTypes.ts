@@ -5,7 +5,7 @@ export enum IoEvent {
 }
 
 
-type RecordTypes = 'EVENT' | 'USER' | 'JOB';
+type RecordTypes = 'EVENT' | 'USER' | 'JOB' | 'DEPARTMENT';
 
 export interface NewRecord {
     record: RecordTypes;
