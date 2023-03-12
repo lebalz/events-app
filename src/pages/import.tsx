@@ -22,7 +22,7 @@ const Example = observer(() => {
             <Upload />
         </div>
         <div>
-            {jobStore.jobs.map((job, idx) => {
+            {jobStore.models.map((job, idx) => {
                 return (
                     <div className={clsx('alert', 'alert--info')} style={{fontFamily: 'monospace', marginBottom: '0.5rem'}} role="alert" key={idx}>
                         <button aria-label="Close" className="clean-btn close" type="button" onClick={

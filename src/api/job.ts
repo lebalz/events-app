@@ -29,16 +29,3 @@ export enum JobState {
     DONE = 'DONE',
     REVERTED = 'REVERTED'
 };
-
-
-export function find(id: string, cancelToken: CancelTokenSource): AxiosPromise<JobAndEvents> {
-    return api.get(`job/${id}`, { cancelToken: cancelToken.token });
-}
-
-export function destroy(id: string, cancelToken: CancelTokenSource): AxiosPromise {
-    return api.delete(`job/${id}`, { cancelToken: cancelToken.token });
-}
-
-export function jobs(cancelToken: CancelTokenSource): AxiosPromise<Job[]> {
-    return api.get('job/all', { cancelToken: cancelToken.token });
-}

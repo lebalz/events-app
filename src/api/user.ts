@@ -22,12 +22,6 @@ export type User = {
 export function user(cancelToken: CancelTokenSource): AxiosPromise<User> {
   return api.get('user', { cancelToken: cancelToken.token });
 }
-export function find(userId: string, cancelToken: CancelTokenSource): AxiosPromise<User> {
-  return api.get(`user/${userId}`, { cancelToken: cancelToken.token });
-}
-export function users(cancelToken: CancelTokenSource): AxiosPromise<User[]> {
-  return api.get('user/all', { cancelToken: cancelToken.token });
-}
 export function linkToUntis(userId: string, untisId: number, cancelToken: CancelTokenSource): AxiosPromise<User> {
   return api.put(
     `user/${userId}/link_to_untis`,

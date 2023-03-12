@@ -130,7 +130,7 @@ export class UntisStore implements iStore<UntisTeacher> {
         return syncUntis(this.cancelToken)
             .then(({data}) => {
                 console.log('Sync Job started', data);
-                this.root.jobStore.addJob(data);
+                this.root.jobStore.addToStore(data);
             })
     }
 

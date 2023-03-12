@@ -1,17 +1,24 @@
-import { action, computed } from "mobx";
+import { action, computed, IObservableArray, makeObservable } from "mobx";
 import _ from 'lodash';
+import iStore from "../stores/iStore";
 
-export default class ApiModel<T extends { id: string }> {
-    _pristine: T;
-
-    @action
-    save() {
-        throw new Error('Not implemented');
+const notEqual = (a: any, b: any) => {
+    if (Array.isArray(a)) {
+        if (_.xor(a, b).length !== 0) {
+            return true;
+        }
+    } else if (a !== b) {
+        return true;
     }
+}
+export default abstract class ApiModel<T extends { id: string }> {
+    abstract readonly _pristine: T;
+    abstract readonly store: iStore<T>;
+    abstract readonly id: string;
+    abstract readonly UPDATEABLE_PROPS: (keyof T)[];
 
-    @action
-    destroy() {
-        throw new Error('Not implemented');
+    constructor() {
+        makeObservable(this);
     }
 
     @computed
@@ -20,26 +27,53 @@ export default class ApiModel<T extends { id: string }> {
     }
 
     @computed
-    get dirtyProps(): Partial<T> {
-        /**
-         * return the props that have changed since the last save
-         */
-        throw new Error('Not implemented');
-    }
-
-    @action
-    update(props: Partial<T>) {
-        throw new Error('Not implemented');
+    get pristine(): T {
+        return this._pristine;
     }
 
     @computed
+    get dirtyProps(): Partial<T> {
+        const { _pristine, props } = this;
+        const changes: Partial<T> = {};
+        Object.keys(props).forEach(key => {
+            if (notEqual(props[key], _pristine[key])) {
+                changes[key] = props[key];
+            }
+        });
+        return changes;
+    }
+    
+    @computed
     get isDirty(): boolean {
-        throw new Error('Not implemented');
+        return Object.keys(this.dirtyProps).length > 0;
     }
 
     @action
     reset() {
-        throw new Error('Not implemented');
+        return this.update(this.pristine);
     }
 
+    @action
+    update(props: Partial<T>) {
+        this.UPDATEABLE_PROPS.forEach(key => {
+            if (key in props) {
+                if (Array.isArray(props[key])) {
+                    ((this as any)[key] as IObservableArray<T>).replace(props[key] as T[]);
+                } else {
+                    Object.assign(this, { [key]: props[key] });
+                }
+            }
+        });
+        return this.dirtyProps;
+    }
+
+    @action
+    save() {
+        return this.store.save(this);
+    }
+
+    @action
+    destroy() {
+        return this.store.destroy(this);
+    }
 }

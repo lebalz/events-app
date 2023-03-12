@@ -25,25 +25,6 @@ export interface Event {
     updatedAt: string
 }
 
-export function find(id: string, cancelToken: CancelTokenSource): AxiosPromise<Event> {
-    return api.get(`event/${id}`, { cancelToken: cancelToken.token });
-}
-export function events(cancelToken: CancelTokenSource): AxiosPromise<Event[]> {
-    return api.get('event/all', { cancelToken: cancelToken.token });
-}
-
-export function create(data: Partial<Event>, cancelToken: CancelTokenSource): AxiosPromise<Event> {
-    return api.post('event', data, { cancelToken: cancelToken.token });
-}
-
-export function update(id: string, delta: Partial<Event>, cancelToken: CancelTokenSource): AxiosPromise<{ updatedAt: string }> {
-    return api.patch(`event/${id}`, { data: delta }, { cancelToken: cancelToken.token });
-}
-
-export function destroy(event: Event, cancelToken: CancelTokenSource) {
-    return api.delete('event', { cancelToken: cancelToken.token });
-}
-
 export function importExcel(formData: FormData, cancelToken: CancelTokenSource): AxiosPromise<Job> {
     return api.post('event/import', formData, { cancelToken: cancelToken.token });
 }

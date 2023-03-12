@@ -1,10 +1,13 @@
 import { makeObservable, computed } from "mobx";
 import { JobType, JobState, Job as JobProps } from "../api/job";
 import { JobStore } from "../stores/JobStore";
+import ApiModel from "./ApiModel";
 
 
-export default class Job {
-    private readonly store: JobStore;
+export default class Job extends ApiModel<JobProps> {
+    readonly UPDATEABLE_PROPS: (keyof JobProps)[] = [];
+    readonly store: JobStore;
+    readonly _pristine: JobProps;
     readonly id: string;
     readonly type: JobType;
     readonly state: JobState;
@@ -15,6 +18,8 @@ export default class Job {
     readonly filename?: string;
 
     constructor(props: JobProps, store: JobStore) {
+        super();
+        this._pristine = props;
         this.store = store;
         this.id = props.id;
         this.type = props.type;

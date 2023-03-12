@@ -1,8 +1,7 @@
-import { action, computed, makeObservable, observable } from 'mobx';
-import moment, { Moment } from 'moment';
-import { Department } from '../api/department';
+import { action, computed, makeObservable, observable, override } from 'mobx';
 import { Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
+import ApiModel from './ApiModel';
 
 const formatTime = (date: Date) => {
     const hours = `${date.getUTCHours()}`.padStart(2, '0');
@@ -39,8 +38,10 @@ const getKW = (date: Date) => {
     return Math.ceil((date.getTime() - year.getTime()) / DAY_2_MS / 7);
 }
 
-export default class Event {
-    private readonly store: EventStore;
+export default class Event extends ApiModel<EventProps> {
+    readonly store: EventStore;
+    readonly _pristine: EventProps;
+    readonly UPDATEABLE_PROPS: (keyof EventProps)[] = ['description', 'descriptionLong', 'start', 'end', 'location', 'state'];
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
@@ -70,10 +71,9 @@ export default class Event {
     @observable
     allDay: boolean;
 
-    @observable
-    isOutdated: boolean = false;
-
     constructor(props: EventProps, store: EventStore) {
+        super();
+        this._pristine = props;
         this.store = store;
         this.id = props.id;
         this.jobId = props.jobId;
@@ -96,7 +96,6 @@ export default class Event {
     get invalid(): boolean {
         return this.durationMS <= 0
     }
-
 
     @computed
     get isEditable() {
@@ -229,7 +228,7 @@ export default class Event {
         return (prog / this.durationMS) * 100 ;
     }
 
-    @computed
+    @override
     get props(): EventProps {
         return {
             id: this.id,
@@ -247,39 +246,5 @@ export default class Event {
             end: (new Date(this._end)).toISOString(),
             allDay: this.allDay
         }
-    }
-
-    @action
-    save() {
-        this.store.save(this.id);
-    }
-
-    @action
-    update(props: Partial<EventProps>) {
-        if (props.departmentIds) {
-            this.departmentIds.replace(props.departmentIds);
-        }
-        if (props.classes) {
-            this.classes.replace(props.classes);
-        }
-        if (props.description) {
-            this.description = props.description;
-        }
-        if (props.descriptionLong) {
-            this.descriptionLong = props.descriptionLong;
-        }
-        if (props.location) {
-            this.location = props.location;
-        }
-        if (props.start) {
-            this._start = props.start;
-        }
-        if (props.end) {
-            this._end = props.end;
-        }
-        if (props.allDay) {
-            this.allDay = props.allDay;
-        }
-        this.store.save(this.id);
     }
 }

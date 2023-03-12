@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { users as fetchUsers, find as findUser, linkToUntis } from '../api/user';
+import {User as UserProps, linkToUntis } from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
@@ -8,38 +8,27 @@ import axios from 'axios';
 import iStore from './iStore';
 import { createCancelToken } from '../api/base';
 
-export class UserStore implements iStore<User> {
-    private readonly root: RootStore;
+export class UserStore extends iStore<UserProps> {
+    readonly API_ENDPOINT = 'user';
+    readonly root: RootStore;
     @observable
     initialized = false;
-    users = observable<User>([]);
+    models = observable<User>([]);
 
-    cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
+        super();
         this.root = root;
         makeObservable(this);
     }
 
-    cancelRequest() {
-        this.cancelToken.cancel();
-        this.cancelToken = axios.CancelToken.source();
+    createModel(data: UserProps): User {
+        return new User(data, this, this.root.untisStore);
     }
-
 
     @computed
     get current(): User | undefined {
-        return this.users.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username.toLowerCase());
+        return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username.toLowerCase());
     }
-
-    find = computedFn(
-        function (this: UserStore, id?: string): User | undefined {
-            if (!id) {
-                return;
-            }
-            return this.users.find((user) => user.id === id);
-        },
-        { keepAlive: true }
-    );
     
     @computed
     get currentUsersEvents() {
@@ -48,37 +37,9 @@ export class UserStore implements iStore<User> {
 
     @action
     reload() {
-        this.users.replace([]);
         if (this.root.sessionStore.account) {
-            this.cancelToken.cancel();
-            this.cancelToken = axios.CancelToken.source();
-            fetchUsers(this.cancelToken)
-                .then(
-                    action(({ data }) => {
-                        const users = data.map((u) => new User(u, this, this.root.untisStore));
-                        this.users.replace(users);
-                        this.initialized = true;
-                    })
-                )
+            this.load();
         }
-    }
-
-    
-    @action
-    load() {
-        const [ct] = createCancelToken();
-        return fetchUsers(ct)
-            .then(
-                action(({ data }) => {
-                    if (!data) {
-                        return;
-                    }
-                    const users = data.map((u) => new User(u, this, this.root.untisStore));
-                    this.users.replace(users);
-                    this.initialized = true;
-                    return this.users;
-                })
-            )
     }
 
     @action
@@ -91,26 +52,6 @@ export class UserStore implements iStore<User> {
 
     @action
     loadUser(id: string) {
-        const [ct] = createCancelToken();
-        return findUser(id, ct).then(action(({ data }) => {
-            const user = new User(data, this, this.root.untisStore);
-            const users = this.users.slice();
-            const idx = users.findIndex((e) => e.id === user.id);
-            if (idx !== -1) {
-                users.splice(idx, 1);
-            }
-            this.users.replace([...users, user]);
-            return user;
-        }))
-    }
-
-    @action
-    reset() {
-        this.cancelRequest()
-        this.users.replace([]);
-    }
-    @action
-    save(model) {
-        throw new Error('Not implemented');
+        return this.loadModel(id);
     }
 }

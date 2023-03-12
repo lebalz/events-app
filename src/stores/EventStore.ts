@@ -4,31 +4,29 @@ import { events as fetchEvents, create as apiCreate, find as findEvent, update a
 import Event, { HOUR_2_MS } from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
-import axios from 'axios';
 import iStore from './iStore';
-import { v4 as uuidv4 } from 'uuid';
-import { createCancelToken } from '../api/base';
-import { IoEvent } from './IoEventTypes';
 import Department from '../models/Department';
+import ApiModel from '../models/ApiModel';
 
 
-export class EventStore implements iStore<Event> {
-    private readonly root: RootStore;
-    events = observable<Event>([]);
+export class EventStore extends iStore<EventProps> {
+    readonly root: RootStore;
+    readonly API_ENDPOINT = 'event';
+    models = observable<Event>([]);
 
-    cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
+        super()
         this.root = root;
         makeObservable(this);
     }
 
-    cancelRequest() {
-        this.cancelToken.cancel();
-        this.cancelToken = axios.CancelToken.source();
-    }
-
     canEdit(event: Event) {
         return this.root.userStore.current?.id === event.authorId;
+    }
+
+    @computed
+    get events() {
+        return this.models;
     }
 
     @computed
@@ -41,16 +39,6 @@ export class EventStore implements iStore<Event> {
         const myId = this.root.userStore.current?.id;
         return this.events.filter((e) => e.state === EventState.Published || e.authorId === myId);
     }
-
-    find = computedFn(
-        function (this: EventStore, id?: string): Event | undefined {
-            if (!id) {
-                return;
-            }
-            return this.events.find((e) => e.id === id);
-        },
-        { keepAlive: true }
-    );
 
     byUser = computedFn(
         function (this: EventStore, userId?: string): Event[] {
@@ -73,53 +61,6 @@ export class EventStore implements iStore<Event> {
     );
 
     @action
-    newEvent() {
-        if (this.root.sessionStore.account) {
-            const d = new Date();
-            const s = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()));
-            const id = uuidv4();
-            apiCreate({ start: s.toISOString(), end: s.toISOString(), id: id }, this.cancelToken)
-                .then(
-                    action(({ data }) => {
-                        const event = new Event(data, this);
-                        const events = this.events.slice();
-                        const idx = events.findIndex((e) => e.id === event.id);
-                        if (idx !== -1) {
-                            events.splice(idx, 1);
-                        }
-                        this.events.replace([...events, event].sort((a, b) => a.compare(b)));
-
-                    })
-                )
-        }
-    }
-
-    @action
-    updateEvent(eventId: string, params: Partial<EventProps>) {
-        const event = this.find(eventId);
-        if (!event) {
-            return;
-        }
-        event.update(params);
-
-    }
-
-    @action
-    loadEvent(id: string) {
-        const [ct] = createCancelToken();
-        return findEvent(id, ct).then(action(({ data }) => {
-            const event = new Event(data, this);
-            const events = this.events.slice();
-            const idx = events.findIndex((e) => e.id === event.id);
-            if (idx !== -1) {
-                events.splice(idx, 1);
-            }
-            this.events.replace([...events, event].sort((a, b) => a.compare(b)));
-            return event;
-        }))
-    }
-
-    @action
     reload() {
         this.events.replace([]);
         if (this.root.sessionStore.account) {
@@ -127,49 +68,8 @@ export class EventStore implements iStore<Event> {
         }
     }
 
-    @action
-    load() {
-        this.cancelRequest();
-        return fetchEvents(this.cancelToken)
-            .then(
-                action(({ data }) => {
-                    const events = data.map((u) => new Event(u, this)).sort((a, b) => a.compare(b));
-                    this.events.replace(events);
-                    return this.events;
-                })
-            )
-    }
-
-    @action
-    save(model: Event) {
-        const [source, token] = createCancelToken();
-        const id = model.id;
-        const ev = this.find(id);
-        if (!ev) {
-            return Promise.resolve(undefined);
-        }
-        return updateEvent(id, ev.props, source)
-            .then(
-                action(({ data }) => {
-                    ev.updatedAt = new Date(data.updatedAt);
-                })
-            )
-    }
-
-    @action
-    appendEvents(events?: EventProps[]) {
-        if (!events?.length) {
-            return;
-        }
-        const current = this.events.slice();
-        events.forEach((event) => {
-            const idx = current.findIndex((e) => e.id === event.id);
-            if (idx !== -1) {
-                current.splice(idx, 1);
-            }
-        })
-        const newEvents = events.map((e) => new Event(e, this));
-        this.events.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
+    createModel(data: EventProps): Event {
+        return new Event(data, this);
     }
 
     getDepartments(ids: string[]): Department[] {
@@ -215,11 +115,20 @@ export class EventStore implements iStore<Event> {
         this.events.replace(current);
     }
 
-
     @action
-    reset() {
-        this.cancelRequest()
-        this.events.replace([]);
+    appendEvents(events?: EventProps[]) {
+        if (!events?.length) {
+            return;
+        }
+        const current = this.events.slice();
+        events.forEach((event) => {
+            const idx = current.findIndex((e) => e.id === event.id);
+            if (idx !== -1) {
+                current.splice(idx, 1);
+            }
+        })
+        const newEvents = events.map((e) => new Event(e, this));
+        this.events.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
     }
 
 }

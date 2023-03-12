@@ -19,7 +19,7 @@ const Table = observer(() => {
             <div>
                 <Event />
                 <EventList events={eventStore.byUser(userId).filter(e => !e.jobId)} showFullscreenButton={false} />
-                {jobStore.jobs.map((job, idx) => {
+                {jobStore.models.map((job, idx) => {
                     return (
                         <Details key={idx} summary={
 

@@ -1,32 +1,29 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
 import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { computedFn } from 'mobx-utils';
-import { JobAndEvents as JobAndEventsProps, Job as JobProps, jobs as fetchJobs, find as fetchJob, destroy as deleteJob, JobType, JobState } from '../api/job';
+import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType } from '../api/job';
 import { importExcel as postExcel } from '../api/event';
 import { createCancelToken } from '../api/base';
 import Job from '../models/Job';
 
-export class JobStore implements iStore<Job> {
-    private readonly root: RootStore;
-    jobs = observable<Job>([]);
+export class JobStore extends iStore<JobProps> {
+    readonly root: RootStore;
+    readonly API_ENDPOINT = 'job';
+
+    models = observable<Job>([]);
     cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
+        super();
         this.root = root;
         makeObservable(this);
     }
 
-    findJob = computedFn(
-        function (this: JobStore, id?: string): Job | undefined {
-            if (!id) {
-                return;
-            }
-            return this.jobs.find((t) => t.id === id);
-        },
-        { keepAlive: true }
-    )
+    createModel(data: JobProps): Job {
+        return new Job(data, this);
+    }
 
     findUser(id?: string) {
         return this.root.userStore.find(id);
@@ -39,25 +36,10 @@ export class JobStore implements iStore<Job> {
         }
     }
 
-    @action
-    load() {
-        return fetchJobs(this.cancelToken)
-            .then(
-                action(({ data }) => {
-                    console.log('jobs', data)
-                    if (data) {
-                        this.jobs.replace(data.map((d) => new Job(d, this)));
-                    }
-                    return this.jobs;
-                })
-            )
-    }
-
-    
-    addJob(data: JobProps): Job
-    @action
-    addJob(data: JobAndEventsProps): Job {
-        const job = new Job(data, this);
+    // addToStore(data: JobAndEventsProps): Job
+    @override
+    addToStore(data: JobAndEventsProps): Job {
+        const job = this.createModel(data);
         if (job.state === JobState.DONE) {
             if (this.removeFromStore(data.id)) {
                 this.root.departmentStore.reload();
@@ -69,24 +51,13 @@ export class JobStore implements iStore<Job> {
                 this.root.eventStore.appendEvents(data.events);
             }
         } else {
-            const oldJob = this.findJob(data.id);
-            if (oldJob) {
-                this.jobs.remove(oldJob);
-            }
+            this.removeFromStore(data.id);
         }
-        this.jobs.push(job);
+        this.models.push(job);
         return job;
     }
 
-    @action
-    loadJob(id: string) {
-        const [ct] = createCancelToken();
-        return fetchJob(id, ct).then(action(({ data }) => {
-            return this.addJob(data);
-        }))
-    }
-
-    @action
+    @override
     removeFromStore(id?: string) {
         if (!id) {
             return;
@@ -99,11 +70,16 @@ export class JobStore implements iStore<Job> {
         /**
          * remove the job from the store
          */
-        const job = this.findJob(id);
+        const job = this.find(id) as Job;
         if (job) {
-            this.jobs.remove(job);
-            return true;
+            this.models.remove(job);
+            return job;
         }
+    }
+
+    @action
+    loadJob(id: string) {
+        return this.loadModel(id);
     }
 
     @action
@@ -112,31 +88,11 @@ export class JobStore implements iStore<Job> {
         formData.append('terminplan', file);
         const [ct] = createCancelToken();
         postExcel(formData, ct).then(({ data }) => {
-            this.jobs.push(new Job(data, this));
+            this.models.push(new Job(data, this));
         });
-    }
-
-    @action
-    destroy(job: Job) {
-        const [ct] = createCancelToken();
-        deleteJob(job.id, ct).then(() => {
-            this.root.eventStore.removeEvents(job.events);
-            this.jobs.remove(job);
-        });
-    }
-
-    @action
-    reset() {
-        this.jobs.clear();
     }
 
     jobEvents(jobId: string) {
         return this.root.eventStore.byJob(jobId);
-    }
-
-    
-    @action
-    save(model) {
-        throw new Error('Not implemented');
     }
 }

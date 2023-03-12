@@ -1,14 +1,14 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, override } from "mobx";
 import { Department as DepartmentProps } from "../api/department";
 import { DepartmentStore } from "../stores/DepartmentStore";
 import Event from '../models/Event';
 import ApiModel from "./ApiModel";
 import _ from "lodash";
-import { getChanges } from "./helpers";
 
-export default class Department implements ApiModel<DepartmentProps> {
+export default class Department extends ApiModel<DepartmentProps> {
+    readonly UPDATEABLE_PROPS: (keyof DepartmentProps)[] = ['description'];
+    readonly store: DepartmentStore;
     readonly _pristine: DepartmentProps;
-    private readonly store: DepartmentStore;
     readonly id: string;
     readonly name: string;
     readonly createdAt: Date;
@@ -19,6 +19,7 @@ export default class Department implements ApiModel<DepartmentProps> {
     description: string;
 
     constructor(props: DepartmentProps, store: DepartmentStore) {
+        super();
         this.store = store;
         this._pristine = props;
         this.id = props.id;
@@ -35,7 +36,7 @@ export default class Department implements ApiModel<DepartmentProps> {
         return this.store.getEvents(this);
     }
 
-    @computed
+    @override
     get props(): DepartmentProps {
         return {
             id: this.id,
@@ -44,40 +45,5 @@ export default class Department implements ApiModel<DepartmentProps> {
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
         };
-    }
-
-    @computed
-    get dirtyProps(): Partial<DepartmentProps> {
-        return getChanges(this);
-    }
-
-    @computed
-    get isDirty(): boolean {
-        return Object.keys(this.dirtyProps).length > 0;
-    }
-
-    @action
-    update(props: Partial<DepartmentProps>) {
-        if ('description' in props) {
-            this.description = props.description;
-        }
-        if ('updatedAt' in props) {
-            this.updatedAt = new Date(props.updatedAt);
-        }
-    }
-
-    @action
-    reset() {
-        this.update(this._pristine);
-    }
-
-    @action
-    save() {
-        return this.store.save(this);
-    }
-
-    @action
-    destroy() {
-        return this.store.destroy(this);
     }
 }

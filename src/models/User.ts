@@ -3,14 +3,13 @@ import moment from 'moment';
 import { Role, User as UserProps } from '../api/user';
 import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
+import ApiModel from './ApiModel';
 import Teacher from './Untis/Teacher';
 
-interface iUser {
-  untisTeacher?: Teacher;
-}
-
-export default class User implements iUser {
-  private readonly store: UserStore;
+export default class User extends ApiModel<UserProps> {
+  readonly UPDATEABLE_PROPS: (keyof UserProps)[] = ['untisId'];
+  readonly store: UserStore;
+  readonly _pristine: UserProps;
   private readonly untisStore: UntisStore;
   readonly id: string;
   readonly email: string;
@@ -24,10 +23,9 @@ export default class User implements iUser {
   @observable
   untisId?: number;
 
-  @observable
-  isOutdated: boolean = false;
-
   constructor(props: UserProps, store: UserStore, untisStore: UntisStore) {
+    super();
+    this._pristine = props;
     this.store = store;
     this.untisStore = untisStore;
     this.id = props.id;
