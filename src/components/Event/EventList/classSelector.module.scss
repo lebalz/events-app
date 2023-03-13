@@ -3,6 +3,7 @@
 
     .select {
         color: var(--ifm-color-content);
+        background: var(--table-bg-striped);
 
         :global .select__control,
         :global .select__single-value {

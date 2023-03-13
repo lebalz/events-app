@@ -98,7 +98,7 @@ const EventRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObje
             }
             {
                 event.isEditable && event.isDirty && (
-                    <td>
+                    <td className={clsx(styles.edit)}>
                         <button
                             className={clsx('button', 'button--primary')}
                             onClick={() => {

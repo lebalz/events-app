@@ -28,6 +28,8 @@ tr.eventRow {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    background: var(--table-bg-striped);
+
     // max-width: 18em;
     &.kw {
       text-align: end;
@@ -56,6 +58,10 @@ tr.eventRow {
       position: sticky;
       left: 5em;
     }
+    &.edit {
+      position: sticky;
+      left: 0;
+    }
   }
   &.expanded {
     td {
@@ -66,12 +72,8 @@ tr.eventRow {
 }
 
 tr:nth-child(2n) {
-  td {
-    background: var(--ifm-color-emphasis-100);
-  }
+  --table-bg-striped: var(--ifm-color-emphasis-100);
 }
 tr:nth-child(2n - 1) {
-  td {
-    background: var(--ifm-color-emphasis-0);
-  }
+  --table-bg-striped: var(--ifm-color-emphasis-0);
 }

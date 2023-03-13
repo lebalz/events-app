@@ -17,7 +17,7 @@ const ClassLinker = observer((props: Props) => {
     const untisStore = useStore('untisStore');
     const event = eventStore.find<Event>(props.eventId);
     return (
-        <div className={clsx(styles.container)} style={{zIndex: 9999}}>
+        <div className={clsx(styles.container)}>
             <Select
                 menuPortalTarget={document.body}
                 styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
