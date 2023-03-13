@@ -2,11 +2,8 @@ import React from "react";
 import { MsalProvider } from "@azure/msal-react";
 import { StoresProvider, rootStore } from "../stores/stores";
 import { observer } from "mobx-react-lite";
-import { msalConfig, msalInstance, TENANT_ID } from "../authConfig";
-import { PublicClientApplication } from "@azure/msal-browser";
-import useIsBrowser from "@docusaurus/useIsBrowser";
+import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
-import {useLocation, useHistory} from '@docusaurus/router';
 
 const selectAccount = () => {
   /**
@@ -48,10 +45,12 @@ const Msal = observer(({ children }: any) => {
 
 // Default implementation, that you can customize
 function Root({ children }) {
-  const isBrowser = useIsBrowser();
-  if (isBrowser && !(window as any).store) {
-    (window as any).store = rootStore;
-  }
+  React.useEffect(() => {
+    if (!(window as any).store) {
+      (window as any).store = rootStore;
+    }
+    rootStore.load();
+  }, [rootStore]);
   return (
     <div className="dummy">
       <Head>

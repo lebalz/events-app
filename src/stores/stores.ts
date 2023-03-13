@@ -65,16 +65,14 @@ export class RootStore {
       this.initialized = true;
     });
 
-    this.loadableStores.forEach((store) => store.load());
-
     reaction(
       () => this.sessionStore.account,
       (account) => {
         if (account) {
-          this.loadableStores.forEach((store) => store.load());
+          this.load();
         } else {
           this.resettableStores.forEach((store) => store.reset());
-          this.loadableStores.forEach((store) => store.load());
+          this.load();
         }
       }
     )
@@ -92,6 +90,11 @@ export class RootStore {
     if (events.includes('reset')) {
       this.resettableStores.push(store);
     }
+  }
+
+  @action
+  load() {
+    this.loadableStores.forEach((store) => store.load());
   }
 }
 
