@@ -2,6 +2,7 @@ import { computed, makeObservable, observable, override } from "mobx";
 import { Semester as SemesterProps } from "../api/semester";
 import { SemesterStore } from "../stores/SemesterStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
+import { formatDate, formatTime } from "./helpers/time";
 
 export default class Semester extends ApiModel<SemesterProps> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [];
@@ -43,5 +44,25 @@ export default class Semester extends ApiModel<SemesterProps> {
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
         };
+    }
+
+    @computed
+    get fStartTime() {
+        return formatTime(this.start);
+    }
+
+    @computed
+    get fEndTime() {
+        return formatTime(this.end);
+    }
+
+    @computed
+    get fStartDate() {
+        return formatDate(this.start);
+    }
+
+    @computed
+    get fEndDate() {
+        return formatDate(this.end);
     }
 }

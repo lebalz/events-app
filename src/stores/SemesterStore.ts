@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
@@ -17,6 +17,11 @@ export class SemesterStore extends iStore<SemesterProps> {
 
     createModel(data: SemesterProps): Semester {
         return new Semester(data, this);
+    }
+
+    @computed
+    get semesters() {
+        return this.models.slice().sort((a, b) => a.start.getTime() - b.start.getTime());
     }
 
     @action
