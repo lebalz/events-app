@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
@@ -14,10 +13,10 @@ const Schedule = observer(() => {
     const userStore = useStore('userStore');
     const lessons = (userStore.current?.untisTeacher?.lessons || []).map((l, idx) => {
         return {
-            start: l.startTime,
-            end: l.endTime,
-            title: `${l.subjectName}:${l.classes.map(c => c.name).join(', ')}`,
-            description: l.subjectName,
+            start: l.start,
+            end: l.end,
+            title: `${l.subject}:${l.classes.map(c => c.name).join(', ')}`,
+            description: l.subject,
             id: l.id
         }
     });

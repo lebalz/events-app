@@ -1,13 +1,12 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import moment from 'moment';
 import { Role, User as UserProps } from '../api/user';
 import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
-import ApiModel from './ApiModel';
+import ApiModel, { UpdateableProps } from './ApiModel';
 import Teacher from './Untis/Teacher';
 
 export default class User extends ApiModel<UserProps> {
-  readonly UPDATEABLE_PROPS: (keyof UserProps)[] = ['untisId'];
+  readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId'];
   readonly store: UserStore;
   readonly _pristine: UserProps;
   private readonly untisStore: UntisStore;
@@ -17,8 +16,8 @@ export default class User extends ApiModel<UserProps> {
   readonly lastName: string;
   readonly department: string;
   readonly role: Role;
-  readonly createdAt: moment.Moment;
-  readonly updatedAt: moment.Moment;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
 
   @observable
   untisId?: number;
@@ -34,8 +33,8 @@ export default class User extends ApiModel<UserProps> {
     this.firstName = props.firstName;
     this.lastName = props.lastName;
     this.untisId = props.untisId;
-    this.createdAt = moment.utc(props.createdAt);
-    this.updatedAt = moment.utc(props.updatedAt);
+    this.createdAt = new Date(props.createdAt);
+    this.updatedAt = new Date(props.updatedAt);
 
     makeObservable(this);
   }

@@ -11,11 +11,14 @@ const notEqual = (a: any, b: any) => {
         return true;
     }
 }
+
+export type UpdateableProps<T extends { id: string }> = (keyof T | {[key in keyof T]?: string})
+
 export default abstract class ApiModel<T extends { id: string }> {
     abstract readonly _pristine: T;
     abstract readonly store: iStore<T>;
     abstract readonly id: string;
-    abstract readonly UPDATEABLE_PROPS: (keyof T)[];
+    abstract readonly UPDATEABLE_PROPS: UpdateableProps<T>[];
 
     constructor() {
         makeObservable(this);
@@ -55,7 +58,8 @@ export default abstract class ApiModel<T extends { id: string }> {
 
     @action
     update(props: Partial<T>) {
-        this.UPDATEABLE_PROPS.forEach(key => {
+        this.UPDATEABLE_PROPS.forEach(val => {
+            const key = typeof val === 'string' ? val : Object.keys(val)[0];
             if (key in props) {
                 if (Array.isArray(props[key])) {
                     ((this as any)[key] as IObservableArray<T>).replace(props[key] as T[]);

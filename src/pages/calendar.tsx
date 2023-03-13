@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
+import Event from '../models/Event';
 
 moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -20,15 +21,15 @@ const Calendar = observer(() => {
     const eventStore = useStore('eventStore');
     const tasks = eventStore.publishedAndMine.map((e, idx) => {
         return {
-            start: e.localStart,
-            end: e.localEnd,
+            start: e.start,
+            end: e.end,
             title: e.description,
             description: e.descriptionLong,
             id: e.id
         }
     });
     const eventStyleGetter = (event, start, end, isSelected) => {
-        const e = eventStore.find(event.id);
+        const e = eventStore.find<Event>(event.id);
         if (!e) {
             return {};
         }

@@ -1,20 +1,28 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
 import { Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
-import ApiModel from './ApiModel';
+import ApiModel, { UpdateableProps } from './ApiModel';
 
 const formatTime = (date: Date) => {
-    const hours = `${date.getUTCHours()}`.padStart(2, '0');
-    const minutes = `${date.getUTCMinutes()}`.padStart(2, '0');
+    const hours = `${date.getHours()}`.padStart(2, '0');
+    const minutes = `${date.getMinutes()}`.padStart(2, '0');
     return `${hours}:${minutes}`;
 }
 
-const formatDate = (date: Date) => {    
-    const day = `${date.getUTCDate()}`.padStart(2, '0');
-    const month = `${date.getUTCMonth() + 1}`.padStart(2, '0');
-    const year = `${date.getUTCFullYear()}`.padStart(4, '0');
+const formatDate = (date: Date) => {
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const year = `${date.getFullYear()}`.padStart(4, '0');
 
     return `${day}.${month}.${year}`;
+}
+
+const toLocalDate = (date: Date) => {   
+    return new Date(date.getTime() + date.getTimezoneOffset() * MINUTE_2_MS)
+}
+
+const toGlobalTime = (date: Date) => {
+    return new Date(date.getTime() - date.getTimezoneOffset() * MINUTE_2_MS)
 }
 
 export const SEC_2_MS = 1000;
@@ -41,7 +49,7 @@ const getKW = (date: Date) => {
 export default class Event extends ApiModel<EventProps> {
     readonly store: EventStore;
     readonly _pristine: EventProps;
-    readonly UPDATEABLE_PROPS: (keyof EventProps)[] = ['description', 'descriptionLong', 'start', 'end', 'location', 'state'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = ['description', 'descriptionLong', 'start', 'end', 'location', 'state', 'departmentIds'];
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
@@ -63,16 +71,19 @@ export default class Event extends ApiModel<EventProps> {
     location: string;
 
     @observable
-    _end: string;
+    end: Date;
 
     @observable
-    _start: string;
+    start: Date;
 
     @observable
     allDay: boolean;
 
     constructor(props: EventProps, store: EventStore) {
         super();
+        if (props.id === '848d752e-218b-4736-a04b-590a204d94b3') {
+            console.log('here', props);
+        }
         this._pristine = props;
         this.store = store;
         this.id = props.id;
@@ -84,8 +95,10 @@ export default class Event extends ApiModel<EventProps> {
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
-        this._start = props.start;
-        this._end = props.end;
+        
+        this.start = toLocalDate(new Date(props.start));
+        this.end = toLocalDate(new Date(props.end));
+
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         this.allDay = props.allDay;
@@ -102,24 +115,6 @@ export default class Event extends ApiModel<EventProps> {
         return this.store.canEdit(this);
     }
 
-    get start() {
-        return new Date(this._start);
-    }
-
-    get end() {
-        return new Date(this._end);
-    }
-
-    get localStart() {
-        const s = this.start
-        return new Date(s.getTime() + s.getTimezoneOffset() * MINUTE_2_MS)
-    }
-
-    get localEnd() {
-        const e = this.end
-        return new Date(e.getTime() + e.getTimezoneOffset() * MINUTE_2_MS)
-    }
-
     compare(other: Event) {
         if (this.start.getTime() === other.start.getTime()) {
             if (this.end.getTime() === other.end.getTime()) {
@@ -130,25 +125,10 @@ export default class Event extends ApiModel<EventProps> {
         return this.start.getTime() - other.start.getTime();
     }
 
-    
     @action
     setDateRange(start: Date, end: Date) {
-        const startD = new Date(start.getTime() - start.getTimezoneOffset() * MINUTE_2_MS);
-        const endD = new Date(end.getTime() - end.getTimezoneOffset() * MINUTE_2_MS);
-        this._start = startD.toISOString();
-        this._end = endD.toISOString();
-    }
-
-    @action
-    setStartDate(date: Date) {
-        const d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), this.start.getHours(), this.start.getMinutes(), this.start.getSeconds());
-        this._start = d.toISOString();
-    }
-
-    @action
-    setEndDate(date: Date) {
-        const d = new Date(date.getFullYear(), date.getMonth(), date.getDate(), this.start.getHours(), this.start.getMinutes(), this.start.getSeconds());
-        this._end = d.toISOString();
+        this.setStart(start);
+        this.setEnd(end);
     }
 
     @computed
@@ -163,42 +143,50 @@ export default class Event extends ApiModel<EventProps> {
 
     @action
     setStart(date: Date) {
-        this._start = date.toISOString();
+        this.start = new Date(date);
     }
 
     @action
     setEnd(date: Date) {
-        this._end = date.toISOString();
+        this.end = new Date(date);
     }
 
-    get startTime() {
+    @computed
+    get fStartTime() {
         return formatTime(this.start);
     }
 
-    get endTime() {
+    @computed
+    get fEndTime() {
         return formatTime(this.end);
     }
 
-    get startDate() {
+    @computed
+    get fStartDate() {
         return formatDate(this.start);
     }
 
-    get endDate() {
+    @computed
+    get fEndDate() {
         return formatDate(this.end);
     }
 
+    @computed
     get weekOffsetMS_start() {
         return getWeekdayOffsetMS(this.start);
     }
 
+    @computed
     get weekOffsetMS_end() {
         return this.weekOffsetMS_start + this.durationMS;
     }
 
+    @computed
     get kw() {
         return getKW(this.start);
     }
 
+    @computed
     get weekday() {
         return DAYS[this.start.getUTCDay()];
     }
@@ -225,7 +213,7 @@ export default class Event extends ApiModel<EventProps> {
         if (this.durationMS === 0) {
             return 100;
         }
-        return (prog / this.durationMS) * 100 ;
+        return (prog / this.durationMS) * 100;
     }
 
     @override
@@ -242,8 +230,8 @@ export default class Event extends ApiModel<EventProps> {
             location: this.location,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
-            start: (new Date(this._start)).toISOString(),
-            end: (new Date(this._end)).toISOString(),
+            start: toGlobalTime(this.start).toISOString(),
+            end: toGlobalTime(this.end).toISOString(),
             allDay: this.allDay
         }
     }

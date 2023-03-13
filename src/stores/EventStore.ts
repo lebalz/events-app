@@ -1,13 +1,11 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { events as fetchEvents, create as apiCreate, find as findEvent, update as updateEvent, Event as EventProps, EventState } from '../api/event';
+import { Event as EventProps, EventState } from '../api/event';
 import Event, { HOUR_2_MS } from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import iStore from './iStore';
 import Department from '../models/Department';
-import ApiModel from '../models/ApiModel';
-
 
 export class EventStore extends iStore<EventProps> {
     readonly root: RootStore;
@@ -26,7 +24,7 @@ export class EventStore extends iStore<EventProps> {
 
     @computed
     get events() {
-        return this.models;
+        return this.models.slice().sort((a, b) => a.compare(b));
     }
 
     @computed
@@ -62,7 +60,7 @@ export class EventStore extends iStore<EventProps> {
 
     @action
     reload() {
-        this.events.replace([]);
+        this.models.replace([]);
         if (this.root.sessionStore.account) {
             this.load();
         }
@@ -82,7 +80,7 @@ export class EventStore extends iStore<EventProps> {
             return Date.now();
         }
         const first = this.events[0];
-        return first.localStart.getTime();
+        return first.start.getTime();
     }
 
     @computed
@@ -91,7 +89,7 @@ export class EventStore extends iStore<EventProps> {
             return this.eventRangeStartMS + HOUR_2_MS;
         }
         const last = this.events[this.events.length - 1];
-        return last.localEnd.getTime();
+        return last.end.getTime();
     }
 
 
@@ -112,7 +110,7 @@ export class EventStore extends iStore<EventProps> {
                 current.splice(idx, 1);
             }
         })
-        this.events.replace(current);
+        this.models.replace(current);
     }
 
     @action
@@ -128,7 +126,7 @@ export class EventStore extends iStore<EventProps> {
             }
         })
         const newEvents = events.map((e) => new Event(e, this));
-        this.events.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
+        this.models.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
     }
 
 }

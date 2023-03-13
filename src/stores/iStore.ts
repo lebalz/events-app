@@ -45,11 +45,11 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
     abstract createModel(data: T): ApiModel<T>;
 
     find = computedFn(
-        function (this: iStore<T>, id?: string): ApiModel<T> | undefined {
+        function <K extends ApiModel<T>>(this: iStore<T>, id?: string): K | undefined {
             if (!id) {
                 return;
             }
-            return this.models.find((d) => d.id === id);
+            return this.models.find((d) => d.id === id) as K;
         },
         { keepAlive: true }
     )

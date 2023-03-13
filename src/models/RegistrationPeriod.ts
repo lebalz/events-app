@@ -1,10 +1,10 @@
 import { computed, makeObservable, observable, override } from "mobx";
 import { RegistrationPeriod as RegPeriodProps } from "../api/registration_period";
 import { RegistrationPeriodStore } from "../stores/RegistrationPeriodStore";
-import ApiModel from "./ApiModel";
+import ApiModel, { UpdateableProps } from "./ApiModel";
 
 export default class RegistrationPeriod extends ApiModel<RegPeriodProps> {
-    readonly UPDATEABLE_PROPS: (keyof RegPeriodProps)[] = [];
+    readonly UPDATEABLE_PROPS: UpdateableProps<RegPeriodProps>[] = [];
     readonly _pristine: RegPeriodProps;
     readonly store: RegistrationPeriodStore;
     readonly id: string;

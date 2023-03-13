@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'gantt-task-react';
+import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
@@ -10,8 +10,8 @@ const GanttView = observer(() => {
     const eventStore = useStore('eventStore');
     const tasks: Task[] = eventStore.publishedAndMine.filter((e) => !e.invalid).map((e, idx) => {
         return {
-            start: e.localStart,
-            end: e.localEnd,
+            start: e.start,
+            end: e.end,
             name: e.description,
             id: e.id || `id-${idx}`,
             type: 'task',
@@ -20,20 +20,31 @@ const GanttView = observer(() => {
             styles: { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' },
         }
     });
+
+    React.useEffect(() => {
+        const ts = setTimeout(() => {
+            const today = document.querySelector('.today');
+            if (today) {
+                today.scrollIntoView();
+            }
+        }, 20);
+        return () => clearTimeout(ts);
+    }, [tasks]);
     return (
         <Layout>
-            <div>
-                {tasks.length > 0 && (
-                    <Gantt
-                        tasks={tasks}
-                        viewMode={ViewMode.Day}
-                        listCellWidth={''}
-                        ganttHeight={800}
-                        viewDate={new Date()}
-                        rowHeight={20}
-                        locale="gsw"
-                    />
-                )}
+            <div style={{maxWidth: '100%', maxHeight: '93vh', overflow: 'auto'}}>
+                <div style={{width: 'max-content'}}>
+                    {tasks.length > 0 && (
+                        <Gantt
+                            tasks={tasks}
+                            viewMode={ViewMode.Day}
+                            listCellWidth={''}
+                            viewDate={new Date()}
+                            rowHeight={20}
+                            locale="gsw"
+                        />
+                    )}
+                </div>
             </div>
         </Layout>
     )

@@ -32,10 +32,10 @@ const EventRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObje
             <td className={clsx(styles.kw)}>{event.kw}</td>
             <td className={clsx(styles.weekday)}>{event.weekday}</td>
             <td style={{maxWidth: eventTable.maxWidthDescription}} className={clsx(styles.description)}>{event.description}</td>
-            <td className={clsx(styles.startDate)}>{event.startDate}</td>
-            <td className={clsx(styles.startTime)}>{event.startTime}</td>
-            <td className={clsx(styles.endDate)}>{event.endDate}</td>
-            <td className={clsx(styles.endTime)}>{event.endTime}</td>
+            <td className={clsx(styles.startDate)}>{event.fStartDate}</td>
+            <td className={clsx(styles.startTime)}>{event.fStartTime}</td>
+            <td className={clsx(styles.endDate)}>{event.fEndDate}</td>
+            <td className={clsx(styles.endTime)}>{event.fEndTime}</td>
             <td 
                 className={clsx(styles.location)} 
                 style={{maxWidth: eventTable.maxWidthLocation}}

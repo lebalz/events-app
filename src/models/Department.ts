@@ -2,11 +2,11 @@ import { action, computed, makeObservable, observable, override } from "mobx";
 import { Department as DepartmentProps } from "../api/department";
 import { DepartmentStore } from "../stores/DepartmentStore";
 import Event from '../models/Event';
-import ApiModel from "./ApiModel";
+import ApiModel, { UpdateableProps } from "./ApiModel";
 import _ from "lodash";
 
 export default class Department extends ApiModel<DepartmentProps> {
-    readonly UPDATEABLE_PROPS: (keyof DepartmentProps)[] = ['description'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['description'];
     readonly store: DepartmentStore;
     readonly _pristine: DepartmentProps;
     readonly id: string;

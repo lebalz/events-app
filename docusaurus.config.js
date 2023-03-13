@@ -105,6 +105,7 @@ const config = {
           {to: '/calendar', label: 'Kalender', position: 'left'},
           {to: '/table', label: 'Tabelle', position: 'left'},
           {to: '/gantt', label: 'GANTT', position: 'left'},
+          {to: '/schedule', label: 'Stupla', position: 'left'},
           {to: '/my-events', label: 'Meine', position: 'left'},
           {
             type: 'custom-fullScreenButton',
@@ -123,7 +124,7 @@ const config = {
             title: 'Dataimport',
             items: [
               {
-                label: 'Excel',
+                label: 'Import',
                 to: '/import',
               },
             ],

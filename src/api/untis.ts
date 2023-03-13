@@ -26,9 +26,9 @@ export interface UntisLesson {
     description: string
     semester: string
     weekDay: number
-    startDHHMM: number
-    endDHHMM: number
-}
+    startHHMM: number
+    endHHMM: number
+  }
 
 export interface UntisLessonWithTeacher extends UntisLesson {
     teachers: { id: number }[]

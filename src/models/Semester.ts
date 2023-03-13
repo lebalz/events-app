@@ -1,10 +1,10 @@
 import { computed, makeObservable, observable, override } from "mobx";
 import { Semester as SemesterProps } from "../api/semester";
 import { SemesterStore } from "../stores/SemesterStore";
-import ApiModel from "./ApiModel";
+import ApiModel, { UpdateableProps } from "./ApiModel";
 
 export default class Semester extends ApiModel<SemesterProps> {
-    readonly UPDATEABLE_PROPS: (keyof SemesterProps)[] = [];
+    readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [];
     readonly _pristine: SemesterProps;
     readonly store: SemesterStore;
     readonly id: string;

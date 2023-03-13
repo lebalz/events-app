@@ -45,7 +45,7 @@ const EditTD = observer(React.forwardRef((props: RowProps, ref?: React.RefObject
                         locale='gsw-u-sd-chzh' 
                     />
                 ) : (
-                    <span>{event.startDate}</span>
+                    <span>{event.fStartDate}</span>
                 )}
             </td>
             <td>{event.location}</td>
