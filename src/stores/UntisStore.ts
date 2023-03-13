@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { teachers as fetchTeachers, teacher as fetchTeacher, UntisTeacher, sync as syncUntis } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
@@ -6,11 +6,11 @@ import Klass from '../models/Untis/Klass';
 import Lesson from '../models/Untis/Lesson';
 import Teacher from '../models/Untis/Teacher';
 import { RootStore } from './stores';
-import iStore from './iStore';
+import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { computedFn } from 'mobx-utils';
 import { replaceOrAdd } from './helpers/replaceOrAdd';
 
-export class UntisStore implements iStore<UntisTeacher> {
+export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
     classes = observable<Klass>([]);
     lessons = observable<Lesson>([]);
@@ -78,6 +78,15 @@ export class UntisStore implements iStore<UntisTeacher> {
         },
         { keepAlive: true }
     )
+    findClassByName = computedFn(
+        function (this: UntisStore, name?: string): Klass | undefined {
+            if (!name) {
+                return;
+            }
+            return this.classes.find((kl) => name === kl.name);
+        },
+        { keepAlive: true }
+    )
 
     cancelRequest() {
         this.cancelToken.cancel();
@@ -104,6 +113,11 @@ export class UntisStore implements iStore<UntisTeacher> {
                     return data;
                 })
             )
+    }
+
+    @computed
+    get sortedClasses() {
+        return this.classes.slice().sort((a, b) => a.name.localeCompare(b.name));
     }
 
     @action

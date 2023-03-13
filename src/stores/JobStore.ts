@@ -36,7 +36,7 @@ export class JobStore extends iStore<JobProps> {
         }
     }
 
-    // addToStore(data: JobAndEventsProps): Job
+    addToStore(data: JobProps): Job
     @override
     addToStore(data: JobAndEventsProps): Job {
         const job = this.createModel(data);
@@ -46,6 +46,7 @@ export class JobStore extends iStore<JobProps> {
             }
             if (job.type === JobType.SYNC_UNTIS) {
                 this.root.eventStore.reload();
+                this.root.userStore.reload();
             }
             if (data.events) {
                 this.root.eventStore.appendEvents(data.events);

@@ -1,0 +1,49 @@
+.container {
+    width: 100%;
+
+    .select {
+        color: var(--ifm-color-content);
+
+        :global .select__control,
+        :global .select__single-value {
+            background-color: var(--ifm-background-color);
+            border-color: var(--ifm-table-border-color);
+            color: var(--ifm-color-content);
+        }
+        :global .select__option--is-selected {
+            background-color: var(--ifm-color-primary);
+        }
+
+        :global .select__option--is-focused {
+            background-color: var(--ifm-color-primary-lightest);
+        }
+
+        :global .select__option--is-disabled {
+            background-color: var(--ifm-color-secondary-contrast-background);
+        }
+    }
+}
+
+[data-theme='dark'] {
+    .container {
+        .select {
+            :global .select__menu {
+                background-color: var(--ifm-background-color);
+                border-color: var(--ifm-table-border-color);
+                color: var(--ifm-color-content);
+
+            }
+
+            
+        :global .select__option--is-focused {
+            background-color: var(--ifm-color-primary-light);
+        }
+
+            :global .select__input-container {
+                color: var(--ifm-color-content);
+                border-color: var(--ifm-table-border-color);
+            }
+        }
+    }
+
+}

@@ -3,6 +3,7 @@ import { useStore } from '@site/src/stores/hooks';
 import { clsx } from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import ClassLinker from './ClassSelector';
 import styles from './EventRow.module.scss';
 
 interface RowProps {
@@ -74,6 +75,41 @@ const EventRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObje
             >
                 {event.descriptionLong}
             </td>
+            {
+                event.isEditable && (
+                    <td>
+                        <button
+                            className={clsx('button', 'button--danger')}
+                            onClick={() => {
+                                event.destroy();
+                            }}
+                        >
+                            Löschen
+                        </button>
+                    </td>
+                )
+            }
+            {
+                event.isEditable && (
+                    <td style={{minWidth: '300px'}}>
+                        <ClassLinker eventId={event.id} />
+                    </td>
+                )
+            }
+            {
+                event.isEditable && event.isDirty && (
+                    <td>
+                        <button
+                            className={clsx('button', 'button--primary')}
+                            onClick={() => {
+                                event.save();
+                            }}
+                        >
+                            Save
+                        </button>
+                    </td>
+                )
+            }
         </tr>
     );
 }));

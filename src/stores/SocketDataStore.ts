@@ -4,7 +4,7 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi, createCancelToken } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedRecord, IoEvent, NewRecord } from './IoEventTypes';
+import { ChangedRecord, IoEvent } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 class Message {
     type: string;

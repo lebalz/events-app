@@ -73,11 +73,6 @@ const EventList = observer((props: Props) => {
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
 
-    const onChange = (event: any, id: string) => {
-        const param: any = {};
-        param[event.target.name] = event.target.value;
-        eventStore.updateEvent(id, param);
-    };
     const userStore = useStore('userStore');
     const userId = userStore.current?.id;
 

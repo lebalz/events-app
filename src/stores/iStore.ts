@@ -38,6 +38,7 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
         this.abortControllers.set(sigId, sig);
         return fn(sig).finally(() => {
             if (this.abortControllers.get(sigId) === sig) {
+                console.log('Remove', sigId, this.API_ENDPOINT);
                 this.abortControllers.delete(sigId);
             }
         });
@@ -72,6 +73,7 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
          * Removes the model to the store
          */
         const old = this.find(id);
+        console.log('Remove', old?.props);
         if (old) {
             this.models.remove(old);
         }
@@ -93,9 +95,9 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
                         return this.models;
                     })
                 ).catch((e) => {
-                    if (e.name === 'CanceledError') {
-                        return;
-                    }
+                    // if (e.name === 'CanceledError') {
+                    //     return;
+                    // }
                     console.error(e);
                 });
         });
@@ -138,21 +140,24 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
     @action
     destroy(model: ApiModel<T>) {
         const { id } = model;
+        console.log('destroy start', id)
         this.withAbortController(`destroy-${id}`, (sig) => {
+            console.log('destroy start sig', id)
             return apiDestroy<T>(`${this.API_ENDPOINT}/${id}`, sig.signal);
         }).then(action(() => {
+            console.log('destroy start remove', id)
             this.removeFromStore(id);
         }));
     }
 
     @action
-    create(model: T) {
+    create(model: Partial<T>) {
         /**
          * Save the model to the api
          */
         const { id } = model;
         this.withAbortController(`destroy-${id}`, (sig) => {
-            return apiCreate<T>(`${this.API_ENDPOINT}/${id}`, model, sig.signal);
+            return apiCreate<T>(this.API_ENDPOINT, model, sig.signal);
         }).then(action(({ data }) => {
             this.addToStore(data);
         }));

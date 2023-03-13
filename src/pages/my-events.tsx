@@ -7,6 +7,7 @@ import EventList from '../components/Event/EventList';
 import { useStore } from '../stores/hooks';
 import clsx from 'clsx';
 import Details from "@theme/Details";
+import User from '../models/User';
 
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
@@ -24,7 +25,7 @@ const Table = observer(() => {
                         <Details key={idx} summary={
 
                             <summary>
-                                {job.user?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
+                                {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
                             </summary>
                         }
                         >
