@@ -30,7 +30,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         api.interceptors.response.use(
             res => res,
             error => {
-                if (error.response.status === 401) {
+                if (error.response?.status === 401) {
                     this.disconnect();
                 }
                 return Promise.reject(error);

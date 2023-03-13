@@ -33,6 +33,7 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
         const sig = new AbortController();
         if (this.abortControllers.has(sigId)) {
             this.abortControllers.get(sigId).abort();
+            console.log('Abort', sigId, this.API_ENDPOINT);
         }
         this.abortControllers.set(sigId, sig);
         return fn(sig).finally(() => {
@@ -91,7 +92,12 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
                         }
                         return this.models;
                     })
-                )
+                ).catch((e) => {
+                    if (e.name === 'CanceledError') {
+                        return;
+                    }
+                    console.error(e);
+                });
         });
 
     }

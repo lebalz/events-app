@@ -65,6 +65,8 @@ export class RootStore {
       this.initialized = true;
     });
 
+    this.loadableStores.forEach((store) => store.load());
+
     reaction(
       () => this.sessionStore.account,
       (account) => {
@@ -72,6 +74,7 @@ export class RootStore {
           this.loadableStores.forEach((store) => store.load());
         } else {
           this.resettableStores.forEach((store) => store.reset());
+          this.loadableStores.forEach((store) => store.load());
         }
       }
     )
