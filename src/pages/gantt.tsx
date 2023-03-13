@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import styles from './gantt.module.scss';
 import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 import { observer } from 'mobx-react-lite';
@@ -32,8 +33,8 @@ const GanttView = observer(() => {
     }, [tasks]);
     return (
         <Layout>
-            <div style={{maxWidth: '100%', maxHeight: '93vh', overflow: 'auto'}}>
-                <div style={{width: 'max-content'}}>
+            <div className={clsx(styles.container)}>
+                <div className={clsx(styles.gantt)}>
                     {tasks.length > 0 && (
                         <Gantt
                             tasks={tasks}

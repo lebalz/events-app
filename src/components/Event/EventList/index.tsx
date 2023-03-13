@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import styles from './styles.module.scss';
 import EventRow from './EventRow';
-import Icon from '@mdi/react';
 import { reaction } from 'mobx';
 import FullScreenButton from '../../shared/FullScreenButton';
 
@@ -15,8 +14,6 @@ interface Props {
 }
 
 const EventList = observer((props: Props) => {
-    // const {isSticky, tableRef} = useStickyHeader();
-    const eventStore = useStore('eventStore');
     const viewStore = useStore('viewStore');
     const containerRef = React.useRef<HTMLDivElement>(null);
     

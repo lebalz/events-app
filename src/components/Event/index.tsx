@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import { toGlobalTime } from '@site/src/models/Event';
+import { toGlobalTime } from '@site/src/models/helpers/time';
 interface Props {
 }
 
