@@ -83,7 +83,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             const record: ChangedRecord = JSON.parse(data);
             switch (record.record) {
                 case 'EVENT':
-                    this.root.eventStore.loadEvent(record.id);
+                    this.root.eventStore.loadModel(record.id);
                     break;
                 case 'USER':
                     this.root.userStore.loadUser(record.id);
@@ -117,6 +117,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         }
         this.socket.on('connect', () => {
             api.defaults.headers.common['x-metadata-socketid'] = this.socket.id;
+            console.log('New Sock ID: x-metadata-socketid =', this.socket.id)
             this.setLiveState(true);
         });
 
