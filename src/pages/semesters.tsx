@@ -23,7 +23,7 @@ const Table = observer(() => {
             </button>
             <div>
                 {store.semesters.map((semester) => (
-                    <Semester semsesterId={semester.id} />
+                    <Semester semesterId={semester.id} />
                 ))}
             </div>
         </Layout>

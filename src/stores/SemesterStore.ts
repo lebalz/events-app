@@ -21,7 +21,16 @@ export class SemesterStore extends iStore<SemesterProps> {
 
     @computed
     get semesters() {
-        return this.models.slice().sort((a, b) => a.start.getTime() - b.start.getTime());
+        return this.models.slice().sort((a, b) => b.start.getTime() - a.start.getTime());
+    }
+
+    eventsBySemester(semester: Semester) {
+        return this.root.eventStore.byDateRange(semester.start, semester.end);
+    }
+
+    @computed
+    get currentSemester() {
+        return this.semesters.find(s => s.isCurrent);
     }
 
     @action

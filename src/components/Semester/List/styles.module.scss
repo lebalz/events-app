@@ -1,0 +1,7 @@
+.table {
+    .semester {
+        &.dirty {
+            border: 1px solid red;
+        }
+    }
+}

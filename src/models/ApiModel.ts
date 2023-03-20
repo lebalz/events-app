@@ -1,4 +1,4 @@
-import { action, computed, IObservableArray, makeObservable } from "mobx";
+import { action, computed, IObservableArray, makeObservable, observable } from "mobx";
 import _ from 'lodash';
 import iStore from "../stores/iStore";
 
@@ -12,13 +12,16 @@ const notEqual = (a: any, b: any) => {
     }
 }
 
-export type UpdateableProps<T extends { id: string }> = (keyof T | {[key in keyof T]?: string})
+export type UpdateableProps<T extends { id: string }> = (keyof T | {[key in keyof T]?: (val: T[key]) => any})
 
 export default abstract class ApiModel<T extends { id: string }> {
     abstract readonly _pristine: T;
     abstract readonly store: iStore<T>;
     abstract readonly id: string;
     abstract readonly UPDATEABLE_PROPS: UpdateableProps<T>[];
+
+    @observable
+    _editing = false;
 
     constructor() {
         makeObservable(this);
@@ -53,6 +56,7 @@ export default abstract class ApiModel<T extends { id: string }> {
 
     @action
     reset() {
+        this.setEditing(false);
         return this.update(this.pristine);
     }
 
@@ -60,11 +64,13 @@ export default abstract class ApiModel<T extends { id: string }> {
     update(props: Partial<T>) {
         this.UPDATEABLE_PROPS.forEach(val => {
             const key = typeof val === 'string' ? val : Object.keys(val)[0];
+            console.log(key)
             if (key in props) {
-                if (Array.isArray(props[key])) {
-                    ((this as any)[key] as IObservableArray<T>).replace(props[key] as T[]);
+                const value = typeof val === 'string' ? props[key] : val[key](props[key]);
+                if (Array.isArray(value)) {
+                    ((this as any)[key] as IObservableArray<T>).replace(value as T[]);
                 } else {
-                    Object.assign(this, { [key]: props[key] });
+                    Object.assign(this, { [key]: value });
                 }
             }
         });
@@ -79,5 +85,15 @@ export default abstract class ApiModel<T extends { id: string }> {
     @action
     destroy() {
         return this.store.destroy(this);
+    }
+
+    @action
+    setEditing(editing: boolean) {
+        this._editing = editing;
+    }
+
+    @computed
+    get editing() {
+        return this._editing || this.isDirty;
     }
 }

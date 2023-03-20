@@ -1,0 +1,16 @@
+.button {
+    --ifm-button-size-multiplier: 0;
+    padding: 0.2rem;
+    margin: 0.2rem;
+}
+
+.delete {
+    position: relative;
+    .confirm {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        transform: translateY(70%);
+        z-index: calc(var(--ifm-z-index-fixed) - 3);
+    }
+}

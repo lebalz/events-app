@@ -1,11 +1,12 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { Event as EventProps, EventState } from '../api/event';
-import Event, { HOUR_2_MS } from '../models/Event';
+import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import iStore from './iStore';
 import Department from '../models/Department';
+import { HOUR_2_MS } from '../models/helpers/time';
 
 export class EventStore extends iStore<EventProps> {
     readonly root: RootStore;
@@ -54,6 +55,14 @@ export class EventStore extends iStore<EventProps> {
                 return [];
             }
             return this.events.filter((e) => e.jobId === jobId);
+        },
+        { keepAlive: true }
+    );
+
+    
+    byDateRange = computedFn(
+        function (this: EventStore, start: Date, end: Date): Event[] {
+            return this.events.filter((e) => e.start >= start && e.start <= end);
         },
         { keepAlive: true }
     );

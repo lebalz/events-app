@@ -1,15 +1,21 @@
-import { computed, makeObservable, observable, override } from "mobx";
+import { action, computed, makeObservable, observable, override } from "mobx";
 import { Semester as SemesterProps } from "../api/semester";
 import { SemesterStore } from "../stores/SemesterStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import { formatDate, formatTime } from "./helpers/time";
 
 export default class Semester extends ApiModel<SemesterProps> {
-    readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [];
+    readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [
+        { start: (val) => new Date(val) }, 
+        { end: (val) => new Date(val) }, 
+        'name'
+    ];
     readonly _pristine: SemesterProps;
     readonly store: SemesterStore;
     readonly id: string;
-    readonly name: string;
+    @observable
+    name: string;
+
     @observable.ref
     start: Date;
     @observable.ref
@@ -64,5 +70,15 @@ export default class Semester extends ApiModel<SemesterProps> {
     @computed
     get fEndDate() {
         return formatDate(this.end);
+    }
+
+    @computed
+    get events() {
+        return this.store.eventsBySemester(this);
+    }
+
+    @computed
+    get isCurrent() {
+        return this.start.getTime() < Date.now() && this.end.getTime() > Date.now();
     }
 }

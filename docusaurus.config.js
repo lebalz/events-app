@@ -121,8 +121,12 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Dataimport',
+            title: 'Admin',
             items: [
+              {
+                label: 'Dashboard',
+                to: '/admin',
+              },
               {
                 label: 'Import',
                 to: '/import',

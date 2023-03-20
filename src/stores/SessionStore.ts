@@ -55,7 +55,11 @@ export class SessionStore {
 
     @action
     setAccount(account?: AccountInfo) {
-        this.state.account = account;
+        if (account) {
+            if ((account.idTokenClaims?.exp || 0) > Date.now() / 1000) {
+                this.state.account = account;
+            }
+        }
     }
 
     @computed
