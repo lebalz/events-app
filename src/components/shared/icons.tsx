@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@mdi/react';
-import { mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle } from '@mdi/js';
+import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle } from '@mdi/js';
 import { IconProps } from '@mdi/react/dist/IconProps';
 
 export const EditIcon = (props: Partial<IconProps>) => {
@@ -35,5 +35,11 @@ export const ArrowRight = (props: Partial<IconProps>) => {
 export const ArrowLeft = (props: Partial<IconProps>) => {
     return (
         <Icon path={mdiArrowLeftCircle} size={1} {...props} />
+    );
+};
+
+export const Calendar = (props: Partial<IconProps>) => {
+    return (
+        <Icon path={mdiCalendarMonth} size={1} {...props} />
     );
 };

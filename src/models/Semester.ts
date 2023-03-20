@@ -81,4 +81,14 @@ export default class Semester extends ApiModel<SemesterProps> {
     get isCurrent() {
         return this.start.getTime() < Date.now() && this.end.getTime() > Date.now();
     }
+
+    @computed
+    get untisSemester() {
+        const month = this.start.getMonth() + 1;
+        const year = this.start.getFullYear();
+        if (month < 8) {
+            return `${year}FS`;
+        }
+        return `${year}HS`;
+    }
 }

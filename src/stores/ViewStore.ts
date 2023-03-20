@@ -4,6 +4,8 @@ import iStore from './iStore';
 import { EventStore } from './EventStore';
 import Department from '../models/Department';
 import Semester from '../models/Semester';
+import User from '../models/User';
+import Lesson from '../models/Untis/Lesson';
 
 const MIN_TABLE_WIDTH = 1450;
 const MIN_COLUMN_WIDTH_EM = {
@@ -98,6 +100,9 @@ export class ViewStore {
     @observable
     _semesterId = '';
 
+    @observable
+    _userId: string | null = null;
+
     constructor(store: RootStore) {
         this.root = store;
         this.eventTable = new EventTable(this);
@@ -132,8 +137,21 @@ export class ViewStore {
     }
 
     @computed
+    get user(): User | undefined {
+        if (!this._userId) {
+            return this.root.userStore.current;
+        }
+        return this.root.userStore.find(this._userId);
+    }
+
+    @computed
     get semester(): Semester {
         return this.root.semesterStore.find(this.semesterId);
+    }
+
+    @computed
+    get usersLessons(): Lesson[] {
+        return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l.semester === this.semester.untisSemester);
     }
 
 }

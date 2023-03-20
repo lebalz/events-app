@@ -18,8 +18,9 @@ const COLOR = {
 }
 
 const Calendar = observer(() => {
+    const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
-    const tasks = eventStore.publishedAndMine.map((e, idx) => {
+    const tasks = (viewStore.semester?.events || []).map((e, idx) => {
         return {
             start: e.start,
             end: e.end,
@@ -55,9 +56,6 @@ const Calendar = observer(() => {
                         style={{ height: '95vh' }}
                         onSelectEvent={(record) => console.log(eventStore.find(record.id))}
                         eventPropGetter={eventStyleGetter}
-                        popup
-                        selectable
-
                     />
                 )}
             </div>

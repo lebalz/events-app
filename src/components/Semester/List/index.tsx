@@ -11,6 +11,8 @@ import Save from '../../shared/Button/Save';
 import Discard from '../../shared/Button/Discard';
 import DatePicker from '../../shared/DatePicker';
 import TextInput from '../../shared/TextInput';
+import EditTr from './editRow';
+import Tr from './row';
 
 
 interface Props {
@@ -31,47 +33,12 @@ const SemesterList = observer((props: Props) => {
                 </thead>
                 <tbody>
                     {
-                        store.semesters.map((semester, idx) => (
-                            <tr key={idx} className={clsx(styles.semester, semester.isDirty && styles.dirty)}>
-                                <td>{
-                                semester.editing ? (
-                                    <TextInput text={semester.name} onChange={(text) => {semester.update({name: text})}} />
-                                ) : (
-                                    semester.name
-                                )}</td>
-                                <td>{
-                                    semester.editing ? (
-                                        <DatePicker date={semester.start} onChange={(date) => {semester.update({start: date.toISOString()})}} />
-                                    ) : (
-                                        semester.fStartDate
-                                    )
-                                }</td>
-                                <td>{
-                                    semester.editing ? (
-                                        <DatePicker date={semester.end} onChange={(date) => {semester.update({end: date.toISOString()})}} />
-                                    ) : (
-                                        semester.fEndDate
-                                    )
-                                }</td>
-                                <td>
-                                    <div>
-                                        {semester.isDirty && (
-                                            <Save onClick={() => semester.save()} />
-                                        )}
-                                        {semester.editing && (
-                                            <Discard onClick={() => semester.reset()} />
-                                        )}
-                                        {semester.editing && (
-                                            <Delete onClick={() => semester.destroy()} />
-                                        )}
-                                        {!semester.editing && (
-                                            <Edit onClick={() => semester.setEditing(true)} />
-                                        )}
-
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
+                        store.semesters.map((semester, idx) => {
+                            if (semester.editing) {
+                                return <EditTr semester={semester} key={idx} />
+                            }
+                            return <Tr semester={semester} key={idx} />
+                        })
                     }
                 </tbody>
             </table>

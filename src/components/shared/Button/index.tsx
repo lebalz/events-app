@@ -4,20 +4,21 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 interface Props {
-    type: 'create' | 'update' | 'delete' | 'discard';
-    label: string;
-    loading?: boolean;
     onClick: () => void;
+    title?: string;
+    classNames?: string[];
+    icon?: ReactNode | string;
 }
 
 const Button = (props: Props) => {
+    const cn = props.classNames || [];
     return (
         <button
-            className={clsx(styles.button, styles[props.type])}
+            className={clsx(styles.button, 'button', 'button--secondary', ...cn)}
+            title={props.title}
             onClick={props.onClick}
-            disabled={props.loading}
         >
-            {props.label}
+            {props.icon}
         </button>
     )
 };

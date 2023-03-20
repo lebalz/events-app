@@ -4,9 +4,8 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Icon from '@mdi/react';
-import { mdiFullscreen, mdiFullscreenExit } from '@mdi/js';
-import { ArrowLeft, ArrowRight } from '../icons';
+import { ArrowLeft, ArrowRight, Calendar } from '../icons';
+import Button from '../Button';
 
 
 const SemesterSelector = observer(() => {
@@ -16,20 +15,18 @@ const SemesterSelector = observer(() => {
         return null;
     }
     return (<div className={clsx(styles.semesterSelector)} >
-        <button
-            className={clsx('badge', 'badge--secondary', 'badge--sm', styles.badgeButton)}
-            onClick={() => {
-                viewStore.nextSemester(-1);
-            }}
-        >
-            <ArrowLeft />
-        </button>
-        <div className={clsx(styles.navBadge, 'dropdown', 'dropdown--hoverable')}>
+        <Button
+            icon={<ArrowLeft size={0.8} />}
+            classNames={['badge', 'badge--secondary', 'badge--sm', styles.button]}
+            onClick={() => viewStore.nextSemester(-1)}
+        />
+        <div className={clsx('dropdown', 'dropdown--hoverable', styles.label)}>
             <button
                 className={clsx(
-                    'badge',
-                    styles.nameBadge,
-                    viewStore.semester?.isCurrent ? 'badge--primary' : 'badge--warning'
+                    'button',
+                    'button--sm',
+                    styles.labelBadge,
+                    viewStore.semester?.isCurrent ? 'button--primary' : 'button--secondary'
                 )}
                 style={{
                     textOverflow: 'ellipsis',
@@ -45,26 +42,22 @@ const SemesterSelector = observer(() => {
                     <li key={idx} onClick={() => viewStore.setSemester(semester)}>
                         <div
                             className={clsx(
-                                styles.userBadge,
-                                'badge',
-                                'badge--secondary',
+                                styles.dropdown,
+                                viewStore.semester?.id === semester.id ? 'dropdown__link--active' : '',
                                 'dropdown__link'
                             )}
                         >
-                            {semester.name}
+                            {semester.name}{semester.isCurrent ? <>{' '}<Calendar size={0.6} style={{float: 'right'}} /></> : ''}
                         </div>
                     </li>
                 ))}
             </ul>
         </div>
-        <button
-            className={clsx('badge', 'badge--secondary', 'badge--sm', styles.badgeButton)}
-            onClick={() => {
-                viewStore.nextSemester(1);
-            }}
-        >
-            <ArrowRight />
-        </button>
+        <Button
+            icon={<ArrowRight size={0.8} />}
+            classNames={['badge', 'badge--secondary', 'badge--sm', styles.button]}
+            onClick={() => viewStore.nextSemester(1)}
+        />
     </div>);
 });
 

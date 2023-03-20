@@ -10,8 +10,9 @@ import Layout from '@theme/Layout';
 const localizer = momentLocalizer(moment)
 
 const Schedule = observer(() => {
-    const userStore = useStore('userStore');
-    const lessons = (userStore.current?.untisTeacher?.lessons || []).map((l, idx) => {
+    const viewStore = useStore('viewStore');
+    const start = new Date();
+    const lessons = (viewStore.usersLessons || []).map((l, idx) => {
         return {
             start: l.start,
             end: l.end,
@@ -23,18 +24,23 @@ const Schedule = observer(() => {
     return (
         <Layout>
             <div>
+                <h2>Stundenplan</h2>
                 {lessons.length > 0 && (
                     <BigCalendar
                         defaultView='week'
-                        defaultDate={moment().toDate()}
+                        toolbar={false}
+                        views={['week']}
+                        defaultDate={(new Date()).toISOString().slice(0, 10)}
                         localizer={localizer}
                         events={lessons}
                         startAccessor="start"
                         endAccessor="end"
-                        style={{ height: 1700 }}
+                        style={{ height: 600 }}
+                        showMultiDayTimes
                         popup
                         selectable
-
+                        min={new Date(2023, 0, 1, 7, 0, 0)}
+                        max={new Date(2023, 0, 1, 18, 0, 0)}
                     />
                 )}
             </div>
