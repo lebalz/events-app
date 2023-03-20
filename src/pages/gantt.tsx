@@ -8,8 +8,8 @@ import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
 
 const GanttView = observer(() => {
-    const eventStore = useStore('eventStore');
-    const tasks: Task[] = eventStore.publishedAndMine.filter((e) => !e.invalid).map((e, idx) => {
+    const viewStore = useStore('viewStore');
+    const tasks: Task[] = (viewStore.semester?.events || []).filter((e) => !e.invalid).map((e, idx) => {
         return {
             start: e.start,
             end: e.end,

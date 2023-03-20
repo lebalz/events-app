@@ -3,6 +3,7 @@ import { RootStore } from './stores';
 import iStore from './iStore';
 import { EventStore } from './EventStore';
 import Department from '../models/Department';
+import Semester from '../models/Semester';
 
 const MIN_TABLE_WIDTH = 1450;
 const MIN_COLUMN_WIDTH_EM = {
@@ -16,7 +17,7 @@ const MAX_COLUMN_WIDTH = 'calc(95vw - 8em)';
  * route: /table
  */
 class EventTable {
-    private readonly store: EventStore;
+    private readonly store: ViewStore;
 
     departmentIds = observable.set<string>();
     @observable
@@ -24,7 +25,7 @@ class EventTable {
     @observable
     baseFontSize = 16;
 
-    constructor(store: EventStore) {
+    constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
     }
@@ -70,7 +71,11 @@ class EventTable {
 
     @computed
     get events() {
-        return this.store.publishedAndMine.filter((event) => {
+        const {semester} = this.store;
+        if (!semester) {
+            return [];
+        }
+        return semester.events.filter((event) => {
             if (this.departmentIds.size === 0) {
                 return true;
             }
@@ -89,9 +94,13 @@ export class ViewStore {
 
     @observable.ref
     eventTable: EventTable;
+
+    @observable
+    _semesterId = '';
+
     constructor(store: RootStore) {
         this.root = store;
-        this.eventTable = new EventTable(this.root.eventStore);
+        this.eventTable = new EventTable(this);
         makeObservable(this);
     }
 
@@ -103,6 +112,28 @@ export class ViewStore {
     @action
     setFullscreen(fullscreen: boolean): void {
         this.fullscreen = fullscreen;
+    }
+
+    @computed
+    get semesterId(): string {
+        return this._semesterId || this.root.semesterStore.currentSemester?.id || '';
+    }
+
+    @action
+    setSemester(semester: Semester): void {
+        this._semesterId = semester.id;
+    }
+
+    @action
+    nextSemester(direction: number = 1): void {
+        const offset = direction > 0 ? -1 : 1;
+        const semester = this.root.semesterStore.nextSemester(this.semesterId, offset);
+        this._semesterId = semester?.id || '';
+    }
+
+    @computed
+    get semester(): Semester {
+        return this.root.semesterStore.find(this.semesterId);
     }
 
 }

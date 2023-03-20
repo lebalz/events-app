@@ -108,6 +108,10 @@ const config = {
           {to: '/schedule', label: 'Stupla', position: 'left'},
           {to: '/my-events', label: 'Meine', position: 'left'},
           {
+            type: 'custom-semesterSelector',
+            position: 'right'
+          },
+          {
             type: 'custom-fullScreenButton',
             position: 'right'
           },

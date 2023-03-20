@@ -39,4 +39,13 @@ export class SemesterStore extends iStore<SemesterProps> {
             this.load();
         }
     }
+
+    nextSemester(currentId: string, offset: number) {
+        const currentIdx = this.semesters.findIndex(s => s.id === currentId);
+        if (currentIdx === -1) {
+            return;
+        }
+        const idx = (currentIdx + offset) % this.semesters.length;
+        return this.semesters[idx < 0 ? this.semesters.length - 1 : idx];
+    }
 }
