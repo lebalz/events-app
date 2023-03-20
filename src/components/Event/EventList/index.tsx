@@ -7,6 +7,7 @@ import styles from './styles.module.scss';
 import EventRow from './EventRow';
 import { reaction } from 'mobx';
 import FullScreenButton from '../../shared/FullScreenButton';
+import EditRow from './EditRow';
 
 interface Props {
     events: Event[];
@@ -94,37 +95,18 @@ const EventList = observer((props: Props) => {
                             <th>Ende</th>
                             <th>Zeit</th>
                             <th>Ort</th>
-                            <th>
-                                <div>
-                                    Schulen
-                                </div>
-                                {/* {
-                                    <ToggleFilter
-                                        values={['GYM', 'FMS', 'WMS'].map((key) => ({
-                                            value: key,
-                                            active: viewStore.eventTable.departments.has(school2departments(key as SCHOOL)[0]),
-                                            color: `var(--${key.toLowerCase()})`
-                                        }))}
-                                        onChange={(value) => {
-                                            if (viewStore.eventTable.departments.has(school2departments(value as SCHOOL)[0])) {
-                                                school2departments(value as SCHOOL).forEach((dep) => {
-                                                    viewStore.eventTable.departments.delete(dep);
-                                                });
-                                            } else {
-                                                school2departments(value as SCHOOL).forEach((dep) => {
-                                                    viewStore.eventTable.departments.add(dep);
-                                                });
-                                            }
-                                        }}
-                                    />
-                                } */}
-                            </th>
+                            <th>Schulen</th>
                             <th>Klassen</th>
                             <th>Beschreibung</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {props.events.map((event) => (<EventRow key={event.id} event={event} locked={event.authorId !== userId} />))}
+                        {props.events.map((event) => {
+                            if (event.editing) {
+                                return <EditRow key={event.id} event={event} locked={event.authorId !== userId} />;
+                            }
+                            return <EventRow key={event.id} event={event} locked={event.authorId !== userId} />;
+                        })}
                     </tbody>
                 </table>
             </div>

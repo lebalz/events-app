@@ -1,16 +1,9 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 
 import styles from './styles.module.scss';
-import Button from '../../shared/Button';
-import Edit from '../../shared/Button/Edit';
-import Delete from '../../shared/Button/Delete';
-import Save from '../../shared/Button/Save';
-import Discard from '../../shared/Button/Discard';
-import DatePicker from '../../shared/DatePicker';
-import TextInput from '../../shared/TextInput';
 import EditTr from './editRow';
 import Tr from './row';
 

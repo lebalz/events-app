@@ -6,7 +6,15 @@ import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, t
 export default class Event extends ApiModel<EventProps> {
     readonly store: EventStore;
     readonly _pristine: EventProps;
-    readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = ['description', 'descriptionLong', 'start', 'end', 'location', 'state', 'departmentIds'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
+        'description', 
+        'descriptionLong', 
+        {start: (val) => new Date(val)}, 
+        {end: (val) => new Date(val)}, 
+        'location', 
+        'state', 
+        'departmentIds'
+    ];
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
@@ -38,9 +46,6 @@ export default class Event extends ApiModel<EventProps> {
 
     constructor(props: EventProps, store: EventStore) {
         super();
-        if (props.id === '848d752e-218b-4736-a04b-590a204d94b3') {
-            console.log('here', props);
-        }
         this._pristine = props;
         this.store = store;
         this.id = props.id;
