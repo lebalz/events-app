@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { teachers as fetchTeachers, teacher as fetchTeacher, UntisTeacher, sync as syncUntis } from '../api/untis';
+import { teachers as fetchTeachers, classes as fetchClasses, teacher as fetchTeacher, UntisTeacher, sync as syncUntis } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
 import Klass from '../models/Untis/Klass';
@@ -9,26 +9,48 @@ import { RootStore } from './stores';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { computedFn } from 'mobx-utils';
 import { replaceOrAdd } from './helpers/replaceOrAdd';
+import Department from '../models/Department';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
+    abortControllers = new Map<string, AbortController>();
     classes = observable<Klass>([]);
     lessons = observable<Lesson>([]);
     teachers = observable<Teacher>([]);
 
-    cancelToken = axios.CancelToken.source();
+    @observable
+    initialized = false;
     constructor(root: RootStore) {
         this.root = root;
         makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,
             (id) => {
-                if (id) {
+                if (id && this.initialized) {
                     this.loadUntisTeacher(id);
                 }
             }
         )
     }
+
+    withAbortController<T>(sigId: string, fn: (ct: AbortController) => Promise<T>) {
+        const sig = new AbortController();
+        if (this.abortControllers.has(sigId)) {
+            this.abortControllers.get(sigId).abort();
+        }
+        this.abortControllers.set(sigId, sig);
+        return fn(sig).catch((err) => {
+            if (axios.isCancel(err)) {
+                return { data: null };
+            }
+            throw err;
+        }).finally(() => {
+            if (this.abortControllers.get(sigId) === sig) {
+                this.abortControllers.delete(sigId);
+            }
+        });
+    }
+
 
     findTeacher = computedFn(
         function (this: UntisStore, id?: number): Teacher | undefined {
@@ -87,11 +109,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         { keepAlive: true }
     )
 
-    cancelRequest() {
-        this.cancelToken.cancel();
-        this.cancelToken = axios.CancelToken.source();
-    }
-
     @action
     reload() {
         if (this.root.sessionStore.account) {
@@ -101,16 +118,17 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
 
     @action
     load() {
-        return fetchTeachers(this.cancelToken)
-            .then(
-                action(async ({ data }) => {
-                    this.teachers.replace(data.map((t) => new Teacher(t, this)));
-                    if (this.root.userStore.current?.untisId) {
-                        await this.loadUntisTeacher(this.root.userStore.current.untisId);
-                    }
-                    return data;
-                })
-            )
+        this.initialized = false;
+        return this.withAbortController('untis', (sig) => {
+            return Promise.all([fetchTeachers(sig.signal), fetchClasses(sig.signal)]).then(action(([teachers, classes]) => {
+                this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
+                this.classes.replace(classes.data.map((c) => new Klass(c, this)));
+                this.initialized = true;
+                return {data: this.teachers};
+            }));
+        }).then(({data}) => {
+            return data || [];
+        });
     }
 
     @computed
@@ -119,29 +137,34 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     }
 
     @action
-    loadUntisTeacher(id: number) {
-        return fetchTeacher(this.root.userStore.current?.untisId, this.cancelToken).then(action(({ data }) => {
-            const classes = this.classes.slice();
-            const lessons = this.lessons.slice();
-            data.classes.forEach((c) => {
-                const klass = new Klass(c, this);
-                replaceOrAdd(classes, klass, (a, b) => a.id === b.id);
-            });
-            data.lessons.forEach((l) => {
-                const lesson = new Lesson(l, this);
-                replaceOrAdd(lessons, lesson, (a, b) => a.id === b.id);
-            });
-            this.classes.replace(classes);
-            this.lessons.replace(lessons);
-        }));
+    loadUntisTeacher(untisId: number) {
+        /**
+         * This will be called automatically by UserStores reaction 
+         */
+        return this.withAbortController(`untis-teacher-${untisId}`, (sig) => {
+            return fetchTeacher(untisId, sig.signal).then(action(({ data }) => {
+                const lessons = this.lessons.slice();
+                data.lessons.forEach((l) => {
+                    const lesson = new Lesson(l, this);
+                    replaceOrAdd(lessons, lesson, (a, b) => a.id === b.id);
+                });
+                this.lessons.replace(lessons);
+            }));
+        })
     }
 
     @action
     sync() {
-        return syncUntis(this.cancelToken)
-            .then(({data}) => {
-                this.root.jobStore.addToStore(data);
-            })
+        return this.withAbortController(`untis-sync`, (sig) => {
+            return syncUntis(sig.signal)
+                .then(({ data }) => {
+                    this.root.jobStore.addToStore(data);
+                })
+        });
+    }
+
+    findDepartment(id: string): Department | undefined {
+        return this.root.departmentStore.find<Department>(id);
     }
 
     @action

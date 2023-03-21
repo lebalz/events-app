@@ -1,4 +1,4 @@
-import axios, { CancelTokenSource, CancelToken, AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { EVENTS_API, apiConfig, msalInstance, TENANT_ID } from '../authConfig';
 
 export namespace Api {
@@ -43,24 +43,8 @@ api.interceptors.request.use(
   });
 
 
-export function createCancelToken(): [CancelTokenSource, CancelToken] {
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
-  const token = source.token;
-
-  return [source, token];
-}
-
-export function isCancel(throwable: any) {
-  return axios.isCancel(throwable);
-}
-
-export function isLive(cancelToken: CancelTokenSource) {
-  return api.get('', { cancelToken: cancelToken.token });
-}
-
-export function checkLogin(cancelToken: CancelTokenSource) {
-  return api.get('checklogin', { cancelToken: cancelToken.token });
+export function checkLogin(signal: AbortSignal) {
+  return api.get('checklogin', { signal });
 }
 
 export default api;

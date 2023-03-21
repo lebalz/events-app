@@ -25,6 +25,6 @@ export interface Event {
     updatedAt: string
 }
 
-export function importExcel(formData: FormData, cancelToken: CancelTokenSource): AxiosPromise<Job> {
-    return api.post('event/import', formData, { cancelToken: cancelToken.token });
+export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromise<Job> {
+    return api.post('event/import', formData, { signal });
 }

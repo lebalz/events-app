@@ -1,25 +1,26 @@
 import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
+import Department from '../Department';
 
 export default class Klass {
     readonly id: number
     readonly name: string
     readonly sf: string
-    readonly departmentIds: string[]
+    readonly departmentId: string
     readonly teacherIds: number[]
     readonly lessonIds: number[]
     private readonly store: UntisStore;
 
     constructor(props: UntisClassWithTeacher, store: UntisStore) {
+        this.store = store;
         this.id = props.id;
         this.name = props.name;
         this.sf = props.sf;
-        this.departmentIds = props.departmentIds;
+        this.departmentId = props.departmentId ?? '';
         this.teacherIds = props.teachers.map(t => t.id);
         this.lessonIds = props.lessons.map(t => t.id);
 
-        this.store = store;
         makeObservable(this);
     }
 
@@ -41,6 +42,11 @@ export default class Klass {
     @computed
     get lessons() {
         return this.lessonIds.map(t => this.store.findLesson(t));
+    }
+
+    @computed
+    get department(): Department | undefined {
+        return this.store.findDepartment(this.departmentId);
     }
 
 }

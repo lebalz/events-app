@@ -3,7 +3,6 @@ import { Role, User as UserProps } from '../api/user';
 import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import Teacher from './Untis/Teacher';
 
 export default class User extends ApiModel<UserProps> {
   readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId'];

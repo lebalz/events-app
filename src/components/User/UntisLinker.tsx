@@ -16,6 +16,11 @@ const UntisLinker = observer(() => {
     return (
         <div className={clsx(styles.container)}>
             <Select
+                menuPortalTarget={document.body}
+                styles={{ 
+                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    valueContainer: (base) => ({...base, flexBasis: '12em'})
+                }}
                 className={clsx(styles.select)}
                 classNamePrefix="select"
                 value={{value: current.untisId, label: current.untisTeacher ? `${current.shortName} - ${current.untisTeacher?.longName}` : '-'}}

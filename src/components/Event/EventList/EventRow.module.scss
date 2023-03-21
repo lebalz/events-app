@@ -49,6 +49,12 @@ tr.eventRow {
     &.descriptionLong {
       max-width: min(30em, 95vw);
     }
+    &.classes {
+      max-width: min(9em, 95vw);
+    }
+    &.departmentNames {
+      max-width: min(11em, 95vw);
+    }
   }
   &:not(.editMode) {
     td {

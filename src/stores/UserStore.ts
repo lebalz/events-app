@@ -1,12 +1,9 @@
-import { action, computed, makeObservable, observable } from 'mobx';
-import { computedFn } from 'mobx-utils';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import {User as UserProps, linkToUntis } from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
-import axios from 'axios';
 import iStore from './iStore';
-import { createCancelToken } from '../api/base';
 
 export class UserStore extends iStore<UserProps> {
     readonly API_ENDPOINT = 'user';
@@ -19,6 +16,14 @@ export class UserStore extends iStore<UserProps> {
         super();
         this.root = root;
         makeObservable(this);
+        reaction(
+            () => this.current,
+            (user) => {
+                if (user?.untisId) {
+                    this.root.untisStore.loadUntisTeacher(user.untisId);
+                }
+            }
+        )
     }
 
     createModel(data: UserProps): User {
@@ -27,7 +32,7 @@ export class UserStore extends iStore<UserProps> {
 
     @computed
     get current(): User | undefined {
-        return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username.toLowerCase());
+        return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username?.toLowerCase());
     }
     
     @computed
@@ -44,9 +49,10 @@ export class UserStore extends iStore<UserProps> {
 
     @action
     linkUserToUntis(user: User, untisId: number) {
-        const [ct] = createCancelToken();
-        linkToUntis(user.id, untisId, ct).then(({data}) => {
-            user.setUntisId(data.untisId);
+        return this.withAbortController('linkUserToUntis', (sig) => {
+            return linkToUntis(user.id, untisId, sig.signal).then(({data}) => {
+                user.setUntisId(data.untisId);
+            });
         });
     }
 

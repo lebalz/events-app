@@ -20,7 +20,10 @@ const ClassLinker = observer((props: Props) => {
         <div className={clsx(styles.container)}>
             <Select
                 menuPortalTarget={document.body}
-                styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                styles={{ 
+                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    valueContainer: (base) => ({...base, flexBasis: '12em'}) 
+                }}
                 className={clsx(styles.select)}
                 classNamePrefix="select"
                 value={event.classes.map((cls) => ({ label: cls, value: untisStore.findClassByName(cls)?.id || '-' }))}

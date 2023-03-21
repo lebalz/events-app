@@ -1,7 +1,7 @@
 import { RootStore } from './stores';
 import { io, Socket } from "socket.io-client";
 import { action, makeObservable, observable, reaction } from 'mobx';
-import { default as api, checkLogin as pingApi, createCancelToken } from '../api/base';
+import { default as api, checkLogin as pingApi } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { ChangedRecord, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
@@ -14,6 +14,7 @@ class Message {
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
     private cancelToken?: CancelTokenSource;
+    abortControllers = new Map<string, AbortController>();
     @observable.ref
     socket?: Socket;
 
@@ -42,6 +43,24 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 console.log('Socket.IO live:', isLive)
             }
         );
+    }
+
+    withAbortController<T>(sigId: string, fn: (ct: AbortController) => Promise<T>) {
+        const sig = new AbortController();
+        if (this.abortControllers.has(sigId)) {
+            this.abortControllers.get(sigId).abort();
+        }
+        this.abortControllers.set(sigId, sig);
+        return fn(sig).catch((err) => {
+            if (axios.isCancel(err)) {
+                return { data: null };
+            }
+            throw err;
+        }).finally(() => {
+            if (this.abortControllers.get(sigId) === sig) {
+                this.abortControllers.delete(sigId);
+            }
+        });
     }
 
     @action
@@ -126,20 +145,18 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
     checkLogin() {
         if (this.root.sessionStore.account) {
-            const [source, token] = createCancelToken();
-            this.cancelToken?.cancel('Another request spawned before this one finished.');
-            this.cancelToken = source;
-            return pingApi(this.cancelToken)
-                .then(({ status }) => {
-                    if (status === 200 && !this.isLive) {
-                        return true;
-                    } else {
+            return this.withAbortController('ping', (sig) => {
+                return pingApi(sig.signal)
+                    .then(({ status }) => {
+                        if (status === 200 && !this.isLive) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }).catch((err) => {
                         return false;
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                    return false;
-                });
+                    });
+            });
         }
         return Promise.resolve(false);
     }

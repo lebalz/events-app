@@ -8,6 +8,7 @@ import Select from 'react-select';
 import Event from '@site/src/models/Event';
 import { action } from 'mobx';
 import Department from '@site/src/models/Department';
+import { DropdownIndicator } from 'react-select/dist/declarations/src/components/indicators';
 
 interface Props {
     eventId: string;
@@ -21,7 +22,10 @@ const DepartmentLinker = observer((props: Props) => {
         <div className={clsx(styles.container)}>
             <Select
                 menuPortalTarget={document.body}
-                styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                styles={{ 
+                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    valueContainer: (base) => ({...base, flexBasis: '12em'})
+                }}
                 className={clsx(styles.select)}
                 classNamePrefix="select"
                 value={event.departmentIds.map((id) => ({ label: departmentStore.find<Department>(id).name, value: id }))}

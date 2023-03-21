@@ -100,7 +100,7 @@ const User = observer(() => {
                                                 <Icon path={mdiOfficeBuilding} size={1} />
                                             </div>
                                             <div className={clsx('col', 'col--6', styles.value)}>
-                                                {[...new Set(current.untisTeacher.departments)].join(', ')}
+                                                {[...new Set(current.untisTeacher.departments.map(d => d.name))].join(', ')}
                                             </div>
                                         </div>
                                         <div className={clsx('row')}>

@@ -45,7 +45,7 @@ export interface UntisClass {
     id: number
     name: string
     sf: string
-    departmentIds: string[]
+    departmentId: string | null
 }
 export interface UntisClassWithTeacher extends UntisClass {
     teachers: { id: number }[]
@@ -54,15 +54,17 @@ export interface UntisClassWithTeacher extends UntisClass {
 
 export interface UntisTeacherComplete extends UntisTeacher {
     lessons: UntisLessonWithTeacher[]
-    classes: UntisClassWithTeacher[]
 }
 
-export function teachers(cancelToken: CancelTokenSource): AxiosPromise<UntisTeacher[]> {
-    return api.get('untis/teacher/all', { cancelToken: cancelToken.token });
+export function classes(signal: AbortSignal): AxiosPromise<UntisClassWithTeacher[]> {
+    return api.get('untis/class/all',  { signal });
 }
-export function teacher(untisId: number, cancelToken: CancelTokenSource): AxiosPromise<UntisTeacherComplete> {
-    return api.get(`untis/teacher/${untisId}`, { cancelToken: cancelToken.token });
+export function teachers(signal: AbortSignal): AxiosPromise<UntisTeacher[]> {
+    return api.get('untis/teacher/all',  { signal });
 }
-export function sync(cancelToken: CancelTokenSource): AxiosPromise<Job> {
-    return api.post('untis/sync', { cancelToken: cancelToken.token });
+export function teacher(untisId: number, signal: AbortSignal): AxiosPromise<UntisTeacherComplete> {
+    return api.get(`untis/teacher/${untisId}`,  { signal });
+}
+export function sync(signal: AbortSignal): AxiosPromise<Job> {
+    return api.post('untis/sync',  { signal });
 }

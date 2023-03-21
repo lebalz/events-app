@@ -3,10 +3,8 @@ import _ from 'lodash';
 import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import { computedFn } from 'mobx-utils';
 import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType } from '../api/job';
 import { importExcel as postExcel } from '../api/event';
-import { createCancelToken } from '../api/base';
 import Job from '../models/Job';
 
 export class JobStore extends iStore<JobProps> {
@@ -87,9 +85,12 @@ export class JobStore extends iStore<JobProps> {
     importExcel(file: File) {
         const formData = new FormData();
         formData.append('terminplan', file);
-        const [ct] = createCancelToken();
-        postExcel(formData, ct).then(({ data }) => {
-            this.models.push(new Job(data, this));
+        return this.withAbortController(`postExcel-${file.name}`, (sig) => {
+            return postExcel(formData, sig.signal).then(({ data }) => {
+                if (data) {
+                    this.models.push(new Job(data, this));
+                }
+            });
         });
     }
 

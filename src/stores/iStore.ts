@@ -3,6 +3,7 @@ import ApiModel from "../models/ApiModel";
 import { all as apiAll, find as apiFind, create as apiCreate, destroy as apiDestroy, update as apiUpdat } from '../api/api_model';
 import { RootStore } from "./stores";
 import { computedFn } from "mobx-utils";
+import axios from "axios";
 
 export class ResettableStore {
     reset() {
@@ -35,7 +36,12 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
             this.abortControllers.get(sigId).abort();
         }
         this.abortControllers.set(sigId, sig);
-        return fn(sig).finally(() => {
+        return fn(sig).catch((err) => {
+            if (axios.isCancel(err)) {
+                return { data: null };
+            }
+            throw err;
+        }).finally(() => {
             if (this.abortControllers.get(sigId) === sig) {
                 this.abortControllers.delete(sigId);
             }
@@ -89,12 +95,7 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
                         }
                         return this.models;
                     })
-                ).catch((e) => {
-                    if (e.name === 'CanceledError') {
-                        return;
-                    }
-                    console.error(e);
-                });
+                );
         });
 
     }

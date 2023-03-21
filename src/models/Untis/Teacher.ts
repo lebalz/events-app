@@ -1,7 +1,7 @@
-import { Departments } from '@site/src/api/event';
 import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable, observable } from 'mobx';
 import { UntisTeacher } from '../../api/untis';
+import Department from '../Department';
 
 
 export default class Teacher {
@@ -10,7 +10,6 @@ export default class Teacher {
     readonly longName: string;
     readonly title: string;
     readonly active: boolean;
-    readonly teacherIds: number[]
     private readonly store: UntisStore;
 
     constructor(props: UntisTeacher, store: UntisStore) {
@@ -35,7 +34,7 @@ export default class Teacher {
     }
 
     @computed
-    get departments(): Departments[] {
+    get departments(): Department[] {
         return this.classes.map(c => c.department).filter(d => d !== undefined);
     }
     @computed
