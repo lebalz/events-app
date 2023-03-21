@@ -26,3 +26,12 @@ export function linkToUntis(userId: string, untisId: number, signal: AbortSignal
         { signal });
 }
 
+
+
+export function createIcs(userId: string, signal: AbortSignal): AxiosPromise<User> {
+    return api.post(
+        `user/${userId}/create_ics`,
+        {},
+        { signal });
+}
+

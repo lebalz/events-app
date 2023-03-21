@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import {User as UserProps, linkToUntis } from '../api/user';
+import {User as UserProps, linkToUntis, createIcs } from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
@@ -59,5 +59,14 @@ export class UserStore extends iStore<UserProps> {
     @action
     loadUser(id: string) {
         return this.loadModel(id);
+    }
+
+    @action
+    createIcs() {
+        return this.withAbortController('createIcs', (sig) => {
+            return createIcs(this.current?.id, sig.signal).then(({data}) => {
+                console.log(data);
+            });
+        });
     }
 }

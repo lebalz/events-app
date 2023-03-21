@@ -38,7 +38,6 @@
     "react-big-calendar": "^1.5.0",
     "react-dom": "^17.0.2",
     "react-select": "^5.7.0",
-    "react-sticky-table": "^5.1.11",
     "react-time-picker": "^5.2.0",
     "sass": "^1.55.0",
     "socket.io-client": "^4.5.4",
