@@ -4,7 +4,7 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi, createCancelToken } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedRecord, IoEvent } from './IoEventTypes';
+import { ChangedRecord, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 class Message {
     type: string;
@@ -81,32 +81,18 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     handleReload = (type: IoEvent) => {
         return action((data: string) => {
             const record: ChangedRecord = JSON.parse(data);
-            switch (record.record) {
-                case 'EVENT':
-                    this.root.eventStore.loadModel(record.id);
+            const store = this.root[RecordStoreMap[record.record]] as iStore<any>;
+            console.log('handle dgram', type, record.record, store)
+            switch (type) {
+                case IoEvent.NEW_RECORD:
+                    store.loadModel(record.id);
                     break;
-                case 'USER':
-                    this.root.userStore.loadUser(record.id);
+                case IoEvent.CHANGED_RECORD:
+                    store.loadModel(record.id);
                     break;
-                case 'JOB':
-                    switch (type) {
-                        case IoEvent.DELETED_RECORD:
-                            this.root.jobStore.removeFromStore(record.id);
-                            break;
-                        default:
-                            this.root.jobStore.loadJob(record.id);
-                    }
+                case IoEvent.DELETED_RECORD:
+                    store.removeFromStore(record.id);
                     break;
-                case 'DEPARTMENT':
-                    switch (type) {
-                        case IoEvent.DELETED_RECORD:
-                            this.root.departmentStore.removeFromStore(record.id);
-                            break;
-                        default:
-                            this.root.departmentStore.loadDepartment(record.id);
-                    }
-                    break;
-
             }
         })
     };
@@ -117,7 +103,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         }
         this.socket.on('connect', () => {
             api.defaults.headers.common['x-metadata-socketid'] = this.socket.id;
-            console.log('New Sock ID: x-metadata-socketid =', this.socket.id)
             this.setLiveState(true);
         });
 
@@ -137,10 +122,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.on(IoEvent.NEW_RECORD, (this.handleReload(IoEvent.NEW_RECORD)));
         this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));
         this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
-
-        this.socket.onAny((eventName, ...args) => {
-            console.log(eventName, args);
-        });
     }
 
     checkLogin() {

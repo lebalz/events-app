@@ -64,7 +64,6 @@ export default abstract class ApiModel<T extends { id: string }> {
     update(props: Partial<T>) {
         this.UPDATEABLE_PROPS.forEach(val => {
             const key = typeof val === 'string' ? val : Object.keys(val)[0];
-            console.log(key)
             if (key in props) {
                 const value = typeof val === 'string' ? props[key] : val[key](props[key]);
                 if (Array.isArray(value)) {

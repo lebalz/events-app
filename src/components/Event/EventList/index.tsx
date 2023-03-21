@@ -73,6 +73,7 @@ const EventList = observer((props: Props) => {
 
     const userStore = useStore('userStore');
     const userId = userStore.current?.id;
+    const isEdited = props.events.some((e) => e.editing);
 
     return (
         <div className={clsx(styles.container)} ref={containerRef}>
@@ -86,7 +87,7 @@ const EventList = observer((props: Props) => {
             <div className={clsx(styles.scrollContainer, viewStore.fullscreen && styles.fullscreen)}>
                 <table className={clsx(styles.table)}>
                     <thead>
-                        <tr>
+                        <tr className={clsx(isEdited && styles.editMode)}>
                             <th>KW</th>
                             <th>Tag</th>
                             <th>Stichwort</th>
@@ -105,7 +106,7 @@ const EventList = observer((props: Props) => {
                             if (event.editing) {
                                 return <EditRow key={event.id} event={event} locked={event.authorId !== userId} />;
                             }
-                            return <EventRow key={event.id} event={event} locked={event.authorId !== userId} />;
+                            return <EventRow key={event.id} event={event} locked={event.authorId !== userId} editMode={isEdited} />;
                         })}
                     </tbody>
                 </table>

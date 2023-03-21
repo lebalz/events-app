@@ -2,12 +2,12 @@ import { action, computed, makeObservable, observable, override } from "mobx";
 import { Semester as SemesterProps } from "../api/semester";
 import { SemesterStore } from "../stores/SemesterStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
-import { formatDate, formatTime } from "./helpers/time";
+import { formatDate, formatTime, toGlobalDate, toLocalDate } from "./helpers/time";
 
 export default class Semester extends ApiModel<SemesterProps> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [
-        { start: (val) => new Date(val) }, 
-        { end: (val) => new Date(val) }, 
+        { start: (val) => toLocalDate(new Date(val)) }, 
+        { end: (val) => toLocalDate(new Date(val)) }, 
         'name'
     ];
     readonly _pristine: SemesterProps;
@@ -32,8 +32,8 @@ export default class Semester extends ApiModel<SemesterProps> {
         this.store = store;
         this.id = props.id;
         this.name = props.name;
-        this.start = new Date(props.start);
-        this.end = new Date(props.end);
+        this.start = toLocalDate(new Date(props.start));
+        this.end = toLocalDate(new Date(props.end));
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
 
@@ -45,8 +45,8 @@ export default class Semester extends ApiModel<SemesterProps> {
         return {
             id: this.id,
             name: this.name,
-            start: this.start.toISOString(),
-            end: this.end.toISOString(),
+            start: toGlobalDate(this.start).toISOString(),
+            end: toGlobalDate(this.end).toISOString(),
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
         };

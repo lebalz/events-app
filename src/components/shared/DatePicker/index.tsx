@@ -3,6 +3,7 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
+import { toGlobalDate } from '@site/src/models/helpers/time';
 
 
 interface Props {
@@ -19,7 +20,7 @@ const DatePicker = (props: Props) => {
                 value={date}
                 onChange={(e) => {
                     const newDate = new Date(e.currentTarget.value);
-                    props.onChange(newDate);
+                    props.onChange(toGlobalDate(newDate));
                 }}
             />
         </div>

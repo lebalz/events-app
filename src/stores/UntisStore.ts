@@ -23,7 +23,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         reaction(
             () => this.root.userStore.current?.untisId,
             (id) => {
-                console.log('untisId changed', id);
                 if (id) {
                     this.loadUntisTeacher(id);
                 }
@@ -105,7 +104,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         return fetchTeachers(this.cancelToken)
             .then(
                 action(async ({ data }) => {
-                    console.log(data)
                     this.teachers.replace(data.map((t) => new Teacher(t, this)));
                     if (this.root.userStore.current?.untisId) {
                         await this.loadUntisTeacher(this.root.userStore.current.untisId);
@@ -123,7 +121,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @action
     loadUntisTeacher(id: number) {
         return fetchTeacher(this.root.userStore.current?.untisId, this.cancelToken).then(action(({ data }) => {
-            console.log(data)
             const classes = this.classes.slice();
             const lessons = this.lessons.slice();
             data.classes.forEach((c) => {
@@ -143,7 +140,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     sync() {
         return syncUntis(this.cancelToken)
             .then(({data}) => {
-                console.log('Sync Job started', data);
                 this.root.jobStore.addToStore(data);
             })
     }

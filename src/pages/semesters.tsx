@@ -4,7 +4,7 @@ import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
 import Semester from '../components/Semester';
 import clsx from 'clsx';
-import { toGlobalTime } from '../models/helpers/time';
+import { toGlobalDate } from '../models/helpers/time';
 
 const Table = observer(() => {
     const store = useStore('semesterStore');
@@ -13,7 +13,7 @@ const Table = observer(() => {
             <button 
                 className={clsx('button--primary', 'button')}
                 onClick={() => {
-                    const now = toGlobalTime(new Date());
+                    const now = toGlobalDate(new Date());
                     const t1 = new Date(now);
                     t1.setHours(t1.getHours() + 1);
                     store.create({ name: 'FS23', start: now.toISOString(), end: t1.toISOString() })

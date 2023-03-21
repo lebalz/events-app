@@ -3,6 +3,7 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
+import { toGlobalDate } from '@site/src/models/helpers/time';
 
 
 interface Props {
@@ -11,18 +12,14 @@ interface Props {
 }
 
 const DateTimePicker = (props: Props) => {
-    const date = new Date(props.date.getTime());
-    date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
     return (
         <div>
             <input 
                 type={'datetime-local'} 
-                value={date.toISOString().substring(0, 16)}
+                value={toGlobalDate(props.date).toISOString().substring(0, 16)}
                 onChange={(e) => {
                     const newDate = new Date(e.currentTarget.value);
-                    newDate.setHours(newDate.getHours());
-                    console.log(newDate);
-                    props.onChange(newDate);
+                    props.onChange(toGlobalDate(newDate));
                 }}
             />
         </div>

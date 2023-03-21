@@ -49,20 +49,21 @@ tr.eventRow {
     &.descriptionLong {
       max-width: min(30em, 95vw);
     }
-    // sticky columns start & time
-    &:nth-child(4) {
-      position: sticky;
-      left: 0;
-    }
-    &:nth-child(5) {
-      position: sticky;
-      left: 5em;
-    }
-    &.edit {
-      position: sticky;
-      left: 0;
+  }
+  &:not(.editMode) {
+    td {
+      // sticky columns start & time
+      &:nth-child(4) {
+        position: sticky;
+        left: 0;
+      }
+      &:nth-child(5) {
+        position: sticky;
+        left: 5em;
+      }
     }
   }
+  
   &.expanded {
     td {
       // max-width: unset;

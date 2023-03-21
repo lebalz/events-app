@@ -31,7 +31,6 @@ const ClassLinker = observer((props: Props) => {
                     }))
                 }
                 onChange={action((opt) => {
-                    console.log(opt);
                     if (opt) {
                         event.classes.replace(opt.map((o) => o.label));
                     }

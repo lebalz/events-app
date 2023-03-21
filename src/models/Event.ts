@@ -2,15 +2,15 @@ import { action, computed, makeObservable, observable, override } from 'mobx';
 import { Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalTime } from './helpers/time';
+import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate } from './helpers/time';
 export default class Event extends ApiModel<EventProps> {
     readonly store: EventStore;
     readonly _pristine: EventProps;
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
         'description', 
         'descriptionLong', 
-        {start: (val) => new Date(val)}, 
-        {end: (val) => new Date(val)}, 
+        {start: (val) => toLocalDate(new Date(val))}, 
+        {end: (val) => toLocalDate(new Date(val))}, 
         'location', 
         'state', 
         'departmentIds'
@@ -192,8 +192,8 @@ export default class Event extends ApiModel<EventProps> {
             location: this.location,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
-            start: toGlobalTime(this.start).toISOString(),
-            end: toGlobalTime(this.end).toISOString(),
+            start: toGlobalDate(this.start).toISOString(),
+            end: toGlobalDate(this.end).toISOString(),
             allDay: this.allDay
         }
     }

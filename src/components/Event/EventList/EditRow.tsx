@@ -5,10 +5,8 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Delete from '../../shared/Button/Delete';
 import Discard from '../../shared/Button/Discard';
-import Edit from '../../shared/Button/Edit';
 import Save from '../../shared/Button/Save';
 import ClassLinker from '../../shared/ClassSelector';
-import DatePicker from '../../shared/DatePicker';
 import DateTimePicker from '../../shared/DateTimePicker';
 import DepartmentLinker from '../../shared/DepartmentSelector';
 import LongTextInput from '../../shared/LongTextInput';
@@ -20,15 +18,22 @@ interface RowProps {
     locked: boolean;
 }
 
-const EditRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObject<HTMLTableRowElement>) => {
+const EditRow = observer((props: RowProps) => {
     const { event } = props;
     const viewStore = useStore('viewStore');
     const { eventTable } = viewStore;
+    const ref = React.useRef<HTMLDivElement>(null);
+    
+    React.useEffect(() => {
+        if (ref.current) {
+            ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [ref]);
+
     return (
         <tr
-            ref={ref}
             data-id={event.id}
-            className={clsx(styles.eventRow)}
+            className={clsx(styles.eventRow, styles.editMode)}
         >
             <td className={clsx(styles.kw)}>{event.kw}</td>
             <td className={clsx(styles.weekday)}>{event.weekday}</td>
@@ -74,16 +79,18 @@ const EditRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObjec
                 />
             </td>
             <td>
-                <Discard onClick={() => event.reset()} />
-                {
-                    event.isDirty && (
-                        <Save onClick={() => event.save()} />
-                    )
-                }
-                <Delete onClick={() => event.destroy()} />
+                <div ref={ref}>
+                    <Discard onClick={() => event.reset()} />
+                    {
+                        event.isDirty && (
+                            <Save onClick={() => event.save()} />
+                        )
+                    }
+                    <Delete onClick={() => event.destroy()} />
+                </div>
             </td>
         </tr>
     );
-}));
+});
 
 export default EditRow;

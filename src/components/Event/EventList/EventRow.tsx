@@ -9,16 +9,16 @@ import styles from './EventRow.module.scss';
 interface RowProps {
     event: Event;
     locked: boolean;
+    editMode: boolean;
 }
 
-const EventRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObject<HTMLTableRowElement>) => {
+const EventRow = observer((props: RowProps) => {
     const [expanded, setExpanded] = React.useState(false);
     const viewStore = useStore('viewStore');
     const { eventTable } = viewStore;
     const { event } = props;
     return (
         <tr
-            ref={ref}
             data-id={event.id}
             onClick={() => {
                 if (!expanded) {
@@ -28,7 +28,7 @@ const EventRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObje
             onBlur={() => {
                 setExpanded(false);
             }}
-            className={clsx(styles.eventRow, expanded && styles.expanded)}
+            className={clsx(styles.eventRow, expanded && styles.expanded, props.editMode && styles.editMode)}
         >
             <td className={clsx(styles.kw)}>{event.kw}</td>
             <td className={clsx(styles.weekday)}>{event.weekday}</td>
@@ -84,6 +84,6 @@ const EventRow = observer(React.forwardRef((props: RowProps, ref?: React.RefObje
             }
         </tr>
     );
-}));
+});
 
 export default EventRow;

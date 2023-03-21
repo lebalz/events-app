@@ -36,7 +36,6 @@ class EventTable {
     setClientWidth(width: number): void {
         if (width !== this.clientWidth) {
             this.clientWidth = width;
-            console.log('setClientWidth', width);
         }
     }
 

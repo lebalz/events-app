@@ -34,21 +34,26 @@
                 inset-block-start: 0;
                 top: 0;
                 z-index: var(--ifm-z-index-dropdown);
-                th {
-                    background: var(--ifm-color-content-inverse);
-                    padding: 0;
-                    padding-left: 0.2rem;
-                    min-width: 2.5rem;
-                    text-align: left;
-                    
-                    // sticky columns start & time
-                    &:nth-child(4) {
-                        position: sticky;
-                        left: 0;
+                tr { 
+                    th {
+                        background: var(--ifm-color-content-inverse);
+                        padding: 0;
+                        padding-left: 0.2rem;
+                        min-width: 2.5rem;
+                        text-align: left;
                     }
-                    &:nth-child(5) {
-                      position: sticky;
-                      left: 5em;
+                    &:not(.editMode) {
+                        th {
+                            // sticky columns start & time
+                            &:nth-child(4) {
+                                position: sticky;
+                                left: 0;
+                            }
+                            &:nth-child(5) {
+                              position: sticky;
+                              left: 5em;
+                            }
+                        }
                     }
                 }
             }

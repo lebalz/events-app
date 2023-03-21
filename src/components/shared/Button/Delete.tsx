@@ -9,6 +9,7 @@ interface Props {
 }
 
 const Delete = (props: Props) => {
+    const ref = React.useRef<HTMLSpanElement>(null);
     const [promptDelete, setPromptDelete] = React.useState(false);
 
     const onBlur = () => {
@@ -18,18 +19,22 @@ const Delete = (props: Props) => {
 
     React.useEffect(() => {
         return () => {
-            console.log('rem')
             document.removeEventListener('click', onBlur);
         }
     }, []);
 
+    React.useEffect(() => {
+        if (promptDelete && ref.current) {
+            ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [promptDelete, ref])
+
     return (
-        <span className={clsx(styles.delete)}>
+        <span className={clsx(styles.delete)} ref={ref}>
             <button
                 className={clsx(styles.button, styles.delete, 'button', 'button--danger', 'button--sm')}
                 title="Löschen"
                 onClick={(e) => {
-                    console.log('add el', promptDelete);
                     setPromptDelete(!promptDelete);
                     document.addEventListener('click', onBlur);
                     e.stopPropagation();
@@ -42,7 +47,6 @@ const Delete = (props: Props) => {
                 <div
                     className={clsx(styles.confirm, 'button', 'button--danger')}
                     onClick={(e) => {
-                        console.log('pressed');
                         e.stopPropagation();
                         e.preventDefault();
                         props.onClick();

@@ -29,7 +29,6 @@ export class SessionStore {
 
     cancelToken: CancelTokenSource = axios.CancelToken.source();
 
-
     constructor(store: RootStore) {
         this.root = store;
         makeObservable(this);

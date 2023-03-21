@@ -17,6 +17,13 @@ interface Props {
 
 const EditTr = observer((props: Props) => {
     const { semester } = props;
+    const ref = React.useRef<HTMLDivElement>(null);
+    
+    React.useEffect(() => {
+        if (ref.current) {
+            ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [ref])
     return (
         <tr className={clsx(styles.semester, semester.isDirty && styles.dirty)}>
             <td>
@@ -31,7 +38,7 @@ const EditTr = observer((props: Props) => {
 
             </td>
             <td>
-                <div>
+                <div ref={ref}>
                     {semester.isDirty && (
                         <>
                             <Discard onClick={() => semester.reset()} />

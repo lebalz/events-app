@@ -26,7 +26,6 @@ const UntisLinker = observer(() => {
                     }))
                 }
                 onChange={(opt) => {
-                    console.log(opt);
                     current.linkUntis(opt?.value);
                 }}
                 isMulti={false}

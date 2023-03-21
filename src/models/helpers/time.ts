@@ -17,7 +17,7 @@ export const toLocalDate = (date: Date) => {
     return new Date(date.getTime() + date.getTimezoneOffset() * MINUTE_2_MS)
 }
 
-export const toGlobalTime = (date: Date) => {
+export const toGlobalDate = (date: Date) => {
     return new Date(date.getTime() - date.getTimezoneOffset() * MINUTE_2_MS)
 }
 
