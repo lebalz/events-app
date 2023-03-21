@@ -4,6 +4,8 @@ require('dotenv').config()
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
+const VERSION = 'alpha.1';
+
 /** @type (
     | string
     | {
@@ -94,10 +96,15 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+        id: VERSION,
+        content: `🚧 Seite im Aufbau... ${VERSION} 🚧`,
+        backgroundColor: '#fcff00'
+      },
       navbar: {
         title: 'Events',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Events App',
           src: 'img/logo.svg',
         },
         hideOnScroll: true,
