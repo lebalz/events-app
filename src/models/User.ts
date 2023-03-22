@@ -17,6 +17,7 @@ export default class User extends ApiModel<UserProps> {
   readonly role: Role;
   readonly createdAt: Date;
   readonly updatedAt: Date;
+  readonly icalUrl: string | null;
 
   @observable
   untisId?: number;
@@ -32,6 +33,7 @@ export default class User extends ApiModel<UserProps> {
     this.firstName = props.firstName;
     this.lastName = props.lastName;
     this.untisId = props.untisId;
+    this.icalUrl = props.icsLocator;
     this.createdAt = new Date(props.createdAt);
     this.updatedAt = new Date(props.updatedAt);
 

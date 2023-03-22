@@ -8,8 +8,11 @@ import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
 import Icon from '@mdi/react';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool } from '@mdi/js';
 import UntisLinker from '../components/User/UntisLinker';
+import { Calendar } from '../components/shared/icons';
+import { EVENTS_API } from '../authConfig';
+import Button from '../components/shared/Button';
 
 
 function HomepageHeader() {
@@ -76,6 +79,18 @@ const User = observer(() => {
                                     </div>
                                     <div className={clsx('col', 'col--6', styles.value)}>
                                         <UntisLinker />
+                                    </div>
+                                </div>
+                                <div className={clsx('row')}>
+                                    <div className={clsx('col', 'col--3', styles.label)}>
+                                        <span>Kalender</span>
+                                    </div>
+                                    <div className={clsx('col', 'col--1', styles.icon)}>
+                                        <Calendar />
+                                    </div>
+                                    <div className={clsx('col', 'col--6', styles.value)}>
+                                        <Button onClick={() => userStore.createIcs()} icon={<Icon path={mdiSync} size={1} />} />
+                                        {userStore.current.icalUrl && `${EVENTS_API}/${userStore.current.icalUrl}`}
                                     </div>
                                 </div>
                                 <div className={clsx('row')}>

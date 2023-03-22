@@ -15,6 +15,7 @@ export type User = {
     firstName: string
     lastName: string
     role: Role
+    icsLocator: string | null
     createdAt: Date
     updatedAt: Date
 }
