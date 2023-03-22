@@ -7,6 +7,7 @@ import _ from 'lodash';
 import iStore from './iStore';
 import Department from '../models/Department';
 import { HOUR_2_MS } from '../models/helpers/time';
+import Lesson from '../models/Untis/Lesson';
 
 export class EventStore extends iStore<EventProps> {
     readonly root: RootStore;
@@ -137,5 +138,19 @@ export class EventStore extends iStore<EventProps> {
         const newEvents = events.map((e) => new Event(e, this));
         this.models.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
     }
+
+    affectedLessons = computedFn(
+        function (this: EventStore, eventId: string): Lesson[] {
+            const event = this.find<Event>(eventId);
+            if (!event) {
+                return [];
+            }
+            return this.root.untisStore.lessons.filter((l) => {
+                const unaffected =  event.weekOffsetMS_end < l.weekOffsetMS_start ||
+                                    event.weekOffsetMS_start > l.weekOffsetMS_end;
+                return !unaffected;
+            })
+
+    })
 
 }

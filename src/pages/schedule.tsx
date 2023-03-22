@@ -11,12 +11,12 @@ const localizer = momentLocalizer(moment)
 
 const Schedule = observer(() => {
     const viewStore = useStore('viewStore');
-    const start = new Date();
+    const untisStore = useStore('untisStore');
     const lessons = (viewStore.usersLessons || []).map((l, idx) => {
         return {
             start: l.start,
             end: l.end,
-            title: `${l.subject}:${l.classes.map(c => c.name).join(', ')}`,
+            title: `${l.subject}:${l.classes.map(c => c?.name).join(', ')}`,
             description: l.subject,
             id: l.id
         }
@@ -39,6 +39,10 @@ const Schedule = observer(() => {
                         showMultiDayTimes
                         popup
                         selectable
+                        onSelectEvent={({id}) => {
+                            const events = untisStore.overlappingEvents(id);
+                            console.log(events);
+                        }}
                         min={new Date(2023, 0, 1, 7, 0, 0)}
                         max={new Date(2023, 0, 1, 18, 0, 0)}
                     />

@@ -3,6 +3,8 @@ import { Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate } from './helpers/time';
+import Klass from './Untis/Klass';
+import Lesson from './Untis/Lesson';
 export default class Event extends ApiModel<EventProps> {
     readonly store: EventStore;
     readonly _pristine: EventProps;
@@ -87,12 +89,6 @@ export default class Event extends ApiModel<EventProps> {
         return this.start.getTime() - other.start.getTime();
     }
 
-    @action
-    setDateRange(start: Date, end: Date) {
-        this.setStart(start);
-        this.setEnd(end);
-    }
-
     @computed
     get deparments() {
         return this.store.getDepartments(this.departmentIds);
@@ -101,16 +97,6 @@ export default class Event extends ApiModel<EventProps> {
     @computed
     get departmentNames() {
         return this.deparments.map(d => d.name);
-    }
-
-    @action
-    setStart(date: Date) {
-        this.start = new Date(date);
-    }
-
-    @action
-    setEnd(date: Date) {
-        this.end = new Date(date);
     }
 
     @computed
@@ -176,6 +162,10 @@ export default class Event extends ApiModel<EventProps> {
             return 100;
         }
         return (prog / this.durationMS) * 100;
+    }
+
+    affectsClass(klass: Klass) {
+        return this.classes.some(c => c === klass.name);
     }
 
     @override

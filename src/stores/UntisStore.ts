@@ -6,6 +6,7 @@ import Klass from '../models/Untis/Klass';
 import Lesson from '../models/Untis/Lesson';
 import Teacher from '../models/Untis/Teacher';
 import { RootStore } from './stores';
+import Event from '../models/Event';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { computedFn } from 'mobx-utils';
 import { replaceOrAdd } from './helpers/replaceOrAdd';
@@ -124,9 +125,9 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
                 this.classes.replace(classes.data.map((c) => new Klass(c, this)));
                 this.initialized = true;
-                return {data: this.teachers};
+                return { data: this.teachers };
             }));
-        }).then(({data}) => {
+        }).then(({ data }) => {
             return data || [];
         });
     }
@@ -177,4 +178,21 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     save(model) {
         throw new Error('Not implemented');
     }
+
+    overlappingEvents = computedFn(
+        function (this: UntisStore, lessonId: number): Event[] {
+            const lesson = this.findLesson(lessonId);
+            if (!lesson || !this.root.viewStore.semester) {
+                return [];
+            }
+            return this.root.viewStore.semester.events.filter((e) => {
+                if (!lesson.classes.some((c) => e.affectsClass(c))) {
+                    return false;
+                }
+                const unaffected = lesson.weekOffsetMS_end < e.weekOffsetMS_start ||
+                    lesson.weekOffsetMS_start > e.weekOffsetMS_end;
+                return !unaffected;
+            })
+        }
+    )
 }
