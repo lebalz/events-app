@@ -1,8 +1,5 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { RootStore } from './stores';
-import iStore from './iStore';
-import { EventStore } from './EventStore';
-import Department from '../models/Department';
 import Semester from '../models/Semester';
 import User from '../models/User';
 import Lesson from '../models/Untis/Lesson';
@@ -11,7 +8,7 @@ const MIN_TABLE_WIDTH = 1450;
 const MIN_COLUMN_WIDTH_EM = {
     description: 18,
     location: 7,
-    descriptionLong: 28
+    descriptionLong: 25
 };
 const MAX_COLUMN_WIDTH = 'calc(95vw - 8em)';
 
@@ -46,21 +43,31 @@ class EventTable {
         }
     }
 
-    maxWidth(colName: keyof typeof MIN_COLUMN_WIDTH_EM): string {
+    colWidth(colName: keyof typeof MIN_COLUMN_WIDTH_EM): { width: number, unit: 'em' | 'px' } {
         if (this.clientWidth < MIN_TABLE_WIDTH) {
-            return `min(${MIN_COLUMN_WIDTH_EM[colName]}em, ${MAX_COLUMN_WIDTH})`;
+            return {width: MIN_COLUMN_WIDTH_EM[colName], unit: 'em'};
+        }
+        let offset = 0;
+        if (colName === 'descriptionLong' && this.isEditing) {
+            offset = 9;
         }
         const total = Object.values(MIN_COLUMN_WIDTH_EM).reduce((a, b) => a + b, 0) * this.baseFontSize;
         const dt = this.clientWidth - MIN_TABLE_WIDTH;
-        const colBase = MIN_COLUMN_WIDTH_EM[colName] * this.baseFontSize;
+        const colBase = (MIN_COLUMN_WIDTH_EM[colName] - offset) * this.baseFontSize;
         const width = dt * (colBase / total) + colBase;
-        return `min(${width}px, ${MAX_COLUMN_WIDTH})`;
+        return {width: width, unit: 'px'};
+    }
+
+    maxWidth(colName: keyof typeof MIN_COLUMN_WIDTH_EM): string {
+        const {width, unit} = this.colWidth(colName);
+        return `min(${width}${unit}, ${MAX_COLUMN_WIDTH})`;
     }
 
     @computed
     get maxWidthDescription(): string {
         return this.maxWidth('description');
     }
+
     @computed
     get maxWidthDescriptionLong(): string {
         return this.maxWidth('descriptionLong');
@@ -82,6 +89,11 @@ class EventTable {
             }
             return event.departmentIds.some((d) => this.departmentIds.has(d));
         });
+    }
+
+    @computed
+    get isEditing(): boolean {
+        return this.events.some((e) => e.editing);
     }
 }
 
