@@ -32,7 +32,7 @@ const Delete = (props: Props) => {
     return (
         <span className={clsx(styles.delete)} ref={ref}>
             <button
-                className={clsx(styles.button, styles.delete, 'button', 'button--danger', 'button--sm')}
+                className={clsx(styles.button, styles.icon, styles.delete, 'button', 'button--danger', 'button--sm')}
                 title="Löschen"
                 onClick={(e) => {
                     setPromptDelete(!promptDelete);

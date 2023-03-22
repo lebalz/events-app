@@ -8,11 +8,12 @@ import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
 import Icon from '@mdi/react';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool, mdiMicrosoftOutlook } from '@mdi/js';
 import UntisLinker from '../components/User/UntisLinker';
 import { Calendar } from '../components/shared/icons';
 import { EVENTS_API } from '../authConfig';
 import Button from '../components/shared/Button';
+import Link from '../components/shared/Button/Link';
 
 
 function HomepageHeader() {
@@ -91,6 +92,11 @@ const User = observer(() => {
                                     <div className={clsx('col', 'col--6', styles.value)}>
                                         <Button onClick={() => userStore.createIcs()} icon={<Icon path={mdiSync} size={1} />} />
                                         {userStore.current.icalUrl && `${EVENTS_API}/ical/${userStore.current.icalUrl}`}
+                                        <Link 
+                                            href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${userStore.current.icalUrl}&name=GBSL`}
+                                            label={'Outlook'}
+                                            icon={<Icon path={mdiMicrosoftOutlook} size={0.8} />}
+                                        />
                                     </div>
                                 </div>
                                 <div className={clsx('row')}>

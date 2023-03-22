@@ -11,7 +11,7 @@ interface Props {
 const Save = (props: Props) => {
     return (
         <button
-            className={clsx(styles.button, styles.save, 'button', 'button--success', 'button--sm')}
+            className={clsx(styles.button, styles.icon, styles.save, 'button', 'button--success', 'button--sm')}
             title="Speichern"
             onClick={props.onClick}
         >

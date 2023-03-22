@@ -11,7 +11,7 @@ interface Props {
 const Discard = (props: Props) => {
     return (
         <button
-            className={clsx(styles.button, styles.discard, 'button', 'button--secondary', 'button--sm')}
+            className={clsx(styles.button, styles.icon, styles.discard, 'button', 'button--secondary', 'button--sm')}
             title="Änderungen verwerfen"
             onClick={props.onClick}
         >

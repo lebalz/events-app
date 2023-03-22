@@ -1,6 +1,19 @@
 .button {
-    --ifm-button-size-multiplier: 0;
     padding: 0.2rem;
     margin: 0.2rem;
+    &.icon {
+        --ifm-button-size-multiplier: 0;
+    }
+}
+.link {
+    padding: 0.2rem 0.6rem;
+    margin: 0.2rem;
+    .icon {
+        margin-bottom: -0.2em;
+        margin-right: 0.3rem;
+        padding-right: 0.6rem;
+        border-right: 1px solid var(--ifm-color-primary);
+        --ifm-button-size-multiplier: 0;
+    }
 }
 

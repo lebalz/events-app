@@ -11,7 +11,7 @@ interface Props {
 const Edit = (props: Props) => {
     return (
         <button
-            className={clsx(styles.button, styles.edit, 'button', 'button--info', 'button--sm')}
+            className={clsx(styles.button, styles.icon, styles.edit, 'button', 'button--info', 'button--sm')}
             title="Bearbeiten"
             onClick={props.onClick}
         >
