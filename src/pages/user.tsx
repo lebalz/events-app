@@ -90,7 +90,7 @@ const User = observer(() => {
                                     </div>
                                     <div className={clsx('col', 'col--6', styles.value)}>
                                         <Button onClick={() => userStore.createIcs()} icon={<Icon path={mdiSync} size={1} />} />
-                                        {userStore.current.icalUrl && `${EVENTS_API}/${userStore.current.icalUrl}`}
+                                        {userStore.current.icalUrl && `${EVENTS_API}/ical/${userStore.current.icalUrl}`}
                                     </div>
                                 </div>
                                 <div className={clsx('row')}>
