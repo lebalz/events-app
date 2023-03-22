@@ -4,11 +4,11 @@ import Semester from '../models/Semester';
 import User from '../models/User';
 import Lesson from '../models/Untis/Lesson';
 
-const MIN_TABLE_WIDTH = 1450;
+const MIN_TABLE_WIDTH = 1600;
 const MIN_COLUMN_WIDTH_EM = {
     description: 18,
     location: 7,
-    descriptionLong: 25
+    descriptionLong: 28
 };
 const MAX_COLUMN_WIDTH = 'calc(95vw - 8em)';
 
@@ -49,7 +49,7 @@ class EventTable {
         }
         let offset = 0;
         if (colName === 'descriptionLong' && this.isEditing) {
-            offset = 9;
+            offset = 4;
         }
         const total = Object.values(MIN_COLUMN_WIDTH_EM).reduce((a, b) => a + b, 0) * this.baseFontSize;
         const dt = this.clientWidth - MIN_TABLE_WIDTH;
