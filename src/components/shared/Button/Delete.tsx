@@ -6,6 +6,8 @@ import { DeleteIcon } from '../icons';
 
 interface Props {
     onClick: () => void;
+    className?: string;
+    flyoutSide?: 'left' | 'right';
 }
 
 const Delete = (props: Props) => {
@@ -29,10 +31,22 @@ const Delete = (props: Props) => {
         }
     }, [promptDelete, ref])
 
+    const Flyout = promptDelete ? (<div
+        className={clsx(styles.confirm, 'button', 'button--danger')}
+        onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            props.onClick();
+        }}
+    >
+        Ja, Löschen!
+    </div>) : null;
+
     return (
         <span className={clsx(styles.delete)} ref={ref}>
+            {(props.flyoutSide || 'left') === 'left' && Flyout}
             <button
-                className={clsx(styles.button, styles.icon, styles.delete, 'button', 'button--danger', 'button--sm')}
+                className={clsx(props.className, styles.button, styles.icon, styles.delete, 'button', 'button--danger', 'button--sm')}
                 title="Löschen"
                 onClick={(e) => {
                     setPromptDelete(!promptDelete);
@@ -43,18 +57,7 @@ const Delete = (props: Props) => {
             >
                 <DeleteIcon size={0.8} />
             </button>
-            {promptDelete && (
-                <div
-                    className={clsx(styles.confirm, 'button', 'button--danger')}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        props.onClick();
-                    }}
-                >
-                    Ja, Löschen!
-                </div>
-            )}
+            {props.flyoutSide === 'right' && Flyout}
         </span>
     )
 };

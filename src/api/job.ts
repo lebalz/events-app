@@ -7,7 +7,7 @@ export type Job = {
     type: JobType
     state: JobState
     userId: string
-    log: string
+    log?: string
     filename?: string
     createdAt: Date
     updatedAt: Date

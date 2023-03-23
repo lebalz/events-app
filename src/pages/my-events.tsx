@@ -6,7 +6,7 @@ import Event from '../components/Event';
 import EventList from '../components/Event/EventList';
 import { useStore } from '../stores/hooks';
 import clsx from 'clsx';
-import Details from "@theme/Details";
+import LazyDetails from '../components/shared/Details';
 import User from '../models/User';
 
 const Table = observer(() => {
@@ -22,8 +22,9 @@ const Table = observer(() => {
                 <EventList events={eventStore.byUser(userId).filter(e => !e.jobId)} showFullscreenButton={false} />
                 {jobStore.models.map((job, idx) => {
                     return (
-                        <Details key={idx} summary={
-
+                        <LazyDetails
+                            key={idx} 
+                            summary={
                             <summary>
                                 {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
                             </summary>
@@ -39,7 +40,7 @@ const Table = observer(() => {
                                 </button>
                                 <EventList events={job.events} showFullscreenButton={false} />
                             </div>
-                        </Details>
+                        </LazyDetails>
                     )
                 })}
             </div>

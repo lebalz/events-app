@@ -12,7 +12,7 @@ export default class Job extends ApiModel<JobProps> {
     readonly type: JobType;
     readonly state: JobState;
     readonly userId: string;
-    readonly log: string;
+    readonly log?: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
     readonly filename?: string;
@@ -41,5 +41,20 @@ export default class Job extends ApiModel<JobProps> {
     @computed
     get events() {
         return this.store.jobEvents(this.id);
+    }
+
+    @computed
+    get fLog() {
+        /**
+         * formatted log
+         */
+        if (!this.log) {
+            return ''
+        };
+        try {
+            return JSON.stringify(JSON.parse(this.log || '[]'), undefined, 2).replaceAll('\\n', '\n')
+        } catch {
+            return this.log;
+        }
     }
 }

@@ -6,6 +6,9 @@ import Upload from '../components/ImportExcel/Upload';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import { JobState, JobType } from '../api/job';
+import Delete from '../components/shared/Button/Delete';
+import LazyDetails from '../components/shared/Details';
+import CodeBlock from '@theme/CodeBlock';
 
 const StateSymbol = {
     [JobState.PENDING]: '🏃',
@@ -24,21 +27,47 @@ const Example = observer(() => {
         <div>
             {jobStore.models.map((job, idx) => {
                 return (
-                    <div className={clsx('alert', 'alert--info')} style={{fontFamily: 'monospace', marginBottom: '0.5rem'}} role="alert" key={idx}>
-                        <button aria-label="Close" className="clean-btn close" type="button" onClick={
-                            () => {
-                                jobStore.destroy(job);
-                            }
-                        }>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        {job.type === JobType.SYNC_UNTIS && (
-                            `Sync Untis: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} ${StateSymbol[job.state]}`
-                        )}
-                        {job.type === JobType.IMPORT && (
-                            `Import....: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}: ${StateSymbol[job.state]} "${job.filename}" -> ${job.events.length}`
-                        )}
-                    </div>
+                    <LazyDetails
+                        key={idx}
+                        summary={
+                            <summary className={clsx(styles.alert)}>
+                                {job.type === JobType.SYNC_UNTIS && (
+                                    `${StateSymbol[job.state]} Sync Untis: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}`
+                                )}
+                                {job.type === JobType.IMPORT && (
+                                    `${StateSymbol[job.state]} Import....: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} -> ${job.events.length}`
+                                )}
+                                <div className={clsx(styles.spacer)} />
+                                <Delete
+                                    onClick={() => {
+                                        jobStore.destroy(job);
+                                    }}
+                                />
+                            </summary>
+                        }
+                    >
+                        <div>
+                            <div>
+                                <dl>
+                                    <dt>Id</dt>
+                                    <dd>{job.id}</dd>
+                                    <dt>State</dt>
+                                    <dd>{job.state}</dd>
+                                    <dt>Filename</dt>
+                                    <dd>{job.filename}</dd>
+                                    <dt>Events</dt>
+                                    <dd>{job.events.length}</dd>
+                                    <dt>Created At</dt>
+                                    <dd>{job.createdAt.toLocaleString()}</dd>
+                                    <dt>Updated At</dt>
+                                    <dd>{job.updatedAt.toLocaleString()}</dd>
+                                </dl>
+                            </div>
+                            <CodeBlock language='json' title='log.json'>
+                                {job.fLog}
+                            </CodeBlock>
+                        </div>
+                    </LazyDetails>
                 )
             })}
         </div>
