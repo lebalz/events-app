@@ -2,7 +2,8 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { EditIcon } from '../icons';
+import { EditIcon, SIZE_S } from '../icons';
+import Button from '.';
 
 interface Props {
     onClick: () => void;
@@ -10,13 +11,12 @@ interface Props {
 
 const Edit = (props: Props) => {
     return (
-        <button
-            className={clsx(styles.button, styles.icon, styles.edit, 'button', 'button--info', 'button--sm')}
+        <Button
+            className={clsx(styles.edit, 'button--warning')}
             title="Bearbeiten"
             onClick={props.onClick}
-        >
-            <EditIcon size={0.8} />
-        </button>
+            icon={<EditIcon size={SIZE_S} />}
+        />
     )
 };
 

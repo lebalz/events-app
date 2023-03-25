@@ -2,15 +2,17 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { DeleteIcon } from '../icons';
+import { DeleteIcon, SIZE_S } from '../icons';
+import Button, { Base } from '.';
 
 interface Props {
     onClick: () => void;
-    className?: string;
     flyoutSide?: 'left' | 'right';
 }
 
-const Delete = (props: Props) => {
+type DeleteProps = Props & Base;
+
+const Delete = (props: DeleteProps) => {
     const ref = React.useRef<HTMLSpanElement>(null);
     const [promptDelete, setPromptDelete] = React.useState(false);
 
@@ -31,22 +33,21 @@ const Delete = (props: Props) => {
         }
     }, [promptDelete, ref])
 
-    const Flyout = promptDelete ? (<div
+    const Flyout = promptDelete ? (<Button
         className={clsx(styles.confirm, 'button', 'button--danger')}
         onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
             props.onClick();
         }}
-    >
-        Ja, Löschen!
-    </div>) : null;
+        text="Ja, Löschen!"
+    />) : null;
 
     return (
-        <span className={clsx(styles.delete)} ref={ref}>
-            {(props.flyoutSide || 'left') === 'left' && Flyout}
-            <button
-                className={clsx(props.className, styles.button, styles.icon, styles.delete, 'button', 'button--danger', 'button--sm')}
+        <span className={clsx(styles.delete, promptDelete && styles.expanded, props.className)} ref={ref}>
+            {(props.flyoutSide ?? 'left') === 'left' && Flyout}
+            <Button
+                className={clsx(props.className, styles.delete, props.flyoutSide === 'right' && styles.right)}
                 title="Löschen"
                 onClick={(e) => {
                     setPromptDelete(!promptDelete);
@@ -54,9 +55,14 @@ const Delete = (props: Props) => {
                     e.stopPropagation();
                     e.preventDefault();
                 }}
-            >
-                <DeleteIcon size={0.8} />
-            </button>
+                text={props.text}
+                apiState={props.apiState}
+                apiIconSize={props.apiIconSize}
+                iconSide={props.iconSide}
+                noOutline={props.noOutline}
+                href={props.href}
+                icon={<DeleteIcon size={SIZE_S} />}
+            />
             {props.flyoutSide === 'right' && Flyout}
         </span>
     )

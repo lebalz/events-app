@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import { ArrowLeft, ArrowRight, Calendar } from '../icons';
+import { ArrowLeft, ArrowRight, Calendar, SIZE_S, SIZE_XS } from '../icons';
 import Button from '../Button';
 
 
@@ -16,8 +16,9 @@ const SemesterSelector = observer(() => {
     }
     return (<div className={clsx(styles.semesterSelector)} >
         <Button
-            icon={<ArrowLeft size={0.8} />}
-            classNames={['badge', 'badge--secondary', 'badge--sm', styles.button]}
+            icon={<ArrowLeft size={SIZE_XS} />}
+            noOutline
+            className={clsx('badge', styles.button)}
             onClick={() => viewStore.nextSemester(-1)}
         />
         <div className={clsx('dropdown', 'dropdown--hoverable', styles.label)}>
@@ -47,15 +48,16 @@ const SemesterSelector = observer(() => {
                                 'dropdown__link'
                             )}
                         >
-                            {semester.name}{semester.isCurrent ? <>{' '}<Calendar size={0.6} style={{float: 'right'}} /></> : ''}
+                            {semester.name}{semester.isCurrent ? <>{' '}<Calendar size={SIZE_XS} style={{float: 'right'}} /></> : ''}
                         </div>
                     </li>
                 ))}
             </ul>
         </div>
         <Button
-            icon={<ArrowRight size={0.8} />}
-            classNames={['badge', 'badge--secondary', 'badge--sm', styles.button]}
+            icon={<ArrowRight size={SIZE_XS} />}
+            noOutline
+            className={clsx('badge', styles.button)}
             onClick={() => viewStore.nextSemester(1)}
         />
     </div>);

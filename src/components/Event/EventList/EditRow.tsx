@@ -86,7 +86,7 @@ const EditRow = observer((props: RowProps) => {
                             <Save onClick={() => event.save()} />
                         )
                     }
-                    <Delete onClick={() => event.destroy()} />
+                    <Delete onClick={() => event.destroy()} apiState={event.apiStateFor(`delete-${event.id}`)} />
                 </div>
             </td>
         </tr>

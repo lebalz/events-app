@@ -1,4 +1,4 @@
-import { action, IObservableArray } from "mobx";
+import { action, IObservableArray, observable } from "mobx";
 import ApiModel from "../models/ApiModel";
 import { all as apiAll, find as apiFind, create as apiCreate, destroy as apiDestroy, update as apiUpdat } from '../api/api_model';
 import { RootStore } from "./stores";
@@ -23,45 +23,77 @@ export class LoadeableStore<T> {
     }
 }
 
+type ApiAction = 'loadAll' | `load-${string}` | `save-${string}` | `destroy-${string}`;
+export enum ApiState {
+    IDLE = 'idle',
+    LOADING = 'loading',
+    ERROR = 'error',
+    SUCCESS = 'success',
+}
 
-abstract class iStore<T extends { id: string }> extends ResettableStore implements LoadeableStore<any> {
+
+const API_STATE_RESET_TIMEOUT = 1500;
+
+abstract class iStore<Model extends { id: string }, Api = ''> extends ResettableStore implements LoadeableStore<any> {
     abstract readonly root: RootStore;
     abstract readonly API_ENDPOINT: string;
-    abstract models: IObservableArray<ApiModel<T>>;
-    abortControllers = new Map<string, AbortController>();
+    abstract models: IObservableArray<ApiModel<Model>>;
 
-    withAbortController<T>(sigId: string, fn: (ct: AbortController) => Promise<T>) {
+    abortControllers = new Map<Api | ApiAction, AbortController>();
+    apiState = observable.map<Api | ApiAction, ApiState>();
+
+    withAbortController<T>(sigId: Api | ApiAction, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
         if (this.abortControllers.has(sigId)) {
             this.abortControllers.get(sigId).abort();
         }
         this.abortControllers.set(sigId, sig);
-        return fn(sig).catch((err) => {
+        this.apiState.set(sigId, ApiState.LOADING);
+        return fn(sig).then(action((res) => {
+            this.apiState.set(sigId, ApiState.SUCCESS);
+            return res;
+        })).catch(action((err) => {
             if (axios.isCancel(err)) {
                 return { data: null };
+            } else {
+                this.apiState.set(sigId, ApiState.ERROR);
             }
             throw err;
-        }).finally(() => {
+        })).finally(() => {
             if (this.abortControllers.get(sigId) === sig) {
                 this.abortControllers.delete(sigId);
             }
+            setTimeout(action(() => {
+                if (this && !this.abortControllers.has(sigId)) {
+                    this.apiState.delete(sigId);
+                }
+            }), API_STATE_RESET_TIMEOUT);
         });
     }
 
-    abstract createModel(data: T): ApiModel<T>;
+    abstract createModel(data: Model): ApiModel<Model>;
 
     find = computedFn(
-        function <K extends ApiModel<T>>(this: iStore<T>, id?: string): K | undefined {
+        function <V extends ApiModel<Model>>(this: iStore<Model, Api>, id?: string): V | undefined {
             if (!id) {
                 return;
             }
-            return this.models.find((d) => d.id === id) as K;
+            return this.models.find((d) => d.id === id) as V;
         },
         { keepAlive: true }
     )
 
+    apiStateFor = computedFn(
+        function (this: iStore<Model, Api>, sigId?: Api | ApiAction): ApiState {
+            if (!sigId) {
+                return ApiState.IDLE;
+            }
+            return this.apiState.get(sigId) || ApiState.IDLE;
+        }
+    )
+
     @action
-    addToStore(data: T): ApiModel<T> {
+    addToStore(data: Model): ApiModel<Model> {
         /**
          * Adds a new model to the store. Existing models with the same id are replaced.
          */
@@ -72,7 +104,7 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
     }
 
     @action
-    removeFromStore(id: string): ApiModel<T> | undefined {
+    removeFromStore(id: string): ApiModel<Model> | undefined {
         /**
          * Removes the model to the store
          */
@@ -80,14 +112,14 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
         if (old) {
             this.models.remove(old);
         }
-        return old as ApiModel<T>;
+        return old as ApiModel<Model>;
     }
 
 
     @action
     load(): Promise<any> {
         return this.withAbortController('loadAll', (sig) => {
-            return apiAll<T>(`${this.API_ENDPOINT}/all`, sig.signal)
+            return apiAll<Model>(`${this.API_ENDPOINT}/all`, sig.signal)
                 .then(
                     action(({ data }) => {
                         if (data) {
@@ -110,7 +142,7 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
     @action
     loadModel(id: string) {
         return this.withAbortController(`load-${id}`, (sig) => {
-            return apiFind<T>(`${this.API_ENDPOINT}/${id}`, sig.signal);
+            return apiFind<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
         }).then(action(({ data }) => {
             if (data) {
                 this.addToStore(data);
@@ -119,11 +151,11 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
     }
 
     @action
-    save(model: ApiModel<T>) {
+    save(model: ApiModel<Model>) {
         if (model.isDirty) {
             const { id } = model;
             return this.withAbortController(`save-${id}`, (sig) => {
-                return apiUpdat<T>(`${this.API_ENDPOINT}/${id}`, model.props, sig.signal);
+                return apiUpdat<Model>(`${this.API_ENDPOINT}/${id}`, model.props, sig.signal);
             }).then(action(({ data }) => {
                 if (data) {
                     this.addToStore(data);
@@ -134,23 +166,23 @@ abstract class iStore<T extends { id: string }> extends ResettableStore implemen
     }
 
     @action
-    destroy(model: ApiModel<T>) {
+    destroy(model: ApiModel<Model>) {
         const { id } = model;
         this.withAbortController(`destroy-${id}`, (sig) => {
-            return apiDestroy<T>(`${this.API_ENDPOINT}/${id}`, sig.signal);
+            return apiDestroy<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
         }).then(action(() => {
             this.removeFromStore(id);
         }));
     }
 
     @action
-    create(model: Partial<T>) {
+    create(model: Partial<Model>) {
         /**
          * Save the model to the api
          */
         const { id } = model;
         this.withAbortController(`destroy-${id}`, (sig) => {
-            return apiCreate<T>(this.API_ENDPOINT, model, sig.signal);
+            return apiCreate<Model>(this.API_ENDPOINT, model, sig.signal);
         }).then(action(({ data }) => {
             this.addToStore(data);
         }));

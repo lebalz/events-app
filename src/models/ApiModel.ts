@@ -16,7 +16,7 @@ export type UpdateableProps<T extends { id: string }> = (keyof T | {[key in keyo
 
 export default abstract class ApiModel<T extends { id: string }> {
     abstract readonly _pristine: T;
-    abstract readonly store: iStore<T>;
+    abstract readonly store: iStore<T, any>;
     abstract readonly id: string;
     abstract readonly UPDATEABLE_PROPS: UpdateableProps<T>[];
 
@@ -94,5 +94,9 @@ export default abstract class ApiModel<T extends { id: string }> {
     @computed
     get editing() {
         return this._editing || this.isDirty;
+    }
+
+    apiStateFor(sigId: string) {
+        return this.store.apiStateFor(sigId);
     }
 }

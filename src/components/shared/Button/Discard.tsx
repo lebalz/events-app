@@ -2,7 +2,8 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { DeleteIcon, DiscardIcon } from '../icons';
+import { DeleteIcon, DiscardIcon, SIZE_S } from '../icons';
+import Button from '.';
 
 interface Props {
     onClick: () => void;
@@ -10,14 +11,13 @@ interface Props {
 
 const Discard = (props: Props) => {
     return (
-        <button
-            className={clsx(styles.button, styles.icon, styles.discard, 'button', 'button--secondary', 'button--sm')}
+        <Button 
+            className={clsx(styles.discard, 'button--secondary', 'button--sm')}
             title="Änderungen verwerfen"
             onClick={props.onClick}
-        >
-            <DiscardIcon size={0.8} />
-        </button>
-    )
+            icon={<DiscardIcon size={SIZE_S} />}
+        />
+    );
 };
 
 export default Discard;

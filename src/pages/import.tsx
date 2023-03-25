@@ -42,6 +42,7 @@ const Example = observer(() => {
                                     onClick={() => {
                                         jobStore.destroy(job);
                                     }}
+                                    apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                 />
                             </summary>
                         }

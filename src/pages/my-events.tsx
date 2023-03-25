@@ -8,6 +8,7 @@ import { useStore } from '../stores/hooks';
 import clsx from 'clsx';
 import LazyDetails from '../components/shared/Details';
 import User from '../models/User';
+import Delete from '../components/shared/Button/Delete';
 
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
@@ -31,13 +32,15 @@ const Table = observer(() => {
                         }
                         >
                             <div>
-                                <button aria-label="Close" className="clean-btn close" type="button" onClick={
-                                    () => {
+                                <Delete
+                                    onClick={() => {
                                         jobStore.destroy(job);
-                                    }
-                                }>
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                    }}
+                                    text="Löschen"
+                                    flyoutSide='right'
+                                    iconSide='right'
+                                    apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                />
                                 <EventList events={job.events} showFullscreenButton={false} />
                             </div>
                         </LazyDetails>

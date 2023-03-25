@@ -5,7 +5,9 @@ import User from '../models/User';
 import _ from 'lodash';
 import iStore from './iStore';
 
-export class UserStore extends iStore<UserProps> {
+type ApiAction = 'linkUserToUntis' | 'createIcs';
+
+export class UserStore extends iStore<UserProps, ApiAction> {
     readonly API_ENDPOINT = 'user';
     readonly root: RootStore;
     @observable
@@ -63,9 +65,15 @@ export class UserStore extends iStore<UserProps> {
 
     @action
     createIcs() {
+        const {current} = this;
+        if (!current) {
+            return Promise.reject('No current user');
+        }
         return this.withAbortController('createIcs', (sig) => {
-            return createIcs(this.current?.id, sig.signal).then(({data}) => {
-                console.log(data);
+            return createIcs(current.id, sig.signal).then(({data}) => {
+                if (this.current?.id === current.id) {
+                    this.addToStore(data);
+                }
             });
         });
     }

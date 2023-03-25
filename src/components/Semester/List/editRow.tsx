@@ -45,7 +45,7 @@ const EditTr = observer((props: Props) => {
                             <Save onClick={() => semester.save()} />
                         </>
                     )}
-                    <Delete onClick={() => semester.destroy()} />
+                    <Delete onClick={() => semester.destroy()} flyoutSide="left" apiState={semester.apiStateFor(`delete-${semester.id}`)} />
                 </div>
             </td>
         </tr>

@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Icon from '@mdi/react';
 import { mdiFullscreen, mdiFullscreenExit } from '@mdi/js';
+import { SIZE } from '../icons';
 
 
 const FullScreenButton = observer(() => {
@@ -16,7 +17,7 @@ const FullScreenButton = observer(() => {
     return (<div
         className={clsx(styles.button)}
         onClick={() => store.setFullscreen(!store.fullscreen)}>
-        <Icon path={store.fullscreen ? mdiFullscreenExit : mdiFullscreen} size={1} />
+        <Icon path={store.fullscreen ? mdiFullscreenExit : mdiFullscreen} size={SIZE} />
     </div>);
 });
 

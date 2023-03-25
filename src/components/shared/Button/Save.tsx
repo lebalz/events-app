@@ -2,7 +2,8 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { EditIcon, SaveIcon } from '../icons';
+import { EditIcon, SaveIcon, SIZE_S } from '../icons';
+import Button from '.';
 
 interface Props {
     onClick: () => void;
@@ -10,13 +11,12 @@ interface Props {
 
 const Save = (props: Props) => {
     return (
-        <button
-            className={clsx(styles.button, styles.icon, styles.save, 'button', 'button--success', 'button--sm')}
+        <Button
+            className={clsx(styles.save)}
             title="Speichern"
             onClick={props.onClick}
-        >
-            <SaveIcon size={0.8} />
-        </button>
+            icon={<SaveIcon size={SIZE_S} />}
+        />
     )
 };
 

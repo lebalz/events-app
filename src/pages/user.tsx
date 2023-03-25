@@ -7,13 +7,13 @@ import { default as indexStyles } from './index.module.css';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
-import Icon from '@mdi/react';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool, mdiMicrosoftOutlook } from '@mdi/js';
+import Icon, { Stack } from '@mdi/react';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool, mdiMicrosoftOutlook, mdiShare, mdiCircle } from '@mdi/js';
 import UntisLinker from '../components/User/UntisLinker';
-import { Calendar } from '../components/shared/icons';
+import { Calendar, SIZE, SIZE_S } from '../components/shared/icons';
 import { EVENTS_API } from '../authConfig';
 import Button from '../components/shared/Button';
-import Link from '../components/shared/Button/Link';
+import { ApiState } from '../stores/iStore';
 
 
 function HomepageHeader() {
@@ -65,7 +65,7 @@ const User = observer(() => {
                                         <span>Login</span>
                                     </div>
                                     <div className={clsx('col', 'col--1', styles.icon)}>
-                                        <Icon path={mdiAccountCircleOutline} size={1} />
+                                        <Icon path={mdiAccountCircleOutline} size={SIZE} />
                                     </div>
                                     <div className={clsx('col', 'col--6', styles.value)}>
                                         {account.username}
@@ -76,7 +76,7 @@ const User = observer(() => {
                                         <span>Untis Account</span>
                                     </div>
                                     <div className={clsx('col', 'col--1', styles.icon)}>
-                                        <Icon path={mdiLink} size={1} />
+                                        <Icon path={mdiLink} size={SIZE} />
                                     </div>
                                     <div className={clsx('col', 'col--6', styles.value)}>
                                         <UntisLinker />
@@ -91,14 +91,22 @@ const User = observer(() => {
                                     </div>
                                     <div className={clsx('col', 'col--6', styles.value)}>
                                         <div>
-                                            <span>
-                                                <Link 
-                                                    href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${userStore.current.icalUrl}&name=GBSL`}
-                                                    label={'Outlook'}
-                                                    icon={<Icon path={mdiMicrosoftOutlook} size={0.8} />}
-                                                />
-                                                <Button onClick={() => userStore.createIcs()} icon={<Icon path={mdiSync} size={1} />} />
-                                            </span>
+                                            <Button
+                                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${userStore.current.icalUrl}&name=GBSL`}
+                                                text="Outlook"
+                                                title='Regenerate iCal Calendar'
+                                                icon={
+                                                    <Icon path={mdiMicrosoftOutlook} size={SIZE} />
+                                                }
+                                                noOutline
+                                            />
+                                            <Button
+                                                onClick={() => userStore.createIcs()}
+                                                text="Sync"
+                                                icon={<Icon horizontal path={mdiSync} size={SIZE_S} />} 
+                                                noOutline
+                                                apiState={userStore.apiStateFor('createIcs')}
+                                            />
                                             <div className={clsx(styles.ical)}>
                                                 {userStore.current.icalUrl && `${EVENTS_API}/ical/${userStore.current.icalUrl}`}
                                             </div>
@@ -110,7 +118,7 @@ const User = observer(() => {
                                         <span>Events</span>
                                     </div>
                                     <div className={clsx('col', 'col--1', styles.icon)}>
-                                        <Icon path={mdiCalendarBlankMultiple} size={1} />
+                                        <Icon path={mdiCalendarBlankMultiple} size={SIZE} />
                                     </div>
                                     <div className={clsx('col', 'col--6', styles.value)}>
                                         {userStore.currentUsersEvents.length}
@@ -124,7 +132,7 @@ const User = observer(() => {
                                                 <span>Schulen</span>
                                             </div>
                                             <div className={clsx('col', 'col--1', styles.icon)}>
-                                                <Icon path={mdiOfficeBuilding} size={1} />
+                                                <Icon path={mdiOfficeBuilding} size={SIZE} />
                                             </div>
                                             <div className={clsx('col', 'col--6', styles.value)}>
                                                 {[...new Set(current.untisTeacher.departments.map(d => d.name))].join(', ')}
@@ -135,7 +143,7 @@ const User = observer(() => {
                                                 <span>Klassen</span>
                                             </div>
                                             <div className={clsx('col', 'col--1', styles.icon)}>
-                                                <Icon path={mdiAccountGroup} size={1} />
+                                                <Icon path={mdiAccountGroup} size={SIZE} />
                                             </div>
                                             <div className={clsx('col', 'col--6', styles.value)}>
                                                 {[...new Set(classes)].join(', ')}
@@ -146,7 +154,7 @@ const User = observer(() => {
                                                 <span>Fächer</span>
                                             </div>
                                             <div className={clsx('col', 'col--1', styles.icon)}>
-                                                <Icon path={mdiSchool} size={1} />
+                                                <Icon path={mdiSchool} size={SIZE} />
                                             </div>
                                             <div className={clsx('col', 'col--6', styles.value)}>
                                                 {[...new Set(current.untisTeacher.lessons.map(l => l.subject))].join(', ')}
