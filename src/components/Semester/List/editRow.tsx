@@ -40,12 +40,14 @@ const EditTr = observer((props: Props) => {
             <td>
                 <div ref={ref}>
                     {semester.isDirty && (
-                        <>
-                            <Discard onClick={() => semester.reset()} />
-                            <Save onClick={() => semester.save()} />
-                        </>
+                        <Discard onClick={() => semester.reset()} />
                     )}
-                    <Delete onClick={() => semester.destroy()} flyoutSide="left" apiState={semester.apiStateFor(`delete-${semester.id}`)} />
+                    <Save
+                        disabled={!semester.isDirty}
+                        onClick={() => semester.save()}
+                        apiState={semester.apiStateFor(`save-${semester.id}`)} 
+                    />
+                    <Delete onClick={() => semester.destroy()} flyoutSide="left" apiState={semester.apiStateFor(`destroy-${semester.id}`)} />
                 </div>
             </td>
         </tr>

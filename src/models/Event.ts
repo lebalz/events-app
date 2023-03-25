@@ -1,11 +1,12 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
 import { Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
+import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
-export default class Event extends ApiModel<EventProps> {
+export default class Event extends ApiModel<EventProps, ApiAction> {
     readonly store: EventStore;
     readonly _pristine: EventProps;
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [

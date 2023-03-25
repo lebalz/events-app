@@ -4,8 +4,9 @@ import { DepartmentStore } from "../stores/DepartmentStore";
 import Event from '../models/Event';
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import _ from "lodash";
+import { ApiAction } from "../stores/iStore";
 
-export default class Department extends ApiModel<DepartmentProps> {
+export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['description'];
     readonly store: DepartmentStore;
     readonly _pristine: DepartmentProps;

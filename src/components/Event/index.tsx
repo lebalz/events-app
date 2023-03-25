@@ -21,6 +21,7 @@ const Event = observer((props: Props) => {
                 icon={<Icon path={mdiPlusCircleOutline} size={SIZE} />}
                 iconSide="left"
                 className={clsx("button--primary")}
+                apiState={eventStore.apiStateFor('create')}
                 onClick={() => {
                     const now = toGlobalDate(new Date());
                     const t1 = new Date(now);

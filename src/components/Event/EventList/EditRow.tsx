@@ -81,12 +81,12 @@ const EditRow = observer((props: RowProps) => {
             <td>
                 <div ref={ref}>
                     <Discard onClick={() => event.reset()} />
-                    {
-                        event.isDirty && (
-                            <Save onClick={() => event.save()} />
-                        )
-                    }
-                    <Delete onClick={() => event.destroy()} apiState={event.apiStateFor(`delete-${event.id}`)} />
+                    <Save 
+                        disabled={!event.isDirty}
+                        onClick={() => event.save()}
+                        apiState={event.apiStateFor(`save-${event.id}`)}  
+                    />
+                    <Delete onClick={() => event.destroy()} apiState={event.apiStateFor(`destroy-${event.id}`)} />
                 </div>
             </td>
         </tr>

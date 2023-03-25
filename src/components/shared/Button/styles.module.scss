@@ -44,6 +44,23 @@
     &.save {
         border-color: var(--ifm-color-success);
     }
+    &.disabled {
+        opacity: 0.5;
+        &.iconRight {
+            .border {
+                border-right-color: var(--ifm-color-disabled);
+            }
+        }
+        &.iconLeft {
+            .border {
+                border-left-color: var(--ifm-color-disabled);
+            }
+        }
+    }
+    
+    &.save {
+        border-color: var(--ifm-color-disabled);
+    }
 }
 
 

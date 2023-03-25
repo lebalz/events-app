@@ -1,10 +1,11 @@
 import { computed, makeObservable, observable, override } from "mobx";
 import { RegistrationPeriod as RegPeriodProps } from "../api/registration_period";
+import { ApiAction } from "../stores/iStore";
 import { RegistrationPeriodStore } from "../stores/RegistrationPeriodStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import { toGlobalDate, toLocalDate } from "./helpers/time";
 
-export default class RegistrationPeriod extends ApiModel<RegPeriodProps> {
+export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<RegPeriodProps>[] = [];
     readonly _pristine: RegPeriodProps;
     readonly store: RegistrationPeriodStore;

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { DeleteIcon, SIZE_S } from '../icons';
-import Button, { Base } from '.';
+import Button, { Base, extractSharedProps } from '.';
 
 interface Props {
     onClick: () => void;
@@ -47,6 +47,7 @@ const Delete = (props: DeleteProps) => {
         <span className={clsx(styles.delete, promptDelete && styles.expanded, props.className)} ref={ref}>
             {(props.flyoutSide ?? 'left') === 'left' && Flyout}
             <Button
+                {...extractSharedProps(props)}
                 className={clsx(props.className, styles.delete, props.flyoutSide === 'right' && styles.right)}
                 title="Löschen"
                 onClick={(e) => {
@@ -55,12 +56,6 @@ const Delete = (props: DeleteProps) => {
                     e.stopPropagation();
                     e.preventDefault();
                 }}
-                text={props.text}
-                apiState={props.apiState}
-                apiIconSize={props.apiIconSize}
-                iconSide={props.iconSide}
-                noOutline={props.noOutline}
-                href={props.href}
                 icon={<DeleteIcon size={SIZE_S} />}
             />
             {props.flyoutSide === 'right' && Flyout}

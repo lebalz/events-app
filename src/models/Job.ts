@@ -1,10 +1,11 @@
 import { makeObservable, computed } from "mobx";
 import { JobType, JobState, Job as JobProps } from "../api/job";
+import { ApiAction } from "../stores/iStore";
 import { JobStore } from "../stores/JobStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
 
 
-export default class Job extends ApiModel<JobProps> {
+export default class Job extends ApiModel<JobProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<JobProps>[] = [];
     readonly store: JobStore;
     readonly _pristine: JobProps;

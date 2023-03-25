@@ -16,6 +16,7 @@ export interface Base {
     noOutline?: boolean;
     text?: string
     className?: string;
+    disabled?: boolean;
 }
 interface IconProps extends Base {
     icon: ReactNode;
@@ -39,6 +40,18 @@ interface ChildrenProps extends Base {
 }
 
 type Props = IconProps | TextProps | ChildrenProps | TextIconProps;
+
+export const extractSharedProps = (props: Base) => {
+    return {
+        text: props.text,
+        iconSide: props.iconSide,
+        noOutline: props.noOutline,
+        href: props.href,
+        disabled: props.disabled,
+        apiState: props.apiState,
+        apiIconSize: props.apiIconSize
+    }
+}
 
 const ButtonIcon = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
@@ -95,12 +108,13 @@ const Button = (props: Props) => {
         !props.noOutline && 'button--outline',
         !hasBtnClsx && 'button--secondary',
         props.iconSide === 'left' ? styles.iconLeft : styles.iconRight,
-        props.className
+        props.className,
+        props.disabled && styles.disabled
     );
     if (props.href) {
         /** it is a link, styled as a button */
         return (<a
-            href={props.href}
+            href={props.disabled ? '#' : props.href}
             target="_blank"
             className={clsx(styles.link, commonCls)}
             title={props.title}
@@ -113,6 +127,7 @@ const Button = (props: Props) => {
             className={clsx(commonCls)}
             title={props.title}
             onClick={props.onClick}
+            disabled={props.disabled}
         >
             <ButtonInner {...props} />
         </button>

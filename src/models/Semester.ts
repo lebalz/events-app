@@ -1,10 +1,11 @@
 import { action, computed, makeObservable, observable, override } from "mobx";
 import { Semester as SemesterProps } from "../api/semester";
+import { ApiAction } from "../stores/iStore";
 import { SemesterStore } from "../stores/SemesterStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import { formatDate, formatTime, toGlobalDate, toLocalDate } from "./helpers/time";
 
-export default class Semester extends ApiModel<SemesterProps> {
+export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [
         { start: (val) => toLocalDate(new Date(val)) }, 
         { end: (val) => toLocalDate(new Date(val)) }, 

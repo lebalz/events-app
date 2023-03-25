@@ -1,10 +1,11 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { Role, User as UserProps } from '../api/user';
+import { ApiAction } from '../stores/iStore';
 import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 
-export default class User extends ApiModel<UserProps> {
+export default class User extends ApiModel<UserProps, ApiAction> {
   readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId'];
   readonly store: UserStore;
   readonly _pristine: UserProps;

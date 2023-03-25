@@ -14,7 +14,7 @@ const notEqual = (a: any, b: any) => {
 
 export type UpdateableProps<T extends { id: string }> = (keyof T | {[key in keyof T]?: (val: T[key]) => any})
 
-export default abstract class ApiModel<T extends { id: string }> {
+export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly _pristine: T;
     abstract readonly store: iStore<T, any>;
     abstract readonly id: string;
@@ -96,7 +96,7 @@ export default abstract class ApiModel<T extends { id: string }> {
         return this._editing || this.isDirty;
     }
 
-    apiStateFor(sigId: string) {
+    apiStateFor(sigId: Api) {
         return this.store.apiStateFor(sigId);
     }
 }

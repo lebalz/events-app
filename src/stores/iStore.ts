@@ -23,7 +23,7 @@ export class LoadeableStore<T> {
     }
 }
 
-type ApiAction = 'loadAll' | `load-${string}` | `save-${string}` | `destroy-${string}`;
+export type ApiAction = 'loadAll' | 'create' | `load-${string}` | `save-${string}` | `destroy-${string}`;
 export enum ApiState {
     IDLE = 'idle',
     LOADING = 'loading',
@@ -37,7 +37,7 @@ const API_STATE_RESET_TIMEOUT = 1500;
 abstract class iStore<Model extends { id: string }, Api = ''> extends ResettableStore implements LoadeableStore<any> {
     abstract readonly root: RootStore;
     abstract readonly API_ENDPOINT: string;
-    abstract models: IObservableArray<ApiModel<Model>>;
+    abstract models: IObservableArray<ApiModel<Model, Api | ApiAction>>;
 
     abortControllers = new Map<Api | ApiAction, AbortController>();
     apiState = observable.map<Api | ApiAction, ApiState>();
@@ -71,17 +71,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         });
     }
 
-    abstract createModel(data: Model): ApiModel<Model>;
-
-    find = computedFn(
-        function <V extends ApiModel<Model>>(this: iStore<Model, Api>, id?: string): V | undefined {
-            if (!id) {
-                return;
-            }
-            return this.models.find((d) => d.id === id) as V;
-        },
-        { keepAlive: true }
-    )
+    abstract createModel(data: Model): ApiModel<Model, Api | ApiAction>;
 
     apiStateFor = computedFn(
         function (this: iStore<Model, Api>, sigId?: Api | ApiAction): ApiState {
@@ -89,11 +79,22 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                 return ApiState.IDLE;
             }
             return this.apiState.get(sigId) || ApiState.IDLE;
-        }
-    )
+        },
+        {keepAlive: true}
+    );
+    
+    find = computedFn(        
+        function <V extends ApiModel<Model, Api | ApiAction>>(this: iStore<Model, Api>, id?: string): V {
+            if (!id) {
+                return;
+            }
+            return this.models.find((d) => d.id === id) as V;
+        },
+        // {keepAlive: true}
+    );
 
     @action
-    addToStore(data: Model): ApiModel<Model> {
+    addToStore(data: Model): ApiModel<Model, Api | ApiAction> {
         /**
          * Adds a new model to the store. Existing models with the same id are replaced.
          */
@@ -104,7 +105,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    removeFromStore(id: string): ApiModel<Model> | undefined {
+    removeFromStore(id: string): ApiModel<Model, Api | ApiAction> | undefined {
         /**
          * Removes the model to the store
          */
@@ -112,7 +113,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         if (old) {
             this.models.remove(old);
         }
-        return old as ApiModel<Model>;
+        return old as ApiModel<Model, Api | ApiAction>;
     }
 
 
@@ -151,7 +152,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    save(model: ApiModel<Model>) {
+    save(model: ApiModel<Model, Api | ApiAction>) {
         if (model.isDirty) {
             const { id } = model;
             return this.withAbortController(`save-${id}`, (sig) => {
@@ -166,7 +167,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    destroy(model: ApiModel<Model>) {
+    destroy(model: ApiModel<Model, Api | ApiAction>) {
         const { id } = model;
         this.withAbortController(`destroy-${id}`, (sig) => {
             return apiDestroy<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
@@ -181,7 +182,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
          * Save the model to the api
          */
         const { id } = model;
-        this.withAbortController(`destroy-${id}`, (sig) => {
+        this.withAbortController('create', (sig) => {
             return apiCreate<Model>(this.API_ENDPOINT, model, sig.signal);
         }).then(action(({ data }) => {
             this.addToStore(data);
