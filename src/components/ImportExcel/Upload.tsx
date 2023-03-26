@@ -15,13 +15,6 @@ const Upload = observer(() => {
     const [selectedFile, setSelectedFile] = useState<File>(null);
     const jobStore = useStore('jobStore');
 
-    const handleFileUpload = () => {
-        if (!selectedFile) {
-          throw 'No file was selected';
-        }
-        jobStore.importExcel(selectedFile);        
-    }
-
     return (
         <div className="App">
             <form style={{display: 'flex', alignItems: 'baseline'}}>
@@ -35,7 +28,15 @@ const Upload = observer(() => {
                 />
                 <Button
                     text='Upload'
-                    onClick={handleFileUpload}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!selectedFile) {
+                            throw 'No file was selected';
+                        }
+                        jobStore.importExcel(selectedFile);   
+                        return false;
+                    }}
                     noOutline
                     icon={<Icon path={mdiFileUploadOutline} size={SIZE_S}/>}
                 />

@@ -126,6 +126,7 @@ const Button = (props: Props) => {
     }
     return (
         <button
+            type='button'
             className={clsx(commonCls)}
             title={props.title}
             onClick={props.onClick}
