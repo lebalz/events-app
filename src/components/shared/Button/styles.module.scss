@@ -11,6 +11,9 @@
     &.soloIcon {
         padding: 0 0.2rem;
     }
+    &.soloText {
+        padding: calc(0.2rem - 1px) 0.4rem;
+    }
     .icon {    
         transform: translateY(10%);
         // svg {

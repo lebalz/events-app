@@ -84,7 +84,7 @@ const ButtonInner = (props: Props) => {
     const iconSide = props.iconSide ?? 'right';
     return (
         <>
-            {iconSide === 'left' && <ButtonIcon {...props} />}
+            {props.icon && iconSide === 'left' && <ButtonIcon {...props} />}
             <span className={clsx(textAndIcon && styles.border)}>
                 {
                     props.text && <span>{props.text}</span>
@@ -93,21 +93,23 @@ const ButtonInner = (props: Props) => {
                     props.children && props.children
                 }
             </span>
-            {iconSide === 'right' && <ButtonIcon {...props} />}
+            {props.icon && iconSide === 'right' && <ButtonIcon {...props} />}
         </>
     )
 }
 
 const Button = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
+    const textOnly = props.text && !(props.children || props.icon);
     const hasBtnClsx = props.className && props.className.includes('button--');
     const commonCls = clsx(
         styles.button, 
-        !textAndIcon && styles.soloIcon, 
+        !textAndIcon && props.icon && styles.soloIcon,
+        props.icon &&( props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
+        textOnly && styles.soloText,
         'button', 
         !props.noOutline && 'button--outline',
         !hasBtnClsx && 'button--secondary',
-        props.iconSide === 'left' ? styles.iconLeft : styles.iconRight,
         props.className,
         props.disabled && styles.disabled
     );

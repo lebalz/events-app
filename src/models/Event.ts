@@ -5,7 +5,7 @@ import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate } from './helpers/time';
 import Klass from './Untis/Klass';
-import Lesson from './Untis/Lesson';
+
 export default class Event extends ApiModel<EventProps, ApiAction> {
     readonly store: EventStore;
     readonly _pristine: EventProps;
@@ -15,7 +15,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> {
         {start: (val) => toLocalDate(new Date(val))}, 
         {end: (val) => toLocalDate(new Date(val))}, 
         'location', 
-        'state', 
+        'state',
+        'classes',
         'departmentIds'
     ];
     readonly id: string;

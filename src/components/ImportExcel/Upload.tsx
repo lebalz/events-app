@@ -5,6 +5,10 @@ import styles from './Upload.module.scss';
 import { importExcel } from '@site/src/api/event';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
+import Button from '../shared/Button';
+import Icon from '@mdi/react';
+import { mdiFileUploadOutline } from '@mdi/js';
+import { SIZE, SIZE_S } from '../shared/icons';
 
 
 const Upload = observer(() => {
@@ -20,7 +24,7 @@ const Upload = observer(() => {
 
     return (
         <div className="App">
-            <form>
+            <form style={{display: 'flex', alignItems: 'baseline'}}>
                 <input
                     className={clsx('button', 'button--secondary')}
                     type="file"
@@ -29,7 +33,12 @@ const Upload = observer(() => {
                     style={{ marginBottom: '12px' }}
                     onChange={(e) => setSelectedFile(e.currentTarget!.files![0])}
                 />
-                <div className={clsx('button', 'button--secondary')} onClick={handleFileUpload}>Upload</div>
+                <Button
+                    text='Upload'
+                    onClick={handleFileUpload}
+                    noOutline
+                    icon={<Icon path={mdiFileUploadOutline} size={SIZE_S}/>}
+                />
             </form>
         </div>
     );
