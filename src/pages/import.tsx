@@ -168,7 +168,7 @@ const Example = observer(() => {
             <div>
                 {jobStore.importJobs.map((job, idx) => {
                     return (
-                        <Job key={idx} job={job} />
+                        <Job key={job.id} job={job} />
                     )
                 })}
             </div>

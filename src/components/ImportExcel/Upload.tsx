@@ -15,11 +15,11 @@ const Upload = observer(() => {
     const jobStore = useStore('jobStore');
 
     return (
-        <div className="App">
-            <form style={{display: 'flex', alignItems: 'baseline'}}>
+        <label className={clsx(styles.dropArea)} htmlFor="excel-import">
                 <input
                     className={clsx('button', 'button--secondary')}
                     type="file"
+                    id="excel-import"
                     name="terminplan"
                     accept=".xlsx"
                     style={{ marginBottom: '12px' }}
@@ -27,6 +27,9 @@ const Upload = observer(() => {
                 />
                 <Button
                     text='Upload'
+                    title="Importiere Excel-Datei"
+                    disabled={!selectedFile}
+                    className={clsx('button--primary')}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -36,11 +39,9 @@ const Upload = observer(() => {
                         jobStore.importExcel(selectedFile);
                         return false;
                     }}
-                    noOutline
                     icon={<Icon path={mdiFileUploadOutline} size={SIZE_S}/>}
                 />
-            </form>
-        </div>
+        </label>
     );
 });
 

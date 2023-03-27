@@ -1,0 +1,50 @@
+.dropArea {
+    width: 100%;
+    position: relative;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border-radius: var(--ifm-button-border-radius);
+    border: 2px dashed var(--ifm-color-secondary-darkest);
+    color: var(--ifm-font-color-base);
+    cursor: pointer;
+    transition: background var(--ifm-button-transition-duration) ease-in-out, border var(--ifm-button-transition-duration) ease-in-out;
+    margin-bottom: 1rem;
+    &:hover {
+        background: var(--ifm-hover-overlay);
+        border-color: var(--ifm-color-secondary-dark);
+    }
+
+    input[type=file] {
+        border: none;
+        width: 90%;
+        max-width: 100%;
+        color: var(--ifm-font-color-base);
+        padding: 1rem 1.5rem;
+        background: var(--ifm-background-color);
+        border-radius: var(--ifm-button-border-radius);;
+        border: 1px solid var(--ifm-color-secondary-darkest);
+    }
+
+    input[type=file]::file-selector-button {
+        border: none;
+        margin-right: 20px;
+        color: var(--ifm-font-color-base);
+        border: 2px solid var(--ifm-color-primary);
+        border-radius: var(--ifm-button-border-radius);
+        box-shadow: none;
+        background: var(--ifm-hover-overlay);
+        padding: var(--ifm-button-padding-vertical) var(--ifm-button-padding-horizontal);
+        cursor: pointer;
+        transition: background var(--ifm-button-transition-duration) ease-in-out;
+        &:hover {
+            background: var(--ifm-color-primary);
+            color: var(--ifm-font-color-base-inverse);
+        }
+    }
+
+
+}

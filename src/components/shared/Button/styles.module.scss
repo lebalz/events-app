@@ -58,6 +58,19 @@
         }
         border-color: var(--ifm-color-disabled);
     }
+
+    &:hover {
+        &.iconLeft {
+            .border {
+                border-left-color: var(--ifm-color-white);
+            }
+        }
+        &.iconRight {
+            .border {
+                border-right-color: var(--ifm-color-white);
+            }
+        }
+    }
     
 }
 
