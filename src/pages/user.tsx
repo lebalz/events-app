@@ -7,13 +7,14 @@ import { default as indexStyles } from './index.module.css';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
-import Icon, { Stack } from '@mdi/react';
 import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool, mdiMicrosoftOutlook, mdiShare, mdiCircle } from '@mdi/js';
 import UntisLinker from '../components/User/UntisLinker';
-import { Calendar, SIZE, SIZE_S } from '../components/shared/icons';
+import { Calendar, Icon, SIZE, SIZE_S } from '../components/shared/icons';
 import { EVENTS_API } from '../authConfig';
 import Button from '../components/shared/Button';
 import { ApiState } from '../stores/iStore';
+import DefinitionList from '../components/shared/DefinitionList';
+import Badge from '../components/shared/Badge';
 
 
 function HomepageHeader() {
@@ -52,127 +53,75 @@ const User = observer(() => {
             classes.push(k);
         });
     }
+    const iconSide = 'right';
     return (
         <Layout>
             <HomepageHeader />
             <main>
                 <div className={styles.container}>
-                    {
-                        current && (
-                            <div className={clsx('container')}>
-                                <div className={clsx('row')}>
-                                    <div className={clsx('col', 'col--3', styles.label)}>
-                                        <span>Login</span>
-                                    </div>
-                                    <div className={clsx('col', 'col--1', styles.icon)}>
-                                        <Icon path={mdiAccountCircleOutline} size={SIZE} />
-                                    </div>
-                                    <div className={clsx('col', 'col--6', styles.value)}>
-                                        {account.username}
-                                    </div>
-                                </div>
-                                <div className={clsx('row')}>
-                                    <div className={clsx('col', 'col--3', styles.label)}>
-                                        <span>Untis Account</span>
-                                    </div>
-                                    <div className={clsx('col', 'col--1', styles.icon)}>
-                                        <Icon path={mdiLink} size={SIZE} />
-                                    </div>
-                                    <div className={clsx('col', 'col--6', styles.value)}>
-                                        <UntisLinker />
-                                    </div>
-                                </div>
-                                <div className={clsx('row')}>
-                                    <div className={clsx('col', 'col--3', styles.label)}>
-                                        <span>Kalender</span>
-                                    </div>
-                                    <div className={clsx('col', 'col--1', styles.icon)}>
-                                        <Calendar />
-                                    </div>
-                                    <div className={clsx('col', 'col--6', styles.value)}>
-                                        <div>
-                                            <Button
-                                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${userStore.current.icalUrl}&name=GBSL`}
-                                                text="Outlook"
-                                                title='Regenerate iCal Calendar'
-                                                icon={
-                                                    <Icon path={mdiMicrosoftOutlook} size={SIZE} />
-                                                }
-                                                noOutline
-                                            />
-                                            <Button
-                                                onClick={() => userStore.createIcs()}
-                                                text="Sync"
-                                                icon={<Icon horizontal path={mdiSync} size={SIZE_S} />} 
-                                                noOutline
-                                                apiState={userStore.apiStateFor('createIcs')}
-                                            />
-                                            <div className={clsx(styles.ical)}>
-                                                {userStore.current.icalUrl && `${EVENTS_API}/ical/${userStore.current.icalUrl}`}
-                                            </div>
+                    <div>
+                        {current && (
+                            <DefinitionList>
+                                <dt><Badge text="Login" icon={<Icon path={mdiAccountCircleOutline}/>} iconSide={iconSide}/></dt>
+                                <dd>{account.username}</dd>
+
+                                <dt><Badge text="Untis Account" icon={<Icon path={mdiLink}/>} iconSide={iconSide}/></dt>
+                                <dd><UntisLinker /></dd>
+
+                                <dt><Badge text="Kalender" icon={<Calendar />} iconSide={iconSide}/></dt>
+                                <dd>
+                                    <div>
+                                        <div className={clsx(styles.ical)}>
+                                            {userStore.current.icalUrl && `${EVENTS_API}/ical/${userStore.current.icalUrl}`}
                                         </div>
+                                        <Button
+                                            href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${userStore.current.icalUrl}&name=GBSL`}
+                                            text="Outlook"
+                                            title='Regenerate iCal Calendar'
+                                            icon={
+                                                <Icon path={mdiMicrosoftOutlook}  />
+                                            }
+                                            noOutline
+                                        />
+                                        <Button
+                                            onClick={() => userStore.createIcs()}
+                                            text="Sync"
+                                            icon={<Icon horizontal path={mdiSync}  />} 
+                                            noOutline
+                                            apiState={userStore.apiStateFor('createIcs')}
+                                        />
                                     </div>
-                                </div>
-                                <div className={clsx('row')}>
-                                    <div className={clsx('col', 'col--3', styles.label)}>
-                                        <span>Events</span>
-                                    </div>
-                                    <div className={clsx('col', 'col--1', styles.icon)}>
-                                        <Icon path={mdiCalendarBlankMultiple} size={SIZE} />
-                                    </div>
-                                    <div className={clsx('col', 'col--6', styles.value)}>
-                                        {userStore.currentUsersEvents.length}
-                                    </div>
-                                </div>
+                                </dd>
+                                
+                                <dt><Badge text="Events" icon={<Icon path={mdiCalendarBlankMultiple}/>} iconSide={iconSide}/></dt>
+                                <dd>{userStore.currentUsersEvents.length}</dd>
+
                                 {
                                     current.untisTeacher && (
                                         <>
-                                        <div className={clsx('row')}>
-                                            <div className={clsx('col', 'col--3', styles.label)}>
-                                                <span>Schulen</span>
-                                            </div>
-                                            <div className={clsx('col', 'col--1', styles.icon)}>
-                                                <Icon path={mdiOfficeBuilding} size={SIZE} />
-                                            </div>
-                                            <div className={clsx('col', 'col--6', styles.value)}>
-                                                {[...new Set(current.untisTeacher.departments.map(d => d.name))].join(', ')}
-                                            </div>
-                                        </div>
-                                        <div className={clsx('row')}>
-                                            <div className={clsx('col', 'col--3', styles.label)}>
-                                                <span>Klassen</span>
-                                            </div>
-                                            <div className={clsx('col', 'col--1', styles.icon)}>
-                                                <Icon path={mdiAccountGroup} size={SIZE} />
-                                            </div>
-                                            <div className={clsx('col', 'col--6', styles.value)}>
-                                                {[...new Set(classes)].join(', ')}
-                                            </div>
-                                        </div>
-                                        <div className={clsx('row')}>
-                                            <div className={clsx('col', 'col--3', styles.label)}>
-                                                <span>Fächer</span>
-                                            </div>
-                                            <div className={clsx('col', 'col--1', styles.icon)}>
-                                                <Icon path={mdiSchool} size={SIZE} />
-                                            </div>
-                                            <div className={clsx('col', 'col--6', styles.value)}>
-                                                {[...new Set(current.untisTeacher.lessons.map(l => l.subject))].join(', ')}
-                                            </div>
-                                        </div>
+                                        <dt><Badge text="Schulen" icon={<Icon path={mdiOfficeBuilding}/>} iconSide={iconSide}/></dt>
+                                        <dd>{[...new Set(current.untisTeacher.departments.map(d => d.name))].join(', ')}</dd>
+                                            <dt><Badge text="Klassen" icon={<Icon path={mdiAccountGroup}/>} iconSide={iconSide}/></dt>
+                                            <dd>{[...new Set(classes)].join(', ')}</dd>
+                                            <dt><Badge text="Fächer" icon={<Icon path={mdiSchool}/>} iconSide={iconSide}/></dt>
+                                            <dd>{[...new Set(current.untisTeacher.lessons.map(l => l.subject))].join(', ')}</dd>
                                         </>
                                     )
                                 }
-                            </div>
-                        )
-                    }
+
+                            </DefinitionList>
+                        )}
+                    </div>
 
 
 
                     <div style={{ height: '3em' }}></div>
-                    <button className="button button--danger" style={{ color: 'black' }} onClick={() => sessionStore.logout()}>
-                        Logout
-                    </button>
+                    <Button
+                        onClick={() => sessionStore.logout()}
+                        text="Logout"
+                        className='button--danger'
+                        noOutline
+                    />
                 </div>
             </main>
         </Layout>
