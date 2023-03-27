@@ -110,8 +110,8 @@ const Button = (props: Props) => {
         'button', 
         !props.noOutline && 'button--outline',
         !hasBtnClsx && 'button--secondary',
-        props.className,
-        props.disabled && styles.disabled
+        props.disabled && styles.disabled,
+        props.className
     );
     if (props.href) {
         /** it is a link, styled as a button */

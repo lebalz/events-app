@@ -5,7 +5,7 @@
     align-items: center;
     white-space: nowrap;
     &.soloIcon {
-        padding: 0 0.1rem;
+        padding: 0 0.04rem;
     }
     &.soloText {
         padding: calc(0.3rem - 0.5px) 0.4rem;
@@ -20,6 +20,9 @@
             padding-right: 0.4rem;
             border-right: 1px solid var(--ifm-color-primary);
         }
+    }
+    .icon {    
+        transform: translateY(2%);
     }
     &.iconLeft {
         padding-left: 0.2rem;
@@ -36,5 +39,27 @@
         opacity: 0.5;
         // box-shadow: 0 0 0 100px inset var(--ifm-color-disabled);
         border-color: var(--ifm-color-disabled);
+    }
+    &.primary {
+        --ifm-badge-background-color: var(--ifm-color-primary);
+    }
+    &.blue {
+        --ifm-badge-background-color: var(--ifm-color-blue);
+    }
+    &.green {
+        --ifm-badge-background-color: var(--ifm-color-success);
+    }
+    &.red {
+        --ifm-badge-background-color: var(--ifm-color-danger);
+    }
+    &.orange {
+        --ifm-badge-background-color: var(--ifm-color-warning);
+    }
+    &.gray {
+        --ifm-badge-background-color: var(--ifm-color-secondary);
+        color: var(--ifm-color-black);
+    }
+    &.lightBlue {
+        --ifm-badge-background-color: var(--ifm-color-info);
     }
 }

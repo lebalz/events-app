@@ -9,9 +9,10 @@ import { JobState, JobType } from '../api/job';
 import Delete from '../components/shared/Button/Delete';
 import LazyDetails from '../components/shared/Details';
 import CodeBlock from '@theme/CodeBlock';
-import { Error, Success, Loading, SIZE_S, SIZE, SIZE_XS } from '../components/shared/icons';
-import Badge from '../components/shared/Badge';
+import { Error, Success, Loading, SIZE_S, SIZE, SIZE_XS, Icon } from '../components/shared/icons';
+import Badge, { Color as ColorType } from '../components/shared/Badge';
 import StateBadge from '../components/shared/Badge/StateBadge';
+import { mdiCircle } from '@mdi/js';
 
 const State: { [key in JobState]: 'loading' | 'success' | 'error'} = {
     [JobState.PENDING]: 'loading',
@@ -24,6 +25,12 @@ const Text: { [key in JobType]: string } = {
     [JobType.SYNC_UNTIS]: 'Sync Untis',
     [JobType.IMPORT]: 'Import',
     [JobType.CLONE]: 'Klonen',
+}
+
+const Color: { [key in JobType]: ColorType } = {
+    [JobType.SYNC_UNTIS]: 'orange',
+    [JobType.IMPORT]: 'blue',
+    [JobType.CLONE]: 'lightBlue',
 }
 
 const Example = observer(() => {
@@ -42,13 +49,11 @@ const Example = observer(() => {
                         className={clsx(styles.details)}
                         summary={
                             <summary className={clsx(styles.summary)}>
-                                <StateBadge state={State[job.state]} text={Text[job.type]} iconSide='left' size={SIZE_S}/>
-                                {job.type === JobType.SYNC_UNTIS && (
-                                    `${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}`
-                                )}
-                                {job.type === JobType.IMPORT && (
-                                    `${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} -> ${job.events.length}`
-                                )}
+                                <StateBadge state={State[job.state]} size={SIZE_S}/>
+                                <Badge text={Text[job.type]} color={Color[job.type]}/>
+                                <Badge text={job.createdAt.toLocaleDateString()} />
+                                <div className={clsx(styles.spacer)} />
+                                {job.type === JobType.IMPORT && <Badge text={`${job.events.length}`} color="blue" />}
                                 <div className={clsx(styles.spacer)} />
                                 <Delete
                                     onClick={() => {

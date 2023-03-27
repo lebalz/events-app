@@ -3,7 +3,20 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 
+const Colors = {
+    primary: styles.primary,
+    blue: styles.blue,
+    green: styles.green,
+    red: styles.red,
+    orange: styles.orange,
+    gray: styles.gray,
+    lightBlue: styles.lightBlue
+}
+
+export type Color = keyof typeof Colors;
+
 export interface Base {
+    color?: Color;
     title?: string;
     iconSide?: 'left' | 'right';
     noOutline?: boolean;
@@ -40,6 +53,7 @@ export const extractSharedProps = (props: Base) => {
         iconSide: props.iconSide,
         noOutline: props.noOutline,
         disabled: props.disabled,
+        color: props.color,
     }
 }
 
@@ -85,7 +99,7 @@ const Badge = (props: Props) => {
         props.icon && !iconOnly && (props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
         textOnly && styles.soloText,
         'badge',
-        'badge--secondary',
+        Colors[props.color ?? 'gray'],
         props.className,
         props.disabled && styles.disabled
     );

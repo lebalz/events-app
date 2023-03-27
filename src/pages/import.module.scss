@@ -3,6 +3,7 @@
     .summary {
         display: flex;
         align-items: flex-start;
+        flex-wrap: wrap;
         padding-bottom: 0;
         .spacer {
             flex: 1;

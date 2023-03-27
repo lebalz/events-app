@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '@mdi/react';
+import { default as ReactIcon} from '@mdi/react';
 import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle, mdiSyncCircle, mdiCheckCircle, mdiLoading, mdiCircle } from '@mdi/js';
 import { IconProps } from '@mdi/react/dist/IconProps';
 import { ApiState } from '@site/src/stores/iStore';
@@ -8,78 +8,112 @@ export const SIZE = 1;
 export const SIZE_S = 0.8;
 export const SIZE_XS = 0.6;
 
-interface Props extends Partial<IconProps> {
+interface IcoProps extends IconProps {
     disabled?: boolean;
 }
 
-export const EditIcon = (props:Props) => {
+type Props = Partial<IcoProps>;
+
+export const Icon = (props: IcoProps) => {
+    let color = props.disabled ? 'var(--ifm-color-disabled)' : props.color;
+    switch (color) {
+        case 'primary':
+            color = 'var(--ifm-color-primary)';
+            break;
+        case 'secondary':
+        case 'gray':
+            color = 'var(--ifm-color-secondary)';
+            break;
+        case 'success':
+        case 'green':
+            color = 'var(--ifm-color-success)';
+            break;
+        case 'error':
+        case 'red':
+            color = 'var(--ifm-color-danger)';
+            break;
+        case 'warning':
+        case 'orange':
+            color = 'var(--ifm-color-warning)';
+            break;
+        case 'info':
+        case 'lightBlue':
+        case 'light-blue':
+            color = 'var(--ifm-color-info)';
+            break;
+        case 'blue':
+            color = 'var(--ifm-color-blue)';
+            break;
+    }
+    console.log(props.color, color);
     return (
-        <Icon path={mdiCircleEditOutline} size={SIZE} color={props.disabled && 'var(--ifm-color-disabled)'} {...props} />
+        <ReactIcon {...props} color={color} size={props.size ?? SIZE} />
+    );
+};
+
+export const EditIcon = (props: Props) => {
+    return (
+        <Icon path={mdiCircleEditOutline} {...props} />
     );
 }; 
 
-export const DeleteIcon = (props:Props) => {
-    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-danger)'
+export const DeleteIcon = (props: Props) => {
     return (
-        <Icon path={mdiTrashCan} size={SIZE} color={color} {...props} />
+        <Icon path={mdiTrashCan} color={'var(--ifm-color-danger)'} {...props} />
     );
 }; 
 
-export const SaveIcon = (props:Props) => {
-    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-success)'
+export const SaveIcon = (props: Props) => {
     return (
-        <Icon path={mdiContentSave} size={SIZE} color={color} {...props} />
+        <Icon path={mdiContentSave} color={'var(--ifm-color-success)'} {...props} />
     );
 }; 
 
 export const DiscardIcon = (props:Props) => {
     return (
-        <Icon path={mdiCloseCircle} size={SIZE} color={props.disabled && 'var(--ifm-color-disabled)'} {...props} />
+        <Icon path={mdiCloseCircle} {...props} />
     );
 };
 
 export const ArrowRight = (props:Props) => {
     return (
-        <Icon path={mdiArrowRightCircle} size={SIZE} color={props.disabled && 'var(--ifm-color-disabled)'} {...props} />
+        <Icon path={mdiArrowRightCircle} {...props} />
     );
 };
 export const ArrowLeft = (props:Props) => {
     return (
-        <Icon path={mdiArrowLeftCircle} size={SIZE} color={props.disabled && 'var(--ifm-color-disabled)'} {...props} />
+        <Icon path={mdiArrowLeftCircle} {...props} />
     );
 };
 
 export const Calendar = (props:Props) => {
     return (
-        <Icon path={mdiCalendarMonth} size={SIZE} color={props.disabled && 'var(--ifm-color-disabled)'} {...props} />
+        <Icon path={mdiCalendarMonth} {...props} />
     );
 };
 
 export const Idle = (props:Props) => {
     return (
-        <Icon path={mdiCircle} size={SIZE} color="var(--ifm-color-secondary)" {...props} />
+        <Icon path={mdiCircle} color="var(--ifm-color-secondary)" {...props} />
     );
 };
 
 export const Loading = (props:Props) => {
-    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-primary)'
     return (
-        <Icon path={mdiLoading} size={SIZE} horizontal spin color={color} {...props} />
+        <Icon path={mdiLoading} horizontal spin color={'var(--ifm-color-primary)'} {...props} />
     );
 };
 
 export const Error = (props:Props) => {
-    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-error)'
     return (
-        <Icon path={mdiCloseCircle} size={SIZE} color={color} {...props} />
+        <Icon path={mdiCloseCircle} color={'var(--ifm-color-error)'} {...props} />
     );
 };
 
 
 export const Success = (props:Props) => {
-    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-success)'
     return (
-        <Icon path={mdiCheckCircle} size={SIZE} color={color} {...props} />
+        <Icon path={mdiCheckCircle} color={'var(--ifm-color-success)'} {...props} />
     );
 };
 

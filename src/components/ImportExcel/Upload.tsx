@@ -6,9 +6,8 @@ import { importExcel } from '@site/src/api/event';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../shared/Button';
-import Icon from '@mdi/react';
 import { mdiFileUploadOutline } from '@mdi/js';
-import { SIZE, SIZE_S } from '../shared/icons';
+import { Icon, SIZE, SIZE_S } from '../shared/icons';
 
 
 const Upload = observer(() => {
