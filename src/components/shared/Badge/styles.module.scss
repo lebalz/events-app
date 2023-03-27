@@ -1,0 +1,39 @@
+.badge {
+    padding: 0 0.4rem;
+    margin: 0.05rem;
+    display: flex;
+    align-items: center;
+    &.soloIcon {
+        padding: 0 0.1rem;
+    }
+    &.soloText {
+        padding: calc(0.3rem - 0.5px) 0.4rem;
+    }
+    &.iconRight {
+        padding-right: 0.2rem;
+        .inlineIcon {
+            margin-left: 0rem;
+            padding-left: 0.2rem;
+        }
+        .border {
+            padding-right: 0.4rem;
+            border-right: 1px solid var(--ifm-color-primary);
+        }
+    }
+    &.iconLeft {
+        padding-left: 0.2rem;
+        .inlineIcon {
+            margin-right: 0rem;
+            padding-right: 0.2rem;
+        }
+        .border {
+            padding-left: 0.3rem;
+            border-left: 1px solid var(--ifm-color-primary);
+        }
+    }
+    &.disabled {
+        opacity: 0.5;
+        // box-shadow: 0 0 0 100px inset var(--ifm-color-disabled);
+        border-color: var(--ifm-color-disabled);
+    }
+}

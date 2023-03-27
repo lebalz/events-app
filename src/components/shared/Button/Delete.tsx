@@ -8,6 +8,7 @@ import Button, { Base, extractSharedProps } from '.';
 interface Props {
     onClick: () => void;
     flyoutSide?: 'left' | 'right';
+    size?: number;
 }
 
 type DeleteProps = Props & Base;
@@ -47,16 +48,16 @@ const Delete = (props: DeleteProps) => {
         <span className={clsx(styles.delete, promptDelete && styles.expanded, props.className)} ref={ref}>
             {(props.flyoutSide ?? 'left') === 'left' && Flyout}
             <Button
-                {...extractSharedProps(props)}
-                className={clsx(props.className, styles.delete, props.flyoutSide === 'right' && styles.right)}
                 title="Löschen"
+                {...extractSharedProps(props)}
+                className={clsx(props.className, styles.delete, props.flyoutSide === 'right' && styles.right, props.className)}
                 onClick={(e) => {
                     setPromptDelete(!promptDelete);
                     document.addEventListener('click', onBlur);
                     e.stopPropagation();
                     e.preventDefault();
                 }}
-                icon={<DeleteIcon size={SIZE_S} />}
+                icon={<DeleteIcon size={props.size ?? SIZE_S}  />}
             />
             {props.flyoutSide === 'right' && Flyout}
         </span>

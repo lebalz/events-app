@@ -1,6 +1,12 @@
-.alert {
-    display: flex;
-    .spacer {
-        flex: 1;
+.details {
+    padding-bottom: calc(var(--ifm-alert-padding-vertical) - 0.4rem);
+    .summary {
+        display: flex;
+        align-items: flex-start;
+        padding-bottom: 0;
+        .spacer {
+            flex: 1;
+        }
+        
     }
 }

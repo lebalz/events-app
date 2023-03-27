@@ -20,7 +20,7 @@ if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
     {
       src: process.env.REACT_APP_UMAMI_SRC,
       ['data-website-id']: process.env.REACT_APP_UMAMI_ID,
-      ['data-domains']: 'events.gbsl.website',
+      ['data-domains']: (process.env.REACT_APP_DOMAIN || 'http://localhost:3000').split('/').filter(w => !!w)[1],
       async: true,
       defer: true
     }
@@ -34,7 +34,7 @@ const GIT_COMMIT_SHA = process.env.DRONE_COMMIT_SHA || Math.random().toString(36
 const config = {
   title: 'Events',
   tagline: 'Events App',
-  url: 'https://events.gbsl.website',
+  url: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

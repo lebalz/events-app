@@ -4,6 +4,7 @@ import { StoresProvider, rootStore } from "../stores/stores";
 import { observer } from "mobx-react-lite";
 import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
+import siteConfig from '@generated/docusaurus.config';
 
 const selectAccount = () => {
   /**
@@ -52,12 +53,12 @@ function Root({ children }) {
     rootStore.load();
   }, [rootStore]);
   return (
-    <div className="dummy">
+    <>
       <Head>
-        <meta property="og:description" content="Informatik Gymnasium Biel-Seeland" />
+        <meta property="og:description" content={siteConfig.tagline} />
         <meta
           property="og:image"
-          content="https://ofi.gbsl.website/img/og-preview.png"
+          content={`${siteConfig.customFields.DOMAIN}/img/og-preview.png`}
         />
       </Head>
       <StoresProvider value={rootStore}>
@@ -65,7 +66,7 @@ function Root({ children }) {
           {children}
         </Msal>
       </StoresProvider>
-    </div>
+    </>
   );
 }
 

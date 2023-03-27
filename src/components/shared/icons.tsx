@@ -27,7 +27,6 @@ export const DeleteIcon = (props:Props) => {
 
 export const SaveIcon = (props:Props) => {
     const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-success)'
-
     return (
         <Icon path={mdiContentSave} size={SIZE} color={color} {...props} />
     );
@@ -63,21 +62,24 @@ export const Idle = (props:Props) => {
 };
 
 export const Loading = (props:Props) => {
+    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-primary)'
     return (
-        <Icon path={mdiLoading} size={SIZE} horizontal spin color="var(--ifm-color-primary)" {...props} />
+        <Icon path={mdiLoading} size={SIZE} horizontal spin color={color} {...props} />
     );
 };
 
 export const Error = (props:Props) => {
+    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-error)'
     return (
-        <Icon path={mdiCloseCircle} size={SIZE} color="var(--ifm-color-error)" {...props} />
+        <Icon path={mdiCloseCircle} size={SIZE} color={color} {...props} />
     );
 };
 
 
 export const Success = (props:Props) => {
+    const color = props.disabled ? 'var(--ifm-color-disabled)' : 'var(--ifm-color-success)'
     return (
-        <Icon path={mdiCheckCircle} size={SIZE} color="var(--ifm-color-success)" {...props} />
+        <Icon path={mdiCheckCircle} size={SIZE} color={color} {...props} />
     );
 };
 

@@ -7,7 +7,7 @@ import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType }
 import { importExcel as postExcel } from '../api/event';
 import Job from '../models/Job';
 
-export class JobStore extends iStore<JobProps> {
+export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     readonly root: RootStore;
     readonly API_ENDPOINT = 'job';
 
@@ -88,8 +88,10 @@ export class JobStore extends iStore<JobProps> {
         return this.withAbortController(`postExcel-${file.name}`, (sig) => {
             return postExcel(formData, sig.signal).then(({ data }) => {
                 if (data) {
-                    this.models.push(new Job(data, this));
+                    const job = this.addToStore(data);
+                    return job;
                 }
+                return null;
             });
         });
     }

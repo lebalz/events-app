@@ -101,7 +101,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         return action((data: string) => {
             const record: ChangedRecord = JSON.parse(data);
             const store = this.root[RecordStoreMap[record.record]] as iStore<any>;
-            console.log('handle dgram', type, record.record, store)
             switch (type) {
                 case IoEvent.NEW_RECORD:
                     store.loadModel(record.id);

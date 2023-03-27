@@ -90,7 +90,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             }
             return this.models.find((d) => d.id === id) as V;
         },
-        // {keepAlive: true}
+        {keepAlive: true}
     );
 
     @action

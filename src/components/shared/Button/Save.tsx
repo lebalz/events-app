@@ -7,6 +7,7 @@ import Button, { Base, extractSharedProps } from '.';
 
 interface Props {
     onClick: () => void;
+    size?: number;
 }
 
 type SaveProps = Props & Base;
@@ -14,11 +15,11 @@ type SaveProps = Props & Base;
 const Save = (props: SaveProps) => {
     return (
         <Button
-            {...extractSharedProps(props)}
-            className={clsx(styles.save)}
             title="Speichern"
+            {...extractSharedProps(props)}
+            className={clsx(styles.save, props.className)}
             onClick={props.onClick}
-            icon={<SaveIcon size={SIZE_S} disabled={props.disabled} />}
+            icon={<SaveIcon size={props.size ?? SIZE_S} disabled={props.disabled} />}
         />
     )
 };

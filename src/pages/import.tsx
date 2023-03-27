@@ -9,11 +9,21 @@ import { JobState, JobType } from '../api/job';
 import Delete from '../components/shared/Button/Delete';
 import LazyDetails from '../components/shared/Details';
 import CodeBlock from '@theme/CodeBlock';
+import { Error, Success, Loading, SIZE_S, SIZE, SIZE_XS } from '../components/shared/icons';
+import Badge from '../components/shared/Badge';
+import StateBadge from '../components/shared/Badge/StateBadge';
 
-const StateSymbol = {
-    [JobState.PENDING]: '🏃',
-    [JobState.DONE]: '✅',
-    [JobState.ERROR]: '❌',
+const State: { [key in JobState]: 'loading' | 'success' | 'error'} = {
+    [JobState.PENDING]: 'loading',
+    [JobState.DONE]: 'success',
+    [JobState.ERROR]: 'error',
+    [JobState.REVERTED]: 'loading'
+}
+
+const Text: { [key in JobType]: string } = {
+    [JobType.SYNC_UNTIS]: 'Sync Untis',
+    [JobType.IMPORT]: 'Import',
+    [JobType.CLONE]: 'Klonen',
 }
 
 const Example = observer(() => {
@@ -29,13 +39,15 @@ const Example = observer(() => {
                 return (
                     <LazyDetails
                         key={idx}
+                        className={clsx(styles.details)}
                         summary={
-                            <summary className={clsx(styles.alert)}>
+                            <summary className={clsx(styles.summary)}>
+                                <StateBadge state={State[job.state]} text={Text[job.type]} iconSide='left' size={SIZE_S}/>
                                 {job.type === JobType.SYNC_UNTIS && (
-                                    `${StateSymbol[job.state]} Sync Untis: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}`
+                                    `${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()}`
                                 )}
                                 {job.type === JobType.IMPORT && (
-                                    `${StateSymbol[job.state]} Import....: ${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} -> ${job.events.length}`
+                                    `${job.createdAt.toLocaleString()}-${job.updatedAt.toLocaleTimeString()} -> ${job.events.length}`
                                 )}
                                 <div className={clsx(styles.spacer)} />
                                 <Delete
@@ -43,6 +55,7 @@ const Example = observer(() => {
                                         jobStore.destroy(job);
                                     }}
                                     apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                    disabled={job.state === JobState.PENDING || job.type !== JobType.IMPORT}
                                 />
                             </summary>
                         }

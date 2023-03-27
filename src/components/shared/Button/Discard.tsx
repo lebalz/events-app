@@ -7,6 +7,7 @@ import Button, { Base, extractSharedProps } from '.';
 
 interface Props {
     onClick: () => void;
+    size?: number;
 }
 
 type DiscardProps = Props & Base;
@@ -14,11 +15,11 @@ type DiscardProps = Props & Base;
 const Discard = (props: DiscardProps) => {
     return (
         <Button 
-            {...extractSharedProps(props)}
-            className={clsx(styles.discard, 'button--secondary', 'button--sm')}
             title="Änderungen verwerfen"
+            {...extractSharedProps(props)}
+            className={clsx(styles.discard, 'button--secondary', 'button--sm', props.className)}
             onClick={props.onClick}
-            icon={<DiscardIcon size={SIZE_S} />}
+            icon={<DiscardIcon size={props.size ?? SIZE_S} />}
         />
     );
 };

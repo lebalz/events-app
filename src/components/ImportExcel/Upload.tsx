@@ -34,7 +34,7 @@ const Upload = observer(() => {
                         if (!selectedFile) {
                             throw 'No file was selected';
                         }
-                        jobStore.importExcel(selectedFile);   
+                        jobStore.importExcel(selectedFile);
                         return false;
                     }}
                     noOutline
