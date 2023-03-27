@@ -2,13 +2,13 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import styles from './table.module.scss';
 import Layout from '@theme/Layout';
-import Event from '../components/Event';
 import EventList from '../components/Event/EventList';
 import { useStore } from '../stores/hooks';
 import clsx from 'clsx';
 import LazyDetails from '../components/shared/Details';
 import User from '../models/User';
 import Delete from '../components/shared/Button/Delete';
+import AddButton from '../components/Event/AddButton';
 
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
@@ -19,9 +19,9 @@ const Table = observer(() => {
     return (
         <Layout>
             <div>
-                <Event />
+                <AddButton />
                 <EventList events={eventStore.byUser(userId).filter(e => !e.jobId)} showFullscreenButton={false} />
-                {jobStore.models.map((job, idx) => {
+                {jobStore.importJobs.map((job, idx) => {
                     return (
                         <LazyDetails
                             key={idx} 

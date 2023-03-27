@@ -60,6 +60,16 @@ export class EventStore extends iStore<EventProps> {
         { keepAlive: true }
     );
 
+    byIds(ids?: string | string[]): Event[] {
+        if (!ids) {
+            return [];
+        }
+        if (!Array.isArray(ids)) {
+            ids = [ids];
+        }
+        return ids.map((id) => this.find<Event>(id)).filter((e) => !!e);
+    }
+
     
     byDateRange = computedFn(
         function (this: EventStore, start: Date, end: Date): Event[] {

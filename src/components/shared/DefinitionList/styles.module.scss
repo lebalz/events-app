@@ -23,11 +23,9 @@ dl.definitionList {
         &:last-of-type {
             padding-bottom: 0.2em;
         }
-        // > span {
-        //     width: fit-content;
-        // }
     }
     dd {
+        display: flex;
         overflow-x: auto;
         flex-basis: 340px;
         flex-shrink: 0;

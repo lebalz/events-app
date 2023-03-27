@@ -6,6 +6,7 @@ import iStore from './iStore';
 import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType } from '../api/job';
 import { importExcel as postExcel } from '../api/event';
 import Job from '../models/Job';
+import User from '../models/User';
 
 export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     readonly root: RootStore;
@@ -24,7 +25,7 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     }
 
     findUser(id?: string) {
-        return this.root.userStore.find(id);
+        return this.root.userStore.find<User>(id);
     }
 
     @action

@@ -5,6 +5,7 @@ import { RootStore } from "./stores";
 import { computedFn } from "mobx-utils";
 import axios from "axios";
 
+type ApiModelInst = ApiModel<any, any>;
 export class ResettableStore {
     reset() {
         /**
@@ -83,12 +84,13 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         {keepAlive: true}
     );
     
+    // function <V extends ApiModel<Model, Api | ApiAction>>(this: iStore<Model, Api>, id?: string): V {
     find = computedFn(        
-        function <V extends ApiModel<Model, Api | ApiAction>>(this: iStore<Model, Api>, id?: string): V {
+        function <T>(this: iStore<Model, Api>, id?: string): T & ApiModel<any> {
             if (!id) {
                 return;
             }
-            return this.models.find((d) => d.id === id) as V;
+            return this.models.find((d) => d.id === id) as T & ApiModel<any>;
         },
         {keepAlive: true}
     );
@@ -109,11 +111,11 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         /**
          * Removes the model to the store
          */
-        const old = this.find(id);
+        const old = this.find<ApiModel<Model, Api | ApiAction>>(id);
         if (old) {
             this.models.remove(old);
         }
-        return old as ApiModel<Model, Api | ApiAction>;
+        return old;
     }
 
 

@@ -52,6 +52,7 @@ function Root({ children }) {
     }
     rootStore.load();
   }, [rootStore]);
+
   return (
     <>
       <Head>
