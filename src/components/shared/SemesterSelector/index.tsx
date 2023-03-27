@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import { ArrowLeft, ArrowRight, Calendar, SIZE_S, SIZE_XS } from '../icons';
+import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_S, SIZE_XS } from '../icons';
 import Button from '../Button';
 
 
@@ -12,7 +12,7 @@ const SemesterSelector = observer(() => {
     const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
     if (semesterStore.semesters.length < 1) {
-        return null;
+        return <Loading />;
     }
     return (<div className={clsx(styles.semesterSelector)} >
         <Button
