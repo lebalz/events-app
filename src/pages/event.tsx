@@ -23,8 +23,8 @@ const EventView = observer((props: Props) => {
     return (
         <Layout>
             <Section title={title}>
-                {events.map((event) => {
-                    return (<EventModelView event={event} key={event.id}/>);
+                {events.map((event, idx) => {
+                    return (<EventModelView event={event} key={idx}/>);
                 })}
             </Section>
         </Layout>

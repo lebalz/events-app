@@ -45,7 +45,6 @@ export const Icon = (props: IcoProps) => {
             color = 'var(--ifm-color-blue)';
             break;
     }
-    console.log(props.color, color);
     return (
         <ReactIcon {...props} color={color} size={props.size ?? SIZE} />
     );

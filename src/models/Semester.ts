@@ -84,7 +84,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     }
 
     @computed
-    get untisSemester() {
+    get untisSemester(): `${number}HS` | `${number}FS` {
         const month = this.start.getMonth() + 1;
         const year = this.start.getFullYear();
         if (month < 8) {

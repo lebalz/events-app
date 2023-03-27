@@ -25,29 +25,47 @@ const Event = observer((props: Props) => {
                     <dd>{event.description}</dd>
                     {event.descriptionLong && (
                         <>
-                            <dt><Badge text="Beschreibung" icon={mdiCardText} iconSide="left" /></dt>
+                            <dt>Beschreibung</dt>
                             <dd>{event.descriptionLong}</dd>
                         </>
                     )}
-                    <dt><Badge text="KW" icon={mdiCalendarWeek} iconSide="left" /></dt>
+                    <dt>KW</dt>
                     <dd>{event.kw}</dd>
-                    <dt><Badge text="Wochentag" icon={mdiCalendarToday} iconSide="left" /></dt>
+                    <dt>Wochentag</dt>
                     <dd>{event.weekday}</dd>
-                    <dt><Badge text="Von" icon={mdiCalendarClock} iconSide="left" /></dt>
+                    <dt>Datum</dt>
                     <dd>{event.fStartDate} {event.fStartTime}</dd>
                     <dd><Icon path={mdiArrowRightBottom} />{event.fEndDate} {event.fEndTime}</dd>
-                    <dt><Badge text="Ort" icon={mdiCrosshairsGps} iconSide="left" /></dt>
+                    <dt>Ort</dt>
                     <dd>{event.location}</dd>
                     {event.classes.length > 0 && (
                         <>
-                            <dt><Badge text="Klassen" icon={mdiAccountGroup} iconSide="left" /></dt>
-                            <dd>{event.classes.map((cl) => <Badge text={cl} />)}</dd>
+                            <dt>Klassen</dt>
+                            <dd>{event.classes.map((cl, idx) => <Badge key={`cl-${idx}`} text={cl} />)}</dd>
                         </>
                     )}
                     {event.deparments.length > 0 && (
                         <>
-                            <dt><Badge text="Gruppen" icon={mdiOfficeBuilding} iconSide="left" /></dt>
-                            <dd>{event.deparments.map((dp) => <Badge text={dp.name} />)}</dd>
+                            <dt>Gruppen</dt>
+                            <dd>{event.deparments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} />)}</dd>
+                        </>
+                    )}
+                    {event.affectedLessons.length > 0 && (
+                        <>
+                            <dt>Betroffene Lektionen</dt>
+                            <dd>
+                                <DefinitionList>
+                                    {event.affectedLessons.map((kl, idx) => (
+                                            <React.Fragment key={`kl-${idx}`}>
+                                                <dt >{kl.class}</dt>
+                                                {kl.lessons.map((l, iidx) => (
+                                                    <dd key={`kl-${idx}-${iidx}`}>{l.subject} | {l.startHHMM}-{l.endHHMM} | {l.teachers.map(t => t.shortName).join(', ')}</dd>
+                                                ))}
+                                            </React.Fragment>
+                                        ))}
+                                    
+                                </DefinitionList>
+                            </dd>
                         </>
                     )}
                 </DefinitionList>

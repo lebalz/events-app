@@ -104,7 +104,6 @@ const BadgeInner = (props: Props) => {
 }
 
 const Badge = (props: Props) => {
-    console.log(props);
     const textOnly = props.text && !(props.children || props.icon);
     const iconOnly = props.icon && !(props.children || props.text);
     const commonCls = clsx(

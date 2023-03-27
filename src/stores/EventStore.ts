@@ -160,7 +160,10 @@ export class EventStore extends iStore<EventProps> {
                                     event.weekOffsetMS_start > l.weekOffsetMS_end;
                 return !unaffected;
             })
-
     })
+
+    getUntisClasses(classNames: string[]) {
+        return classNames.map(c => this.root.untisStore.findClassByName(c)).filter(c => !!c);
+    }
 
 }

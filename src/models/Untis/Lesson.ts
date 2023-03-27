@@ -1,12 +1,13 @@
 import type { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
+import { iEvent } from '../Event';
 import { DAY_2_MS, HOUR_2_MS, MINUTE_2_MS } from '../helpers/time';
 import { getLastMonday } from './helpers';
 
 const MONDAY = Object.freeze(getLastMonday());
 
-export default class Lesson {
+export default class Lesson implements iEvent {
     readonly id: number
     readonly room: string
     readonly subject: string
@@ -77,5 +78,12 @@ export default class Lesson {
         const hours = this.endHHMM / 100;
         const minute = this.endHHMM % 100;
         return this.weekDay * DAY_2_MS + hours * HOUR_2_MS + minute * MINUTE_2_MS;
+    }
+
+    hasOverlap(other: iEvent) {
+        const [a, b] = this.weekOffsetMS_start < other.weekOffsetMS_start ? [this, other] : [other, this];
+        const overlap = a.weekOffsetMS_end > b.weekOffsetMS_start && a.weekOffsetMS_start < b.weekOffsetMS_end;
+        console.log(a, b, overlap);
+        return overlap;
     }
 }

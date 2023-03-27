@@ -34,6 +34,11 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         )
     }
 
+    @computed
+    get currentSemester(): `${number}HS` | `${number}FS` {
+        return this.root.viewStore.untisSemesterName;
+    }
+
     withAbortController<T>(sigId: string, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
         if (this.abortControllers.has(sigId)) {

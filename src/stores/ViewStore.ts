@@ -161,6 +161,11 @@ export class ViewStore {
     }
 
     @computed
+    get untisSemesterName(): `${number}HS` | `${number}FS`{
+        return this.semester?.untisSemester ?? '0HS';
+    }
+
+    @computed
     get usersLessons(): Lesson[] {
         return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l.semester === this.semester.untisSemester);
     }

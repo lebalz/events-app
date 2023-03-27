@@ -5,8 +5,13 @@ import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate } from './helpers/time';
 import Klass from './Untis/Klass';
+import Lesson from './Untis/Lesson';
 
-export default class Event extends ApiModel<EventProps, ApiAction> {
+export interface iEvent {
+    weekOffsetMS_start: number;
+    weekOffsetMS_end: number;
+}
+export default class Event extends ApiModel<EventProps, ApiAction> implements iEvent {
     readonly store: EventStore;
     readonly _pristine: EventProps;
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
@@ -123,7 +128,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> {
 
     @computed
     get weekOffsetMS_start() {
-        return getWeekdayOffsetMS(this.start);
+        return getWeekdayOffsetMS(toGlobalDate(this.start));
     }
 
     @computed
@@ -171,6 +176,16 @@ export default class Event extends ApiModel<EventProps, ApiAction> {
     }
 
     @computed
+    get untisClasses() {
+        return this.store.getUntisClasses(this.classes);
+    }
+
+    @computed
+    get affectedLessons(): {class: string, lessons: Lesson[]}[] {
+        return this.untisClasses.map(c => ({class: c.name, lessons: c.lessons.filter(l => l?.hasOverlap(this))}));
+    }
+
+    @computed
     get isPublic() {
         return this.state === EventState.Published;
     }
@@ -203,5 +218,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> {
             end: toGlobalDate(this.end).toISOString(),
             allDay: this.allDay
         }
+    }
+
+    hasOverlap(other: iEvent) {
+        const [a, b] = this.weekOffsetMS_start < other.weekOffsetMS_end ? [this, other] : [other, this];
+        return a.weekOffsetMS_end > b.weekOffsetMS_start && a.weekOffsetMS_start < b.weekOffsetMS_end;
     }
 }

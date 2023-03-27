@@ -55,7 +55,6 @@ const EventList = observer((props: Props) => {
                     } else if (document.fullscreenElement) {
                         document.exitFullscreen();
                     }
-                    console.log('fullscreen', viewStore.fullscreen);
                 }
             ),
         []
