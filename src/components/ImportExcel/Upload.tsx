@@ -12,17 +12,20 @@ import { Icon, SIZE, SIZE_S } from '../shared/icons';
 
 const Upload = observer(() => {
     const [selectedFile, setSelectedFile] = useState<File>(null);
+    const [fileInputKey, setFileInputKey] = useState<number>(1);
     const jobStore = useStore('jobStore');
 
     return (
         <label className={clsx(styles.dropArea)} htmlFor="excel-import">
                 <input
                     className={clsx('button', 'button--secondary')}
+                    key={fileInputKey}
                     type="file"
                     id="excel-import"
                     name="terminplan"
                     accept=".xlsx"
                     style={{ marginBottom: '12px' }}
+                    multiple={false}
                     onChange={(e) => setSelectedFile(e.currentTarget!.files![0])}
                 />
                 <Button
@@ -37,6 +40,8 @@ const Upload = observer(() => {
                             throw 'No file was selected';
                         }
                         jobStore.importExcel(selectedFile);
+                        setSelectedFile(null);
+                        setFileInputKey(fileInputKey + 1);
                         return false;
                     }}
                     icon={<Icon path={mdiFileUploadOutline} size={SIZE_S}/>}
