@@ -41,7 +41,7 @@ const Delete = (props: DeleteProps) => {
             e.preventDefault();
             props.onClick();
         }}
-        text="Ja, Löschen!"
+        text="Ja, löschen!"
     />) : null;
 
     return (
