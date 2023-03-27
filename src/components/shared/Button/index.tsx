@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { ApiState } from '@site/src/stores/iStore';
 import { ApiIcon, SIZE, SIZE_S, SIZE_XS } from '../icons';
+import Link from '@docusaurus/Link';
 
 export interface Base {
     onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -12,6 +13,7 @@ export interface Base {
     apiState?: ApiState;
     apiIconSize?: number;
     href?: string;
+    target?: '_blank' | `_self`;
     iconSide?: 'left' | 'right';
     noOutline?: boolean;
     text?: string
@@ -115,14 +117,14 @@ const Button = (props: Props) => {
     );
     if (props.href) {
         /** it is a link, styled as a button */
-        return (<a
+        return (<Link
             href={props.disabled ? '#' : props.href}
-            target="_blank"
+            target={props.target ?? '_blank'}
             className={clsx(styles.link, commonCls)}
             title={props.title}
         >
             <ButtonInner {...props} />
-        </a>);
+        </Link>);
     }
     return (
         <button

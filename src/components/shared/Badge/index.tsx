@@ -2,6 +2,7 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
+import { Icon } from '../icons';
 
 const Colors = {
     primary: styles.primary,
@@ -23,9 +24,10 @@ export interface Base {
     text?: string
     className?: string;
     disabled?: boolean;
+    size?: number;
 }
 interface IconProps extends Base {
-    icon: ReactNode;
+    icon: ReactNode | string;
     text?: never;
     children?: never;
 }
@@ -35,7 +37,7 @@ interface TextProps extends Base {
     children?: never;
 }
 interface TextIconProps extends Base {
-    icon: ReactNode;
+    icon: ReactNode | string;
     text: string;
     children?: never;
 }
@@ -54,6 +56,7 @@ export const extractSharedProps = (props: Base) => {
         noOutline: props.noOutline,
         disabled: props.disabled,
         color: props.color,
+        size: props.size
     }
 }
 
@@ -62,6 +65,16 @@ const BadgeIcon = (props: Props) => {
     if (!props.icon) {
         return null;
     }
+    if (typeof props.icon === 'string') {
+        return (
+            <span
+                className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
+            >
+                <Icon path={props.icon} size={props.size} />
+            </span>
+        )
+    }
+
     return (
         <span
             className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}

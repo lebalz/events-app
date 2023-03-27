@@ -1,6 +1,6 @@
 import React from 'react';
 import { default as ReactIcon} from '@mdi/react';
-import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle, mdiSyncCircle, mdiCheckCircle, mdiLoading, mdiCircle } from '@mdi/js';
+import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle, mdiSyncCircle, mdiCheckCircle, mdiLoading, mdiCircle, mdiContentCopy } from '@mdi/js';
 import { IconProps } from '@mdi/react/dist/IconProps';
 import { ApiState } from '@site/src/stores/iStore';
 
@@ -54,6 +54,12 @@ export const Icon = (props: IcoProps) => {
 export const EditIcon = (props: Props) => {
     return (
         <Icon path={mdiCircleEditOutline} {...props} />
+    );
+}; 
+
+export const Copy = (props: Props) => {
+    return (
+        <Icon path={mdiContentCopy} {...props} />
     );
 }; 
 

@@ -1,17 +1,12 @@
 dl.definitionList {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-column-gap: 0.6rem;
-    grid-row-gap: 0.5rem;
-    > * {
-        padding: 1px;
-        padding-top: 0.5em;
-    }
+    grid-column-gap: 1.2rem;
+    grid-row-gap: 0.4rem;
+    grid-auto-flow: row;
+    margin-bottom: 1rem;
     dt {
-        padding-top: 0.5em;
-        flex-basis: 170px;
-        flex-shrink: 0;
-        flex-grow: 1;
+        grid-column: 1;
         font-weight: bold;
         text-align:right;
         min-height: 1px;
@@ -20,46 +15,27 @@ dl.definitionList {
         display: flex;
         justify-content: end;
         align-items: start;
-        &:last-of-type {
-            padding-bottom: 0.2em;
-        }
     }
     dd {
+        grid-column: 2;
         display: flex;
         overflow-x: auto;
-        flex-basis: 340px;
-        flex-shrink: 0;
-        flex-grow: 2;
-        padding-left:1em;
         margin-left: 0px;
         overflow-y: hidden;
-        &:last-of-type {
-            padding-bottom: 0.2em;
-        }
     }
     dd + dd {
-        width: 100%;
-        padding-left: calc(30% + 1em);
-        padding-top:4px;
-    }
-    dt + dt {
-        padding-right: 60%;
-    }
-    dt + dt + dd {
-        margin-top: -1.625em; /* own height including padding */
-        padding-left: calc(30% + 1em);
-    }
-    
-    dd p, dd ul, dd ol {
-        line-height: inherit;
+        margin-top: -0.5em;
     }
 }
 
 @media screen and (max-width: 620px) {
     dl.definitionList {    
         grid-template-columns: 1fr;
-        dt {        
+        dt {
             justify-content: left;
+        }
+        dd {
+            grid-column: 1;
         }
     }
 }

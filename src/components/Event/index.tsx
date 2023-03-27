@@ -1,16 +1,13 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import { toGlobalDate } from '@site/src/models/helpers/time';
-import Button from '../shared/Button';
-import { mdiPlusCircleOutline } from '@mdi/js';
-import { Icon, SIZE } from '../shared/icons';
 import {default as EventModel} from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
+import { mdiAccountGroup, mdiArrowRightBottom, mdiCalendarClock, mdiCalendarExpandHorizontal, mdiCalendarRange, mdiCalendarToday, mdiCalendarWeek, mdiCardText, mdiCrosshairsGps, mdiHomeGroup, mdiOfficeBuilding } from '@mdi/js';
+import { Icon } from '../shared/icons';
 interface Props {
     event: EventModel;
 }
@@ -28,25 +25,28 @@ const Event = observer((props: Props) => {
                     <dd>{event.description}</dd>
                     {event.descriptionLong && (
                         <>
-                            <dt>Beschreibung</dt>
+                            <dt><Badge text="Beschreibung" icon={mdiCardText} iconSide="left" /></dt>
                             <dd>{event.descriptionLong}</dd>
                         </>
                     )}
-                    <dt>Von</dt>
-                    <dd>{event.weekday} {event.fStartDate} {event.fStartTime}</dd>
-                    <dt>Bis</dt>
-                    <dd>{event.fEndDate} {event.fEndTime}</dd>
-                    <dt>Ort</dt>
+                    <dt><Badge text="KW" icon={mdiCalendarWeek} iconSide="left" /></dt>
+                    <dd>{event.kw}</dd>
+                    <dt><Badge text="Wochentag" icon={mdiCalendarToday} iconSide="left" /></dt>
+                    <dd>{event.weekday}</dd>
+                    <dt><Badge text="Von" icon={mdiCalendarClock} iconSide="left" /></dt>
+                    <dd>{event.fStartDate} {event.fStartTime}</dd>
+                    <dd><Icon path={mdiArrowRightBottom} />{event.fEndDate} {event.fEndTime}</dd>
+                    <dt><Badge text="Ort" icon={mdiCrosshairsGps} iconSide="left" /></dt>
                     <dd>{event.location}</dd>
                     {event.classes.length > 0 && (
                         <>
-                            <dt>Klassen</dt>
+                            <dt><Badge text="Klassen" icon={mdiAccountGroup} iconSide="left" /></dt>
                             <dd>{event.classes.map((cl) => <Badge text={cl} />)}</dd>
                         </>
                     )}
                     {event.deparments.length > 0 && (
                         <>
-                            <dt>Gruppen</dt>
+                            <dt><Badge text="Gruppen" icon={mdiOfficeBuilding} iconSide="left" /></dt>
                             <dd>{event.deparments.map((dp) => <Badge text={dp.name} />)}</dd>
                         </>
                     )}

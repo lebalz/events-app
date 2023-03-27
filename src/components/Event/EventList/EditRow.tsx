@@ -3,15 +3,20 @@ import { useStore } from '@site/src/stores/hooks';
 import { clsx } from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import Button from '../../shared/Button';
+import Copy from '../../shared/Button/Copy';
 import Delete from '../../shared/Button/Delete';
 import Discard from '../../shared/Button/Discard';
 import Save from '../../shared/Button/Save';
 import ClassLinker from '../../shared/ClassSelector';
 import DateTimePicker from '../../shared/DateTimePicker';
 import DepartmentLinker from '../../shared/DepartmentSelector';
+import { Icon, SIZE_S } from '../../shared/icons';
 import LongTextInput from '../../shared/LongTextInput';
 import TextInput from '../../shared/TextInput';
 import styles from './EventRow.module.scss';
+import siteConfig from '@generated/docusaurus.config';
+import { mdiShareCircle } from '@mdi/js';
 
 interface RowProps {
     event: Event;
@@ -89,6 +94,25 @@ const EditRow = observer((props: RowProps) => {
                     <Delete onClick={() => event.destroy()} apiState={event.apiStateFor(`destroy-${event.id}`)} />
                 </div>
             </td>
+            {
+                event.isPublic && (
+                    <>
+                        <td>
+                            <Copy
+                                value={`${siteConfig.customFields.DOMAIN}${event.shareUrl}`} 
+                                size={SIZE_S}
+                            />
+                        </td>
+                        <td>
+                            <Button
+                                icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
+                                href={event.shareUrl}
+                                target="_self"
+                            />
+                        </td>
+                    </>
+                )
+            }
         </tr>
     );
 });

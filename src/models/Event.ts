@@ -170,6 +170,21 @@ export default class Event extends ApiModel<EventProps, ApiAction> {
         return this.classes.some(c => c === klass.name);
     }
 
+    @computed
+    get isPublic() {
+        return this.state === EventState.Published;
+    }
+
+    @computed
+    get queryParam() {
+        return `id=${this.id}`;
+    }
+
+    @computed
+    get shareUrl() {
+        return `/event?${this.queryParam}`;
+    }
+
     @override
     get props(): EventProps {
         return {

@@ -1,10 +1,15 @@
+import { mdiShareCircle } from '@mdi/js';
 import Event from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { clsx } from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import Button from '../../shared/Button';
+import Copy from '../../shared/Button/Copy';
 import Edit from '../../shared/Button/Edit';
+import { Icon, SIZE_S } from '../../shared/icons';
 import styles from './EventRow.module.scss';
+import siteConfig from '@generated/docusaurus.config';
 
 interface RowProps {
     event: Event;
@@ -80,6 +85,25 @@ const EventRow = observer((props: RowProps) => {
                     <td>
                         <Edit onClick={() => event.setEditing(true)} />
                     </td>
+                )
+            }
+            {
+                event.isPublic && (
+                    <>
+                        <td>
+                            <Copy
+                                value={`${siteConfig.customFields.DOMAIN}${event.shareUrl}`} 
+                                size={SIZE_S}
+                            />
+                        </td>
+                        <td>
+                            <Button
+                                icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
+                                href={event.shareUrl}
+                                target="_self"
+                            />
+                        </td>
+                    </>
                 )
             }
         </tr>
