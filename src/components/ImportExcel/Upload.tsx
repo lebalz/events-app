@@ -2,12 +2,11 @@ import React, { useState, type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './Upload.module.scss';
-import { importExcel } from '@site/src/api/event';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../shared/Button';
 import { mdiFileUploadOutline } from '@mdi/js';
-import { Icon, SIZE, SIZE_S } from '../shared/icons';
+import { Icon,  SIZE_S } from '../shared/icons';
 
 
 const Upload = observer(() => {
