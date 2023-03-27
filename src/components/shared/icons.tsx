@@ -92,6 +92,12 @@ export const Calendar = (props:Props) => {
     );
 };
 
+export const Sync = (props:Props) => {
+    return (
+        <Icon path={mdiSyncCircle} horizontal {...props} />
+    );
+};
+
 export const Idle = (props:Props) => {
     return (
         <Icon path={mdiCircle} color="var(--ifm-color-secondary)" {...props} />
@@ -106,7 +112,7 @@ export const Loading = (props:Props) => {
 
 export const Error = (props:Props) => {
     return (
-        <Icon path={mdiCloseCircle} color={'var(--ifm-color-error)'} {...props} />
+        <Icon path={mdiCloseCircle} color={'var(--ifm-color-danger)'} {...props} />
     );
 };
 

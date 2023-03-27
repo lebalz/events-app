@@ -58,4 +58,8 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
             return this.log;
         }
     }
+
+    apiState(sid: ApiAction) {
+        return this.store.apiStateFor(sid);
+    }
 }

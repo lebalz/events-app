@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, override } from 'mobx';
+import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
 import axios from 'axios';
 import { RootStore } from './stores';
@@ -74,6 +74,23 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
             this.models.remove(job);
             return job;
         }
+    }
+
+    @computed
+    get importJobs() {
+        const models = this.models.slice().filter((j) => j.type === JobType.IMPORT);
+        return models.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    }
+
+    @computed
+    get syncJobs() {
+        const models = this.models.slice().filter((j) => j.type === JobType.SYNC_UNTIS);
+        return models.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    }
+
+    @computed
+    get hasPendingSyncJobs() {
+        return this.syncJobs.some((j) => j.state === JobState.PENDING);
     }
 
     @action
