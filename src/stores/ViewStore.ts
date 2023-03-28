@@ -6,7 +6,7 @@ import Lesson from '../models/Untis/Lesson';
 
 const MIN_TABLE_WIDTH = 1600;
 const MIN_COLUMN_WIDTH_EM = {
-    description: 18,
+    description: 15,
     location: 7,
     descriptionLong: 28
 };

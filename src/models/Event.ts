@@ -256,12 +256,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.start.getDay();
     }
 
-    hasOverlap(other: Lesson) {
+    hasOverlap(lesson: Lesson) {
         const {weeks, minutes} = this.duration;
-        const dayOffset = (other.weekDay + weeks * 7 - this.weekDay) % 7;
-        const startOffset = dayOffset * 24 * 60 + Math.floor(other.startHHMM / 100) * 60 + other.startHHMM % 100;
-        const endOffset = dayOffset * 24 * 60 + Math.floor(other.endHHMM / 100) * 60 + other.endHHMM % 100;
-        const eventStartOffset = this.start.getDay() * 60 + this.start.getMinutes();
+        const dayOffset = (lesson.weekDay + weeks * 7 - this.weekDay) % 7;
+        const startOffset = dayOffset * 24 * 60 + Math.floor(lesson.startHHMM / 100) * 60 + lesson.startHHMM % 100;
+        const endOffset = dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + lesson.endHHMM % 100;
+        const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
 
         return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
     }
