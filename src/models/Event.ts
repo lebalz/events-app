@@ -3,7 +3,7 @@ import { Event as EventProps, EventState } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate } from './helpers/time';
+import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 
@@ -116,6 +116,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     get fEndTime() {
         return formatTime(this.end);
     }
+    
+    @computed
+    get startHHMM() {
+        return this.start.getHours() * 100 + this.start.getMinutes();
+    }
+    @computed
+    get endHHMM() {
+        return this.end.getHours() * 100 + this.end.getMinutes();
+    }
 
     @computed
     get fStartDate() {
@@ -129,11 +138,16 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get weekOffsetMS_start() {
-        return getWeekdayOffsetMS(toGlobalDate(this.start));
+        const hours = Math.floor(this.startHHMM / 100);
+        const minute = this.startHHMM % 100;
+        return this.start.getDay() * DAY_2_MS + hours * HOUR_2_MS + minute * MINUTE_2_MS;
     }
 
     @computed
     get weekOffsetMS_end() {
+        // const hours = Math.floor(this.endHHMM / 100);
+        // const minute = this.endHHMM % 100;
+        // return this.weekDay * DAY_2_MS + hours * HOUR_2_MS + minute * MINUTE_2_MS;
         return this.weekOffsetMS_start + this.durationMS;
     }
 
@@ -143,13 +157,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get weekday() {
-        return DAYS[this.start.getUTCDay()];
+    get dayName(): 'Mo' | 'Di' | 'Mi' | 'Do' | 'Fr' | 'Sa' | 'So' {
+        return DAYS[this.start.getDay()];
     }
 
     @computed
     get year() {
-        return this.start.getUTCFullYear();
+        return this.start.getFullYear();
     }
 
     @action
@@ -188,7 +202,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get affectedLessons(): {class: string, lessons: Lesson[]}[] {
-        return this.untisClasses.map(c => ({class: c.name, lessons: c.lessons.filter(l => l?.hasOverlap(this))}));
+        return this.untisClasses.map(c => ({class: c.name, lessons: c.lessons.slice().filter(l => this.hasOverlap(l)).sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start)}));
     }
 
     @computed
@@ -226,8 +240,29 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
-    hasOverlap(other: iEvent) {
-        const [a, b] = this.weekOffsetMS_start < other.weekOffsetMS_end ? [this, other] : [other, this];
-        return a.weekOffsetMS_end > b.weekOffsetMS_start && a.weekOffsetMS_start < b.weekOffsetMS_end;
+    @computed
+    get duration() {
+        const period = this.durationMS;
+        return {
+            weeks: Math.ceil(period / WEEK_2_MS),
+            days: Math.ceil(period / DAY_2_MS),
+            hours: Math.ceil(period / HOUR_2_MS),
+            minutes: Math.ceil(period / MINUTE_2_MS)
+        }
+    }
+
+    @computed
+    get weekDay() {
+        return this.start.getDay();
+    }
+
+    hasOverlap(other: Lesson) {
+        const {weeks, minutes} = this.duration;
+        const dayOffset = (other.weekDay + weeks * 7 - this.weekDay) % 7;
+        const startOffset = dayOffset * 24 * 60 + Math.floor(other.startHHMM / 100) * 60 + other.startHHMM % 100;
+        const endOffset = dayOffset * 24 * 60 + Math.floor(other.endHHMM / 100) * 60 + other.endHHMM % 100;
+        const eventStartOffset = this.start.getDay() * 60 + this.start.getMinutes();
+
+        return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
     }
 }

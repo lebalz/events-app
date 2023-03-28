@@ -1,7 +1,7 @@
 import type { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
-import { iEvent } from '../Event';
+import Event, { iEvent } from '../Event';
 import { DAY_2_MS, HOUR_2_MS, MINUTE_2_MS } from '../helpers/time';
 import { getLastMonday } from './helpers';
 
@@ -88,10 +88,7 @@ export default class Lesson implements iEvent {
         return `${this.year}${suffix}`;
     }
 
-    hasOverlap(other: iEvent) {
-        const [a, b] = this.weekOffsetMS_start < other.weekOffsetMS_start ? [this, other] : [other, this];
-        const overlap = a.weekOffsetMS_end > b.weekOffsetMS_start && a.weekOffsetMS_start < b.weekOffsetMS_end;
-        console.log(a, b, overlap);
-        return overlap;
+    hasOverlap(other: Event) {
+        return other.hasOverlap(this);
     }
 }

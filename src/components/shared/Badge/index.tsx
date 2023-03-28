@@ -65,21 +65,15 @@ const BadgeIcon = (props: Props) => {
     if (!props.icon) {
         return null;
     }
-    if (typeof props.icon === 'string') {
-        return (
-            <span
-                className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
-            >
-                <Icon path={props.icon} size={props.size} />
-            </span>
-        )
+    let icon = props.icon;
+    if (typeof icon === 'string') {
+        icon = <Icon path={icon} size={props.size}/>;
     }
-
     return (
         <span
             className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
         >
-            {props.icon}
+            {icon}
         </span>
     )
 }

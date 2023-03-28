@@ -41,7 +41,7 @@ const EditRow = observer((props: RowProps) => {
             className={clsx(styles.eventRow, styles.editMode)}
         >
             <td className={clsx(styles.kw)}>{event.kw}</td>
-            <td className={clsx(styles.weekday)}>{event.weekday}</td>
+            <td className={clsx(styles.weekday)}>{event.dayName}</td>
             <td style={{maxWidth: eventTable.maxWidthDescription}} className={clsx(styles.description)}>
                 <LongTextInput 
                     maxChars={20}

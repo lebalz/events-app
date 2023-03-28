@@ -44,7 +44,8 @@ export default class Klass {
     @computed
     get lessons() {
         const current = this.store.currentSemester;
-        return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semester === current.semester && l?.year === current.year);
+        console.log('lid', this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semesterName === current.semesterName));
+        return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semesterName === current.semesterName);
     }
 
     @computed

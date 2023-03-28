@@ -6,6 +6,7 @@ import axios, { CancelTokenSource } from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { ChangedRecord, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
+import { CheckedUntisLesson, UntisLesson } from '../api/untis';
 class Message {
     type: string;
     message: string;
@@ -137,8 +138,13 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 }
             })
         });
-        this.socket.on('checkEvent', (data: string) => {
-            console.log('checkEvent', data);
+        this.socket.on('checkEvent', (data: { state: 'success' | 'error', result: CheckedUntisLesson[]}) => {
+            if (data.state === 'success') {
+                this.root.untisStore.addLessons(data.result);
+                console.log(data.result);
+            } else {
+                console.log('checkEvent', data);
+            }
         });
         this.socket.on(IoEvent.NEW_RECORD, (this.handleReload(IoEvent.NEW_RECORD)));
         this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));

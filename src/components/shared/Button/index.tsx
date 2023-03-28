@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { ApiState } from '@site/src/stores/iStore';
-import { ApiIcon, SIZE, SIZE_S, SIZE_XS } from '../icons';
+import { ApiIcon, Icon, SIZE, SIZE_S, SIZE_XS } from '../icons';
 import Link from '@docusaurus/Link';
 
 export interface Base {
@@ -19,9 +19,10 @@ export interface Base {
     text?: string
     className?: string;
     disabled?: boolean;
+    size?: number;
 }
 interface IconProps extends Base {
-    icon: ReactNode;
+    icon: ReactNode | string;
     text?: never;
     children?: never;
 }
@@ -31,7 +32,7 @@ interface TextProps extends Base {
     children?: never;
 }
 interface TextIconProps extends Base {
-    icon: ReactNode;
+    icon: ReactNode | string;
     text: string;
     children?: never;
 }
@@ -51,20 +52,25 @@ export const extractSharedProps = (props: Base) => {
         href: props.href,
         disabled: props.disabled,
         apiState: props.apiState,
-        apiIconSize: props.apiIconSize
+        apiIconSize: props.apiIconSize,
+        size: props.size
     }
 }
 
 const ButtonIcon = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
+    let icon = props.icon;
+    if (typeof icon === 'string') {
+        icon = <Icon path={icon} size={props.size} />;
+    }
     return (
         <>
             {
-                props.icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
+                icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
                     <span
                         className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
                     >
-                        {props.icon}
+                        {icon}
                     </span>
                 )
             }

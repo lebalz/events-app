@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { teachers as fetchTeachers, classes as fetchClasses, teacher as fetchTeacher, UntisTeacher, sync as syncUntis } from '../api/untis';
+import { teachers as fetchTeachers, classes as fetchClasses, teacher as fetchTeacher, UntisTeacher, sync as syncUntis, UntisLesson, CheckedUntisLesson } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
 import Klass from '../models/Untis/Klass';
@@ -64,6 +64,16 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 return;
             }
             return this.teachers.find((t) => t.id === id);
+        },
+        { keepAlive: true }
+    )
+
+    findTeacherByName = computedFn(
+        function (this: UntisStore, name?: string): Teacher | undefined {
+            if (!name) {
+                return;
+            }
+            return this.teachers.find((t) => t.name === name);
         },
         { keepAlive: true }
     )
@@ -184,20 +194,48 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         throw new Error('Not implemented');
     }
 
+    @action
+    addLessons(lessons: CheckedUntisLesson[]) {
+        const models = lessons.map((l) => {
+            const teacher = this.findTeacherByName(l.teacher_name);
+            const klass = this.findTeacherByName(l.class_name);
+            return new Lesson({
+                id: l.id,
+                room: l.room,
+                description: l.description,
+                endHHMM: l.end_hhmm,   
+                startHHMM: l.start_hhmm,
+                semester: l.semester,
+                subject: l.subject,
+                weekDay: l.week_day,
+                year: l.year,
+                classes: [{ id: klass?.id }], 
+                teachers: [{ id: teacher?.id }] 
+            }, this);
+        });
+        const current = this.lessons.slice();
+        console.log(models, current.length);
+        models.forEach((m) => {
+            replaceOrAdd(current, m, (a, b) => a.id === b.id);
+        });
+        console.log(current, current.length);
+        this.lessons.replace(current);
+    }
+
     overlappingEvents = computedFn(
-        function (this: UntisStore, lessonId: number): Event[] {
-            const lesson = this.findLesson(lessonId);
-            if (!lesson || !this.root.viewStore.semester) {
-                return [];
-            }
-            return this.root.viewStore.semester.events.filter((e) => {
-                if (!lesson.classes.some((c) => e.affectsClass(c))) {
-                    return false;
+            function (this: UntisStore, lessonId: number): Event[] {
+                const lesson = this.findLesson(lessonId);
+                if (!lesson || !this.root.viewStore.semester) {
+                    return [];
                 }
-                const unaffected = lesson.weekOffsetMS_end < e.weekOffsetMS_start ||
-                    lesson.weekOffsetMS_start > e.weekOffsetMS_end;
-                return !unaffected;
-            })
-        }
-    )
+                return this.root.viewStore.semester.events.filter((e) => {
+                    if (!lesson.classes.some((c) => e.affectsClass(c))) {
+                        return false;
+                    }
+                    const unaffected = lesson.weekOffsetMS_end < e.weekOffsetMS_start ||
+                        lesson.weekOffsetMS_start > e.weekOffsetMS_end;
+                    return !unaffected;
+                })
+            }
+        )
 }

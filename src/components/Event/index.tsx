@@ -8,12 +8,15 @@ import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
 import { mdiAccountGroup, mdiArrowRightBottom, mdiCalendarClock, mdiCalendarExpandHorizontal, mdiCalendarRange, mdiCalendarToday, mdiCalendarWeek, mdiCardText, mdiCrosshairsGps, mdiHomeGroup, mdiOfficeBuilding } from '@mdi/js';
 import { Icon } from '../shared/icons';
+import Button from '../shared/Button';
+import { useStore } from '@site/src/stores/hooks';
 interface Props {
     event: EventModel;
 }
 
 const Event = observer((props: Props) => {
     const {event} = props;
+    const socketStore = useStore('socketStore');
     return (
         <div className={clsx(styles.event, 'card')}>
             <div className={clsx('card__header')}>
@@ -32,7 +35,7 @@ const Event = observer((props: Props) => {
                     <dt>KW</dt>
                     <dd>{event.kw}</dd>
                     <dt>Wochentag</dt>
-                    <dd>{event.weekday}</dd>
+                    <dd>{event.dayName}</dd>
                     <dt>Datum</dt>
                     <dd>{event.fStartDate} {event.fStartTime}</dd>
                     <dd><Icon path={mdiArrowRightBottom} />{event.fEndDate} {event.fEndTime}</dd>
@@ -59,7 +62,7 @@ const Event = observer((props: Props) => {
                                             <React.Fragment key={`kl-${idx}`}>
                                                 <dt >{kl.class}</dt>
                                                 {kl.lessons.map((l, iidx) => (
-                                                    <dd key={`kl-${idx}-${iidx}`}>{l.subject} | {l.startHHMM}-{l.endHHMM} | {l.teachers.map(t => t.shortName).join(', ')}</dd>
+                                                    <dd key={`kl-${idx}-${iidx}`}>{l.weekDay} {l.subject} | {l.startHHMM}-{l.endHHMM} | {l.teachers.map(t => t.shortName).join(', ')}</dd>
                                                 ))}
                                             </React.Fragment>
                                         ))}
@@ -69,6 +72,15 @@ const Event = observer((props: Props) => {
                         </>
                     )}
                 </DefinitionList>
+            </div>
+            <div className={clsx('card__footer')}>
+                <Button
+                    text="Betroffene Lektionen anzeigen"
+                    icon={mdiCalendarRange}
+                    onClick={() => {
+                        socketStore.checkEvent(event.id);
+                    }}
+                />
             </div>
         </div>
     )

@@ -25,7 +25,8 @@ export const SEC_2_MS = 1000;
 export const MINUTE_2_MS = 60 * SEC_2_MS;
 export const HOUR_2_MS = 60 * MINUTE_2_MS;
 export const DAY_2_MS = 24 * HOUR_2_MS;
-export const DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
+export const WEEK_2_MS = 7 * DAY_2_MS;
+export const DAYS: ('Mo' | 'Di' | 'Mi' | 'Do' | 'Fr' | 'Sa' | 'So' )[] = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
 export const getWeekdayOffsetMS = (date: Date) => {
     const days = date.getUTCDay() - 1;
