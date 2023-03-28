@@ -214,11 +214,9 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             }, this);
         });
         const current = this.lessons.slice();
-        console.log(models, current.length);
         models.forEach((m) => {
             replaceOrAdd(current, m, (a, b) => a.id === b.id);
         });
-        console.log(current, current.length);
         this.lessons.replace(current);
     }
 

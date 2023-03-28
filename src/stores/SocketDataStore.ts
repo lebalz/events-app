@@ -141,7 +141,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.on('checkEvent', (data: { state: 'success' | 'error', result: CheckedUntisLesson[]}) => {
             if (data.state === 'success') {
                 this.root.untisStore.addLessons(data.result);
-                console.log(data.result);
             } else {
                 console.log('checkEvent', data);
             }

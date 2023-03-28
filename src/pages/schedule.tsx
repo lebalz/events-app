@@ -41,7 +41,6 @@ const Schedule = observer(() => {
                         selectable
                         onSelectEvent={({id}) => {
                             const events = untisStore.overlappingEvents(id);
-                            console.log(events);
                         }}
                         min={new Date(2023, 0, 1, 7, 0, 0)}
                         max={new Date(2023, 0, 1, 18, 0, 0)}
