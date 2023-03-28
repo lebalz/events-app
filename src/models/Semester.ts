@@ -84,12 +84,22 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     }
 
     @computed
-    get untisSemester(): `${number}HS` | `${number}FS` {
+    get year() {
+        return this.start.getFullYear();
+    }
+
+    @computed
+    get semester(): 1 | 2 {
         const month = this.start.getMonth() + 1;
-        const year = this.start.getFullYear();
         if (month < 8) {
-            return `${year}FS`;
+            return 2;
         }
-        return `${year}HS`;
+        return 1;
+    }
+
+    @computed
+    get semesterName(): `${number}HS` | `${number}FS` {
+        const suffix = ["HS", "FS"][this.semester - 1] as 'HS' | 'FS';
+        return `${this.year}${suffix}`;
     }
 }

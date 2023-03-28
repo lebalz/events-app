@@ -12,7 +12,8 @@ export default class Lesson implements iEvent {
     readonly room: string
     readonly subject: string
     readonly description: string
-    readonly semester: string
+    readonly semester: number
+    readonly year: number
     readonly weekDay: number
     readonly startHHMM: number
     readonly endHHMM: number
@@ -28,6 +29,7 @@ export default class Lesson implements iEvent {
         this.subject = props.subject;
         this.description = props.description;
         this.semester = props.semester;
+        this.year = props.year;
         this.weekDay = props.weekDay;
         this.startHHMM = props.startHHMM;
         this.endHHMM = props.endHHMM;
@@ -78,6 +80,12 @@ export default class Lesson implements iEvent {
         const hours = this.endHHMM / 100;
         const minute = this.endHHMM % 100;
         return this.weekDay * DAY_2_MS + hours * HOUR_2_MS + minute * MINUTE_2_MS;
+    }
+
+    @computed
+    get semesterName(): `${number}HS` | `${number}FS` {
+        const suffix = ["HS", "FS"][this.semester - 1] as 'HS' | 'FS';
+        return `${this.year}${suffix}`;
     }
 
     hasOverlap(other: iEvent) {

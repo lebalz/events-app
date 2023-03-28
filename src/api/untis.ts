@@ -24,7 +24,8 @@ export interface UntisLesson {
     room: string
     subject: string
     description: string
-    semester: string
+    semester: number
+    year: number
     weekDay: number
     startHHMM: number
     endHHMM: number
@@ -45,6 +46,7 @@ export interface UntisClass {
     id: number
     name: string
     sf: string
+    year: number
     departmentId: string | null
 }
 export interface UntisClassWithTeacher extends UntisClass {

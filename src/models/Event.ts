@@ -10,6 +10,7 @@ import Lesson from './Untis/Lesson';
 export interface iEvent {
     weekOffsetMS_start: number;
     weekOffsetMS_end: number;
+    year: number;
 }
 export default class Event extends ApiModel<EventProps, ApiAction> implements iEvent {
     readonly store: EventStore;
@@ -144,6 +145,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get weekday() {
         return DAYS[this.start.getUTCDay()];
+    }
+
+    @computed
+    get year() {
+        return this.start.getUTCFullYear();
     }
 
     @action

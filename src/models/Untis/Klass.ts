@@ -7,6 +7,7 @@ export default class Klass {
     readonly id: number
     readonly name: string
     readonly sf: string
+    readonly year: number
     readonly departmentId: string
     readonly teacherIds: number[]
     readonly lessonIds: number[]
@@ -17,6 +18,7 @@ export default class Klass {
         this.id = props.id;
         this.name = props.name;
         this.sf = props.sf;
+        this.year = props.year;
         this.departmentId = props.departmentId ?? '';
         this.teacherIds = props.teachers.map(t => t.id);
         this.lessonIds = props.lessons.map(t => t.id);
@@ -41,7 +43,8 @@ export default class Klass {
 
     @computed
     get lessons() {
-        return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semester === this.store.currentSemester);
+        const current = this.store.currentSemester;
+        return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semester === current.semester && l?.year === current.year);
     }
 
     @computed

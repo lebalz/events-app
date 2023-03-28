@@ -9,6 +9,8 @@ import { useStore } from '../stores/hooks';
 import Semester from '../components/Semester';
 import SemesterList from '../components/Semester/List';
 import Button from '../components/shared/Button';
+import { Icon } from '../components/shared/icons';
+import { mdiPlusCircleOutline } from '@mdi/js';
 
 const AdminView = observer(() => {
     const semesterStore = useStore('semesterStore');
@@ -27,8 +29,11 @@ const AdminView = observer(() => {
                 </TabItem>
                 <TabItem value="semesters" label="Semester" default>
                     <Button 
-                        label='Create Semester'
-                        type='create'
+                        title='Semester Hinzufügen'
+                        text="Neues Semester"
+                        iconSide='left'
+                        icon={<Icon path={mdiPlusCircleOutline}/>}
+                        apiState={semesterStore.apiStateFor('create')}
                         onClick={() => {
                             semesterStore.create({
                                 name: 'New', 

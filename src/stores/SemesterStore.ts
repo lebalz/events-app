@@ -29,7 +29,7 @@ export class SemesterStore extends iStore<SemesterProps> {
     }
 
     @computed
-    get currentSemester() {
+    get currentSemester(): Semester | undefined {
         return this.semesters.find(s => s.isCurrent);
     }
 
