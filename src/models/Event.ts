@@ -157,7 +157,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get dayName(): 'Mo' | 'Di' | 'Mi' | 'Do' | 'Fr' | 'Sa' | 'So' {
+    get day() {
         return DAYS[this.start.getDay()];
     }
 

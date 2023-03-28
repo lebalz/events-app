@@ -36,7 +36,7 @@ const EventRow = observer((props: RowProps) => {
             className={clsx(styles.eventRow, expanded && styles.expanded, props.editMode && styles.editMode)}
         >
             <td className={clsx(styles.kw)}>{event.kw}</td>
-            <td className={clsx(styles.weekday)}>{event.dayName}</td>
+            <td className={clsx(styles.weekday)}>{event.day}</td>
             <td style={{maxWidth: eventTable.maxWidthDescription}} className={clsx(styles.description)}>{event.description}</td>
             <td className={clsx(styles.startDate)}>{event.fStartDate}</td>
             <td className={clsx(styles.startTime)}>{event.fStartTime}</td>

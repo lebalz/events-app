@@ -2,7 +2,7 @@ import type { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
 import Event, { iEvent } from '../Event';
-import { DAY_2_MS, HOUR_2_MS, MINUTE_2_MS } from '../helpers/time';
+import { DAYS, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS } from '../helpers/time';
 import { getLastMonday } from './helpers';
 
 const MONDAY = Object.freeze(getLastMonday());
@@ -59,13 +59,28 @@ export default class Lesson implements iEvent {
     }
 
     @computed
+    get fStart() {
+        return `${this.start.getHours().toString().padStart(2, '0')}:${this.start.getMinutes().toString().padEnd(2, '0')}`;
+    }
+
+    @computed
+    get fEnd() {
+        return `${this.end.getHours().toString().padStart(2, '0')}:${this.end.getMinutes().toString().padEnd(2, '0')}`;
+    }
+
+    @computed
+    get day() {
+        return DAYS[this.weekDay];
+    }
+
+    @computed
     get teachers() {
-        return this.teacherIds.map(t => this.store.findTeacher(t));
+        return this.teacherIds.map(t => this.store.findTeacher(t)).filter(t => t);
     }
 
     @computed
     get classes() {
-        return this.classIds.map(t => this.store.findClass(t));
+        return this.classIds.map(t => this.store.findClass(t)).filter(t => t);
     }
 
     @computed

@@ -5,6 +5,7 @@
     align-items: center;
     white-space: nowrap;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
+    width: fit-content;
     &.soloIcon {
         padding: 0 0.04rem;
     }

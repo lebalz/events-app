@@ -1,0 +1,31 @@
+.card {
+    box-shadow: var(--ifm-global-shadow-md);
+    margin: calc(var(--ifm-spacing-horizontal) * 0.25);
+    width: fit-content;
+    display: inline-block;
+    .lesson {
+        width: fit-content;
+        padding: calc(var(--ifm-spacing-horizontal) * 0.5) calc(var(--ifm-spacing-horizontal) * 0.5);
+        display: grid;
+        grid-template-areas: 
+            "subj . . teacher"
+            "day h h h";
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 0.1rem;
+        .subject {
+            grid-area: subj;
+        }
+        .teacher {
+            grid-area: teacher;
+        }
+        .day {
+            grid-area: day;
+        }
+        .date {
+            grid-area: date;
+        }
+        .duration {
+            grid-area: h;
+        }
+    }
+}

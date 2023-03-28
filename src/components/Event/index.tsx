@@ -6,10 +6,11 @@ import { observer } from 'mobx-react-lite';
 import {default as EventModel} from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiArrowRightBottom, mdiCalendarClock, mdiCalendarExpandHorizontal, mdiCalendarRange, mdiCalendarToday, mdiCalendarWeek, mdiCardText, mdiCrosshairsGps, mdiHomeGroup, mdiOfficeBuilding } from '@mdi/js';
+import { mdiArrowRightBottom, mdiCalendarClock, mdiCalendarExpandHorizontal, mdiCalendarRange, mdiCalendarToday, mdiCalendarWeek, mdiCardText, mdiCrosshairsGps, mdiDetails, mdiHomeGroup, mdiOfficeBuilding, mdiSyncCircle, mdiText } from '@mdi/js';
 import { Icon } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
+import Lesson from '../Lesson';
 interface Props {
     event: EventModel;
 }
@@ -35,7 +36,7 @@ const Event = observer((props: Props) => {
                     <dt>KW</dt>
                     <dd>{event.kw}</dd>
                     <dt>Wochentag</dt>
-                    <dd>{event.dayName}</dd>
+                    <dd>{event.day}</dd>
                     <dt>Datum</dt>
                     <dd>{event.fStartDate} {event.fStartTime}</dd>
                     <dd><Icon path={mdiArrowRightBottom} />{event.fEndDate} {event.fEndTime}</dd>
@@ -56,27 +57,24 @@ const Event = observer((props: Props) => {
                     {event.affectedLessons.length > 0 && (
                         <>
                             <dt>Betroffene Lektionen</dt>
-                            <dd>
-                                <DefinitionList>
-                                    {event.affectedLessons.map((kl, idx) => (
-                                            <React.Fragment key={`kl-${idx}`}>
-                                                <dt >{kl.class}</dt>
-                                                {kl.lessons.map((l, iidx) => (
-                                                    <dd key={`kl-${idx}-${iidx}`}>{l.weekDay} {l.subject} | {l.startHHMM}-{l.endHHMM} | {l.teachers.map(t => t.shortName).join(', ')}</dd>
-                                                ))}
-                                            </React.Fragment>
-                                        ))}
-                                    
-                                </DefinitionList>
-                            </dd>
+                                {event.affectedLessons.map((kl, idx) => (
+                                    <React.Fragment key={`kl-${idx}`}>
+                                        <dt >{kl.class}</dt>
+                                        <dd className={clsx(styles.lessons)}>
+                                            {kl.lessons.map((l, idx) => (
+                                                <Lesson lesson={l} key={l.id} />
+                                            ))}
+                                        </dd>
+                                    </React.Fragment>
+                                ))}
                         </>
                     )}
                 </DefinitionList>
             </div>
             <div className={clsx('card__footer')}>
                 <Button
-                    text="Betroffene Lektionen anzeigen"
-                    icon={mdiCalendarRange}
+                    text="Alle betroffenen Lektionen anzeigen"
+                    icon={mdiText}
                     onClick={() => {
                         socketStore.checkEvent(event.id);
                     }}

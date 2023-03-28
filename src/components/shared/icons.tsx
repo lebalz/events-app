@@ -1,6 +1,6 @@
 import React from 'react';
 import { default as ReactIcon} from '@mdi/react';
-import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle, mdiSyncCircle, mdiCheckCircle, mdiLoading, mdiCircle, mdiContentCopy } from '@mdi/js';
+import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle, mdiSyncCircle, mdiCheckCircle, mdiLoading, mdiCircle, mdiContentCopy, mdiClockTimeTwelveOutline, mdiClockTimeOneOutline, mdiClockTimeTwoOutline, mdiClockTimeThreeOutline, mdiClockTimeFourOutline, mdiClockTimeFiveOutline, mdiClockTimeSixOutline, mdiClockTimeSevenOutline, mdiClockTimeEightOutline, mdiClockTimeNineOutline, mdiClockTimeTenOutline, mdiClockTimeElevenOutline } from '@mdi/js';
 import { IconProps } from '@mdi/react/dist/IconProps';
 import { ApiState } from '@site/src/stores/iStore';
 
@@ -125,6 +125,26 @@ export const Error = (props:Props) => {
 export const Success = (props:Props) => {
     return (
         <Icon path={mdiCheckCircle} color={'var(--ifm-color-success)'} {...props} />
+    );
+};
+
+const TimePathes = {
+    0: mdiClockTimeTwelveOutline,
+    1: mdiClockTimeOneOutline,
+    2: mdiClockTimeTwoOutline,
+    3: mdiClockTimeThreeOutline,
+    4: mdiClockTimeFourOutline,
+    5: mdiClockTimeFiveOutline,
+    6: mdiClockTimeSixOutline,
+    7: mdiClockTimeSevenOutline,
+    8: mdiClockTimeEightOutline,
+    9: mdiClockTimeNineOutline,
+    10: mdiClockTimeTenOutline,
+    11: mdiClockTimeElevenOutline,
+}
+export const Clock = (props: Props & {hour: number}) => {
+    return (
+        <Icon path={TimePathes[props.hour % 12]} {...props} />
     );
 };
 
