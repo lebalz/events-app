@@ -14,7 +14,7 @@ const AddButton = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     return (
         <Button
-            text="Neues Event"
+            text="Neuer Event"
             icon={<Icon path={mdiPlusCircleOutline} size={SIZE} />}
             iconSide="left"
             className={clsx("button--primary")}
