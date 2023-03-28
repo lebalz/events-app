@@ -33,6 +33,7 @@ const AdminView = observer(() => {
                         text="Neues Semester"
                         iconSide='left'
                         icon={<Icon path={mdiPlusCircleOutline}/>}
+                        className={clsx("button--primary")}
                         apiState={semesterStore.apiStateFor('create')}
                         onClick={() => {
                             semesterStore.create({
