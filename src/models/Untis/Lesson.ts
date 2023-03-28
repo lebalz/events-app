@@ -44,7 +44,7 @@ export default class Lesson implements iEvent {
     get start() {
         const date = new Date(MONDAY);
         date.setDate(date.getDate() + this.weekDay);
-        date.setHours(this.startHHMM / 100);
+        date.setHours(Math.floor(this.startHHMM / 100));
         date.setMinutes(this.startHHMM % 100);
         return date;
     }
@@ -53,7 +53,7 @@ export default class Lesson implements iEvent {
     get end() {
         const date = new Date(MONDAY);
         date.setDate(date.getDate() + this.weekDay);
-        date.setHours(this.endHHMM / 100);
+        date.setHours(Math.floor(this.endHHMM / 100));
         date.setMinutes(this.endHHMM % 100);
         return date;
     }
@@ -70,14 +70,14 @@ export default class Lesson implements iEvent {
 
     @computed
     get weekOffsetMS_start() {
-        const hours = this.startHHMM / 100;
+        const hours = Math.floor(this.startHHMM / 100);
         const minute = this.startHHMM % 100;
         return this.weekDay * DAY_2_MS + hours * HOUR_2_MS + minute * MINUTE_2_MS;
     }
 
     @computed
     get weekOffsetMS_end() {
-        const hours = this.endHHMM / 100;
+        const hours = Math.floor(this.endHHMM / 100);
         const minute = this.endHHMM % 100;
         return this.weekDay * DAY_2_MS + hours * HOUR_2_MS + minute * MINUTE_2_MS;
     }

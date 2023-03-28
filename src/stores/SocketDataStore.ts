@@ -137,9 +137,16 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 }
             })
         });
+        this.socket.on('checkEvent', (data: string) => {
+            console.log('checkEvent', data);
+        });
         this.socket.on(IoEvent.NEW_RECORD, (this.handleReload(IoEvent.NEW_RECORD)));
         this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));
         this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
+    }
+
+    checkEvent(eventId: string) {
+        this.socket?.emit('checkEvent', {event_id: eventId});
     }
 
     checkLogin() {

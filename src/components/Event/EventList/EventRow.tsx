@@ -89,23 +89,21 @@ const EventRow = observer((props: RowProps) => {
             }
             {
                 event.isPublic && (
-                    <>
-                        <td>
-                            <Copy
-                                value={`${siteConfig.customFields.DOMAIN}${event.shareUrl}`} 
-                                size={SIZE_S}
-                            />
-                        </td>
-                        <td>
-                            <Button
-                                icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
-                                href={event.shareUrl}
-                                target="_self"
-                            />
-                        </td>
-                    </>
+                    <td>
+                        <Copy
+                            value={`${siteConfig.customFields.DOMAIN}${event.shareUrl}`} 
+                            size={SIZE_S}
+                        />
+                    </td>
                 )
             }
+            <td>
+                <Button
+                    icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
+                    href={event.shareUrl}
+                    target="_self"
+                />
+            </td>
         </tr>
     );
 });
