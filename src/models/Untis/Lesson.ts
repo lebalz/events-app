@@ -60,12 +60,12 @@ export default class Lesson implements iEvent {
 
     @computed
     get fStart() {
-        return `${this.start.getHours().toString().padStart(2, '0')}:${this.start.getMinutes().toString().padEnd(2, '0')}`;
+        return `${this.start.getHours().toString().padStart(2, '0')}:${this.start.getMinutes().toString().padStart(2, '0')}`;
     }
 
     @computed
     get fEnd() {
-        return `${this.end.getHours().toString().padStart(2, '0')}:${this.end.getMinutes().toString().padEnd(2, '0')}`;
+        return `${this.end.getHours().toString().padStart(2, '0')}:${this.end.getMinutes().toString().padStart(2, '0')}`;
     }
 
     @computed
