@@ -1,0 +1,86 @@
+.grid {
+
+    display: grid;
+    grid-template-columns: 
+        [kw] 2.5em 
+        [day] 3em
+        [description] minmax(10em, 1fr)
+        [startDate] 5.5em
+        [startTime] 4em
+        [endDate] 5.5em
+        [endTime] 4em
+        [location] minmax(6em, 10em)
+        [departments] 4em
+        [classes] 8em
+        [descriptionLong] minmax(10em, 1fr);
+    .cell {
+        padding: 2px 4px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background: var(--ifm-color-emphasis-100);
+        &.odd {
+          background-color: var(--ifm-color-emphasis-0);
+        }
+        &.header {
+            position: sticky;
+            top: var(--ifm-navbar-height);
+            transition: transform var(--ifm-transition-fast) ease;
+            font-weight: bold;
+            &.hiddenNavbar {
+                transform: translate3d(0, calc(-1 * var(--ifm-navbar-height)), 0);
+            }
+        }
+    }
+    .kw {
+        grid-column: kw;
+    }
+    .day {
+        grid-column: day;
+    }
+    .startDate {
+        grid-column: startDate;
+    }
+    .startTime {
+        grid-column: startTime;
+    }
+    .endTime {
+        grid-column: endTime;
+    }
+    .endDate {
+        grid-column: endDate;
+    }
+    .description {
+        grid-column: description;
+    }
+    .location {
+        grid-column: location;
+    }
+    .departments {
+        grid-column: departments;
+    }
+    .classes {
+        grid-column: classes;
+        display: flex;
+        align-items: baseline;
+    }
+    .descriptionLong {
+        grid-column: descriptionLong;
+    }
+}
+
+.gbsl {
+    --ifm-badge-background-color: var(--gym);
+    --ifm-badge-border-color: var(--gym-border);
+    --ifm-badge-color: var(--ifm-color-white);
+}
+.fms {
+    --ifm-badge-background-color: var(--fms);
+    --ifm-badge-border-color: var(--fms-border);
+    --ifm-badge-color: var(--ifm-color-white);
+}
+.wms {
+    --ifm-badge-background-color: var(--wms);
+    --ifm-badge-border-color: var(--wms-border);
+    --ifm-badge-color: var(--ifm-color-white);
+}

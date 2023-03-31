@@ -106,7 +106,7 @@ const Badge = (props: Props) => {
         props.icon && !iconOnly && (props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
         textOnly && styles.soloText,
         'badge',
-        Colors[props.color ?? 'gray'],
+        Colors[props.color],
         props.className,
         props.disabled && styles.disabled
     );
