@@ -13,7 +13,7 @@
         [classes] 8em
         [descriptionLong] minmax(10em, 1fr);
     grid-template-rows: auto;
-    grid-area: auto / auto / auto / auto;
+    grid-area: auto;
     .cell {
         padding: 2px 4px;
         overflow: hidden;
