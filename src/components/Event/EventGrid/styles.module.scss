@@ -1,5 +1,4 @@
 .grid {
-
     display: grid;
     grid-template-columns: 
         [kw] 2.5em 
@@ -13,6 +12,8 @@
         [departments] 4em
         [classes] 8em
         [descriptionLong] minmax(10em, 1fr);
+    grid-template-rows: auto;
+    grid-area: auto / auto / auto / auto;
     .cell {
         padding: 2px 4px;
         overflow: hidden;
