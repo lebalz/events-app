@@ -3,15 +3,16 @@
     grid-template-columns: 
         [kw] 2.5em 
         [day] 3em
-        [description] minmax(10em, 1fr)
+        [description] minmax(10em, 2fr)
         [startDate] 5.5em
         [startTime] 4em
         [endDate] 5.5em
         [endTime] 4em
         [location] minmax(6em, 10em)
-        [departments] 4em
-        [classes] 8em
-        [descriptionLong] minmax(10em, 1fr);
+        [departments] minmax(4em, 10em)
+        [classes] minmax(4em, 8em)
+        [descriptionLong] minmax(10em, 3fr)
+        [actions] max-content;
     grid-template-rows: auto;
     grid-area: auto / auto / auto / auto;
     .cell {
@@ -26,6 +27,7 @@
         &.header {
             position: sticky;
             top: var(--ifm-navbar-height);
+            z-index: 1;
             transition: transform var(--ifm-transition-fast) ease;
             font-weight: bold;
             &.hiddenNavbar {
@@ -35,22 +37,29 @@
     }
     .kw {
         grid-column: kw;
-        // grid-area: kw;
+        text-align: end;
     }
     .day {
         grid-column: day;
+        &::after {
+            content: ".";
+        }
     }
     .startDate {
         grid-column: startDate;
+        text-align: end;
     }
     .startTime {
         grid-column: startTime;
-    }
-    .endTime {
-        grid-column: endTime;
+        // text-align: end;
     }
     .endDate {
         grid-column: endDate;
+        text-align: end;
+    }
+    .endTime {
+        grid-column: endTime;
+        // text-align: end;
     }
     .description {
         grid-column: description;
@@ -60,6 +69,8 @@
     }
     .departments {
         grid-column: departments;
+        display: flex;
+        align-items: baseline;
     }
     .classes {
         grid-column: classes;
@@ -68,6 +79,9 @@
     }
     .descriptionLong {
         grid-column: descriptionLong;
+    }
+    .actions {
+        grid-column: actions;
     }
 }
 

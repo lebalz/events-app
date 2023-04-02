@@ -5,6 +5,9 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import styles from './styles.module.scss';
 import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
+import { Icon, SIZE_S } from '../../shared/icons';
+import { mdiShareCircle } from '@mdi/js';
 
 interface RowProps {
     event: EventModel;
@@ -37,7 +40,7 @@ const Event = observer((props: RowProps) => {
             <div style={{gridColumn: 'location'}} className={clsx(commonStyle, styles.location)}>{event.location}</div>
             <div style={{gridColumn: 'departments'}} className={clsx(commonStyle, styles.departments)}>{
                 event.departmentNames.map((c, idx) => {
-                    const badge = styles[c.toUpperCase()];
+                    const badge = styles[c.toLowerCase()];
                     return (<Badge key={idx} text={c} className={badge} color={badge ? undefined : 'gray'} />);
                 })
             }</div>
@@ -49,6 +52,13 @@ const Event = observer((props: RowProps) => {
             <div style={{gridColumn: 'descriptionLong'}} className={clsx(commonStyle, styles.descriptionLong)}>{
                 event.descriptionLong
             }</div>
+            <div style={{gridColumn: 'actions'}} className={clsx(commonStyle, styles.actions)}>
+                <Button
+                    icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
+                    href={event.shareUrl}
+                    target="_self"
+                />
+            </div>
         </>
     );
 });
