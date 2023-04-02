@@ -11,20 +11,7 @@ interface RowProps {
 }
 const NAVBAR_HEIGHT = 60;
 const EventHeader = observer((props: RowProps) => {
-    const [scrollTop, setScrollTop] = React.useState(0);
-    const [hiddenNavbar, setHiddenNavbar] = React.useState(false);
-
-    React.useEffect(() => {
-        const onScroll = (e) => {
-            const top = e.target.scrollingElement.scrollTop;
-            console.log(top);
-            setHiddenNavbar(top > NAVBAR_HEIGHT && top > scrollTop)
-            setScrollTop(top);
-        }
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, [scrollTop])
-    const commonStyle = clsx(styles.cell, styles.header, hiddenNavbar && styles.hiddenNavbar);
+    const commonStyle = clsx(styles.cell, styles.header);
     return (
         <>
             <div style={{gridColumn: 'kw'}} className={clsx(commonStyle, styles.kw)}>KW</div>
