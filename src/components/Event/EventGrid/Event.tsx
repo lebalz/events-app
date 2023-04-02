@@ -27,26 +27,26 @@ const Event = observer((props: RowProps) => {
 
     return (
         <>
-            <div className={clsx(commonStyle, styles.kw)}>{event.kw}</div>
-            <div className={clsx(commonStyle, styles.day)}>{event.day}</div>
-            <div className={clsx(commonStyle, styles.description)}>{event.description}</div>
-            <div className={clsx(commonStyle, styles.startDate)}>{event.fStartDate}</div>
-            <div className={clsx(commonStyle, styles.startTime)}>{event.fStartTime}</div>
-            <div className={clsx(commonStyle, styles.endDate)}>{event.fEndDate}</div>
-            <div className={clsx(commonStyle, styles.endTime)}>{event.fEndTime}</div>
-            <div className={clsx(commonStyle, styles.location)}>{event.location}</div>
-            <div className={clsx(commonStyle, styles.departments)}>{
+            <div style={{gridColumn: 'kw'}} className={clsx(commonStyle, styles.kw)}>{event.kw}</div>
+            <div style={{gridColumn: 'day'}} className={clsx(commonStyle, styles.day)}>{event.day}</div>
+            <div style={{gridColumn: 'description'}} className={clsx(commonStyle, styles.description)}>{event.description}</div>
+            <div style={{gridColumn: 'startDate'}} className={clsx(commonStyle, styles.startDate)}>{event.fStartDate}</div>
+            <div style={{gridColumn: 'startTime'}} className={clsx(commonStyle, styles.startTime)}>{event.fStartTime}</div>
+            <div style={{gridColumn: 'endDate'}} className={clsx(commonStyle, styles.endDate)}>{event.fEndDate}</div>
+            <div style={{gridColumn: 'endTime'}} className={clsx(commonStyle, styles.endTime)}>{event.fEndTime}</div>
+            <div style={{gridColumn: 'location'}} className={clsx(commonStyle, styles.location)}>{event.location}</div>
+            <div style={{gridColumn: 'departments'}} className={clsx(commonStyle, styles.departments)}>{
                 event.departmentNames.map((c, idx) => {
                     const badge = styles[c.toUpperCase()];
                     return (<Badge key={idx} text={c} className={badge} color={badge ? undefined : 'gray'} />);
                 })
             }</div>
-            <div className={clsx(commonStyle, styles.classes)}>{
+            <div style={{gridColumn: 'classes'}} className={clsx(commonStyle, styles.classes)}>{
                 event.classes.map((c, idx) => {
                     return (<Badge key={idx} text={c} color="gray" />);
                 })
             }</div>
-            <div className={clsx(commonStyle, styles.descriptionLong)}>{
+            <div style={{gridColumn: 'descriptionLong'}} className={clsx(commonStyle, styles.descriptionLong)}>{
                 event.descriptionLong
             }</div>
         </>

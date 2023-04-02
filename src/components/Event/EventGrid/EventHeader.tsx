@@ -24,17 +24,17 @@ const EventHeader = observer((props: RowProps) => {
     const commonStyle = clsx(styles.cell, styles.header, hiddenNavbar && styles.hiddenNavbar);
     return (
         <>
-            <div className={clsx(commonStyle, styles.kw)}>KW</div>
-            <div className={clsx(commonStyle, styles.day)}>Tag</div>
-            <div className={clsx(commonStyle, styles.description)}>Stichworte</div>
-            <div className={clsx(commonStyle, styles.startDate)}>Start</div>
-            <div className={clsx(commonStyle, styles.startTime)}>Zeit</div>
-            <div className={clsx(commonStyle, styles.endDate)}>Ende</div>
-            <div className={clsx(commonStyle, styles.endTime)}>Zeit</div>
-            <div className={clsx(commonStyle, styles.location)}>Ort</div>
-            <div className={clsx(commonStyle, styles.departments)}>Abteilungen</div>
-            <div className={clsx(commonStyle, styles.classes)}>Klassen</div>
-            <div className={clsx(commonStyle, styles.descriptionLong)}>Beschreibung</div>
+            <div style={{gridColumn: 'kw'}} className={clsx(commonStyle, styles.kw)}>KW</div>
+            <div style={{gridColumn: 'day'}} className={clsx(commonStyle, styles.day)}>Tag</div>
+            <div style={{gridColumn: 'description'}} className={clsx(commonStyle, styles.description)}>Stichworte</div>
+            <div style={{gridColumn: 'startDate'}} className={clsx(commonStyle, styles.startDate)}>Start</div>
+            <div style={{gridColumn: 'startTime'}} className={clsx(commonStyle, styles.startTime)}>Zeit</div>
+            <div style={{gridColumn: 'endDate'}} className={clsx(commonStyle, styles.endDate)}>Ende</div>
+            <div style={{gridColumn: 'endTime'}} className={clsx(commonStyle, styles.endTime)}>Zeit</div>
+            <div style={{gridColumn: 'location'}} className={clsx(commonStyle, styles.location)}>Ort</div>
+            <div style={{gridColumn: 'departments'}} className={clsx(commonStyle, styles.departments)}>Abteilungen</div>
+            <div style={{gridColumn: 'classes'}} className={clsx(commonStyle, styles.classes)}>Klassen</div>
+            <div style={{gridColumn: 'descriptionLong'}} className={clsx(commonStyle, styles.descriptionLong)}>Beschreibung</div>
         </>
     );
 });
