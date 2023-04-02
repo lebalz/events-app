@@ -15,11 +15,13 @@ interface Props {
 const EventGrid = observer((props: Props) => {
 
     return (
-        <div className={clsx(styles.grid)}>
-            <EventHeader />
-            {props.events.map((event, idx) => (
-                <Event key={event.id} rowIndex={idx} event={event} />
-            ))}
+        <div className={clsx(styles.scroll)}>
+            <div className={clsx(styles.grid)}>
+                <EventHeader />
+                {props.events.map((event, idx) => (
+                    <Event key={event.id} rowIndex={idx} event={event} />
+                ))}
+            </div>
         </div>
     )
 });

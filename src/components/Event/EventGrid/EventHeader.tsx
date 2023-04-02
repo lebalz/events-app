@@ -17,6 +17,7 @@ const EventHeader = observer((props: RowProps) => {
     React.useEffect(() => {
         const onScroll = (e) => {
             const top = e.target.scrollingElement.scrollTop;
+            console.log(top);
             setHiddenNavbar(top > NAVBAR_HEIGHT && top > scrollTop)
             setScrollTop(top);
         }
