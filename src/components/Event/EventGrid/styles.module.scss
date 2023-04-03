@@ -8,36 +8,35 @@
         grid-template-columns: 
             [kw] 2.5em 
             [day] 3em
-            [description] minmax(10em, 2fr)
+            [description] minmax(15em, 2fr)
             [startDate] 5.5em
             [startTime] 4em
             [endDate] 5.5em
             [endTime] 4em
             [location] minmax(6em, 10em)
-            [departments] minmax(4em, 10em)
-            [classes] minmax(4em, 8em)
-            [descriptionLong] minmax(10em, 3fr)
+            [departments] minmax(9em, 10em)
+            [classes] minmax(9em, 12em)
+            [descriptionLong] minmax(15em, 3fr)
             [actions] max-content;
         grid-template-rows: auto;
         grid-area: auto / auto / auto / auto;
         .cell {
             padding: 2px 4px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
             background: var(--ifm-color-emphasis-100);
+            &.collapsed {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
             &.odd {
               background-color: var(--ifm-color-emphasis-0);
             }
             &.header {
                 position: sticky;
-                top: 0; // var(--ifm-navbar-height);
+                top: 0;
                 z-index: 1;
                 transition: transform var(--ifm-transition-fast) ease;
                 font-weight: bold;
-                // &.hiddenNavbar {
-                //     transform: translate3d(0, calc(-1 * var(--ifm-navbar-height)), 0);
-                // }
             }
         }
         .kw {

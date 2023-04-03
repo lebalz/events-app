@@ -29,9 +29,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly authorId: string;
     readonly createdAt: Date;
     readonly jobId: string;
+    readonly state: EventState;
     @observable.ref
     updatedAt: Date;
-    readonly state: EventState;
 
     departmentIds = observable<string>([]);
     classes = observable<string>([]);
@@ -54,6 +54,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable
     allDay: boolean;
 
+    /** View State Props */
+    @observable
+    expanded: boolean = false;
+
     constructor(props: EventProps, store: EventStore) {
         super();
         this._pristine = props;
@@ -75,6 +79,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.updatedAt = new Date(props.updatedAt);
         this.allDay = props.allDay;
         makeObservable(this);
+    }
+
+    @action
+    setExpanded(expanded: boolean) {
+        this.expanded = expanded;
     }
 
     @computed
@@ -134,6 +143,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fEndDate() {
         return formatDate(this.end);
+    }
+
+    @computed
+    get fClasses(): string[] {
+        const kls: {[year: string]: string[]} = {};
+        this.classes.slice().sort().forEach(c => {
+            const year = c.slice(0, 2);
+            if (!kls[year]) {
+                kls[year] = [];
+            }
+            kls[year].push(c.slice(2));
+        });
+        return Object.keys(kls).map(year => `${year}${kls[year].sort().join('')}`);
     }
 
     @computed
