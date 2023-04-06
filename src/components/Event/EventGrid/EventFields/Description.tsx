@@ -4,18 +4,22 @@ import clsx from 'clsx';
 import styles from '../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Props } from './iEventField';
+import useAutosizeTextArea from '@site/src/components/shared/hooks/useAutoSizeTextArea';
+import TextArea from '@site/src/components/shared/TextArea';
 
 const Description = observer((props: Props) => {
+    const [textAreaRef, setTextAreaRef] = React.useState<HTMLTextAreaElement>(null);
+    useAutosizeTextArea(textAreaRef, props.event.description, [props.event.editing, props.isEditable]);
+
     if (props.isEditable && props.event.editing) {
         return (
             <div 
                 style={{gridColumn: 'description'}} 
                 className={clsx(styles.description, props.className)}
             >
-                <textarea 
-                    className={clsx(styles.textarea)}
-                    value={props.event.description}
-                    onChange={(e) => props.event.setDescription(e.target.value)}
+                <TextArea
+                    text={props.event.description}
+                    onChange={(text) => props.event.setDescription(text)}
                 />
             </div>
         )

@@ -6,11 +6,12 @@ import React from 'react';
 import styles from './styles.module.scss';
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
-import { Icon, SIZE_S } from '../../shared/icons';
+import { Icon, SIZE_S, SIZE_XS } from '../../shared/icons';
 import { mdiShareCircle } from '@mdi/js';
 import KW from './EventFields/Kw';
 import Day from './EventFields/Day';
 import Description from './EventFields/Description';
+import Edit from '../../shared/Button/Edit';
 
 interface RowProps {
     event: EventModel;
@@ -93,6 +94,11 @@ const Event = observer((props: RowProps) => {
                     href={event.shareUrl}
                     target="_self"
                 />
+                {
+                    event.isEditable && (
+                        <Edit onClick={() => event.setEditing(true)} />
+                    )
+                }
             </div>
         </>
     );

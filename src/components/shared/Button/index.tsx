@@ -79,7 +79,7 @@ const ButtonIcon = (props: Props) => {
                     <span
                         className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
                     >
-                        {ApiIcon[props.apiState]({ size: props.apiIconSize || SIZE_S })}
+                        {ApiIcon[props.apiState]({ size: props.apiIconSize ?? SIZE_S })}
                     </span>
                 )
             }

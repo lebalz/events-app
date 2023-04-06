@@ -1,0 +1,11 @@
+
+.textarea {
+    textarea {
+        resize: none;
+        overflow-y: hidden;
+        width: -webkit-fill-available;
+        width: -moz-available;
+        height: -webkit-fill-available;
+        height: -moz-available;
+    }
+}

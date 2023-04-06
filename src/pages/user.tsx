@@ -62,13 +62,13 @@ const User = observer(() => {
                     <div>
                         {current && (
                             <DefinitionList>
-                                <dt><Badge text="Login" icon={<Icon path={mdiAccountCircleOutline}/>} iconSide={iconSide}/></dt>
+                                <dt><Badge text="Login" icon={<Icon path={mdiAccountCircleOutline}/>} iconSide={iconSide} color='gray'/></dt>
                                 <dd>{account.username}</dd>
 
-                                <dt><Badge text="Untis Account" icon={<Icon path={mdiLink}/>} iconSide={iconSide}/></dt>
+                                <dt><Badge text="Untis Account" icon={<Icon path={mdiLink}/>} iconSide={iconSide} color='gray'/></dt>
                                 <dd><UntisLinker /></dd>
 
-                                <dt><Badge text="Kalender" icon={<Calendar />} iconSide={iconSide}/></dt>
+                                <dt><Badge text="Kalender" icon={<Calendar />} iconSide={iconSide} color='gray'/></dt>
                                 <dd>
                                     <div>
                                         <div className={clsx(styles.ical)}>
@@ -93,17 +93,17 @@ const User = observer(() => {
                                     </div>
                                 </dd>
                                 
-                                <dt><Badge text="Events" icon={<Icon path={mdiCalendarBlankMultiple}/>} iconSide={iconSide}/></dt>
+                                <dt><Badge text="Events" icon={<Icon path={mdiCalendarBlankMultiple}/>} iconSide={iconSide} color='gray'/></dt>
                                 <dd>{userStore.currentUsersEvents.length}</dd>
 
                                 {
                                     current.untisTeacher && (
                                         <>
-                                        <dt><Badge text="Schulen" icon={<Icon path={mdiOfficeBuilding}/>} iconSide={iconSide}/></dt>
+                                        <dt><Badge text="Schulen" icon={<Icon path={mdiOfficeBuilding}/>} iconSide={iconSide} color='gray'/></dt>
                                         <dd>{[...new Set(current.untisTeacher.departments.map(d => d.name))].join(', ')}</dd>
-                                            <dt><Badge text="Klassen" icon={<Icon path={mdiAccountGroup}/>} iconSide={iconSide}/></dt>
+                                            <dt><Badge text="Klassen" icon={<Icon path={mdiAccountGroup}/>} iconSide={iconSide} color='gray'/></dt>
                                             <dd>{[...new Set(classes)].join(', ')}</dd>
-                                            <dt><Badge text="Fächer" icon={<Icon path={mdiSchool}/>} iconSide={iconSide}/></dt>
+                                            <dt><Badge text="Fächer" icon={<Icon path={mdiSchool}/>} iconSide={iconSide} color='gray'/></dt>
                                             <dd>{[...new Set(current.untisTeacher.lessons.map(l => l.subject))].join(', ')}</dd>
                                         </>
                                     )

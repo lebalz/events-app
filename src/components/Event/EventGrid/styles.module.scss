@@ -86,6 +86,11 @@
         }
         .actions {
             grid-column: actions;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            position: sticky;
+            right: 0;
         }
     }
 }
