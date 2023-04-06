@@ -25,12 +25,12 @@
 @media screen and (min-width: 996px) {
     .container {
         .label {
-            justify-content: end;
+            justify-content: flex-end;
             font-weight: bold;
             text-transform: uppercase;
         }
         .icon {
-            justify-content: end;
+            justify-content: flex-end;
         }
     }
 }
