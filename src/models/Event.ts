@@ -188,11 +188,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.start.getFullYear();
     }
 
-    @action
-    setDescription(description: string) {
-        this.description = description;
-    }
-
     @computed
     get durationMS() {
         return this.end.getTime() - this.start.getTime();

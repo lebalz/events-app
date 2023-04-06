@@ -6,30 +6,29 @@ import { observer } from 'mobx-react-lite';
 import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
-const Description = observer((props: Props) => {
-
+const DescriptionLong = observer((props: Props) => {
     if (props.isEditable && props.event.editing) {
         return (
             <div 
-                style={{gridColumn: 'description'}} 
-                className={clsx(styles.description, props.className)}
+                style={{gridColumn: 'descriptionLong'}} 
+                className={clsx(styles.descriptionLong, props.className)}
             >
                 <TextArea
-                    text={props.event.description}
-                    onChange={(text) => props.event.update({description: text})}
+                    text={props.event.descriptionLong}
+                    onChange={(text) => props.event.update({descriptionLong: text})}
                 />
             </div>
         )
     }
     return (
         <div 
-            style={{gridColumn: 'description'}} 
-            className={clsx(styles.description, props.className)}
+            style={{gridColumn: 'descriptionLong'}} 
+            className={clsx(styles.descriptionLong, props.className)}
             onClick={() => props.event.setExpanded(true)}
         >
-            {props.event.description}
+            {props.event.descriptionLong}
         </div>
     )
 });
 
-export default Description;
+export default DescriptionLong;

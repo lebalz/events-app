@@ -12,6 +12,10 @@ import KW from './EventFields/Kw';
 import Day from './EventFields/Day';
 import Description from './EventFields/Description';
 import Edit from '../../shared/Button/Edit';
+import DescriptionLong from './EventFields/DescriptionLong';
+import Discard from '../../shared/Button/Discard';
+import Save from '../../shared/Button/Save';
+import Delete from '../../shared/Button/Delete';
 
 interface RowProps {
     event: EventModel;
@@ -85,9 +89,7 @@ const Event = observer((props: RowProps) => {
                     return (<Badge key={idx} text={c} color="gray" />);
                 })
             }</div>
-            <div style={{gridColumn: 'descriptionLong'}} className={clsx(commonStyle, styles.descriptionLong)}>{
-                event.descriptionLong
-            }</div>
+            <DescriptionLong event={event} className={clsx(commonStyle)} isEditable={true}/>
             <div style={{gridColumn: 'actions'}} className={clsx(commonStyle, styles.actions)}>
                 <Button
                     icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
@@ -95,8 +97,21 @@ const Event = observer((props: RowProps) => {
                     target="_self"
                 />
                 {
-                    event.isEditable && (
+                    event.isEditable && !event.editing && (
                         <Edit onClick={() => event.setEditing(true)} />
+                    )
+                }
+                {
+                    event.editing && (
+                        <>
+                            <Discard onClick={() => event.reset()} />
+                            <Save 
+                                disabled={!event.isDirty}
+                                onClick={() => event.save()}
+                                apiState={event.apiStateFor(`save-${event.id}`)}  
+                            />
+                            <Delete onClick={() => event.destroy()} apiState={event.apiStateFor(`destroy-${event.id}`)} />
+                        </>
                     )
                 }
             </div>
