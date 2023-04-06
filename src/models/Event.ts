@@ -54,10 +54,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable
     allDay: boolean;
 
-    /** View State Props */
-    @observable
-    expanded: boolean = false;
-
     constructor(props: EventProps, store: EventStore) {
         super();
         this._pristine = props;
@@ -83,7 +79,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     setExpanded(expanded: boolean) {
-        this.expanded = expanded;
+        this.store.root.viewStore.setEventExpanded(this.id, expanded);
+    }
+
+    @computed
+    get isExpanded() {
+        return this.store.root.viewStore.expandedEventIds.has(this.id);
     }
 
     @computed

@@ -36,7 +36,7 @@ const Event = observer((props: RowProps) => {
 
     const commonStyle = clsx(
         styles.cell, 
-        event.expanded ? styles.expanded : styles.collapsed,
+        event.isExpanded ? styles.expanded : styles.collapsed,
         props.rowIndex % 2 === 0 ? styles.even : styles.odd
     )
 

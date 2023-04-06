@@ -25,14 +25,6 @@ const EventRow = observer((props: RowProps) => {
     return (
         <tr
             data-id={event.id}
-            onClick={() => {
-                if (!expanded) {
-                    setExpanded(true);
-                }
-            }}
-            onBlur={() => {
-                setExpanded(false);
-            }}
             className={clsx(styles.eventRow, expanded && styles.expanded, props.editMode && styles.editMode)}
         >
             <td className={clsx(styles.kw)}>{event.kw}</td>

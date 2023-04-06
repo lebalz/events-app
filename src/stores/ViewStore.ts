@@ -23,6 +23,7 @@ class EventTable {
     clientWidth = 900;
     @observable
     baseFontSize = 16;
+    
 
     constructor(store: ViewStore) {
         this.store = store;
@@ -72,6 +73,7 @@ class EventTable {
     get maxWidthDescriptionLong(): string {
         return this.maxWidth('descriptionLong');
     }
+
     @computed
     get maxWidthLocation(): string {
         return this.maxWidth('location');
@@ -114,10 +116,30 @@ export class ViewStore {
     @observable
     _userId: string | null = null;
 
+    
+    expandedEventIds = observable.set<string>();
+
     constructor(store: RootStore) {
         this.root = store;
         this.eventTable = new EventTable(this);
         makeObservable(this);
+    }
+
+    @action
+    toggleExpandedEvent(eventId: string): void {
+        if (this.expandedEventIds.has(eventId)) {
+            this.expandedEventIds.delete(eventId);
+        } else {
+            this.expandedEventIds.add(eventId);
+        }
+    }
+
+    @action
+    setEventExpanded(eventId: string, expanded: boolean): void {
+        if ((expanded && !this.expandedEventIds.has(eventId)) 
+            || !expanded && this.expandedEventIds.has(eventId)) {
+            this.toggleExpandedEvent(eventId);
+        }
     }
 
     @action
