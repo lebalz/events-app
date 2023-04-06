@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
+const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
 const selectAccount = () => {
   /**
@@ -41,7 +42,11 @@ msalInstance
   });
 
 const Msal = observer(({ children }: any) => {
-  return <MsalProvider instance={msalInstance}>{children}</MsalProvider>;
+  if (TEST_USERNAME?.length > 0) {
+    console.warn('USING DEV MODE WITH TEST-USER', TEST_USERNAME);
+    return (<>{children}</>);
+  }
+  return (<MsalProvider instance={msalInstance}>{children}</MsalProvider>);
 });
 
 // Default implementation, that you can customize
@@ -52,6 +57,12 @@ function Root({ children }) {
     }
     rootStore.load();
   }, [rootStore]);
+
+  React.useEffect(() => {
+    if (TEST_USERNAME) {
+      rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
+    }
+  }, [rootStore?.sessionStore])
 
   return (
     <>

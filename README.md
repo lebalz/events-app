@@ -11,10 +11,20 @@ $ yarn
 ### Local Development
 
 ```
-$ yarn start
+$ yarn run start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+
+#### Use unauthorized backend (e.g. when developping offline)
+
+Start the dev server with
+
+```bash
+TEST_USERNAME="Reto.Holz@gbsl.ch" yarn run start
+```
+
+and make sure, that the user `Reto.Holz@gbsl.ch` exists on your local api.
 
 ### Build
 

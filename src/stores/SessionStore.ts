@@ -24,9 +24,6 @@ export class SessionStore {
     @observable.ref
     private state: State = new State();
 
-    @observable
-    isLoggedIn: boolean = false;
-
     cancelToken: CancelTokenSource = axios.CancelToken.source();
 
     constructor(store: RootStore) {
