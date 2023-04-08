@@ -42,8 +42,8 @@ msalInstance
   });
 
 const Msal = observer(({ children }: any) => {
-  if (TEST_USERNAME?.length > 0) {
-    console.warn('USING DEV MODE WITH TEST-USER', TEST_USERNAME);
+  if (process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0) {
+    console.warn('USING DEV MODE WITH TESTUSER', TEST_USERNAME);
     return (<>{children}</>);
   }
   return (<MsalProvider instance={msalInstance}>{children}</MsalProvider>);
@@ -59,7 +59,7 @@ function Root({ children }) {
   }, [rootStore]);
 
   React.useEffect(() => {
-    if (TEST_USERNAME) {
+    if (process.env.NODE_ENV !== 'production' && TEST_USERNAME) {
       rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
     }
   }, [rootStore?.sessionStore])

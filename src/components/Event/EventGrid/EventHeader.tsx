@@ -8,6 +8,7 @@ import { Icon, SIZE_S } from '../../shared/icons';
 import { mdiToolbox, mdiTools } from '@mdi/js';
 
 interface RowProps {
+    hideActions: boolean;
 }
 const NAVBAR_HEIGHT = 60;
 const EventHeader = observer((props: RowProps) => {
@@ -25,7 +26,7 @@ const EventHeader = observer((props: RowProps) => {
             <div style={{gridColumn: 'departments'}} className={clsx(commonStyle, styles.departments)}>Abteilungen</div>
             <div style={{gridColumn: 'classes'}} className={clsx(commonStyle, styles.classes)}>Klassen</div>
             <div style={{gridColumn: 'descriptionLong'}} className={clsx(commonStyle, styles.descriptionLong)}>Beschreibung</div>
-            <div style={{gridColumn: 'actions'}} className={clsx(commonStyle, styles.actions)}><Icon path={mdiTools} size={SIZE_S} /></div>
+            <div style={{gridColumn: 'actions'}} className={clsx(commonStyle, styles.actions, props.hideActions && styles.hidden)}><Icon path={mdiTools} size={SIZE_S} /></div>
         </>
     );
 });

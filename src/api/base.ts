@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { EVENTS_API, apiConfig, msalInstance, TENANT_ID } from '../authConfig';
+import siteConfig from '@generated/docusaurus.config';
+const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
 export namespace Api {
   export const BASE_API_URL = eventsApiUrl();
@@ -18,6 +20,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config: AxiosRequestConfig) => {
+    if (process.env.NODE_ENV !== 'production' && TEST_USERNAME) {
+      return config;
+    }
     const account = msalInstance.getAllAccounts().find((a) => a.tenantId === TENANT_ID);
     if (account) {
       const accessTokenResponse = await msalInstance.acquireTokenSilent({

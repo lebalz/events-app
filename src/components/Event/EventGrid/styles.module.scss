@@ -91,6 +91,10 @@
             flex-wrap: wrap;
             position: sticky;
             right: 0;
+            transition: transform var(--ifm-transition-fast) ease;
+            &.hidden {
+                position: inherit;
+            }
         }
     }
 }

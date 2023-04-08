@@ -20,6 +20,7 @@ import Delete from '../../shared/Button/Delete';
 interface RowProps {
     event: EventModel;
     rowIndex: number;
+    hideActions: boolean;
 }
 
 const Event = observer((props: RowProps) => {
@@ -90,7 +91,7 @@ const Event = observer((props: RowProps) => {
                 })
             }</div>
             <DescriptionLong event={event} className={clsx(commonStyle)} isEditable={true}/>
-            <div style={{gridColumn: 'actions'}} className={clsx(commonStyle, styles.actions)}>
+            <div style={{gridColumn: 'actions'}} className={clsx(commonStyle, styles.actions, props.hideActions && styles.hidden)}>
                 <Button
                     icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
                     href={event.shareUrl}

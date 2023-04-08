@@ -13,13 +13,36 @@ interface Props {
 }
 
 const EventGrid = observer((props: Props) => {
+    const [ref, setRef] = React.useState<HTMLDivElement>(null);
+    const [scrollLeft, setScrollLeft] = React.useState(0);
+    const [hiddenActions, setHiddenActions] = React.useState(false);
+    React.useEffect(() => {
+        const onScroll = (e) => {
+            const container = e.target as HTMLElement;
+            const left = container.scrollLeft;
+            if (left > scrollLeft && !hiddenActions) {
+                setHiddenActions(true);
+            } else if (left < scrollLeft && hiddenActions) {
+                setHiddenActions(false);
+            }
+            setScrollLeft(left);
+        }
+        if (ref) {
+            ref.addEventListener('scroll', onScroll);
+            return () => {
+                if (ref) {
+                    ref.removeEventListener('scroll', onScroll);
+                }
+            }
+        }
+    }, [ref, scrollLeft, hiddenActions]);
 
     return (
-        <div className={clsx(styles.scroll)}>
+        <div className={clsx(styles.scroll)} ref={setRef}>
             <div className={clsx(styles.grid)}>
-                <EventHeader />
+                <EventHeader hideActions={hiddenActions}/>
                 {props.events.map((event, idx) => (
-                    <Event key={event.id} rowIndex={idx} event={event} />
+                    <Event key={event.id} rowIndex={idx} event={event} hideActions={hiddenActions} />
                 ))}
             </div>
         </div>
