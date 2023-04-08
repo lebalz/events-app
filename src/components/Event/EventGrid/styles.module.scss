@@ -10,14 +10,15 @@
             [day] 3em
             [description] minmax(15em, 2fr)
             [startDate] 5.5em
-            [startTime] 4em
-            [endDate] 5.5em
-            [endTime] 4em
-            [location] minmax(6em, 10em)
+            [startTime] 4.3em
+            [endDate startEnd] 5.5em
+            [endTime] 4.3em
+            [location endEnd] minmax(6em, 10em)
             [departments] minmax(9em, 10em)
             [classes] minmax(9em, 12em)
             [descriptionLong] minmax(15em, 3fr)
-            [actions] 4.3em;
+            [actions] 4.3em
+            [gridEnd];
         grid-template-rows: auto;
         grid-area: auto / auto / auto / auto;
         .cell {
@@ -65,6 +66,19 @@
             grid-column: endTime;
             // text-align: end;
         }
+        .dateTime {
+            input {
+                max-width: 100%;
+            }
+            &.start {
+                grid-column-start: startDate;
+                grid-column-end: startEnd;
+            }
+            &.end {
+                grid-column-start: endDate;
+                grid-column-end: endEnd;
+            }
+        }
         .description {
             grid-column: description;
         }
@@ -88,6 +102,7 @@
             grid-column: actions;
             display: flex;
             align-items: flex-start;
+            align-content: flex-start;
             flex-wrap: wrap;
             position: sticky;
             right: 0;

@@ -19,7 +19,7 @@ const TextArea = (props: Props) => {
             <textarea
                 value={props.text}
                 ref={setTextAreaRef}
-                rows={1}
+                rows={2}
                 onChange={(e) => props.onChange(e.target.value)}
             />
         </div>
