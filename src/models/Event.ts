@@ -84,6 +84,47 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         makeObservable(this);
     }
 
+    @computed
+    get whitelistClasses() {
+        return this.classes.slice().filter((c) => c.endsWith('*')).map((c) => c.replaceAll('*', ''));
+    }
+
+    /**
+     * @example isAudience('25h')
+     * @example isAudience('25*')
+     * @example isAudience('27G*')
+     */
+    isAudience(klasse: string): boolean {
+        if (this.classes.includes(klasse)) {
+            return true;
+        }
+        if (this.whitelistClasses.some((c) => klasse.startsWith(c))) {
+            return true;
+        }
+        return false;
+    }
+
+    @action
+    toggleClass(klass: string) {
+        const whitelistedClasses = this.whitelistClasses.filter(c => klass.startsWith(c));
+        if (this.isAudience(klass)) {
+            if (!klass.endsWith('*') && whitelistedClasses.length > 0) {
+                const add = this.store.root.untisStore.classes.map(c => c.name).filter(c => c !== klass && whitelistedClasses.some(wk => c.startsWith(wk)));
+                whitelistedClasses.forEach(c => this.classes.remove(`${c}*`));
+                this.classes.push(...add);
+            } else {
+                this.classes.remove(klass);
+            }
+        } else {
+            if (klass.endsWith('*')) {
+                const group = klass.replaceAll('*', '');
+                const klasses = this.classes.slice().filter((c) => !c.startsWith(group));
+                this.classes.replace(klasses);
+            }
+            this.classes.push(klass);
+        }
+    }
+
     @action
     setExpanded(expanded: boolean) {
         this.store.root.viewStore.setEventExpanded(this.id, expanded);

@@ -97,6 +97,26 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         { keepAlive: true }
     )
 
+    @computed
+    get classTree() {
+        const tree: {
+            [year: number]: {
+                [department: string]: string[]
+            }
+        } = {};
+        this.sortedClasses.forEach(c => {
+            if (!tree[c.graduationYear]) {
+                tree[c.graduationYear] = {}
+            }
+            const department = c.department.name ?? '-';
+            if (!tree[c.graduationYear][department]) {
+                tree[c.graduationYear][department] = [];
+            }
+            tree[c.graduationYear][department].push(c.name);
+        })
+        return tree;
+    }
+
     findClassesByTeacher = computedFn(
         function (this: UntisStore, teacherId?: number): Klass[] {
             if (!teacherId) {
