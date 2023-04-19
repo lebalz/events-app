@@ -10,6 +10,7 @@ import Description from './EventFields/Description';
 import DescriptionLong from './EventFields/DescriptionLong';
 import Actions from './EventFields/Actions';
 import DateTime from './EventFields/DateTime';
+import Location from './EventFields/Location';
 
 interface RowProps {
     event: EventModel;
@@ -42,12 +43,7 @@ const Event = observer((props: RowProps) => {
             <Description event={event} className={clsx(commonStyle)} isEditable={true}/>
             <DateTime event={event} time='start' className={clsx(commonStyle)} isEditable={true} />
             <DateTime event={event} time='end' className={clsx(commonStyle)} isEditable={true} />
-            <div 
-                style={{gridColumn: 'location'}} 
-                className={clsx(commonStyle, styles.location)}
-            >{
-                event.location
-            }</div>
+            <Location event={event} className={clsx(commonStyle)} isEditable={true} />
             <div 
                 style={{gridColumn: 'departments'}} 
                 className={clsx(commonStyle, styles.departments)}

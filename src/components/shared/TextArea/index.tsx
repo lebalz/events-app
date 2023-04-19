@@ -8,6 +8,7 @@ import useAutosizeTextArea from '../hooks/useAutoSizeTextArea';
 interface Props {
     text: string;
     onChange: (text: string) => void;
+    rows?: number;
 }
 
 const TextArea = (props: Props) => {
@@ -19,7 +20,7 @@ const TextArea = (props: Props) => {
             <textarea
                 value={props.text}
                 ref={setTextAreaRef}
-                rows={2}
+                rows={props.rows || 3}
                 onChange={(e) => props.onChange(e.target.value)}
             />
         </div>
