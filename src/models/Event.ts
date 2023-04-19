@@ -30,6 +30,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly createdAt: Date;
     readonly jobId: string;
     readonly state: EventState;
+    readonly _pristine_end: Date;
+    readonly _pristine_start: Date;
+
     @observable.ref
     updatedAt: Date;
 
@@ -51,6 +54,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable
     start: Date;
 
+
     @observable
     allDay: boolean;
 
@@ -70,6 +74,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
+
+        this._pristine_start = toLocalDate(new Date(props.start));
+        this._pristine_end = toLocalDate(new Date(props.end));
 
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
@@ -97,14 +104,30 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.canEdit(this);
     }
 
+    /**
+     * Returns the milliseconds since epoche from the pristine start time
+     */
+    @computed
+    get startTimeMs() {
+        return toLocalDate(this._pristine_start).getTime();
+    }
+
+    /**
+     * Returns the milliseconds since epoche from the pristine end time
+     */
+    @computed
+    get endTimeMs() {
+        return toLocalDate(this._pristine_end).getTime();
+    }
+
     compare(other: Event) {
-        if (this.start.getTime() === other.start.getTime()) {
-            if (this.end.getTime() === other.end.getTime()) {
+        if (this.startTimeMs === other.startTimeMs) {
+            if (this.endTimeMs === other.endTimeMs) {
                 return this.updatedAt.getTime() - other.updatedAt.getTime();
             }
-            return this.end.getTime() - other.end.getTime();
+            return this.endTimeMs - other.endTimeMs;
         }
-        return this.start.getTime() - other.start.getTime();
+        return this.startTimeMs - other.startTimeMs;
     }
 
     @computed

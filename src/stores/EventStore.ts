@@ -73,7 +73,7 @@ export class EventStore extends iStore<EventProps> {
     
     byDateRange = computedFn(
         function (this: EventStore, start: Date, end: Date): Event[] {
-            return this.events.filter((e) => e.start >= start && e.start <= end);
+            return this.events.filter((e) => e._pristine_start >= start && e._pristine_start <= end);
         },
         { keepAlive: true }
     );
