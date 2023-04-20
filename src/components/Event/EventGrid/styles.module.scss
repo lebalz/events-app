@@ -135,3 +135,14 @@
     --ifm-badge-border-color: var(--wms-border);
     --ifm-badge-color: var(--ifm-color-white);
 }
+
+
+@media screen and (max-width: 768px) {
+    .scroll {
+        .grid {
+            .actions {
+                position: inherit;
+            }
+        }
+    }
+}
