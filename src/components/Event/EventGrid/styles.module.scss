@@ -114,6 +114,12 @@
     }
 }
 
+.gbsl,
+.fms,
+.wms {
+    color: var(--ifm-color-white);
+}
+
 .gbsl {
     --ifm-badge-background-color: var(--gym);
     --ifm-badge-border-color: var(--gym-border);

@@ -1,4 +1,9 @@
 .badge {
+    &.gbsl,
+    &.fms,
+    &.wms {
+        color: var(--ifm-color-white);
+    }
     &.gym {
         background: var(--gym);
         border-color: var(--gym);
