@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import {default as EventModel} from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiArrowRightBottom, mdiCalendarClock, mdiCalendarExpandHorizontal, mdiCalendarRange, mdiCalendarToday, mdiCalendarWeek, mdiCardText, mdiCrosshairsGps, mdiDetails, mdiHomeGroup, mdiOfficeBuilding, mdiSyncCircle, mdiText } from '@mdi/js';
+import { mdiArrowRightBottom, mdiText } from '@mdi/js';
 import { Icon } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';

@@ -38,12 +38,29 @@
   --ifm-color-primary-lightest: #ebd8ff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --ifm-color-disabled: #6e6e6e;
+  .rbc-toolbar {
+    color: var(--ifm-font-color-base);
+    button {
+      color: var(--ifm-font-color-base);
+      &.rbc-active {
+        color: var(--ifm-font-color-base-inverse);
+      }
+    }
+  }
+  .rbc-today,
+  .rbc-off-range-bg {
+    background: var(--ifm-color-primary-lightest);
+  }
+  .rbc-show-more {
+    background-color: unset;
+  }
 }
 
 .badge {
   --ifm-badge-background-color: var(--ifm-color-secondary);
   color: var(--ifm-color-black);
 }
+
 
 // body { 
 //   min-height: 100vh;
