@@ -6,8 +6,6 @@
     white-space: nowrap;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
     width: fit-content;
-    --ifm-badge-background-color: var(--ifm-color-secondary);
-    color: var(--ifm-color-black);
     &.soloIcon {
         padding: 0 0.04rem;
     }
