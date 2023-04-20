@@ -6,6 +6,8 @@
     white-space: nowrap;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
     width: fit-content;
+    --ifm-badge-background-color: var(--ifm-color-secondary);
+    color: var(--ifm-color-black);
     &.soloIcon {
         padding: 0 0.04rem;
     }
@@ -42,6 +44,14 @@
         // box-shadow: 0 0 0 100px inset var(--ifm-color-disabled);
         border-color: var(--ifm-color-disabled);
     }
+    &.primary,
+    &.blue,
+    &.green,
+    &.red,
+    &.orange,
+    &.lightBlue {
+        color: var(--ifm-color-white);
+    }
     &.primary {
         --ifm-badge-background-color: var(--ifm-color-primary);
     }
@@ -57,6 +67,7 @@
     &.orange {
         --ifm-badge-background-color: var(--ifm-color-warning);
     }
+    &.grey,
     &.gray {
         --ifm-badge-background-color: var(--ifm-color-secondary);
         color: var(--ifm-color-black);

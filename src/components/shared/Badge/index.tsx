@@ -101,7 +101,7 @@ const Badge = (props: Props) => {
     const textOnly = props.text && !(props.children || props.icon);
     const iconOnly = props.icon && !(props.children || props.text);
     const commonCls = clsx(
-        styles.badge, 
+        styles.badge,
         iconOnly && styles.soloIcon,
         props.icon && !iconOnly && (props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
         textOnly && styles.soloText,
