@@ -1,14 +1,14 @@
 
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { toGlobalDate } from '@site/src/models/helpers/time';
 import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { action } from 'mobx';
-import Badge from '../Badge';
+import Button from '../Button';
+import { mdiChevronDown, mdiChevronRight } from '@mdi/js';
 
 
 interface Props {
@@ -16,14 +16,17 @@ interface Props {
 }
 
 const AudiencePicker = observer((props: Props) => {
+    const [open, setOpen] = React.useState(true);
     const untisStore = useStore('untisStore');
     const { classTree } = untisStore;
     const { event } = props;
     return (
         <div className={clsx('dropdown', styles.audience, 'dropdown--show')}>
-            <button
-                className={clsx('button', 'button--secondary', 'button--active')}
+            <Button
+                className={clsx('button', 'button--secondary', 'button--active', styles.button)}
                 data-toggle="dropdown"
+                icon={open ? mdiChevronDown : mdiChevronRight}
+                iconSide='left'
                 onClick={(e) => {
                     if (!event.editing) {
                         return;
@@ -33,17 +36,15 @@ const AudiencePicker = observer((props: Props) => {
                     if (dropdown.classList.contains('dropdown--show')) {
                         toggle.classList.remove('button--active');
                         dropdown.classList.remove('dropdown--show');
+                        setOpen(false);
                     } else {
                         toggle.classList.add('button--active');
                         dropdown.classList.add('dropdown--show');
+                        setOpen(true);
                     }
                 }}
-            >{
-                    event.fClasses.map((c, idx) => {
-                        return (<Badge key={idx} text={c} color="gray" />);
-                    })
-                }
-            </button>
+                text={event.fClasses.join(', ') || '-'}
+            />
             <div className={clsx(styles.dropdownMenu, 'dropdown__menu')}>
                 {
                     Object.keys(classTree).map((gradYear, idx) => {

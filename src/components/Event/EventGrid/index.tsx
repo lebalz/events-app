@@ -6,6 +6,8 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import EventHeader from './EventHeader';
+import { reaction } from 'mobx';
+import FullScreenButton from '../../shared/FullScreenButton';
 
 
 interface Props {
@@ -21,6 +23,7 @@ const EventGrid = observer((props: Props) => {
     // const [scrollLeft, setScrollLeft] = React.useState(0);
     // const [scrollTop, setScrollTop] = React.useState(0);
     const [hiddenActions, setHiddenActions] = React.useState(false);
+    const viewStore = useStore('viewStore');
     // React.useEffect(() => {
     //     const onScroll = (e) => {
     //         const container = e.target as HTMLElement;
@@ -56,6 +59,55 @@ const EventGrid = observer((props: Props) => {
     //     }
     // }, [ref.current, scrollLeft, hiddenActions, height]);
 
+    /**
+     * Handle Resize
+     */
+    React.useEffect(() => {
+        const onResize = () => {
+            if (ref.current){
+                viewStore.eventTable.setClientWidth(ref.current.clientWidth);
+                /* get the current font size in pixels */
+                const px = parseFloat(getComputedStyle(ref.current).fontSize);
+                viewStore.eventTable.setBaseFontSize(px);
+            }
+        }
+        if (ref.current){
+            window.addEventListener('resize', onResize);
+            onResize();
+        }
+        return () => window.removeEventListener('resize', onResize);
+    }, [ref, viewStore]);
+
+    React.useEffect(() => {
+        const current = viewStore.fullscreen;
+        viewStore.setShowFullscreenButton(true);
+        return () => viewStore.setShowFullscreenButton(current);
+    }, []);
+    
+    React.useEffect(
+        () =>
+            reaction(
+                () => viewStore.fullscreen,
+                (fullscreen) => {
+                    if (fullscreen) {
+                        ref.current?.requestFullscreen();
+                    } else if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    }
+                }
+            ),
+        []
+    );
+    // Watch for fullscreenchange
+    React.useEffect(() => {
+        const onFullscreenChange = () => {
+            if (!!document.fullscreenElement !== viewStore.fullscreen) {
+                viewStore.setFullscreen(!!document.fullscreenElement);
+            }
+        }
+        document.addEventListener('fullscreenchange', onFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+    }, []);
     return (
         <div className={clsx(styles.scroll)} ref={ref}>
             <div className={clsx(styles.grid)}>

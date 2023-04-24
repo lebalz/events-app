@@ -104,6 +104,7 @@
             grid-column-start: departments;
             grid-column-end: classesEnd;
             overflow: visible;
+            align-items: center;
             &.cell {
                 overflow: visible;
             }
@@ -120,6 +121,11 @@
             transition: transform var(--ifm-transition-fast) ease;
             &.hidden {
                 position: inherit;
+            }
+            &.header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
         }
     }
