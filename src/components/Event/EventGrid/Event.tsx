@@ -11,6 +11,7 @@ import DescriptionLong from './EventFields/DescriptionLong';
 import Actions from './EventFields/Actions';
 import DateTime from './EventFields/DateTime';
 import Location from './EventFields/Location';
+import Audience from './EventFields/Audience';
 
 interface RowProps {
     event: EventModel;
@@ -44,20 +45,7 @@ const Event = observer((props: RowProps) => {
             <DateTime event={event} time='start' className={clsx(commonStyle)} isEditable={true} />
             <DateTime event={event} time='end' className={clsx(commonStyle)} isEditable={true} />
             <Location event={event} className={clsx(commonStyle)} isEditable={true} />
-            <div 
-                style={{gridColumn: 'departments'}} 
-                className={clsx(commonStyle, styles.departments)}
-            >{
-                event.departmentNames.map((c, idx) => {
-                    const badge = styles[c.toLowerCase()];
-                    return (<Badge key={idx} text={c} className={badge} color={badge ? undefined : 'gray'} />);
-                })
-            }</div>
-            <div style={{gridColumn: 'classes'}} className={clsx(commonStyle, styles.classes)}>{
-                event.fClasses.map((c, idx) => {
-                    return (<Badge key={idx} text={c} color="gray" />);
-                })
-            }</div>
+            <Audience event={event} className={clsx(commonStyle)} isEditable={true} />
             <DescriptionLong event={event} className={clsx(commonStyle)} isEditable={true}/>
             <Actions event={event} className={clsx(commonStyle)} hideActions={props.hideActions} />
         </React.Fragment>

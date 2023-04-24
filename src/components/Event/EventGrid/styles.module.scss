@@ -18,7 +18,7 @@
             [location endEnd] minmax(6em, 10em)
             [departments] minmax(9em, 10em)
             [classes] minmax(9em, 12em)
-            [descriptionLong] minmax(15em, 3fr)
+            [classesEnd descriptionLong] minmax(15em, 3fr)
             [actions] 4.4em
             [gridEnd];
         grid-template-rows: auto;

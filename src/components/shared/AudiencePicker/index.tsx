@@ -19,7 +19,37 @@ const AudiencePicker = observer((props: Props) => {
     const {classTree} = untisStore;
     const {event} = props;
     return (
-        <div className={clsx(styles.audience)}>
+        <div className={clsx('dropdown', styles.audience)}>
+            <button
+                className={clsx('button', 'button--secondary')}
+                data-toggle="dropdown"
+                onClick={(e) => {
+                    if (!props.event.isEditable) {
+                        return;
+                    }
+                    const toggle = e.currentTarget;
+                    const dropdown = toggle.parentElement;
+                    function dismissDropdown(ev) {
+                        if (toggle.contains(ev.target) || dropdown.contains(ev.target)) {
+                            return;
+                        }
+                        toggle.classList.remove('button--active');
+                        dropdown.classList.remove('dropdown--show');
+                        document.removeEventListener('click', dismissDropdown);
+                    }
+                    if (!dropdown.classList.contains('dropdown--show')) {
+                        toggle.classList.add('button--active');
+                        dropdown.classList.add('dropdown--show');
+                        setTimeout(() => {
+                            document.addEventListener('click', dismissDropdown);
+                        }, 0);
+                    }
+                }}
+            >
+                Edit
+            </button>
+            <div className={clsx(styles.dropdownMenu, 'dropdown__menu')}>
+
             {
                 Object.keys(classTree).map((gradYear, idx) => {
                     return (<div key={idx}>
@@ -68,6 +98,7 @@ const AudiencePicker = observer((props: Props) => {
                     </div>);
                 })
             }
+            </div>
         </div>
     )
 });

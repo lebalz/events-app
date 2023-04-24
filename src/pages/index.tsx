@@ -37,15 +37,12 @@ function HomepageHeader() {
 
 const Home = observer(() => {
   const {siteConfig} = useDocusaurusContext();
-  const eventStore = useStore('eventStore');
-  const userStore = useStore('userStore');
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
       <main>
-        <AudiencePicker event={eventStore.events[0]} />
       </main>
     </Layout>
   );
