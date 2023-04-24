@@ -15,7 +15,7 @@ const Audience = observer((props: Props) => {
         return (
             <div
                 style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}
-                className={clsx(props.className)}
+                className={clsx(styles.audience, props.className)}
             >
                 <AudiencePicker event={event} />
             </div>

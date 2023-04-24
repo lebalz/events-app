@@ -100,6 +100,14 @@
             display: flex;
             align-items: baseline;
         }
+        .audience {
+            grid-column-start: departments;
+            grid-column-end: classesEnd;
+            overflow: visible;
+            &.cell {
+                overflow: visible;
+            }
+        }
         .descriptionLong {
             grid-column: descriptionLong;
         }
