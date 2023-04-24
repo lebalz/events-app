@@ -99,14 +99,24 @@
             grid-column: classes;
             display: flex;
             align-items: baseline;
+            flex-wrap: wrap;
+            &.collapsed {
+                flex-wrap: nowrap;
+            }
+
         }
         .audience {
             grid-column-start: departments;
             grid-column-end: classesEnd;
             overflow: visible;
-            align-items: center;
             &.cell {
                 overflow: visible;
+            }
+            :global(.dropdown) {
+                max-width: 100%;
+            }
+            :global(.button) {
+                overflow: hidden;
             }
         }
         .descriptionLong {
