@@ -1,0 +1,85 @@
+.audience {
+    .toggle {
+        display: flex;
+        .formControl {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            cursor: pointer;
+            // disable text selection
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+
+            // https://moderncss.dev/pure-css-custom-checkbox-style/
+            input[type="checkbox"] {
+                /* Add if not using autoprefixer */
+                -webkit-appearance: none;
+                /* Remove most all native input styles */
+                appearance: none;
+                /* For iOS < 15 */
+                background-color: var(--form-background);
+                /* Not removed via appearance */
+                margin: 0;
+
+                font: inherit;
+                color: currentColor;
+                width: 1.15em;
+                height: 1.15em;
+                border: 0.15em solid currentColor;
+                border-radius: 0.15em;
+                transform: translateY(-0.075em);
+
+                display: grid;
+                place-content: center;
+                &::before {
+                    content: "";
+                    width: 0.45em;
+                    height: 0.45em;
+                    transform: scale(0);
+                    transform-origin: bottom left;
+                    box-shadow: inset 1em 1em var(--form-control-color);
+                    /* Windows High Contrast Mode */
+                    background-color: CanvasText;
+                }
+                &:checked::before {
+                    transform: scale(1);
+                }
+                &:focus {
+                    outline: max(2px, 0.15em) solid currentColor;
+                    outline-offset: max(2px, 0.15em);
+                }
+                &:disabled {
+                    --form-control-color: var(--form-control-disabled);
+    
+                    color: var(--form-control-disabled);
+                    cursor: not-allowed;
+                }
+            }
+        }
+
+
+        &.some {
+            .formControl {
+                input[type="checkbox"] {
+                    border-color: var(--ifm-color-primary);
+                    &::before {
+                        background: var(--ifm-color-primary);
+                        transform: scale(0.5) translate(50%, -50%);
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+        }
+        &.all {
+            .formControl {
+                input[type="checkbox"]::before {
+                    transform: scale(1.5) translate(-15%, 10%);
+                    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+                }
+            }
+        }
+
+    }
+}

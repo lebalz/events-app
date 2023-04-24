@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { action } from 'mobx';
 import Button from '../Button';
 import { mdiChevronDown, mdiChevronRight } from '@mdi/js';
+import Toggle from './Toggle';
 
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const AudiencePicker = observer((props: Props) => {
+    const [expanded, setExpanded] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(true);
     const untisStore = useStore('untisStore');
     const { classTree } = untisStore;
@@ -48,44 +50,70 @@ const AudiencePicker = observer((props: Props) => {
             <div className={clsx(styles.dropdownMenu, 'dropdown__menu')}>
                 {
                     Object.keys(classTree).map((gradYear, idx) => {
+                        const isExapnded = expanded.includes(gradYear);
+                        const all = event.isAudience(`${gradYear.slice(2)}*`);
+                        const some = Object.keys(classTree[gradYear].departments).some(dep => classTree[gradYear].departments[dep].some(c => event.isAudience(c)));
                         return (<div key={idx}>
-                            <div>
-                                <input id={gradYear} type='checkbox' onChange={() => {
-                                    event.toggleClass(`${gradYear.slice(2)}*`);
-                                }} checked={event.isAudience(`${gradYear.slice(2)}*`)} />
-                                <label htmlFor={gradYear}>{`${gradYear}*`}</label>
-                            </div>
+                            <Toggle
+                                checked={all}
+                                label={`${gradYear}*`}
+                                property={classTree[gradYear].wildcard}
+                                onCollapse={() => {
+                                    if (isExapnded) {
+                                        setExpanded(expanded.filter(e => e !== gradYear));
+                                    } else {
+                                        setExpanded([...expanded, gradYear]);
+                                    }
+                                }}
+                                collapsed={!isExapnded}
+                                onToggle={(kl) => {
+                                    event.toggleClass(kl);
+                                }}
+                                className={clsx(some && styles.some, all && styles.all)}
+                            />
                             {
-                                Object.keys(classTree[gradYear]).map((dep, iidx) => {
-                                    return (<div key={iidx} style={{ marginLeft: '0.75em' }}>
-                                        <div>
-                                            <input
-                                                id={dep}
-                                                type='checkbox'
-                                                onChange={action(() => {
-                                                    if (classTree[gradYear][dep].every(c => event.isAudience(c))) {
-                                                        classTree[gradYear][dep].forEach(c => {
+                                isExapnded && Object.keys(classTree[gradYear].departments).map((dep, iidx) => {
+                                    const isExapnded = expanded.includes(`${gradYear}-${dep}`);
+                                    const some = classTree[gradYear].departments[dep].some(c => event.isAudience(c));
+                                    const all = some && classTree[gradYear].departments[dep].every(c => event.isAudience(c));
+                                    return (<div key={iidx} style={{ marginLeft: '15px' }}>
+                                        <Toggle
+                                            checked={all}
+                                            className={clsx(some && styles.some, all && styles.all)}
+                                            onToggle={() => {
+                                                if (all) {
+                                                    classTree[gradYear].departments[dep].forEach(c => {
+                                                        event.toggleClass(c)
+                                                    })
+                                                } else {
+                                                    classTree[gradYear].departments[dep].forEach(c => {
+                                                        if (!event.isAudience(c)) {
                                                             event.toggleClass(c)
-                                                        })
-                                                    } else {
-                                                        classTree[gradYear][dep].forEach(c => {
-                                                            if (!event.isAudience(c)) {
-                                                                event.toggleClass(c)
-                                                            }
-                                                        })
-                                                    }
-                                                })}
-                                                checked={classTree[gradYear][dep].every(c => event.isAudience(c))} />
-                                            <label htmlFor={dep}>{`${dep}*`}</label>
-                                        </div>
-                                        {classTree[gradYear][dep].map((kl, iiidx) => {
+                                                        }
+                                                    })
+                                                }
+                                            }}
+                                            onCollapse={() => {
+                                                if (isExapnded) {
+                                                    setExpanded(expanded.filter(e => e !== `${gradYear}-${dep}`));
+                                                } else {
+                                                    setExpanded([...expanded, `${gradYear}-${dep}`]);
+                                                }
+                                            }}
+                                            collapsed={!isExapnded}
+                                            property={`${dep}*`}
+                                        />
+                                        {isExapnded && classTree[gradYear].departments[dep].map((kl, iiidx) => {
+                                            const checked = event.isAudience(kl);
                                             return (
-                                                <div key={iiidx} style={{ marginLeft: '1.5em' }}>
-                                                    <input id={kl} type='checkbox' onChange={() => {
-                                                        event.toggleClass(kl);
-                                                    }} checked={event.isAudience(kl)} />
-                                                    <label htmlFor={kl}>{kl}</label>
-                                                </div>
+                                                <Toggle
+                                                    key={iiidx}
+                                                    className={clsx(checked && styles.all, checked && styles.some)}
+                                                    checked={checked}
+                                                    property={kl}
+                                                    onToggle={(kl) => event.toggleClass(kl)}
+                                                    marginLeft={35}
+                                                />
                                             )
                                         })}
                                     </div>)

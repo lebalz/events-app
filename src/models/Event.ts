@@ -84,8 +84,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         makeObservable(this);
     }
 
+    /**
+     * class descriptors containing an asterisk are treated as wildcards
+     */
     @computed
-    get whitelistClasses() {
+    get wildcardClasses() {
         return this.classes.slice().filter((c) => c.endsWith('*')).map((c) => c.replaceAll('*', ''));
     }
 
@@ -98,7 +101,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.classes.includes(klasse)) {
             return true;
         }
-        if (this.whitelistClasses.some((c) => klasse.startsWith(c))) {
+        if (this.wildcardClasses.some((c) => klasse.startsWith(c))) {
             return true;
         }
         return false;
@@ -106,11 +109,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     toggleClass(klass: string) {
-        const whitelistedClasses = this.whitelistClasses.filter(c => klass.startsWith(c));
+        const wildcards = this.wildcardClasses.filter(c => klass.startsWith(c));
         if (this.isAudience(klass)) {
-            if (!klass.endsWith('*') && whitelistedClasses.length > 0) {
-                const add = this.store.root.untisStore.classes.map(c => c.name).filter(c => c !== klass && whitelistedClasses.some(wk => c.startsWith(wk)));
-                whitelistedClasses.forEach(c => this.classes.remove(`${c}*`));
+            if (!klass.endsWith('*') && wildcards.length > 0) {
+                const add = this.store.root.untisStore.classes.map(c => c.name).filter(c => c !== klass && wildcards.some(wk => c.startsWith(wk)));
+                wildcards.forEach(c => this.classes.remove(`${c}*`));
                 this.classes.push(...add);
             } else {
                 this.classes.remove(klass);
