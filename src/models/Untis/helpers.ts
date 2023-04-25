@@ -47,7 +47,7 @@ const mapLegacyClassName: (name: string) => `${number}${DepartmentLetter}${strin
             const newLetter = String.fromCharCode(id.charCodeAt(0) + 2);
             return `${year}${DepartmentLetter.ECG}${newLetter}`;
         }
-        
+
         return `${year}${DepartmentLetter.MATURITE}${id}`;
     }
     if (['m', 'l'].includes(id)) {
@@ -69,6 +69,6 @@ const mapLegacyClassName: (name: string) => `${number}${DepartmentLetter}${strin
         const newLetter = String.fromCharCode(id.charCodeAt(0) - 17);
         return `${year}${DepartmentLetter.FMS}${newLetter}`;
     }
-  }
+}
 
-export {getLastMonday, mapLegacyClassName}
+export { getLastMonday, mapLegacyClassName }

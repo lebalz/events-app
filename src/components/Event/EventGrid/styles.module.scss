@@ -138,6 +138,15 @@
                 justify-content: space-between;
             }
         }
+        .spacerBottom {
+            grid-column-start: kw;
+            grid-column-end: gridEnd;
+            height: 250px;
+            background: var(--ifm-color-secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
 

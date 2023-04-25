@@ -7,11 +7,15 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import EventHeader from './EventHeader';
 import { reaction } from 'mobx';
-import FullScreenButton from '../../shared/FullScreenButton';
+import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
+import { mdiCalendar, mdiCalendarMonth } from '@mdi/js';
+import { Icon, SIZE } from '../../shared/icons';
 
 
 interface Props {
     events: EventModel[];
+    showFullscreenButton?: boolean;
 }
 
 const EventGrid = observer((props: Props) => {
@@ -80,7 +84,7 @@ const EventGrid = observer((props: Props) => {
 
     React.useEffect(() => {
         const current = viewStore.fullscreen;
-        viewStore.setShowFullscreenButton(true);
+        viewStore.setShowFullscreenButton(props.showFullscreenButton ?? true);
         return () => viewStore.setShowFullscreenButton(current);
     }, []);
     
@@ -108,6 +112,7 @@ const EventGrid = observer((props: Props) => {
         document.addEventListener('fullscreenchange', onFullscreenChange);
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
+    const hasEdits = props.events.some((e) => e.editing);
     return (
         <div className={clsx(styles.scroll)} ref={ref}>
             <div className={clsx(styles.grid)}>
@@ -115,6 +120,17 @@ const EventGrid = observer((props: Props) => {
                 {props.events.map((event, idx) => (
                     <Event key={event.id} rowIndex={idx} event={event} hideActions={hiddenActions} show={true} />
                 ))}
+                {hasEdits && (
+                    <div className={clsx(styles.spacerBottom)}>
+                        <Button
+                            icon={<Icon path={mdiCalendarMonth} size={2} color="primary" />}
+                            text="Events"
+                            disabled
+                            size={SIZE}
+                            iconSide='left'
+                        />
+                    </div>
+                )}
             </div>
         </div>
     )
