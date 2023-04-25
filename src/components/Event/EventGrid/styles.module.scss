@@ -150,22 +150,30 @@
     }
 }
 
-.gbsl,
+.gym,
 .fms,
+.ecg,
+.esc,
+.fmpaed,
+.msop,
 .wms {
     color: var(--ifm-color-white);
 }
 
-.gbsl {
+.gym {
     --ifm-badge-background-color: var(--gym);
     --ifm-badge-border-color: var(--gym-border);
     --ifm-badge-color: var(--ifm-color-white);
 }
+.ecg,
+.fmpaed,
+.msop,
 .fms {
     --ifm-badge-background-color: var(--fms);
     --ifm-badge-border-color: var(--fms-border);
     --ifm-badge-color: var(--ifm-color-white);
 }
+.esc,
 .wms {
     --ifm-badge-background-color: var(--wms);
     --ifm-badge-border-color: var(--wms-border);
