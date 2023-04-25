@@ -112,7 +112,7 @@ const config = {
         hideOnScroll: true,
         items: [
           {to: '/calendar', label: 'Kalender', position: 'left'},
-          {to: '/egrid', label: 'Tabelle', position: 'left'},
+          {to: '/table', label: 'Tabelle', position: 'left'},
           {to: '/gantt', label: 'GANTT', position: 'left'},
           {to: '/schedule', label: 'Stupla', position: 'left'},
           {to: '/my-events', label: 'Meine', position: 'left'},
