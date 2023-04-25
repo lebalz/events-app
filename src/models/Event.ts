@@ -36,7 +36,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable.ref
     updatedAt: Date;
 
-    departmentIds = observable<string>([]);
+    departmentIds = observable.set<string>([]);
     classes = observable<string>([]);
 
     @observable
@@ -110,6 +110,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @action
     toggleClass(klass: string) {
         const wildcards = this.wildcardClasses.filter(c => klass.startsWith(c));
+        const preAudience = new Set(this.untisClasses.map(c => c.departmentId));
         if (this.isAudience(klass)) {
             if (!klass.endsWith('*') && wildcards.length > 0) {
                 const add = this.store.root.untisStore.classes.map(c => c.name).filter(c => c !== klass && wildcards.some(wk => c.startsWith(wk)));
@@ -126,6 +127,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             }
             this.classes.push(klass);
         }
+        const currendAudience = new Set(this.untisClasses.map(c => c.departmentId));
+        const add = new Set([...currendAudience].filter(x => !preAudience.has(x)));
+        const remove = new Set([...preAudience].filter(x => !currendAudience.has(x)));
+        console.log([...add], [...remove]);
+        [...remove].forEach(d => this.departmentIds.delete(d));
+        [...add].forEach(d => this.departmentIds.add(d));
     }
 
     @action
@@ -176,7 +183,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get deparments() {
-        return this.store.getDepartments(this.departmentIds);
+        return this.store.getDepartments([...this.departmentIds]);
     }
 
     @computed
@@ -312,7 +319,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             jobId: this.jobId,
             state: this.state,
             authorId: this.authorId,
-            departmentIds: this.departmentIds.slice(),
+            departmentIds: [...this.departmentIds],
             classes: this.classes.slice(),
             description: this.description,
             descriptionLong: this.descriptionLong,

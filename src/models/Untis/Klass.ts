@@ -1,29 +1,9 @@
 import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
-import Department, { DepartmentLetter, ECGBilingual_Letter, ECG_Letter, ESC_Letter, FMPaed_Letter, FMSBilingual_Letter, FMS_Letter, GYMBilingual_Letter, GYM_Letter, MATBilingual_Letter, MAT_Letter, MSOP_Letter, PASSERELLE_Letter, WMS_Letter, toDepartmentName } from '../Department';
-import { mapLegacyClassName } from './helpers';
-
-export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-
-type GYM = `${Digit}${Digit}${DepartmentLetter.GYM}${GYM_Letter}`;
-type GYMBilingual = `${Digit}${Digit}${DepartmentLetter.GYM}${GYMBilingual_Letter}`;
-type FMS = `${Digit}${Digit}${DepartmentLetter.FMS}${FMS_Letter}`;
-type FMPaed = `${Digit}${Digit}${DepartmentLetter.FMS}${FMPaed_Letter}`;
-type FMSBilingual = `${Digit}${Digit}${DepartmentLetter.FMS}${FMSBilingual_Letter}`;
-type WMS = `${Digit}${Digit}${DepartmentLetter.WMS}${WMS_Letter}`;
-
-type Maturite = `${Digit}${Digit}${DepartmentLetter.MATURITE}${MAT_Letter}`;
-type MaturiteBilingual = `${Digit}${Digit}${DepartmentLetter.MATURITE}${MATBilingual_Letter}`;
-type ECG = `${Digit}${Digit}${DepartmentLetter.ECG}${ECG_Letter}`;
-type ECGBilingual = `${Digit}${Digit}${DepartmentLetter.ECG}${ECGBilingual_Letter}`;
-type MSOP = `${Digit}${Digit}${DepartmentLetter.ECG}${MSOP_Letter}`;
-type Passerelle = `${Digit}${Digit}${DepartmentLetter.PASSERELLE}${PASSERELLE_Letter}`;
-type ESC = `${Digit}${Digit}${DepartmentLetter.ESC}${ESC_Letter}`;
-
-export type KlassName = GYM | GYMBilingual | FMS | FMPaed | FMSBilingual | WMS | Maturite | MaturiteBilingual | ECG | ECGBilingual | MSOP | Passerelle | ESC;
-
-
+import Department from '../Department';
+import { KlassName, mapLegacyClassName } from '../helpers/klassNames';
+import { DepartmentLetter, toDepartmentName } from '../helpers/departmentNames';
 
 export default class Klass {
     readonly id: number

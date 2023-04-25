@@ -142,7 +142,11 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             if (!name) {
                 return;
             }
-            return this.classes.find((kl) => name === kl.name);
+            if (name.endsWith('*')) {
+                const wildcard = name.replaceAll('*', '');
+                return this.classes.find((kl) => kl._name.startsWith(wildcard));
+            }
+            return this.classes.find((kl) => name === kl._name);
         },
         { keepAlive: true }
     )

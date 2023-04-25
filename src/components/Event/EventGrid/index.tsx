@@ -121,7 +121,7 @@ const EventGrid = observer((props: Props) => {
                     <Event key={event.id} rowIndex={idx} event={event} hideActions={hiddenActions} show={true} />
                 ))}
                 {hasEdits && (
-                    <div className={clsx(styles.spacerBottom)}>
+                    <div className={clsx(styles.spacerBottom)} style={{gridColumnStart: 'kw', gridColumnEnd: 'gridEnd'}}>
                         <Button
                             icon={<Icon path={mdiCalendarMonth} size={2} color="primary" />}
                             text="Events"
