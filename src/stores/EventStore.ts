@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState } from '../api/event';
+import { Event as EventProps, EventState, setState } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -164,6 +164,21 @@ export class EventStore extends iStore<EventProps> {
 
     getUntisClasses(classNames: string[]) {
         return classNames.map(c => this.root.untisStore.findClassByName(c)).filter(c => !!c);
+    }
+
+    @action
+    requestState(eventIds: string[], state: EventState) {
+        return this.withAbortController(`save-state-${eventIds.join(':')}`, (sig) => {
+            return setState(state, eventIds, sig.signal)
+                .then(
+                    action(({ data }) => {
+                        if (data) {
+                            this.models.replace(data.map((d) => this.createModel(d)));
+                        }
+                        return this.models;
+                    })
+                );
+        });
     }
 
 }

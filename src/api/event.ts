@@ -28,3 +28,8 @@ export interface Event {
 export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromise<Job> {
     return api.post('event/import', formData, { signal });
 }
+
+
+export function setState(state: EventState, ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
+    return api.post('event/change_state', {data: {ids: ids, state: state}}, { signal });
+}

@@ -20,8 +20,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'descriptionLong', 
         {start: (val) => toLocalDate(new Date(val))}, 
         {end: (val) => toLocalDate(new Date(val))}, 
-        'location', 
-        'state',
+        'location',
         'classes',
         'departmentIds'
     ];
@@ -105,6 +104,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             return true;
         }
         return false;
+    }
+
+    @action
+    requestState(state: EventState) {
+        this.store.requestState([this.id], state);
     }
 
     @action
