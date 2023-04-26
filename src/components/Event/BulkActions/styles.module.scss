@@ -1,0 +1,19 @@
+.bulk {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .stateActions {
+        display: flex;
+        align-items: center;
+        .success {
+            border-color: var(--ifm-color-success);
+            color: var(--ifm-color-success);
+        }
+        .revoke {
+            border-color: var(--ifm-color-warning);
+        }
+        .blue {
+            border-color: var(--ifm-color-blue);
+        }
+    }
+}

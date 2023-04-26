@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState, setState } from '../api/event';
+import { Event as EventProps, EventState, requestState as apiRequestState } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -169,11 +169,13 @@ export class EventStore extends iStore<EventProps> {
     @action
     requestState(eventIds: string[], state: EventState) {
         return this.withAbortController(`save-state-${eventIds.join(':')}`, (sig) => {
-            return setState(state, eventIds, sig.signal)
+            return apiRequestState(state, eventIds, sig.signal)
                 .then(
                     action(({ data }) => {
                         if (data) {
-                            this.models.replace(data.map((d) => this.createModel(d)));
+                            data.map((d) => {
+                                this.addToStore(d);
+                            });
                         }
                         return this.models;
                     })

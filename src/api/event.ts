@@ -31,6 +31,6 @@ export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromi
 }
 
 
-export function setState(state: EventState, ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
+export function requestState(state: EventState, ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
     return api.post('event/change_state', {data: {ids: ids, state: state}}, { signal });
 }

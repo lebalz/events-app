@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import EventHeader from './EventHeader';
-import { reaction } from 'mobx';
+import { action, reaction } from 'mobx';
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import { mdiCalendar, mdiCalendarMonth } from '@mdi/js';
@@ -16,53 +16,12 @@ import { Icon, SIZE } from '../../shared/icons';
 interface Props {
     events: EventModel[];
     showFullscreenButton?: boolean;
+    selectable?: boolean;
 }
 
 const EventGrid = observer((props: Props) => {
-    // const [height, setHeight] = React.useState(0);
-    // const [startIdx, setStartIdx] = React.useState(0);
-    // const [endIdx, setEndIdx] = React.useState(30);
-    // const [ref, setRef] = React.useState<HTMLDivElement>(null);
     const ref = React.useRef<HTMLDivElement>(null);
-    // const [scrollLeft, setScrollLeft] = React.useState(0);
-    // const [scrollTop, setScrollTop] = React.useState(0);
-    const [hiddenActions, setHiddenActions] = React.useState(false);
     const viewStore = useStore('viewStore');
-    // React.useEffect(() => {
-    //     const onScroll = (e) => {
-    //         const container = e.target as HTMLElement;
-    //         const left = container.scrollLeft;
-    //         const top = container.scrollTop;
-    //         const bottom = top + height;
-    //         let idx = 0;
-    //         let totalHeight = 0;
-    //         const kws = container.querySelectorAll('.kw');
-    //         while (idx < kws.length && totalHeight < bottom) {
-    //             totalHeight += kws.item(idx).clientHeight;
-    //             idx += 1;
-    //         }
-    //         setEndIdx(idx + 5);
-    //         if (left > scrollLeft && !hiddenActions) {
-    //             setHiddenActions(true);
-    //         } else if (left < scrollLeft && hiddenActions) {
-    //             setHiddenActions(false);
-    //         }
-    //         // console.log(top, height);
-    //         setScrollLeft(left);
-    //         setScrollTop(top);
-    //     }
-    //     if (ref.current) {
-    //         ref.current.addEventListener('scroll', onScroll);
-    //         return () => {
-    //             if (ref.current) {
-    //                 ref.current.removeEventListener('scroll', onScroll);
-    //                 const ch = ref.current.getBoundingClientRect();
-    //                 setHeight(ch.height);
-    //             }
-    //         }
-    //     }
-    // }, [ref.current, scrollLeft, hiddenActions, height]);
-
     /**
      * Handle Resize
      */
@@ -112,13 +71,30 @@ const EventGrid = observer((props: Props) => {
         document.addEventListener('fullscreenchange', onFullscreenChange);
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
+
     const hasEdits = props.events.some((e) => e.editing);
     return (
         <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
-            <div className={clsx(styles.grid)}>
-                <EventHeader hideActions={hiddenActions}/>
+            <div className={clsx(styles.grid, props.selectable && styles.selectable)}>
+                <EventHeader onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined} checked={props.events.every(e => e.selected)} partialChecked={props.events.some(e => e.selected)} />
                 {props.events.map((event, idx) => (
-                    <Event key={event.id} rowIndex={idx} event={event} hideActions={hiddenActions} show={true} />
+                    <Event 
+                        key={event.id} 
+                        rowIndex={idx}
+                        event={event}
+                        show={true}
+                        onSelect={props.selectable ? 
+                            action((selected: boolean, shiftKey: boolean) => {
+                                if (shiftKey) {
+                                    const topIdx = props.events.slice(0, idx).findLastIndex(e => e.selected);
+                                    if (topIdx > -1) {
+                                        props.events.slice(topIdx, idx).forEach(e => e.setSelected(selected));
+                                    }
+                                }
+                                event.setSelected(selected);
+                            }) : undefined
+                        }
+                    />
                 ))}
                 {hasEdits && (
                     <div className={clsx(styles.spacerBottom)} style={{gridColumnStart: 'kw', gridColumnEnd: 'gridEnd'}}>

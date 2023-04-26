@@ -28,7 +28,7 @@ const DepartmentLinker = observer((props: Props) => {
                 }}
                 className={clsx(styles.select)}
                 classNamePrefix="select"
-                value={event.departmentIds.map((id) => ({ label: departmentStore.find<Department>(id).name, value: id }))}
+                value={[...event.departmentIds].map((id) => ({ label: departmentStore.find<Department>(id).name, value: id }))}
                 options={
                     departmentStore.departments.slice().map((dep) => ({
                         value: dep.id,

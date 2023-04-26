@@ -13,7 +13,6 @@ import Delete from '@site/src/components/shared/Button/Delete';
 import Edit from '@site/src/components/shared/Button/Edit';
 
 interface Props extends ReadonlyProps {
-    hideActions: boolean;
 }
 
 const Actions = observer((props: Props) => {
@@ -21,7 +20,7 @@ const Actions = observer((props: Props) => {
     return (
         <div 
             style={{ gridColumn: 'actions' }}
-            className={clsx(props.className, styles.actions, props.hideActions && styles.hidden)}
+            className={clsx(props.className, styles.actions)}
         >
             <Button
                 icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}

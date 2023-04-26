@@ -10,6 +10,7 @@ import AddButton from '../components/Event/AddButton';
 import EventGrid from '../components/Event/EventGrid';
 import { EventState } from '../api/event';
 import styles from './my-events.module.scss';
+import BulkActions from '../components/Event/BulkActions';
 
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
@@ -17,6 +18,10 @@ const Table = observer(() => {
     const jobStore = useStore('jobStore');
     const userId = userStore.current?.id;
     const myEvents = eventStore.byUser(userId).filter(e => !e.jobId);
+    const drafts = myEvents.filter(e => e.state === EventState.Draft);
+    const reviewed = myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
+    const published = myEvents.filter(e => e.state === EventState.Published);
+    const deleted = myEvents.filter(e => e.state === EventState.Deleted);
 
     return (
         <Layout>
@@ -25,25 +30,28 @@ const Table = observer(() => {
                 <div className={clsx(styles.card, 'card')}>
                     <div className={clsx('card__header')}>
                         <h3>Unveröffentlicht</h3>
+                        <BulkActions events={drafts.filter(e => e.selected)} />
                     </div>
                     <div className={clsx('card__body')}>
-                        <EventGrid events={myEvents.filter(e => e.state === EventState.Draft)} showFullscreenButton={false} />
+                        <EventGrid events={drafts} showFullscreenButton={false} selectable />
                     </div>
                 </div>
                 <div className={clsx(styles.card, 'card')}>
                     <div className={clsx('card__header')}>
                         <h3>Im Review</h3>
+                        <BulkActions events={reviewed.filter(e => e.selected)} />
                     </div>
                     <div className={clsx('card__body')}>
-                        <EventGrid events={myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state))} showFullscreenButton={false} />
+                        <EventGrid events={reviewed} showFullscreenButton={false} selectable />
                     </div>
                 </div>
                 <div className={clsx(styles.card, 'card')}>
                     <div className={clsx('card__header')}>
                         <h3>Veröffentlicht</h3>
+                        <BulkActions events={published.filter(e => e.selected)} />
                     </div>
                     <div className={clsx('card__body')}>
-                        <EventGrid events={myEvents.filter(e => e.state === EventState.Published)} showFullscreenButton={false} />
+                        <EventGrid events={published} showFullscreenButton={false} selectable/>
                     </div>
                 </div>
                 <div className={clsx(styles.card, 'card')}>
@@ -51,7 +59,7 @@ const Table = observer(() => {
                         <h3>Gelöscht</h3>
                     </div>
                     <div className={clsx('card__body')}>
-                        <EventGrid events={myEvents.filter(e => e.state === EventState.Deleted)} showFullscreenButton={false} />
+                        <EventGrid events={deleted} showFullscreenButton={false} />
                     </div>
                 </div>
                 {jobStore.importJobs.map((job, idx) => {
@@ -69,12 +77,13 @@ const Table = observer(() => {
                                     onClick={() => {
                                         jobStore.destroy(job);
                                     }}
-                                    text="Löschen"
+                                    text="Job Löschen"
                                     flyoutSide='right'
                                     iconSide='right'
                                     apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                 />
-                                <EventGrid events={job.events} showFullscreenButton={false} />
+                                <BulkActions events={job.events.filter(e => e.selected)} />
+                                <EventGrid events={job.events} showFullscreenButton={false} selectable />
                             </div>
                         </LazyDetails>
                     )

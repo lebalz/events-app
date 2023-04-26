@@ -26,7 +26,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     }
 
     getEvents(department: Department) {
-        return this.root.eventStore.events.filter((e) => e.departmentIds.includes(department.id));
+        return this.root.eventStore.events.filter((e) => e.departmentIds.has(department.id));
     }
 
     @action

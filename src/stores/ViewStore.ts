@@ -3,6 +3,7 @@ import { RootStore } from './stores';
 import Semester from '../models/Semester';
 import User from '../models/User';
 import Lesson from '../models/Untis/Lesson';
+import { EventState } from '../api/event';
 
 const MIN_TABLE_WIDTH = 1600;
 const MIN_COLUMN_WIDTH_EM = {
@@ -86,10 +87,13 @@ class EventTable {
             return [];
         }
         return semester.events.filter((event) => {
+            if (event.state !== EventState.Published) {
+                return false;
+            }
             if (this.departmentIds.size === 0) {
                 return true;
             }
-            return event.departmentIds.some((d) => this.departmentIds.has(d));
+            return [...event.departmentIds].some((d) => this.departmentIds.has(d));
         });
     }
 

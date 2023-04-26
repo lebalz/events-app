@@ -12,12 +12,13 @@ import Actions from './EventFields/Actions';
 import DateTime from './EventFields/DateTime';
 import Location from './EventFields/Location';
 import Audience from './EventFields/Audience';
+import Select from './EventFields/Select';
 
 interface RowProps {
     event: EventModel;
     rowIndex: number;
-    hideActions: boolean;
     show: boolean;
+    onSelect?: (selected: boolean, shiftKey: boolean) => void;
 }
 
 const Event = observer((props: RowProps) => {
@@ -39,6 +40,9 @@ const Event = observer((props: RowProps) => {
 
     return (
         <React.Fragment>
+            {props.onSelect && (
+                <Select event={event} className={clsx(commonStyle)} onSelect={props.onSelect} />
+            )}
             <KW event={event} className={clsx(commonStyle)}/>
             <Day event={event} className={clsx(commonStyle)}/>
             <Description event={event} className={clsx(commonStyle)} isEditable={true}/>
@@ -47,7 +51,7 @@ const Event = observer((props: RowProps) => {
             <Location event={event} className={clsx(commonStyle)} isEditable={true} />
             <Audience event={event} className={clsx(commonStyle)} isEditable={true} />
             <DescriptionLong event={event} className={clsx(commonStyle)} isEditable={true}/>
-            <Actions event={event} className={clsx(commonStyle)} hideActions={props.hideActions} />
+            <Actions event={event} className={clsx(commonStyle)} />
         </React.Fragment>
     );
 });
