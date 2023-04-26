@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import styles from './table.module.scss';
 import Layout from '@theme/Layout';
 import { useStore } from '../stores/hooks';
 import clsx from 'clsx';
@@ -9,18 +8,52 @@ import User from '../models/User';
 import Delete from '../components/shared/Button/Delete';
 import AddButton from '../components/Event/AddButton';
 import EventGrid from '../components/Event/EventGrid';
+import { EventState } from '../api/event';
+import styles from './my-events.module.scss';
 
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
     const userStore = useStore('userStore');
     const jobStore = useStore('jobStore');
     const userId = userStore.current?.id;
+    const myEvents = eventStore.byUser(userId).filter(e => !e.jobId);
 
     return (
         <Layout>
-            <div>
+            <main className={clsx(styles.main)}>
                 <AddButton />
-                <EventGrid events={eventStore.byUser(userId).filter(e => !e.jobId)} showFullscreenButton={false} />
+                <div className={clsx(styles.card, 'card')}>
+                    <div className={clsx('card__header')}>
+                        <h3>Unveröffentlicht</h3>
+                    </div>
+                    <div className={clsx('card__body')}>
+                        <EventGrid events={myEvents.filter(e => e.state === EventState.Draft)} showFullscreenButton={false} />
+                    </div>
+                </div>
+                <div className={clsx(styles.card, 'card')}>
+                    <div className={clsx('card__header')}>
+                        <h3>Im Review</h3>
+                    </div>
+                    <div className={clsx('card__body')}>
+                        <EventGrid events={myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state))} showFullscreenButton={false} />
+                    </div>
+                </div>
+                <div className={clsx(styles.card, 'card')}>
+                    <div className={clsx('card__header')}>
+                        <h3>Veröffentlicht</h3>
+                    </div>
+                    <div className={clsx('card__body')}>
+                        <EventGrid events={myEvents.filter(e => e.state === EventState.Published)} showFullscreenButton={false} />
+                    </div>
+                </div>
+                <div className={clsx(styles.card, 'card')}>
+                    <div className={clsx('card__header')}>
+                        <h3>Gelöscht</h3>
+                    </div>
+                    <div className={clsx('card__body')}>
+                        <EventGrid events={myEvents.filter(e => e.state === EventState.Deleted)} showFullscreenButton={false} />
+                    </div>
+                </div>
                 {jobStore.importJobs.map((job, idx) => {
                     return (
                         <LazyDetails
@@ -46,7 +79,7 @@ const Table = observer(() => {
                         </LazyDetails>
                     )
                 })}
-            </div>
+            </main>
         </Layout >
     );
 });

@@ -7,6 +7,7 @@ export enum EventState {
     Review = 'REVIEW',
     Published = 'PUBLISHED',
     Deleted = 'DELETED',
+    Refused = 'REFUSED'
 }
 export interface Event {
     id: string

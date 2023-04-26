@@ -134,6 +134,7 @@
             }
             &.header {
                 display: flex;
+                align-content: center;
                 align-items: center;
                 justify-content: space-between;
             }
@@ -179,7 +180,6 @@
     --ifm-badge-border-color: var(--wms-border);
     --ifm-badge-color: var(--ifm-color-white);
 }
-
 
 @media screen and (min-width: 768px) {
     .scroll {

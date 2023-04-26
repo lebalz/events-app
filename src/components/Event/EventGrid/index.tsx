@@ -114,7 +114,7 @@ const EventGrid = observer((props: Props) => {
     }, []);
     const hasEdits = props.events.some((e) => e.editing);
     return (
-        <div className={clsx(styles.scroll)} ref={ref}>
+        <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
             <div className={clsx(styles.grid)}>
                 <EventHeader hideActions={hiddenActions}/>
                 {props.events.map((event, idx) => (
