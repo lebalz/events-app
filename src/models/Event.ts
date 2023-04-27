@@ -164,6 +164,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get isEditable() {
+        if (this.state !== EventState.Draft) {
+            return false;
+        }
         return this.store.canEdit(this);
     }
 

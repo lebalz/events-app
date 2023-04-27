@@ -27,41 +27,49 @@ const Table = observer(() => {
         <Layout>
             <main className={clsx(styles.main)}>
                 <AddButton />
-                <div className={clsx(styles.card, 'card')}>
-                    <div className={clsx('card__header')}>
-                        <h3>Unveröffentlicht</h3>
-                        <BulkActions events={drafts.filter(e => e.selected)} />
+                {drafts.length > 0 && (
+                    <div className={clsx(styles.card, 'card')}>
+                        <div className={clsx('card__header')}>
+                            <h3>Unveröffentlicht</h3>
+                            <BulkActions events={drafts.filter(e => e.selected)} />
+                        </div>
+                        <div className={clsx('card__body')}>
+                            <EventGrid events={drafts} showFullscreenButton={false} selectable />
+                        </div>
                     </div>
-                    <div className={clsx('card__body')}>
-                        <EventGrid events={drafts} showFullscreenButton={false} selectable />
+                )}
+                {reviewed.length > 0 && (
+                    <div className={clsx(styles.card, 'card')}>
+                        <div className={clsx('card__header')}>
+                            <h3>Im Review</h3>
+                            <BulkActions events={reviewed.filter(e => e.selected)} />
+                        </div>
+                        <div className={clsx('card__body')}>
+                            <EventGrid events={reviewed} showFullscreenButton={false} selectable />
+                        </div>
                     </div>
-                </div>
-                <div className={clsx(styles.card, 'card')}>
-                    <div className={clsx('card__header')}>
-                        <h3>Im Review</h3>
-                        <BulkActions events={reviewed.filter(e => e.selected)} />
+                )}
+                {published.length > 0 && (
+                    <div className={clsx(styles.card, 'card')}>
+                        <div className={clsx('card__header')}>
+                            <h3>Veröffentlicht</h3>
+                            <BulkActions events={published.filter(e => e.selected)} />
+                        </div>
+                        <div className={clsx('card__body')}>
+                            <EventGrid events={published} showFullscreenButton={false} selectable/>
+                        </div>
                     </div>
-                    <div className={clsx('card__body')}>
-                        <EventGrid events={reviewed} showFullscreenButton={false} selectable />
+                )}
+                {deleted.length > 0 && (
+                    <div className={clsx(styles.card, 'card')}>
+                        <div className={clsx('card__header')}>
+                            <h3>Gelöscht</h3>
+                        </div>
+                        <div className={clsx('card__body')}>
+                            <EventGrid events={deleted} showFullscreenButton={false} />
+                        </div>
                     </div>
-                </div>
-                <div className={clsx(styles.card, 'card')}>
-                    <div className={clsx('card__header')}>
-                        <h3>Veröffentlicht</h3>
-                        <BulkActions events={published.filter(e => e.selected)} />
-                    </div>
-                    <div className={clsx('card__body')}>
-                        <EventGrid events={published} showFullscreenButton={false} selectable/>
-                    </div>
-                </div>
-                <div className={clsx(styles.card, 'card')}>
-                    <div className={clsx('card__header')}>
-                        <h3>Gelöscht</h3>
-                    </div>
-                    <div className={clsx('card__body')}>
-                        <EventGrid events={deleted} showFullscreenButton={false} />
-                    </div>
-                </div>
+                )}
                 {jobStore.importJobs.map((job, idx) => {
                     return (
                         <LazyDetails
