@@ -8,3 +8,8 @@
         border-radius: var(--ifm-global-radius);
     }
 }
+@media screen and (min-width: 768px) {
+    .main {
+        margin: 1em 0.5em;
+    }
+}

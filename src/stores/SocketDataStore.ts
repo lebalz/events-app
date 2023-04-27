@@ -4,7 +4,7 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedRecord, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
+import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson, UntisLesson } from '../api/untis';
 class Message {
@@ -98,6 +98,20 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.connect();
     }
 
+
+    handleEventStateChange = () => {
+        return action((data: string) => {
+            const record: ChangedState = JSON.parse(data);
+            const store = this.root.eventStore;
+            record.ids.forEach((id) => {
+                const event = store.find(id);
+                if (event) {
+                    store.addToStore({...event.props, state: record.state});
+                }
+            });
+        })
+    };
+
     handleReload = (type: IoEvent) => {
         return action((data: string) => {
             const record: ChangedRecord = JSON.parse(data);
@@ -148,6 +162,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.on(IoEvent.NEW_RECORD, (this.handleReload(IoEvent.NEW_RECORD)));
         this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));
         this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
+        this.socket.on(IoEvent.CHANGED_STATE, this.handleEventStateChange());
     }
 
     checkEvent(eventId: string) {

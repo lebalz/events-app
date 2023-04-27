@@ -1,9 +1,11 @@
+import { EventState } from "../api/event";
 import { rootStore } from "./stores";
 
 export enum IoEvent {
     NEW_RECORD = 'NEW_RECORD',
     CHANGED_RECORD = 'CHANGED_RECORD',
     DELETED_RECORD = 'DELETED_RECORD',
+    CHANGED_STATE = 'CHANGED_STATE',
 }
 
 
@@ -27,4 +29,9 @@ export interface NewRecord {
 export interface ChangedRecord {
     record: RecordTypes;
     id: string;
+}
+
+export interface ChangedState {
+    state: EventState;
+    ids: string[];
 }
