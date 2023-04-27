@@ -7,6 +7,7 @@ import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson, UntisLesson } from '../api/untis';
+import { EventState } from '../api/event';
 class Message {
     type: string;
     message: string;
@@ -107,6 +108,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 const event = store.find(id);
                 if (event) {
                     store.addToStore({...event.props, state: record.state});
+                } else if (EventState.Published === record.state) {
+                    store.loadModel(id);
                 }
             });
         })
