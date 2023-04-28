@@ -20,6 +20,7 @@ const Table = observer(() => {
     const myEvents = eventStore.byUser(userId).filter(e => !e.jobId);
     const drafts = myEvents.filter(e => e.state === EventState.Draft);
     const reviewed = myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
+    const adminReview = eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
     const published = myEvents.filter(e => e.state === EventState.Published);
     const deleted = myEvents.filter(e => e.state === EventState.Deleted);
 
@@ -49,6 +50,17 @@ const Table = observer(() => {
                         </div>
                     </div>
                 )}
+                {adminReview.length > 0 && (
+                    <div className={clsx(styles.card, 'card')}>
+                        <div className={clsx('card__header')}>
+                            <h3>Review Anfragen für Admin</h3>
+                            <BulkActions events={adminReview.filter(e => e.selected)} />
+                        </div>
+                        <div className={clsx('card__body')}>
+                            <EventGrid showAuthor events={adminReview} showFullscreenButton={false} selectable />
+                        </div>
+                    </div>
+                )}
                 {published.length > 0 && (
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
@@ -56,7 +68,7 @@ const Table = observer(() => {
                             <BulkActions events={published.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={published} showFullscreenButton={false} selectable/>
+                            <EventGrid events={published} showFullscreenButton={false} selectable showAuthor/>
                         </div>
                     </div>
                 )}

@@ -13,6 +13,7 @@ interface SelectProps {
     checked?: boolean;
     partialChecked?: boolean;
     onSelectAll?: (v: boolean) => void;
+    showAuthor?: boolean;
 }
 
 const NAVBAR_HEIGHT = 60;
@@ -27,6 +28,9 @@ const EventHeader = observer((props: SelectProps) => {
                 </div>
             )}
             <div style={{gridColumn: 'kw'}} className={clsx(commonStyle, styles.kw)}>KW</div>
+            {props.showAuthor && (
+                <div style={{gridColumn: 'author'}} className={clsx(commonStyle, styles.author)}>Author</div>
+            )}
             <div style={{gridColumn: 'day'}} className={clsx(commonStyle, styles.day)}>Tag</div>
             <div style={{gridColumn: 'description'}} className={clsx(commonStyle, styles.description)}>Stichworte</div>
             <div style={{gridColumn: 'startDate'}} className={clsx(commonStyle, styles.startDate)}>Start</div>

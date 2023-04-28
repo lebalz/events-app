@@ -17,6 +17,7 @@ interface Props {
     events: EventModel[];
     showFullscreenButton?: boolean;
     selectable?: boolean;
+    showAuthor?: boolean;
 }
 
 const EventGrid = observer((props: Props) => {
@@ -75,14 +76,19 @@ const EventGrid = observer((props: Props) => {
     const hasEdits = props.events.some((e) => e.editing);
     return (
         <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
-            <div className={clsx(styles.grid, props.selectable && styles.selectable)}>
-                <EventHeader onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined} checked={props.events.every(e => e.selected)} partialChecked={props.events.some(e => e.selected)} />
+            <div className={clsx(styles.grid, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
+                <EventHeader 
+                    onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined} 
+                    checked={props.events.every(e => e.selected)} 
+                    partialChecked={props.events.some(e => e.selected)}
+                    showAuthor={props.showAuthor} 
+                />
                 {props.events.map((event, idx) => (
                     <Event 
                         key={event.id} 
                         rowIndex={idx}
                         event={event}
-                        show={true}
+                        showAuthor={props.showAuthor}
                         onSelect={props.selectable ? 
                             action((selected: boolean, shiftKey: boolean) => {
                                 if (shiftKey) {

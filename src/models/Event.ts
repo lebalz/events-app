@@ -6,6 +6,7 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
+import User from './User';
 
 export interface iEvent {
     weekOffsetMS_start: number;
@@ -84,6 +85,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.updatedAt = new Date(props.updatedAt);
         this.allDay = props.allDay;
         makeObservable(this);
+    }
+
+    @computed
+    get author() {
+        return this.store.root.userStore.find<User>(this.authorId);
     }
 
     /**
