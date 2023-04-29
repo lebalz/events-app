@@ -274,5 +274,10 @@
 [data-theme='dark'] {
     .scroll {
         --header-shadow: 0 3px var(--header-shadow-blur) rgba(255, 255, 255, 0.1);
+        .grid {
+            .actions {
+                border-color: var(--ifm-color-primary-darkest);
+            }
+        }
     }
 }
