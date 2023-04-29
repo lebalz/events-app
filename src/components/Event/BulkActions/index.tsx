@@ -21,6 +21,8 @@ interface Props {
 const BulkActions = observer((props: Props) => {
     const { events } = props;
     const userStore = useStore('userStore');
+    const eventStore = useStore('eventStore');
+    const { current } = userStore;
     if (events.length < 1) {
         return null;
     }
@@ -33,22 +35,22 @@ const BulkActions = observer((props: Props) => {
                 <div className={clsx(styles.stateActions)}>
                     {state === EventState.Draft && (
                         <Button text='Request Review' icon={<Icon path={mdiBookmarkCheck} color='blue' />} className={clsx(styles.blue)} iconSide='left' onClick={() => {
-                            events.forEach(event => event.requestState(EventState.Review));
+                            eventStore.requestState(events.map(e => e.id), EventState.Review);
                         }} />
                     )}
                     {state === EventState.Review && (
                         <>
                             <Button text='Bearbeiten' icon={<Icon path={mdiBookmarkMinus} color='blue' />} className={clsx(styles.blue)} iconSide='left' onClick={() => {
-                                events.forEach(event => event.requestState(EventState.Draft));
+                                eventStore.requestState(events.map(e => e.id), EventState.Draft);
                             }} />
                             {
                                 userStore.current?.role === Role.ADMIN && (
                                     <>
                                         <Button text='Publish' icon={<Icon path={mdiFileCertificate} color='green' />} iconSide='left' className={clsx(styles.success)} onClick={() => {
-                                            events.forEach(event => event.requestState(EventState.Published));
+                                            eventStore.requestState(events.map(e => e.id), EventState.Published);
                                         }} />
                                         <Button text='Refuse' icon={<Icon path={mdiBookCancel} color='orange' />} iconSide='left' className={clsx(styles.revoke)} onClick={() => {
-                                            events.forEach(event => event.requestState(EventState.Refused));
+                                            eventStore.requestState(events.map(e => e.id), EventState.Refused);
                                         }} />
                                     </>
                                 )
@@ -57,9 +59,13 @@ const BulkActions = observer((props: Props) => {
                     )}
                 </div>
             )}
-            <Delete onClick={action(() => {
-                events.forEach(event => event.destroy());
-            })} />
+            {
+                events.every(e => e.authorId === current.id) && (
+                    <Delete onClick={action(() => {
+                        events.forEach(event => event.destroy());
+                    })} />
+                )
+            }
         </div>
     )
 });
