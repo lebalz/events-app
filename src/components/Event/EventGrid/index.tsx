@@ -11,6 +11,7 @@ import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import { mdiCalendar, mdiCalendarMonth } from '@mdi/js';
 import { Icon, SIZE } from '../../shared/icons';
+import Filter from '../Filter';
 
 
 interface Props {
@@ -58,6 +59,7 @@ const EventGrid = observer((props: Props) => {
     const hasEdits = props.events.some((e) => e.editing);
     return (
         <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
+            <Filter />
             <div className={clsx(styles.grid, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
                 <EventHeader 
                     onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}

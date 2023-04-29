@@ -5,6 +5,9 @@
     display: flex;
     align-items: center;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
+    border-color: var(--button-border-color);
+    background: var(--button-background-color);
+    color: var(--button-color);
     &.link {
         width: min-content;
         padding-top: 0.02rem;
@@ -42,7 +45,7 @@
         }
     }
     &.save {
-        border-color: var(--ifm-color-success);
+        --button-border-color: var(--ifm-color-success);
     }
     &.disabled {
         opacity: 0.5;
@@ -56,7 +59,7 @@
                 border-left-color: var(--ifm-color-disabled);
             }
         }
-        border-color: var(--ifm-color-disabled);
+        --button-border-color: var(--ifm-color-disabled);
     }
 
     &:hover {
@@ -78,7 +81,7 @@
 .delete {
     display: flex;
     .button {
-        border-color: var(--ifm-color-danger);
+        --button-border-color: var(--ifm-color-danger);
     }
     &.expanded {
         .button {
@@ -90,7 +93,7 @@
             &:last-child {
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
-                border-color: var(--ifm-color-danger);
+                --button-border-color: var(--ifm-color-danger);
                 margin-left: 0;
             }
         }

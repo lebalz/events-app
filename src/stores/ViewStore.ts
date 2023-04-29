@@ -5,21 +5,19 @@ import User from '../models/User';
 import Lesson from '../models/Untis/Lesson';
 import { EventState } from '../api/event';
 
-const MIN_TABLE_WIDTH = 1600;
-const MIN_COLUMN_WIDTH_EM = {
-    description: 15,
-    location: 7,
-    descriptionLong: 28
-};
-const MAX_COLUMN_WIDTH = 'calc(95vw - 8em)';
-
 /**
  * route: /table
  */
 class EventTable {
     private readonly store: ViewStore;
 
-    departmentIds = observable.set<string>();    
+    /** filter props */
+    klasses = observable.set<string>();
+    @observable
+    start: Date | null = null;
+    @observable
+    end: Date | null = null;
+    departmentIds = observable.set<string>();
 
     constructor(store: ViewStore) {
         this.store = store;
@@ -36,11 +34,30 @@ class EventTable {
             if (event.state !== EventState.Published) {
                 return false;
             }
-            if (this.departmentIds.size === 0) {
-                return true;
+            let keep = true;
+            if (keep && this.departmentIds.size > 0) {
+                keep = [...event.departmentIds].some((d) => this.departmentIds.has(d));
             }
-            return [...event.departmentIds].some((d) => this.departmentIds.has(d));
+            if (keep && this.klasses.size > 0) {
+                keep = [...event.classes].some((d) => this.klasses.has(d));
+            }
+            if (keep && this.start) {
+                keep = event.end >= this.start;
+            }
+            if (keep && this.end) {
+                keep = event.start <= this.end;
+            }
+            return keep;
         });
+    }
+
+    @action
+    toggleDepartment(departmentId: string): void {
+        if (this.departmentIds.has(departmentId)) {
+            this.departmentIds.delete(departmentId);
+        } else {
+            this.departmentIds.add(departmentId);
+        }
     }
 
     @computed
