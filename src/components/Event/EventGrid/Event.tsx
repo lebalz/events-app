@@ -18,7 +18,6 @@ import Author from './EventFields/Author';
 interface RowProps {
     event: EventModel;
     rowIndex: number;
-    showAuthor?: boolean;
     onSelect?: (selected: boolean, shiftKey: boolean) => void;
 }
 
@@ -33,13 +32,9 @@ const Event = observer((props: RowProps) => {
 
     return (
         <React.Fragment>
-            {props.onSelect && (
-                <Select event={event} className={clsx(commonStyle)} onSelect={props.onSelect} />
-            )}
+            <Select event={event} className={clsx(commonStyle)} onSelect={props.onSelect} />
             <KW event={event} className={clsx(commonStyle)}/>
-            {props.showAuthor && (
-                <Author event={event} className={clsx(commonStyle)} />
-            )}
+            <Author event={event} className={clsx(commonStyle)} />
             <Day event={event} className={clsx(commonStyle)}/>
             <Description event={event} className={clsx(commonStyle)} isEditable={true}/>
             <DateTime event={event} time='start' className={clsx(commonStyle)} isEditable={true} />

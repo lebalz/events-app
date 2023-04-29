@@ -68,7 +68,7 @@ const Table = observer(() => {
                             <BulkActions events={published.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={published} showFullscreenButton={false} selectable showAuthor/>
+                            <EventGrid events={published} showFullscreenButton={false} selectable/>
                         </div>
                     </div>
                 )}
