@@ -30,3 +30,11 @@
         }
     }
 }
+
+[data-theme='dark']{
+    .card {
+        .lesson {
+            background: var(--ifm-color-info-contrast-background);
+        }
+    }
+}   
