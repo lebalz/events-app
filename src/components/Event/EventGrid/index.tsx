@@ -23,24 +23,6 @@ interface Props {
 const EventGrid = observer((props: Props) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const viewStore = useStore('viewStore');
-    /**
-     * Handle Resize
-     */
-    React.useEffect(() => {
-        const onResize = () => {
-            if (ref.current){
-                viewStore.eventTable.setClientWidth(ref.current.clientWidth);
-                /* get the current font size in pixels */
-                const px = parseFloat(getComputedStyle(ref.current).fontSize);
-                viewStore.eventTable.setBaseFontSize(px);
-            }
-        }
-        if (ref.current){
-            window.addEventListener('resize', onResize);
-            onResize();
-        }
-        return () => window.removeEventListener('resize', onResize);
-    }, [ref, viewStore]);
 
     React.useEffect(() => {
         const current = viewStore.fullscreen;

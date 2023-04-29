@@ -109,7 +109,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         } = {};
         this.sortedClasses.forEach(c => {
             if (!tree[c.graduationYear]) {
-                tree[c.graduationYear] = {wildcard: `${c.name.slice(0, 2)}*`, departments: {}};
+                tree[c.graduationYear] = {wildcard: `${c._name.slice(0, 2)}*`, departments: {}};
             }
             if (!tree[c.graduationYear].departments[c.departmentName]) {
                 tree[c.graduationYear].departments[c.departmentName] = [];

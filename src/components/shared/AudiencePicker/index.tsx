@@ -56,7 +56,7 @@ const AudiencePicker = observer((props: Props) => {
                         return (<div key={idx}>
                             <Toggle
                                 checked={all}
-                                label={`${gradYear}*`}
+                                label={`${gradYear}`}
                                 property={classTree[gradYear].wildcard}
                                 onCollapse={() => {
                                     if (isExapnded) {
@@ -101,7 +101,7 @@ const AudiencePicker = observer((props: Props) => {
                                                 }
                                             }}
                                             collapsed={!isExapnded}
-                                            property={`${dep}*`}
+                                            property={dep}
                                         />
                                         {isExapnded && classTree[gradYear].departments[dep].map((kl, iiidx) => {
                                             const checked = event.isAudience(kl);

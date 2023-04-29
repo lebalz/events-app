@@ -19,65 +19,11 @@ const MAX_COLUMN_WIDTH = 'calc(95vw - 8em)';
 class EventTable {
     private readonly store: ViewStore;
 
-    departmentIds = observable.set<string>();
-    @observable
-    clientWidth = 900;
-    @observable
-    baseFontSize = 16;
-    
+    departmentIds = observable.set<string>();    
 
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
-    }
-
-    @action
-    setClientWidth(width: number): void {
-        if (width !== this.clientWidth) {
-            this.clientWidth = width;
-        }
-    }
-
-    @action
-    setBaseFontSize(size: number): void {
-        if (size !== this.baseFontSize) {
-            this.baseFontSize = size;
-        }
-    }
-
-    colWidth(colName: keyof typeof MIN_COLUMN_WIDTH_EM): { width: number, unit: 'em' | 'px' } {
-        if (this.clientWidth < MIN_TABLE_WIDTH) {
-            return {width: MIN_COLUMN_WIDTH_EM[colName], unit: 'em'};
-        }
-        let offset = 0;
-        if (colName === 'descriptionLong' && this.isEditing) {
-            offset = 4;
-        }
-        const total = Object.values(MIN_COLUMN_WIDTH_EM).reduce((a, b) => a + b, 0) * this.baseFontSize;
-        const dt = this.clientWidth - MIN_TABLE_WIDTH;
-        const colBase = (MIN_COLUMN_WIDTH_EM[colName] - offset) * this.baseFontSize;
-        const width = dt * (colBase / total) + colBase;
-        return {width: width, unit: 'px'};
-    }
-
-    maxWidth(colName: keyof typeof MIN_COLUMN_WIDTH_EM): string {
-        const {width, unit} = this.colWidth(colName);
-        return `min(${width}${unit}, ${MAX_COLUMN_WIDTH})`;
-    }
-
-    @computed
-    get maxWidthDescription(): string {
-        return this.maxWidth('description');
-    }
-
-    @computed
-    get maxWidthDescriptionLong(): string {
-        return this.maxWidth('descriptionLong');
-    }
-
-    @computed
-    get maxWidthLocation(): string {
-        return this.maxWidth('location');
     }
 
     @computed
