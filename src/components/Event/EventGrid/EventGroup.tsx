@@ -5,7 +5,7 @@ import Event from './Event';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
+import { useOnScreen, useStore } from '@site/src/stores/hooks';
 import { action } from 'mobx';
 
 
@@ -19,24 +19,30 @@ interface Props {
 const EventGroup = observer((props: Props) => {
     const [expanded, setExpanded] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
+    const onScreen = useOnScreen(ref, '.event-grid', "0% -300px 0% -300px");
     React.useEffect(() => {
-        if (ref.current &&!expanded) {
-            const bb = ref.current.getBoundingClientRect();
-            if (bb.top >= 0 && bb.bottom <= document.documentElement.clientHeight) {
-                setExpanded(true);
-            } else {
-                const onScroll = () => {
-                    const bb = ref.current!.getBoundingClientRect();
-                    if (bb.top >= 0 && bb.bottom <= document.documentElement.clientHeight) {
-                        setExpanded(true);
-                        window.removeEventListener('scroll', onScroll);
-                    }
-                }
-                window.addEventListener('scroll', onScroll);
-                return () => window.removeEventListener('scroll', onScroll);
-            }
+        if (onScreen) {
+            setExpanded(true);
         }
-    }, [ref.current, expanded]);
+    }, [onScreen]);
+    // React.useEffect(() => {
+    //     if (ref.current &&!expanded) {
+    //         const bb = ref.current.getBoundingClientRect();
+    //         if (bb.top >= 0 && bb.bottom <= document.documentElement.clientHeight) {
+    //             setExpanded(true);
+    //         } else {
+    //             const onScroll = () => {
+    //                 const bb = ref.current!.getBoundingClientRect();
+    //                 if (bb.top >= 0 && bb.bottom <= document.documentElement.clientHeight) {
+    //                     setExpanded(true);
+    //                     window.removeEventListener('scroll', onScroll);
+    //                 }
+    //             }
+    //             window.addEventListener('scroll', onScroll);
+    //             return () => window.removeEventListener('scroll', onScroll);
+    //         }
+    //     }
+    // }, [ref.current, expanded]);
     return (
         <>
             <div 
