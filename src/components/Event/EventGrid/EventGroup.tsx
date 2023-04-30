@@ -19,7 +19,7 @@ interface Props {
 const EventGroup = observer((props: Props) => {
     const [expanded, setExpanded] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
-    const onScreen = useOnScreen(ref, '.event-grid', "0% 300px 0% 300px");
+    const onScreen = useOnScreen(ref, '.event-grid', "0% 30px 0% 30px");
     React.useEffect(() => {
         if (onScreen) {
             setExpanded(true);
