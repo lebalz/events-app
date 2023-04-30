@@ -56,7 +56,6 @@ const EventGrid = observer((props: Props) => {
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
 
-    const hasEdits = props.events.some((e) => e.editing);
     return (
         <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
             <Filter />
@@ -84,17 +83,6 @@ const EventGrid = observer((props: Props) => {
                         }
                     />
                 ))}
-                {hasEdits && (
-                    <div className={clsx(styles.spacerBottom)} style={{gridColumnStart: 'kw', gridColumnEnd: 'gridEnd'}}>
-                        <Button
-                            icon={<Icon path={mdiCalendarMonth} size={2} color="primary" />}
-                            text="Events"
-                            disabled
-                            size={SIZE}
-                            iconSide='left'
-                        />
-                    </div>
-                )}
             </div>
         </div>
     )

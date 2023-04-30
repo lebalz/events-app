@@ -45,9 +45,9 @@ const User = observer(() => {
         userStore.current.untisTeacher.lessons.forEach(l => {
             const k = l.classes.reduce((curr, k) => {
                 if (curr.length === 0) {
-                    return k.name;
+                    return k._name;
                 } else {
-                    return curr + k.letter;
+                    return curr + k._name.slice(2);
                 }
             }, '');
             classes.push(k);

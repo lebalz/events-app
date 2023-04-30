@@ -5,6 +5,9 @@
     display: flex;
     align-items: center;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
+    --button-border-color: var(--ifm-button-color);
+    --button-color: var(--ifm-button-color);
+    --button-background-color: var(--ifm-button-background-color);
     border-color: var(--button-border-color);
     background: var(--button-background-color);
     color: var(--button-color);

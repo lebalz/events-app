@@ -20,8 +20,19 @@ const AudiencePicker = observer((props: Props) => {
     const [expanded, setExpanded] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(true);
     const untisStore = useStore('untisStore');
+    const userStore = useStore('userStore');
     const { classTree } = untisStore;
     const { event } = props;
+    React.useEffect(() => {
+        const classes = userStore.current?.classes ?? [];
+        const classesSet = new Set([
+            ...classes.map(c => `${c.graduationYear}`),
+            ...classes.map(c => `${c.graduationYear}-${c.departmentName}`),
+            ...expanded
+        ]);
+        setExpanded([...classesSet])
+    }, [userStore.current?.classes]);
+
     return (
         <div className={clsx('dropdown', styles.audience, 'dropdown--show')}>
             <Button
@@ -97,6 +108,7 @@ const AudiencePicker = observer((props: Props) => {
                                                 if (isExapnded) {
                                                     setExpanded(expanded.filter(e => e !== `${gradYear}-${dep}`));
                                                 } else {
+                                                    console.log(`${gradYear}-${dep}`)
                                                     setExpanded([...expanded, `${gradYear}-${dep}`]);
                                                 }
                                             }}
