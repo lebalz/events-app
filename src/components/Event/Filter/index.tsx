@@ -1,18 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { default as EventModel } from '@site/src/models/Event';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Badge from '../../shared/Badge';
-import Delete from '../../shared/Button/Delete';
-import { action } from 'mobx';
-import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
-import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
-import { Icon } from '../../shared/icons';
-import { Role } from '@site/src/api/user';
+import { mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
 
