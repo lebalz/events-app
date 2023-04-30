@@ -75,6 +75,16 @@ class EventTable {
         console.log([...this.klasses]);
     }
 
+    @action
+    setStartFilter(date: Date | null): void {
+        this.start = date;
+    }
+
+    @action
+    setEndFilter(date: Date | null): void {
+        this.end = date;
+    }
+
     @computed
     get isEditing(): boolean {
         return this.events.some((e) => e.editing);
