@@ -9,7 +9,7 @@ const Table = observer(() => {
     return (
         <Layout>
             <div>
-                <EventGrid events={viewStore.eventTable.events} />
+                <EventGrid events={viewStore.eventTable.events} groupBy='kw' showFilter/>
             </div>
         </Layout>
     );
