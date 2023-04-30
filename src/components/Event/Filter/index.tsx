@@ -13,6 +13,7 @@ import Button from '../../shared/Button';
 import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate } from '@mdi/js';
 import { Icon } from '../../shared/icons';
 import { Role } from '@site/src/api/user';
+import TextInput from '../../shared/TextInput';
 
 interface Props {
 }
@@ -32,6 +33,9 @@ const Filter = observer((props: Props) => {
                         key={department.id}
                     />
                 ))}
+            </div>
+            <div className={clsx(styles.classes)}>
+                <TextInput onChange={(txt) => eventTable.setClassFilter(txt)} text={eventTable.klassFilter}/>
             </div>
         </div>
     )

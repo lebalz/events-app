@@ -14,6 +14,9 @@ class EventTable {
     /** filter props */
     klasses = observable.set<string>();
     @observable
+    klassFilter = '';
+
+    @observable
     start: Date | null = null;
     @observable
     end: Date | null = null;
@@ -39,7 +42,7 @@ class EventTable {
                 keep = [...event.departmentIds].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.klasses.size > 0) {
-                keep = [...event.classes].some((d) => this.klasses.has(d));
+                keep = [...event.classes].some((d) => [...this.klasses].some((k) => d.startsWith(k)));
             }
             if (keep && this.start) {
                 keep = event.end >= this.start;
@@ -58,6 +61,18 @@ class EventTable {
         } else {
             this.departmentIds.add(departmentId);
         }
+    }
+
+    @action
+    setClassFilter(filter: string) {
+        this.klassFilter = filter;
+        this.klasses.clear();
+        filter.split(/[,|;|\s]+/).forEach((f) => {
+            if (f) {
+                this.klasses.add(f);
+            }
+        });
+        console.log([...this.klasses]);
     }
 
     @computed
