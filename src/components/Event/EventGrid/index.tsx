@@ -67,7 +67,7 @@ const EventGrid = observer((props: Props) => {
     return (
         <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
             {props.showFilter && <Filter />}
-            <div className={clsx(styles.grid, viewStore.eventTable.activeGroup && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
+            <div className={clsx(styles.grid, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
                 <EventHeader 
                     onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}
                     checked={props.events.every(e => e.selected)} 
