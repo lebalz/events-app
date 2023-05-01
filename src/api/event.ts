@@ -1,6 +1,7 @@
 import { AxiosPromise, CancelTokenSource } from 'axios';
 import api from './base';
 import { Job } from './job';
+import Joi from 'joi';
 
 export enum EventState {
     Draft = 'DRAFT',
@@ -25,6 +26,23 @@ export interface Event {
     createdAt: string
     updatedAt: string
 }
+
+export const JoiEvent = Joi.object<Event>({
+    id: Joi.string().required(),
+    authorId: Joi.string().required(),
+    start: Joi.date().iso().required(),
+    end: Joi.date().iso().required().greater(Joi.ref('start')),
+    allDay: Joi.boolean(),
+    location: Joi.string().required().allow(''),
+    description: Joi.string().required(),
+    descriptionLong: Joi.string().required().allow(''),
+    departmentIds: Joi.array().items(Joi.string()).required(),
+    classes: Joi.array().items(Joi.string()).required(),
+    state: Joi.string().valid(...Object.values(EventState)).required(),
+    jobId: Joi.string(),
+    createdAt: Joi.date().iso().required(),
+    updatedAt: Joi.date().iso().required(),
+});
 
 export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromise<Job> {
     return api.post('event/import', formData, { signal });

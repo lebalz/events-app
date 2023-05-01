@@ -12,6 +12,7 @@ interface Props extends DefaultProps{
 
 const DateTime = observer((props: Props) => {
     const {event} = props;
+    const error = event.errorFor(props.time);
     let dateColumn = 'startDate';
     let timeColumn = 'startTime';
     let date = event.start;
@@ -28,12 +29,17 @@ const DateTime = observer((props: Props) => {
         return (
             <div
                 style={{gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End`}} 
-                className={clsx(props.className, styles.dateTime, styles[props.time])}
+                className={clsx(props.className, styles.dateTime, styles[props.time], error && styles.error)}
             >
                 <DateTimePicker
                     date={date}
                     onChange={(date) => event.update({[props.time]: date.toISOString()})}
                 />
+                {error && (
+                    <div className={styles.errorMessage}>
+                        {error.message}
+                    </div>
+                )}
             </div>
         )
     }

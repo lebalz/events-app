@@ -52,7 +52,7 @@
             &:disabled {
                 --form-control-color: var(--form-control-disabled);
 
-                color: var(--form-control-disabled);
+                color: var(--ifm-color-secondary-darker);
                 cursor: not-allowed;
             }
         }

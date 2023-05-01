@@ -7,17 +7,23 @@ import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const Description = observer((props: Props) => {
-
+    const error = props.event.errorFor('description');
     if (props.isEditable && props.event.editing) {
         return (
             <div 
                 style={{gridColumn: 'description'}} 
-                className={clsx(styles.description, props.className)}
+                className={clsx(styles.description, props.className, error && styles.error)}
+                aria-invalid={!!error}
             >
                 <TextArea
                     text={props.event.description}
                     onChange={(text) => props.event.update({description: text})}
                 />
+                {error && (
+                    <div className={styles.errorMessage}>
+                        {error.message}
+                    </div>
+                )}
             </div>
         )
     }

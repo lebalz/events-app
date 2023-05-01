@@ -9,6 +9,7 @@ import EventHeader from './EventHeader';
 import { action, reaction } from 'mobx';
 import Filter from '../Filter';
 import EventGroup from './EventGroup';
+import { EventState } from '@site/src/api/event';
 
 
 interface Props {
@@ -63,15 +64,16 @@ const EventGrid = observer((props: Props) => {
         acc[key].push(event);
         return acc;
     }, {} as {[key: string]: EventModel[]});
+    const validEvents = props.events.filter(e => !(e.state === EventState.Draft && !!e._errors));
 
     return (
         <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
             {props.showFilter && <Filter />}
             <div className={clsx(styles.grid, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
                 <EventHeader 
-                    onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}
-                    checked={props.events.every(e => e.selected)} 
-                    partialChecked={props.events.some(e => e.selected)}
+                    onSelectAll={props.selectable ? action((v) => validEvents.forEach(e => e.setSelected(v))) : undefined}
+                    checked={validEvents.length > 0 && validEvents.every(e => e.selected)} 
+                    partialChecked={validEvents.some(e => e.selected)}
                 />
                 {props.groupBy ? (
                     Object.entries(grouped).map(([kw, events]) => (

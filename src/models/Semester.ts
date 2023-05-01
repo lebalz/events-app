@@ -7,8 +7,8 @@ import { formatDate, formatTime, toGlobalDate, toLocalDate } from "./helpers/tim
 
 export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [
-        { start: (val) => toLocalDate(new Date(val)) }, 
-        { end: (val) => toLocalDate(new Date(val)) }, 
+        { attr: 'start', transform: (val) => toLocalDate(new Date(val)) }, 
+        { attr: 'end', transform: (val) => toLocalDate(new Date(val)) }, 
         'name'
     ];
     readonly _pristine: SemesterProps;

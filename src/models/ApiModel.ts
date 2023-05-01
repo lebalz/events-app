@@ -1,6 +1,7 @@
-import { action, computed, IObservableArray, makeObservable, observable } from "mobx";
+import { action, computed, IObservableArray, makeObservable, observable, reaction } from "mobx";
 import _ from 'lodash';
 import iStore from "../stores/iStore";
+import {default as Joi, SchemaMap} from 'joi';
 
 const notEqual = (a: any, b: any) => {
     if (Array.isArray(a)) {
@@ -12,7 +13,7 @@ const notEqual = (a: any, b: any) => {
     }
 }
 
-export type UpdateableProps<T extends { id: string }> = (keyof T | {[key in keyof T]?: (val: T[key]) => any})
+export type UpdateableProps<T extends { id: string }> = (keyof T | { attr: keyof T, transform?: (value: any) => any});
 
 export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly _pristine: T;
@@ -63,9 +64,9 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     @action
     update(props: Partial<T>) {
         this.UPDATEABLE_PROPS.forEach(val => {
-            const key = typeof val === 'string' ? val : Object.keys(val)[0];
+            const key = typeof val === 'object' ? val.attr : val;
             if (key in props) {
-                const value = typeof val === 'string' ? props[key] : val[key](props[key]);
+                const value = typeof val === 'object' ? val.transform(props[key]) : props[key];
                 if (Array.isArray(value)) {
                     ((this as any)[key] as IObservableArray<T>).replace(value as T[]);
                 } else {

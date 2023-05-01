@@ -1,5 +1,5 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
-import { Event as EventProps, EventState } from '../api/event';
+import { action, computed, makeObservable, observable, override, reaction } from 'mobx';
+import { Event as EventProps, EventState, JoiEvent } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
@@ -7,6 +7,7 @@ import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, t
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
+import Joi from 'joi';
 
 export interface iEvent {
     weekOffsetMS_start: number;
@@ -19,8 +20,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
         'description', 
         'descriptionLong', 
-        {start: (val) => toLocalDate(new Date(val))}, 
-        {end: (val) => toLocalDate(new Date(val))}, 
+        {attr: 'start', transform: (val) => toLocalDate(new Date(val))}, 
+        {attr: 'end', transform: (val) => toLocalDate(new Date(val))}, 
         'location',
         'classes',
         'departmentIds'
@@ -61,6 +62,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable
     selected: boolean = false;
 
+    @observable.ref
+    _errors?: Joi.ValidationError
+
     constructor(props: EventProps, store: EventStore) {
         super();
         this._pristine = props;
@@ -81,10 +85,38 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this._pristine_start = toLocalDate(new Date(props.start));
         this._pristine_end = toLocalDate(new Date(props.end));
 
+        
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         this.allDay = props.allDay;
+        if (this.state !== EventState.Published && this.state !== EventState.Deleted) {
+            this.validate();
+        }
         makeObservable(this);
+        reaction(
+            () => this.props, 
+            () => {
+                this.validate();
+            }
+        );
+    }
+
+    @action
+    validate() {
+        const result = JoiEvent.validate(this.props, {abortEarly: false});
+        if (result.error) {
+            this._errors = result.error;
+        } else {
+            this._errors = undefined;
+        }
+    }
+
+    errorFor(attr: keyof EventProps) {
+        if (this._errors) {
+            const error = this._errors.details.find((e) => e.context?.key === attr);
+            return error;
+        }
+        return undefined;
     }
 
     @computed
@@ -349,7 +381,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             updatedAt: this.updatedAt.toISOString(),
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
-            allDay: this.allDay
+            allDay: this.allDay,
         }
     }
 

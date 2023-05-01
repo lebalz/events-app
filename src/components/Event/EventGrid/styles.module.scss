@@ -99,6 +99,16 @@
                 clip-path: inset(0px 0px calc(-1 * var(--header-shadow-blur)) 0px);
             }
         }
+        .error {
+            border: 1px dashed red;
+            border-radius: var(--ifm-global-radius);
+        }
+        .errorMessage {
+            color: red;
+            font-size: 0.75em;
+            margin: 0;
+            padding: 0;
+        }
         .eventGroup {
             grid-column-start: gridStart;
             grid-column-end: gridEnd;

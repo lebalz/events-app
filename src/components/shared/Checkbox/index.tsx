@@ -11,6 +11,7 @@ interface Props {
     checked: boolean;
     partialChecked?: boolean;
     className?: string;
+    disabled?: boolean;
     onChange?: (checked: boolean, shiftKey?: boolean) => void;
 }
 
@@ -21,6 +22,7 @@ const Checkbox = observer((props: Props) => {
                 <input
                     className={styles.checkbox}
                     type='checkbox' 
+                    disabled={props.disabled}
                     onChange={action((e) => {
                         props.onChange(!props.checked, (e.nativeEvent as any).shiftKey);
                     })} 
