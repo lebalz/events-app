@@ -20,35 +20,30 @@ const EventGroup = observer((props: Props) => {
     const [expanded, setExpanded] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
     const onScreen = useOnScreen(ref, '.event-grid', "0% 30px 0% 30px");
+    const viewStore = useStore('viewStore');
     React.useEffect(() => {
         if (onScreen) {
             setExpanded(true);
         }
     }, [onScreen]);
-    // React.useEffect(() => {
-    //     if (ref.current &&!expanded) {
-    //         const bb = ref.current.getBoundingClientRect();
-    //         if (bb.top >= 0 && bb.bottom <= document.documentElement.clientHeight) {
-    //             setExpanded(true);
-    //         } else {
-    //             const onScroll = () => {
-    //                 const bb = ref.current!.getBoundingClientRect();
-    //                 if (bb.top >= 0 && bb.bottom <= document.documentElement.clientHeight) {
-    //                     setExpanded(true);
-    //                     window.removeEventListener('scroll', onScroll);
-    //                 }
-    //             }
-    //             window.addEventListener('scroll', onScroll);
-    //             return () => window.removeEventListener('scroll', onScroll);
-    //         }
-    //     }
-    // }, [ref.current, expanded]);
     return (
         <>
             <div 
-                className={clsx(styles.eventGroup, props.className)} 
+                className={clsx(styles.eventGroup, props.className, viewStore.eventTable.activeGroup === props.title && styles.active)} 
                 style={{ height: expanded ? undefined : `${props.events.length * 35}px`,  gridColumnStart: 'gridStart', gridColumnEnd: 'gridEnd' }}
                 ref={ref}
+                onClick={() => {
+                    if (viewStore.eventTable.activeGroup) {
+                        viewStore.eventTable.setActiveGroup(null);
+                        setTimeout(() => {
+                                if (ref.current) {
+                                    ref.current.scrollIntoView();
+                                }
+                            }, 0);
+                    } else {
+                        viewStore.eventTable.setActiveGroup(props.title)
+                    }
+                }}
             >
                 {props.title}
             </div>

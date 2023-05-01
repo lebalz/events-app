@@ -22,9 +22,17 @@ class EventTable {
     end: Date | null = null;
     departmentIds = observable.set<string>();
 
+    @observable
+    activeGroup: string | null = null;
+
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
+    }
+
+    @action
+    setActiveGroup(kw: string | null): void {
+        this.activeGroup = kw;
     }
 
     @computed

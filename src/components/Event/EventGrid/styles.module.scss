@@ -2,7 +2,7 @@
     --header-shadow-blur: 20px;
     --header-shadow: 0 3px var(--header-shadow-blur) rgba(0, 0, 0, 0.2);
 
-    --event-grid-template-columns: 
+    --event-grid-template-columns:
         [gridStart kw] 2.5em 
         [day] 3em
         [description] minmax(15em, 2fr)
@@ -20,6 +20,7 @@
     max-width: 100%;
     max-height: 96vh;
     overflow-x: auto;
+
     .grid {
         display: grid;
         grid-template-columns: var(--event-grid-template-columns);
@@ -102,23 +103,28 @@
             grid-column-start: gridStart;
             grid-column-end: gridEnd;
             display: flex;
-            // background-color: var(--ifm-color-secondary-darkest);
-            background: rgba(192, 192, 192, 0.7);
-            color: var(--ifm-color-white);
+            background-color: var(--ifm-color-secondary-darkest);
+            // background: rgba(192, 192, 192, 0.7);
+            color: var(--ifm-color-primary-lighter);
             line-height: 1;
             padding: 0 1em;
             font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
             font-weight: var(--ifm-font-weight-bold);
             padding: 0 1em;
             margin: 0;
-            border-radius: var(--ifm-global-radius);
-            box-shadow: var(--ifm-global-shadow-lw);
+            // border-radius: var(--ifm-global-radius);
+            // box-shadow: var(--ifm-global-shadow-lw);
             position: -webkit-sticky;
             position: sticky;
             top: 31px;
-            height: 20px;
             z-index: 1;
-            
+            cursor: pointer;
+            &.active {
+                border: 2px solid var(--ifm-color-primary);
+            }
+            &:hover {
+                background-color: var(--ifm-color-secondary-darker);
+            }
         }
         .select {
             grid-column: select;
@@ -241,6 +247,24 @@
             justify-content: center;
             align-items: center;
         }
+        
+        &.overview {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            .cell {
+                display: none;
+            }
+            .eventGroup {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 6em;
+                width: 6em;
+                border-radius: var(--ifm-global-radius);
+            }
+        }
     }
 }
 
@@ -299,6 +323,9 @@
         .grid {
             .actions {
                 border-color: var(--ifm-color-primary-darkest);
+            }
+            .eventGroup {
+                color: #8d3599;
             }
         }
     }
