@@ -18,7 +18,7 @@ const Select = observer((props: Props) => {
     return (
         <div 
             style={{gridColumn: 'select'}} 
-            className={clsx('select', styles.select, props.className)}
+            className={clsx('grid-select', styles.select, props.className)}
         >
             <Checkbox checked={event.selected} onChange={props.onSelect} disabled={event.state === EventState.Draft && !!event._errors}/>
         </div>

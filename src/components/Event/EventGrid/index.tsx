@@ -3,6 +3,9 @@ import clsx from 'clsx';
 import Event from './Event';
 import {default as EventModel} from '@site/src/models/Event';
 import styles from './styles.module.scss';
+import gDefault from './gridConfigs/default.module.scss';
+import gSelect from './gridConfigs/selectable.module.scss';
+import gSelectAuthor from './gridConfigs/select_author.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import EventHeader from './EventHeader';
@@ -15,6 +18,7 @@ import { EventState } from '@site/src/api/event';
 interface Props {
     events: EventModel[];
     showFullscreenButton?: boolean;
+    gridClassConfig?: string;
     selectable?: boolean;
     showAuthor?: boolean;
     groupBy?: 'kw';
@@ -66,10 +70,19 @@ const EventGrid = observer((props: Props) => {
     }, {} as {[key: string]: EventModel[]});
     const validEvents = props.events.filter(e => !(e.state === EventState.Draft && !!e._errors));
 
+    let gridConfig = gDefault.grid;
+    if (props.selectable && props.showAuthor) {
+        gridConfig = gSelectAuthor.grid;
+    } else if (props.selectable) {
+        gridConfig = gSelect.grid;
+    } else if (props.showAuthor) {
+        gridConfig = gSelectAuthor.grid;
+    }
+
     return (
         <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
             {props.showFilter && <Filter />}
-            <div className={clsx(styles.grid, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
+            <div className={clsx(styles.grid, gridConfig, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
                 <EventHeader 
                     onSelectAll={props.selectable ? action((v) => validEvents.forEach(e => e.setSelected(v))) : undefined}
                     checked={validEvents.length > 0 && validEvents.every(e => e.selected)} 

@@ -29,7 +29,7 @@ const DateTime = observer((props: Props) => {
         return (
             <div
                 style={{gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End`}} 
-                className={clsx(props.className, styles.dateTime, styles[props.time], error && styles.error)}
+                className={clsx(props.className, 'grid-dateTime', styles.dateTime, styles[props.time], error && styles.error)}
             >
                 <DateTimePicker
                     date={date}
@@ -47,13 +47,13 @@ const DateTime = observer((props: Props) => {
         <>
             <div 
                 style={{gridColumn: dateColumn}} 
-                className={clsx(props.className, styles[dateColumn])}
+                className={clsx(props.className, styles[dateColumn], `grid-${dateColumn}`)}
             >{
                 fdate
             }</div>
             <div 
                 style={{gridColumn: timeColumn}} 
-                className={clsx(props.className, styles[timeColumn])}
+                className={clsx(props.className, styles[timeColumn], `grid-${timeColumn}`)}
             >{
                 ftime
             }</div>

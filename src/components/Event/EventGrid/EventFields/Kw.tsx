@@ -10,7 +10,7 @@ const KW = observer((props: ReadonlyProps) => {
     return (
         <div 
             style={{gridColumn: 'kw'}} 
-            className={clsx('kw', styles.kw, props.className)}
+            className={clsx('kw', styles.kw, props.className, 'grid-kw')}
         >
             {props.event.kw}
         </div>

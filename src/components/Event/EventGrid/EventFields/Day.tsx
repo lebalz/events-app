@@ -9,7 +9,7 @@ const Day = observer((props: ReadonlyProps) => {
     return (
         <div 
             style={{gridColumn: 'day'}} 
-            className={clsx(styles.day, props.className)}
+            className={clsx(styles.day, props.className, 'grid-day')}
         >
             {props.event.day}
         </div>

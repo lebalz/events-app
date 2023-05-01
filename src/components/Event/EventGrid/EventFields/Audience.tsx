@@ -15,7 +15,7 @@ const Audience = observer((props: Props) => {
         return (
             <div
                 style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}
-                className={clsx(styles.audience, props.className)}
+                className={clsx(styles.audience, 'grid-audience', props.className)}
             >
                 <AudiencePicker event={event} />
             </div>
@@ -25,7 +25,7 @@ const Audience = observer((props: Props) => {
         <React.Fragment>
             <div 
                 style={{gridColumn: 'departments'}} 
-                className={clsx(props.className, styles.departments)}
+                className={clsx(props.className, styles.departments, 'grid-departments')}
             >{
                 event.departmentNames.map((c, idx) => {
                     const dep = c.split(/-|\//)[0] || '';

@@ -11,7 +11,7 @@ const DescriptionLong = observer((props: Props) => {
         return (
             <div 
                 style={{gridColumn: 'descriptionLong'}} 
-                className={clsx(styles.descriptionLong, props.className)}
+                className={clsx(styles.descriptionLong, props.className, 'grid-descriptionLong')}
             >
                 <TextArea
                     text={props.event.descriptionLong}
@@ -23,7 +23,7 @@ const DescriptionLong = observer((props: Props) => {
     return (
         <div 
             style={{gridColumn: 'descriptionLong'}} 
-            className={clsx(styles.descriptionLong, props.className)}
+            className={clsx(styles.descriptionLong, props.className, 'grid-descriptionLong')}
             onClick={() => props.event.setExpanded(true)}
         >
             {props.event.descriptionLong}

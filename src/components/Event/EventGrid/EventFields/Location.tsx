@@ -11,7 +11,7 @@ const Location = observer((props: Props) => {
         return (
             <div 
                 style={{gridColumn: 'location'}} 
-                className={clsx(styles.location, props.className)}
+                className={clsx(styles.location, props.className, 'grid-Location')}
             >
                 <TextArea
                     text={props.event.location}
@@ -23,7 +23,7 @@ const Location = observer((props: Props) => {
     return (
         <div 
             style={{gridColumn: 'location'}} 
-            className={clsx(styles.location, props.className)}
+            className={clsx(styles.location, props.className, 'grid-Location')}
             onClick={() => props.event.setExpanded(true)}
         >
             {props.event.location}

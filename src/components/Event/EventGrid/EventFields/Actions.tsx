@@ -20,7 +20,7 @@ const Actions = observer((props: Props) => {
     return (
         <div 
             style={{ gridColumn: 'actions' }}
-            className={clsx(props.className, styles.actions)}
+            className={clsx(props.className, styles.actions, 'grid-actions')}
         >
             <Button
                 icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}

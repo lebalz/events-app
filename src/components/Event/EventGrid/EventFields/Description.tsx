@@ -12,7 +12,7 @@ const Description = observer((props: Props) => {
         return (
             <div 
                 style={{gridColumn: 'description'}} 
-                className={clsx(styles.description, props.className, error && styles.error)}
+                className={clsx(styles.description, props.className, error && styles.error, 'grid-description')}
                 aria-invalid={!!error}
             >
                 <TextArea
@@ -30,7 +30,7 @@ const Description = observer((props: Props) => {
     return (
         <div 
             style={{gridColumn: 'description'}} 
-            className={clsx(styles.description, props.className)}
+            className={clsx(styles.description, props.className, 'grid-description')}
             onClick={() => props.event.setExpanded(true)}
         >
             {props.event.description}

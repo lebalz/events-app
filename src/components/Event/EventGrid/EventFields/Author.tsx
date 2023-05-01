@@ -11,7 +11,7 @@ const Author = observer((props: ReadonlyProps) => {
     return (
         <div 
             style={{gridColumn: 'author'}} 
-            className={clsx('author', styles.author, props.className)}
+            className={clsx('author', styles.author, props.className, 'grid-author')}
         >
             <Badge text={(props.event.author?.shortName || props.event.author?.email) ?? '-'}/>
         </div>
