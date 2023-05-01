@@ -75,7 +75,7 @@ const EventGrid = observer((props: Props) => {
                 />
                 {props.groupBy ? (
                     Object.entries(grouped).map(([kw, events]) => (
-                        <EventGroup events={events} selectable={props.selectable} title={`KW ${kw}`} />
+                        <EventGroup events={events} key={kw} selectable={props.selectable} title={`KW ${kw}`} />
                     ))
                 ) : (props.events.map((event, idx) => (
                     <Event 

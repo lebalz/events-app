@@ -47,7 +47,7 @@ const EventGroup = observer((props: Props) => {
         <>
             <div 
                 className={clsx(styles.eventGroup, props.className)} 
-                style={{ gridColumnStart: 'gridStart', gridColumnEnd: 'gridEnd' }}
+                style={{ height: expanded ? undefined : `${props.events.length * 35}px`,  gridColumnStart: 'gridStart', gridColumnEnd: 'gridEnd' }}
                 ref={ref}
             >
                 {props.title}
