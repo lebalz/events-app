@@ -89,10 +89,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         this.allDay = props.allDay;
+        makeObservable(this);
         if (this.state !== EventState.Published && this.state !== EventState.Deleted) {
             this.validate();
         }
-        makeObservable(this);
         reaction(
             () => this.props, 
             () => {
