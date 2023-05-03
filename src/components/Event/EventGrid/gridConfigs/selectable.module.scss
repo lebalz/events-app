@@ -1,16 +1,16 @@
 .grid {
     --event-grid-template-columns:
         [gridStart select] 2.5em
-        [kw] 2.5em 
-        [day] 3em
+        [kw] max-content 
+        [day] max-content
         [description] minmax(15em, 2fr)
-        [startDate] 5.5em
-        [startTime] 4.3em
-        [endDate startEnd] 5.5em
-        [endTime] 4.3em
-        [location endEnd] minmax(6em, 10em)
-        [departments] minmax(9em, 10em)
-        [classes] minmax(9em, 12em)
+        [startDate] max-content
+        [startTime] max-content
+        [endDate startEnd] max-content
+        [endTime] max-content
+        [location endEnd] max-content
+        [departments] max-content
+        [classes] max-content
         [classesEnd descriptionLong] minmax(15em, 3fr)
         [actions] max-content
         [gridEnd];

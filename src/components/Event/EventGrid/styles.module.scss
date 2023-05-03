@@ -96,16 +96,19 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    max-width: 2.5em;
 }
 .kw {
     grid-column: kw;
     text-align: end;
+    max-width: 2.5em;
 }
 .author {
     grid-column: author;
 }
 .day {
     grid-column: day;
+    max-width: 3.5em;
     &::after {
         content: ".";
     }
@@ -113,16 +116,20 @@
 .startDate {
     grid-column: startDate;
     text-align: end;
+    max-width: 6em;
 }
 .startTime {
     grid-column: startTime;
+    max-width: 4.5em;
 }
 .endDate {
     grid-column: endDate;
     text-align: end;
+    max-width: 6em;
 }
 .endTime {
     grid-column: endTime;
+    max-width: 4.5em;
 }
 .dateTime {
     input {
@@ -142,17 +149,22 @@
 }
 .location {
     grid-column: location;
+    max-width: 10em;
 }
 .departments {
     grid-column: departments;
     display: flex;
     align-items: baseline;
+    max-width: 10em;
+    overflow-x: auto;
 }
 .classes {
     grid-column: classes;
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
+    max-width: 12em;
+    overflow-x: auto;
     &.collapsed {
         flex-wrap: nowrap;
     }
