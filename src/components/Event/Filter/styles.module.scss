@@ -1,5 +1,7 @@
 .filter {
     display: flex;
+    max-width: 50vw;
+    flex-wrap: wrap;
     .department {
         display: flex;
     }
