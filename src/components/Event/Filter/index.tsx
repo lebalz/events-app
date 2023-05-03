@@ -19,7 +19,7 @@ const Filter = observer((props: Props) => {
     return (
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.department)}>
-                {departmentStore.departments.map((department) => (
+                {departmentStore.usedDepartments.map((department) => (
                     <Button 
                         text={department.name}
                         className={clsx(eventTable.departmentIds.has(department.id) && styles.selected)}

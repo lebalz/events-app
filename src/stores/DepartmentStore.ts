@@ -40,4 +40,10 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     loadDepartment(id: string) {
         return this.loadModel(id);
     }
+
+    @computed
+    get usedDepartments(): Department[] {
+        const ids = [...new Set(this.root.eventStore.events.map((e) => [...e.departmentIds]).flat())];
+        return ids.map((id) => this.find<Department>(id)).filter(d => !!d).sort((a, b) => a.name.localeCompare(b.name));
+    }
 }
