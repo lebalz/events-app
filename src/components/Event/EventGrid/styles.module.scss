@@ -156,7 +156,9 @@
     display: flex;
     align-items: baseline;
     max-width: 10em;
-    overflow-x: auto;
+    &.expanded {
+        flex-wrap: wrap;
+    }
 }
 .classes {
     grid-column: classes;
