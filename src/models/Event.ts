@@ -111,6 +111,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
+    @computed
+    get isValid() {
+        return this._errors === undefined || this._errors.details.length === 0;
+    }
+
     errorFor(attr: keyof EventProps) {
         if (this._errors) {
             const error = this._errors.details.find((e) => e.context?.key === attr);

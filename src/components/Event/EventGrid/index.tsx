@@ -68,7 +68,6 @@ const EventGrid = observer((props: Props) => {
         acc[key].push(event);
         return acc;
     }, {} as {[key: string]: EventModel[]});
-    const validEvents = props.events.filter(e => !(e.state === EventState.Draft && !!e._errors));
 
     let gridConfig = gDefault.grid;
     if (props.selectable && props.showAuthor) {
@@ -79,14 +78,16 @@ const EventGrid = observer((props: Props) => {
         gridConfig = gSelectAuthor.grid;
     }
 
+    const editable = props.events.some(e => e.isEditable);
+
     return (
-        <div className={clsx(styles.scroll, 'event-grid')} ref={ref}>
+        <div className={clsx(styles.scroll, editable && styles.editable, 'event-grid')} ref={ref}>
             {props.showFilter && <Filter />}
             <div className={clsx(styles.grid, gridConfig, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
                 <EventHeader 
-                    onSelectAll={props.selectable ? action((v) => validEvents.forEach(e => e.setSelected(v))) : undefined}
-                    checked={validEvents.length > 0 && validEvents.every(e => e.selected)} 
-                    partialChecked={validEvents.some(e => e.selected)}
+                    onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}
+                    checked={props.events.length > 0 && props.events.every(e => e.selected)} 
+                    partialChecked={props.events.some(e => e.selected)}
                 />
                 {props.groupBy ? (
                     Object.entries(grouped).map(([kw, events]) => (

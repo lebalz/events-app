@@ -28,12 +28,13 @@ const BulkActions = observer((props: Props) => {
     }
     const state = events[0]?.state;
     const sameState = events.every(event => event.state === state);
+    const allValid = events.every(event => event.isValid);
     return (
         <div className={clsx(styles.bulk)}>
             <Badge text={`${events.length}`} color='blue' />
             {sameState && (
                 <div className={clsx(styles.stateActions)}>
-                    {state === EventState.Draft && (
+                    {state === EventState.Draft && allValid && (
                         <Button text='Request Review' icon={<Icon path={mdiBookmarkCheck} color='blue' />} className={clsx(styles.blue)} iconSide='left' onClick={() => {
                             eventStore.requestState(events.map(e => e.id), EventState.Review);
                         }} />
