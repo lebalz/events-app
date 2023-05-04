@@ -24,7 +24,7 @@ export const toGlobalDate = (date: Date) => {
 export const SEC_2_MS = 1000;
 export const MINUTE_2_MS = 60 * SEC_2_MS;
 export const HOUR_2_MS = 60 * MINUTE_2_MS;
-export const DAY_2_MS = 24 * HOUR_2_MS;
+export const DAY_2_MS = 24 * HOUR_2_MS; // 1000*60*60*24=86400000
 export const WEEK_2_MS = 7 * DAY_2_MS;
 export const DAYS: ('So' | 'Mo' | 'Di' | 'Mi' | 'Do' | 'Fr' | 'Sa')[] = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
@@ -42,4 +42,15 @@ export const getKW = (date: Date) => {
     utcDate.setUTCDate(date.getUTCDate() + 4 - dayNumber);
     const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
     return Math.ceil(((utcDate.getTime() - yearStart.getTime()) / DAY_2_MS + 1) / 7);
+}
+
+/**
+ * 
+ * @param date date in local time
+ * @returns first monday of this week, in local time 
+ */
+export const getLastMonday = (date: Date = new Date()) => {
+    const dateCopy = new Date(date.getTime());
+    dateCopy.setHours(0, 0, 0, 0);
+    return new Date(dateCopy.getTime() - ((dateCopy.getDay() + 6) % 7) * DAY_2_MS);
 }

@@ -30,7 +30,7 @@ const Schedule = observer(() => {
                         defaultView='week'
                         toolbar={false}
                         views={['week']}
-                        defaultDate={(new Date()).toISOString().slice(0, 10)}
+                        defaultDate={new Date()}
                         localizer={localizer}
                         events={lessons}
                         startAccessor="start"

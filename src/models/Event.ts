@@ -3,12 +3,11 @@ import { Event as EventProps, EventState, JoiEvent } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS } from './helpers/time';
+import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
 import Joi from 'joi';
-import { getLastMonday } from './Untis/helpers';
 
 export interface iEvent {
     weekOffsetMS_start: number;

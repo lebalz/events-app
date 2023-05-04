@@ -2,8 +2,7 @@ import type { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
 import Event, { iEvent } from '../Event';
-import { DAYS, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS } from '../helpers/time';
-import { getLastMonday } from './helpers';
+import { DAYS, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, getLastMonday } from '../helpers/time';
 
 const MONDAY = Object.freeze(getLastMonday());
 
@@ -14,6 +13,7 @@ export default class Lesson implements iEvent {
     readonly description: string
     readonly semester: number
     readonly year: number
+    /** Sonntag: 0, Montag: 1, Dienstag: 2, ... */
     readonly weekDay: number
     readonly startHHMM: number
     readonly endHHMM: number
@@ -43,7 +43,7 @@ export default class Lesson implements iEvent {
     @computed
     get start() {
         const date = new Date(MONDAY);
-        date.setDate(date.getDate() + this.weekDay);
+        date.setDate(date.getDate() + this.weekDay - 1);
         date.setHours(Math.floor(this.startHHMM / 100));
         date.setMinutes(this.startHHMM % 100);
         return date;
@@ -52,7 +52,7 @@ export default class Lesson implements iEvent {
     @computed
     get end() {
         const date = new Date(MONDAY);
-        date.setDate(date.getDate() + this.weekDay);
+        date.setDate(date.getDate() + this.weekDay - 1);
         date.setHours(Math.floor(this.endHHMM / 100));
         date.setMinutes(this.endHHMM % 100);
         return date;
