@@ -92,7 +92,7 @@ const EventGrid = observer((props: Props) => {
                 />
                 {props.groupBy ? (
                     Object.entries(grouped).map(([kw, events]) => (
-                        <EventGroup events={events} key={kw} selectable={props.selectable} id={`KW ${kw}`} content={<><span>KW {kw}</span><span>{formatDate(events[0].weekStart)}</span></>} />
+                        <EventGroup events={events} key={kw} selectable={props.selectable} id={`KW ${kw}`} content={<><span>KW {kw}</span><span style={{textAlign: 'center'}}>{formatDate(events[0].weekStart)} - {formatDate(events[0].weekEnd)}</span></>} />
                     ))
                 ) : (props.events.map((event, idx) => (
                     <Event 
