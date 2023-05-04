@@ -13,6 +13,7 @@ import { action, reaction } from 'mobx';
 import Filter from '../Filter';
 import EventGroup from './EventGroup';
 import { EventState } from '@site/src/api/event';
+import { formatDate } from '@site/src/models/helpers/time';
 
 
 interface Props {
@@ -91,7 +92,7 @@ const EventGrid = observer((props: Props) => {
                 />
                 {props.groupBy ? (
                     Object.entries(grouped).map(([kw, events]) => (
-                        <EventGroup events={events} key={kw} selectable={props.selectable} title={`KW ${kw}`} />
+                        <EventGroup events={events} key={kw} selectable={props.selectable} id={`KW ${kw}`} content={<><span>KW {kw}</span><span>{formatDate(events[0].weekStart)}</span></>} />
                     ))
                 ) : (props.events.map((event, idx) => (
                     <Event 

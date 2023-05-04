@@ -8,6 +8,7 @@ import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
 import Joi from 'joi';
+import { getLastMonday } from './Untis/helpers';
 
 export interface iEvent {
     weekOffsetMS_start: number;
@@ -309,6 +310,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get kw() {
         return getKW(this.start);
+    }
+
+    /**
+     * Date of the first day of this week
+     */
+    @computed
+    get weekStart() {
+        return getLastMonday(this.start);
+    }
+
+    @computed
+    get weekEnd() {
+        return new Date(this.weekStart.getTime() + 6 * DAY_2_MS);
     }
 
     @computed

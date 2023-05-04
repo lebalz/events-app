@@ -37,8 +37,9 @@ export const getWeekdayOffsetMS = (date: Date) => {
 }
 
 export const getKW = (date: Date) => {
-    const year = new Date(date.getTime());
-    year.setUTCHours(0, 0, 0, 0);
-    year.setUTCMonth(0, 0)
-    return Math.ceil((date.getTime() - year.getTime()) / DAY_2_MS / 7);
+    const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0));
+    const dayNumber = date.getUTCDay() || 7;
+    utcDate.setUTCDate(date.getUTCDate() + 4 - dayNumber);
+    const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
+    return Math.ceil(((utcDate.getTime() - yearStart.getTime()) / DAY_2_MS + 1) / 7);
 }

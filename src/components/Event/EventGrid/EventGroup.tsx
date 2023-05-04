@@ -10,7 +10,8 @@ import { action } from 'mobx';
 
 
 interface Props {
-    title?: string;
+    id: string;
+    content?: string | React.ReactNode;
     events: EventModel[];
     selectable?: boolean;
     className?: string;
@@ -29,7 +30,7 @@ const EventGroup = observer((props: Props) => {
     return (
         <>
             <div 
-                className={clsx(styles.eventGroup, props.className, viewStore.eventTable.activeGroup === props.title && styles.active)} 
+                className={clsx(styles.eventGroup, props.className, viewStore.eventTable.activeGroup === props.id && styles.active)} 
                 style={{ height: expanded ? undefined : `${props.events.length * 35}px`,  gridColumnStart: 'gridStart', gridColumnEnd: 'gridEnd' }}
                 ref={ref}
                 onClick={() => {
@@ -41,11 +42,11 @@ const EventGroup = observer((props: Props) => {
                                 }
                             }, 0);
                     } else {
-                        viewStore.eventTable.setActiveGroup(props.title)
+                        viewStore.eventTable.setActiveGroup(props.id)
                     }
                 }}
             >
-                {props.title}
+                {props.content}
             </div>
             {expanded && (
                 props.events.map((event, idx) => (

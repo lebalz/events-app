@@ -26,6 +26,7 @@
         }
         .eventGroup {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
             height: 6em;
@@ -71,6 +72,7 @@
     grid-column-start: gridStart;
     grid-column-end: gridEnd;
     display: flex;
+    gap: 1em;
     background-color: var(--ifm-color-secondary-darker);
     color: var(--ifm-color-primary-lighter);
     line-height: 1;
