@@ -72,7 +72,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         });
     }
 
-    abstract createModel(data: Model): ApiModel<Model, Api | ApiAction>;
+    abstract createModel(data: Model, state?: 'load' | 'create'): ApiModel<Model, Api | ApiAction>;
 
     apiStateFor = computedFn(
         function (this: iStore<Model, Api>, sigId?: Api | ApiAction): ApiState {
@@ -96,11 +96,11 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     );
 
     @action
-    addToStore(data: Model): ApiModel<Model, Api | ApiAction> {
+    addToStore(data: Model, state?: 'load' | 'create'): ApiModel<Model, Api | ApiAction> {
         /**
          * Adds a new model to the store. Existing models with the same id are replaced.
          */
-        const model = this.createModel(data);
+        const model = this.createModel(data, state);
         this.removeFromStore(model.id);
         this.models.push(model);
         return model;
@@ -148,7 +148,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             return apiFind<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
         }).then(action(({ data }) => {
             if (data) {
-                this.addToStore(data);
+                this.addToStore(data, 'load');
             }
         }));
     }
@@ -187,7 +187,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         this.withAbortController('create', (sig) => {
             return apiCreate<Model>(this.API_ENDPOINT, model, sig.signal);
         }).then(action(({ data }) => {
-            this.addToStore(data);
+            this.addToStore(data, 'create');
         }));
     }
 

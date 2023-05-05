@@ -80,8 +80,12 @@ export class EventStore extends iStore<EventProps> {
         }
     }
 
-    createModel(data: EventProps): Event {
-        return new Event(data, this);
+    createModel(data: EventProps, state?: 'load' | 'create'): Event {
+        const model = new Event(data, this);
+        if (state === 'create') {
+            model.setEditing(true);
+        }
+        return model;
     }
 
     getDepartments(ids: string[]): Department[] {
