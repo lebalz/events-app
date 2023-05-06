@@ -24,7 +24,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         {attr: 'end', transform: (val) => toLocalDate(new Date(val))}, 
         'location',
         'classes',
-        'departmentIds'
+        'departmentIds',
+        'klpOnly',
+        'teachersOnly'
     ];
     readonly id: string;
     readonly authorId: string;
@@ -58,6 +60,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable
     allDay: boolean;
+    @observable
+    klpOnly: boolean;
+    @observable
+    teachersOnly: boolean;
 
     @observable
     selected: boolean = false;
@@ -78,6 +84,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
+        this.klpOnly = props.klpOnly;
+        this.teachersOnly = props.teachersOnly;
         
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
@@ -354,8 +362,24 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return (prog / this.durationMS) * 100;
     }
 
+    affectsUser(user: User) {
+        // if (user.departments.some(d => this.departmentIds.has(d.id))) {
+        //     return true;
+        // }
+        if (this.klpOnly && user.untisTeacher && this.untisClasses.some(c => c.klp.id === user.untisTeacher.id)) {
+            return true;
+        }
+        if (this.teachersOnly && user.classes.some(c => this.affectsClass(c))) {
+            return true;
+        }
+        if (user.untisTeacher && this.affectedLessons.some(l => l.teacherIds.includes(user.untisTeacher.id))) {
+            return true;
+        }
+        return false;
+    }
+
     affectsClass(klass: Klass) {
-        return this.classes.some(c => c === klass.name);
+        return this.isAudience(klass._name);
     }
 
     @computed
@@ -364,7 +388,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get affectedLessons(): {class: string, lessons: Lesson[]}[] {
+    get affectedLessons(): Lesson[] {
+        return this.untisClasses.map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat().sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start);
+    }
+
+    @computed
+    get affectedLessonsByClass(): {class: string, lessons: Lesson[]}[] {
         return this.untisClasses.map(c => ({class: c.name, lessons: c.lessons.slice().filter(l => this.hasOverlap(l)).sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start)}));
     }
 
@@ -397,6 +426,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             location: this.location,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
+            klpOnly: this.klpOnly,
+            teachersOnly: this.teachersOnly,
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             allDay: this.allDay,

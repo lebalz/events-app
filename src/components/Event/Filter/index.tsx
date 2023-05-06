@@ -18,6 +18,12 @@ const Filter = observer((props: Props) => {
     const {eventTable} = viewStore;
     return (
         <div className={clsx(styles.filter)}>
+            <div className={clsx(styles.audience)}>
+                <Button 
+                    text="Meine"className={clsx(eventTable.onlyMine && styles.selected)}
+                    onClick={() => eventTable.toggleOnlyMine()}
+                />
+            </div>
             <div className={clsx(styles.department)}>
                 {departmentStore.usedDepartments.map((department) => (
                     <Button 

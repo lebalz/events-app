@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
 import Semester from '../models/Semester';
 import User from '../models/User';
@@ -23,11 +23,34 @@ class EventTable {
     departmentIds = observable.set<string>();
 
     @observable
+    onlyMine = false;
+
+    @observable
     activeGroup: string | null = null;
 
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
+        reaction(
+            () => this.store.root.sessionStore.loggedIn,
+            (loggedIn) => {
+                if (loggedIn && !this.onlyMine) {
+                    this.onlyMine = true;
+                } else if (!loggedIn && this.onlyMine) {
+                    this.onlyMine = false;
+                }
+            }
+        );
+    }
+
+    @action
+    toggleOnlyMine(): void {
+        this.setOnlyMine(!this.onlyMine);
+    }
+
+    @action
+    setOnlyMine(onlyMine: boolean): void {
+        this.onlyMine = onlyMine;
     }
 
     @action
@@ -46,6 +69,9 @@ class EventTable {
                 return false;
             }
             let keep = true;
+            if (this.onlyMine && !event.affectsUser(this.store.user)) {
+                keep = false;
+            }
             if (keep && this.departmentIds.size > 0) {
                 keep = [...event.departmentIds].some((d) => this.departmentIds.has(d));
             }
@@ -100,7 +126,7 @@ class EventTable {
 }
 
 export class ViewStore {
-    private readonly root: RootStore;
+    readonly root: RootStore;
 
     @observable
     showFullscreenButton = false;

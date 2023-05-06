@@ -23,6 +23,8 @@ export interface Event {
     classes: string[]
     state: EventState
     jobId: string | null
+    teachersOnly: boolean
+    klpOnly: boolean
     createdAt: string
     updatedAt: string
 }

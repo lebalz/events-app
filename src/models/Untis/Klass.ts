@@ -4,6 +4,7 @@ import { UntisClassWithTeacher } from '../../api/untis';
 import Department from '../Department';
 import { KlassName, mapLegacyClassName } from '../helpers/klassNames';
 import { DepartmentLetter, toDepartmentName } from '../helpers/departmentNames';
+import Teacher from './Teacher';
 
 export default class Klass {
     readonly id: number
@@ -59,6 +60,12 @@ export default class Klass {
     @computed
     get teachers() {
         return this.teacherIds.map(t => this.store.findTeacher(t));
+    }
+
+    @computed
+    get klp(): Teacher | undefined {
+        const ks = this.lessons.find(l => l.subject==='KS' || l.subject==='MC');
+        return ks.teachers && ks.teachers[0];
     }
 
     @computed

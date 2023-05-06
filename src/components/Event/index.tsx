@@ -54,10 +54,10 @@ const Event = observer((props: Props) => {
                             <dd>{event.deparments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} />)}</dd>
                         </>
                     )}
-                    {event.affectedLessons.length > 0 && (
+                    {event.affectedLessonsByClass.length > 0 && (
                         <>
                             <dt>Betroffene Lektionen</dt>
-                                {event.affectedLessons.map((kl, idx) => (
+                                {event.affectedLessonsByClass.map((kl, idx) => (
                                     <React.Fragment key={`kl-${idx}`}>
                                         <dt >{kl.class}</dt>
                                         <dd className={clsx(styles.lessons)}>
