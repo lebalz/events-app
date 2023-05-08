@@ -22,6 +22,7 @@ const EventHeader = observer((props: SelectProps) => {
     return (
         <>
             <div style={{gridColumn: 'isValid'}} className={clsx(commonStyle, styles.isValid)}></div>
+            <div style={{gridColumn: 'state'}} className={clsx(commonStyle, styles.state)}></div>
             <div style={{gridColumn: 'select'}} className={clsx(commonStyle, styles.select)}>
                 <Checkbox checked={props.checked} onChange={(v) => props.onSelectAll(v)} partialChecked={props.partialChecked} />
             </div>
