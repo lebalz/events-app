@@ -1,8 +1,8 @@
 .grid {
     --event-grid-template-columns:
+        [isValid] max-content
         [gridStart select] 2.5em
-        [kw] max-content
-        [author] max-content
+        [kw] max-content 
         [day] max-content
         [description] minmax(15em, 2fr)
         [startDate] max-content
@@ -15,7 +15,7 @@
         [classesEnd descriptionLong] minmax(15em, 3fr)
         [actions] max-content
         [gridEnd];
-    div[class*='isValid_'] {
+    div[class*='author_'] {
         display: none;
     }
 }

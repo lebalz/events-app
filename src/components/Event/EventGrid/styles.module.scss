@@ -100,6 +100,13 @@
     display: flex;
     max-width: 2.5em;
 }
+.isValid {
+    grid-column: isValid;
+    max-width: 2.5em;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
 .kw {
     grid-column: kw;
     text-align: end;

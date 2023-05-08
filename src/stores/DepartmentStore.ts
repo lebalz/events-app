@@ -29,6 +29,10 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         return this.root.eventStore.events.filter((e) => e.departmentIds.has(department.id));
     }
 
+    getClasses(department: Department) {
+        return this.root.untisStore.findClassesByDepartment(department.id);
+    }
+
     @action
     reload() {
         if (this.root.sessionStore.account) {

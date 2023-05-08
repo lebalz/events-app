@@ -32,8 +32,8 @@ export interface Event {
 export const JoiEvent = Joi.object<Event>({
     id: Joi.string().required(),
     authorId: Joi.string().required(),
-    start: Joi.date().iso().required(),
-    end: Joi.date().iso().required().greater(Joi.ref('start')),
+    start: Joi.date().iso().min(`${(new Date()).getFullYear()-1}-01-01`).required(),
+    end: Joi.date().iso().required().min(Joi.ref('start')).required(),
     allDay: Joi.boolean(),
     location: Joi.string().required().allow(''),
     description: Joi.string().required(),
@@ -42,6 +42,8 @@ export const JoiEvent = Joi.object<Event>({
     classes: Joi.array().items(Joi.string()).required(),
     state: Joi.string().valid(...Object.values(EventState)).required(),
     jobId: Joi.string(),
+    teachersOnly: Joi.boolean(),
+    klpOnly: Joi.boolean(),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
 });

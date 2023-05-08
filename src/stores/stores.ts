@@ -69,6 +69,7 @@ export class RootStore {
       () => this.sessionStore.account,
       (account) => {
         if (account) {
+          console.log('load')
           this.load();
         } else {
           this.resettableStores.forEach((store) => store.reset());

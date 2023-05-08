@@ -14,6 +14,7 @@ import Location from './EventFields/Location';
 import Audience from './EventFields/Audience';
 import Select from './EventFields/Select';
 import Author from './EventFields/Author';
+import IsValid from './EventFields/IsValid';
 
 interface RowProps {
     event: EventModel;
@@ -32,6 +33,7 @@ const Event = observer((props: RowProps) => {
 
     return (
         <React.Fragment>
+            <IsValid event={event} className={clsx(commonStyle)} />
             <Select event={event} className={clsx(commonStyle)} onSelect={props.onSelect} />
             <KW event={event} className={clsx(commonStyle)}/>
             <Author event={event} className={clsx(commonStyle)} />

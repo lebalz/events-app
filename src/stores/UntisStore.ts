@@ -122,9 +122,18 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     findClassesByTeacher = computedFn(
         function (this: UntisStore, teacherId?: number): Klass[] {
             if (!teacherId) {
-                return;
+                return [];
             }
             return this.classes.filter((kl) => kl.teacherIds.includes(teacherId));
+        },
+        { keepAlive: true }
+    )
+    findClassesByDepartment = computedFn(
+        function (this: UntisStore, departmentId?: string): Klass[] {
+            if (!departmentId) {
+                return [];
+            }
+            return this.classes.filter((kl) => kl.departmentId === departmentId);
         },
         { keepAlive: true }
     )

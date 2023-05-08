@@ -5,6 +5,7 @@ import Event from '../models/Event';
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import _ from "lodash";
 import { ApiAction } from "../stores/iStore";
+import Klass from "./Untis/Klass";
 
 export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['description'];
@@ -35,6 +36,20 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @computed
     get events(): Event[] {
         return this.store.getEvents(this);
+    }
+
+    @computed
+    get classes(): Klass[] {
+        return this.store.getClasses(this);
+    }
+
+    @computed
+    get letter() {
+        const cls = this.classes[0];
+        if (!cls) {
+            return '-';
+        }
+        return cls.departmentLetter;
     }
 
     @override

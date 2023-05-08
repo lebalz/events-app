@@ -19,7 +19,7 @@ import { formatDate } from '@site/src/models/helpers/time';
 interface Props {
     events: EventModel[];
     showFullscreenButton?: boolean;
-    gridClassConfig?: string;
+    gridConfig?: string;
     selectable?: boolean;
     showAuthor?: boolean;
     groupBy?: 'kw';
@@ -70,13 +70,15 @@ const EventGrid = observer((props: Props) => {
         return acc;
     }, {} as {[key: string]: EventModel[]});
 
-    let gridConfig = gDefault.grid;
-    if (props.selectable && props.showAuthor) {
-        gridConfig = gSelectAuthor.grid;
-    } else if (props.selectable) {
-        gridConfig = gSelect.grid;
-    } else if (props.showAuthor) {
-        gridConfig = gSelectAuthor.grid;
+    let gridConfig = props.gridConfig ?? gDefault.grid;
+    if (!props.gridConfig) {
+        if (props.selectable && props.showAuthor) {
+            gridConfig = gSelectAuthor.grid;
+        } else if (props.selectable) {
+            gridConfig = gSelect.grid;
+        } else if (props.showAuthor) {
+            gridConfig = gSelectAuthor.grid;
+        }
     }
 
     const editable = props.events.some(e => e.isEditable);

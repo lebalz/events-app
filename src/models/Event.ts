@@ -121,6 +121,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get isValid() {
+        console.log(this._errors);
         return this._errors === undefined || this._errors.details.length === 0;
     }
 

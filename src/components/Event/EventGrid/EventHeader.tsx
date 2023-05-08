@@ -21,14 +21,11 @@ const EventHeader = observer((props: SelectProps) => {
     const commonStyle = clsx(styles.cell, styles.header);
     return (
         <>
-            {/* {props.onSelectAll && ( */}
+            <div style={{gridColumn: 'isValid'}} className={clsx(commonStyle, styles.isValid)}></div>
             <div style={{gridColumn: 'select'}} className={clsx(commonStyle, styles.select)}>
                 <Checkbox checked={props.checked} onChange={(v) => props.onSelectAll(v)} partialChecked={props.partialChecked} />
             </div>
-            {/* )} */}
-            {/* {props.showAuthor && ( */}
-                <div style={{gridColumn: 'author'}} className={clsx(commonStyle, styles.author)}>Author</div>
-                {/* )} */}
+            <div style={{gridColumn: 'author'}} className={clsx(commonStyle, styles.author)}>Author</div>
             <div style={{gridColumn: 'kw'}} className={clsx(commonStyle, styles.kw)}>KW</div>
             <div style={{gridColumn: 'day'}} className={clsx(commonStyle, styles.day)}>Tag</div>
             <div style={{gridColumn: 'description'}} className={clsx(commonStyle, styles.description)}>Stichworte</div>

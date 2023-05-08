@@ -6,13 +6,17 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_S, SIZE_XS } from '../icons';
 import Button from '../Button';
+import { ApiState } from '@site/src/stores/iStore';
 
 
 const SemesterSelector = observer(() => {
     const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
-    if (semesterStore.semesters.length < 1) {
+    if (semesterStore.apiStateFor('loadAll') === ApiState.LOADING) {
         return <Loading />;
+    }
+    if (semesterStore.semesters.length < 1) {
+        return null;
     }
     return (<div className={clsx(styles.semesterSelector)} >
         <Button
