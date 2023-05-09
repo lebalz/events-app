@@ -6,7 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 import Badge from '@site/src/components/shared/Badge';
-import AudiencePicker from '@site/src/components/shared/AudiencePicker';
+// import AudiencePicker from '@site/src/components/shared/AudiencePicker';
+import AudiencePicker from '@site/src/components/shared/AudiencePicker/compact';
 import { useStore } from '@site/src/stores/hooks';
 
 const Audience = observer((props: Props) => {

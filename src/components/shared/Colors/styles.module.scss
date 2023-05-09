@@ -1,0 +1,44 @@
+.primary,
+.blue,
+.green,
+.red,
+.orange,
+.lightBlue {
+    color: var(--ifm-color-white);
+}
+
+.primary {
+    --ifm-badge-background-color: var(--ifm-color-primary);
+}
+
+.blue {
+    --ifm-badge-background-color: var(--ifm-color-blue);
+}
+
+.green {
+    --ifm-badge-background-color: var(--ifm-color-success);
+}
+
+.red {
+    --ifm-badge-background-color: var(--ifm-color-danger);
+}
+
+.orange {
+    --ifm-badge-background-color: var(--ifm-color-warning);
+}
+
+.secondary,
+.grey,
+.gray {
+    --ifm-badge-background-color: var(--ifm-color-secondary);
+    color: var(--ifm-color-black);
+}
+
+.lightBlue {
+    --ifm-badge-background-color: var(--ifm-color-info);
+}
+
+.buttonBlue {
+    --ifm-button-background-color: var(--ifm-color-blue);
+    --ifm-button-border-color: var(--ifm-color-blue);
+}

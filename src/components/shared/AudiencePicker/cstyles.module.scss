@@ -1,6 +1,16 @@
 .audience {
+    .header {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
     .tabs {
         --ifm-tabs-padding-vertical: 0.1em;
         --ifm-tabs-padding-horizontal: 0.1em;
+    }
+    .department {
+        .year {
+            display: flex;
+        }
     }
 }

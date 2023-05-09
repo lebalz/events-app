@@ -36,7 +36,8 @@ const AudiencePicker = observer((props: Props) => {
     return (
         <div className={clsx('dropdown', styles.audience, 'dropdown--show')}>
             <Button
-                className={clsx('button', 'button--secondary', 'button--active', styles.button)}
+                className={clsx('button', 'button--active', styles.button)}
+                color='secondary'
                 data-toggle="dropdown"
                 icon={open ? mdiChevronDown : mdiChevronRight}
                 iconSide='left'

@@ -3,8 +3,9 @@ import { computed, makeObservable } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
 import Department from '../Department';
 import { KlassName, mapLegacyClassName } from '../helpers/klassNames';
-import { DepartmentLetter, toDepartmentName } from '../helpers/departmentNames';
+import { toDepartmentName } from '../helpers/departmentNames';
 import Teacher from './Teacher';
+import { DepartmentLetter } from '@site/src/api/department';
 
 export default class Klass {
     readonly id: number
@@ -43,18 +44,24 @@ export default class Klass {
     }
 
     @computed
+    get letter() {
+        if (this.graduationYear > 2026) {
+            return this.name.slice(3);
+        }
+        return this._name.slice(2);
+    }
+
+    @computed
     get departmentName(): string {
+        if (this.department?.name) {
+            return this.department.name;
+        }
         return toDepartmentName(this.name);
     }
 
     @computed
     get graduationYear() {
         return parseInt(this._name.slice(0, 2), 10) + 2000;
-    }
-
-    @computed
-    get letter() {
-        return this.name.slice(2);
     }
 
     @computed

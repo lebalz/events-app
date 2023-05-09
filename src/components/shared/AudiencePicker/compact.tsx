@@ -6,12 +6,12 @@ import styles from './cstyles.module.scss';
 import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
-import { action } from 'mobx';
-import Button from '../Button';
-import { mdiChevronDown, mdiChevronRight } from '@mdi/js';
-import Toggle from './Toggle';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import { DepartmentLetter, Letter2Name } from '@site/src/api/department';
+import {default as DepartmentModel} from '@site/src/models/Department';
+import Department from './department';
+import Toggle from './Toggle';
 
 
 interface Props {
@@ -29,31 +29,32 @@ const AudiencePicker = observer((props: Props) => {
         return null
     };
 
-    const {departments} = departmentStore;
+    const departments: {[letter in DepartmentLetter]?: DepartmentModel[]} = {}
+
+    Object.values(DepartmentLetter).forEach((letter) => {
+        const deps = departmentStore.findByDepartmentLetter(letter).filter(d => d.classes.length > 0);
+        if (deps.length > 0) {
+            departments[letter] = deps;
+        }
+    })
 
 
     const { classTree } = untisStore;
     const { event } = props;
-    React.useEffect(() => {
-        const classes = userStore.current?.classes ?? [];
-        const classesSet = new Set([
-            ...classes.map(c => `${c.graduationYear}`),
-            ...classes.map(c => `${c.graduationYear}-${c.departmentName}`),
-            ...expanded
-        ]);
-        setExpanded([...classesSet])
-    }, [userStore.current?.classes]);
     
-    current.departments;
     return (
         <div className={clsx(styles.audience)}>
+            <div className={clsx(styles.header)}>
+                <Toggle checked={event.klpOnly} onToggle={() => event.toggleKlpOnly()} property='klpOnly' label='Nur KLP'/>
+                <Toggle checked={event.teachersOnly} onToggle={() => event.toggleTeachersOnly()} property='lpOnly' label='Nur LP'/>
+            </div>
             {/* @ts-ignore */}
             <Tabs className={clsx(styles.tabs)}>
-                {departments.filter(d => d.classes.length > 0).map((dep, idx) => {
+                {Object.keys(departments).map((letter, idx) => {
                     return (
                         // @ts-ignore
-                        <TabItem value={dep.name} label={dep.name} key={idx}>
-                            {dep.classes.map((c, idx) => c._name).join(', ')}
+                        <TabItem value={letter} label={Letter2Name[letter]} key={letter}>
+                            <Department departments={departments[letter]} event={event} />
                         </TabItem>
                     )
                 })}

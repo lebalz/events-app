@@ -56,7 +56,7 @@ const Table = observer(() => {
                                     <BulkActions events={reviewed.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
-                                    <EventGrid events={reviewed} showFullscreenButton={false} selectable />
+                                    <EventGrid events={reviewed} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
                                 </div>
                             </div>
                         </TabItem>

@@ -121,7 +121,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get isValid() {
-        console.log(this._errors);
         return this._errors === undefined || this._errors.details.length === 0;
     }
 
@@ -189,9 +188,28 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         const currendAudience = new Set(this.untisClasses.map(c => c.departmentId));
         const add = new Set([...currendAudience].filter(x => !preAudience.has(x)));
         const remove = new Set([...preAudience].filter(x => !currendAudience.has(x)));
-        console.log([...add], [...remove]);
         [...remove].forEach(d => this.departmentIds.delete(d));
         [...add].forEach(d => this.departmentIds.add(d));
+    }
+
+    @action
+    setKlpOnly(klpOnly: boolean) {
+        this.klpOnly = klpOnly;
+    }
+
+    @action
+    toggleKlpOnly() {
+        this.setKlpOnly(!this.klpOnly);
+    }
+
+    @action
+    setTeachersOnly(teachersOnly: boolean) {
+        this.teachersOnly = teachersOnly;
+    }
+
+    @action
+    toggleTeachersOnly() {
+        this.setTeachersOnly(!this.teachersOnly);
     }
 
     @action

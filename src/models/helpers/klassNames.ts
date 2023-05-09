@@ -2,7 +2,8 @@
  * MUST BE IN SYNC WITH THE CLIENT SIDE
  */
 
-import { DepartmentLetter, ECGBilingual_Letter, ECG_Letter, ESC_Letter, FMPaed_Letter, FMSBilingual_Letter, FMS_Letter, GYMDBilingual_Letter, GYMD_Letter, GYMFBilingual_Letter, GYMF_Letter, MSOP_Letter, PASSERELLE_Letter, WMS_Letter } from "./departmentNames";
+import { DepartmentLetter } from "@site/src/api/department";
+import { ECGBilingual_Letter, ECG_Letter, ESC_Letter, FMPaed_Letter, FMSBilingual_Letter, FMS_Letter, GYMDBilingual_Letter, GYMD_Letter, GYMFBilingual_Letter, GYMF_Letter, MSOP_Letter, PASSERELLE_Letter, WMS_Letter } from "./departmentNames";
 
 export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -23,17 +24,22 @@ type ESC = `${Digit}${Digit}${DepartmentLetter.ESC}${ESC_Letter}`;
 
 export type KlassName = GYM | GYMBilingual | FMS | FMPaed | FMSBilingual | WMS | Maturite | MaturiteBilingual | ECG | ECGBilingual | MSOP | Passerelle | ESC;
 
+const today = new Date();
+const currentGraduationYear = (today.getFullYear() % 100) + today.getMonth() > 7 ? 1 : 0;
 export const mapLegacyClassName: (name: string) => `${number}${DepartmentLetter}${string}` = (name: string) => {
+    if (!name || name.length < 3) {
+        return name as `${number}${DepartmentLetter}${string}`;
+    }
     const year = Number.parseInt(name.slice(0, 2), 10);
     if (year > 26) {
         return name as `${number}${DepartmentLetter}${string}`;
     }
     const id = name.slice(2);
     if (id.charAt(id.length - 1) < 'a') { // Means it is an upper case letter
-        if (['M'].includes(id)) {
+        if (year === currentGraduationYear && ['M', 'L'].includes(id)) {
             // MSOP french --> 27sP (P-S)
-            // M = P, L = Q
-            const newLetter = String.fromCharCode(id.charCodeAt(0) + 3);
+            // L = P M = Q
+            const newLetter = String.fromCharCode(id.charCodeAt(0) + 4);
             return `${year}${DepartmentLetter.ECG}${newLetter}`;
         }
         if (['U', 'V', 'X'].includes(id)) {
@@ -66,9 +72,9 @@ export const mapLegacyClassName: (name: string) => `${number}${DepartmentLetter}
 
         return `${year}${DepartmentLetter.GYMF}${id}`;
     }
-    if (['m', 'l'].includes(id)) {
-        // FMS german --> 27Fp (p-s)
-        const newLetter = String.fromCharCode(id.charCodeAt(0) - 4);
+    if (['l', 'm'].includes(id)) {
+        // FM Päd german --> 27Fp (p-s)
+        const newLetter = String.fromCharCode(id.charCodeAt(0) + 4);
         return `${year}${DepartmentLetter.FMS}${newLetter}`;
     }
     if (['n', 'o'].includes(id)) {

@@ -90,7 +90,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     findLessonsByTeacher = computedFn(
         function (this: UntisStore, teacherId?: number): Lesson[] {
             if (!teacherId) {
-                return;
+                return [];
             }
             return this.lessons.filter((l) => l.teacherIds.includes(teacherId));
         },

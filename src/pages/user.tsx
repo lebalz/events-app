@@ -119,7 +119,7 @@ const User = observer(() => {
                     <Button
                         onClick={() => sessionStore.logout()}
                         text="Logout"
-                        className='button--danger'
+                        color='red'
                         noOutline
                     />
                 </div>

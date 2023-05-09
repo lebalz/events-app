@@ -31,7 +31,7 @@ const Upload = observer(() => {
                     text='Upload'
                     title="Importiere Excel-Datei"
                     disabled={!selectedFile}
-                    className={clsx('button--primary')}
+                    color='primary'
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();

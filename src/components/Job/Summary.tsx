@@ -70,7 +70,7 @@ const Summary = observer((props: Props) => {
                     }}
                     text="Sync Untis"
                     icon={<Sync spin={jobStore.hasPendingSyncJobs} />}
-                    className="button--primary"
+                    color='primary'
                 />
             )}
         </summary>

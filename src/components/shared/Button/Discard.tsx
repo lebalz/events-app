@@ -17,7 +17,8 @@ const Discard = (props: DiscardProps) => {
         <Button 
             title="Änderungen verwerfen"
             {...extractSharedProps(props)}
-            className={clsx(styles.discard, 'button--secondary', 'button--sm', props.className)}
+            className={clsx(styles.discard, 'button--sm', props.className)}
+            color='secondary'
             onClick={props.onClick}
             icon={<DiscardIcon size={props.size ?? SIZE_S} />}
         />

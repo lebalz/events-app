@@ -2,8 +2,9 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import {Department as DepartmentProps} from '../api/department';
+import {DepartmentLetter, Department as DepartmentProps} from '../api/department';
 import Department from '../models/Department';
+import { computedFn } from 'mobx-utils';
 
 export class DepartmentStore extends iStore<DepartmentProps> {
     readonly root: RootStore;
@@ -39,6 +40,16 @@ export class DepartmentStore extends iStore<DepartmentProps> {
             this.load();
         }
     }
+
+    findByDepartmentLetter = computedFn(
+        function (this: DepartmentStore, letter?: DepartmentLetter): Department[] {
+            if (!letter) {
+                return [];
+            }
+            return this.departments.filter((d) => d.letter === letter);
+        },
+        { keepAlive: true }
+    )
 
     @action
     loadDepartment(id: string) {

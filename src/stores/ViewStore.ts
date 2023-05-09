@@ -106,7 +106,6 @@ class EventTable {
                 this.klasses.add(f);
             }
         });
-        console.log([...this.klasses]);
     }
 
     @action

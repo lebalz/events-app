@@ -18,7 +18,8 @@ const Edit = (props: EditProps) => {
         <Button
             title="Bearbeiten"
             {...extractSharedProps(props)}
-            className={clsx(styles.edit, 'button--warning', props.className)}
+            className={clsx(styles.edit, props.className)}
+            color='orange'
             onClick={props.onClick}
             icon={<EditIcon size={props.size ?? SIZE_S} />}
         />

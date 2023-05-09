@@ -17,7 +17,7 @@ const AddButton = observer((props: Props) => {
             text="Neuer Event"
             icon={<Icon path={mdiPlusCircleOutline} size={SIZE} />}
             iconSide="left"
-            className={clsx("button--primary")}
+            color='primary'
             apiState={eventStore.apiStateFor('create')}
             onClick={() => {
                 const now = toGlobalDate(new Date());

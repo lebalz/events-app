@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { ApiState } from '@site/src/stores/iStore';
 import { ApiIcon, Icon, SIZE, SIZE_S, SIZE_XS } from '../icons';
 import Link from '@docusaurus/Link';
+import { Color, getButtonColorClass, getColorClass } from '../Colors';
 
 export interface Base {
     onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -17,9 +18,11 @@ export interface Base {
     iconSide?: 'left' | 'right';
     noOutline?: boolean;
     text?: string
+    active?: boolean;
     className?: string;
     disabled?: boolean;
     size?: number;
+    color?: Color
 }
 interface IconProps extends Base {
     icon: ReactNode | string;
@@ -53,6 +56,7 @@ export const extractSharedProps = (props: Base) => {
         disabled: props.disabled,
         apiState: props.apiState,
         apiIconSize: props.apiIconSize,
+        color: props.color,
         size: props.size
     }
 }
@@ -109,7 +113,6 @@ const ButtonInner = (props: Props) => {
 const Button = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
-    const hasBtnClsx = props.className && props.className.includes('button--');
     const commonCls = clsx(
         styles.button, 
         !textAndIcon && props.icon && styles.soloIcon,
@@ -117,8 +120,9 @@ const Button = (props: Props) => {
         textOnly && styles.soloText,
         'button', 
         !props.noOutline && 'button--outline',
-        !hasBtnClsx && 'button--secondary',
+        props.active && 'button--active',
         props.disabled && styles.disabled,
+        getButtonColorClass(props.color, 'secondary'),
         props.className
     );
     if (props.href) {

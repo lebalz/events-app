@@ -2,6 +2,7 @@
  * MUST BE IN SYNC WITH THE CLIENT SIDE
  */
 
+import { DepartmentLetter } from "@site/src/api/department";
 import { KlassName } from "./klassNames";
 
 const GYMD = ['a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g' , 'h' , 'i' , 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' , 's'] as const;
@@ -33,15 +34,6 @@ export type ESC_Letter = typeof ESC[number];
 
 type Letter = GYMD_Letter | GYMDBilingual_Letter | FMS_Letter | FMSBilingual_Letter | FMPaed_Letter | WMS_Letter | GYMF_Letter | GYMFBilingual_Letter | ECG_Letter | MSOP_Letter | ECGBilingual_Letter | PASSERELLE_Letter | ESC_Letter;
 
-export enum DepartmentLetter {
-    WMS = 'W',
-    FMS = 'F',
-    GYMD = 'G',
-    ECG = 's',
-    PASSERELLE = 'p',
-    ESC = 'c',
-    GYMF = 'm',
-}
 const Departments = {
   WMS: 'WMS',
   ESC: 'ESC',

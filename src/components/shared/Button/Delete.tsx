@@ -35,7 +35,8 @@ const Delete = (props: DeleteProps) => {
     }, [promptDelete, ref])
 
     const Flyout = promptDelete ? (<Button
-        className={clsx(styles.confirm, 'button', 'button--danger')}
+        className={clsx(styles.confirm)}
+        color='red'
         onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();

@@ -3,18 +3,7 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { Icon } from '../icons';
-
-const Colors = {
-    primary: styles.primary,
-    blue: styles.blue,
-    green: styles.green,
-    red: styles.red,
-    orange: styles.orange,
-    gray: styles.gray,
-    lightBlue: styles.lightBlue
-}
-
-export type Color = keyof typeof Colors;
+import { Color, getColorClass } from '../Colors';
 
 export interface Base {
     color?: Color;
@@ -106,7 +95,7 @@ const Badge = (props: Props) => {
         props.icon && !iconOnly && (props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
         textOnly && styles.soloText,
         'badge',
-        Colors[props.color],
+        getColorClass(props.color, 'secondary'),
         props.className,
         props.disabled && styles.disabled
     );

@@ -20,6 +20,7 @@ const AdminView = observer(() => {
     return (
         <Layout>
             <Tabs>
+                {/* @ts-ignore */}
                 <TabItem value="users" label="Users" >
                     {
                         userStore.models.map((user, idx) => {
@@ -27,13 +28,14 @@ const AdminView = observer(() => {
                         })
                     }
                 </TabItem>
+                {/* @ts-ignore */}
                 <TabItem value="semesters" label="Semester" default>
                     <Button 
                         title='Semester Hinzufügen'
                         text="Neues Semester"
                         iconSide='left'
                         icon={<Icon path={mdiPlusCircleOutline}/>}
-                        className={clsx("button--primary")}
+                        color='primary'
                         apiState={semesterStore.apiStateFor('create')}
                         onClick={() => {
                             semesterStore.create({
@@ -45,6 +47,7 @@ const AdminView = observer(() => {
                     />
                     <SemesterList />
                 </TabItem>
+                {/* @ts-ignore */}
                 <TabItem value="reg-periods" label="Registrierungs Perioden">
                     This is a banana 🍌
                 </TabItem>
