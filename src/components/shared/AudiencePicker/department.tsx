@@ -25,7 +25,7 @@ const Department = observer((props: Props) => {
         klasses[c.graduationYear] = [...klasses[c.graduationYear], c].sort((a, b) => a.letter.localeCompare(b.letter));
     })
     return (
-        <div className={clsx(styles.department)}>{
+        <div className={clsx(styles.departmentClasses)}>{
             Object.keys(klasses).map((year) => {
                 if (klasses[year].length === 1) {
                     const kl = klasses[year][0];

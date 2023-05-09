@@ -27,7 +27,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     }
 
     getEvents(department: Department) {
-        return this.root.eventStore.events.filter((e) => e.departmentIds.has(department.id));
+        return this.root.eventStore.events.filter((e) => e.departmentIdsAll.has(department.id));
     }
 
     getClasses(department: Department) {
@@ -58,7 +58,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
 
     @computed
     get usedDepartments(): Department[] {
-        const ids = [...new Set(this.root.eventStore.events.map((e) => [...e.departmentIds]).flat())];
+        const ids = [...new Set(this.root.eventStore.events.map((e) => [...e.departmentIdsAll]).flat())];
         return ids.map((id) => this.find<Department>(id)).filter(d => !!d).sort((a, b) => a.name.localeCompare(b.name));
     }
 }

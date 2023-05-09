@@ -48,10 +48,10 @@ const Event = observer((props: Props) => {
                             <dd>{event.classes.map((cl, idx) => <Badge key={`cl-${idx}`} text={cl} />)}</dd>
                         </>
                     )}
-                    {event.deparments.length > 0 && (
+                    {event.departments.length > 0 && (
                         <>
                             <dt>Gruppen</dt>
-                            <dd>{event.deparments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} />)}</dd>
+                            <dd>{event.departments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} />)}</dd>
                         </>
                     )}
                     {event.affectedLessonsByClass.length > 0 && (

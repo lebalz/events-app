@@ -146,19 +146,49 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         },
         { keepAlive: true }
     )
+
+    /**
+     * no wildcard class names supported
+     */
     findClassByName = computedFn(
         function (this: UntisStore, name?: string): Klass | undefined {
             if (!name) {
                 return;
             }
             if (name.endsWith('*')) {
-                const wildcard = name.replaceAll('*', '');
-                return this.classes.find((kl) => kl._name.startsWith(wildcard));
+                /**
+                 * no wildcard class names supported
+                 */
+                return;
             }
             return this.classes.find((kl) => name === kl._name);
         },
         { keepAlive: true }
     )
+
+    /**
+     * wildcard names supported
+     * @return {Klass[]}
+     */
+    findClassesByName = computedFn(
+        function (this: UntisStore, name?: string): Klass[] {
+            if (!name) {
+                return [];
+            }
+            if (name.endsWith('*')) {
+                const wildcard = name.replaceAll('*', '');
+                return this.classes.filter((kl) => kl._name.startsWith(wildcard));
+            }
+            const klass = this.findClassByName(name);
+            if (klass) {
+                return [klass];
+            }
+            return [];
+        },
+        { keepAlive: true }
+    )
+
+
 
     @action
     reload() {

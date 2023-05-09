@@ -73,7 +73,7 @@ class EventTable {
                 keep = false;
             }
             if (keep && this.departmentIds.size > 0) {
-                keep = [...event.departmentIds].some((d) => this.departmentIds.has(d));
+                keep = [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.klasses.size > 0) {
                 keep = [...event.classes].some((d) => [...this.klasses].some((k) => d.startsWith(k)));

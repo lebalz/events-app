@@ -39,6 +39,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable.ref
     updatedAt: Date;
 
+    /**
+     * These are **only** the departments, which are added as a whole.
+     * Notice: this is not the same as the departments, which are all deparments affected by this event,
+     *         which is the **union** of this and the departments of the classes
+     */
     departmentIds = observable.set<string>([]);
     classes = observable<string>([]);
 
@@ -57,6 +62,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable
     start: Date;
 
+    @observable
+    allLPs: boolean;
 
     @observable
     allDay: boolean;
@@ -86,6 +93,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.location = props.location;
         this.klpOnly = props.klpOnly;
         this.teachersOnly = props.teachersOnly;
+        this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
@@ -130,6 +138,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             return error;
         }
         return undefined;
+    }
+
+    @action
+    setAllLPs(allLPs: boolean) {
+        this.allLPs = allLPs;
     }
 
     @computed
@@ -185,11 +198,25 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             }
             this.classes.push(klass);
         }
-        const currendAudience = new Set(this.untisClasses.map(c => c.departmentId));
-        const add = new Set([...currendAudience].filter(x => !preAudience.has(x)));
-        const remove = new Set([...preAudience].filter(x => !currendAudience.has(x)));
-        [...remove].forEach(d => this.departmentIds.delete(d));
-        [...add].forEach(d => this.departmentIds.add(d));
+    }
+
+    // @action
+    // syncAffectedDepartments() {
+    //     if 
+    //     const currendAudience = new Set(this.untisClasses.map(c => c.departmentId));
+    //     const add = new Set([...currendAudience].filter(x => !preAudience.has(x)));
+    //     const remove = new Set([...preAudience].filter(x => !currendAudience.has(x)));
+    //     [...remove].forEach(d => this.departmentIds.delete(d));
+    //     [...add].forEach(d => this.departmentIds.add(d));
+    // }
+
+    @action
+    toggleDepartment(departmentId: string) {
+        if (this.departmentIds.has(departmentId)) {
+            this.departmentIds.delete(departmentId);
+        } else {
+            this.departmentIds.add(departmentId);
+        }
     }
 
     @action
@@ -267,13 +294,22 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get deparments() {
-        return this.store.getDepartments([...this.departmentIds]);
+    get departments() {
+        const depIds = new Set([...this.departmentIds, ...this.untisClasses.map(c => c.departmentId)]);
+        return this.store.getDepartments([...depIds]);
+    }
+
+    /**
+     * Returns all department ids of the event and its classes
+     */
+    @computed
+    get departmentIdsAll() {
+        return new Set(this.departments.map(d => d.id));
     }
 
     @computed
     get departmentNames() {
-        return this.deparments.map(d => d.name);
+        return this.departments.map(d => d.name);
     }
 
     @computed
@@ -382,9 +418,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     affectsUser(user: User) {
-        // if (user.departments.some(d => this.departmentIds.has(d.id))) {
-        //     return true;
-        // }
+        if (user.departments.some(d => this.departmentIds.has(d.id))) {
+            return true;
+        }
         if (this.klpOnly && user.untisTeacher && this.untisClasses.some(c => c.klp.id === user.untisTeacher.id)) {
             return true;
         }
@@ -438,8 +474,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             jobId: this.jobId,
             state: this.state,
             authorId: this.authorId,
-            departmentIds: [...this.departmentIds],
-            classes: this.classes.slice(),
+            departmentIds: this.allLPs ? [...this.departmentIds] : [],
+            classes: this.allLPs ? [] : this.classes.slice(),
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,

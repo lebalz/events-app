@@ -161,7 +161,7 @@ export class EventStore extends iStore<EventProps> {
     })
 
     getUntisClasses(classNames: string[]) {
-        return classNames.map(c => this.root.untisStore.findClassByName(c)).filter(c => !!c);
+        return classNames.map(c => this.root.untisStore.findClassesByName(c)).flat().filter(c => !!c);
     }
 
     @action

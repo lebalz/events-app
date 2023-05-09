@@ -1,7 +1,8 @@
 .audience {
     .header {
         display: flex;
-        justify-content: space-evenly;
+        max-width: 20em;
+        justify-content: flex-start;
         align-items: center;
     }
     .tabs {
@@ -9,6 +10,11 @@
         --ifm-tabs-padding-horizontal: 0.1em;
     }
     .department {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 20em;
+    }
+    .departmentClasses {
         .year {
             display: flex;
         }

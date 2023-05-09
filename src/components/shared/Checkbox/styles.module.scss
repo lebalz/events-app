@@ -10,6 +10,19 @@
         -webkit-user-select: none; /* Safari */
         -ms-user-select: none; /* IE 10 and IE 11 */
         user-select: none; /* Standard syntax */
+        --cb-color: currentColor; 
+
+        &.disabled {
+            --cb-color: var(--ifm-color-disabled);
+            cursor: not-allowed;
+        }
+        //var(--ifm-font-color-base);
+        /*
+        --ifm-color-disabled
+        --ifm-color-secondary-contrast-foreground
+        --ifm-font-color-base
+        --ifm-font-color-secondary
+        */
 
         // https://moderncss.dev/pure-css-custom-checkbox-style/
         input[type="checkbox"] {
@@ -23,22 +36,23 @@
             margin: 0;
 
             font: inherit;
-            color: currentColor;
+            color: var(--cb-color);
             width: 1.15em;
             height: 1.15em;
-            border: 0.15em solid currentColor;
+            border: 0.15em solid var(--cb-color);
             border-radius: 0.15em;
             transform: translateY(-0.075em);
 
             display: grid;
             place-content: center;
+            cursor: pointer;
             &::before {
                 content: "";
                 width: 0.45em;
                 height: 0.45em;
                 transform: scale(0);
                 transform-origin: bottom left;
-                box-shadow: inset 1em 1em var(--form-control-color);
+                box-shadow: inset 1em 1em var(--cb-color);
                 /* Windows High Contrast Mode */
                 background-color: CanvasText;
             }
@@ -46,13 +60,11 @@
                 transform: scale(1);
             }
             &:focus {
-                outline: max(1px, 0.15em) solid var(--ifm-color-primary);
-                outline-offset: max(1px, 0.15em);
+                outline: 1px solid var(--ifm-color-primary);
+                outline-offset: 1px;
             }
             &:disabled {
-                --form-control-color: var(--form-control-disabled);
-
-                color: var(--ifm-color-secondary-darker);
+                --cb-color: var(--ifm-color-disabled);
                 cursor: not-allowed;
             }
         }
@@ -62,7 +74,8 @@
     &.partialChecked {
         .label {
             input[type="checkbox"] {
-                border-color: var(--ifm-color-primary);
+                // border-color: var(--ifm-color-primary);
+                --cb-color: var(--ifm-color-primary);
                 &::before {
                     background: var(--ifm-color-primary);
                     transform: scale(0.5) translate(50%, -50%);
@@ -75,11 +88,15 @@
     &.checked {
         .label {
             input[type="checkbox"] {
-                border-color: var(--ifm-color-primary);
+                --cb-color: var(--ifm-color-primary);
                 &::before {
-                    background: var(--ifm-color-primary);
+                    // background: var(--ifm-color-primary);
                     transform: scale(1.5) translate(-15%, 10%);
                     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+                }
+                &:disabled {
+                    --cb-color: var(--ifm-color-disabled);
+                    cursor: not-allowed;
                 }
             }
         }

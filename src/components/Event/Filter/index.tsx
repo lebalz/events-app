@@ -28,7 +28,8 @@ const Filter = observer((props: Props) => {
                 {departmentStore.usedDepartments.map((department) => (
                     <Button 
                         text={department.name}
-                        className={clsx(eventTable.departmentIds.has(department.id) && styles.selected)}
+                        active={eventTable.departmentIds.has(department.id)}
+                        color={eventTable.departmentIds.has(department.id) ? 'primary' : 'secondary'}
                         onClick={() => eventTable.toggleDepartment(department.id)} 
                         key={department.id}
                     />

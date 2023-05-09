@@ -14,6 +14,7 @@ interface Props {
     marginLeft?: number;
     label?: string;
     property: string;
+    disabled?: boolean;
     checked: boolean;
     collapsed?: boolean;
     className?: string;
@@ -23,12 +24,13 @@ interface Props {
 
 const Toggle = observer((props: Props) => {
     return (
-        <div className={clsx(styles.toggle, props.className)} style={{ marginLeft: `${props.marginLeft || 0}px` }}>
+        <div className={clsx(styles.toggle, props.className, props.disabled && styles.disabled)} style={{ marginLeft: `${props.marginLeft || 0}px` }}>
             {props.onCollapse && (
                 <Button icon={props.collapsed ? mdiChevronRight : mdiChevronDown} size={SIZE_XS} onClick={props.onCollapse} />
             )}
             <label className={clsx(styles.formControl)}>
                 <input 
+                    disabled={props.disabled}
                     className={styles.checkbox}
                     id={`tgl-${props.property}`} 
                     type='checkbox' 

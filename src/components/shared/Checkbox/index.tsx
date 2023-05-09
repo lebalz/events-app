@@ -18,7 +18,7 @@ interface Props {
 const Checkbox = observer((props: Props) => {
     return (
         <div className={clsx(styles.checkbox, props.checked && styles.checked, props.partialChecked && styles.partialChecked, props.className)}>
-            <label className={clsx(styles.label)}>
+            <label className={clsx(styles.label, props.disabled && styles.disabled)}>
                 <input
                     className={styles.checkbox}
                     type='checkbox' 
