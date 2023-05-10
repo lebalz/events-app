@@ -17,6 +17,7 @@ const Select = observer((props: Props) => {
     const { event } = props;
     return (
         <div 
+            data-id={event.id}
             style={{gridColumn: 'select'}} 
             className={clsx('grid-select', styles.select, props.className)}
         >
