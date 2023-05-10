@@ -97,28 +97,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         { keepAlive: true }
     )
 
-    @computed
-    get classTree() {
-        const tree: {
-            [year: number]: {
-                wildcard: string,
-                departments: {
-                    [department: string]: string[]
-                }
-            }
-        } = {};
-        this.sortedClasses.forEach(c => {
-            if (!tree[c.graduationYear]) {
-                tree[c.graduationYear] = {wildcard: `${c._name.slice(0, 2)}*`, departments: {}};
-            }
-            if (!tree[c.graduationYear].departments[c.departmentName]) {
-                tree[c.graduationYear].departments[c.departmentName] = [];
-            }
-            tree[c.graduationYear].departments[c.departmentName].push(c._name);
-        })
-        return tree;
-    }
-
     findClassesByTeacher = computedFn(
         function (this: UntisStore, teacherId?: number): Klass[] {
             if (!teacherId) {
@@ -155,35 +133,24 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             if (!name) {
                 return;
             }
-            if (name.endsWith('*')) {
-                /**
-                 * no wildcard class names supported
-                 */
-                return;
-            }
-            return this.classes.find((kl) => name === kl._name);
+            return this.classes.find((kl) => name === kl.name);
         },
         { keepAlive: true }
     )
 
     /**
-     * wildcard names supported
+     * classes starting with given name
+     * @exampe ```ts
+     * findClassesByGroupName('25G') // -> ['25Ga', '25Gb', '25Gc', ...]
+     * ``` 
      * @return {Klass[]}
      */
-    findClassesByName = computedFn(
-        function (this: UntisStore, name?: string): Klass[] {
-            if (!name) {
+    findClassesByGroupName = computedFn(
+        function (this: UntisStore, startPart?: string): Klass[] {
+            if (!startPart) {
                 return [];
             }
-            if (name.endsWith('*')) {
-                const wildcard = name.replaceAll('*', '');
-                return this.classes.filter((kl) => kl._name.startsWith(wildcard));
-            }
-            const klass = this.findClassByName(name);
-            if (klass) {
-                return [klass];
-            }
-            return [];
+            return this.classes.filter((kl) => kl.name.startsWith(startPart));
         },
         { keepAlive: true }
     )

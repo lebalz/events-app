@@ -12,7 +12,6 @@ import EventHeader from './EventHeader';
 import { action, reaction } from 'mobx';
 import Filter from '../Filter';
 import EventGroup from './EventGroup';
-import { EventState } from '@site/src/api/event';
 import { formatDate } from '@site/src/models/helpers/time';
 
 

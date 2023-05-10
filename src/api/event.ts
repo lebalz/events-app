@@ -10,36 +10,42 @@ export enum EventState {
     Deleted = 'DELETED',
     Refused = 'REFUSED'
 }
-export interface Event {
+
+export interface PrismaEvent {
     id: string
     authorId: string
     start: string
     end: string
-    allDay: boolean
     location: string
     description: string
     descriptionLong: string
-    departmentIds: string[]
-    classes: string[]
     state: EventState
     jobId: string | null
+    classes: string[]
+    classGroups: string[]
     teachersOnly: boolean
     klpOnly: boolean
     createdAt: string
     updatedAt: string
 }
 
+export interface Event extends PrismaEvent {
+    departmentIds: string[]
+}
+
+const TODAY = new Date();
+
 export const JoiEvent = Joi.object<Event>({
     id: Joi.string().required(),
     authorId: Joi.string().required(),
-    start: Joi.date().iso().min(`${(new Date()).getFullYear()-1}-01-01`).required(),
+    start: Joi.date().iso().min(`${TODAY.getFullYear()-1}-01-01`).required(),
     end: Joi.date().iso().required().min(Joi.ref('start')).required(),
-    allDay: Joi.boolean(),
     location: Joi.string().required().allow(''),
     description: Joi.string().required(),
     descriptionLong: Joi.string().required().allow(''),
     departmentIds: Joi.array().items(Joi.string()).required(),
     classes: Joi.array().items(Joi.string()).required(),
+    classGroups: Joi.array().items(Joi.string()).required(),
     state: Joi.string().valid(...Object.values(EventState)).required(),
     jobId: Joi.string(),
     teachersOnly: Joi.boolean(),

@@ -2,14 +2,15 @@ import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
 import Department from '../Department';
-import { KlassName, mapLegacyClassName } from '../helpers/klassNames';
+import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import Teacher from './Teacher';
 import { DepartmentLetter } from '@site/src/api/department';
 
 export default class Klass {
     readonly id: number
-    readonly _name: string
+    readonly name: KlassName;
+    readonly legacyName?: string
     readonly sf: string
     readonly year: number
     readonly departmentId: string
@@ -20,7 +21,9 @@ export default class Klass {
     constructor(props: UntisClassWithTeacher, store: UntisStore) {
         this.store = store;
         this.id = props.id;
-        this._name = props.name;
+        this.name = props.name;
+        this.legacyName = props.legacyName;
+
         this.sf = props.sf;
         this.year = props.year;
         this.departmentId = props.departmentId ?? '';
@@ -31,16 +34,13 @@ export default class Klass {
     }
 
     @computed
-    get name(): KlassName {
-        if (this.graduationYear > 2026) {
-            return this._name as KlassName;
-        }
-        return mapLegacyClassName(this._name) as KlassName;
+    get departmentLetter(): DepartmentLetter {
+        return this.name.slice(2, 3) as DepartmentLetter;
     }
 
     @computed
-    get departmentLetter(): DepartmentLetter {
-        return this.name.slice(2, 3) as DepartmentLetter;
+    get displayName() {
+        return this.legacyName || this.name;
     }
 
     @computed
@@ -48,7 +48,7 @@ export default class Klass {
         if (this.graduationYear > 2026) {
             return this.name.slice(3);
         }
-        return this._name.slice(2);
+        return this.displayName.slice(2);
     }
 
     @computed
@@ -61,7 +61,7 @@ export default class Klass {
 
     @computed
     get graduationYear() {
-        return parseInt(this._name.slice(0, 2), 10) + 2000;
+        return parseInt(this.name.slice(0, 2), 10) + 2000;
     }
 
     @computed

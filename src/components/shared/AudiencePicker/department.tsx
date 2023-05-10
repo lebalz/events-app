@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import styles from './cstyles.module.scss';
+import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import { default as DepartmentModel } from '@site/src/models/Department';
@@ -27,49 +27,56 @@ const Department = observer((props: Props) => {
     return (
         <div className={clsx(styles.departmentClasses)}>{
             Object.keys(klasses).map((year) => {
+                /** SINGLE CLASS IN YEAR */
                 if (klasses[year].length === 1) {
                     const kl = klasses[year][0];
                     return (
                         <div className={clsx(styles.year)} key={year}>
                             <Button 
-                                text={kl._name} 
-                                title={kl._name} 
+                                text={kl.displayName} 
+                                title={kl.displayName} 
                                 active={event.affectsClass(kl)}
                                 color="primary"
-                                onClick={() => event.toggleClass(kl._name)}
+                                onClick={() => event.toggleClass(kl.name)}
                             />
                         </div>
                     )
                 };
-                const some = klasses[year].some(c => event.isAudience(c._name));
-                const all = some && klasses[year].every(c => event.isAudience(c._name));
+
+                /** MULTIPLE CLASSES PER YEAR */
+                const first = (klasses[year] as Klass[])[0];
+                const groupName = `${year.slice(2)}${first.departmentLetter}`;
+                const some = klasses[year].some(c => event.affectsClass(c));
+                const all = event.classGroups.has(groupName);
                 return (<div className={clsx(styles.year)} key={year}>
                     <Button 
                         text={year.slice(2)} 
                         active={all}
                         color={some ? 'primary' : 'secondary'}
                         onClick={() => {
-                            if (all) {
-                                klasses[year].forEach(c => {
-                                    event.toggleClass(c._name)
-                                })
-                            } else {
-                                klasses[year].forEach(c => {
-                                    if (!event.isAudience(c._name)) {
-                                        event.toggleClass(c._name)
-                                    }
-                                })
-                            }
+                            event.toggleClassGroup(groupName);
+                            // if (all) {
+
+                            //     klasses[year].forEach(c => {
+                            //         event.toggleClass(c.name)
+                            //     })
+                            // } else {
+                            //     klasses[year].forEach(c => {
+                            //         if (!event.isAudience(c.name)) {
+                            //             event.toggleClass(c.name)
+                            //         }
+                            //     })
+                            // }
                         }}
                     />
                     {klasses[year].map((kl: Klass) => {
                         return (<Button
                             key={kl.id}
                             color="primary"
-                            active={event.isAudience(kl._name)}
+                            active={event.affectsClass(kl)}
                             text={kl.letter}
-                            title={kl._name}
-                            onClick={() => event.toggleClass(kl._name)}
+                            title={kl.displayName}
+                            onClick={() => event.toggleClass(kl.name)}
                         />)
                     })}
                 </div>);

@@ -9,7 +9,7 @@ import Layout from '@theme/Layout';
 
 const GanttView = observer(() => {
     const viewStore = useStore('viewStore');
-    const tasks: Task[] = (viewStore.semester?.events || []).filter((e) => !e.invalid).map((e, idx) => {
+    const tasks: Task[] = (viewStore.semester?.events || []).filter((e) => e.isValid).map((e, idx) => {
         return {
             start: e.start,
             end: e.end,

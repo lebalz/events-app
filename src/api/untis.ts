@@ -1,6 +1,7 @@
 import api from './base';
 import { AxiosPromise, CancelTokenSource } from 'axios';
 import { Job } from './job';
+import { KlassName } from '../models/helpers/klassNames';
 
 
 /**
@@ -60,7 +61,8 @@ export interface CheckedUntisLesson extends RawUntisLesson {
  */
 export interface UntisClass {
     id: number
-    name: string
+    name: KlassName
+    legacyName: string | null
     sf: string
     year: number
     departmentId: string | null

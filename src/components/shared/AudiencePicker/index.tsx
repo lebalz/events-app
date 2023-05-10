@@ -6,10 +6,13 @@ import styles from './styles.module.scss';
 import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
-import { action } from 'mobx';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { DepartmentLetter, Letter2Name } from '@site/src/api/department';
+import { default as DepartmentModel } from '@site/src/models/Department';
+import Department from './department';
+import Checkbox from '../Checkbox';
 import Button from '../Button';
-import { mdiChevronDown, mdiChevronRight } from '@mdi/js';
-import Toggle from './Toggle';
 
 
 interface Props {
@@ -20,122 +23,61 @@ const AudiencePicker = observer((props: Props) => {
     const [expanded, setExpanded] = React.useState<string[]>([]);
     const [open, setOpen] = React.useState(true);
     const untisStore = useStore('untisStore');
+    const departmentStore = useStore('departmentStore');
     const userStore = useStore('userStore');
-    const { classTree } = untisStore;
+    const { current } = userStore;
+    if (!current) {
+        return null
+    };
+
+    const departments: { [letter in DepartmentLetter]?: DepartmentModel[] } = {}
+
+    Object.values(DepartmentLetter).forEach((letter) => {
+        const deps = departmentStore.findByDepartmentLetter(letter).filter(d => d.classes.length > 0);
+        if (deps.length > 0) {
+            departments[letter] = deps;
+        }
+    })
     const { event } = props;
-    React.useEffect(() => {
-        const classes = userStore.current?.classes ?? [];
-        const classesSet = new Set([
-            ...classes.map(c => `${c.graduationYear}`),
-            ...classes.map(c => `${c.graduationYear}-${c.departmentName}`),
-            ...expanded
-        ]);
-        setExpanded([...classesSet])
-    }, [userStore.current?.classes]);
 
     return (
-        <div className={clsx('dropdown', styles.audience, 'dropdown--show')}>
-            <Button
-                className={clsx('button', 'button--active', styles.button)}
-                color='secondary'
-                data-toggle="dropdown"
-                icon={open ? mdiChevronDown : mdiChevronRight}
-                iconSide='left'
-                onClick={(e) => {
-                    if (!event.editing) {
-                        return;
-                    }
-                    const toggle = e.currentTarget;
-                    const dropdown = toggle.parentElement;
-                    if (dropdown.classList.contains('dropdown--show')) {
-                        toggle.classList.remove('button--active');
-                        dropdown.classList.remove('dropdown--show');
-                        setOpen(false);
-                    } else {
-                        toggle.classList.add('button--active');
-                        dropdown.classList.add('dropdown--show');
-                        setOpen(true);
-                    }
-                }}
-                text={event.fClasses.join(', ') || '-'}
-            />
-            <div className={clsx(styles.dropdownMenu, 'dropdown__menu')}>
-                {
-                    Object.keys(classTree).map((gradYear, idx) => {
-                        const isExapnded = expanded.includes(gradYear);
-                        const all = event.isAudience(`${gradYear.slice(2)}*`);
-                        const some = Object.keys(classTree[gradYear].departments).some(dep => classTree[gradYear].departments[dep].some(c => event.isAudience(c)));
-                        return (<div key={idx}>
-                            <Toggle
-                                checked={all}
-                                label={`${gradYear}`}
-                                property={classTree[gradYear].wildcard}
-                                onCollapse={() => {
-                                    if (isExapnded) {
-                                        setExpanded(expanded.filter(e => e !== gradYear));
-                                    } else {
-                                        setExpanded([...expanded, gradYear]);
-                                    }
-                                }}
-                                collapsed={!isExapnded}
-                                onToggle={(kl) => {
-                                    event.toggleClass(kl);
-                                }}
-                                className={clsx(some && styles.some, all && styles.all)}
-                            />
-                            {
-                                isExapnded && Object.keys(classTree[gradYear].departments).map((dep, iidx) => {
-                                    const isExapnded = expanded.includes(`${gradYear}-${dep}`);
-                                    const some = classTree[gradYear].departments[dep].some(c => event.isAudience(c));
-                                    const all = some && classTree[gradYear].departments[dep].every(c => event.isAudience(c));
-                                    return (<div key={iidx} style={{ marginLeft: '15px' }}>
-                                        <Toggle
-                                            checked={all}
-                                            className={clsx(some && styles.some, all && styles.all)}
-                                            onToggle={() => {
-                                                if (all) {
-                                                    classTree[gradYear].departments[dep].forEach(c => {
-                                                        event.toggleClass(c)
-                                                    })
-                                                } else {
-                                                    classTree[gradYear].departments[dep].forEach(c => {
-                                                        if (!event.isAudience(c)) {
-                                                            event.toggleClass(c)
-                                                        }
-                                                    })
-                                                }
-                                            }}
-                                            onCollapse={() => {
-                                                if (isExapnded) {
-                                                    setExpanded(expanded.filter(e => e !== `${gradYear}-${dep}`));
-                                                } else {
-                                                    console.log(`${gradYear}-${dep}`)
-                                                    setExpanded([...expanded, `${gradYear}-${dep}`]);
-                                                }
-                                            }}
-                                            collapsed={!isExapnded}
-                                            property={dep}
-                                        />
-                                        {isExapnded && classTree[gradYear].departments[dep].map((kl, iiidx) => {
-                                            const checked = event.isAudience(kl);
-                                            return (
-                                                <Toggle
-                                                    key={iiidx}
-                                                    className={clsx(checked && styles.all, checked && styles.some)}
-                                                    checked={checked}
-                                                    property={kl}
-                                                    onToggle={(kl) => event.toggleClass(kl)}
-                                                    marginLeft={35}
-                                                />
-                                            )
-                                        })}
-                                    </div>)
-                                })
-                            }
-                        </div>);
-                    })
-                }
+        <div className={clsx(styles.audience)}>
+            <div className={clsx(styles.header)}>
+                <Checkbox checked={event.allLPs} onChange={(checked) => event.setAllLPs(checked)} label='Alle LP' />
+                {!event.allLPs && (
+                    <>
+                        <Checkbox checked={event.teachersOnly} onChange={(checked) => event.setTeachersOnly(checked)} label='Nur LP' />
+                        <Checkbox checked={event.klpOnly} onChange={(checked) => event.setKlpOnly(checked)} label='Nur KLP' disabled={event.teachersOnly} />
+                    </>
+                )}
             </div>
+            {event.allLPs ? (
+                <div className={clsx(styles.department)}>
+                    {departmentStore.departments.map((d) => {
+                        return (
+                            <Button
+                                key={d.id}
+                                text={d.name}
+                                active={event.departmentIds.has(d.id)}
+                                color={event.departmentIds.has(d.id) ? 'primary' : 'secondary'}
+                                onClick={() => event.toggleDepartment(d.id)}
+                            />
+                        )
+                    })}
+                </div>
+            ) : (
+                // @ts-ignore
+                <Tabs className={clsx(styles.tabs)}>
+                    {Object.keys(departments).map((letter, idx) => {
+                        return (
+                            // @ts-ignore
+                            <TabItem value={letter} label={Letter2Name[letter]} key={letter}>
+                                <Department departments={departments[letter]} event={event} />
+                            </TabItem>
+                        )
+                    })}
+                </Tabs>
+            )}
         </div>
     )
 });

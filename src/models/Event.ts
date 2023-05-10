@@ -3,11 +3,12 @@ import { Event as EventProps, EventState, JoiEvent } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getWeekdayOffsetMS, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday } from './helpers/time';
+import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
 import Joi from 'joi';
+import _ from 'lodash';
 
 export interface iEvent {
     weekOffsetMS_start: number;
@@ -23,6 +24,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         {attr: 'start', transform: (val) => toLocalDate(new Date(val))}, 
         {attr: 'end', transform: (val) => toLocalDate(new Date(val))}, 
         'location',
+        'teachersOnly',
+        'classGroups',
         'classes',
         'departmentIds',
         'klpOnly',
@@ -45,7 +48,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      *         which is the **union** of this and the departments of the classes
      */
     departmentIds = observable.set<string>([]);
-    classes = observable<string>([]);
+    classes = observable.set<string>([]);
+    classGroups = observable.set<string>([]);
 
     @observable
     description: string;
@@ -88,6 +92,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.authorId = props.authorId;
         this.departmentIds.replace(props.departmentIds);
         this.classes.replace(props.classes);
+        this.classGroups.replace(props.classGroups);
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
@@ -104,7 +109,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-        this.allDay = props.allDay;
         makeObservable(this);
         if (this.state !== EventState.Published && this.state !== EventState.Deleted) {
             this.validate();
@@ -150,29 +154,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.root.userStore.find<User>(this.authorId);
     }
 
-    /**
-     * class descriptors containing an asterisk are treated as wildcards
-     */
-    @computed
-    get wildcardClasses() {
-        return this.classes.slice().filter((c) => c.endsWith('*')).map((c) => c.replaceAll('*', ''));
-    }
-
-    /**
-     * @example isAudience('25h')
-     * @example isAudience('25*')
-     * @example isAudience('27G*')
-     */
-    isAudience(klasse: string): boolean {
-        if (this.classes.includes(klasse)) {
-            return true;
-        }
-        if (this.wildcardClasses.some((c) => klasse.startsWith(c))) {
-            return true;
-        }
-        return false;
-    }
-
     @action
     requestState(state: EventState) {
         this.store.requestState([this.id], state);
@@ -180,35 +161,21 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     toggleClass(klass: string) {
-        const wildcards = this.wildcardClasses.filter(c => klass.startsWith(c));
-        const preAudience = new Set(this.untisClasses.map(c => c.departmentId));
-        if (this.isAudience(klass)) {
-            if (!klass.endsWith('*') && wildcards.length > 0) {
-                const add = this.store.root.untisStore.classes.map(c => c.name).filter(c => c !== klass && wildcards.some(wk => c.startsWith(wk)));
-                wildcards.forEach(c => this.classes.remove(`${c}*`));
-                this.classes.push(...add);
-            } else {
-                this.classes.remove(klass);
-            }
+        if (this.classes.has(klass)) {
+            this.classes.delete(klass);
         } else {
-            if (klass.endsWith('*')) {
-                const group = klass.replaceAll('*', '');
-                const klasses = this.classes.slice().filter((c) => !c.startsWith(group));
-                this.classes.replace(klasses);
-            }
-            this.classes.push(klass);
+            this.classes.add(klass);
         }
     }
 
-    // @action
-    // syncAffectedDepartments() {
-    //     if 
-    //     const currendAudience = new Set(this.untisClasses.map(c => c.departmentId));
-    //     const add = new Set([...currendAudience].filter(x => !preAudience.has(x)));
-    //     const remove = new Set([...preAudience].filter(x => !currendAudience.has(x)));
-    //     [...remove].forEach(d => this.departmentIds.delete(d));
-    //     [...add].forEach(d => this.departmentIds.add(d));
-    // }
+    @action
+    toggleClassGroup(klass: string) {
+        if (this.classGroups.has(klass)) {
+            this.classGroups.delete(klass);
+        } else {
+            this.classGroups.add(klass);
+        }
+    }
 
     @action
     toggleDepartment(departmentId: string) {
@@ -219,14 +186,31 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
-    @action
-    setKlpOnly(klpOnly: boolean) {
-        this.klpOnly = klpOnly;
+    /**
+     * @returns all departments of the event, inlcuding the departments of the classes
+     */
+    @computed
+    get departments() {
+        const depIds = new Set([...this.departmentIds, ...this.untisClasses.map(c => c.departmentId)]);
+        return this.store.getDepartments([...depIds]);
+    }
+
+    /**
+     * Returns all department ids of the event and its classes
+     */
+    @computed
+    get departmentIdsAll() {
+        return new Set(this.departments.map(d => d.id));
+    }
+
+    @computed
+    get departmentNames() {
+        return this.departments.map(d => d.name);
     }
 
     @action
-    toggleKlpOnly() {
-        this.setKlpOnly(!this.klpOnly);
+    setKlpOnly(klpOnly: boolean) {
+        this.klpOnly = klpOnly;
     }
 
     @action
@@ -235,18 +219,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    toggleTeachersOnly() {
-        this.setTeachersOnly(!this.teachersOnly);
-    }
-
-    @action
     setExpanded(expanded: boolean) {
         this.store.root.viewStore.setEventExpanded(this.id, expanded);
-    }
-
-    @action
-    setSelected(selected: boolean) {
-        this.selected = selected;
     }
 
     @computed
@@ -254,9 +228,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.root.viewStore.expandedEventIds.has(this.id);
     }
 
-    @computed
-    get invalid(): boolean {
-        return this.durationMS <= 0
+    @action
+    setSelected(selected: boolean) {
+        this.selected = selected;
     }
 
     @computed
@@ -294,25 +268,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get departments() {
-        const depIds = new Set([...this.departmentIds, ...this.untisClasses.map(c => c.departmentId)]);
-        return this.store.getDepartments([...depIds]);
-    }
-
-    /**
-     * Returns all department ids of the event and its classes
-     */
-    @computed
-    get departmentIdsAll() {
-        return new Set(this.departments.map(d => d.id));
-    }
-
-    @computed
-    get departmentNames() {
-        return this.departments.map(d => d.name);
-    }
-
-    @computed
     get fStartTime() {
         return formatTime(this.start);
     }
@@ -344,7 +299,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fClasses(): string[] {
         const kls: {[year: string]: string[]} = {};
-        this.classes.slice().sort().forEach(c => {
+        [...this.classes].sort().forEach(c => {
             const year = c.slice(0, 2);
             if (!kls[year]) {
                 kls[year] = [];
@@ -363,9 +318,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get weekOffsetMS_end() {
-        // const hours = Math.floor(this.endHHMM / 100);
-        // const minute = this.endHHMM % 100;
-        // return this.weekDay * DAY_2_MS + hours * HOUR_2_MS + minute * MINUTE_2_MS;
         return this.weekOffsetMS_start + this.durationMS;
     }
 
@@ -375,23 +327,30 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     /**
-     * Date of the first day of this week
+     * Date of the first day of the current week
      */
     @computed
     get weekStart() {
         return getLastMonday(this.start);
     }
 
+    /**
+     * Date of the last day of the current week
+     */
     @computed
     get weekEnd() {
         return new Date(this.weekStart.getTime() + 6 * DAY_2_MS);
     }
 
     @computed
-    get day() {
+    get day(): typeof DAYS[number] {
         return DAYS[this.start.getDay()];
     }
 
+    /**
+     * Returns the calendar year of the event
+     * @example 2023
+     */
     @computed
     get year() {
         return this.start.getFullYear();
@@ -433,28 +392,37 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return false;
     }
 
-    affectsClass(klass: Klass) {
-        return this.isAudience(klass._name);
+    affectsClass(klass: Klass): boolean {
+        return this.untisClasses.some(c => c.id === klass.id);
+    }
+
+    hasOverlap(lesson: Lesson) {
+        const {weeks, minutes} = this.duration;
+        const dayOffset = (lesson.weekDay + weeks * 7 - this.weekDay) % 7;
+        const startOffset = dayOffset * 24 * 60 + Math.floor(lesson.startHHMM / 100) * 60 + lesson.startHHMM % 100;
+        const endOffset = dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + lesson.endHHMM % 100;
+        const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
+
+        return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
     }
 
     @computed
     get untisClasses() {
-        return this.store.getUntisClasses(this.classes);
+        return this.store.getUntisClasses(this);
     }
 
     @computed
     get affectedLessons(): Lesson[] {
-        return this.untisClasses.map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat().sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start);
+        const lessons = this.untisClasses.map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat();
+        return _.uniqBy(lessons, 'id').sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start);
     }
 
     @computed
     get affectedLessonsByClass(): {class: string, lessons: Lesson[]}[] {
-        return this.untisClasses.map(c => ({class: c.name, lessons: c.lessons.slice().filter(l => this.hasOverlap(l)).sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start)}));
-    }
-
-    @computed
-    get isPublic() {
-        return this.state === EventState.Published;
+        return this.untisClasses.map(c => ({
+            class: c.name,
+            lessons: c.lessons.slice().filter(l => this.hasOverlap(l)).sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start)
+        }));
     }
 
     @computed
@@ -475,17 +443,17 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: this.allLPs ? [...this.departmentIds] : [],
-            classes: this.allLPs ? [] : this.classes.slice(),
+            classes: this.allLPs ? [] : [...this.classes],
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,
+            classGroups: [...this.classGroups],
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
             klpOnly: this.klpOnly,
             teachersOnly: this.teachersOnly,
             start: toGlobalDate(this.start).toISOString(),
-            end: toGlobalDate(this.end).toISOString(),
-            allDay: this.allDay,
+            end: toGlobalDate(this.end).toISOString()
         }
     }
 
@@ -500,18 +468,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
+    /**
+     * @returns The day of the week of the event
+     * @example 0 = Sunday, 1 = Monday, 2 = Tuesday, ...
+     */
     @computed
-    get weekDay() {
+    get weekDay(): number {
         return this.start.getDay();
-    }
-
-    hasOverlap(lesson: Lesson) {
-        const {weeks, minutes} = this.duration;
-        const dayOffset = (lesson.weekDay + weeks * 7 - this.weekDay) % 7;
-        const startOffset = dayOffset * 24 * 60 + Math.floor(lesson.startHHMM / 100) * 60 + lesson.startHHMM % 100;
-        const endOffset = dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + lesson.endHHMM % 100;
-        const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
-
-        return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
     }
 }
