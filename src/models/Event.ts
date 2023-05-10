@@ -9,6 +9,7 @@ import Lesson from './Untis/Lesson';
 import User from './User';
 import Joi from 'joi';
 import _ from 'lodash';
+import { KlassName } from './helpers/klassNames';
 
 export interface iEvent {
     weekOffsetMS_start: number;
@@ -48,7 +49,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      *         which is the **union** of this and the departments of the classes
      */
     departmentIds = observable.set<string>([]);
-    classes = observable.set<string>([]);
+    classes = observable.set<KlassName>([]);
     classGroups = observable.set<string>([]);
 
     @observable
@@ -160,7 +161,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    toggleClass(klass: string) {
+    toggleClass(klass: KlassName) {
         if (this.classes.has(klass)) {
             this.classes.delete(klass);
         } else {
@@ -410,21 +411,21 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      * all classes that are affected by the className filter
      */
     @computed
-    get _selectedClasses() {
-        const wildcard = new Set(this._wildcardClasses.map(c => c.id));
-        return this.untisClasses.filter(c => !wildcard.has(c.id));
+    get _selectedClasses(): KlassName[] {
+        const wildcard = new Set(this._wildcardClasses.map(c => c.name));
+        return [...this.classes].filter(c => !wildcard.has(c));
     }
     /**
      * all classes that are affected by this event, but are 
      * not selected thorugh the className filter
      */
     @computed
-    get _wildcardClasses() {
+    get _wildcardClasses(): Klass[] {
         return this.store.getWildcardUntisClasses(this);
     }
 
     @computed
-    get untisClasses() {
+    get untisClasses(): Klass[] {
         return this.store.getUntisClasses(this);
     }
 
@@ -460,7 +461,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: [...this.departmentIds],
-            classes: [...this._selectedClasses.map(c => c.name)],
+            classes: this._selectedClasses,
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,

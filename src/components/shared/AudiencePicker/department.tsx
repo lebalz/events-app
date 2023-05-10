@@ -29,7 +29,7 @@ const Department = observer((props: Props) => {
             Object.keys(klasses).map((year) => {
                 /** SINGLE CLASS IN YEAR */
                 if (klasses[year].length === 1) {
-                    const kl = klasses[year][0];
+                    const kl = (klasses[year] as Klass[])[0];
                     return (
                         <div className={clsx(styles.year)} key={year}>
                             <Button 

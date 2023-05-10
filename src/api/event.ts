@@ -2,6 +2,7 @@ import { AxiosPromise, CancelTokenSource } from 'axios';
 import api from './base';
 import { Job } from './job';
 import Joi from 'joi';
+import { KlassName } from '../models/helpers/klassNames';
 
 export enum EventState {
     Draft = 'DRAFT',
@@ -21,7 +22,7 @@ export interface PrismaEvent {
     descriptionLong: string
     state: EventState
     jobId: string | null
-    classes: string[]
+    classes: KlassName[]
     classGroups: string[]
     teachersOnly: boolean
     klpOnly: boolean
