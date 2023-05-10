@@ -48,17 +48,17 @@ export default class User extends ApiModel<UserProps, ApiAction> {
 
   @computed
   get departments() {
-    return this.untisTeacher?.departments;
+    return this.untisTeacher?.departments || [];
   }
 
   @computed
   get classes() {
-    return this.untisTeacher?.classes;
+    return this.untisTeacher?.classes || [];
   }
 
   @computed
   get lessons() {
-    return this.untisTeacher?.lessons;
+    return this.untisTeacher?.lessons || [];
   }
 
   @computed
