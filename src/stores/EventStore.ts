@@ -162,11 +162,17 @@ export class EventStore extends iStore<EventProps> {
 
     getUntisClasses(event: Event) {
         const klasses = [...event.classes].map(c => this.root.untisStore.findClassByName(c)).filter(c => !!c);
+        const wildcard = this.getWildcardUntisClasses(event);
+        return _.uniqBy([...klasses, ...wildcard], 'id');
+    }
+
+    getWildcardUntisClasses(event: Event) {
         const klassGroups = [...event.classGroups].map(c => this.root.untisStore.findClassesByGroupName(c)).flat();
         const departmentKlasses = this.getDepartments([...event.departmentIds]).map(d => d.classes).flat();
-        return _.uniqBy([...klasses, ...klassGroups, ...departmentKlasses], 'id');
-
+        return _.uniqBy([...klassGroups, ...departmentKlasses], 'id');
     }
+
+
 
     @action
     requestState(eventIds: string[], state: EventState) {

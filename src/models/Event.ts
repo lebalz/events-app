@@ -406,6 +406,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
     }
 
+    /**
+     * all classes that are affected by the className filter
+     */
+    @computed
+    get _selectedClasses() {
+        const wildcard = new Set(this._wildcardClasses.map(c => c.id));
+        return this.untisClasses.filter(c => !wildcard.has(c.id));
+    }
+    /**
+     * all classes that are affected by this event, but are 
+     * not selected thorugh the className filter
+     */
+    @computed
+    get _wildcardClasses() {
+        return this.store.getWildcardUntisClasses(this);
+    }
+
     @computed
     get untisClasses() {
         return this.store.getUntisClasses(this);
@@ -443,7 +460,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: [...this.departmentIds],
-            classes: [...this.classes],
+            classes: [...this._selectedClasses.map(c => c.name)],
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,
