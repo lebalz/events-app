@@ -300,14 +300,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fClasses(): string[] {
         const kls: {[year: string]: string[]} = {};
-        [...this.classes].sort().forEach(c => {
+        [...this._selectedClasses.map(c => c.displayName)].sort().forEach(c => {
             const year = c.slice(0, 2);
             if (!kls[year]) {
                 kls[year] = [];
             }
             kls[year].push(c.slice(2));
         });
-        return Object.keys(kls).map(year => `${year}${kls[year].sort().join('')}`);
+        const composed = Object.keys(kls).map(year => `${year}${kls[year].sort().join('')}`);
+        return [...composed, ...this._unknownClassNames].sort();
     }
 
     @computed
@@ -411,10 +412,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      * all classes that are affected by the className filter
      */
     @computed
-    get _selectedClasses(): KlassName[] {
-        const wildcard = new Set(this._wildcardClasses.map(c => c.name));
-        return [...this.classes].filter(c => !wildcard.has(c));
+    get _selectedClassNames(): KlassName[] {
+        return [...this._selectedClasses.map(c => c.name), ...this._unknownClassNames]
     }
+
+    /**
+     * returns **only** the classes that are selected through the className filter **and** which
+     * are present as a UntisClass
+     */
+    @computed
+    get _selectedClasses(): Klass[] {
+        const wildcard = new Set(this._wildcardClasses.map(c => c.id));
+        return this.untisClasses.filter(c => !wildcard.has(c.id));
+    }
+
+    @computed
+    get _unknownClassNames(): KlassName[] {
+        const known = new Set(this.untisClasses.map(c => c.name));
+        return [...this.classes].filter(c => !known.has(c));
+    }
+
     /**
      * all classes that are affected by this event, but are 
      * not selected thorugh the className filter
@@ -461,7 +478,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: [...this.departmentIds],
-            classes: this._selectedClasses,
+            classes: this._selectedClassNames,
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,

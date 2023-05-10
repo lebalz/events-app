@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Props } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
 import AudiencePicker from '@site/src/components/shared/AudiencePicker';
+import { KlassName } from '@site/src/models/helpers/klassNames';
 
 const Audience = observer((props: Props) => {
     const {event} = props;
@@ -19,6 +20,7 @@ const Audience = observer((props: Props) => {
             </div>
         )
     }
+    const unknownClassNames = new Set(event._unknownClassNames);
     return (
         <React.Fragment>
             <div 
@@ -33,7 +35,8 @@ const Audience = observer((props: Props) => {
             }</div>
             <div style={{gridColumn: 'classes'}} className={clsx(props.className, styles.classes)}>{
                 event.fClasses.map((c, idx) => {
-                    return (<Badge key={idx} text={c} color="gray" />);
+                    const color = unknownClassNames.has(c as KlassName) ? 'red' : 'gray';
+                    return (<Badge key={idx} text={c} color={color} />);
                 })
             }</div>
         </React.Fragment>
