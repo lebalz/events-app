@@ -95,6 +95,7 @@ const Badge = (props: Props) => {
         style['--ifm-badge-background-color'] = props.color;
         style['--ifm-badge-border-color'] = props.color;
         style['--ifm-badge-color'] = 'white';
+        style.color = 'white'; /** hackibus */
     }
     const commonCls = clsx(
         styles.badge,
