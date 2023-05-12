@@ -9,7 +9,7 @@ import AudiencePicker from '@site/src/components/shared/AudiencePicker';
 import { KlassName } from '@site/src/models/helpers/klassNames';
 
 const Audience = observer((props: Props) => {
-    const {event} = props;
+    const { event } = props;
     if (props.isEditable && props.event.editing) {
         return (
             <div
@@ -23,22 +23,31 @@ const Audience = observer((props: Props) => {
     const unknownClassNames = new Set(event._unknownClassNames);
     return (
         <React.Fragment>
-            <div 
-                style={{gridColumn: 'departments'}} 
+            <div
+                style={{ gridColumn: 'departments' }}
                 className={clsx(props.className, styles.departments, 'grid-departments')}
-            >{
-                event.departmentNames.map((c, idx) => {
-                    const dep = c.split(/-|\//)[0] || '';
-                    const badge = styles[dep.toLowerCase()];
-                    return (<Badge key={idx} text={c} className={badge} color={badge ? undefined : 'gray'} />);
-                })
-            }</div>
-            <div style={{gridColumn: 'classes'}} className={clsx(props.className, styles.classes)}>{
-                event.fClasses.map((c, idx) => {
-                    const color = unknownClassNames.has(c as KlassName) ? 'red' : 'gray';
-                    return (<Badge key={idx} text={c} color={color} />);
-                })
-            }</div>
+            >
+                <div className={clsx(styles.tags)}>
+                    {
+                        event.departmentNames.map((c, idx) => {
+                            const dep = c.split(/-|\//)[0] || '';
+                            const badge = styles[dep.toLowerCase()];
+                            return (<Badge key={idx} text={c} className={badge} color={badge ? undefined : 'gray'} />);
+                        })
+                    }
+                </div>
+            </div>
+            <div style={{ gridColumn: 'classes' }} className={clsx(props.className, styles.classes)}>
+                <div className={clsx(styles.tags)}>
+                    {
+                        event.fClasses.map((c, idx) => {
+                            const color = unknownClassNames.has(c as KlassName) ? 'red' : 'gray';
+                            return (<Badge key={idx} text={c} color={color} />);
+                        })
+
+                    }
+                </div>
+            </div>
         </React.Fragment>
     )
 });
