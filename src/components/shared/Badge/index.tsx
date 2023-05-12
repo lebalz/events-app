@@ -6,7 +6,7 @@ import { Icon } from '../icons';
 import { Color, getColorClass } from '../Colors';
 
 export interface Base {
-    color?: Color;
+    color?: Color | string;
     title?: string;
     iconSide?: 'left' | 'right';
     noOutline?: boolean;

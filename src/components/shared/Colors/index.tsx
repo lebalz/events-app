@@ -25,7 +25,7 @@ export const ButtonColors = {
 
 export type Color = keyof typeof Colors;
 
-export const getColorClass = (color: Color, defaultColor?: Color) => {
+export const getColorClass = (color: Color | string | undefined, defaultColor?: Color) => {
     return Colors[color] || Colors[defaultColor];
 }
 

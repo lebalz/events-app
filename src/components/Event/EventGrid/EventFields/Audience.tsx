@@ -29,10 +29,8 @@ const Audience = observer((props: Props) => {
             >
                 <div className={clsx(styles.tags)}>
                     {
-                        event.departmentNames.map((c, idx) => {
-                            const dep = c.split(/-|\//)[0] || '';
-                            const badge = styles[dep.toLowerCase()];
-                            return (<Badge key={idx} text={c} className={badge} color={badge ? undefined : 'gray'} />);
+                        event.departments.map((d, idx) => {
+                            return (<Badge key={idx} text={d.shortName} color={d.color} />);
                         })
                     }
                 </div>

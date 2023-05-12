@@ -18,6 +18,9 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     updatedAt: Date;
 
     @observable
+    color: string;
+
+    @observable
     description: string;
 
     constructor(props: DepartmentProps, store: DepartmentStore) {
@@ -26,11 +29,20 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this._pristine = props;
         this.id = props.id;
         this.name = props.name;
+        this.color = props.color;
         this.description = props.description;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
 
         makeObservable(this);
+    }
+
+    /**
+     * Example: GBSL/GBJB -> GBSL
+     */
+    @computed
+    get shortName() {
+        return this.name?.split(/-|\//)[0] || '-';
     }
 
     @computed
@@ -57,6 +69,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return {
             id: this.id,
             name: this.name,
+            color: this.color,
             description: this.description,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
