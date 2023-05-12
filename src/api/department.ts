@@ -26,6 +26,7 @@ export const Letter2Name: {[letter in DepartmentLetter]: string} = {
 export interface Department {
     id: string;
     name: string;
+    color: string;
     description: string;
     createdAt: string;
     updatedAt: string;
