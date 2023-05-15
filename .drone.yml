@@ -24,6 +24,7 @@ steps:
   - echo "$GITHUB_PRIVATE_KEY" > "$HOME/.ssh/id_rsa"
   - chmod 0600 $HOME/.ssh/id_rsa
   - yarn install --frozen-lockfile
+  - npm run crowdin:sync
   - npm run deploy
   environment:
     USE_SSH: true
