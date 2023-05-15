@@ -8,6 +8,7 @@ import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, RecordTypes } fro
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson, UntisLesson } from '../api/untis';
 import { EventState } from '../api/event';
+import { Role } from '../api/user';
 class Message {
     type: string;
     message: string;
@@ -105,11 +106,14 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             console.log('data', data)
             const record: ChangedState = JSON.parse(data);
             const store = this.root.eventStore;
+            if (record.ids.length > 20) {
+                return store.load();
+            }
             record.ids.forEach((id) => {
                 const event = store.find(id);
                 if (event) {
                     store.addToStore({...event.props, state: record.state});
-                } else if (EventState.Published === record.state) {
+                } else if (EventState.Published === record.state || this.root.userStore?.current?.role === Role.ADMIN) {
                     store.loadModel(id);
                 }
             });
