@@ -29,6 +29,6 @@ export const getColorClass = (color: Color | string | undefined, defaultColor?: 
     return Colors[color] || Colors[defaultColor];
 }
 
-export const getButtonColorClass = (color: Color, defaultColor?: Color) => {
+export const getButtonColorClass = (color: Color | string, defaultColor?: Color) => {
     return clsx(ButtonColors[color] || ButtonColors[defaultColor], color === 'blue' && styles.buttonBlue);
 }

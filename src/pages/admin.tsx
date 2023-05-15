@@ -12,11 +12,27 @@ import Button from '../components/shared/Button';
 import { Icon } from '../components/shared/icons';
 import { mdiPlusCircleOutline } from '@mdi/js';
 import UserTable from '../components/Admin/UserTable';
+import DepartmentTable from '../components/Admin/DepartmentTable';
+import { Role } from '../api/user';
 
 const AdminView = observer(() => {
+    const userStore = useStore('userStore');
     const semesterStore = useStore('semesterStore');
     const viewStore = useStore('viewStore');
     const regPeriodStore = useStore('registrationPeriodStore');
+
+    if (userStore.current?.role !== Role.ADMIN) {
+        return (<Layout>
+            <main>
+                <div className='hero hero--primary'>
+                    <div className='container'>
+                        <h1 className='hero__title'>Nur für Admins</h1>
+                        <p className='hero__subtitle'>Nur für Administratoren zugänglicher Bereich</p>
+                    </div>
+                </div>
+            </main>
+        </Layout>)
+    }
 
     return (
         <Layout wrapperClassName={clsx(styles.layout)}>
@@ -44,6 +60,10 @@ const AdminView = observer(() => {
                         }}
                     />
                     <SemesterList />
+                </TabItem>
+                {/* @ts-ignore */}
+                <TabItem value="departments" label="Abteilungen">
+                    <DepartmentTable departments={viewStore.adminDepartmentTable.departments} />
                 </TabItem>
                 {/* @ts-ignore */}
                 <TabItem value="reg-periods" label="Registrierungs Perioden">

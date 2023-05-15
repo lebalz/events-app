@@ -183,7 +183,6 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         /**
          * Save the model to the api
          */
-        const { id } = model;
         this.withAbortController('create', (sig) => {
             return apiCreate<Model>(this.API_ENDPOINT, model, sig.signal);
         }).then(action(({ data }) => {

@@ -8,12 +8,13 @@ import { ApiAction } from "../stores/iStore";
 import Klass from "./Untis/Klass";
 
 export default class Department extends ApiModel<DepartmentProps, ApiAction> {
-    readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['description'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['name', 'description', 'color'];
     readonly store: DepartmentStore;
     readonly _pristine: DepartmentProps;
     readonly id: string;
-    readonly name: string;
     readonly createdAt: Date;
+    @observable
+    name: string;
     @observable.ref
     updatedAt: Date;
 

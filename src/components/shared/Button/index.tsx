@@ -22,7 +22,7 @@ export interface Base {
     className?: string;
     disabled?: boolean;
     size?: number;
-    color?: Color
+    color?: Color | string;
 }
 interface IconProps extends Base {
     icon: ReactNode | string;
@@ -113,6 +113,12 @@ const ButtonInner = (props: Props) => {
 const Button = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
+    const colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
+    const style: React.CSSProperties = {};
+    if (props.color && !colorCls) {
+        style['--ifm-button-border-color'] = props.color;
+        style['--ifm-button-color'] = props.color;
+    }
     const commonCls = clsx(
         styles.button, 
         !textAndIcon && props.icon && styles.soloIcon,
@@ -122,7 +128,7 @@ const Button = (props: Props) => {
         !props.noOutline && 'button--outline',
         props.active && 'button--active',
         props.disabled && styles.disabled,
-        getButtonColorClass(props.color, 'secondary'),
+        colorCls,
         props.className
     );
     if (props.href) {
@@ -132,6 +138,7 @@ const Button = (props: Props) => {
             target={props.target ?? '_blank'}
             className={clsx(styles.link, commonCls)}
             title={props.title}
+            style={style}
         >
             <ButtonInner {...props} />
         </Link>);
@@ -142,6 +149,7 @@ const Button = (props: Props) => {
             className={clsx(commonCls)}
             title={props.title}
             onClick={props.onClick}
+            style={style}
             disabled={props.disabled}
         >
             <ButtonInner {...props} />

@@ -5,6 +5,7 @@ import User from '../models/User';
 import Lesson from '../models/Untis/Lesson';
 import { EventState } from '../api/event';
 import _ from 'lodash';
+import Department from '../models/Department';
 
 /**
  * route: /table
@@ -61,7 +62,7 @@ class EventTable {
 
     @computed
     get events() {
-        const {semester} = this.store;
+        const { semester } = this.store;
         if (!semester) {
             return [];
         }
@@ -152,6 +153,33 @@ class AdminUserTable {
     }
 }
 
+class AdminDepartmentTable {
+    private readonly store: ViewStore;
+    @observable
+    sortColumn: 'name' | 'color' | 'createdAt' | 'updatedAt' = 'name';
+    @observable
+    sortDirection: 'asc' | 'desc' = 'asc';
+    constructor(store: ViewStore) {
+        this.store = store;
+        makeObservable(this);
+    }
+
+    @computed
+    get departments(): Department[] {
+        return _.orderBy(this.store.root.departmentStore.departments, [(d) => d.pristine[this.sortColumn]], [this.sortDirection]);
+    }
+
+    @action
+    setSortColumn(column: 'name' | 'color' | 'createdAt' | 'updatedAt'): void {
+        if (this.sortColumn === column) {
+            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.sortColumn = column;
+            this.sortDirection = 'asc';
+        }
+    }
+}
+
 export class ViewStore {
     readonly root: RootStore;
 
@@ -171,6 +199,8 @@ export class ViewStore {
 
     @observable.ref
     adminUserTable: AdminUserTable;
+    @observable.ref
+    adminDepartmentTable: AdminDepartmentTable;
 
     expandedEventIds = observable.set<string>();
 
@@ -178,6 +208,7 @@ export class ViewStore {
         this.root = store;
         this.eventTable = new EventTable(this);
         this.adminUserTable = new AdminUserTable(this);
+        this.adminDepartmentTable = new AdminDepartmentTable(this);
         makeObservable(this);
     }
 
@@ -192,7 +223,7 @@ export class ViewStore {
 
     @action
     setEventExpanded(eventId: string, expanded: boolean): void {
-        if ((expanded && !this.expandedEventIds.has(eventId)) 
+        if ((expanded && !this.expandedEventIds.has(eventId))
             || !expanded && this.expandedEventIds.has(eventId)) {
             this.toggleExpandedEvent(eventId);
         }
@@ -239,7 +270,7 @@ export class ViewStore {
     }
 
     @computed
-    get untisSemesterName(): `${number}HS` | `${number}FS`{
+    get untisSemesterName(): `${number}HS` | `${number}FS` {
         return this.semester?.semesterName ?? '0HS';
     }
 
