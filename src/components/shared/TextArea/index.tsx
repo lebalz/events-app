@@ -13,7 +13,7 @@ interface Props {
 
 const TextArea = (props: Props) => {
     const [textAreaRef, setTextAreaRef] = React.useState<HTMLTextAreaElement>(null);
-    useAutosizeTextArea(textAreaRef, props.text);
+    useAutosizeTextArea(textAreaRef, props.text, props.rows || 3);
 
     return (
         <div className={clsx(styles.textarea)}>

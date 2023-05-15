@@ -34,8 +34,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.description = props.description;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
         makeObservable(this);
+
     }
 
     /**
