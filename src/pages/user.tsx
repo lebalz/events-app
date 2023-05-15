@@ -7,7 +7,7 @@ import { default as indexStyles } from './index.module.css';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool, mdiMicrosoftOutlook, mdiShare, mdiCircle } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiSync, mdiCalendarBlankMultiple, mdiLink, mdiOfficeBuilding, mdiSchool, mdiMicrosoftOutlook, mdiShare, mdiCircle, mdiRefresh } from '@mdi/js';
 import UntisLinker from '../components/User/UntisLinker';
 import { Calendar, Icon, SIZE, SIZE_S } from '../components/shared/icons';
 import { EVENTS_API } from '../authConfig';
@@ -116,6 +116,17 @@ const User = observer(() => {
 
 
                     <div style={{ height: '3em' }}></div>
+                    {
+                        !current && (
+                            <Button
+                                text="Aktualisieren"
+                                icon={mdiRefresh}
+                                iconSide='left'
+                                color="orange"
+                                onClick={() => sessionStore.login()}
+                            />
+                        )
+                    }
                     <Button
                         onClick={() => sessionStore.logout()}
                         text="Logout"
