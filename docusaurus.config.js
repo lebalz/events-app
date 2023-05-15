@@ -76,6 +76,7 @@ const config = {
       },
       fr: {
         htmlLang: 'fr-CH',
+        label: 'Français'
       },
     },
   },
