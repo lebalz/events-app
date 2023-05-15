@@ -7,12 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import {default as DepartmentModel} from '@site/src/models/Department';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import Badge from '../../shared/Badge';
-import { Role } from '@site/src/api/user';
-import Button from '../../shared/Button';
-import UntisLinker from '../../User/UntisLinker';
 import Save from '../../shared/Button/Save';
-import { ApiState } from '@site/src/stores/iStore';
-import { mdiCircle } from '@mdi/js';
 import Delete from '../../shared/Button/Delete';
 import Discard from '../../shared/Button/Discard';
 import TextArea from '../../shared/TextArea';
@@ -24,7 +19,6 @@ interface Props {
 }
 
 const Department = observer((props: Props) => {
-    const userStore = useStore('userStore');
     const departmentStore = useStore('departmentStore');
     const {department} = props;
     return (

@@ -269,5 +269,145 @@
   "theme.tags.tagsPageTitle": {
     "message": "Tags",
     "description": "The title of the tag list page"
+  },
+  "admin.DepartmentTable.create": {
+    "message": "Neue Abteilung",
+    "description": "Create a new department"
+  },
+  "admin.DepartmentTable.th.name": {
+    "message": "Name",
+    "description": "th: name"
+  },
+  "admin.DepartmentTable.th.description": {
+    "message": "Beschreibung",
+    "description": "th: description"
+  },
+  "admin.DepartmentTable.th.color": {
+    "message": "Farbe",
+    "description": "th: color"
+  },
+  "admin.DepartmentTable.th.createdAt": {
+    "message": "Erstellt",
+    "description": "th: created At"
+  },
+  "admin.DepartmentTable.th.updatedAt": {
+    "message": "Aktualisiert",
+    "description": "th: updatedAt"
+  },
+  "admin.DepartmentTable.th.id": {
+    "message": "Id",
+    "description": "th: id"
+  },
+  "admin.DepartmentTable.th.actions": {
+    "message": "Aktionen",
+    "description": "th: actions"
+  },
+  "event.title": {
+    "message": "Titel",
+    "description": "for a single event: title"
+  },
+  "event.kw": {
+    "message": "KW",
+    "description": "for a single event: kw"
+  },
+  "event.weekday": {
+    "message": "Wochentag",
+    "description": "for a single event: weekday"
+  },
+  "event.startDate": {
+    "message": "Datum",
+    "description": "for a single event: start date"
+  },
+  "event.location": {
+    "message": "Ort",
+    "description": "for a single event: location"
+  },
+  "event.classes": {
+    "message": "Klassen",
+    "description": "for a single event: classes"
+  },
+  "event.departments": {
+    "message": "Departemente",
+    "description": "for a single event: departments"
+  },
+  "event.affectedLessons": {
+    "message": "Betroffene Lektionen",
+    "description": "for a single event: affected lessons"
+  },
+  "event.button.showAllLessons": {
+    "message": "Alle betroffenen Lektionen anzeigen",
+    "description": "for a single event: button to show all affected lessons"
+  },
+  "admin.userTable.th.email": {
+    "message": "Email",
+    "description": "th: email"
+  },
+  "admin.userTable.th.role": {
+    "message": "Rolle",
+    "description": "th: role"
+  },
+  "admin.userTable.th.shortName": {
+    "message": "Kürzel",
+    "description": "th: shortName"
+  },
+  "admin.userTable.th.createdAt": {
+    "message": "Erstellt",
+    "description": "th: createdAt"
+  },
+  "admin.userTable.th.updatedAt": {
+    "message": "Aktualisiert",
+    "description": "th: updatedAt"
+  },
+  "admin.userTable.th.id": {
+    "message": "Id",
+    "description": "th: id"
+  },
+  "event.eventGrid.th.author": {
+    "message": "Author",
+    "description": "th: author"
+  },
+  "event.eventGrid.th.kw": {
+    "message": "KW",
+    "description": "th: kw"
+  },
+  "event.eventGrid.th.day": {
+    "message": "Tag",
+    "description": "th: day"
+  },
+  "event.eventGrid.th.description": {
+    "message": "Stichworte",
+    "description": "th: description"
+  },
+  "event.eventGrid.th.startDate": {
+    "message": "Start",
+    "description": "th: startDate"
+  },
+  "event.eventGrid.th.startTime": {
+    "message": "Zeit",
+    "description": "th: startTime"
+  },
+  "event.eventGrid.th.endDate": {
+    "message": "Ende",
+    "description": "th: endDate"
+  },
+  "event.eventGrid.th.endTime": {
+    "message": "Zeit",
+    "description": "th: endTime"
+  },
+  "event.eventGrid.th.location": {
+    "message": "Ort",
+    "description": "th: location"
+  },
+  "event.eventGrid.th.departments": {
+    "message": "Abteilungen",
+    "description": "th: departments"
+  },
+  "event.eventGrid.th.classes": {
+    "message": "Klassen",
+    "description": "th: classes"
+  },
+  "event.eventGrid.th.descriptionLong": {
+    "message": "Beschreibung",
+    "description": "th: descriptionLong"
   }
 }
