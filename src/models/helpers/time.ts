@@ -13,6 +13,10 @@ export const formatDate = (date: Date) => {
     return `${day}.${month}.${year}`;
 }
 
+export const formatDateTime = (date: Date) => {
+    return `${formatDate(date)} ${formatTime(date)}`;
+}
+
 export const toLocalDate = (date: Date) => {   
     return new Date(date.getTime() + date.getTimezoneOffset() * MINUTE_2_MS)
 }

@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable, override } from 'mobx';
 import { Role, User as UserProps } from '../api/user';
 import { ApiAction } from '../stores/iStore';
 import { UntisStore } from '../stores/UntisStore';
@@ -6,7 +6,7 @@ import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 
 export default class User extends ApiModel<UserProps, ApiAction> {
-  readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId'];
+  readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId', 'role'];
   readonly store: UserStore;
   readonly _pristine: UserProps;
   private readonly untisStore: UntisStore;
@@ -75,4 +75,21 @@ export default class User extends ApiModel<UserProps, ApiAction> {
   linkUntis(untisId: number | undefined) {
     this.store.linkUserToUntis(this, untisId);
   }
+
+
+  @override
+  get props() {
+    return {
+      id: this.id,
+      email: this.email,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      role: this.role,
+      untisId: this.untisId,
+      icsLocator: this.icalUrl,
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt.toISOString()
+    }
+  }
+
 }

@@ -11,25 +11,23 @@ import SemesterList from '../components/Semester/List';
 import Button from '../components/shared/Button';
 import { Icon } from '../components/shared/icons';
 import { mdiPlusCircleOutline } from '@mdi/js';
+import UserTable from '../components/Admin/UserTable';
 
 const AdminView = observer(() => {
     const semesterStore = useStore('semesterStore');
-    const userStore = useStore('userStore');
+    const viewStore = useStore('viewStore');
     const regPeriodStore = useStore('registrationPeriodStore');
 
     return (
-        <Layout>
-            <Tabs>
+        <Layout wrapperClassName={clsx(styles.layout)}>
+            {/* @ts-ignore */}
+            <Tabs className={clsx(styles.tabs)}>
                 {/* @ts-ignore */}
-                <TabItem value="users" label="Users" >
-                    {
-                        userStore.models.map((user, idx) => {
-                            return (<div key={idx}>{user.email}</div>);
-                        })
-                    }
+                <TabItem value="users" label="Users" default>
+                    <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>
                 {/* @ts-ignore */}
-                <TabItem value="semesters" label="Semester" default>
+                <TabItem value="semesters" label="Semester" >
                     <Button 
                         title='Semester Hinzufügen'
                         text="Neues Semester"

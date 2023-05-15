@@ -3,7 +3,6 @@ import { AxiosPromise, CancelTokenSource } from 'axios';
 
 
 export enum Role {
-    STUDENT = 'STUDENT',
     USER = 'USER',
     ADMIN = 'ADMIN'
 };
@@ -16,14 +15,21 @@ export type User = {
     lastName: string
     role: Role
     icsLocator: string | null
-    createdAt: Date
-    updatedAt: Date
+    createdAt: string
+    updatedAt: string
 }
 
 export function linkToUntis(userId: string, untisId: number, signal: AbortSignal): AxiosPromise<User> {
     return api.put(
         `user/${userId}/link_to_untis`,
         { data: { untisId: untisId } },
+        { signal });
+}
+
+export function setRole(userId: string, role: Role, signal: AbortSignal): AxiosPromise<User> {
+    return api.put(
+        `user/${userId}/set_role`,
+        { data: { role: role } },
         { signal });
 }
 

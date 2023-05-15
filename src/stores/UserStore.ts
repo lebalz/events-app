@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import {User as UserProps, linkToUntis, createIcs } from '../api/user';
+import {User as UserProps, linkToUntis, createIcs, Role, setRole } from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
@@ -54,6 +54,18 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         return this.withAbortController('linkUserToUntis', (sig) => {
             return linkToUntis(user.id, untisId, sig.signal).then(({data}) => {
                 user.setUntisId(data.untisId);
+            });
+        });
+    }
+
+    @action
+    setRole(user: User, role: Role) {
+        if (this.current?.role !== Role.ADMIN) {
+            return Promise.reject('Not allowed');
+        }
+        return this.withAbortController(`save-role-${user.id}`, (sig) => {
+            return setRole(user.id, role, sig.signal).then(({data}) => {
+                this.addToStore(data);
             });
         });
     }

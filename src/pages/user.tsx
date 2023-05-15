@@ -66,7 +66,7 @@ const User = observer(() => {
                                 <dd>{account.username}</dd>
 
                                 <dt><Badge text="Untis Account" icon={<Icon path={mdiLink}/>} iconSide={iconSide} color='gray'/></dt>
-                                <dd><UntisLinker /></dd>
+                                <dd><UntisLinker user={current} /></dd>
 
                                 <dt><Badge text="Kalender" icon={<Calendar />} iconSide={iconSide} color='gray'/></dt>
                                 <dd>

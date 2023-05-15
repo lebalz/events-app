@@ -5,12 +5,16 @@ import styles from './untisLinker.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Select from 'react-select';
+import {default as UserModel} from '@site/src/models/User';
 
-const UntisLinker = observer(() => {
-    const userStore = useStore('userStore');
+interface Props {
+    user: UserModel;
+}
+
+const UntisLinker = observer((props: Props) => {
     const untisStore = useStore('untisStore');
-    const { current } = userStore;
-    if (!current) {
+    const { user } = props;
+    if (!user) {
         return null;
     }
     return (
@@ -23,7 +27,7 @@ const UntisLinker = observer(() => {
                 }}
                 className={clsx(styles.select)}
                 classNamePrefix="select"
-                value={{value: current.untisId, label: current.untisTeacher ? `${current.shortName} - ${current.untisTeacher?.longName}` : '-'}}
+                value={{value: user.untisId, label: user.untisTeacher ? `${user.shortName} - ${user.untisTeacher?.longName}` : '-'}}
                 options={
                     untisStore.teachers.slice().map((t) => ({
                         value: t.id,
@@ -31,11 +35,11 @@ const UntisLinker = observer(() => {
                     }))
                 }
                 onChange={(opt) => {
-                    current.linkUntis(opt?.value);
+                    user.linkUntis(opt?.value);
                 }}
                 isMulti={false}
                 isSearchable={true}
-                isClearable={!!current.untisTeacher}
+                isClearable={!!user.untisTeacher}
             />
 
         </div>

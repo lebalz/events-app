@@ -1,0 +1,8 @@
+.user {
+    .role {
+        display: flex;
+    }
+    :global(.select__control) {
+        flex-wrap: nowrap;
+    }
+}

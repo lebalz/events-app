@@ -4,6 +4,7 @@ import Semester from '../models/Semester';
 import User from '../models/User';
 import Lesson from '../models/Untis/Lesson';
 import { EventState } from '../api/event';
+import _ from 'lodash';
 
 /**
  * route: /table
@@ -124,6 +125,33 @@ class EventTable {
     }
 }
 
+class AdminUserTable {
+    private readonly store: ViewStore;
+    @observable
+    sortColumn: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' = 'email';
+    @observable
+    sortDirection: 'asc' | 'desc' = 'asc';
+    constructor(store: ViewStore) {
+        this.store = store;
+        makeObservable(this);
+    }
+
+    @computed
+    get users(): User[] {
+        return _.orderBy(this.store.root.userStore.models, [this.sortColumn], [this.sortDirection]);
+    }
+
+    @action
+    setSortColumn(column: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt'): void {
+        if (this.sortColumn === column) {
+            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.sortColumn = column;
+            this.sortDirection = 'asc';
+        }
+    }
+}
+
 export class ViewStore {
     readonly root: RootStore;
 
@@ -141,12 +169,15 @@ export class ViewStore {
     @observable
     _userId: string | null = null;
 
-    
+    @observable.ref
+    adminUserTable: AdminUserTable;
+
     expandedEventIds = observable.set<string>();
 
     constructor(store: RootStore) {
         this.root = store;
         this.eventTable = new EventTable(this);
+        this.adminUserTable = new AdminUserTable(this);
         makeObservable(this);
     }
 
