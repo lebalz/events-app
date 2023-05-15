@@ -55,7 +55,7 @@ const Department = observer((props: Props) => {
                 <div className={clsx(styles.actions)}>
                     {department.isDirty && <Discard onClick={() => department.reset()} />}
                     {department.isDirty && <Save onClick={() => departmentStore.save(department)} />}
-                    <Delete onClick={() => departmentStore.destroy(department)} />
+                    <Delete onClick={() => departmentStore.destroy(department)} disabled={department.events.length > 0 || department.classes.length > 0} />
                 </div>
             </td>
         </tr>
