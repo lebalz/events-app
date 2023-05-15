@@ -1,0 +1,30 @@
+{
+  "title": {
+    "message": "Events",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Events App",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Kalender": {
+    "message": "Kalender",
+    "description": "Navbar item with label Kalender"
+  },
+  "item.label.Tabelle": {
+    "message": "Tabelle",
+    "description": "Navbar item with label Tabelle"
+  },
+  "item.label.GANTT": {
+    "message": "GANTT",
+    "description": "Navbar item with label GANTT"
+  },
+  "item.label.Stupla": {
+    "message": "Stupla",
+    "description": "Navbar item with label Stupla"
+  },
+  "item.label.Meine": {
+    "message": "Meine",
+    "description": "Navbar item with label Meine"
+  }
+}

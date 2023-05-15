@@ -67,7 +67,17 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'de',
-    locales: ['de'],
+    locales: ['de', 'fr'],
+    localeConfigs: {
+      de: {
+        htmlLang: 'de-CH',
+        label: 'Deutsch',
+        
+      },
+      fr: {
+        htmlLang: 'fr-CH',
+      },
+    },
   },
   presets: [
     [
@@ -117,6 +127,10 @@ const config = {
           {to: '/schedule', label: 'Stupla', position: 'left'},
           {to: '/my-events', label: 'Meine', position: 'left'},
           {
+            type: 'localeDropdown',
+            position: 'right',
+          },
+          {
             type: 'custom-semesterSelector',
             position: 'right'
           },
@@ -156,6 +170,10 @@ const config = {
               {
                 label: 'GBSL',
                 href: 'https://gbsl.ch',
+              },
+              {
+                label: 'GBJB',
+                href: 'https://gfbienne.ch',
               }
             ],
           },
