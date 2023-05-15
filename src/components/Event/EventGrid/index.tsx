@@ -83,36 +83,38 @@ const EventGrid = observer((props: Props) => {
     const editable = props.events.some(e => e.isEditable);
 
     return (
-        <div className={clsx(styles.scroll, editable && styles.editable, 'event-grid')} ref={ref}>
-            {props.showFilter && <Filter />}
-            <div className={clsx(styles.grid, gridConfig, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
-                <EventHeader 
-                    onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}
-                    checked={props.events.length > 0 && props.events.every(e => e.selected)} 
-                    partialChecked={props.events.some(e => e.selected)}
-                />
-                {props.groupBy ? (
-                    Object.entries(grouped).map(([kw, events]) => (
-                        <EventGroup events={events} key={kw} selectable={props.selectable} id={`KW ${kw}`} content={<><span>KW {kw}</span><span style={{textAlign: 'center'}}>{formatDate(events[0].weekStart)} - {formatDate(events[0].weekEnd)}</span></>} />
-                    ))
-                ) : (props.events.map((event, idx) => (
-                    <Event 
-                        key={event.id} 
-                        rowIndex={idx}
-                        event={event}
-                        onSelect={props.selectable ? 
-                            action((selected: boolean, shiftKey: boolean) => {
-                                if (shiftKey) {
-                                    const topIdx = props.events.slice(0, idx).findLastIndex(e => e.selected);
-                                    if (topIdx > -1) {
-                                        props.events.slice(topIdx, idx).forEach(e => e.setSelected(selected));
-                                    }
-                                }
-                                event.setSelected(selected);
-                            }) : undefined
-                        }
+        <div className={clsx(viewStore.fullscreen && styles.fullscreenContainer)} ref={ref}>
+            <div className={clsx(styles.scroll, editable && styles.editable, 'event-grid')}>
+                {props.showFilter && <Filter />}
+                <div className={clsx(styles.grid, gridConfig, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
+                    <EventHeader 
+                        onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}
+                        checked={props.events.length > 0 && props.events.every(e => e.selected)} 
+                        partialChecked={props.events.some(e => e.selected)}
                     />
-                )))}
+                    {props.groupBy ? (
+                        Object.entries(grouped).map(([kw, events]) => (
+                            <EventGroup events={events} key={kw} selectable={props.selectable} id={`KW ${kw}`} content={<><span>KW {kw}</span><span style={{textAlign: 'center'}}>{formatDate(events[0].weekStart)} - {formatDate(events[0].weekEnd)}</span></>} />
+                        ))
+                    ) : (props.events.map((event, idx) => (
+                        <Event 
+                            key={event.id} 
+                            rowIndex={idx}
+                            event={event}
+                            onSelect={props.selectable ? 
+                                action((selected: boolean, shiftKey: boolean) => {
+                                    if (shiftKey) {
+                                        const topIdx = props.events.slice(0, idx).findLastIndex(e => e.selected);
+                                        if (topIdx > -1) {
+                                            props.events.slice(topIdx, idx).forEach(e => e.setSelected(selected));
+                                        }
+                                    }
+                                    event.setSelected(selected);
+                                }) : undefined
+                            }
+                        />
+                    )))}
+                </div>
             </div>
         </div>
     )
