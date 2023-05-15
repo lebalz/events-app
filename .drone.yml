@@ -30,6 +30,8 @@ steps:
     USE_SSH: true
     GIT_USER: $DRONE_COMMIT_AUTHOR
     NODE_OPTIONS: "--max_old_space_size=12288"
+    CROWDIN_PERSONAL_TOKEN:
+      from_secret: "CROWDIN_PERSONAL_TOKEN"
     GITHUB_PRIVATE_KEY:
       from_secret: "git_deploy_private_key"
     REACT_APP_DOMAIN:
