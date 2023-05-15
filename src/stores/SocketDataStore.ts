@@ -102,6 +102,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
     handleEventStateChange = () => {
         return action((data: string) => {
+            console.log('data', data)
             const record: ChangedState = JSON.parse(data);
             const store = this.root.eventStore;
             record.ids.forEach((id) => {
