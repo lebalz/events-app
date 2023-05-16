@@ -7,7 +7,7 @@ import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson, UntisLesson } from '../api/untis';
-import { EventState } from '../api/event';
+import { EventState, Event as EventProps } from '../api/event';
 import { Role } from '../api/user';
 class Message {
     type: string;
@@ -174,6 +174,9 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
     checkEvent(eventId: string) {
         this.socket?.emit('checkEvent', {event_id: eventId});
+    }
+    checkUnpersistedEvent(event: EventProps) {
+        this.socket?.emit('checkUnpersistedEvent', {event: event});
     }
 
     checkLogin() {

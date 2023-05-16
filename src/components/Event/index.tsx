@@ -106,7 +106,7 @@ const Event = observer((props: Props) => {
                     text={translate({ message: "Alle betroffenen Lektionen anzeigen", id: 'event.button.showAllLessons', description: 'for a single event: button to show all affected lessons' })}
                     icon={mdiText}
                     onClick={() => {
-                        socketStore.checkEvent(event.id);
+                        socketStore.checkUnpersistedEvent(event.props);
                     }}
                 />
             </div>
