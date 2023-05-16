@@ -11,6 +11,7 @@ import EventModal from '../components/Event/Modal';
 const GanttView = observer(() => {
     const viewStore = useStore('viewStore');
     const ref = React.useRef<HTMLDivElement>(null);
+    const [timer, setTimer] = React.useState<number>(0);
     const tasks: Task[] = (viewStore.semester?.events || []).filter((e) => e.isValid).map((e, idx) => {
         return {
             start: e.start,
@@ -54,9 +55,17 @@ const GanttView = observer(() => {
                 }
                 wheelBlocker.addEventListener('wheel', onWheel);
                 return () => wheelBlocker.removeEventListener('wheel', onWheel);
+            } else if (timer < 50) {
+                /** page was freshly loaded and the wheel-handling div was not found - check again in some milliseconds */
+                const ts = setTimeout(() => {
+                    setTimer(timer + 1);
+                }, 200);
+                return () => clearTimeout(ts);
+            } else {
+                console.warn('Could not find the wheel-blocking div in the gantt component. Sidescrolling might not work.')
             }
         }
-    }, [ref.current]);
+    }, [ref.current, timer]);
                 
     return (
         <Layout>
