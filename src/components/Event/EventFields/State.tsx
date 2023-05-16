@@ -5,14 +5,14 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import { ReadonlyProps } from './iEventField';
 import { EventState } from '@site/src/api/event';
-import { mdiBookCancel, mdiDeleteForever, mdiFileCertificate, mdiPencilBox, mdiProgressCheck } from '@mdi/js';
+import { mdiBookCancel, mdiDeleteForever, mdiFileCertificate, mdiPen, mdiPencilBox, mdiProgressCheck } from '@mdi/js';
 import Badge from '@site/src/components/shared/Badge';
 import { SIZE_S } from '@site/src/components/shared/icons';
 import { Color } from '../../shared/Colors';
 
 const StateButton: {[state in EventState]: string} = {
     [EventState.Deleted]: mdiDeleteForever,
-    [EventState.Draft]: mdiPencilBox,
+    [EventState.Draft]: mdiPen,
     [EventState.Published]: mdiFileCertificate,
     [EventState.Refused]: mdiBookCancel,
     [EventState.Review]: mdiProgressCheck

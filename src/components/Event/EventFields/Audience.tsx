@@ -9,7 +9,7 @@ import { KlassName } from '@site/src/models/helpers/klassNames';
 
 const Audience = observer((props: Props) => {
     const { event, styles } = props;
-    if (props.isEditable && props.event.editing) {
+    if (props.isEditable && props.event.isEditing) {
         return (
             <div
                 style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}

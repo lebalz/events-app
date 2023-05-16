@@ -12,6 +12,7 @@ import Delete from '@site/src/components/shared/Button/Delete';
 import Edit from '@site/src/components/shared/Button/Edit';
 
 interface Props extends ReadonlyProps {
+    hideShare?: boolean;
 }
 
 const Actions = observer((props: Props) => {
@@ -21,18 +22,20 @@ const Actions = observer((props: Props) => {
             style={{ gridColumn: 'actions' }}
             className={clsx(props.className, styles.actions, 'grid-actions')}
         >
-            <Button
-                icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
-                href={event.shareUrl}
-                target="_self"
-            />
+            {!props.hideShare && (
+                <Button
+                    icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
+                    href={event.shareUrl}
+                    target="_self"
+                />
+            )}
             {
-                event.isEditable && !event.editing && (
+                event.isEditable && !event.isEditing && (
                     <Edit onClick={() => event.setEditing(true)} />
                 )
             }
             {
-                event.editing && (
+                event.isEditing && (
                     <>
                         <Discard onClick={() => event.reset()} />
                         <Save

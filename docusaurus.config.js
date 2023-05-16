@@ -6,13 +6,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 const VERSION = 'alpha.1';
 
-/** @type (
-    | string
+/** @type { (string
     | {
         src: string;
         [key: string]: string | boolean | undefined;
       }
-  )[] */
+  )[]} */
 const scripts = []
 
 if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {

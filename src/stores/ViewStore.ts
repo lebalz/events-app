@@ -123,7 +123,7 @@ class EventTable {
 
     @computed
     get isEditing(): boolean {
-        return this.events.some((e) => e.editing);
+        return this.events.some((e) => e.isEditing);
     }
 }
 
@@ -285,7 +285,7 @@ export class ViewStore {
 
     @computed
     get usersLessons(): Lesson[] {
-        return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l.semesterName === this.semester?.semesterName);
+        return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l?.semesterName === this.semester?.semesterName);
     }
 
 }

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import ApiModel from "./ApiModel";
 
-const notEqual = (a: any, b: any) => {
+export const notEqual = (a: any, b: any) => {
     if (Array.isArray(a)) {
         if (_.xor(a, b).length !== 0) {
             return true;

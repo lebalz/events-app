@@ -8,7 +8,7 @@ import TextArea from '@site/src/components/shared/TextArea';
 const Description = observer((props: Props) => {
     const { styles } = props;
     const error = props.event.errorFor('description');
-    if (props.isEditable && props.event.editing) {
+    if (props.isEditable && props.event.isEditing) {
         return (
             <div 
                 style={{gridColumn: 'description'}} 

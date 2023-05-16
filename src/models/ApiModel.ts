@@ -1,17 +1,7 @@
 import { action, computed, IObservableArray, makeObservable, observable, reaction } from "mobx";
 import _ from 'lodash';
 import iStore from "../stores/iStore";
-import {default as Joi, SchemaMap} from 'joi';
-
-const notEqual = (a: any, b: any) => {
-    if (Array.isArray(a)) {
-        if (_.xor(a, b).length !== 0) {
-            return true;
-        }
-    } else if (a !== b) {
-        return true;
-    }
-}
+import { notEqual } from "./helpers";
 
 export type UpdateableProps<T extends { id: string }> = (keyof T | { attr: keyof T, transform?: (value: any) => any});
 
@@ -22,7 +12,7 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly UPDATEABLE_PROPS: UpdateableProps<T>[];
 
     @observable
-    _editing = false;
+    _isEditing = false;
 
     constructor() {
         makeObservable(this);
@@ -89,12 +79,12 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
 
     @action
     setEditing(editing: boolean) {
-        this._editing = editing;
+        this._isEditing = editing;
     }
 
     @computed
-    get editing() {
-        return this._editing || this.isDirty;
+    get isEditing() {
+        return this._isEditing || this.isDirty;
     }
 
     apiStateFor(sigId: Api) {

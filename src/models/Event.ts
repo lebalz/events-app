@@ -10,6 +10,7 @@ import User from './User';
 import Joi from 'joi';
 import _ from 'lodash';
 import { KlassName } from './helpers/klassNames';
+import humanize from 'humanize-duration';
 
 export interface iEvent {
     weekOffsetMS_start: number;
@@ -501,6 +502,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             hours: Math.ceil(period / HOUR_2_MS),
             minutes: Math.ceil(period / MINUTE_2_MS)
         }
+    }
+
+    @computed
+    get fDurationDe() {
+        return humanize(this.durationMS, {language: 'de', units: ['w', 'd', 'h', 'm']});
+    }
+
+    @computed
+    get fDurationFr() {
+        return humanize(this.durationMS, {language: 'fr', units: ['w', 'd', 'h', 'm']});
+    }
+
+    fDuration(lang: 'de' | 'fr') {
+        if (lang === 'fr') {
+            return this.fDurationFr;
+        }
+        return this.fDurationDe;
     }
 
     /**

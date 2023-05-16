@@ -1,0 +1,87 @@
+.cell {
+    padding: 2px 4px;
+    background: var(--ifm-color-emphasis-100);
+}
+.error {
+    border: 1px dashed red;
+    border-radius: var(--ifm-global-radius);
+}
+.errorMessage {
+    color: red;
+    font-size: 0.75em;
+    margin: 0;
+    padding: 0;
+}
+.eventGroup {
+    grid-column-start: gridStart;
+    grid-column-end: gridEnd;
+}
+.select {
+    grid-column: select;
+}
+.isValid {
+    grid-column: isValid;
+}
+.state {
+    grid-column: isValid;
+}
+.kw {
+    grid-column: kw;
+}
+.author {
+    grid-column: author;
+}
+.day {
+    grid-column: day;
+    &::after {
+        content: ".";
+    }
+}
+.startDate {
+    grid-column: startDate;
+}
+.startTime {
+    grid-column: startTime;
+}
+.endDate {
+    grid-column: endDate;
+}
+.endTime {
+    grid-column: endTime;
+}
+.dateTime {
+    input {
+        max-width: 100%;
+    }
+    &.start {
+        grid-column-start: startDate;
+        grid-column-end: startEnd;
+    }
+    &.end {
+        grid-column-start: endDate;
+        grid-column-end: endEnd;
+    }
+}
+.description {
+    grid-column: description;
+}
+.location {
+    grid-column: location;
+}
+.departments {
+    grid-column: departments;
+}
+
+.classes {
+    grid-column: classes;
+}
+.audience {
+    grid-column-start: departments;
+    grid-column-end: classesEnd;
+}
+.descriptionLong {
+    grid-column: descriptionLong;
+}
+.actions {
+    grid-column: actions;
+}

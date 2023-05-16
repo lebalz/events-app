@@ -24,7 +24,8 @@ const DateTime = observer((props: Props) => {
         ftime = event.fEndTime;
         date = event.end;
     }
-    if (props.isEditable && props.event.editing) {
+    console.log(props.styles)
+    if (props.isEditable && props.event.isEditing) {
         return (
             <div
                 style={{ gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End` }}
@@ -46,13 +47,13 @@ const DateTime = observer((props: Props) => {
         <>
             <div
                 style={{ gridColumn: dateColumn }}
-                className={clsx(props.className, styles[dateColumn], `grid-${dateColumn}`)}
+                className={clsx(props.className, styles.date, styles[dateColumn], `grid-${dateColumn}`)}
             >{
                     fdate
                 }</div>
             <div
                 style={{ gridColumn: timeColumn }}
-                className={clsx(props.className, styles[timeColumn], `grid-${timeColumn}`)}
+                className={clsx(props.className, styles.time, styles[timeColumn], `grid-${timeColumn}`)}
             >{
                     ftime
                 }</div>

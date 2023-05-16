@@ -27,7 +27,7 @@ const SemesterList = observer((props: Props) => {
                 <tbody>
                     {
                         store.semesters.map((semester, idx) => {
-                            if (semester.editing) {
+                            if (semester.isEditing) {
                                 return <EditTr semester={semester} key={semester.id} />
                             }
                             return <Tr semester={semester} key={semester.id} />
