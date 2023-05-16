@@ -1,7 +1,6 @@
 .button {
     padding: 0 0.6rem;
-    margin: 0.2rem;
-    margin-left: 0;
+    margin: 0.1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -30,17 +29,18 @@
         padding-right: 0.2rem;
     }
     .icon {
-        svg {
-            transform: translateY(10%);
-        }
+        transform: translateY(10%);
         &.withText {
             margin: 0;
         }
     }
     .spacer {
         flex: 1 1 0;
-        height: 70%;
-        margin: 0 0.2rem;
+        height: 2.5ex;
+        &.borderLeft,
+        &.borderRight {
+            margin: 0 0.2rem;
+        }
         &.borderLeft {
             border-left: 1px solid var(--button-border-color);
         }
@@ -53,29 +53,18 @@
     }
     &.disabled {
         opacity: 0.5;
-        &.iconRight {
-            .border {
-                border-right-color: var(--ifm-color-disabled);
-            }
-        }
-        &.iconLeft {
-            .border {
-                border-left-color: var(--ifm-color-disabled);
-            }
+        .spacer.borderLeft,
+        .spacer.borderRight {
+            border-color: var(--ifm-color-disabled);
         }
         --button-border-color: var(--ifm-color-disabled);
     }
 
     &:hover {
-        &.iconLeft {
-            .border {
-                border-left-color: var(--ifm-color-white);
-            }
-        }
-        &.iconRight {
-            .border {
-                border-right-color: var(--ifm-color-white);
-            }
+        --button-border-color: var(--button-background-color);
+        .spacer.borderLeft,
+        .spacer.borderRight {
+            border-color: var(--button-color);
         }
     }
     
@@ -101,5 +90,11 @@
                 margin-left: 0;
             }
         }
+    }
+}
+
+:global(.button-group) {
+    .button {
+        margin: 0rem;
     }
 }
