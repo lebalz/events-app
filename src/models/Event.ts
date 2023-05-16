@@ -125,7 +125,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     validate() {
-        const result = JoiEvent.validate(this.props, {abortEarly: false});
+        const result = JoiEvent.validate(this.props, {abortEarly: false, errors: {language: this.store.root.sessionStore.locale}});
         if (result.error) {
             this._errors = result.error;
         } else {

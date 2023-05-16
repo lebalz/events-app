@@ -51,6 +51,7 @@ const EventGroup = observer((props: Props) => {
             {expanded && (
                 props.events.map((event, idx) => (
                     <Event
+                        styles={styles}
                         key={event.id}
                         rowIndex={idx}
                         event={event}
