@@ -60,7 +60,7 @@ const Event = observer((props: Props) => {
                     <dt><Translate id="event.date" description='for a single event: date range'>Datum</Translate></dt>
                     <dd className={styles.flex}><DateTime {...commonEditProps} time='start' /></dd>
                     <dd className={styles.flex}><Icon path={mdiArrowRightBottom} /><DateTime {...commonEditProps} time='end' /></dd>
-                    <dd className={clsx(styles.duration, styles.flex)}><Icon path={mdiEqual} />{event.fDuration(i18n.currentLocale as 'de' | 'fr')}</dd>
+                    <dd className={clsx(styles.duration, styles.flex)}><Icon path={mdiEqual} />{event.fDuration}</dd>
                     <dt><Translate id="event.location" description='for a single event: location'>Ort</Translate></dt>
                     <dd><Location {...commonEditProps} /></dd>
                     {event.isEditing ? (

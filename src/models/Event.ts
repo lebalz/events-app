@@ -505,20 +505,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get fDurationDe() {
-        return humanize(this.durationMS, {language: 'de', units: ['w', 'd', 'h', 'm']});
-    }
-
-    @computed
-    get fDurationFr() {
-        return humanize(this.durationMS, {language: 'fr', units: ['w', 'd', 'h', 'm']});
-    }
-
-    fDuration(lang: 'de' | 'fr') {
-        if (lang === 'fr') {
-            return this.fDurationFr;
+    get fDuration() {
+        if (this.store?.root?.sessionStore?.locale === 'fr') {
+            return humanize(this.durationMS, {language: 'fr', units: ['w', 'd', 'h', 'm']});
         }
-        return this.fDurationDe;
+        return humanize(this.durationMS, {language: 'de', units: ['w', 'd', 'h', 'm']});
     }
 
     /**

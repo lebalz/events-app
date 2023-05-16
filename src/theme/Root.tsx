@@ -5,7 +5,9 @@ import { observer } from "mobx-react-lite";
 import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
+
 
 const selectAccount = () => {
   /**
@@ -51,6 +53,7 @@ const Msal = observer(({ children }: any) => {
 
 // Default implementation, that you can customize
 function Root({ children }) {
+  const { i18n } = useDocusaurusContext();
   React.useEffect(() => {
     if (!(window as any).store) {
       (window as any).store = rootStore;
@@ -63,6 +66,12 @@ function Root({ children }) {
       rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
     }
   }, [rootStore?.sessionStore])
+
+  React.useEffect(() => {
+    if (rootStore?.sessionStore) {
+      rootStore.sessionStore.setLocale(i18n.currentLocale as 'de' | 'fr');
+    }
+  }, [i18n.currentLocale])
 
   return (
     <>

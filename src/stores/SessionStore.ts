@@ -23,12 +23,24 @@ export class SessionStore {
     private readonly root: RootStore;
     @observable.ref
     private state: State = new State();
+    @observable
+    locale: 'de' | 'fr' = 'de';
 
     cancelToken: CancelTokenSource = axios.CancelToken.source();
 
     constructor(store: RootStore) {
         this.root = store;
         makeObservable(this);
+    }
+
+    @action
+    setLocale(locale: 'de' | 'fr') {
+        console.log('locale', locale)
+        if (locale === 'fr') {
+            this.locale = 'fr';
+        } else {
+            this.locale = 'de';
+        }
     }
 
     @computed
