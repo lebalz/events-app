@@ -9,17 +9,29 @@ import Event from '../models/Event';
 moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Layout from '@theme/Layout';
+import EventModal from '../components/Event/Modal';
+import Button from '../components/shared/Button';
 const localizer = momentLocalizer(moment)
 
-const COLOR = {
-    'GYM': 'light-blue',
-    'FMS': 'orange',
-    'WMS': 'green'
-}
+// function EventModel({ event }) {
+//     console.log(event)
+//     return (
+//         <EventModal 
+//             event={event} 
+//             trigger={<Button text={event.title} onClick={() => } />} 
+//         />
+//     //   <span>
+//     //     <strong>{event.title}</strong>
+//     //     {event.title && '!!! ' + event.description}
+//     //   </span>
+//     )
+//   }
+
 
 const Calendar = observer(() => {
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
+    // const tasks = viewStore.semester?.events || [];
     const tasks = (viewStore.semester?.events || []).map((e, idx) => {
         return {
             start: e.start,
@@ -29,6 +41,15 @@ const Calendar = observer(() => {
             id: e.id
         }
     });
+    const { defaultDate } = React.useMemo(
+        () => ({
+        //   components: {
+        //     event: EventModel,
+        //   },
+          defaultDate: moment().toDate(),
+        }),
+        []
+      )
     const eventStyleGetter = (event, start, end, isSelected) => {
         const e = eventStore.find<Event>(event.id);
         if (!e) {
@@ -37,7 +58,7 @@ const Calendar = observer(() => {
         if (e.departmentNames.length === 1) {
             return {
                 style: {
-                    backgroundColor: COLOR[e.departmentNames[0]]
+                    backgroundColor: e.departments.length === 1 ? e.departments[0].color : undefined,
                 }
             }
         }
@@ -48,16 +69,20 @@ const Calendar = observer(() => {
             <div>
                 {tasks.length > 0 && (
                     <BigCalendar
-                        defaultDate={moment().toDate()}
+                        defaultDate={defaultDate}
                         localizer={localizer}
                         events={tasks}
                         startAccessor="start"
                         endAccessor="end"
                         style={{ height: '95vh' }}
-                        onSelectEvent={(record) => console.log(eventStore.find(record.id))}
+                        onSelectEvent={(record) => {
+                            viewStore.setEventModalId(record.id)
+                        }}
                         eventPropGetter={eventStyleGetter}
+                        popup
                     />
                 )}
+                <EventModal />
             </div>
         </Layout>
     )

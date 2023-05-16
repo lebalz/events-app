@@ -38,7 +38,7 @@
     --ifm-badge-background-color: var(--ifm-color-info);
 }
 
+/* use this class together with button--primary to achieve a blue button */
 .buttonBlue {
-    --ifm-button-background-color: var(--ifm-color-blue);
-    --ifm-button-border-color: var(--ifm-color-blue);
+    --ifm-color-primary: var(--ifm-color-blue);
 }

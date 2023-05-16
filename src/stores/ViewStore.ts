@@ -30,6 +30,7 @@ class EventTable {
     @observable
     activeGroup: string | null = null;
 
+
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
@@ -164,6 +165,7 @@ class AdminDepartmentTable {
         makeObservable(this);
     }
 
+
     @computed
     get departments(): Department[] {
         return _.orderBy(this.store.root.departmentStore.departments, [(d) => d.pristine[this.sortColumn]], [this.sortDirection]);
@@ -202,6 +204,9 @@ export class ViewStore {
     @observable.ref
     adminDepartmentTable: AdminDepartmentTable;
 
+    @observable
+    openEventModalId?: string;
+
     expandedEventIds = observable.set<string>();
 
     constructor(store: RootStore) {
@@ -210,6 +215,10 @@ export class ViewStore {
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
         makeObservable(this);
+    }
+    @action
+    setEventModalId(modalId?: string): void {
+        this.openEventModalId = modalId;
     }
 
     @action

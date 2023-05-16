@@ -62,7 +62,6 @@ export const extractSharedProps = (props: Base) => {
 }
 
 const ButtonIcon = (props: Props) => {
-    const textAndIcon = (props.children || props.text) && props.icon;
     let icon = props.icon;
     if (typeof icon === 'string') {
         icon = <Icon path={icon} size={props.size} />;
@@ -72,7 +71,7 @@ const ButtonIcon = (props: Props) => {
             {
                 icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
                     <span
-                        className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
+                        className={clsx(styles.icon)}
                     >
                         {icon}
                     </span>
@@ -81,7 +80,7 @@ const ButtonIcon = (props: Props) => {
             {
                 (props.apiState && props.apiState !== ApiState.IDLE) && (
                     <span
-                        className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
+                        className={clsx(styles.icon)}
                     >
                         {ApiIcon[props.apiState]({ size: props.apiIconSize ?? SIZE_S })}
                     </span>
@@ -92,12 +91,13 @@ const ButtonIcon = (props: Props) => {
 }
 
 const ButtonInner = (props: Props) => {
-    const textAndIcon = (props.children || props.text) && props.icon;
     const iconSide = props.iconSide ?? 'right';
+    const textAndIcon = (props.children || props.text) && props.icon;
     return (
         <>
             {props.icon && iconSide === 'left' && <ButtonIcon {...props} />}
-            <span className={clsx(textAndIcon && styles.border)}>
+            <span className={clsx(styles.spacer, textAndIcon && iconSide === 'left' && styles.borderLeft)}></span>
+            <span className={clsx()}>
                 {
                     props.text && <span>{props.text}</span>
                 }
@@ -105,6 +105,7 @@ const ButtonInner = (props: Props) => {
                     props.children && props.children
                 }
             </span>
+            <span className={clsx(styles.spacer, textAndIcon && iconSide === 'right' && styles.borderRight)}></span>
             {props.icon && iconSide === 'right' && <ButtonIcon {...props} />}
         </>
     )

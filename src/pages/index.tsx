@@ -5,6 +5,9 @@ import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 import { observer } from 'mobx-react-lite';
+import Modal from '../components/shared/Modal';
+import Button from '../components/shared/Button';
+import { useStore } from '../stores/hooks';
 
 const getCircularReplacer = () => {
   const seen = new WeakSet();
@@ -20,20 +23,21 @@ const getCircularReplacer = () => {
 };
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <img src='/img/events.png'/>
+        <img src='/img/events.png' />
       </div>
     </header>
   );
 }
 
 const Home = observer(() => {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
+  const viewStore = useStore('viewStore');
   return (
     <Layout
       title="Events"

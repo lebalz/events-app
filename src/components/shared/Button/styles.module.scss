@@ -4,6 +4,7 @@
     margin-left: 0;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
     --button-border-color: var(--ifm-button-color);
     --button-color: var(--ifm-button-color);
@@ -22,29 +23,29 @@
     &.soloText {
         padding: calc(0.2rem - 1px) 0.4rem;
     }
-    .icon {    
-        transform: translateY(10%);
+    &.iconLeft {
+        padding-left: 0.2rem;
     }
     &.iconRight {
         padding-right: 0.2rem;
-        .inlineIcon {
-            margin-left: 0;
-            padding-left: 0.2rem;
+    }
+    .icon {
+        svg {
+            transform: translateY(10%);
         }
-        .border {
-            padding-right: 0.4rem;
-            border-right: 1px solid var(--button-border-color);
+        &.withText {
+            margin: 0;
         }
     }
-    &.iconLeft {
-        padding-left: 0.2rem;
-        .inlineIcon {
-            margin-right: 0rem;
-            padding-right: 0.2rem;
-        }
-        .border {
-            padding-left: 0.4rem;
+    .spacer {
+        flex: 1 1 0;
+        height: 70%;
+        margin: 0 0.2rem;
+        &.borderLeft {
             border-left: 1px solid var(--button-border-color);
+        }
+        &.borderRight {
+            border-right: 1px solid var(--button-border-color);
         }
     }
     &.save {
