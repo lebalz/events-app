@@ -3,6 +3,7 @@ import { default as EventModel } from '@site/src/models/Event';
 interface CommonProps {
     event: EventModel;
     className?: string;
+    styles: { [className: string]: string };
 }
 export interface ReadonlyProps extends CommonProps {
     isEditable?: false;

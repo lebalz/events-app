@@ -98,6 +98,7 @@ const EventGrid = observer((props: Props) => {
                         ))
                     ) : (props.events.map((event, idx) => (
                         <Event 
+                            styles={styles}
                             key={event.id} 
                             rowIndex={idx}
                             event={event}

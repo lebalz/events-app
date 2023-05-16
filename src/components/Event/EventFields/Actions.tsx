@@ -1,7 +1,6 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from '../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
 import Button from '@site/src/components/shared/Button';
@@ -16,7 +15,7 @@ interface Props extends ReadonlyProps {
 }
 
 const Actions = observer((props: Props) => {
-    const { event } = props;
+    const { event, styles } = props;
     return (
         <div 
             style={{ gridColumn: 'actions' }}

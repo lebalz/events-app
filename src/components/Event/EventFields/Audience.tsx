@@ -1,7 +1,6 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from '../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Props } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
@@ -9,7 +8,7 @@ import AudiencePicker from '@site/src/components/shared/AudiencePicker';
 import { KlassName } from '@site/src/models/helpers/klassNames';
 
 const Audience = observer((props: Props) => {
-    const { event } = props;
+    const { event, styles } = props;
     if (props.isEditable && props.event.editing) {
         return (
             <div

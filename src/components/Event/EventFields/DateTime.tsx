@@ -1,17 +1,16 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from '../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Props as DefaultProps } from './iEventField';
 import DateTimePicker from '@site/src/components/shared/DateTimePicker';
 
-interface Props extends DefaultProps{
+interface Props extends DefaultProps {
     time: 'start' | 'end'
 }
 
 const DateTime = observer((props: Props) => {
-    const {event} = props;
+    const { event, styles } = props;
     const error = event.errorFor(props.time);
     let dateColumn = 'startDate';
     let timeColumn = 'startTime';
@@ -28,12 +27,12 @@ const DateTime = observer((props: Props) => {
     if (props.isEditable && props.event.editing) {
         return (
             <div
-                style={{gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End`}} 
+                style={{ gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End` }}
                 className={clsx(props.className, 'grid-dateTime', styles.dateTime, styles[props.time], error && styles.error)}
             >
                 <DateTimePicker
                     date={date}
-                    onChange={(date) => event.update({[props.time]: date.toISOString()})}
+                    onChange={(date) => event.update({ [props.time]: date.toISOString() })}
                 />
                 {error && (
                     <div className={styles.errorMessage}>
@@ -45,18 +44,18 @@ const DateTime = observer((props: Props) => {
     }
     return (
         <>
-            <div 
-                style={{gridColumn: dateColumn}} 
+            <div
+                style={{ gridColumn: dateColumn }}
                 className={clsx(props.className, styles[dateColumn], `grid-${dateColumn}`)}
             >{
-                fdate
-            }</div>
-            <div 
-                style={{gridColumn: timeColumn}} 
+                    fdate
+                }</div>
+            <div
+                style={{ gridColumn: timeColumn }}
                 className={clsx(props.className, styles[timeColumn], `grid-${timeColumn}`)}
             >{
-                ftime
-            }</div>
+                    ftime
+                }</div>
         </>
     )
 });

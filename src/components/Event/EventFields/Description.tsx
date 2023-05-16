@@ -1,12 +1,12 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from '../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const Description = observer((props: Props) => {
+    const { styles } = props;
     const error = props.event.errorFor('description');
     if (props.isEditable && props.event.editing) {
         return (

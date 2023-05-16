@@ -1,7 +1,6 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from '../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import { ReadonlyProps } from './iEventField';
@@ -14,7 +13,7 @@ interface Props extends ReadonlyProps {
 }
 
 const Select = observer((props: Props) => {
-    const { event } = props;
+    const { event, styles } = props;
     return (
         <div 
             data-id={event.id}

@@ -2,7 +2,6 @@ import { default as EventModel } from '@site/src/models/Event';
 import { clsx } from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import styles from './styles.module.scss';
 import Badge from '../../shared/Badge';
 import KW from '../EventFields/Kw';
 import Day from '../EventFields/Day';
@@ -21,10 +20,11 @@ interface RowProps {
     event: EventModel;
     rowIndex: number;
     onSelect?: (selected: boolean, shiftKey: boolean) => void;
+    styles: { [className: string]: string };
 }
 
 const Event = observer((props: RowProps) => {
-    const { event } = props;
+    const { event, styles } = props;
 
     const commonStyle = clsx(
         styles.cell, 
@@ -34,19 +34,19 @@ const Event = observer((props: RowProps) => {
 
     return (
         <React.Fragment>
-            <State event={event} className={clsx(commonStyle)} />
-            <IsValid event={event} className={clsx(commonStyle)} />
-            <Select event={event} className={clsx(commonStyle)} onSelect={props.onSelect} />
-            <KW event={event} className={clsx(commonStyle)}/>
-            <Author event={event} className={clsx(commonStyle)} />
-            <Day event={event} className={clsx(commonStyle)}/>
-            <Description event={event} className={clsx(commonStyle)} isEditable={true}/>
-            <DateTime event={event} time='start' className={clsx(commonStyle)} isEditable={true} />
-            <DateTime event={event} time='end' className={clsx(commonStyle)} isEditable={true} />
-            <Location event={event} className={clsx(commonStyle)} isEditable={true} />
-            <Audience event={event} className={clsx(commonStyle)} isEditable={true} />
-            <DescriptionLong event={event} className={clsx(commonStyle)} isEditable={true}/>
-            <Actions event={event} className={clsx(commonStyle)} />
+            <State event={event} styles={styles} className={clsx(commonStyle)} />
+            <IsValid event={event} styles={styles} className={clsx(commonStyle)} />
+            <Select event={event} styles={styles} className={clsx(commonStyle)} onSelect={props.onSelect} />
+            <KW event={event} styles={styles} className={clsx(commonStyle)}/>
+            <Author event={event} styles={styles} className={clsx(commonStyle)} />
+            <Day event={event} styles={styles} className={clsx(commonStyle)}/>
+            <Description event={event} styles={styles} className={clsx(commonStyle)} isEditable={true}/>
+            <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} />
+            <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} />
+            <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} />
+            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} />
+            <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true}/>
+            <Actions event={event} styles={styles} className={clsx(commonStyle)} />
         </React.Fragment>
     );
 });
