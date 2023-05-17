@@ -8,6 +8,7 @@ import Button from '../../shared/Button';
 import { mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
+import { SIZE_S, SIZE_XS } from '../../shared/icons';
 
 interface Props {
 }
@@ -20,17 +21,19 @@ const Filter = observer((props: Props) => {
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.audience)}>
                 <Button 
-                    text="Meine"className={clsx(eventTable.onlyMine && styles.selected)}
+                    text="Meine"
+                    active={eventTable.onlyMine}
+                    color='blue'
                     onClick={() => eventTable.toggleOnlyMine()}
                 />
             </div>
-            <div className={clsx(styles.department)}>
+            <div className={clsx(styles.department, 'button-group', 'button-group--block')}>
                 {departmentStore.usedDepartments.map((department) => (
-                    <Button 
+                    <Button
                         text={department.name}
                         active={eventTable.departmentIds.has(department.id)}
-                        color={eventTable.departmentIds.has(department.id) ? 'primary' : 'secondary'}
                         onClick={() => eventTable.toggleDepartment(department.id)} 
+                        color="blue"
                         key={department.id}
                     />
                 ))}
@@ -38,7 +41,7 @@ const Filter = observer((props: Props) => {
             <div className={clsx(styles.classes)}>
                 <TextInput onChange={(txt) => eventTable.setClassFilter(txt)} text={eventTable.klassFilter}/>
             </div>
-            <div className={clsx(styles.date, styles.start)}>
+            {/* <div className={clsx(styles.date, styles.start)}>
                 {!!eventTable.start ? (
                     <>
                         <DatePicker date={eventTable.start || new Date()} onChange={(date)=>eventTable.setStartFilter(date)} />
@@ -57,7 +60,7 @@ const Filter = observer((props: Props) => {
                 ) : (
                     <Button icon={mdiPlusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(new Date())}/>
                 )}
-            </div>
+            </div> */}
         </div>
     )
 });

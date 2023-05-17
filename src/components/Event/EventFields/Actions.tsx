@@ -52,7 +52,7 @@ const Actions = observer((props: Props) => {
             </div>
             <div className={clsx(styles.expand)}>
                 {
-                    props.expandeable && event.isExpanded && (
+                    props.expandeable && event.isExpanded && !event.isEditing && (
                         <Button icon={mdiArrowExpandUp} onClick={() => event.setExpanded(false)} size={SIZE_S} />
                     )
                 }

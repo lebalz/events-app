@@ -5,12 +5,6 @@
     .department {
         display: flex;
     }
-    .selected {
-        --button-border-color: var(--ifm-color-primary);
-        --button-background-color: var(--ifm-color-primary);
-        --button-color: var(--ifm-color-white);
-        --ifm-font-color-base: var(--ifm-color-white);
-    }
     .date {
         display: flex;
         align-items: center;

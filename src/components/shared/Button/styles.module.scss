@@ -5,12 +5,9 @@
     align-items: center;
     justify-content: space-between;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
-    --button-border-color: var(--ifm-button-color);
-    --button-color: var(--ifm-button-color);
-    --button-background-color: var(--ifm-button-background-color);
-    border-color: var(--button-border-color);
-    background: var(--button-background-color);
-    color: var(--button-color);
+    border-color: var(--ifm-button-border-color);
+    background: var(--ifm-button-background-color);
+    color: var(--ifm-button-color);
     &.link {
         width: min-content;
         padding-top: 0.02rem;
@@ -42,14 +39,14 @@
             margin: 0 0.2rem;
         }
         &.borderLeft {
-            border-left: 1px solid var(--button-border-color);
+            border-left: 1px solid var(--ifm-button-border-color);
         }
         &.borderRight {
-            border-right: 1px solid var(--button-border-color);
+            border-right: 1px solid var(--ifm-button-border-color);
         }
     }
     &.save {
-        --button-border-color: var(--ifm-color-success);
+        --ifm-button-border-color: var(--ifm-color-success);
     }
     &.disabled {
         opacity: 0.5;
@@ -57,11 +54,10 @@
         .spacer.borderRight {
             border-color: var(--ifm-color-disabled);
         }
-        --button-border-color: var(--ifm-color-disabled);
+        --ifm-button-border-color: var(--ifm-color-disabled);
     }
 
     &:hover {
-        --button-border-color: var(--button-background-color);
         .spacer.borderLeft,
         .spacer.borderRight {
             border-color: var(--button-color);
@@ -74,7 +70,7 @@
 .delete {
     display: flex;
     .button {
-        --button-border-color: var(--ifm-color-danger);
+        --ifm-button-border-color: var(--ifm-color-danger);
     }
     &.expanded {
         .button {
@@ -86,7 +82,7 @@
             &:last-child {
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
-                --button-border-color: var(--ifm-color-danger);
+                --ifm-button-border-color: var(--ifm-color-danger);
                 margin-left: 0;
             }
         }
@@ -94,6 +90,9 @@
 }
 
 :global(.button-group) {
+    --ifm-button-group-spacing: 0;
+    margin: 0.1rem;
+    align-items: start;
     .button {
         margin: 0rem;
     }

@@ -41,4 +41,5 @@
 /* use this class together with button--primary to achieve a blue button */
 .buttonBlue {
     --ifm-color-primary: var(--ifm-color-blue);
+    --ifm-color-primary-darker: var(--ifm-color-blue-darker);
 }
