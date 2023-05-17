@@ -24,7 +24,7 @@ const Location = observer((props: Props) => {
         <div 
             style={{gridColumn: 'location'}} 
             className={clsx(styles.location, props.className, 'grid-Location')}
-            onClick={() => props.event.setExpanded(true)}
+            onClick={() => props.expandeable && props.event.setExpanded(true)}
         >
             {props.event.location}
         </div>

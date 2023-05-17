@@ -11,7 +11,7 @@ const IsValid = observer((props: ReadonlyProps) => {
         <div 
             style={{gridColumn: 'isValid'}} 
             className={clsx('isValid', styles.isValid, props.className, 'grid-isValid')}
-            onClick={() => props.event.setExpanded(true)}
+            onClick={() => props.expandeable && props.event.setExpanded(true)}
         >
             {props.event.isValid ? '' : '❌'}
         </div>

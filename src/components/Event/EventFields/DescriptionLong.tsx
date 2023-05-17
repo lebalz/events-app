@@ -24,7 +24,7 @@ const DescriptionLong = observer((props: Props) => {
         <div 
             style={{gridColumn: 'descriptionLong'}} 
             className={clsx(styles.descriptionLong, props.className, 'grid-descriptionLong')}
-            onClick={() => props.event.setExpanded(true)}
+            onClick={() => props.expandeable && props.event.setExpanded(true)}
         >
             {props.event.descriptionLong}
         </div>

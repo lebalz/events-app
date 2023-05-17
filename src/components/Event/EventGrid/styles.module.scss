@@ -132,8 +132,13 @@
 .day {
     grid-column: day;
     max-width: 3.5em;
-    &::after {
-        content: ".";
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .value {
+        &::after {
+            content: ".";
+        }
     }
 }
 .startDate {
@@ -220,6 +225,9 @@
 }
 .actions {
     grid-column: actions;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     .flex {
         display: flex;
         align-items: flex-start;
@@ -280,6 +288,11 @@
                 &.header {
                     clip-path: inset(0px 0px calc(-1 * var(--header-shadow-blur)) calc(-1 * var(--header-shadow-blur)));
 
+                }
+            }
+            .day {
+                .expand {
+                    display: none;
                 }
             }
         }

@@ -13,7 +13,6 @@ import Edit from '@site/src/components/shared/Button/Edit';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
-    expandeable?: boolean;
 }
 
 const Actions = observer((props: Props) => {

@@ -27,25 +27,25 @@ const Event = observer((props: RowProps) => {
     const { event, styles } = props;
 
     const commonStyle = clsx(
-        styles.cell, 
+        styles.cell,
         event.isExpanded ? styles.expanded : styles.collapsed,
         props.rowIndex % 2 === 0 ? styles.even : styles.odd
     )
 
     return (
         <React.Fragment>
-            <State event={event} styles={styles} className={clsx(commonStyle)} />
-            <IsValid event={event} styles={styles} className={clsx(commonStyle)} />
-            <Select event={event} styles={styles} className={clsx(commonStyle)} onSelect={props.onSelect} />
-            <KW event={event} styles={styles} className={clsx(commonStyle)}/>
-            <Author event={event} styles={styles} className={clsx(commonStyle)} />
-            <Day event={event} styles={styles} className={clsx(commonStyle)}/>
-            <Description event={event} styles={styles} className={clsx(commonStyle)} isEditable={true}/>
-            <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} />
-            <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} />
-            <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} />
-            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} />
-            <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true}/>
+            <State event={event} styles={styles} className={clsx(commonStyle)} expandeable />
+            <IsValid event={event} styles={styles} className={clsx(commonStyle)} expandeable />
+            <Select event={event} styles={styles} className={clsx(commonStyle)} onSelect={props.onSelect} expandeable />
+            <KW event={event} styles={styles} className={clsx(commonStyle)} expandeable />
+            <Author event={event} styles={styles} className={clsx(commonStyle)} expandeable />
+            <Day event={event} styles={styles} className={clsx(commonStyle)} expandeable />
+            <Description event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
+            <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} expandeable />
+            <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} expandeable />
+            <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
+            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
+            <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
             <Actions event={event} styles={styles} className={clsx(commonStyle)} expandeable />
         </React.Fragment>
     );

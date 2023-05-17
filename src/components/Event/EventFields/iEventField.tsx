@@ -2,6 +2,7 @@ import { default as EventModel } from '@site/src/models/Event';
 
 interface CommonProps {
     event: EventModel;
+    expandeable?: boolean;
     className?: string;
     styles: { [className: string]: string };
 }
