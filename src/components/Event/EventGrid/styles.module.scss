@@ -220,13 +220,15 @@
 }
 .actions {
     grid-column: actions;
-    display: flex;
-    align-items: flex-start;
-    align-content: flex-start;
-    flex-wrap: wrap;
-    transition: transform var(--ifm-transition-fast) ease;
-    max-width: 4.5em;
-    z-index: calc(var(--ifm-z-index-dropdown) + 1);
+    .flex {
+        display: flex;
+        align-items: flex-start;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        transition: transform var(--ifm-transition-fast) ease;
+        max-width: 4.5em;
+        z-index: calc(var(--ifm-z-index-dropdown) + 1);
+    }
     &.header {
         display: flex;
         align-content: center;

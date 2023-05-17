@@ -33,6 +33,7 @@ const State = observer((props: ReadonlyProps) => {
         <div 
             style={{gridColumn: 'state'}} 
             className={clsx('state', styles.state, props.className, 'grid-isValid')}
+            onClick={() => props.event.setExpanded(true)}
         >
             <Badge icon={StateButton[props.event.state]} color={StateColor[props.event.state]} size={SIZE_S} />
         </div>

@@ -46,7 +46,7 @@ const Event = observer((props: RowProps) => {
             <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} />
             <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} />
             <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true}/>
-            <Actions event={event} styles={styles} className={clsx(commonStyle)} />
+            <Actions event={event} styles={styles} className={clsx(commonStyle)} expandeable />
         </React.Fragment>
     );
 });

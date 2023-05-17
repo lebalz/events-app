@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
 import Button from '@site/src/components/shared/Button';
-import { mdiShareCircle } from '@mdi/js';
+import { mdiArrowExpandUp, mdiArrowExpandVertical, mdiShareCircle } from '@mdi/js';
 import { Icon, SIZE_S } from '@site/src/components/shared/icons';
 import Discard from '@site/src/components/shared/Button/Discard';
 import Save from '@site/src/components/shared/Button/Save';
@@ -13,6 +13,7 @@ import Edit from '@site/src/components/shared/Button/Edit';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
+    expandeable?: boolean;
 }
 
 const Actions = observer((props: Props) => {
@@ -22,6 +23,8 @@ const Actions = observer((props: Props) => {
             style={{ gridColumn: 'actions' }}
             className={clsx(props.className, styles.actions, 'grid-actions')}
         >
+            <div className={clsx(styles.flex)}>
+
             {!props.hideShare && (
                 <Button
                     icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
@@ -47,6 +50,14 @@ const Actions = observer((props: Props) => {
                     </>
                 )
             }
+            </div>
+            <div className={clsx(styles.expand)}>
+                {
+                    props.expandeable && event.isExpanded && (
+                        <Button icon={mdiArrowExpandUp} onClick={() => event.setExpanded(false)} size={SIZE_S} />
+                    )
+                }
+            </div>
         </div>
     )
 });

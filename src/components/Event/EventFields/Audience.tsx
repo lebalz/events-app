@@ -25,6 +25,7 @@ const Audience = observer((props: Props) => {
             <div
                 style={{ gridColumn: 'departments' }}
                 className={clsx(props.className, styles.departments, 'grid-departments')}
+                onClick={() => props.event.setExpanded(true)}
             >
                 <div className={clsx(styles.tags)}>
                     {
@@ -34,7 +35,11 @@ const Audience = observer((props: Props) => {
                     }
                 </div>
             </div>
-            <div style={{ gridColumn: 'classes' }} className={clsx(props.className, styles.classes)}>
+            <div 
+                style={{ gridColumn: 'classes' }} 
+                className={clsx(props.className, styles.classes)}
+                onClick={() => props.event.setExpanded(true)}
+            >
                 <div className={clsx(styles.tags)}>
                     {
                         event.fClasses.map((c, idx) => {

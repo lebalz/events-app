@@ -10,6 +10,7 @@ const Day = observer((props: ReadonlyProps) => {
         <div 
             style={{gridColumn: 'day'}} 
             className={clsx(styles.day, props.className, 'grid-day')}
+            onClick={() => props.event.setExpanded(true)}
         >
             {props.event.day}
         </div>

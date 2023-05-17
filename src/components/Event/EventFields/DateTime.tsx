@@ -47,12 +47,14 @@ const DateTime = observer((props: Props) => {
             <div
                 style={{ gridColumn: dateColumn }}
                 className={clsx(props.className, styles.date, styles[dateColumn], `grid-${dateColumn}`)}
+                onClick={() => props.event.setExpanded(true)}
             >{
                     fdate
                 }</div>
             <div
                 style={{ gridColumn: timeColumn }}
                 className={clsx(props.className, styles.time, styles[timeColumn], `grid-${timeColumn}`)}
+                onClick={() => props.event.setExpanded(true)}
             >{
                     ftime
                 }</div>

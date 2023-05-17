@@ -11,6 +11,7 @@ const KW = observer((props: ReadonlyProps) => {
         <div 
             style={{gridColumn: 'kw'}} 
             className={clsx('kw', styles.kw, props.className, 'grid-kw')}
+            onClick={() => props.event.setExpanded(true)}
         >
             {props.event.kw}
         </div>
