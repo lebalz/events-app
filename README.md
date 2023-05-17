@@ -14,6 +14,12 @@ $ yarn
 $ yarn run start
 ```
 
+#### upgrade Docusaurus
+
+```bash
+yarn upgrade @docusaurus/core@latest @docusaurus/preset-classic@latest @docusaurus/module-type-aliases@latest @docusaurus/types@latest @tsconfig/docusaurus@latest
+```
+
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 #### Use unauthorized backend (e.g. when developping offline)

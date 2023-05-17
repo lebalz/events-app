@@ -35,7 +35,6 @@ export class SessionStore {
 
     @action
     setLocale(locale: 'de' | 'fr') {
-        console.log('locale', locale)
         if (locale === 'fr') {
             this.locale = 'fr';
         } else {

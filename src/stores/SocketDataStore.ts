@@ -1,4 +1,5 @@
 import { RootStore } from './stores';
+// @ts-ignore
 import { io, Socket } from "socket.io-client";
 import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';

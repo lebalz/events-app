@@ -24,7 +24,6 @@ const DateTime = observer((props: Props) => {
         ftime = event.fEndTime;
         date = event.end;
     }
-    console.log(props.styles)
     if (props.isEditable && props.event.isEditing) {
         return (
             <div
