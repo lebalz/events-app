@@ -6,7 +6,7 @@ files:
   - source: /i18n/de/**/*
     translation: /i18n/%two_letters_code%/**/%original_file_name%
   # Docs Markdown files
-  - source: /docs/**/*
-    translation: /i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
-    ignore:
-      - /docs/**/*.excalidraw
+ # - source: /docs/**/*
+ #   translation: /i18n/%two_letters_code%/docusaurus-plugin-content-docs/current/**/%original_file_name%
+  #  ignore:
+  #    - /docs/**/*.excalidraw
