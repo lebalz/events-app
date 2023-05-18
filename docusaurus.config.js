@@ -158,6 +158,10 @@ const config = {
                 label: 'Import',
                 to: '/import',
               },
+              {
+                label: 'Dokumentation',
+                to: '/docs',
+              },
             ],
           },
           {
