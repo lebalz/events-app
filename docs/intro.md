@@ -24,11 +24,21 @@ sidebar_position: 1
 - [Node JS](https://nodejs.org/) JavaScript runtime
 - [TypeScript](https://www.typescriptlang.org/) - a typing system for type-safety
 - [Express JS](https://expressjs.com/) Fast, lightweight web framework for Node JS
+- [Prisma JS](https://www.prisma.io/) a modern ORM to access database records in a typesafe manner.
 
 
 #### Client Server Communication Protocols
 - HTTP Protocol for API calls to the server
 - Websockets (through [SocketIO](https://socket.io/)) for a permanent connection between the server and the client. Ensures all connected clients are kept synced.
 
+#### Data
+All data is stored in a relational database - PSQL is used.
 
+#### External Services
+The webuntis data from the school is synced for each semester. This includes
+- Departments
+- Teachers
+- Classes
+- Lectures
 
+Like that it's possible to match events to coresponding classes and teachers.
