@@ -11,7 +11,6 @@ import { SIZE_S } from '@site/src/components/shared/icons';
 import { Color } from '../../shared/Colors';
 
 const StateButton: {[state in EventState]: string} = {
-    [EventState.Deleted]: mdiDeleteForever,
     [EventState.Draft]: mdiPen,
     [EventState.Published]: mdiFileCertificate,
     [EventState.Refused]: mdiBookCancel,
@@ -19,7 +18,6 @@ const StateButton: {[state in EventState]: string} = {
 }
 
 const StateColor: {[state in EventState]: Color} = {
-    [EventState.Deleted]: 'red',
     [EventState.Draft]: 'blue',
     [EventState.Published]: 'green',
     [EventState.Refused]: 'red',

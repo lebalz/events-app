@@ -66,6 +66,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     end: Date;
 
     @observable
+    deletedAt?: Date;
+
+    @observable
     start: Date;
 
     @observable
@@ -104,6 +107,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
+        this.deletedAt = props.deletedAt && toLocalDate(new Date(props.deletedAt));
 
         this._pristine_start = toLocalDate(new Date(props.start));
         this._pristine_end = toLocalDate(new Date(props.end));
@@ -112,7 +116,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         makeObservable(this);
-        if (this.state !== EventState.Published && this.state !== EventState.Deleted) {
+        if (this.state !== EventState.Published && !this.deletedAt) {
             this.validate();
         }
         reaction(
@@ -471,6 +475,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return `/event?${this.queryParam}`;
     }
 
+    @computed
+    get isDeleted() {
+        return !!this.deletedAt;
+    }
+
     @override
     get props(): EventProps {
         return {
@@ -489,7 +498,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             klpOnly: this.klpOnly,
             teachersOnly: this.teachersOnly,
             start: toGlobalDate(this.start).toISOString(),
-            end: toGlobalDate(this.end).toISOString()
+            end: toGlobalDate(this.end).toISOString(),
+            deletedAt: this.isDeleted && toGlobalDate(this.deletedAt).toISOString()
         }
     }
 

@@ -8,7 +8,6 @@ export enum EventState {
     Draft = 'DRAFT',
     Review = 'REVIEW',
     Published = 'PUBLISHED',
-    Deleted = 'DELETED',
     Refused = 'REFUSED'
 }
 
@@ -28,6 +27,7 @@ export interface PrismaEvent {
     klpOnly: boolean
     createdAt: string
     updatedAt: string
+    deletedAt?: string
 }
 
 export interface Event extends PrismaEvent {
