@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Technology Stack
 
-![](images/events-app-architecture.svg)
+![](images/events-app-architecture.svg#gh-light-mode-only)![](images/events-app-architecture-dark.svg#gh-dark-mode-only)
 
 ### Client Side
 
