@@ -107,7 +107,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
-        this.deletedAt = props.deletedAt && toLocalDate(new Date(props.deletedAt));
+        this.deletedAt = props.deletedAt ? toLocalDate(new Date(props.deletedAt)) : null;
 
         this._pristine_start = toLocalDate(new Date(props.start));
         this._pristine_end = toLocalDate(new Date(props.end));
@@ -499,7 +499,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             teachersOnly: this.teachersOnly,
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
-            deletedAt: this.isDeleted && toGlobalDate(this.deletedAt).toISOString()
+            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null
         }
     }
 
