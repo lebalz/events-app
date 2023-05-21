@@ -9,10 +9,7 @@ import {default as EventModel} from '@site/src/models/Event';
 import Event from '..';
 import Button from '../../shared/Button';
 import { mdiClose, mdiShareCircle } from '@mdi/js';
-import Discard from '../../shared/Button/Discard';
-import Save from '../../shared/Button/Save';
 import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons';
-import Delete from '../../shared/Button/Delete';
 
 
 interface Props {

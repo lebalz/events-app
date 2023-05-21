@@ -18,6 +18,7 @@ import State from '../EventFields/State';
 
 interface RowProps {
     event: EventModel;
+    isEditGrid?: boolean; /** true when at least one element of the grid is edited */
     rowIndex: number;
     onSelect?: (selected: boolean, shiftKey: boolean) => void;
     styles: { [className: string]: string };
@@ -44,7 +45,7 @@ const Event = observer((props: RowProps) => {
             <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} expandeable />
             <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} expandeable />
             <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
-            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
+            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable isEditGrid={props.isEditGrid} />
             <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
             <Actions event={event} styles={styles} className={clsx(commonStyle)} expandeable />
         </React.Fragment>

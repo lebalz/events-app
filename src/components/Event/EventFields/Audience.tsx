@@ -2,10 +2,14 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
-import { Props } from './iEventField';
+import { Props as CommonProps } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
 import AudiencePicker from '@site/src/components/shared/AudiencePicker';
 import { KlassName } from '@site/src/models/helpers/klassNames';
+
+interface Props extends CommonProps {
+    isEditGrid?: boolean; /** true when at least one element of the grid is edited */
+}
 
 const Audience = observer((props: Props) => {
     const { event, styles } = props;
@@ -24,7 +28,7 @@ const Audience = observer((props: Props) => {
         <React.Fragment>
             <div
                 style={{ gridColumn: 'departments' }}
-                className={clsx(props.className, styles.departments, 'grid-departments')}
+                className={clsx(props.className, styles.departments, 'grid-departments', props.isEditGrid && styles.editGrid)}
                 onClick={() => props.expandeable && props.event.setExpanded(true)}
             >
                 <div className={clsx(styles.tags)}>
@@ -37,7 +41,7 @@ const Audience = observer((props: Props) => {
             </div>
             <div 
                 style={{ gridColumn: 'classes' }} 
-                className={clsx(props.className, styles.classes)}
+                className={clsx(props.className, styles.classes, props.isEditGrid && styles.editGrid)}
                 onClick={() => props.expandeable && props.event.setExpanded(true)}
             >
                 <div className={clsx(styles.tags)}>

@@ -183,6 +183,9 @@
 .departments {
     grid-column: departments;
     max-width: 7em;
+    &.editGrid {
+        max-width: inherit;
+    }
 }
 
 .tags {
@@ -204,6 +207,9 @@
 .classes {
     grid-column: classes;
     max-width: 8em;
+    &.editGrid {
+        max-width: inherit;
+    }
 }
 .audience {
     grid-column-start: departments;

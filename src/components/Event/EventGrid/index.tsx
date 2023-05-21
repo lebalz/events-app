@@ -81,6 +81,7 @@ const EventGrid = observer((props: Props) => {
     }
 
     const editable = props.events.some(e => e.isEditable);
+    const isEditGrid = editable && props.events.some(e => e.isEditing);
 
     return (
         <div className={clsx(viewStore.fullscreen && styles.fullscreenContainer)} ref={ref}>
@@ -91,6 +92,7 @@ const EventGrid = observer((props: Props) => {
                         onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}
                         checked={props.events.length > 0 && props.events.every(e => e.selected)} 
                         partialChecked={props.events.some(e => e.selected)}
+                        isEditGrid={isEditGrid}
                     />
                     {props.groupBy ? (
                         Object.entries(grouped).map(([kw, events]) => (
@@ -102,6 +104,7 @@ const EventGrid = observer((props: Props) => {
                             key={event.id} 
                             rowIndex={idx}
                             event={event}
+                            isEditGrid={isEditGrid}
                             onSelect={props.selectable ? 
                                 action((selected: boolean, shiftKey: boolean) => {
                                     if (shiftKey) {

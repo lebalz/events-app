@@ -12,6 +12,7 @@ import Translate from '@docusaurus/Translate';
 interface SelectProps {
     checked?: boolean;
     partialChecked?: boolean;
+    isEditGrid?: boolean; /** true when at least one element of the grid is edited */
     onSelectAll?: (v: boolean) => void;
 }
 
@@ -70,12 +71,12 @@ const EventHeader = observer((props: SelectProps) => {
                     Ort
                 </Translate>
             </div>
-            <div style={{gridColumn: 'departments'}} className={clsx(commonStyle, styles.departments)}>
+            <div style={{gridColumn: 'departments'}} className={clsx(commonStyle, styles.departments, props.isEditGrid && styles.editGrid)}>
                 <Translate id="event.eventGrid.th.departments" description='th: departments'>
                     Abteilungen
                 </Translate>
             </div>
-            <div style={{gridColumn: 'classes'}} className={clsx(commonStyle, styles.classes)}>
+            <div style={{gridColumn: 'classes'}} className={clsx(commonStyle, styles.classes, props.isEditGrid && styles.editGrid)}>
                 <Translate id="event.eventGrid.th.classes" description='th: classes'>
                     Klassen
                 </Translate>
