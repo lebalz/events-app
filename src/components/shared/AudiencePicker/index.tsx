@@ -69,9 +69,12 @@ const AudiencePicker = observer((props: Props) => {
                 // @ts-ignore
                 <Tabs className={clsx(styles.tabs)}>
                     {Object.keys(departments).map((letter, idx) => {
+                        const color = (departments[letter] as DepartmentModel[])[0].color
+                        const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
+                        console.log(letter, touched)
                         return (
                             // @ts-ignore
-                            <TabItem value={letter} label={Letter2Name[letter]} key={letter}>
+                            <TabItem value={letter} label={Letter2Name[letter]} key={letter} attributes={{className: clsx(touched && styles.touched), style: {color: color}}}>
                                 <Department departments={departments[letter]} event={event} />
                             </TabItem>
                         )

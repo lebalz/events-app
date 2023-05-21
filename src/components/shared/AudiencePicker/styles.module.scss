@@ -9,6 +9,19 @@
     .tabs {
         --ifm-tabs-padding-vertical: 0.1em;
         --ifm-tabs-padding-horizontal: 0.1em;
+        .touched {
+            position: relative;
+            &::after {
+                content: '';
+                position: absolute;
+                right: calc(50% - 2px);
+                bottom: 0;
+                width: 4px;
+                height: 4px;
+                background: var(--ifm-tabs-color-active);
+                border-radius: 50%;
+            }
+        }
     }
     .department {
         display: flex;
