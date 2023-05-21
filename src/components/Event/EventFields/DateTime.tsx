@@ -32,7 +32,10 @@ const DateTime = observer((props: Props) => {
             >
                 <DateTimePicker
                     date={date}
-                    onChange={(date) => event.update({ [props.time]: date.toISOString() })}
+                    onChange={(date) => {
+                        const d = date.toISOString();
+                        event.update({ [props.time]: d })
+                    }}
                 />
                 {error && (
                     <div className={styles.errorMessage}>

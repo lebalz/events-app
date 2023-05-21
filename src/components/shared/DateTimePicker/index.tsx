@@ -20,7 +20,7 @@ const DateTimePicker = (props: Props) => {
             const newDate = new Date(date);
             props.onChange(toGlobalDate(newDate));
         } catch (e) {
-            console.error(e);
+            /** invalid date or time - ignore */
         }
     }), [date]);
 

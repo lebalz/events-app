@@ -53,6 +53,7 @@ export const JoiEvent = Joi.object<Event>({
     klpOnly: Joi.boolean(),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
+    deletedAt: Joi.date().iso().allow(null)
 });
 
 export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromise<Job> {
