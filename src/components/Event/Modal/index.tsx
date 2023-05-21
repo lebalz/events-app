@@ -51,6 +51,7 @@ const EventModal = observer((props: Props) => {
                                             event.reset(false);
                                         } else {
                                             event.setEditing(false);
+                                            viewStore.setEventModalId();
                                         }
                                     }} />
                                 )}

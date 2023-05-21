@@ -11,6 +11,7 @@ import Save from '@site/src/components/shared/Button/Save';
 import Delete from '@site/src/components/shared/Button/Delete';
 import Edit from '@site/src/components/shared/Button/Edit';
 import { useStore } from '@site/src/stores/hooks';
+import {useWindowSize} from '@docusaurus/theme-common';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
@@ -19,6 +20,7 @@ interface Props extends ReadonlyProps {
 const Actions = observer((props: Props) => {
     const { event, styles } = props;
     const viewStore = useStore('viewStore');
+    const windowSize = useWindowSize();
     return (
         <div
             style={{ gridColumn: 'actions' }}
@@ -45,7 +47,12 @@ const Actions = observer((props: Props) => {
                 )}
                 {
                     event.isEditable && !event.isEditing && (
-                        <Edit onClick={() => event.setEditing(true)} />
+                        <Edit onClick={() => {
+                            event.setEditing(true);
+                            if (windowSize === 'mobile') {
+                                viewStore.setEventModalId(event.id)
+                            }
+                        }} />
                     )
                 }
                 {
