@@ -27,24 +27,11 @@ const Actions = observer((props: Props) => {
             className={clsx(props.className, styles.actions, 'grid-actions')}
         >
             <div className={clsx(styles.flex)}>
-
-                {!props.hideShare && (
-                    <>
-                        {event.isEditing ? (
-                            <Button
-                                title='Übersicht Öffnen'
-                                icon={<Icon path={mdiArrowExpandAll} color="blue" size={SIZE_S} />}
-                                onClick={() => viewStore.setEventModalId(event.id)}
-                            />
-                        ) : (
-                            <Button
-                                icon={<Icon path={mdiShareCircle} color="blue" size={SIZE_S} />}
-                                href={event.shareUrl}
-                                target="_self"
-                            />
-                        )}
-                    </>
-                )}
+                <Button
+                    title='Übersicht Öffnen'
+                    icon={<Icon path={mdiArrowExpandAll} color="blue" size={SIZE_S} />}
+                    onClick={() => viewStore.setEventModalId(event.id)}
+                />
                 {
                     event.isEditable && !event.isEditing && (
                         <Edit onClick={() => {
