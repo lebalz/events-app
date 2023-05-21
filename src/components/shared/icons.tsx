@@ -64,13 +64,13 @@ export const Copy = (props: Props) => {
 
 export const DeleteIcon = (props: Props) => {
     return (
-        <Icon path={mdiTrashCan} color={'var(--ifm-color-danger)'} {...props} />
+        <Icon path={mdiTrashCan} {...props} />
     );
 }; 
 
 export const SaveIcon = (props: Props) => {
     return (
-        <Icon path={mdiContentSave} color={'var(--ifm-color-success)'} {...props} />
+        <Icon path={mdiContentSave} {...props} />
     );
 }; 
 

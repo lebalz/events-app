@@ -50,8 +50,7 @@ const Event = observer((props: Props) => {
                     )}
                     <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
                     <dd className={styles.flex}>
-                        <State {...commonProps} /> 
-                        <Actions {...commonProps} hideShare />
+                        <State {...commonProps} />
                     </dd>
                     <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
                     <dd><KW {...commonProps} /></dd>

@@ -16,14 +16,14 @@ interface Props {
 
 const Modal = observer((props: Props) => {
     const viewStore = useStore('viewStore');
-    React.useEffect(() => {
-        if (props.open) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'visible';
-        }
-        return () => {document.body.style.overflow = 'visible'};
-    }, [props.open]);
+    // React.useEffect(() => {
+    //     if (props.open) {
+    //         document.body.style.overflow = 'hidden';
+    //     } else {
+    //         document.body.style.overflow = 'visible';
+    //     }
+    //     return () => {document.body.style.overflow = 'visible'};
+    // }, [props.open]);
     if (props.open) {
         return (
             <div

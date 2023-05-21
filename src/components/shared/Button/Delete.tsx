@@ -58,7 +58,8 @@ const Delete = (props: DeleteProps) => {
                     e.stopPropagation();
                     e.preventDefault();
                 }}
-                icon={<DeleteIcon size={props.size ?? SIZE_S}  />}
+                color='red'
+                icon={<DeleteIcon size={props.size ?? SIZE_S} />}
             />
             {props.flyoutSide === 'right' && Flyout}
         </span>

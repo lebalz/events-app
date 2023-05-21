@@ -9,6 +9,10 @@ import {default as EventModel} from '@site/src/models/Event';
 import Event from '..';
 import Button from '../../shared/Button';
 import { mdiClose, mdiShareCircle } from '@mdi/js';
+import Discard from '../../shared/Button/Discard';
+import Save from '../../shared/Button/Save';
+import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons';
+import Delete from '../../shared/Button/Delete';
 
 
 interface Props {
@@ -16,6 +20,7 @@ interface Props {
 }
 
 const EventModal = observer((props: Props) => {
+    const [deleteRequested, setDeleteRequested] = React.useState(false);
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const { openEventModalId } = viewStore;
@@ -34,8 +39,33 @@ const EventModal = observer((props: Props) => {
                 </div>
                 <div className={clsx('card__footer')}>
                     <div className={clsx('button-group button-group--block')}>
-                        <Button color="red" text="Schliessen" icon={mdiClose} iconSide='left' onClick={() => viewStore.setEventModalId()} />
-                        <Button color="blue" text="Öffnen" icon={mdiShareCircle}  href={event?.shareUrl} target="_self" />
+                        {event?.isEditing ? (
+                            <>
+                                <Button color="red" iconSide='left' text={deleteRequested ? 'Wirklich?' : 'Löschen'} icon={<DeleteIcon />} apiState={event.apiStateFor(`destroy-${event.id}`)} onClick={() => setDeleteRequested(!deleteRequested)} />
+                                {deleteRequested && (
+                                    <Button color="red" text="Ja" onClick={() => event.destroy()} />
+                                )}
+                                {(event?.isDirty || event?.isEditing) && (
+                                    <Button text={event.isDirty ? 'Verwerfen': 'Schliessen'} color="black" title="Änderungen verwerfen" icon={<DiscardIcon />} iconSide='left' onClick={() => {
+                                        if (event.isDirty) {
+                                            event.reset(false);
+                                        } else {
+                                            event.setEditing(false);
+                                        }
+                                    }} />
+                                )}
+                                <Button color="green" text="Speichern" disabled={!event.isDirty} icon={<SaveIcon />}  onClick={() => event.save()} apiState={event.apiStateFor(`save-${event.id}`)} />
+
+                            </>
+                        ) : (
+                            <>
+                                <Button color="red" text="Schliessen" icon={mdiClose} iconSide='left' onClick={() => viewStore.setEventModalId()} />
+                                {event?.isEditable && (
+                                    <Button color="orange" text="Bearbeiten" icon={<EditIcon />} iconSide='left' onClick={() => event.setEditing(true)} />
+                                )}
+                                <Button color="blue" text="Öffnen" icon={mdiShareCircle}  href={event?.shareUrl} target="_self" />
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

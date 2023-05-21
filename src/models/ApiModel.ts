@@ -46,8 +46,10 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     }
 
     @action
-    reset() {
-        this.setEditing(false);
+    reset(finishEditing = true) {
+        if (finishEditing) {
+            this.setEditing(false);
+        }
         return this.update(this.pristine);
     }
 
