@@ -8,41 +8,62 @@ import { useStore } from '@site/src/stores/hooks';
 
 interface Props {
     children: React.ReactNode;
-    trigger: React.ReactNode;
     className?: string;
     open: boolean;
     onClose?: () => void;
 }
 
 const Modal = observer((props: Props) => {
-    const viewStore = useStore('viewStore');
-    // React.useEffect(() => {
-    //     if (props.open) {
-    //         document.body.style.overflow = 'hidden';
-    //     } else {
-    //         document.body.style.overflow = 'visible';
-    //     }
-    //     return () => {document.body.style.overflow = 'visible'};
-    // }, [props.open]);
-    if (props.open) {
-        return (
-            <div
-                className={clsx(styles.modal, props.className)}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    if (props.onClose) {
-                        props.onClose();
-                    }
-                }}
-            >
-                <div className={clsx(styles.content)} onClick={(e) => e.stopPropagation()}>
-                    {props.children}
-                </div>
-            </div>
-        );
+    const [timer, setTimer] = React.useState<number>(0);
+    const [space, setSpace] = React.useState<number>(-1);
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (!props.open || space > -1) {
+            return;
+        }
+        const docusaurus = document.getElementById('__docusaurus');
+        if (ref.current && docusaurus && docusaurus.clientHeight > 0) {
+            const height = docusaurus.clientHeight;
+            const used = ref.current.clientHeight;
+            setSpace(height - used);
+        } else if (timer < 50) {
+            const ts = setTimeout(() => {
+                setTimer(timer + 1);
+            }, 200);
+            return () => clearTimeout(ts);
+        }
+    }, [ref.current, timer, props.open, space]);
+
+    const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (props.onClose) {
+            props.onClose();
+        }
     }
-    return <>{props.trigger}</>;
+
+    return (
+        <div
+            className={clsx(props.open && styles.modal, props.open && props.className)}
+            onClick={props.open ? onClose : undefined}
+            ref={ref}
+        >
+            {props.open && (
+                <>
+                    <div className={clsx(styles.content)} onClick={(e) => e.stopPropagation()}>
+                        {props.children}
+                    </div>
+                    <div 
+                        className={clsx(props.open && styles.fillScreen)} 
+                        onClick={props.open ? onClose : undefined} 
+                        style={props.open ? {height: `${space}px`} : undefined}
+                    >
+                    </div>
+                </>
+            )}
+        </div>
+    );
 });
 
 export default Modal;

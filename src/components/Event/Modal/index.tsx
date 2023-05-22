@@ -13,7 +13,6 @@ import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons'
 
 
 interface Props {
-    trigger?: React.ReactNode;
 }
 
 const EventModal = observer((props: Props) => {
@@ -26,7 +25,6 @@ const EventModal = observer((props: Props) => {
         <Modal
             open={!!event}
             onClose={() => viewStore.setEventModalId()}
-            trigger={props.trigger ?? null}
         >
             <div className={clsx(styles.card, 'card')}>
                 <div className={clsx('card__body')}>

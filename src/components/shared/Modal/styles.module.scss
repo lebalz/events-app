@@ -11,16 +11,28 @@
     as it will break the scrolling of the modal content.
     instead use margin: auto on the content. 
     */
+    .content {
+        margin: auto;
+    }
     // overflow: auto;
-    // .content {
-    //     margin: auto;
-    // }
 
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     .content {
         display: flex;
         align-items: center;
         justify-content: center;
+        min-height: 100vh;
+    }
+    .fillScreen {
+        background: transparent;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .modal {
+        padding-top: 2rem;
     }
 }
