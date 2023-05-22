@@ -26,3 +26,5 @@ bin/brython-libs/*
 
 bin/*/feedbacks
 .env
+
+**/*:Zone.Identifier
