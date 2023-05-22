@@ -13,6 +13,7 @@ import { action, reaction } from 'mobx';
 import Filter from '../Filter';
 import EventGroup from './EventGroup';
 import { formatDate } from '@site/src/models/helpers/time';
+import EventModal from '../Modal';
 
 
 interface Props {
@@ -120,6 +121,7 @@ const EventGrid = observer((props: Props) => {
                     )))}
                 </div>
             </div>
+            <EventModal />
         </div>
     )
 });
