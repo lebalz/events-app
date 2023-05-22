@@ -6,9 +6,11 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Layout from '@theme/Layout';
 import { useLocation } from '@docusaurus/router';
+// @ts-ignore
 import queryString from 'query-string';
 import {default as EventModelView} from '@site/src/components/Event';
 import Section from '../components/shared/Section';
+import EventModal from '../components/Event/Modal';
 
 interface Props {
 }
@@ -27,6 +29,7 @@ const EventView = observer((props: Props) => {
                     return (<EventModelView event={event} key={idx}/>);
                 })}
             </Section>
+            <EventModal />
         </Layout>
     )
 });

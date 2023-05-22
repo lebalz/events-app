@@ -34,9 +34,5 @@
   "link.item.label.GBJB": {
     "message": "GBJB",
     "description": "The label of footer link with label=GBJB linking to https://gfbienne.ch"
-  },
-  "copyright": {
-    "message": "Copyright © 2023 B. Hofer <br /><a class=\"badge badge--primary\" href=\"https://github.com/lebalz/events-app/commit/52va2m\">ᚶ 52va2m</a>",
-    "description": "The footer copyright"
   }
 }

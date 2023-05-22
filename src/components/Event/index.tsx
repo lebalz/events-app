@@ -117,7 +117,6 @@ const Event = observer((props: Props) => {
                     }} />
                 )}
             </div>
-            <EventModal />
         </div>
     )
 });
