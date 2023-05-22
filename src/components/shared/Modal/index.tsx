@@ -14,10 +14,14 @@ interface Props {
 }
 
 const Modal = observer((props: Props) => {
-    const [timer, setTimer] = React.useState<number>(0);
     const [space, setSpace] = React.useState<number>(-1);
     const ref = React.useRef<HTMLDivElement>(null);
 
+
+    /**
+     * This effect is used to calculate the space between the top of the modal and the bottom of the screen.
+     * Update whenever the modal is opened or closed.
+     */
     React.useEffect(() => {
         if (!props.open || space > -1) {
             return;
@@ -27,13 +31,18 @@ const Modal = observer((props: Props) => {
             const height = docusaurus.clientHeight;
             const used = ref.current.clientHeight;
             setSpace(height - used);
-        } else if (timer < 50) {
-            const ts = setTimeout(() => {
-                setTimer(timer + 1);
-            }, 200);
-            return () => clearTimeout(ts);
         }
-    }, [ref.current, timer, props.open, space]);
+    }, [ref.current, props.open, space]);
+
+    React.useEffect(() => {
+        if (space > 0) {
+            return;
+        }
+        const onResize = () => {
+            setSpace(-1);
+        }
+        return () => window.removeEventListener('resize', onResize);
+    }, [ref.current, props.open, space]);
 
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();
@@ -67,33 +76,3 @@ const Modal = observer((props: Props) => {
 });
 
 export default Modal;
-
-
-{/* <div className={clsx('card')}>
-<div className={clsx('card__header')}>
-    <div className={clsx('avatar')}>
-        <img
-            className={clsx('avatar__photo')}
-            src="https://avatars1.githubusercontent.com/u/4060187?s=460&v=4" />
-        <div className={clsx('avatar__intro')}>
-            <div className={clsx('avatar__name')}>Jared Palmer</div>
-            <small className={clsx('avatar__subtitle')}>
-                Consultant, Speaker, Lead Engineer
-            </small>
-        </div>
-    </div>
-</div>
-<div className={clsx('card__image')}>
-    <img
-        src="https://images.unsplash.com/photo-1501619951397-5ba40d0f75da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80"
-        alt="Image alt text"
-        title="Logo Title Text 1" />
-</div>
-<div className={clsx('card__footer')}>
-    <div className={clsx('button-group button-group--block')}>
-        <button className={clsx('button button--secondary')}>Like</button>
-        <button className={clsx('button button--secondary')}>Comment</button>
-        <button className={clsx('button button--secondary')}>Share</button>
-    </div>
-</div>
-</div> */}
