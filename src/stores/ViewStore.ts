@@ -79,7 +79,8 @@ class EventTable {
                 keep = [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.klasses.size > 0) {
-                keep = [...event.classes].some((d) => [...this.klasses].some((k) => d.startsWith(k)));
+                const kls = [...this.klasses]
+                keep = [...event.classes, ...event.untisClasses.map(uc => uc.legacyName).filter(c=>!!c)].some((d) => kls.some((k) => d.startsWith(k)));
             }
             if (keep && this.start) {
                 keep = event.end >= this.start;
