@@ -23,6 +23,7 @@ import State from './EventFields/State';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Edit from '../shared/Button/Edit';
 import Actions from './EventFields/Actions';
+import EventModal from './Modal';
 interface Props {
     event: EventModel;
 }
@@ -31,6 +32,7 @@ const Event = observer((props: Props) => {
     const { event } = props;
     const {i18n} = useDocusaurusContext();
     const socketStore = useStore('socketStore');
+    const viewStore = useStore('viewStore');
     const commonProps = { event, styles };
     const commonEditProps = { ...commonProps, isEditable: true };
     return (
@@ -108,7 +110,14 @@ const Event = observer((props: Props) => {
                         socketStore.checkUnpersistedEvent(event.props);
                     }}
                 />
+                {event.isEditable && (
+                    <Edit onClick={() => {
+                        event.setEditing(true);
+                        viewStore.setEventModalId(event.id);
+                    }} />
+                )}
             </div>
+            <EventModal />
         </div>
     )
 });

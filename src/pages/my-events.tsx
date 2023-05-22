@@ -27,7 +27,7 @@ const Table = observer(() => {
     const reviewed = myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
     const adminReview = userStore.current?.role === Role.ADMIN ? eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state)) : [];
     const published = myEvents.filter(e => e.state === EventState.Published);
-    const deleted = myEvents.filter(e => e.state === EventState.Deleted);
+    const deleted = myEvents.filter(e => e.isDeleted);
 
     return (
         <Layout>
