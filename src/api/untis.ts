@@ -54,6 +54,12 @@ export interface CheckedUntisLesson extends RawUntisLesson {
 }
 
 
+export interface Subject {
+    name: string;
+    description: string;
+    departmentName: string;
+}
+
 
 /**
  * Model UntisClass
@@ -78,6 +84,9 @@ export interface UntisTeacherComplete extends UntisTeacher {
 
 export function classes(signal: AbortSignal): AxiosPromise<UntisClassWithTeacher[]> {
     return api.get('untis/class/all',  { signal });
+}
+export function subjects(signal: AbortSignal): AxiosPromise<Subject[]> {
+    return api.get('untis/subjects',  { signal });
 }
 export function teachers(signal: AbortSignal): AxiosPromise<UntisTeacher[]> {
     return api.get('untis/teacher/all',  { signal });

@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { teachers as fetchTeachers, classes as fetchClasses, teacher as fetchTeacher, UntisTeacher, sync as syncUntis, UntisLesson, CheckedUntisLesson } from '../api/untis';
+import { teachers as fetchTeachers, classes as fetchClasses, subjects as fetchSubjects, teacher as fetchTeacher, UntisTeacher, sync as syncUntis, UntisLesson, CheckedUntisLesson } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
 import Klass from '../models/Untis/Klass';
@@ -11,6 +11,7 @@ import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { computedFn } from 'mobx-utils';
 import { replaceOrAdd } from './helpers/replaceOrAdd';
 import Department from '../models/Department';
+import Subject from '../models/Untis/Subjet';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
@@ -18,6 +19,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     classes = observable<Klass>([]);
     lessons = observable<Lesson>([]);
     teachers = observable<Teacher>([]);
+    subjects = observable<Subject>([]);
 
     @observable
     initialized = false;
@@ -168,9 +170,14 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     load() {
         this.initialized = false;
         return this.withAbortController('untis', (sig) => {
-            return Promise.all([fetchTeachers(sig.signal), fetchClasses(sig.signal)]).then(action(([teachers, classes]) => {
+            return Promise.all([
+                fetchTeachers(sig.signal), 
+                fetchClasses(sig.signal),
+                fetchSubjects(sig.signal),
+            ]).then(action(([teachers, classes, subjects]) => {
                 this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
                 this.classes.replace(classes.data.map((c) => new Klass(c, this)));
+                this.subjects.replace(subjects.data.map((s) => new Subject(s)));
                 this.initialized = true;
                 return { data: this.teachers };
             }));
