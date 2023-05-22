@@ -25,6 +25,7 @@ export interface PrismaEvent {
     classGroups: string[]
     teachersOnly: boolean
     klpOnly: boolean
+    subjects: string[]
     createdAt: string
     updatedAt: string
     deletedAt?: string
@@ -51,6 +52,11 @@ export const JoiEvent = Joi.object<Event>({
     jobId: Joi.string(),
     teachersOnly: Joi.boolean(),
     klpOnly: Joi.boolean(),
+    subjects: Joi.array().items(Joi.string()).when('teachersOnly', {
+        is: true,
+        then: Joi.required(),
+        otherwise: Joi.array().empty().required()
+    }),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
     deletedAt: Joi.date().iso().allow(null)

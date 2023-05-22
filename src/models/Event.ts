@@ -31,6 +31,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classes',
         'departmentIds',
         'klpOnly',
+        'subjects',
         'teachersOnly'
     ];
     readonly id: string;
@@ -51,6 +52,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     departmentIds = observable.set<string>([]);
     classes = observable.set<KlassName>([]);
+    subjects = observable.set<string>([]);
     classGroups = observable.set<string>([]);
 
     @observable
@@ -102,6 +104,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
         this.klpOnly = props.klpOnly;
+        this.subjects.replace(props.subjects);
         this.teachersOnly = props.teachersOnly;
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         
@@ -172,6 +175,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         } else {
             this.classes.add(klass);
         }
+    }
+
+    @action
+    setSubjects(subjects: string[]) {
+        this.subjects.replace(subjects);
     }
 
     @action
@@ -404,6 +412,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     hasOverlap(lesson: Lesson) {
+        if (!lesson) {
+            return false;
+        }
         const {weeks, minutes} = this.duration;
         const dayOffset = (lesson.weekDay + weeks * 7 - this.weekDay) % 7;
         const startOffset = dayOffset * 24 * 60 + Math.floor(lesson.startHHMM / 100) * 60 + lesson.startHHMM % 100;
@@ -496,7 +507,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
             klpOnly: this.klpOnly,
-            teachersOnly: this.teachersOnly,
+            teachersOnly: this.klpOnly || this.teachersOnly,
+            subjects: this.teachersOnly ? [...this.subjects] : [],
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null

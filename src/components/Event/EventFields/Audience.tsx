@@ -6,6 +6,7 @@ import { Props as CommonProps } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
 import AudiencePicker from '@site/src/components/shared/AudiencePicker';
 import { KlassName } from '@site/src/models/helpers/klassNames';
+import SubjectSelector from './SubjectSelector';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean; /** true when at least one element of the grid is edited */
@@ -20,6 +21,7 @@ const Audience = observer((props: Props) => {
                 className={clsx(styles.audience, 'grid-audience', props.className)}
             >
                 <AudiencePicker event={event} />
+                {/* <SubjectSelector event={event} styles={styles}/> */}
             </div>
         )
     }

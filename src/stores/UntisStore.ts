@@ -127,6 +127,16 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         { keepAlive: true }
     )
 
+    findSubject = computedFn(
+        function (this: UntisStore, name?: string): Subject | undefined {
+            if (!name) {
+                return;
+            }
+            return this.subjects.find((su) => name === su.name);
+        },
+        { keepAlive: true }
+    )
+
     /**
      * no wildcard class names supported
      */

@@ -34,15 +34,15 @@ const Modal = observer((props: Props) => {
         }
     }, [ref.current, props.open, space]);
 
-    React.useEffect(() => {
-        if (space > 0) {
-            return;
-        }
-        const onResize = () => {
-            setSpace(-1);
-        }
-        return () => window.removeEventListener('resize', onResize);
-    }, [ref.current, props.open, space]);
+    // React.useEffect(() => {
+    //     if (space > 0) {
+    //         return;
+    //     }
+    //     const onResize = () => {
+    //         setSpace(-1);
+    //     }
+    //     return () => window.removeEventListener('resize', onResize);
+    // }, [ref.current, props.open, space]);
 
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();

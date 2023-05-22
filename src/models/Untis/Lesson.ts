@@ -104,6 +104,9 @@ export default class Lesson implements iEvent {
     }
 
     hasOverlap(other: Event) {
+        if (!other) {
+            return false;
+        }
         return other.hasOverlap(this);
     }
 }
