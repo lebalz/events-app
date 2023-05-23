@@ -6,7 +6,6 @@ import "gantt-task-react/dist/index.css";
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
-import EventModal from '../components/Event/Modal';
 
 const GanttView = observer(() => {
     const viewStore = useStore('viewStore');
@@ -86,7 +85,6 @@ const GanttView = observer(() => {
                     )}
                 </div>
             </div>
-            <EventModal />
         </Layout>
     )
 });

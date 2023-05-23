@@ -15,7 +15,6 @@ import { Role } from '../api/user';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import gImport from '../components/Event/EventGrid/gridConfigs/import_job.module.scss';
-import EventModal from '../components/Event/Modal';
 
 const Table = observer(() => {
     const eventStore = useStore('eventStore');
@@ -135,7 +134,6 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                 </Tabs>
-                <EventModal />
             </main>
         </Layout >
     );

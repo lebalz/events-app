@@ -22,8 +22,6 @@ import Audience from './EventFields/Audience';
 import State from './EventFields/State';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Edit from '../shared/Button/Edit';
-import Actions from './EventFields/Actions';
-import EventModal from './Modal';
 interface Props {
     event: EventModel;
 }

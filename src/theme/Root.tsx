@@ -6,6 +6,7 @@ import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import EventModal from "../components/Event/Modal";
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
 
@@ -85,6 +86,7 @@ function Root({ children }) {
       <StoresProvider value={rootStore}>
         <Msal>
           {children}
+          <EventModal />
         </Msal>
       </StoresProvider>
     </>

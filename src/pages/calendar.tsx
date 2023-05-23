@@ -9,29 +9,11 @@ import Event from '../models/Event';
 moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Layout from '@theme/Layout';
-import EventModal from '../components/Event/Modal';
-import Button from '../components/shared/Button';
 const localizer = momentLocalizer(moment)
-
-// function EventModel({ event }) {
-//     console.log(event)
-//     return (
-//         <EventModal 
-//             event={event} 
-//             trigger={<Button text={event.title} onClick={() => } />} 
-//         />
-//     //   <span>
-//     //     <strong>{event.title}</strong>
-//     //     {event.title && '!!! ' + event.description}
-//     //   </span>
-//     )
-//   }
-
 
 const Calendar = observer(() => {
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
-    // const tasks = viewStore.semester?.events || [];
     const tasks = (viewStore.semester?.events || []).map((e, idx) => {
         return {
             start: e.start,
@@ -43,9 +25,6 @@ const Calendar = observer(() => {
     });
     const { defaultDate } = React.useMemo(
         () => ({
-        //   components: {
-        //     event: EventModel,
-        //   },
           defaultDate: moment().toDate(),
         }),
         []
@@ -82,7 +61,6 @@ const Calendar = observer(() => {
                         popup
                     />
                 )}
-                <EventModal />
             </div>
         </Layout>
     )

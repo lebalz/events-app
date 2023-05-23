@@ -121,7 +121,6 @@ const EventGrid = observer((props: Props) => {
                     )))}
                 </div>
             </div>
-            <EventModal />
         </div>
     )
 });
