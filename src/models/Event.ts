@@ -395,13 +395,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (user.departments.some(d => this.departmentIds.has(d.id))) {
             return true;
         }
-        if (this.klpOnly && user.untisTeacher && this.untisClasses.some(c => c.klp.id === user.untisTeacher.id)) {
+        if (this.klpOnly && user.untisTeacher && this.untisClasses.some(c => c.klp?.id === user.untisTeacher?.id)) {
             return true;
         }
         if (this.teachersOnly && user.classes.some(c => this.affectsClass(c))) {
             return true;
         }
-        if (user.untisTeacher && this.affectedLessons.some(l => l.teacherIds.includes(user.untisTeacher.id))) {
+        if (user.untisTeacher && this.affectedLessons.some(l => l.teacherIds.includes(user.untisTeacher?.id))) {
             return true;
         }
         return false;
