@@ -33,7 +33,6 @@ class EventTable {
 
     constructor(store: ViewStore) {
         this.store = store;
-        makeObservable(this);
         reaction(
             () => this.store.root.sessionStore.loggedIn,
             (loggedIn) => {
@@ -44,6 +43,7 @@ class EventTable {
                 }
             }
         );
+        makeObservable(this);
     }
 
     @action
