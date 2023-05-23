@@ -111,7 +111,7 @@ const ButtonInner = (props: Props) => {
     )
 }
 
-const Button = observer((props: Props) => {
+const Button = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
     const colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
@@ -122,12 +122,12 @@ const Button = observer((props: Props) => {
     }
     const commonCls = clsx(
         styles.button, 
+        props.active && 'button--active',
         !textAndIcon && props.icon && styles.soloIcon,
         props.icon &&( props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
         textOnly && styles.soloText,
         'button', 
         !props.noOutline && 'button--outline',
-        props.active && 'button--active',
         props.disabled && styles.disabled,
         colorCls,
         props.className
@@ -156,6 +156,6 @@ const Button = observer((props: Props) => {
             <ButtonInner {...props} />
         </button>
     );
-});
+};
 
 export default Button;

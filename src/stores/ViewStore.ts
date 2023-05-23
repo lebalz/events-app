@@ -34,8 +34,11 @@ class EventTable {
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
+        if (this.store.root.sessionStore?.loggedIn) {
+            this.setOnlyMine(true);
+        }
         reaction(
-            () => this.store.root.sessionStore.loggedIn,
+            () => this.store.root.sessionStore?.loggedIn,
             (loggedIn) => {
                 if (loggedIn && !this.onlyMine) {
                     this.setOnlyMine(true);
