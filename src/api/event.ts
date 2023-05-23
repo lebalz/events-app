@@ -70,3 +70,9 @@ export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromi
 export function requestState(state: EventState, ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
     return api.post('event/change_state', {data: {ids: ids, state: state}}, { signal });
 }
+
+
+export function affectingEventIds(semesterId: string | undefined, signal: AbortSignal): AxiosPromise<string[]> {
+    const query = semesterId ? `?semesterId=${semesterId}` : '';
+    return api.get(`event/affecting${query}`, { signal });
+}

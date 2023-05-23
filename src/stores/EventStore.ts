@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState, requestState as apiRequestState } from '../api/event';
+import { Event as EventProps, EventState, requestState as apiRequestState, affectingEventIds as apiLoadAffectedEventIds } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -188,6 +188,16 @@ export class EventStore extends iStore<EventProps> {
                         return this.models;
                     })
                 );
+        });
+    }
+
+    @action
+    loadAffectedEventIds() {
+        return this.withAbortController(`load-affected-events`, (sig) => {
+            return apiLoadAffectedEventIds(undefined, sig.signal).then((data) => {
+                console.log(data);
+                return data;
+            });
         });
     }
 
