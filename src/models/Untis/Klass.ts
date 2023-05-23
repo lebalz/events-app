@@ -72,7 +72,7 @@ export default class Klass {
     @computed
     get klp(): Teacher | undefined {
         const ks = this.lessons.find(l => l.subject==='KS' || l.subject==='MC');
-        return ks.teachers && ks.teachers[0];
+        return ks?.teachers && ks.teachers[0];
     }
 
     @computed
