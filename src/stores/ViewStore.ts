@@ -42,8 +42,7 @@ class EventTable {
                 } else if (!loggedIn && this.onlyMine) {
                     this.setOnlyMine(false);
                 }
-            },
-            {fireImmediately: true}
+            }
         );
     }
 
