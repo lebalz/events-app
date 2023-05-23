@@ -1,18 +1,20 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import {User as UserProps, linkToUntis, createIcs, Role, setRole } from '../api/user';
+import { override, action, computed, makeObservable, observable, reaction } from 'mobx';
+import {User as UserProps, linkToUntis, createIcs, Role, setRole, affectedEventIds as apiAffectedEventIds } from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
 import iStore from './iStore';
+import Semester from '../models/Semester';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
 export class UserStore extends iStore<UserProps, ApiAction> {
     readonly API_ENDPOINT = 'user';
     readonly root: RootStore;
-    @observable
-    initialized = false;
     models = observable<User>([]);
+
+    @observable.ref
+    affectedEventIds = observable.set<string>([]);
 
     constructor(root: RootStore) {
         super();
@@ -21,12 +23,16 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         reaction(
             () => this.current,
             (user) => {
-                if (user?.untisId) {
-                    this.root.untisStore.loadUntisTeacher(user.untisId);
+                if (user) {                
+                    this.loadAffectedEventIds(user);
+                    if (user.untisId) {
+                        this.root.untisStore.loadUntisTeacher(user.untisId);
+                    }
                 }
             }
         )
     }
+
 
     createModel(data: UserProps): User {
         return new User(data, this, this.root.untisStore);
@@ -86,6 +92,24 @@ export class UserStore extends iStore<UserProps, ApiAction> {
                 if (this.current?.id === current.id) {
                     this.addToStore(data);
                 }
+            });
+        });
+    }
+
+    @computed
+    get getAffectedEventIds() {
+        if (!this.current) {
+            return new Set([]);
+        }
+        return this.affectedEventIds;
+    }
+    
+    @action
+    loadAffectedEventIds(user: User, semester?: Semester) {
+        return this.withAbortController(`load-affected-events-${user.id}-${semester?.id}`, (sig) => {
+            return apiAffectedEventIds(user.id, semester?.id, sig.signal).then(({data}) => {
+                this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
+                return data;
             });
         });
     }

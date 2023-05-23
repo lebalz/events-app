@@ -43,3 +43,9 @@ export function createIcs(userId: string, signal: AbortSignal): AxiosPromise<Use
 }
 
 
+export function affectedEventIds(userId: string, semesterId: string | undefined, signal: AbortSignal): AxiosPromise<string[]> {
+    const query = semesterId ? `?semesterId=${semesterId}` : '';
+    return api.get(`/user/${userId}/affected-event-ids${query}`, { signal });
+}
+
+

@@ -68,6 +68,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     end: Date;
 
     @observable
+    affectsCurrent: boolean;
+
+    @observable
     deletedAt?: Date;
 
     @observable
@@ -111,10 +114,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
         this.deletedAt = props.deletedAt ? toLocalDate(new Date(props.deletedAt)) : null;
-
+        
         this._pristine_start = toLocalDate(new Date(props.start));
         this._pristine_end = toLocalDate(new Date(props.end));
-
+        
         
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
@@ -422,6 +425,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
 
         return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
+    }
+
+    @computed
+    get isAffectedByUser() {
+        return this.store.affectsUser(this);
     }
 
     /**

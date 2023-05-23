@@ -38,9 +38,9 @@ class EventTable {
             () => this.store.root.sessionStore.loggedIn,
             (loggedIn) => {
                 if (loggedIn && !this.onlyMine) {
-                    this.onlyMine = true;
+                    this.setOnlyMine(true);
                 } else if (!loggedIn && this.onlyMine) {
-                    this.onlyMine = false;
+                    this.setOnlyMine(false);
                 }
             }
         );
@@ -72,7 +72,7 @@ class EventTable {
                 return false;
             }
             let keep = true;
-            if (this.onlyMine && !event.affectsUser(this.store.user)) {
+            if (this.onlyMine && !event.isAffectedByUser) {
                 keep = false;
             }
             if (keep && this.departmentIds.size > 0) {

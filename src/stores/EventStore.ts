@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState, requestState as apiRequestState, affectingEventIds as apiLoadAffectedEventIds } from '../api/event';
+import { Event as EventProps, EventState, requestState as apiRequestState } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -13,7 +13,7 @@ export class EventStore extends iStore<EventProps> {
     readonly root: RootStore;
     readonly API_ENDPOINT = 'event';
     models = observable<Event>([]);
-
+    
     constructor(root: RootStore) {
         super()
         this.root = root;
@@ -22,6 +22,10 @@ export class EventStore extends iStore<EventProps> {
 
     canEdit(event: Event) {
         return this.root.userStore.current?.id === event.authorId;
+    }
+
+    affectsUser(event: Event) {
+        return this.root.userStore.getAffectedEventIds.has(event.id);
     }
 
     @computed
@@ -190,15 +194,4 @@ export class EventStore extends iStore<EventProps> {
                 );
         });
     }
-
-    @action
-    loadAffectedEventIds() {
-        return this.withAbortController(`load-affected-events`, (sig) => {
-            return apiLoadAffectedEventIds(undefined, sig.signal).then((data) => {
-                console.log(data);
-                return data;
-            });
-        });
-    }
-
 }
