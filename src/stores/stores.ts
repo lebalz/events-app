@@ -14,91 +14,92 @@ import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
 
 export class RootStore {
-  loadableStores = observable<LoadeableStore<any>>([]);
-  resettableStores = observable<ResettableStore>([]);
+    loadableStores = observable<LoadeableStore<any>>([]);
+    resettableStores = observable<ResettableStore>([]);
 
-  @observable 
-  initialized = false;
+    @observable
+    initialized = false;
 
-  sessionStore: SessionStore;
-  untisStore: UntisStore;
-  userStore: UserStore;
-  eventStore: EventStore;
-  socketStore: SocketDataStore;
-  jobStore: JobStore;
-  departmentStore: DepartmentStore;
-  semesterStore: SemesterStore;
-  registrationPeriodStore: RegistrationPeriodStore;
+    sessionStore: SessionStore;
+    untisStore: UntisStore;
+    userStore: UserStore;
+    eventStore: EventStore;
+    socketStore: SocketDataStore;
+    jobStore: JobStore;
+    departmentStore: DepartmentStore;
+    semesterStore: SemesterStore;
+    registrationPeriodStore: RegistrationPeriodStore;
 
-  viewStore: ViewStore;
-  constructor() {
-    makeObservable(this);
-    this.sessionStore = new SessionStore(this);
+    viewStore: ViewStore;
+    constructor() {
+        makeObservable(this);
+        this.sessionStore = new SessionStore(this);
 
-    this.userStore = new UserStore(this);
-    this.subscribeTo(this.userStore, ['load', 'reset']);
+        this.userStore = new UserStore(this);
+        this.subscribeTo(this.userStore, ['load', 'reset']);
 
-    this.untisStore = new UntisStore(this);
-    this.subscribeTo(this.untisStore, ['load', 'reset']);
+        this.untisStore = new UntisStore(this);
+        this.subscribeTo(this.untisStore, ['load', 'reset']);
 
-    this.eventStore = new EventStore(this);
-    this.subscribeTo(this.eventStore, ['load', 'reset']);
+        this.eventStore = new EventStore(this);
+        this.subscribeTo(this.eventStore, ['load', 'reset']);
 
-    this.socketStore = new SocketDataStore(this);
-    this.subscribeTo(this.socketStore, ['load', 'reset']);
+        this.socketStore = new SocketDataStore(this);
+        this.subscribeTo(this.socketStore, ['load', 'reset']);
 
-    this.jobStore = new JobStore(this);
-    this.subscribeTo(this.jobStore, ['load', 'reset']);
+        this.jobStore = new JobStore(this);
+        this.subscribeTo(this.jobStore, ['load', 'reset']);
 
-    this.departmentStore = new DepartmentStore(this);
-    this.subscribeTo(this.departmentStore, ['load', 'reset']);
+        this.departmentStore = new DepartmentStore(this);
+        this.subscribeTo(this.departmentStore, ['load', 'reset']);
 
-    this.semesterStore = new SemesterStore(this);
-    this.subscribeTo(this.semesterStore, ['load', 'reset']);
+        this.semesterStore = new SemesterStore(this);
+        this.subscribeTo(this.semesterStore, ['load', 'reset']);
 
-    this.registrationPeriodStore = new RegistrationPeriodStore(this);
-    this.subscribeTo(this.registrationPeriodStore, ['load', 'reset']);
+        this.registrationPeriodStore = new RegistrationPeriodStore(this);
+        this.subscribeTo(this.registrationPeriodStore, ['load', 'reset']);
 
-    this.viewStore = new ViewStore(this);
+        this.viewStore = new ViewStore(this);
+        this.subscribeTo(this.viewStore, ['load', 'reset']);
 
-    runInAction(() => {
-      this.initialized = true;
-    });
+        runInAction(() => {
+            this.initialized = true;
+        });
 
-    reaction(
-      () => this.sessionStore.account,
-      (account) => {
-        if (account) {
-          /** make sure to first only load a user - in case a new user is created, this prevents parallel upserts */
-          this.userStore.loadUser(account.localAccountId).finally(() => {
-            this.load();
-          });
-        } else {
-          this.resettableStores.forEach((store) => store.reset());
-          this.load();
+        reaction(
+            () => this.sessionStore.account,
+            (account) => {
+                if (account) {
+                    /** make sure to first only load a user - in case a new user is created, this prevents parallel upserts */
+                    this.userStore.loadUser(account.localAccountId).finally(() => {
+                        this.load();
+                    });
+                } else {
+                    this.resettableStores.forEach((store) => store.reset());
+                    this.load();
+                }
+            }
+        )
+    }
+
+
+    subscribeTo(store: ResettableStore, events: ['reset'])
+    subscribeTo(store: LoadeableStore<any>, events: ['load'])
+    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset'])
+    @action
+    subscribeTo(store: any, events: any) {
+        if (events.includes('load')) {
+            this.loadableStores.push(store);
         }
-      }
-    )
-  }
-
-  
-  subscribeTo(store: ResettableStore, events: ['reset'])
-  subscribeTo(store: LoadeableStore<any>, events: ['load'])
-  subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset'])
-  @action
-  subscribeTo(store: any, events: any) {
-    if (events.includes('load')) {
-      this.loadableStores.push(store);
+        if (events.includes('reset')) {
+            this.resettableStores.push(store);
+        }
     }
-    if (events.includes('reset')) {
-      this.resettableStores.push(store);
-    }
-  }
 
-  @action
-  load() {
-    this.loadableStores.forEach((store) => store.load());
-  }
+    @action
+    load() {
+        this.loadableStores.forEach((store) => store.load());
+    }
 }
 
 

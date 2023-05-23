@@ -6,6 +6,7 @@ import Lesson from '../models/Untis/Lesson';
 import { EventState } from '../api/event';
 import _ from 'lodash';
 import Department from '../models/Department';
+import { LoadeableStore, ResettableStore } from './iStore';
 
 /**
  * route: /table
@@ -34,14 +35,6 @@ class EventTable {
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
-        reaction(
-            () => this.store.root.sessionStore.loggedIn,
-            (loggedIn) => {
-                console.log('loggedIn', loggedIn)
-                this.setOnlyMine(loggedIn);
-            },
-            { delay: 100 }
-        );
     }
 
     @action
@@ -181,7 +174,7 @@ class AdminDepartmentTable {
     }
 }
 
-export class ViewStore {
+export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
 
     @observable
@@ -215,6 +208,7 @@ export class ViewStore {
         this.adminDepartmentTable = new AdminDepartmentTable(this);
         makeObservable(this);
     }
+
     @action
     setEventModalId(modalId?: string): void {
         this.openEventModalId = modalId;
@@ -285,6 +279,17 @@ export class ViewStore {
     @computed
     get usersLessons(): Lesson[] {
         return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l?.semesterName === this.semester?.semesterName);
+    }
+
+    @action
+    load() {
+        this.eventTable.setOnlyMine(true);
+        return Promise.resolve()
+    }
+
+    @action
+    reset() {
+        this.eventTable.setOnlyMine(false);
     }
 
 }
