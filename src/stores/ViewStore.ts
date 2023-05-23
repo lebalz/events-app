@@ -34,19 +34,6 @@ class EventTable {
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
-        if (this.store.root.sessionStore?.loggedIn) {
-            this.setOnlyMine(true);
-        }
-        reaction(
-            () => this.store.root.sessionStore?.loggedIn,
-            (loggedIn) => {
-                if (loggedIn && !this.onlyMine) {
-                    this.setOnlyMine(true);
-                } else if (!loggedIn && this.onlyMine) {
-                    this.setOnlyMine(false);
-                }
-            }
-        );
     }
 
     @action
@@ -219,6 +206,20 @@ export class ViewStore {
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
         makeObservable(this);
+        
+        if (this.root.sessionStore?.loggedIn) {
+            this.eventTable.setOnlyMine(true);
+        }
+        reaction(
+            () => this.root.sessionStore?.loggedIn,
+            (loggedIn) => {
+                if (loggedIn) {
+                    this.eventTable.setOnlyMine(true);
+                } else {
+                    this.eventTable.setOnlyMine(false);
+                }
+            }
+        );
     }
     @action
     setEventModalId(modalId?: string): void {
