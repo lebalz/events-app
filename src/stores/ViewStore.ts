@@ -25,7 +25,7 @@ class EventTable {
     departmentIds = observable.set<string>();
 
     @observable
-    onlyMine = false;
+    onlyMine: boolean;
 
     @observable
     activeGroup: string | null = null;
@@ -33,7 +33,14 @@ class EventTable {
 
     constructor(store: ViewStore) {
         this.store = store;
+        this.onlyMine = false;
         makeObservable(this);
+        reaction(
+            () => this.store.root.sessionStore.loggedIn,
+            (loggedIn) => {
+                this.setOnlyMine(loggedIn);
+            }
+        );
     }
 
     @action
@@ -206,20 +213,6 @@ export class ViewStore {
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
         makeObservable(this);
-        
-        if (this.root.sessionStore?.loggedIn) {
-            this.eventTable.setOnlyMine(true);
-        }
-        reaction(
-            () => this.root.sessionStore?.loggedIn,
-            (loggedIn) => {
-                if (loggedIn) {
-                    this.eventTable.setOnlyMine(true);
-                } else {
-                    this.eventTable.setOnlyMine(false);
-                }
-            }
-        );
     }
     @action
     setEventModalId(modalId?: string): void {
