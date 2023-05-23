@@ -25,7 +25,7 @@ class EventTable {
     departmentIds = observable.set<string>();
 
     @observable
-    onlyMine: boolean;
+    onlyMine: boolean = false;
 
     @observable
     activeGroup: string | null = null;
@@ -33,13 +33,14 @@ class EventTable {
 
     constructor(store: ViewStore) {
         this.store = store;
-        this.onlyMine = false;
         makeObservable(this);
         reaction(
             () => this.store.root.sessionStore.loggedIn,
             (loggedIn) => {
+                console.log('loggedIn', loggedIn)
                 this.setOnlyMine(loggedIn);
-            }
+            },
+            { delay: 100 }
         );
     }
 
@@ -77,7 +78,7 @@ class EventTable {
             }
             if (keep && this.klasses.size > 0) {
                 const kls = [...this.klasses]
-                keep = [...event.classes, ...event.untisClasses.map(uc => uc.legacyName).filter(c=>!!c)].some((d) => kls.some((k) => d.startsWith(k)));
+                keep = [...event.classes, ...event.untisClasses.map(uc => uc.legacyName).filter(c => !!c)].some((d) => kls.some((k) => d.startsWith(k)));
             }
             if (keep && this.start) {
                 keep = event.end >= this.start;
