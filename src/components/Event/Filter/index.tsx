@@ -16,29 +16,30 @@ interface Props {
 const Filter = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
+    const {eventTable} = viewStore;
     return (
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.audience)}>
                 <Button 
                     text="Meine"
-                    active={viewStore.eventTable.onlyMine}
+                    active={eventTable.onlyMine}
                     color='blue'
-                    onClick={() => viewStore.eventTable.toggleOnlyMine()}
+                    onClick={() => eventTable.toggleOnlyMine()}
                 />
             </div>
             <div className={clsx(styles.department, 'button-group', 'button-group--block')}>
                 {departmentStore.usedDepartments.map((department) => (
                     <Button
                         text={department.name}
-                        active={viewStore.eventTable.departmentIds.has(department.id)}
-                        onClick={() => viewStore.eventTable.toggleDepartment(department.id)} 
+                        active={eventTable.departmentIds.has(department.id)}
+                        onClick={() => eventTable.toggleDepartment(department.id)} 
                         color="blue"
                         key={department.id}
                     />
                 ))}
             </div>
             <div className={clsx(styles.classes)}>
-                <TextInput onChange={(txt) => viewStore.eventTable.setClassFilter(txt)} text={viewStore.eventTable.klassFilter}/>
+                <TextInput onChange={(txt) => eventTable.setClassFilter(txt)} text={eventTable.klassFilter}/>
             </div>
             {/* <div className={clsx(styles.date, styles.start)}>
                 {!!eventTable.start ? (

@@ -111,7 +111,7 @@ const ButtonInner = (props: Props) => {
     )
 }
 
-const Button = (props: Props) => {
+const Button = observer((props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
     const colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
@@ -156,6 +156,6 @@ const Button = (props: Props) => {
             <ButtonInner {...props} />
         </button>
     );
-};
+});
 
 export default Button;
