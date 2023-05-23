@@ -204,7 +204,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @action
     loadUntisTeacher(untisId: number) {
         /**
-         * This will be called automatically by UserStores reaction 
+         * This will be called automatically by the constructors reaction 
          */
         return this.withAbortController(`untis-teacher-${untisId}`, (sig) => {
             return fetchTeacher(untisId, sig.signal).then(action(({ data }) => {

@@ -92,4 +92,9 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     apiStateFor(sigId: Api) {
         return this.store.apiStateFor(sigId);
     }
+
+    @action
+    cleanup() {
+        /** when needed, clean up */
+    }
 }

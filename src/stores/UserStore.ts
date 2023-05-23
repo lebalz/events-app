@@ -25,9 +25,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             (user) => {
                 if (user) {                
                     this.loadAffectedEventIds(user);
-                    if (user.untisId) {
-                        this.root.untisStore.loadUntisTeacher(user.untisId);
-                    }
                 }
             }
         )

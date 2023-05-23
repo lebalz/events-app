@@ -114,6 +114,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         const old = this.find<ApiModel<Model, Api | ApiAction>>(id);
         if (old) {
             this.models.remove(old);
+            old.cleanup();
         }
         return old;
     }

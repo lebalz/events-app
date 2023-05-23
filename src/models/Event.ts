@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, override, reaction } from 'mobx';
+import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
 import { Event as EventProps, EventState, JoiEvent } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
@@ -92,6 +92,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable.ref
     _errors?: Joi.ValidationError
 
+    reactionDisposer: IReactionDisposer;
+
     constructor(props: EventProps, store: EventStore) {
         super();
         this._pristine = props;
@@ -125,7 +127,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.state !== EventState.Published && !this.deletedAt) {
             this.validate();
         }
-        reaction(
+        this.reactionDisposer = reaction(
             () => this.props, 
             () => {
                 this.validate();
@@ -549,5 +551,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get weekDay(): number {
         return this.start.getDay();
+    }
+
+    @override
+    cleanup() {
+        this.reactionDisposer();
     }
 }
