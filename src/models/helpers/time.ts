@@ -31,6 +31,7 @@ export const HOUR_2_MS = 60 * MINUTE_2_MS;
 export const DAY_2_MS = 24 * HOUR_2_MS; // 1000*60*60*24=86400000
 export const WEEK_2_MS = 7 * DAY_2_MS;
 export const DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'] as const;
+export const DAYS_LONG = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'] as const;
 
 export const getWeekdayOffsetMS = (date: Date) => {
     const days = date.getUTCDay() - 1;

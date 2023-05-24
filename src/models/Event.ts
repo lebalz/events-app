@@ -3,7 +3,7 @@ import { Event as EventProps, EventState, JoiEvent } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday } from './helpers/time';
+import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday, DAYS_LONG } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
@@ -363,8 +363,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get day(): typeof DAYS[number] {
+    get dayStart(): typeof DAYS[number] {
         return DAYS[this.start.getDay()];
+    }
+
+    @computed
+    get dayEnd(): typeof DAYS[number] {
+        return DAYS[this.end.getDay()];
+    }
+
+    @computed
+    get dayFullStart(): typeof DAYS_LONG[number] {
+        return DAYS_LONG[this.start.getDay()];
+    }
+
+    @computed
+    get dayFullEnd(): typeof DAYS_LONG[number] {
+        return DAYS_LONG[this.end.getDay()];
     }
 
     /**
@@ -539,9 +554,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fDuration() {
         if (this.store?.root?.sessionStore?.locale === 'fr') {
-            return humanize(this.durationMS, {language: 'fr', units: ['w', 'd', 'h', 'm']});
+            return humanize(this.durationMS, {language: 'fr', units: ['w', 'd', 'h', 'm'], round: true});
         }
-        return humanize(this.durationMS, {language: 'de', units: ['w', 'd', 'h', 'm']});
+        return humanize(this.durationMS, {language: 'de', units: ['w', 'd', 'h', 'm'], round: true});
     }
 
     /**

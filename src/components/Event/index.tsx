@@ -60,7 +60,7 @@ const Event = observer((props: Props) => {
                     <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
                     <dd><KW {...commonProps} /></dd>
                     <dt><Translate id="event.weekday" description='for a single event: weekday'>Wochentag</Translate></dt>
-                    <dd><Day {...commonProps} /></dd>
+                    <dd><Day {...commonProps} showFullName showRange /></dd>
                     <dt><Translate id="event.date" description='for a single event: date range'>Datum</Translate></dt>
                     <dd className={styles.flex}><DateTime {...commonEditProps} time='start' /></dd>
                     <dd className={styles.flex}><Icon path={mdiArrowRightBottom} /><DateTime {...commonEditProps} time='end' /></dd>
@@ -77,7 +77,11 @@ const Event = observer((props: Props) => {
                             {event.classes.size > 0 && (
                                 <>
                                     <dt><Translate id="event.classes" description='for a single event: classes'>Klassen</Translate></dt>
-                                    <dd>{[...event.classes].map((cl, idx) => <Badge key={`cl-${idx}`} text={cl} />)}</dd>
+                                    <dd>
+                                        <div className={clsx(styles.clases)}>
+                                            {[...event.classes].map((cl, idx) => <Badge key={`cl-${idx}`} text={cl} />)}
+                                        </div>
+                                    </dd>
                                 </>
                             )}
                             {event.departments.length > 0 && (
@@ -91,16 +95,19 @@ const Event = observer((props: Props) => {
                     {event.affectedLessonsByClass.some(al => al.lessons.length > 0) && (
                         <>
                             <dt><Translate id="event.affectedLessons" description='for a single event: affected lessons'>Betroffene Lektionen</Translate></dt>
-                            {event.affectedLessonsByClass.map((kl, idx) => (
-                                <React.Fragment key={`kl-${idx}`}>
+                            {event.affectedLessonsByClass.map((kl, idx) => {
+                                if (kl.lessons.length === 0) {
+                                    return null;
+                                }
+                                return (<React.Fragment key={`kl-${idx}`}>
                                     <dt >{kl.class}</dt>
                                     <dd className={clsx(styles.lessons)}>
                                         {kl.lessons.map((l, idx) => (
                                             <Lesson lesson={l} key={l.id} />
                                         ))}
                                     </dd>
-                                </React.Fragment>
-                            ))}
+                                </React.Fragment>)
+                            })}
                         </>
                     )}
                     {

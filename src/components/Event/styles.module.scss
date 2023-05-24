@@ -23,6 +23,12 @@
     .options {
         display: flex;
     }
+    .clases {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 15em;
+        gap: 0.2em;
+    }
 }
 
 .actions {
