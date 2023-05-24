@@ -6,7 +6,6 @@ import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import EventModal from "../components/Event/Modal";
 import { useLocation } from "@docusaurus/router";
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
@@ -92,12 +91,11 @@ function Root({ children }) {
           content={`${siteConfig.customFields.DOMAIN}/img/og-preview.png`}
         />
       </Head>
-      <StoresProvider value={rootStore}>
-        <Msal>
-          {children}
-          <EventModal />
-        </Msal>
-      </StoresProvider>
+        <StoresProvider value={rootStore}>
+          <Msal>
+            {children}
+          </Msal>
+        </StoresProvider>
     </>
   );
 }
