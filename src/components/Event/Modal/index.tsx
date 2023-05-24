@@ -29,7 +29,7 @@ const EventModal = observer((props: Props) => {
             <div className={clsx(styles.card, 'card')}>
                 <div className={clsx('card__body')}>
                     {event && (
-                        <Event event={event} />
+                        <Event event={event} inModal />
                     )}
                 </div>
                 <div className={clsx('card__footer')}>

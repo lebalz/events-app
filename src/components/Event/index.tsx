@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiArrowRightBottom, mdiEqual, mdiText } from '@mdi/js';
-import { EditIcon, Icon } from '../shared/icons';
+import { mdiArrowRightBottom, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiEqual, mdiText } from '@mdi/js';
+import { EditIcon, Icon, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -22,17 +22,21 @@ import Audience from './EventFields/Audience';
 import State from './EventFields/State';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Edit from '../shared/Button/Edit';
+import Actions from './EventFields/Actions';
 interface Props {
     event: EventModel;
+    inModal?: boolean;
 }
 
 const Event = observer((props: Props) => {
     const { event } = props;
-    const {i18n} = useDocusaurusContext();
+    const { i18n } = useDocusaurusContext();
     const socketStore = useStore('socketStore');
     const viewStore = useStore('viewStore');
+    const eventStore = useStore('eventStore');
     const commonProps = { event, styles };
     const commonEditProps = { ...commonProps, isEditable: true };
+    const [showOptions, setShowOptions] = React.useState(false);
     return (
         <div className={clsx(styles.eventCard, 'card')}>
             <div className={clsx('card__header')}>
@@ -98,6 +102,35 @@ const Event = observer((props: Props) => {
                             ))}
                         </>
                     )}
+                    {
+                        !props.inModal && eventStore.canEdit(event) && (
+                            <>
+                                <dt>
+                                    <Button
+                                        icon={mdiDotsHorizontalCircleOutline}
+                                        onClick={() => setShowOptions(!showOptions)}
+                                        className={clsx(styles.optionsBtn, (showOptions || event.isEditing) && styles.showOptions)}
+                                    />
+                                </dt>
+                                <dd>
+                                    {(showOptions || event.isEditing) && (
+                                        <div className={clsx(styles.options)}>
+                                            <Button
+                                                text="Bearbeiten"
+                                                iconSide='left'
+                                                size={SIZE_S}
+                                                icon={<EditIcon />}
+                                                onClick={() => {
+                                                    event.setEditing(true);
+                                                }}
+                                                color='orange'
+                                            />
+                                        </div>
+                                    )}
+                                </dd>
+                            </>
+                        )
+                    }
                 </DefinitionList>
             </div>
             <div className={clsx('card__footer', styles.footer)}>
@@ -108,21 +141,6 @@ const Event = observer((props: Props) => {
                         socketStore.checkUnpersistedEvent(event.props);
                     }}
                 />
-                <Button
-                    text="Bearbeiten"
-                    icon={<EditIcon />}
-                    onClick={() => {
-                        event.setEditing(true);
-                        viewStore.setEventModalId(event.id);
-                    }}
-                    color='orange'
-                />
-                {/* {event.isEditable && (
-                    <Edit onClick={() => {
-                        event.setEditing(true);
-                        viewStore.setEventModalId(event.id);
-                    }} />
-                )} */}
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ import Badge from '@site/src/components/shared/Badge';
 import AudiencePicker from '@site/src/components/shared/AudiencePicker';
 import { KlassName } from '@site/src/models/helpers/klassNames';
 import SubjectSelector from './SubjectSelector';
+import ErrorBoundary from '@docusaurus/ErrorBoundary';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean; /** true when at least one element of the grid is edited */
@@ -20,7 +21,16 @@ const Audience = observer((props: Props) => {
                 style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}
                 className={clsx(styles.audience, 'grid-audience', props.className)}
             >
-                <AudiencePicker event={event} />
+                <ErrorBoundary
+                    fallback={({error, tryAgain}) => (
+                        <div>
+                          <p>This component crashed because of error: {error.message}.</p>
+                          <button onClick={tryAgain}>Try Again!</button>
+                        </div>
+                      )}
+                >
+                    <AudiencePicker event={event} />
+                </ErrorBoundary>
                 {/* <SubjectSelector event={event} styles={styles}/> */}
             </div>
         )
