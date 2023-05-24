@@ -21,16 +21,7 @@ const Audience = observer((props: Props) => {
                 style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}
                 className={clsx(styles.audience, 'grid-audience', props.className)}
             >
-                <ErrorBoundary
-                    fallback={({error, tryAgain}) => (
-                        <div>
-                          <p>This component crashed because of error: {error.message}.</p>
-                          <button onClick={tryAgain}>Try Again!</button>
-                        </div>
-                      )}
-                >
-                    <AudiencePicker event={event} />
-                </ErrorBoundary>
+                <AudiencePicker event={event} />
                 {/* <SubjectSelector event={event} styles={styles}/> */}
             </div>
         )

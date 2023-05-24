@@ -23,6 +23,7 @@ import State from './EventFields/State';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Edit from '../shared/Button/Edit';
 import Actions from './EventFields/Actions';
+import EventActions from './EventActions';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -115,16 +116,7 @@ const Event = observer((props: Props) => {
                                 <dd>
                                     {(showOptions || event.isEditing) && (
                                         <div className={clsx(styles.options)}>
-                                            <Button
-                                                text="Bearbeiten"
-                                                iconSide='left'
-                                                size={SIZE_S}
-                                                icon={<EditIcon />}
-                                                onClick={() => {
-                                                    event.setEditing(true);
-                                                }}
-                                                color='orange'
-                                            />
+                                            <EventActions event={event} buttonOrder={['discard', 'save']} />
                                         </div>
                                     )}
                                 </dd>

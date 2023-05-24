@@ -10,9 +10,6 @@
         margin-left: 2em;
         gap: 0.25rem;
     }
-    .footer {
-        display: flex;
-    }
     .optionsBtn {
         svg {
             transition: transform 0.25s ease-in-out;
@@ -22,6 +19,9 @@
                 transform: rotate(90deg);
             }
         }
+    }
+    .options {
+        display: flex;
     }
 }
 
