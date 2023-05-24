@@ -7,6 +7,7 @@ import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import EventModal from "../components/Event/Modal";
+import { useLocation } from "@docusaurus/router";
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
 
@@ -55,6 +56,7 @@ const Msal = observer(({ children }: any) => {
 // Default implementation, that you can customize
 function Root({ children }) {
   const { i18n } = useDocusaurusContext();
+  const location = useLocation();
   React.useEffect(() => {
     if (!(window as any).store) {
       (window as any).store = rootStore;
@@ -66,13 +68,20 @@ function Root({ children }) {
     if (process.env.NODE_ENV !== 'production' && TEST_USERNAME) {
       rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
     }
-  }, [rootStore?.sessionStore])
+  }, [rootStore?.sessionStore]);
 
   React.useEffect(() => {
     if (rootStore?.sessionStore) {
       rootStore.sessionStore.setLocale(i18n.currentLocale as 'de' | 'fr');
     }
-  }, [i18n.currentLocale])
+  }, [i18n.currentLocale]);
+
+  React.useEffect(() => {
+    /** ensure no modal is open when changing the routes */
+    if (rootStore?.viewStore?.openEventModalId) {
+      rootStore.viewStore.setEventModalId();
+    }
+  }, [location, rootStore?.viewStore]);
 
   return (
     <>

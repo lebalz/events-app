@@ -7,7 +7,7 @@ import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
 import { mdiArrowRightBottom, mdiEqual, mdiText } from '@mdi/js';
-import { Icon } from '../shared/icons';
+import { EditIcon, Icon } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -100,7 +100,7 @@ const Event = observer((props: Props) => {
                     )}
                 </DefinitionList>
             </div>
-            <div className={clsx('card__footer')}>
+            <div className={clsx('card__footer', styles.footer)}>
                 <Button
                     text={translate({ message: "Alle betroffenen Lektionen anzeigen", id: 'event.button.showAllLessons', description: 'for a single event: button to show all affected lessons' })}
                     icon={mdiText}
@@ -108,12 +108,21 @@ const Event = observer((props: Props) => {
                         socketStore.checkUnpersistedEvent(event.props);
                     }}
                 />
-                {event.isEditable && (
+                <Button
+                    text="Bearbeiten"
+                    icon={<EditIcon />}
+                    onClick={() => {
+                        event.setEditing(true);
+                        viewStore.setEventModalId(event.id);
+                    }}
+                    color='orange'
+                />
+                {/* {event.isEditable && (
                     <Edit onClick={() => {
                         event.setEditing(true);
                         viewStore.setEventModalId(event.id);
                     }} />
-                )}
+                )} */}
             </div>
         </div>
     )
