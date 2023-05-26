@@ -248,14 +248,19 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @action
     setSemester(semester: Semester): void {
+        if (!semester) {
+            this._semesterId = '';
+            return;
+        }
         this._semesterId = semester.id;
+        this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester);
     }
 
     @action
     nextSemester(direction: number = 1): void {
         const offset = direction > 0 ? -1 : 1;
         const semester = this.root.semesterStore.nextSemester(this.semesterId, offset);
-        this._semesterId = semester?.id || '';
+        this.setSemester(semester);
     }
 
     @computed

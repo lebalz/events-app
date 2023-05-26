@@ -29,7 +29,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         reaction(
             () => this.root.userStore.current?.untisId,
             (id) => {
-                if (id && this.initialized) {
+                if (id) {
                     this.loadUntisTeacher(id);
                 }
             }

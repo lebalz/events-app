@@ -104,10 +104,10 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @action
     loadAffectedEventIds(user: User, semester?: Semester) {
         return this.withAbortController(`load-affected-events-${user.id}-${semester?.id}`, (sig) => {
-            return apiAffectedEventIds(user.id, semester?.id, sig.signal).then(({data}) => {
+            return apiAffectedEventIds(user.id, semester?.id, sig.signal).then(action(({data}) => {
                 this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
                 return data;
-            });
+            }));
         });
     }
 }
