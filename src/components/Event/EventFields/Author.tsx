@@ -7,12 +7,12 @@ import { ReadonlyProps } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
 
 const Author = observer((props: ReadonlyProps) => {
-    const { styles } = props;
+    const { styles, onClick } = props;
     return (
         <div 
             style={{gridColumn: 'author'}} 
             className={clsx('author', styles.author, props.className, 'grid-author')}
-            onClick={() => props.expandeable && props.event.setExpanded(true)}
+            onClick={onClick}
         >
             <Badge text={(props.event.author?.shortName || props.event.author?.email) ?? '-'}/>
         </div>

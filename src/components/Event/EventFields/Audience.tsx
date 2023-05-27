@@ -14,7 +14,7 @@ interface Props extends CommonProps {
 }
 
 const Audience = observer((props: Props) => {
-    const { event, styles } = props;
+    const { event, styles, onClick } = props;
     if (props.isEditable && props.event.isEditing) {
         return (
             <div
@@ -32,7 +32,7 @@ const Audience = observer((props: Props) => {
             <div
                 style={{ gridColumn: 'departments' }}
                 className={clsx(props.className, styles.departments, 'grid-departments', props.isEditGrid && styles.editGrid)}
-                onClick={() => props.expandeable && props.event.setExpanded(true)}
+                onClick={onClick}
             >
                 <div className={clsx(styles.tags)}>
                     {
@@ -45,7 +45,7 @@ const Audience = observer((props: Props) => {
             <div 
                 style={{ gridColumn: 'classes' }} 
                 className={clsx(props.className, styles.classes, props.isEditGrid && styles.editGrid)}
-                onClick={() => props.expandeable && props.event.setExpanded(true)}
+                onClick={onClick}
             >
                 <div className={clsx(styles.tags)}>
                     {

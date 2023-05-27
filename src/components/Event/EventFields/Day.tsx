@@ -6,20 +6,22 @@ import { ReadonlyProps } from './iEventField';
 import Button from '../../shared/Button';
 import { mdiArrowExpandUp } from '@mdi/js';
 import { SIZE_S } from '../../shared/icons';
+import { useStore } from '@site/src/stores/hooks';
 
 interface Props extends ReadonlyProps {
     showFullName?: boolean;
     showRange?: boolean;
 }
 const Day = observer((props: Props) => {
-    const { styles, event, showFullName, showRange } = props;
+    const { styles, event, showFullName, showRange, onClick } = props;
+    const viewStore = useStore('viewStore');
     const start = showFullName ? event.dayFullStart : event.dayStart;
     const end = showFullName ? event.dayFullEnd : event.dayEnd;
     return (
         <div 
             style={{gridColumn: 'day'}} 
             className={clsx(styles.day, props.className, 'grid-day')}
-            onClick={() => props.expandeable && event.setExpanded(true)}
+            onClick={onClick}
         >
             <div className={clsx(styles.value)}>
                 {(showRange && event.fStartDate !== event.fEndDate) ? `${start} - ${end}` : start}

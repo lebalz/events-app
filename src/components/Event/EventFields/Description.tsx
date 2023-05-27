@@ -6,7 +6,7 @@ import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const Description = observer((props: Props) => {
-    const { styles } = props;
+    const { styles, onClick } = props;
     const error = props.event.errorFor('description');
     if (props.isEditable && props.event.isEditing) {
         return (
@@ -31,7 +31,7 @@ const Description = observer((props: Props) => {
         <div 
             style={{gridColumn: 'description'}} 
             className={clsx(styles.description, props.className, 'grid-description')}
-            onClick={() => props.expandeable && props.event.setExpanded(true)}
+            onClick={onClick}
         >
             {props.event.description}
         </div>

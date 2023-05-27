@@ -13,7 +13,17 @@ interface Props {
     onClose?: () => void;
 }
 
+const MARGIN_TOP = 42;
+
 const Modal = observer((props: Props) => {
+    const [marginTop, setMarginTop] = React.useState(MARGIN_TOP);
+    React.useEffect(() => {
+        if (props.open) {
+            const top = window.scrollY;
+            setMarginTop(top + MARGIN_TOP);
+            console.log(top);
+        }
+    }, [props.open]);
 
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();
@@ -29,7 +39,11 @@ const Modal = observer((props: Props) => {
             onClick={props.open ? onClose : undefined}
         >
             {props.open && (
-                <div className={clsx(styles.content)} onClick={(e) => e.stopPropagation()}>
+                <div
+                    style={{marginTop: `${marginTop}px`}}
+                    className={clsx(styles.content)} 
+                    onClick={(e) => e.stopPropagation()}
+                >
                     {props.children}
                 </div>
             )}

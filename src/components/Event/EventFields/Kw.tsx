@@ -6,12 +6,12 @@ import { useStore } from '@site/src/stores/hooks';
 import { ReadonlyProps } from './iEventField';
 
 const KW = observer((props: ReadonlyProps) => {
-    const { styles } = props;
+    const { styles, onClick } = props;
     return (
         <div 
             style={{gridColumn: 'kw'}} 
             className={clsx('kw', styles.kw, props.className, 'grid-kw')}
-            onClick={() => props.expandeable && props.event.setExpanded(true)}
+            onClick={onClick}
         >
             {props.event.kw}
         </div>

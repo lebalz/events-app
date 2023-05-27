@@ -10,7 +10,7 @@ interface Props extends DefaultProps {
 }
 
 const DateTime = observer((props: Props) => {
-    const { event, styles } = props;
+    const { event, styles, onClick } = props;
     const error = event.errorFor(props.time);
     let dateColumn = 'startDate';
     let timeColumn = 'startTime';
@@ -50,14 +50,14 @@ const DateTime = observer((props: Props) => {
             <div
                 style={{ gridColumn: dateColumn }}
                 className={clsx(props.className, styles.date, styles[dateColumn], `grid-${dateColumn}`)}
-                onClick={() => props.expandeable && props.event.setExpanded(true)}
+                onClick={onClick}
             >{
                     fdate
                 }</div>
             <div
                 style={{ gridColumn: timeColumn }}
                 className={clsx(props.className, styles.time, styles[timeColumn], `grid-${timeColumn}`)}
-                onClick={() => props.expandeable && props.event.setExpanded(true)}
+                onClick={onClick}
             >{
                     ftime
                 }</div>

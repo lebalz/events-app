@@ -6,7 +6,7 @@ import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const Location = observer((props: Props) => {
-    const { styles } = props;
+    const { styles, onClick } = props;
     if (props.isEditable && props.event.isEditing) {
         return (
             <div 
@@ -24,7 +24,7 @@ const Location = observer((props: Props) => {
         <div 
             style={{gridColumn: 'location'}} 
             className={clsx(styles.location, props.className, 'grid-Location')}
-            onClick={() => props.expandeable && props.event.setExpanded(true)}
+            onClick={onClick}
         >
             {props.event.location}
         </div>

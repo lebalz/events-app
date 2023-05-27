@@ -17,11 +17,11 @@ interface Props {
 }
 
 const EventModal = observer((props: Props) => {
-    const [deleteRequested, setDeleteRequested] = React.useState(false);
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const { openEventModalId } = viewStore;
     const event = eventStore.find<EventModel>(openEventModalId);
+
     return (
         <Modal
             open={!!event}
@@ -39,7 +39,15 @@ const EventModal = observer((props: Props) => {
                             <EventActions event={event} onDiscard={() => viewStore.setEventModalId()} />
                         ) : (
                             <>
-                                <Button color="red" text="Schliessen" icon={mdiClose} iconSide='left' onClick={() => viewStore.setEventModalId()} />
+                                <Button 
+                                    color="red" 
+                                    text="Schliessen" 
+                                    icon={mdiClose} 
+                                    iconSide='left' 
+                                    onClick={() => {
+                                        viewStore.setEventModalId()
+                                    }} 
+                                />
                                 <EventActions event={event} />
                                 <Button color="blue" text="Öffnen" icon={mdiShareCircle}  href={event?.shareUrl} target="_self" />
                             </>

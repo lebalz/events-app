@@ -15,6 +15,8 @@ import Select from '../EventFields/Select';
 import Author from '../EventFields/Author';
 import IsValid from '../EventFields/IsValid';
 import State from '../EventFields/State';
+import {useWindowSize} from '@docusaurus/theme-common';
+import { useStore } from '@site/src/stores/hooks';
 
 interface RowProps {
     event: EventModel;
@@ -25,7 +27,20 @@ interface RowProps {
 }
 
 const Event = observer((props: RowProps) => {
+    const viewStore = useStore('viewStore');
+    const windowSize = useWindowSize();
     const { event, styles } = props;
+
+    const onClick = windowSize === 'desktop' ? 
+        (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            if (e.ctrlKey || e.metaKey) {
+                viewStore.setEventModalId(event.id);
+            } else {
+                event.setExpanded(true);
+            }
+
+         } : 
+        () => viewStore.setEventModalId(event.id);
 
     const commonStyle = clsx(
         styles.cell,
@@ -35,18 +50,18 @@ const Event = observer((props: RowProps) => {
 
     return (
         <React.Fragment>
-            <State event={event} styles={styles} className={clsx(commonStyle)} expandeable />
-            <IsValid event={event} styles={styles} className={clsx(commonStyle)} expandeable />
-            <Select event={event} styles={styles} className={clsx(commonStyle)} onSelect={props.onSelect} expandeable />
-            <KW event={event} styles={styles} className={clsx(commonStyle)} expandeable />
-            <Author event={event} styles={styles} className={clsx(commonStyle)} expandeable />
-            <Day event={event} styles={styles} className={clsx(commonStyle)} expandeable />
-            <Description event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
-            <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} expandeable />
-            <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} expandeable />
-            <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
-            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable isEditGrid={props.isEditGrid} />
-            <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable />
+            <State event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <IsValid event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Select event={event} styles={styles} className={clsx(commonStyle)} onSelect={props.onSelect} expandeable onClick={onClick} />
+            <KW event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Author event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Day event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Description event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} isEditGrid={props.isEditGrid} />
+            <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
             <Actions event={event} styles={styles} className={clsx(commonStyle)} expandeable />
         </React.Fragment>
     );

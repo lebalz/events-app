@@ -1,7 +1,7 @@
 .grid {
     --event-grid-template-columns:
         [day gridStart] max-content
-        [description] minmax(15em, 2fr)
+        [description] max-content
         [startDate] max-content
         [startTime] max-content
         [endDate startEnd] max-content
@@ -9,7 +9,7 @@
         [location endEnd] max-content
         [departments] max-content
         [classes] max-content
-        [classesEnd descriptionLong] minmax(15em, 3fr)
+        [classesEnd descriptionLong] max-content
         [actions] max-content
         [gridEnd];
     div[class*='author_'] {
