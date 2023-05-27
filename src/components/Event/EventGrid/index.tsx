@@ -61,6 +61,21 @@ const EventGrid = observer((props: Props) => {
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
 
+    React.useEffect(() => {
+        const current = document.querySelector('#current-week');
+        if (current) {
+            current.scrollIntoView(
+                {
+                    behavior: 'smooth',
+                    block: 'start'
+                }
+            );
+            console.log('current here')
+        } else {
+            console.log('current not here')
+        }
+    }, [props.events]);
+
     const grouped = props.events.reduce((acc, event) => {
         const key = event.kw;
         if (!acc[key]) {
@@ -97,7 +112,21 @@ const EventGrid = observer((props: Props) => {
                     />
                     {props.groupBy ? (
                         Object.entries(grouped).map(([kw, events]) => (
-                            <EventGroup events={events} key={kw} selectable={props.selectable} id={`KW ${kw}`} content={<><span>KW {kw}</span><span style={{textAlign: 'center'}}>{formatDate(events[0].weekStart)} - {formatDate(events[0].weekEnd)}</span></>} />
+                            <EventGroup 
+                                events={events} 
+                                key={kw} 
+                                selectable={props.selectable} 
+                                kw={Number.parseInt(kw, 10)}
+                                id={`KW ${kw}`}
+                                content={
+                                    <>
+                                        <span>KW {kw}</span>
+                                        <span style={{textAlign: 'center'}}>
+                                            {formatDate(events[0].weekStart)} - {formatDate(events[0].weekEnd)}
+                                        </span>
+                                    </>
+                                } 
+                            />
                         ))
                     ) : (props.events.map((event, idx) => (
                         <Event 

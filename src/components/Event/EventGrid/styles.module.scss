@@ -96,6 +96,9 @@
     &.active {
         border: 2px solid var(--ifm-color-primary);
     }
+    &.currentWeek {
+        background-color: var(--ifm-color-primary-lightest);
+    }
     &:hover {
         background-color: var(--ifm-color-secondary-darkest);
     }

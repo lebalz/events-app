@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { default as EventModel } from '@site/src/models/Event';
+import { getKW } from '@site/src/models/helpers/time';
 import Event from './Event';
 
 import styles from './styles.module.scss';
@@ -11,11 +12,14 @@ import { action } from 'mobx';
 
 interface Props {
     id: string;
+    kw: number;
     content?: string | React.ReactNode;
     events: EventModel[];
     selectable?: boolean;
     className?: string;
 }
+
+const CURRENT_KW = getKW(new Date());
 
 const EventGroup = observer((props: Props) => {
     const [expanded, setExpanded] = React.useState(false);
@@ -27,18 +31,23 @@ const EventGroup = observer((props: Props) => {
             setExpanded(true);
         }
     }, [onScreen]);
+    const isCurrentWeek = props.kw === CURRENT_KW;
     return (
         <>
             <div 
-                className={clsx(styles.eventGroup, props.className, viewStore.eventTable.activeGroup === props.id && styles.active)} 
+                className={clsx(styles.eventGroup, props.className,  viewStore.eventTable.activeGroup === props.id && styles.active, isCurrentWeek && styles.currentWeek)} 
                 style={{ height: expanded ? undefined : `${props.events.length * 35}px`,  gridColumnStart: 'gridStart', gridColumnEnd: 'gridEnd' }}
                 ref={ref}
+                id={clsx(isCurrentWeek && 'current-week')}
                 onClick={() => {
                     if (viewStore.eventTable.activeGroup) {
                         viewStore.eventTable.setActiveGroup(null);
                         setTimeout(() => {
                                 if (ref.current) {
-                                    ref.current.scrollIntoView();
+                                    ref.current.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start',
+                                    });
                                 }
                             }, 0);
                     } else {
