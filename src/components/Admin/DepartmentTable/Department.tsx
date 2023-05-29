@@ -15,7 +15,7 @@ import TextInput from '../../shared/TextInput';
 import Select from 'react-select';
 import { DepartmentLetter } from '@site/src/api/department';
 
-const ALPHABET = 'abcdefghijklmnopqrstufwxyzABCDEFGHIJKLMNOPQRSTUFWXYZ';
+const ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 interface Props {
     department: DepartmentModel;
