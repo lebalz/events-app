@@ -58,6 +58,7 @@
     }
 
     &:hover {
+        --ifm-button-color: var(--ifm-color-content-inverse) !important;
         .spacer.borderLeft,
         .spacer.borderRight {
             border-color: var(--button-color);

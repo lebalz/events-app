@@ -27,22 +27,6 @@ const Department = observer((props: Props) => {
     return (
         <div className={clsx(styles.departmentClasses)}>{
             Object.keys(klasses).map((year) => {
-                /** SINGLE CLASS IN YEAR */
-                if (klasses[year].length === 1) {
-                    const kl = (klasses[year] as Klass[])[0];
-                    return (
-                        <div className={clsx(styles.year)} key={year}>
-                            <Button 
-                                text={kl.displayName} 
-                                title={kl.displayName} 
-                                active={event.affectsClass(kl)}
-                                color="primary"
-                                onClick={() => event.toggleClass(kl.name)}
-                            />
-                        </div>
-                    )
-                };
-
                 /** MULTIPLE CLASSES PER YEAR */
                 const first = (klasses[year] as Klass[])[0];
                 const groupName = `${year.slice(2)}${first.departmentLetter}`;
@@ -72,7 +56,7 @@ const Department = observer((props: Props) => {
                     {klasses[year].map((kl: Klass) => {
                         return (<Button
                             key={kl.id}
-                            color="primary"
+                            color={kl.department.color}
                             active={event.affectsClass(kl)}
                             text={kl.letter}
                             title={kl.displayName}

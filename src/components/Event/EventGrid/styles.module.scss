@@ -195,6 +195,7 @@
 .description {
     grid-column: description;
     max-width: min(22em, 80vw);
+    min-width: 16em;
 }
 .location {
     grid-column: location;
@@ -248,6 +249,7 @@
 .descriptionLong {
     grid-column: descriptionLong;
     max-width: min(28em, 80vw);
+    min-width: 20em;
 }
 .actions {
     grid-column: actions;
