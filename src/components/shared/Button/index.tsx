@@ -114,11 +114,12 @@ const ButtonInner = (props: Props) => {
 const Button = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
-    const colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
+    let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
     const style: React.CSSProperties = {};
     if (props.color && !colorCls) {
-        style['--ifm-button-border-color'] = props.color;
-        style['--ifm-button-color'] = props.color;
+        style['--ifm-color-primary'] = props.color;
+        style['--ifm-color-primary-darker'] = props.color;
+        colorCls = 'button--primary'
     }
     const commonCls = clsx(
         styles.button, 

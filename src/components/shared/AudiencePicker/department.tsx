@@ -56,10 +56,10 @@ const Department = observer((props: Props) => {
                     {klasses[year].map((kl: Klass) => {
                         return (<Button
                             key={kl.id}
-                            color={kl.department.color}
+                            color={kl.department?.color}
                             active={event.affectsClass(kl)}
                             text={kl.letter}
-                            title={kl.displayName}
+                            title={`${kl.displayName} (${kl.name}) ${kl.department?.name}`}
                             onClick={() => event.toggleClass(kl.name)}
                         />)
                     })}

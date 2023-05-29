@@ -43,43 +43,36 @@ const AudiencePicker = observer((props: Props) => {
     return (
         <div className={clsx(styles.audience)}>
             <div className={clsx(styles.header)}>
-                <Checkbox checked={event.allLPs} onChange={(checked) => event.setAllLPs(checked)} label='Alle LP' />
-                {!event.allLPs && (
-                    <>
-                        <Checkbox checked={event.teachersOnly} onChange={(checked) => event.setTeachersOnly(checked)} label='Nur LP' />
-                        <Checkbox checked={event.klpOnly} onChange={(checked) => event.setKlpOnly(checked)} label='Nur KLP' disabled={event.teachersOnly} />
-                    </>
-                )}
+                <Checkbox checked={event.teachersOnly} onChange={(checked) => event.setTeachersOnly(checked)} label='Nur LP' />
+                <Checkbox checked={event.klpOnly} onChange={(checked) => event.setKlpOnly(checked)} label='Nur KLP' disabled={event.teachersOnly} />
             </div>
-            {event.allLPs ? (
-                <div className={clsx(styles.department)}>
-                    {departmentStore.departments.map((d) => {
-                        return (
-                            <Button
-                                key={d.id}
-                                text={d.name}
-                                active={event.departmentIds.has(d.id)}
-                                color={event.departmentIds.has(d.id) ? 'primary' : 'secondary'}
-                                onClick={() => event.toggleDepartment(d.id)}
-                            />
-                        )
-                    })}
-                </div>
-            ) : (
-                // @ts-ignore
-                <Tabs className={clsx(styles.tabs)}>
-                    {Object.keys(departments).map((letter, idx) => {
-                        const color = (departments[letter] as DepartmentModel[])[0].color
-                        const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
-                        return (
-                            // @ts-ignore
-                            <TabItem value={letter} label={Letter2Name[letter]} key={letter} attributes={{className: clsx(touched && styles.touched), style: {color: color}}}>
-                                <Department departments={departments[letter]} event={event} />
-                            </TabItem>
-                        )
-                    })}
-                </Tabs>
-            )}
+            <h4>Abteilungen</h4>
+            <div className={clsx(styles.department)}>
+                {departmentStore.departments.map((d) => {
+                    return (
+                        <Button
+                            key={d.id}
+                            text={d.name}
+                            active={event.departmentIds.has(d.id)}
+                            color={event.departmentIds.has(d.id) ? 'primary' : 'secondary'}
+                            onClick={() => event.toggleDepartment(d.id)}
+                        />
+                    )
+                })}
+            </div>
+            <h4>Klassen</h4>
+            <Tabs className={clsx(styles.tabs)}>
+                {Object.keys(departments).sort().map((letter, idx) => {
+                    const color = (departments[letter] as DepartmentModel[])[0].color
+                    const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
+                    return (
+                        // @ts-ignore
+                        <TabItem value={letter} label={Letter2Name[letter]} key={letter} attributes={{className: clsx(touched && styles.touched), style: {color: color}}}>
+                            <Department departments={departments[letter]} event={event} />
+                        </TabItem>
+                    )
+                })}
+            </Tabs>
         </div>
     )
 });

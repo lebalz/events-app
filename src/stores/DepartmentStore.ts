@@ -19,7 +19,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
 
     @computed
     get departments() {
-        return this.models;
+        return _.orderBy(this.models, ['name'], ['asc']);
     }
 
     createModel(data: DepartmentProps): Department {
