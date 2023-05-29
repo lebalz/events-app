@@ -149,7 +149,7 @@ class AdminUserTable {
 class AdminDepartmentTable {
     private readonly store: ViewStore;
     @observable
-    sortColumn: 'name' | 'color' | 'createdAt' | 'updatedAt' = 'name';
+    sortColumn: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' = 'letter';
     @observable
     sortDirection: 'asc' | 'desc' = 'asc';
     constructor(store: ViewStore) {
@@ -164,7 +164,7 @@ class AdminDepartmentTable {
     }
 
     @action
-    setSortColumn(column: 'name' | 'color' | 'createdAt' | 'updatedAt'): void {
+    setSortColumn(column: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter'): void {
         if (this.sortColumn === column) {
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
         } else {

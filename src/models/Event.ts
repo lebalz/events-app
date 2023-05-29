@@ -187,9 +187,17 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     toggleClass(klass: KlassName) {
-        if (this.classes.has(klass)) {
+        this.setClass(klass, !this.classes.has(klass));
+    }
+
+    @action
+    setClass(klass: KlassName, value: boolean) {
+        if (!klass) {
+            return;
+        }
+        if (this.classes.has(klass) && !value) {
             this.classes.delete(klass);
-        } else {
+        } else if (!this.departmentIds.has(klass) && value) {
             this.classes.add(klass);
         }
     }
@@ -210,9 +218,17 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     toggleDepartment(departmentId: string) {
-        if (this.departmentIds.has(departmentId)) {
+        this.setDepartmentId(departmentId, !this.departmentIds.has(departmentId));
+    }
+
+    @action
+    setDepartmentId(departmentId: string, value: boolean) {
+        if (!departmentId) {
+            return;
+        }
+        if (this.departmentIds.has(departmentId) && !value) {
             this.departmentIds.delete(departmentId);
-        } else {
+        } else if (!this.departmentIds.has(departmentId) && value) {
             this.departmentIds.add(departmentId);
         }
     }

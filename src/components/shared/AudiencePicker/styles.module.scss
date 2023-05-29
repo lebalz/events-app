@@ -23,12 +23,11 @@
             }
         }
     }
-    .department {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 20em;
-    }
     .departmentClasses {
+        .department {
+            display: flex;
+            flex-wrap: wrap;
+        }
         .year {
             display: flex;
         }

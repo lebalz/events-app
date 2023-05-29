@@ -22,6 +22,13 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         return _.orderBy(this.models, ['name'], ['asc']);
     }
 
+    @computed
+    get letters() {
+        return [...new Set(this.departments.map((d) => d.letter))].sort();
+    }
+
+
+
     createModel(data: DepartmentProps): Department {
         return new Department(data, this);        
     }
@@ -42,11 +49,23 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     }
 
     findByDepartmentLetter = computedFn(
-        function (this: DepartmentStore, letter?: DepartmentLetter): Department[] {
+        function (this: DepartmentStore, letter?: string): Department[] {
             if (!letter) {
                 return [];
             }
             return this.departments.filter((d) => d.letter === letter);
+        },
+        { keepAlive: true }
+    )
+
+    letterToName = computedFn(
+        function (this: DepartmentStore, letter?: string): string {
+            const departments = this.findByDepartmentLetter(letter);
+            if (departments.length < 1) {
+                return letter || '';
+            }
+            const ascendingByLength = departments.map(d => d.name).sort((a, b) => a.length - b.length);
+            return ascendingByLength[0];
         },
         { keepAlive: true }
     )
