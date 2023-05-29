@@ -1,5 +1,5 @@
 import { computed, makeObservable, observable, override } from "mobx";
-import { Department as DepartmentProps } from "../api/department";
+import { DepartmentLetter, Department as DepartmentProps } from "../api/department";
 import { DepartmentStore } from "../stores/DepartmentStore";
 import Event from '../models/Event';
 import ApiModel, { UpdateableProps } from "./ApiModel";
@@ -8,7 +8,7 @@ import { ApiAction } from "../stores/iStore";
 import Klass from "./Untis/Klass";
 
 export default class Department extends ApiModel<DepartmentProps, ApiAction> {
-    readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['name', 'description', 'color'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['name', 'description', 'color', 'letter'];
     readonly store: DepartmentStore;
     readonly _pristine: DepartmentProps;
     readonly id: string;
@@ -20,6 +20,9 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
 
     @observable
     color: string;
+    
+    @observable
+    letter: string;
 
     @observable
     description: string;
@@ -31,6 +34,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.id = props.id;
         this.name = props.name;
         this.color = props.color;
+        this.letter = props.letter;
         this.description = props.description;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
@@ -56,21 +60,13 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.store.getClasses(this);
     }
 
-    @computed
-    get letter() {
-        const cls = this.classes[0];
-        if (!cls) {
-            return '-';
-        }
-        return cls.departmentLetter;
-    }
-
     @override
     get props(): DepartmentProps {
         return {
             id: this.id,
             name: this.name,
             color: this.color,
+            letter: this.letter as DepartmentLetter,
             description: this.description,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),

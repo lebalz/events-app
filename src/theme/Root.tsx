@@ -6,7 +6,8 @@ import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { useLocation } from "@docusaurus/router";
+import { useLocation, useHistory } from "@docusaurus/router";
+import { Reaction, reaction } from "mobx";
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
 
@@ -56,6 +57,7 @@ const Msal = observer(({ children }: any) => {
 function Root({ children }) {
   const { i18n } = useDocusaurusContext();
   const location = useLocation();
+  const history = useHistory();
   React.useEffect(() => {
     if (!(window as any).store) {
       (window as any).store = rootStore;
@@ -76,11 +78,28 @@ function Root({ children }) {
   }, [i18n.currentLocale]);
 
   React.useEffect(() => {
+    const modalId = rootStore?.viewStore?.openEventModalId;
     /** ensure no modal is open when changing the routes */
-    if (rootStore?.viewStore?.openEventModalId) {
+    if (modalId) {
       rootStore.viewStore.setEventModalId();
     }
   }, [location, rootStore?.viewStore]);
+
+  // React.useEffect(() => {
+  //   console.log('openEventModalId', rootStore?.viewStore?.openEventModalId);
+  // }, [rootStore?.viewStore.openEventModalId]);
+
+  // reaction(
+  //   () => rootStore?.viewStore?.openEventModalId, 
+  //   (openEventModalId, prev, r) => {
+  //     if (openEventModalId && openEventModalId !== prev && location.hash !== `#${openEventModalId}`) {
+  //       history.push(`#${openEventModalId}`);
+  //     } else {
+  //       history.replace(`${location.pathname}${location.search}`);
+  //     }
+  //   }
+  // );
+
 
   return (
     <>

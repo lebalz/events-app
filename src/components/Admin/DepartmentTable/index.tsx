@@ -36,6 +36,7 @@ const DepartmentTable = observer((props: Props) => {
                     <tr>
                         <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'name' && icon} text={translate({message: 'Name', description: 'th: name', id: 'admin.DepartmentTable.th.name'})} onClick={() => adminDepartmentTable.setSortColumn('name')} /></th>
                         <th><Translate id="admin.DepartmentTable.th.description" description='th: description'>Beschreibung</Translate></th>
+                        <th>Buchstabe</th>
                         <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'color' && icon} text={translate({message: 'Farbe', description: 'th: color', id: 'admin.DepartmentTable.th.color'})} onClick={() => adminDepartmentTable.setSortColumn('color')}/></th>
                         <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'createdAt' && icon} text={translate({message: 'Erstellt', description: 'th: created At', id: 'admin.DepartmentTable.th.createdAt'})} onClick={() => adminDepartmentTable.setSortColumn('createdAt')}/></th>
                         <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'updatedAt' && icon} text={translate({message: 'Aktualisiert', description: 'th: updatedAt', id: 'admin.DepartmentTable.th.updatedAt'})} onClick={() => adminDepartmentTable.setSortColumn('updatedAt')}/></th>

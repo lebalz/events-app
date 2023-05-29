@@ -12,7 +12,10 @@ import Delete from '../../shared/Button/Delete';
 import Discard from '../../shared/Button/Discard';
 import TextArea from '../../shared/TextArea';
 import TextInput from '../../shared/TextInput';
+import Select from 'react-select';
+import { DepartmentLetter } from '@site/src/api/department';
 
+const ALPHABET = 'abcdefghijklmnopqrstufwxyzABCDEFGHIJKLMNOPQRSTUFWXYZ';
 
 interface Props {
     department: DepartmentModel;
@@ -28,6 +31,27 @@ const Department = observer((props: Props) => {
             </td>
             <td className={clsx(styles.description)}>
                 <TextArea text={department.description} onChange={(txt) => department.update({description: txt})} rows={2}/>
+            </td>
+            <td>
+                <Select 
+                    menuPortalTarget={document.body}
+                    styles={{ 
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                    }}
+                    value={{value: department.letter, label: department.letter}}
+                    options={
+                        ALPHABET.split('').map((l) => ({
+                            value: l,
+                            label: l
+                        }))
+                    }
+                    onChange={(opt) => {
+                        department.update({letter: opt?.value as DepartmentLetter});
+                    }}
+                    isMulti={false}
+                    isSearchable={true}
+                    isClearable={false}
+                />
             </td>
             <td className={clsx(styles.colorData)}>
                 <label className={clsx(styles.color)}>

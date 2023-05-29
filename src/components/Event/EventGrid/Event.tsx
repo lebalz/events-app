@@ -35,6 +35,8 @@ const Event = observer((props: RowProps) => {
         (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             if (e.ctrlKey || e.metaKey) {
                 viewStore.setEventModalId(event.id);
+            } else if (e.shiftKey && event.isEditable) {
+                event.setEditing(true);
             } else {
                 event.setExpanded(true);
             }

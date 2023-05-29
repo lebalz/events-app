@@ -27,6 +27,7 @@ export interface Department {
     id: string;
     name: string;
     color: string;
+    letter: DepartmentLetter;
     description: string;
     createdAt: string;
     updatedAt: string;
