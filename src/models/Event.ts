@@ -80,11 +80,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     allLPs: boolean;
 
     @observable
-    allDay: boolean;
-    @observable
     klpOnly: boolean;
     @observable
     teachersOnly: boolean;
+
+    @observable
+    allDayType: boolean;
+
 
     @observable
     selected: boolean = false;
@@ -166,6 +168,16 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get author() {
         return this.store.root.userStore.find<User>(this.authorId);
+    }
+
+    @computed
+    get isAllDay() {
+        return this.start.getHours() === 0 && this.start.getMinutes() === 0 && this.end.getHours() === 23 && this.end.getMinutes() === 59;
+    }
+
+    @computed
+    get isOnOneDay() {
+        return this.fStartDate === this.fEndDate;
     }
 
     @action

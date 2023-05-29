@@ -148,19 +148,36 @@
     grid-column: startDate;
     text-align: end;
     max-width: 7em;
+    // font-family: monospace;
 }
 .startTime {
     grid-column: startTime;
     max-width: 4.5em;
+    &.isAllDay {
+        color: transparent;
+    }
+    // font-weight: bold;
+    // font-family: monospace;
 }
 .endDate {
     grid-column: endDate;
     text-align: end;
     max-width: 7em;
+    min-width: 100%;
+    &.onOneDay {
+        color: transparent;
+        font-size: 0;
+    }
+    // font-family: monospace;
 }
 .endTime {
     grid-column: endTime;
     max-width: 4.5em;
+    &.isAllDay {
+        color: transparent;
+    }
+    // font-weight: bold;
+    // font-family: monospace;
 }
 .dateTime {
     input {
@@ -177,7 +194,7 @@
 }
 .description {
     grid-column: description;
-    max-width: 20em;
+    max-width: min(22em, 80vw);
 }
 .location {
     grid-column: location;
@@ -230,7 +247,7 @@
 }
 .descriptionLong {
     grid-column: descriptionLong;
-    max-width: 28em;
+    max-width: min(28em, 80vw);
 }
 .actions {
     grid-column: actions;

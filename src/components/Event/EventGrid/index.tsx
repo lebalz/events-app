@@ -67,9 +67,14 @@ const EventGrid = observer((props: Props) => {
             current.scrollIntoView(
                 {
                     behavior: 'smooth',
-                    block: 'start'
+                    block: 'start',
+                    inline: 'nearest'
                 }
             );
+            setTimeout(() => {
+                console.log('now im in')
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }, 1000);
             console.log('current here')
         } else {
             console.log('current not here')

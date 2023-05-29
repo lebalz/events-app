@@ -45,9 +45,12 @@ const EventGroup = observer((props: Props) => {
                         setTimeout(() => {
                                 if (ref.current) {
                                     ref.current.scrollIntoView({
-                                        behavior: 'smooth',
-                                        block: 'start',
+                                        block: 'start'
                                     });
+                                    setTimeout(() => {
+                                        console.log('now im in')
+                                        window.scrollTo({top: 0, behavior: 'smooth'});
+                                    }, 2300);
                                 }
                             }, 0);
                     } else {

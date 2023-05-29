@@ -40,7 +40,7 @@ const Event = observer((props: Props) => {
     const [showOptions, setShowOptions] = React.useState(false);
     return (
         <div className={clsx(styles.eventCard, 'card')}>
-            <div className={clsx('card__header')}>
+            <div className={clsx(styles.header, 'card__header')}>
                 <h3>{event.description}</h3>
             </div>
             <div className={clsx('card__body')}>

@@ -49,14 +49,14 @@ const DateTime = observer((props: Props) => {
         <>
             <div
                 style={{ gridColumn: dateColumn }}
-                className={clsx(props.className, styles.date, styles[dateColumn], `grid-${dateColumn}`)}
+                className={clsx(props.className, styles.date, styles[dateColumn], event.isOnOneDay && styles.onOneDay, `grid-${dateColumn}`)}
                 onClick={onClick}
             >{
                     fdate
                 }</div>
             <div
                 style={{ gridColumn: timeColumn }}
-                className={clsx(props.className, styles.time, styles[timeColumn], `grid-${timeColumn}`)}
+                className={clsx(props.className, styles.time, styles[timeColumn], event.isAllDay && styles.allDay, `grid-${timeColumn}`)}
                 onClick={onClick}
             >{
                     ftime
