@@ -153,6 +153,31 @@ const config = {
         style: 'dark',
         links: [
           {
+            title: 'Events',
+            items: [
+              {
+                label: 'Kalender',
+                to: '/calendar',
+              },
+              {
+                label: 'Tabelle',
+                to: '/table',
+              },
+              {
+                label: 'Meine',
+                to: '/my-events',
+              },
+              {
+                label: 'Gantt',
+                to: '/gantt',
+              },
+              {
+                label: 'Stundenplan',
+                to: '/schedule',
+              },
+            ],
+          },
+          {
             title: 'Admin',
             items: [
               {
@@ -170,12 +195,8 @@ const config = {
             ],
           },
           {
-            title: 'Dashboard',
+            title: 'Links',
             items: [
-              {
-                label: 'Socket.IO Admin',
-                href: 'https://admin.socket.io/',
-              },
               {
                 label: 'GBSL',
                 href: 'https://gbsl.ch',
@@ -183,15 +204,14 @@ const config = {
               {
                 label: 'GBJB',
                 href: 'https://gfbienne.ch',
-              }
-            ],
-          },
-          {
-            title: 'More',
-            items: [
+              },
               {
                 label: 'GitHub',
                 href: 'https://github.com/lebalz/events-app',
+              },
+              {
+                label: 'Socket.IO Dashboard',
+                href: 'https://admin.socket.io/',
               },
             ],
           },
