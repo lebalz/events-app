@@ -42,7 +42,7 @@ const Table = observer(() => {
                                     <BulkActions events={drafts.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
-                                    <EventGrid events={drafts} showFullscreenButton={false} selectable />
+                                    <EventGrid events={drafts} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
                                 </div>
                             </div>
                         )}
