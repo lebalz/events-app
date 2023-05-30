@@ -24,6 +24,7 @@ interface Props {
     showAuthor?: boolean;
     groupBy?: 'kw';
     showFilter?: boolean;
+    scrollToCurrent?: boolean;
 }
 
 const EventGrid = observer((props: Props) => {
@@ -62,6 +63,9 @@ const EventGrid = observer((props: Props) => {
     }, []);
 
     React.useEffect(() => {
+        // if (!props.scrollToCurrent) {
+        //     return;
+        // }
         const current = document.querySelector('#current-week');
         if (current) {
             current.scrollIntoView(
@@ -71,15 +75,14 @@ const EventGrid = observer((props: Props) => {
                     inline: 'nearest'
                 }
             );
-            setTimeout(() => {
-                console.log('now im in')
+            const tid = setTimeout(() => {
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }, 1000);
-            console.log('current here')
+            return () => clearTimeout(tid);
         } else {
             console.log('current not here')
         }
-    }, [props.events]);
+    }, [props.events, props.scrollToCurrent]);
 
     const grouped = props.events.reduce((acc, event) => {
         const key = event.kw;
