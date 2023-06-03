@@ -48,6 +48,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
             name: this.name,
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
+            untisSyncDate: this._pristine.untisSyncDate,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
         };

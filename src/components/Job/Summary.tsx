@@ -39,6 +39,7 @@ interface Props {
 }
 
 const Summary = observer((props: Props) => {
+    const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
     const jobStore = useStore('jobStore');
     const { job } = props;
@@ -65,9 +66,9 @@ const Summary = observer((props: Props) => {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        const { currentSemester } = semesterStore;
-                        if (currentSemester) {
-                            semesterStore.syncUntis(currentSemester);
+                        const { semester } = viewStore;
+                        if (semester) {
+                            semesterStore.syncUntis(semester);
                         }
                         return false;
                     }}
