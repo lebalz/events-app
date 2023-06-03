@@ -13,5 +13,5 @@ export interface Semester {
 }
 
 export function syncUntis(semesterId: string, signal: AbortSignal): AxiosPromise<Job> {
-    return api.post(`untis/${semesterId}/sync_untis` ,  { signal });
+    return api.post(`semester/${semesterId}/sync_untis` ,  { signal });
 }

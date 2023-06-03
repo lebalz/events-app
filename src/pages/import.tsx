@@ -15,7 +15,8 @@ import Details from '../components/Job/Details';
 import Job from '../components/Job';
 
 const Example = observer(() => {
-    const untisStore = useStore('untisStore');
+    const semesterStore = useStore('semesterStore');
+    const viewStore = useStore('viewStore');
     const jobStore = useStore('jobStore');
 
     return (<Layout>
@@ -42,7 +43,7 @@ const Example = observer(() => {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        untisStore.sync();
+                        semesterStore.syncUntis(viewStore.semester);
                     }}
                     text="Sync Untis"
                     icon={<Sync spin={jobStore.hasPendingSyncJobs}/>}
