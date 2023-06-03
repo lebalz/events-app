@@ -523,10 +523,31 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get affectedLessonsByClass(): {class: string, lessons: Lesson[]}[] {
-        return this.untisClasses.map(c => ({
-            class: c.name,
-            lessons: c.lessons.slice().filter(l => this.hasOverlap(l)).sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start)
-        }));
+        const lessons = this.untisClasses.slice().map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat();
+        const affected: {[kl: string]: Lesson[]} = {};
+        const placedLessonIds = new Set<number>();
+        lessons.forEach(l => {
+            if (placedLessonIds.has(l.id)) {
+                return;
+            }
+            placedLessonIds.add(l.id);
+            if (l.classes.length > 1) {
+                const letters = l.classes.map(c => c.letter).sort();
+                const year = l.classes[0].graduationYear;
+                const name = `${year%100}${letters.length > 3 ? 'er' : letters.join('')}`;
+                if (!affected[name]) {
+                    affected[name] = [];
+                }
+                affected[name].push(l);
+            } else if (l.classes.length === 1) {
+                const name = l.classes[0].name;
+                if (!affected[name]) {
+                    affected[name] = [];
+                }
+                affected[name].push(l);
+            }
+        });
+        return Object.keys(affected).map(kl => ({class: kl, lessons: affected[kl]}));
     }
 
     @computed

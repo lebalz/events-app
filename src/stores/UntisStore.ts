@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { teachers as fetchTeachers, classes as fetchClasses, subjects as fetchSubjects, teacher as fetchTeacher, UntisTeacher, sync as syncUntis, UntisLesson, CheckedUntisLesson } from '../api/untis';
+import { teachers as fetchTeachers, classes as fetchClasses, subjects as fetchSubjects, teacher as fetchTeacher, UntisTeacher, UntisLesson, CheckedUntisLesson } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
 import Klass from '../models/Untis/Klass';
@@ -181,7 +181,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         this.initialized = false;
         return this.withAbortController('untis', (sig) => {
             return Promise.all([
-                fetchTeachers(sig.signal), 
+                fetchTeachers(sig.signal),
                 fetchClasses(sig.signal),
                 fetchSubjects(sig.signal),
             ]).then(action(([teachers, classes, subjects]) => {
@@ -218,16 +218,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         })
     }
 
-    @action
-    sync() {
-        return this.withAbortController(`untis-sync`, (sig) => {
-            return syncUntis(sig.signal)
-                .then(({ data }) => {
-                    this.root.jobStore.addToStore(data);
-                })
-        });
-    }
-
     findDepartment(id: string): Department | undefined {
         return this.root.departmentStore.find<Department>(id);
     }
@@ -246,20 +236,20 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @action
     addLessons(lessons: CheckedUntisLesson[]) {
         const models = lessons.map((l) => {
-            const teacher = this.findTeacherByName(l.teacher_name);
-            const klass = this.findTeacherByName(l.class_name);
+            const teacherIds = l.teacher_ids.map(tid => ({ id: tid}));
+            const klassIds = l.class_ids.map(cid => ({id: cid}));
             return new Lesson({
                 id: l.id,
                 room: l.room,
                 description: l.description,
-                endHHMM: l.end_hhmm,   
+                endHHMM: l.end_hhmm,
                 startHHMM: l.start_hhmm,
-                semester: l.semester,
+                semesterNr: l.semester_nr,
                 subject: l.subject,
                 weekDay: l.week_day,
                 year: l.year,
-                classes: [{ id: klass?.id }], 
-                teachers: [{ id: teacher?.id }] 
+                classes: klassIds,
+                teachers: teacherIds
             }, this);
         });
         const current = this.lessons.slice();
@@ -270,19 +260,21 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     }
 
     overlappingEvents = computedFn(
-            function (this: UntisStore, lessonId: number): Event[] {
-                const lesson = this.findLesson(lessonId);
-                if (!lesson || !this.root.viewStore.semester) {
-                    return [];
-                }
-                return this.root.viewStore.semester.events.filter((e) => {
-                    if (!lesson.classes.some((c) => e.affectsClass(c))) {
-                        return false;
-                    }
-                    const unaffected = lesson.weekOffsetMS_end < e.weekOffsetMS_start ||
-                        lesson.weekOffsetMS_start > e.weekOffsetMS_end;
-                    return !unaffected;
-                })
+        function (this: UntisStore, lessonId: number): Event[] {
+            const lesson = this.findLesson(lessonId);
+            if (!lesson || !this.root.viewStore.semester) {
+                return [];
             }
-        )
+            return this.root.viewStore.semester.events.filter((e) => {
+                if (!lesson.classes.some((c) => e.affectsClass(c))) {
+                    return false;
+                }
+                const unaffected = lesson.weekOffsetMS_end < e.weekOffsetMS_start ||
+                    lesson.weekOffsetMS_start > e.weekOffsetMS_end;
+                return !unaffected;
+            })
+        }
+    )
+
+
 }

@@ -28,6 +28,7 @@ export interface Department {
     name: string;
     color: string;
     letter: DepartmentLetter;
+    classLetters: string[]
     description: string;
     createdAt: string;
     updatedAt: string;

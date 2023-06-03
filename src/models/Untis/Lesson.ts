@@ -11,7 +11,7 @@ export default class Lesson implements iEvent {
     readonly room: string
     readonly subject: string
     readonly description: string
-    readonly semester: number
+    readonly semesterNr: number
     readonly year: number
     /** Sonntag: 0, Montag: 1, Dienstag: 2, ... */
     readonly weekDay: number
@@ -28,7 +28,7 @@ export default class Lesson implements iEvent {
         this.room = props.room;
         this.subject = props.subject;
         this.description = props.description;
-        this.semester = props.semester;
+        this.semesterNr = props.semesterNr;
         this.year = props.year;
         this.weekDay = props.weekDay;
         this.startHHMM = props.startHHMM;
@@ -99,7 +99,7 @@ export default class Lesson implements iEvent {
 
     @computed
     get semesterName(): `${number}HS` | `${number}FS` {
-        const suffix = ["HS", "FS"][this.semester - 1] as 'HS' | 'FS';
+        const suffix = ["HS", "FS"][this.semesterNr - 1] as 'HS' | 'FS';
         return `${this.year}${suffix}`;
     }
 

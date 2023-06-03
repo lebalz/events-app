@@ -25,7 +25,7 @@ export interface UntisLesson {
     room: string
     subject: string
     description: string
-    semester: number
+    semesterNr: number
     year: number
     weekDay: number
     startHHMM: number
@@ -36,7 +36,7 @@ interface RawUntisLesson {
     room: string
     subject: string
     description: string
-    semester: number
+    semester_nr: number
     year: number
     week_day: number
     start_hhmm: number
@@ -49,8 +49,8 @@ export interface UntisLessonWithTeacher extends UntisLesson {
 }
 
 export interface CheckedUntisLesson extends RawUntisLesson {
-    teacher_name: string;
-    class_name: string;
+    teacher_ids: number[];
+    class_ids: number[];
 }
 
 
@@ -93,7 +93,4 @@ export function teachers(signal: AbortSignal): AxiosPromise<UntisTeacher[]> {
 }
 export function teacher(untisId: number, signal: AbortSignal): AxiosPromise<UntisTeacherComplete> {
     return api.get(`untis/teacher/${untisId}`,  { signal });
-}
-export function sync(signal: AbortSignal): AxiosPromise<Job> {
-    return api.post('untis/sync',  { signal });
 }

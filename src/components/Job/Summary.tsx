@@ -11,7 +11,7 @@ import Button from '../shared/Button';
 import Delete from '../shared/Button/Delete';
 import { SIZE_S, Sync } from '../shared/icons';
 import Badge from '../shared/Badge';
-import { Color as ColorType } from '../shared/Badge';
+import { Color as ColorType } from '../shared/Colors';
 
 
 
@@ -39,7 +39,7 @@ interface Props {
 }
 
 const Summary = observer((props: Props) => {
-    const untisStore = useStore('untisStore');
+    const semesterStore = useStore('semesterStore');
     const jobStore = useStore('jobStore');
     const { job } = props;
     return (
@@ -65,7 +65,10 @@ const Summary = observer((props: Props) => {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        untisStore.sync()
+                        const { currentSemester } = semesterStore;
+                        if (currentSemester) {
+                            semesterStore.syncUntis(currentSemester);
+                        }
                         return false;
                     }}
                     text="Sync Untis"
