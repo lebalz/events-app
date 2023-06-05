@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Semester from '@site/src/models/Semester';
 import LazyDetails from '../../shared/Details';
-import Summary from '../Summary';
+import {SyncSummary} from '../Summary';
 import Details from '../Details';
 import Job from '..';
 import { JobState } from '@site/src/api/job';
@@ -29,7 +29,7 @@ const SyncSemester = observer((props: Props) => {
             {semester.untisSyncJobs.length > 0 ? (
                 <LazyDetails
                     className={clsx(styles.details)}
-                    summary={<Summary job={semester.untisSyncJobs[0]} />}
+                    summary={<SyncSummary job={semester.untisSyncJobs[0]} />}
                 >
                     <div>
                         <Details job={semester.untisSyncJobs[0]} />

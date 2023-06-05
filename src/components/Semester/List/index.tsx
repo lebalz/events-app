@@ -21,6 +21,7 @@ const SemesterList = observer((props: Props) => {
                         <th>Name</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Sync Date</th>
                         <th>Edit</th>
                     </tr>
                 </thead>

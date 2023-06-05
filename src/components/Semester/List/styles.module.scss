@@ -3,5 +3,11 @@
         &.dirty {
             border: 1px solid red;
         }
+        .syncDate {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: flex-end;
+        }
     }
 }

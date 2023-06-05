@@ -4,6 +4,7 @@ import { ApiAction } from "../stores/iStore";
 import { JobStore } from "../stores/JobStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import Semester from "./Semester";
+import { formatDate } from "./helpers/time";
 
 
 export default class Job extends ApiModel<JobProps, ApiAction> {
@@ -81,8 +82,9 @@ export class SyncJob extends Job {
     }
     @computed
     get fSyncDate() {
-        return this.syncDate.toLocaleString().slice(0, 10);
+        return formatDate(this.syncDate);
     }
+
     @computed
     get semester(): Semester | undefined {
         return this.store.root.semesterStore.find<Semester>(this.semesterId);
@@ -91,6 +93,14 @@ export class SyncJob extends Job {
     @computed
     get isLatest() {
         return (this.store.bySemester(this.semesterId) || []).findIndex(j => j.id === this.id) === 0;
+    }
+
+    /**
+     * Is the sync date in sync with the semester's sync date?
+     */
+    @computed
+    get isInSync() {
+        return this.semester?.fUntisSyncDate === this.fSyncDate;
     }
 }
 

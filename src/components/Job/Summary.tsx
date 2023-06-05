@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Job, {JobType as JobModel} from '@site/src/models/Job';
+import Job, {ImportJob, JobType as JobModel, SyncJob} from '@site/src/models/Job';
 import { JobType, JobState } from '@site/src/api/job';
 import StateBadge from '../shared/Badge/StateBadge';
 import Button from '../shared/Button';
@@ -34,15 +34,12 @@ const Color: { [key in JobType]: ColorType } = {
     [JobType.CLONE]: 'lightBlue',
 }
 
-interface Props {
-    job: JobModel;
+interface ImportProps {
+    job: ImportJob;
 }
 
-const Summary = observer((props: Props) => {
-    const semesterStore = useStore('semesterStore');
-    const jobStore = useStore('jobStore');
+export const ImportSummary = observer((props: ImportProps) => {
     const { job } = props;
-    const isPending = job.type === JobType.SYNC_UNTIS && (jobStore.bySemester(job.semesterId) || []).some(j => j.state === JobState.PENDING);
     return (
         <summary className={clsx(styles.summary)}>
             <StateBadge state={State[job.state]} size={SIZE_S} />
@@ -50,18 +47,36 @@ const Summary = observer((props: Props) => {
             <Badge text={job.createdAt.toLocaleDateString()} />
             <div className={clsx(styles.spacer)} />
             {job.type === JobType.IMPORT && <Badge text={`${job.events.length}`} color="blue" />}
-            {job.type === JobType.SYNC_UNTIS && <Badge text={`${job.semester?.name}`} color="blue" />}
             <div className={clsx(styles.spacer)} />
-            {job.type === JobType.IMPORT && (
-                <Delete
-                    onClick={() => {
-                        job.destroy();
-                    }}
-                    apiState={job.apiState(`destroy-${job.id}`)}
-                    disabled={job.state === JobState.PENDING}
-                />
-            )}
-            {job.type === JobType.SYNC_UNTIS && job.isLatest && (
+            <Delete
+                onClick={() => {
+                    job.destroy();
+                }}
+                apiState={job.apiState(`destroy-${job.id}`)}
+                disabled={job.state === JobState.PENDING}
+            />
+        </summary>
+    )
+});
+
+
+interface SyncProps {
+    job: SyncJob;
+}
+export const SyncSummary = observer((props: SyncProps) => {
+    const semesterStore = useStore('semesterStore');
+    const jobStore = useStore('jobStore');
+    const { job } = props;
+    const isPending = (jobStore.bySemester(job.semesterId) || []).some(j => j.state === JobState.PENDING);
+    return (
+        <summary className={clsx(styles.summary)}>
+            <StateBadge state={State[job.state]} size={SIZE_S} disabled={!job.isInSync} />
+            <Badge text={Text[job.type]} color={Color[job.type]}  disabled={!job.isInSync}/>
+            <Badge text={job.createdAt.toLocaleDateString()} />
+            <div className={clsx(styles.spacer)} />
+            <Badge text={`${job.semester?.name}`} color="blue" />
+            <div className={clsx(styles.spacer)} />
+            {job.isLatest && (
                 <Button
                     disabled={isPending}
                     onClick={(e) => {
@@ -74,11 +89,9 @@ const Summary = observer((props: Props) => {
                     }}
                     text="Sync Untis"
                     icon={<Sync spin={isPending} />}
-                    color='primary'
+                    color={job.isInSync ? "primary" : "black"}
                 />
             )}
         </summary>
     )
-})
-
-export default Summary;
+});

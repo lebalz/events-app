@@ -8,7 +8,8 @@ import { formatDate, formatTime, toGlobalDate, toLocalDate } from "./helpers/tim
 export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [
         { attr: 'start', transform: (val) => toLocalDate(new Date(val)) }, 
-        { attr: 'end', transform: (val) => toLocalDate(new Date(val)) }, 
+        { attr: 'end', transform: (val) => toLocalDate(new Date(val)) },
+        { attr: 'untisSyncDate', transform: (val) => toLocalDate(new Date(val)) }, 
         'name'
     ];
     readonly _pristine: SemesterProps;
@@ -19,11 +20,18 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
 
     @observable.ref
     start: Date;
+
     @observable.ref
     end: Date;
+
+    @observable.ref
+    untisSyncDate: Date;
+
     @observable
     description: string;
+
     readonly createdAt: Date;
+
     @observable.ref
     updatedAt: Date;
 
@@ -35,6 +43,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
         this.name = props.name;
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
+        this.untisSyncDate = toLocalDate(new Date(props.untisSyncDate));
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
 
@@ -48,7 +57,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
             name: this.name,
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
-            untisSyncDate: this._pristine.untisSyncDate,
+            untisSyncDate: toGlobalDate(this.untisSyncDate).toISOString(),
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
         };
@@ -72,6 +81,16 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     @computed
     get fEndDate() {
         return formatDate(this.end);
+    }
+
+    @computed
+    get fUntisSyncDate() {
+        return formatDate(this.untisSyncDate);
+    }
+
+    @computed
+    get isSyncdateWithinSemester() {
+        return this.untisSyncDate >= this.start && this.untisSyncDate <= this.end;
     }
 
     @computed

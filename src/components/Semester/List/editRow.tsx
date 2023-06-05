@@ -9,6 +9,8 @@ import DatePicker from '../../shared/DatePicker';
 import Delete from '../../shared/Button/Delete';
 import Discard from '../../shared/Button/Discard';
 import Save from '../../shared/Button/Save';
+import Badge from '../../shared/Badge';
+import { mdiAlertOutline } from '@mdi/js';
 
 
 interface Props {
@@ -35,7 +37,12 @@ const EditTr = observer((props: Props) => {
             </td>
             <td>
                 <DatePicker date={semester.end} onChange={(date) => { semester.update({ end: date.toISOString() }) }} />
-
+            </td>
+            <td>
+                <div className={clsx(styles.syncDate)}>
+                    {!semester.isSyncdateWithinSemester && (<Badge icon={mdiAlertOutline} color='orange' title='Das Synchronisationsdatum liegt nicht im Semester'/>)}
+                    <DatePicker date={semester.untisSyncDate} onChange={(date) => { semester.update({ untisSyncDate: date.toISOString() }) }} />
+                </div>
             </td>
             <td>
                 <div ref={ref}>

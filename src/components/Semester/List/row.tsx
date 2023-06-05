@@ -5,6 +5,9 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Semester from '@site/src/models/Semester';
 import Edit from '../../shared/Button/Edit';
+import { Icon } from '../../shared/icons';
+import Badge from '../../shared/Badge';
+import { mdiAlertOutline } from '@mdi/js';
 
 
 interface Props {
@@ -18,6 +21,12 @@ const Tr = observer((props: Props) => {
             <td>{semester.name}</td>
             <td>{semester.fStartDate}</td>
             <td>{semester.fEndDate}</td>
+            <td>
+                <div className={clsx(styles.syncDate)}>
+                    {!semester.isSyncdateWithinSemester && (<Badge icon={mdiAlertOutline} color='orange' title='Das Synchronisationsdatum liegt nicht im Semester' />)}
+                    {semester.fUntisSyncDate}
+                </div>
+            </td>
             <td><Edit onClick={() => semester.setEditing(true)} /></td>
         </tr>
     )
