@@ -78,7 +78,7 @@ export const SyncSummary = observer((props: SyncProps) => {
             <div className={clsx(styles.spacer)} />
             {job.isLatest && (
                 <Button
-                    disabled={isPending}
+                    disabled={jobStore.hasPendingSyncJobs}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();

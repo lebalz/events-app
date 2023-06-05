@@ -43,23 +43,25 @@ const SyncSemester = observer((props: Props) => {
             ) : (
                 <LazyDetails
                     className={clsx(styles.details)}
-                    summary={<summary className={clsx(styles.summary)}>
-                        <Badge text="Sync Untis" color="orange" />
-                        <div className={clsx(styles.spacer)} />
-                        <Badge text={`${semester.name}`} color="blue" />
-                        <div className={clsx(styles.spacer)} />
-                        <Button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                semesterStore.syncUntis(semester);
-                            }}
-                            text="Sync Untis"
-                            icon={<Sync spin={isPending} />}
-                            className="button--primary"
-                        />
-
-                    </summary>}
+                    summary={
+                        <summary className={clsx(styles.summary)}>
+                            <Badge text="Sync Untis" color="orange" />
+                            <div className={clsx(styles.spacer)} />
+                            <Badge text={`${semester.name}`} color="blue" />
+                            <div className={clsx(styles.spacer)} />
+                            <Button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    semesterStore.syncUntis(semester);
+                                }}
+                                disabled={jobStore.hasPendingSyncJobs}
+                                text="Sync Untis"
+                                icon={<Sync spin={isPending} />}
+                                className="button--primary"
+                            />
+                        </summary>
+                    }
                 >
                     <div>                        
                     </div>
