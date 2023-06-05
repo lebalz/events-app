@@ -162,16 +162,8 @@ const config = {
                 to: '/table',
               },
               {
-                label: 'Meine',
-                to: '/my-events',
-              },
-              {
                 label: 'Gantt',
                 to: '/gantt',
-              },
-              {
-                label: 'Stundenplan',
-                to: '/schedule',
               },
             ],
           },
