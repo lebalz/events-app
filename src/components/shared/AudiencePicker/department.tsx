@@ -19,7 +19,7 @@ interface Props {
 const Department = observer((props: Props) => {
     const { departments, event } = props;
     const allKlasses = departments.map(d => d.classes).flat();
-    const klasses = _.groupBy(allKlasses, c => c.graduationYear);
+    const klasses = _.groupBy(allKlasses, c => c.year);
     const someDepartments = departments.some(d => event.departmentIds.has(d.id));
     const allDepartments = someDepartments && departments.every(d => event.departmentIds.has(d.id));
     return (

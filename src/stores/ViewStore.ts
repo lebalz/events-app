@@ -282,8 +282,13 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @computed
+    get allUserLessons(): Lesson[] {
+        return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l?.semesterId === this.semester?.id);
+    }
+
+    @computed
     get usersLessons(): Lesson[] {
-        return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l?.semesterName === this.semester?.semesterName);
+        return this.allUserLessons.filter((l) => l.semesterId === this.semesterId);
     }
 
     @action

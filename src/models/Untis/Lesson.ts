@@ -19,6 +19,7 @@ export default class Lesson implements iEvent {
     readonly endHHMM: number
     readonly teacherIds: number[]
     readonly classIds: number[]
+    readonly semesterId: string;
 
 
     private readonly store: UntisStore;
@@ -30,6 +31,7 @@ export default class Lesson implements iEvent {
         this.description = props.description;
         this.semesterNr = props.semesterNr;
         this.year = props.year;
+        this.semesterId = props.semesterId;
         this.weekDay = props.weekDay;
         this.startHHMM = props.startHHMM;
         this.endHHMM = props.endHHMM;
@@ -98,9 +100,8 @@ export default class Lesson implements iEvent {
     }
 
     @computed
-    get semesterName(): `${number}HS` | `${number}FS` {
-        const suffix = ["HS", "FS"][this.semesterNr - 1] as 'HS' | 'FS';
-        return `${this.year}${suffix}`;
+    get semester() {
+        return this.store.findSemester(this.semesterId);
     }
 
     hasOverlap(other: Event) {

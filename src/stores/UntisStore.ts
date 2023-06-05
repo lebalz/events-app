@@ -12,6 +12,7 @@ import { computedFn } from 'mobx-utils';
 import { replaceOrAdd } from './helpers/replaceOrAdd';
 import Department from '../models/Department';
 import Subject from '../models/Untis/Subjet';
+import Semester from '../models/Semester';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
@@ -57,6 +58,10 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 this.abortControllers.delete(sigId);
             }
         });
+    }
+
+    findSemester(id: string): Semester | undefined {
+        return this.root.semesterStore.find<Semester>(id);
     }
 
 
@@ -247,6 +252,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 semesterNr: l.semester_nr,
                 subject: l.subject,
                 weekDay: l.week_day,
+                semesterId: l.semester_id,
                 year: l.year,
                 classes: klassIds,
                 teachers: teacherIds

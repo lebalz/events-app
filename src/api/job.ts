@@ -2,16 +2,28 @@ import { AxiosPromise, CancelTokenSource } from 'axios';
 import api from './base';
 import { Event } from './event';
 
-export type Job = {
+export type JobBase = {
     id: string
     type: JobType
     state: JobState
     userId: string
     log?: string
-    filename?: string
     createdAt: Date
     updatedAt: Date
 }
+
+export type UntisImportJob = JobBase & {
+    type: JobType.IMPORT,
+    filename: string
+}
+
+export type UntisSyncJob = JobBase & {
+    type: JobType.SYNC_UNTIS,
+    semesterId: string
+    syncDate: Date
+}
+
+export type Job = UntisImportJob | UntisSyncJob;
 
 export type JobAndEvents = Job & {
     events: Event[]

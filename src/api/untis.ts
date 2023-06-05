@@ -27,6 +27,7 @@ export interface UntisLesson {
     description: string
     semesterNr: number
     year: number
+    semesterId: string
     weekDay: number
     startHHMM: number
     endHHMM: number
@@ -40,6 +41,7 @@ interface RawUntisLesson {
     year: number
     week_day: number
     start_hhmm: number
+    semester_id: string
     end_hhmm: number
 }
 

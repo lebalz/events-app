@@ -80,6 +80,11 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     }
 
     @computed
+    get untisSyncJobs() {
+        return this.store.jobsBySemester(this);
+    }
+
+    @computed
     get isCurrent() {
         return this.start.getTime() < Date.now() && this.end.getTime() > Date.now();
     }

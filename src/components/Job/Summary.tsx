@@ -50,6 +50,7 @@ const Summary = observer((props: Props) => {
             <Badge text={job.createdAt.toLocaleDateString()} />
             <div className={clsx(styles.spacer)} />
             {job.type === JobType.IMPORT && <Badge text={`${job.events.length}`} color="blue" />}
+            {job.type === JobType.SYNC_UNTIS && <Badge text={`${job.semester?.name}`} color="blue" />}
             <div className={clsx(styles.spacer)} />
             {job.type === JobType.IMPORT && (
                 <Delete
@@ -60,20 +61,19 @@ const Summary = observer((props: Props) => {
                     disabled={job.state === JobState.PENDING}
                 />
             )}
-            {job.type === JobType.SYNC_UNTIS && job.id === jobStore.syncJobs[0].id && (
+            {job.type === JobType.SYNC_UNTIS && job.isLatest && (
                 <Button
-                    disabled={jobStore.hasPendingSyncJobs}
+                    disabled={(jobStore.bySemester(job.semesterId) || []).some(j => j.state === JobState.PENDING)}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        const { semester } = viewStore;
-                        if (semester) {
-                            semesterStore.syncUntis(semester);
+                        if (job.semester) {
+                            semesterStore.syncUntis(job.semester);
                         }
                         return false;
                     }}
                     text="Sync Untis"
-                    icon={<Sync spin={jobStore.hasPendingSyncJobs} />}
+                    icon={<Sync spin={(jobStore.bySemester(job.semesterId) || []).some(j => j.state === JobState.PENDING)} />}
                     color='primary'
                 />
             )}

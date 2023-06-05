@@ -533,7 +533,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             placedLessonIds.add(l.id);
             if (l.classes.length > 1) {
                 const letters = l.classes.map(c => c.letter).sort();
-                const year = l.classes[0].graduationYear;
+                const year = l.classes[0].year;
                 const name = `${year%100}${letters.length > 3 ? 'er' : letters.join('')}`;
                 if (!affected[name]) {
                     affected[name] = [];

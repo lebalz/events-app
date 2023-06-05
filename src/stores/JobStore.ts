@@ -3,9 +3,9 @@ import _ from 'lodash';
 import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType } from '../api/job';
+import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType as ApiJobType} from '../api/job';
 import { importExcel as postExcel } from '../api/event';
-import Job from '../models/Job';
+import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
 
 export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
@@ -20,8 +20,8 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
         makeObservable(this);
     }
 
-    createModel(data: JobProps): Job {
-        return new Job(data, this);
+    createModel(data: JobProps): SyncJob | ImportJob {
+        return Job.create(data, this);
     }
 
     findUser(id?: string) {
@@ -43,7 +43,7 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
             if (this.removeFromStore(data.id)) {
                 this.root.departmentStore.reload();
             }
-            if (job.type === JobType.SYNC_UNTIS) {
+            if (job.type === ApiJobType.SYNC_UNTIS) {
                 this.root.eventStore.reload();
                 this.root.userStore.reload();
             }
@@ -78,14 +78,14 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     }
 
     @computed
-    get importJobs() {
-        const models = this.models.slice().filter((j) => j.type === JobType.IMPORT);
+    get importJobs(): ImportJob[] {
+        const models = this.models.slice().filter((j) => j.type === ApiJobType.IMPORT) as ImportJob[];
         return models.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     }
 
     @computed
-    get syncJobs() {
-        const models = this.models.slice().filter((j) => j.type === JobType.SYNC_UNTIS);
+    get syncJobs(): SyncJob[] {
+        const models = this.models.slice().filter((j) => j.type === ApiJobType.SYNC_UNTIS) as SyncJob[];
         return models.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     }
 
@@ -97,6 +97,10 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     @action
     loadJob(id: string) {
         return this.loadModel(id);
+    }
+
+    bySemester(semesterId: string) {
+        return this.syncJobs.filter((j) => j.semesterId === semesterId);
     }
 
     @action

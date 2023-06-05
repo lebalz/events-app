@@ -45,7 +45,7 @@ export default class Klass {
 
     @computed
     get letter() {
-        if (this.graduationYear > 2026) {
+        if (this.year > 2026) {
             return this.name.slice(3);
         }
         return this.displayName.slice(2);
@@ -57,11 +57,6 @@ export default class Klass {
             return this.department.name;
         }
         return toDepartmentName(this.name);
-    }
-
-    @computed
-    get graduationYear() {
-        return parseInt(this.name.slice(0, 2), 10) + 2000;
     }
 
     @computed
@@ -78,7 +73,7 @@ export default class Klass {
     @computed
     get lessons() {
         const current = this.store.currentSemester;
-        return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semesterName === current?.semesterName);
+        return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semesterId === current?.id);
     }
 
     @computed
