@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Job from '@site/src/models/Job';
+import Job, {JobType as JobModel} from '@site/src/models/Job';
 import { JobType, JobState } from '@site/src/api/job';
 import StateBadge from '../shared/Badge/StateBadge';
 import Button from '../shared/Button';
@@ -35,14 +35,14 @@ const Color: { [key in JobType]: ColorType } = {
 }
 
 interface Props {
-    job: Job;
+    job: JobModel;
 }
 
 const Summary = observer((props: Props) => {
-    const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
     const jobStore = useStore('jobStore');
     const { job } = props;
+    const isPending = job.type === JobType.SYNC_UNTIS && (jobStore.bySemester(job.semesterId) || []).some(j => j.state === JobState.PENDING);
     return (
         <summary className={clsx(styles.summary)}>
             <StateBadge state={State[job.state]} size={SIZE_S} />
@@ -63,7 +63,7 @@ const Summary = observer((props: Props) => {
             )}
             {job.type === JobType.SYNC_UNTIS && job.isLatest && (
                 <Button
-                    disabled={(jobStore.bySemester(job.semesterId) || []).some(j => j.state === JobState.PENDING)}
+                    disabled={isPending}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -73,7 +73,7 @@ const Summary = observer((props: Props) => {
                         return false;
                     }}
                     text="Sync Untis"
-                    icon={<Sync spin={(jobStore.bySemester(job.semesterId) || []).some(j => j.state === JobState.PENDING)} />}
+                    icon={<Sync spin={isPending} />}
                     color='primary'
                 />
             )}

@@ -39,9 +39,7 @@ const EditTr = observer((props: Props) => {
             </td>
             <td>
                 <div ref={ref}>
-                    {semester.isDirty && (
-                        <Discard onClick={() => semester.reset()} />
-                    )}
+                    <Discard onClick={() => semester.reset()} />
                     <Save
                         disabled={!semester.isDirty}
                         onClick={() => semester.save()}

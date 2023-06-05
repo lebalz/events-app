@@ -14,6 +14,8 @@ import { mdiPlusCircleOutline } from '@mdi/js';
 import UserTable from '../components/Admin/UserTable';
 import DepartmentTable from '../components/Admin/DepartmentTable';
 import { Role } from '../api/user';
+import SyncUntis from '../components/Job/SyncUntis';
+import Section from '../components/shared/Section';
 
 const AdminView = observer(() => {
     const userStore = useStore('userStore');
@@ -39,27 +41,30 @@ const AdminView = observer(() => {
             {/* @ts-ignore */}
             <Tabs className={clsx(styles.tabs)}>
                 {/* @ts-ignore */}
-                <TabItem value="users" label="Users" default>
+                <TabItem value="users" label="Users" >
                     <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>
                 {/* @ts-ignore */}
-                <TabItem value="semesters" label="Semester" >
-                    <Button 
-                        title='Semester Hinzufügen'
-                        text="Neues Semester"
-                        iconSide='left'
-                        icon={<Icon path={mdiPlusCircleOutline}/>}
-                        color='primary'
-                        apiState={semesterStore.apiStateFor('create')}
-                        onClick={() => {
-                            semesterStore.create({
-                                name: 'New', 
-                                start: (new Date(Date.now() + 1000 * 60 * 60 * 24 * 90)).toISOString(),
-                                end: (new Date(Date.now() + 1000 * 60 * 60 * 24 * 270)).toISOString()
-                            })
-                        }}
-                    />
-                    <SemesterList />
+                <TabItem value="semesters" label="Semester" default>
+                    <Section title="Semester">
+                        <Button 
+                            title='Semester Hinzufügen'
+                            text="Neues Semester"
+                            iconSide='left'
+                            icon={<Icon path={mdiPlusCircleOutline}/>}
+                            color='primary'
+                            apiState={semesterStore.apiStateFor('create')}
+                            onClick={() => {
+                                semesterStore.create({
+                                    name: 'New', 
+                                    start: (new Date(Date.now() + 1000 * 60 * 60 * 24 * 90)).toISOString(),
+                                    end: (new Date(Date.now() + 1000 * 60 * 60 * 24 * 270)).toISOString()
+                                })
+                            }}
+                        />
+                        <SemesterList />
+                    </Section>
+                    <SyncUntis />
                 </TabItem>
                 {/* @ts-ignore */}
                 <TabItem value="departments" label="Abteilungen">

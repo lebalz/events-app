@@ -3,12 +3,12 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import LazyDetails from '../shared/Details';
-import { default as JobModel } from '@site/src/models/Job';
+import { JobType } from '@site/src/models/Job';
 import Summary from './Summary';
 import Details from './Details';
 
 interface Props {
-    job: JobModel;
+    job: JobType;
 }
 
 const Job = observer((props: Props) => {

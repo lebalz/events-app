@@ -32,7 +32,7 @@ const Table = observer(() => {
         <Layout>
             <main className={clsx(styles.main)}>
                 <Tabs>
-                     {/* @ts-ignore */}
+                    {/* @ts-ignore */}
                     <TabItem value='my-events' label='Unveröffentlicht'>
                         <AddButton />
                         {drafts.length > 0 && (
@@ -84,7 +84,7 @@ const Table = observer(() => {
                                     <BulkActions events={published.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
-                                    <EventGrid events={published} showFullscreenButton={false} selectable/>
+                                    <EventGrid events={published} showFullscreenButton={false} selectable />
                                 </div>
                             </div>
                         </TabItem>
@@ -108,12 +108,12 @@ const Table = observer(() => {
                             {jobStore.importJobs.map((job, idx) => {
                                 return (
                                     <LazyDetails
-                                        key={idx} 
+                                        key={idx}
                                         summary={
-                                        <summary>
-                                            {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
-                                        </summary>
-                                    }
+                                            <summary>
+                                                {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
+                                            </summary>
+                                        }
                                     >
                                         <div>
                                             <Delete
@@ -126,7 +126,7 @@ const Table = observer(() => {
                                                 apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                             />
                                             <BulkActions events={job.events.filter(e => e.selected)} />
-                                            <EventGrid events={job.events} showFullscreenButton={false} gridConfig={gImport.grid} selectable/>
+                                            <EventGrid events={job.events} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
                                         </div>
                                     </LazyDetails>
                                 )

@@ -1,0 +1,18 @@
+.syncSemester {
+    .details {
+        padding-bottom: calc(var(--ifm-alert-padding-vertical) - 0.4rem);
+        padding-top: calc(var(--ifm-alert-padding-vertical) - 0.4rem);
+        > summary::before {
+            top: unset;
+        }
+    }
+}
+.summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 0;
+    .spacer {
+        flex: 1;
+    }
+}
