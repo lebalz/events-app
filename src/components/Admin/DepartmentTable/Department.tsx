@@ -14,6 +14,7 @@ import TextArea from '../../shared/TextArea';
 import TextInput from '../../shared/TextInput';
 import Select from 'react-select';
 import { DepartmentLetter } from '@site/src/api/department';
+import Button from '../../shared/Button';
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -69,26 +70,20 @@ const Department = observer((props: Props) => {
             </td>
             <td>
                 {/* Class Letters */}
-                <Select 
-                    menuPortalTarget={document.body}
-                    className={clsx(styles.classLetters)}
-                    styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                    }}
-                    value={department.classLetters.map(cl => ({value: cl, label: cl}))}
-                    options={
-                        department.validClassLetters.map((l) => ({
-                            value: l,
-                            label: l
-                        }))
-                    }
-                    onChange={(opt) => {
-                        department.update({classLetters: opt?.map(o => o.value) as string[]});
-                    }}
-                    isMulti={true}
-                    isSearchable={true}
-                    isClearable={false}
-                />
+                <div className={clsx(styles.classLetters)}>
+                    {department.validClassLetters.map((l) => (
+                        <Button 
+                            key={l}
+                            text={l}
+                            className={clsx(styles.classLetter)}
+                            color={department.color}
+                            active={department.classLetters.has(l)}
+                            onClick={() => {
+                                department.toggleClassLetter(l);
+                            }}
+                        />
+                    ))}
+                </div>
             </td>
             <td>{formatDateTime(department.createdAt)}</td>
             <td>{formatDateTime(department.updatedAt)}</td>

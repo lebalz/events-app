@@ -1,4 +1,4 @@
-import { computed, makeObservable, observable, override } from "mobx";
+import { action, computed, makeObservable, observable, override } from "mobx";
 import { DepartmentLetter, Department as DepartmentProps } from "../api/department";
 import { DepartmentStore } from "../stores/DepartmentStore";
 import Event from '../models/Event';
@@ -22,14 +22,17 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
                 const isCapital = val.toUpperCase() === val;
                 if (val !== this.letter && this.isCapitalLetter !== isCapital) {
                     /** sid-effect: flip the class letters too */
-                    this.update({classLetters: this.classLetters.map((l) => isCapital ? l.toLowerCase() : l.toUpperCase())});
+                    this.update({classLetters: [...this.classLetters].map((l) => isCapital ? l.toLowerCase() : l.toUpperCase())});
                 }
                 return val
             }
         },
-        {attr: 'classLetters', transform: (val: string[]) => {
-            return [...val].sort()
-        }}
+        {
+            attr: 'classLetters', 
+            update: action((val: string[]) => {
+                this.classLetters.replace([...val].sort())
+            })
+        }
     ];
     readonly store: DepartmentStore;
     readonly _pristine: DepartmentProps;
@@ -46,7 +49,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @observable
     letter: string;
     
-    classLetters = observable<string>([]);
+    classLetters = observable.set<string>([]);
 
     @observable
     description: string;
@@ -90,6 +93,20 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.letter === this.letter.toUpperCase();
     }
 
+    @action
+    toggleClassLetter(letter: string) {
+        this.setClassLetter(letter, !this.classLetters.has(letter));
+    }
+
+    @action
+    setClassLetter(letter: string, value: boolean) {
+        if (value) {
+            this.classLetters.add(letter);
+        } else {
+            this.classLetters.delete(letter);
+        }
+    }
+
     @computed
     get validClassLetters() {
         if (this.isCapitalLetter) {
@@ -105,7 +122,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             name: this.name,
             color: this.color,
             letter: this.letter as DepartmentLetter,
-            classLetters: this.classLetters.slice(),
+            classLetters: [...this.classLetters],
             description: this.description,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),

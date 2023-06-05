@@ -3,7 +3,12 @@ import _ from 'lodash';
 import iStore from "../stores/iStore";
 import { notEqual } from "./helpers";
 
-export type UpdateableProps<T extends { id: string }> = (keyof T | { attr: keyof T, transform?: (value: any) => any});
+type AnyExceptUndefined = string | number | boolean | symbol | object | null;
+// type ConfigType<T extends { id: string }> = { attr: keyof T };
+// type TransformType<T extends { id: string }> = { attr: keyof T, transform: (value: any) => AnyExceptUndefined};
+// type UpdateType<T extends { id: string }> = { attr: keyof T, update: (value: any) => void};
+// export type UpdateableProps<T extends { id: string }> = (keyof T | ConfigType<T> | TransformType<T> | UpdateType<T>)[];
+export type UpdateableProps<T extends { id: string }> = (keyof T | { attr: keyof T, transform?: (value: any) => AnyExceptUndefined, update?: (value: any) => void});
 
 export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly _pristine: T;
@@ -56,9 +61,16 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     @action
     update(props: Partial<T>) {
         this.UPDATEABLE_PROPS.forEach(val => {
-            const key = typeof val === 'object' ? val.attr : val;
+            const a = typeof val === 'object' ? val.attr : val;
+            const hasConfiguration = typeof val === 'object';
+            const isUpdater = hasConfiguration && val.update;
+            const isTransformer = hasConfiguration && !isUpdater && val.transform;
+            const key = hasConfiguration ? val.attr : val;
             if (key in props) {
-                const value = typeof val === 'object' ? val.transform(props[key]) : props[key];
+                if (isUpdater) {
+                    return val.update(props[key]);
+                }
+                const value = isTransformer ? val.transform(props[key]) : props[key];
                 if (Array.isArray(value)) {
                     ((this as any)[key] as IObservableArray<T>).replace(value as T[]);
                 } else {

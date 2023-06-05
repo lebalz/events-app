@@ -47,12 +47,8 @@ const Event = observer((props: Props) => {
                 <DefinitionList>
                     <dt><Translate id="event.description" description='for a single event: description'>Titel</Translate></dt>
                     <dd><Description {...commonEditProps} /></dd>
-                    {event.descriptionLong && (
-                        <>
-                            <dt><Translate id="event.descriptionLong" description='for a single event: description long'>Beschreibung</Translate></dt>
-                            <dd><DescriptionLong {...commonEditProps} /></dd>
-                        </>
-                    )}
+                    <dt><Translate id="event.descriptionLong" description='for a single event: description long'>Beschreibung</Translate></dt>
+                    <dd><DescriptionLong {...commonEditProps} /></dd>
                     <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
                     <dd className={styles.flex}>
                         <State {...commonProps} />
