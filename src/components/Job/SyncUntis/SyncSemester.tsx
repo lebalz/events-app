@@ -47,7 +47,7 @@ const SyncSemester = observer((props: Props) => {
                         <summary className={clsx(styles.summary)}>
                             <Badge text="Sync Untis" color="orange" />
                             <div className={clsx(styles.spacer)} />
-                            <Badge text={`${semester.name}`} color="blue" />
+                                <Badge text={`${semester.name}`} color="blue" />
                             <div className={clsx(styles.spacer)} />
                             <Button
                                 onClick={(e) => {

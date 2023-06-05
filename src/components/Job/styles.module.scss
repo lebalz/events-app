@@ -13,4 +13,10 @@
     .spacer {
         flex: 1;
     }
+    .semester {
+        padding: calc(0.3rem - 0.5px) 0.4rem;
+        .small {
+            font-weight: var(--ifm-font-weight-light);
+        }
+    }
 }

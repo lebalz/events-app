@@ -45,7 +45,7 @@ const AdminView = observer(() => {
                     <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>
                 {/* @ts-ignore */}
-                <TabItem value="semesters" label="Semester">
+                <TabItem value="semesters" label="Semester" default>
                     <Section title="Semester">
                         <Button 
                             title='Semester Hinzufügen'
@@ -67,7 +67,7 @@ const AdminView = observer(() => {
                     <SyncUntis />
                 </TabItem>
                 {/* @ts-ignore */}
-                <TabItem value="departments" label="Abteilungen" default>
+                <TabItem value="departments" label="Abteilungen">
                     <DepartmentTable departments={viewStore.adminDepartmentTable.departments} />
                 </TabItem>
                 {/* @ts-ignore */}

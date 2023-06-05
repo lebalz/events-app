@@ -72,9 +72,14 @@ export const SyncSummary = observer((props: SyncProps) => {
         <summary className={clsx(styles.summary)}>
             <StateBadge state={State[job.state]} size={SIZE_S} disabled={!job.isInSync} />
             <Badge text={Text[job.type]} color={Color[job.type]}  disabled={!job.isInSync}/>
-            <Badge text={job.createdAt.toLocaleDateString()} />
+            <Badge text={`Sync: ${job.createdAt.toLocaleDateString()}`} />
             <div className={clsx(styles.spacer)} />
-            <Badge text={`${job.semester?.name}`} color="blue" />
+            <Badge color="blue" className={clsx(styles.semester)}>
+                {job.semester?.name}{' '}
+                <span className={clsx(styles.small)}>
+                    {job.fSyncDate}
+                </span>
+            </Badge>
             <div className={clsx(styles.spacer)} />
             {job.isLatest && (
                 <Button
