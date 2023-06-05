@@ -6,6 +6,7 @@ import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import Teacher from './Teacher';
 import { DepartmentLetter } from '@site/src/api/department';
+import _ from 'lodash';
 
 export default class Klass {
     readonly id: number
@@ -31,6 +32,20 @@ export default class Klass {
         this.lessonIds = props.lessons.map(t => t.id);
 
         makeObservable(this);
+    }
+
+    static ClassNamesGroupedByYear(classes: Klass[], threshold: number = 3): {[name: string]: string} {        
+        const klGroupsRaw = _.groupBy(_.uniqBy(classes, c => c.id), c => c?.year);
+        const klGroup: {[key: string]: string} = {};
+        console.log(klGroupsRaw);
+        Object.keys(klGroupsRaw).forEach((year) => {
+            if (klGroupsRaw[year].length > threshold) {
+                klGroup[year] = `${year.slice(2)}`;
+            } else {
+                klGroup[year] = klGroupsRaw[year].map(c => c?.displayName).join(', ');
+            }
+        });
+        return klGroup;
     }
 
     @computed

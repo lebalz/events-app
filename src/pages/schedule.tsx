@@ -8,30 +8,28 @@ moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Layout from '@theme/Layout';
 import _ from 'lodash';
+import Klass from '../models/Untis/Klass';
 const localizer = momentLocalizer(moment)
 
 const Schedule = observer(() => {
     const viewStore = useStore('viewStore');
     const untisStore = useStore('untisStore');
-    const lessons = (viewStore.usersLessons || []).map((l, idx) => {
-        const klGroupsRaw = _.groupBy(l.classes, c => c?.year);
-        const klGroup: {[key: string]: string} = {};
-        Object.keys(klGroupsRaw).forEach((year) => {
-            if (klGroupsRaw[year].length > 3) {
-                klGroup[year] = `${year.slice(2)}`;
-            } else {
-                klGroup[year] = klGroupsRaw[year].map(c => c?.displayName).join(', ');
+
+    const lessons = React.useMemo(() => {
+        const lsns = (viewStore.usersLessons || []).map((l, idx) => {
+            const klGroups = Klass.ClassNamesGroupedByYear(l.classes);
+            const kl = Object.values(klGroups).join(', ');
+            return {
+                start: l.start,
+                end: l.end,
+                title: `${l.subject}: ${kl}`,
+                description: l.subject,
+                id: l.id
             }
         });
-        const kl = Object.values(klGroup).join(', ');
-        return {
-            start: l.start,
-            end: l.end,
-            title: `${l.subject}: ${kl}`,
-            description: l.subject,
-            id: l.id
-        }
-    });
+        return lsns;
+    }, [viewStore.usersLessons]);
+ 
     return (
         <Layout>
             <div>

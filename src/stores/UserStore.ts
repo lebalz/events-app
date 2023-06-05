@@ -45,6 +45,10 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         return this.root.eventStore.events.slice().filter((e) => e.authorId === this.current?.id);
     }
 
+    usersEvents(user: User) {
+        return this.root.eventStore.events.slice().filter((e) => e.authorId === user.id);
+    }
+
     @action
     reload() {
         if (this.root.sessionStore.account) {

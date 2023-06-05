@@ -38,14 +38,11 @@ const AdminView = observer(() => {
 
     return (
         <Layout wrapperClassName={clsx(styles.layout)}>
-            {/* @ts-ignore */}
-            <Tabs className={clsx(styles.tabs)}>
-                {/* @ts-ignore */}
-                <TabItem value="users" label="Users" >
+            <Tabs className={clsx(styles.tabs)} queryString groupId='admin-tab'>
+                <TabItem value="users" label="Users" default>
                     <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>
-                {/* @ts-ignore */}
-                <TabItem value="semesters" label="Semester" default>
+                <TabItem value="semesters" label="Semester">
                     <Section title="Semester">
                         <Button 
                             title='Semester Hinzufügen'
@@ -66,11 +63,9 @@ const AdminView = observer(() => {
                     </Section>
                     <SyncUntis />
                 </TabItem>
-                {/* @ts-ignore */}
                 <TabItem value="departments" label="Abteilungen">
                     <DepartmentTable departments={viewStore.adminDepartmentTable.departments} />
                 </TabItem>
-                {/* @ts-ignore */}
                 <TabItem value="reg-periods" label="Registrierungs Perioden">
                     This is a banana 🍌
                 </TabItem>

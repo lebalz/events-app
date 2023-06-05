@@ -76,6 +76,11 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     this.store.linkUserToUntis(this, untisId);
   }
 
+  @computed
+  get events() {
+    return this.store.usersEvents(this);
+  }
+
 
   @override
   get props() {

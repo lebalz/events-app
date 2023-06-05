@@ -3,6 +3,7 @@ import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
 import Event, { iEvent } from '../Event';
 import { DAYS, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, getLastMonday } from '../helpers/time';
+import _ from 'lodash';
 
 const MONDAY = Object.freeze(getLastMonday());
 
@@ -40,6 +41,30 @@ export default class Lesson implements iEvent {
 
         this.store = store;
         makeObservable(this);
+    }
+
+    static GroupedClassesByYear(lessons: Lesson[], threshold: number = 3): {[name: string]: string} {
+        const efs = _.uniqBy(lessons.filter(l => l.isEF).map(l => l.classes).flat(), c => c?.id);
+        const nonEfs = _.uniqBy(lessons.filter(l => !l.isEF).map(l => l.classes).flat(), c => c?.id);
+        const klGroupsRaw = _.groupBy(_.uniqBy(nonEfs, l => l.id), c => c?.year);
+        const klGroup: {[key: string]: string} = {};
+        Object.keys(klGroupsRaw).forEach((year) => {
+            if (klGroupsRaw[year].length > threshold) {
+                klGroup[year] = `${year.slice(2)}`;
+            } else {
+                klGroup[year] = klGroupsRaw[year].map(c => c?.displayName).join(', ');
+            }
+        });
+        const efYears = _.uniqBy(efs, c => c?.year).map(c => c?.year);
+        efYears.forEach((year) => {
+            klGroup[year] = `EF[${year % 100}]`;
+        });
+        return klGroup;
+    }
+
+    @computed
+    get isEF() {
+        return this.subject.startsWith('EF') || this.subject.startsWith('OC');
     }
 
     @computed
