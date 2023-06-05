@@ -33,6 +33,7 @@ const Department = observer((props: Props) => {
                 <TextArea text={department.description} onChange={(txt) => department.update({description: txt})} rows={2}/>
             </td>
             <td>
+                {/* Department Letter */}
                 <Select 
                     menuPortalTarget={document.body}
                     styles={{ 
@@ -65,6 +66,29 @@ const Department = observer((props: Props) => {
                         onChange={(e) => department.update({color: e.target.value})} 
                     />
                 </label>
+            </td>
+            <td>
+                {/* Class Letters */}
+                <Select 
+                    menuPortalTarget={document.body}
+                    className={clsx(styles.classLetters)}
+                    styles={{
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                    }}
+                    value={department.classLetters.map(cl => ({value: cl, label: cl}))}
+                    options={
+                        department.validClassLetters.map((l) => ({
+                            value: l,
+                            label: l
+                        }))
+                    }
+                    onChange={(opt) => {
+                        department.update({classLetters: opt?.map(o => o.value) as string[]});
+                    }}
+                    isMulti={true}
+                    isSearchable={true}
+                    isClearable={false}
+                />
             </td>
             <td>{formatDateTime(department.createdAt)}</td>
             <td>{formatDateTime(department.updatedAt)}</td>

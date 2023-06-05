@@ -7,8 +7,30 @@ import _ from "lodash";
 import { ApiAction } from "../stores/iStore";
 import Klass from "./Untis/Klass";
 
+export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+export const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
+
+
 export default class Department extends ApiModel<DepartmentProps, ApiAction> {
-    readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = ['name', 'description', 'color', 'letter'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = [
+        'name', 
+        'description', 
+        'color', 
+        {
+            attr: 'letter', 
+            transform: (val) => {
+                const isCapital = val.toUpperCase() === val;
+                if (val !== this.letter && this.isCapitalLetter !== isCapital) {
+                    /** sid-effect: flip the class letters too */
+                    this.update({classLetters: this.classLetters.map((l) => isCapital ? l.toLowerCase() : l.toUpperCase())});
+                }
+                return val
+            }
+        },
+        {attr: 'classLetters', transform: (val: string[]) => {
+            return [...val].sort()
+        }}
+    ];
     readonly store: DepartmentStore;
     readonly _pristine: DepartmentProps;
     readonly id: string;
@@ -23,6 +45,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     
     @observable
     letter: string;
+    
+    classLetters = observable<string>([]);
 
     @observable
     description: string;
@@ -36,6 +60,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.color = props.color;
         this.letter = props.letter;
         this.description = props.description;
+        this.classLetters.replace(props.classLetters.sort());
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         makeObservable(this);
@@ -60,6 +85,19 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.store.getClasses(this);
     }
 
+    @computed
+    get isCapitalLetter() {
+        return this.letter === this.letter.toUpperCase();
+    }
+
+    @computed
+    get validClassLetters() {
+        if (this.isCapitalLetter) {
+            return ALPHABET_SMALL.split('');
+        }
+        return ALPHABET_CAPITAL.split('');
+    }
+
     @override
     get props(): DepartmentProps {
         return {
@@ -67,6 +105,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             name: this.name,
             color: this.color,
             letter: this.letter as DepartmentLetter,
+            classLetters: this.classLetters.slice(),
             description: this.description,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
