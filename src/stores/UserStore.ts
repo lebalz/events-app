@@ -42,11 +42,11 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     
     @computed
     get currentUsersEvents() {
-        return this.root.eventStore.events.slice().filter((e) => e.authorId === this.current?.id);
+        return this.root.eventStore.byUser(this.current?.id);;
     }
 
     usersEvents(user: User) {
-        return this.root.eventStore.events.slice().filter((e) => e.authorId === user.id);
+        return this.root.eventStore.byUser(user.id);
     }
 
     @action

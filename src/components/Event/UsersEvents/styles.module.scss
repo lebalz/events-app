@@ -1,0 +1,7 @@
+.card {
+    box-shadow: var(--ifm-global-shadow-md);
+    margin-bottom: 1rem;
+}
+:global(.event-grid) {
+    border-radius: var(--ifm-global-radius);
+}

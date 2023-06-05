@@ -70,6 +70,11 @@ export class SessionStore {
     }
 
     @computed
+    get isStudent(): boolean {
+        return this.account?.username?.includes('@edu.') ?? false;
+    }
+
+    @computed
     get loggedIn(): boolean {
         return !!this.state.account;
     }
