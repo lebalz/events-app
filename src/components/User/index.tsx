@@ -33,51 +33,53 @@ const User = observer((props: Props) => {
     }, [props.user.untisTeacher?.lessons]);
 
     return (
-        <DefinitionList>
-            <dt><Badge text="Login" icon={mdiAccountCircleOutline} iconSide={iconSide} color='gray' /></dt>
-            <dd>{user.email}</dd>
+        <div className={clsx(styles.container)}>
+            <DefinitionList>
+                <dt><Badge text="Login" icon={mdiAccountCircleOutline} iconSide={iconSide} color='gray' /></dt>
+                <dd>{user.email}</dd>
 
-            <dt><Badge text="Untis Account" icon={mdiLink} iconSide={iconSide} color='gray' /></dt>
-            <dd><UntisLinker user={current} /></dd>
+                <dt><Badge text="Untis Account" icon={mdiLink} iconSide={iconSide} color='gray' /></dt>
+                <dd><UntisLinker user={current} /></dd>
 
-            <dt><Badge text="Kalender" icon={<Calendar />} iconSide={iconSide} color='gray' /></dt>
-            <dd>
-                <div>
-                    <div className={clsx(styles.ical)}>
-                        {user.icalUrl && `${EVENTS_API}/ical/${user.icalUrl}`}
+                <dt><Badge text="Kalender" icon={<Calendar />} iconSide={iconSide} color='gray' /></dt>
+                <dd>
+                    <div>
+                        <div className={clsx(styles.ical)}>
+                            {user.icalUrl && `${EVENTS_API}/ical/${user.icalUrl}`}
+                        </div>
+                        <Button
+                            href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${user.icalUrl}&name=GBSL`}
+                            text="Outlook"
+                            title='Regenerate iCal Calendar'
+                            icon={mdiMicrosoftOutlook}
+                        />
+                        <Button
+                            onClick={() => userStore.createIcs()}
+                            text="Sync"
+                            icon={mdiSync}
+                            apiState={userStore.apiStateFor('createIcs')}
+                        />
                     </div>
-                    <Button
-                        href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${user.icalUrl}&name=GBSL`}
-                        text="Outlook"
-                        title='Regenerate iCal Calendar'
-                        icon={mdiMicrosoftOutlook}
-                    />
-                    <Button
-                        onClick={() => userStore.createIcs()}
-                        text="Sync"
-                        icon={mdiSync}
-                        apiState={userStore.apiStateFor('createIcs')}
-                    />
-                </div>
-            </dd>
+                </dd>
 
-            <dt><Badge text="Events" icon={mdiCalendarBlankMultiple} iconSide={iconSide} color='gray' /></dt>
-            <dd>{user.events.length}</dd>
+                <dt><Badge text="Events" icon={mdiCalendarBlankMultiple} iconSide={iconSide} color='gray' /></dt>
+                <dd>{user.events.length}</dd>
 
-            {
-                user.untisTeacher && (
-                    <>
-                        <dt><Badge text="Schulen" icon={mdiOfficeBuilding} iconSide={iconSide} color='gray' /></dt>
-                        <dd>{[...new Set(user.untisTeacher.departments.map(d => d.name))].join(', ')}</dd>
-                        <dt><Badge text="Klassen" icon={mdiAccountGroup} iconSide={iconSide} color='gray' /></dt>
-                        <dd>{classes}</dd>
-                        <dt><Badge text="Fächer" icon={mdiSchool} iconSide={iconSide} color='gray' /></dt>
-                        <dd>{[...new Set(user.untisTeacher.lessons.map(l => l.subject))].join(', ')}</dd>
-                    </>
-                )
-            }
+                {
+                    user.untisTeacher && (
+                        <>
+                            <dt><Badge text="Schulen" icon={mdiOfficeBuilding} iconSide={iconSide} color='gray' /></dt>
+                            <dd>{[...new Set(user.untisTeacher.departments.map(d => d.name))].join(', ')}</dd>
+                            <dt><Badge text="Klassen" icon={mdiAccountGroup} iconSide={iconSide} color='gray' /></dt>
+                            <dd>{classes}</dd>
+                            <dt><Badge text="Fächer" icon={mdiSchool} iconSide={iconSide} color='gray' /></dt>
+                            <dd>{[...new Set(user.untisTeacher.lessons.map(l => l.subject))].join(', ')}</dd>
+                        </>
+                    )
+                }
 
-        </DefinitionList>
+            </DefinitionList>
+        </div>
     )
 });
 

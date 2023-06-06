@@ -32,7 +32,6 @@ const Table = observer(() => {
         <Layout>
             <main className={clsx(styles.main)}>
                 <Tabs>
-                    {/* @ts-ignore */}
                     <TabItem value='my-events' label='Unveröffentlicht'>
                         <AddButton />
                         {drafts.length > 0 && (
@@ -48,7 +47,6 @@ const Table = observer(() => {
                         )}
                     </TabItem>
                     {reviewed.length > 0 && (
-                        // @ts-ignore
                         <TabItem value='reviewed' label='Review'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
@@ -62,7 +60,6 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {adminReview.length > 0 && (
-                        // @ts-ignore
                         <TabItem value='admin-review' label='Admin'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
@@ -76,7 +73,6 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {published.length > 0 && (
-                        // @ts-ignore
                         <TabItem value='published' label='Veröffentlicht'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
@@ -90,7 +86,6 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {deleted.length > 0 && (
-                        // @ts-ignore
                         <TabItem value='deleted' label='Gelöscht'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
@@ -103,7 +98,6 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {jobStore.importJobs.length > 0 && (
-                        // @ts-ignore
                         <TabItem value='import' label='Import'>
                             {jobStore.importJobs.map((job, idx) => {
                                 return (

@@ -1,36 +1,8 @@
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    margin: 3em;
-
-    :global .col {
-        display: flex;
-        align-items: center;
-    }
-    :global .row {
-        margin-bottom: 1.5em;
-    }
-    .label {
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-    .ical {
-        font-size: small;
-        font-style: italic;
-    }
-}
-
-@media screen and (min-width: 996px) {
-    .container {
-        .label {
-            justify-content: flex-end;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .icon {
-            justify-content: flex-end;
-        }
+.main {
+    --ifm-tabs-padding-vertical: 0.2em;
+    --ifm-tabs-padding-horizontal: 0.6em;
+    .logout {
+        margin-left: auto;
+        margin-right: auto;
     }
 }

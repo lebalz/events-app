@@ -47,38 +47,47 @@ const UserPage = observer(() => {
     }
     return (
         <Layout>
-            <main>
-                <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab'>
-                    <TabItem value="user" label="User" default>
-                        {current && (
-                            <User user={current} />
-                        )}
-                        <div style={{ height: '3em' }}></div>
-                        {
-                            !current && (
+            <main className={clsx(styles.main)}>
+                <Section>
+                    <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab'>
+                        <TabItem value="account" label="Account" default>
+                            <div className={clsx(styles.tab)}>
+                                {current && (
+                                    <User user={current} />
+                                )}
+                                <div style={{ height: '3em' }}></div>
+                                {
+                                    !current && (
+                                        <Button
+                                            text="Aktualisieren"
+                                            icon={mdiRefresh}
+                                            iconSide='left'
+                                            color="orange"
+                                            onClick={() => sessionStore.login()}
+                                        />
+                                    )
+                                }
                                 <Button
-                                    text="Aktualisieren"
-                                    icon={mdiRefresh}
-                                    iconSide='left'
-                                    color="orange"
-                                    onClick={() => sessionStore.login()}
+                                    onClick={() => sessionStore.logout()}
+                                    text="Logout"
+                                    color='red'
+                                    noOutline
+                                    className={clsx(styles.logout)}
                                 />
-                            )
-                        }
-                        <Button
-                            onClick={() => sessionStore.logout()}
-                            text="Logout"
-                            color='red'
-                            noOutline
-                        />
-                    </TabItem>
-                    <TabItem value="events" label="Events">
-                        <UsersEvents user={current} />
-                    </TabItem>
-                    <TabItem value="schedule" label="Stundenplan">
-                        <TimeTable />
-                    </TabItem>
-                </Tabs>
+                            </div>
+                        </TabItem>
+                        <TabItem value="events" label="Events">
+                            <div className={clsx(styles.tab)}>
+                                <UsersEvents user={current} />
+                            </div>
+                        </TabItem>
+                        <TabItem value="time-table" label="Stundenplan">
+                            <div className={clsx(styles.tab)}>
+                                <TimeTable />
+                            </div>
+                        </TabItem>
+                    </Tabs>
+                </Section>
             </main>
         </Layout>
     );

@@ -38,7 +38,7 @@ const TimeTable = observer((props: Props) => {
     }, [viewStore.usersLessons]);
 
     return (
-        <div>
+        <div className={clsx(styles.timeTable)}>
             {lessons.length > 0 && (
                 <BigCalendar
                     defaultView='work_week'

@@ -59,6 +59,24 @@ const Calendar = observer(() => {
                         }}
                         eventPropGetter={eventStyleGetter}
                         popup
+                        messages={{
+                            next: "Nächste",
+                            previous: "Vorherige",
+                            today: "Heute",
+                            month: "Monat",
+                            week: "Woche",
+                            day: "Tag",
+                            agenda: "Agenda",
+                            date: "Datum",
+                            time: "Zeit",
+                            event: "Event",
+                            noEventsInRange: "Keine Events in diesem Zeitraum",
+                            tomorrow: "Morgen",
+                            work_week: "Arbeitswoche",
+                            yesterday: "Gestern",
+                            allDay: "Ganzer Tag",
+                            showMore: total => `+${total} weitere`
+                        }}
                     />
                 )}
             </div>

@@ -128,7 +128,7 @@ const config = {
         items: [
           {to: '/calendar', label: 'Kalender', position: 'left'},
           {to: '/table', label: 'Tabelle', position: 'left'},
-          {to: '/gantt', label: 'GANTT', position: 'left'},
+          {to: '/gantt', label: 'Zeitachse', position: 'left'},
           {
             type: 'localeDropdown',
             position: 'right',
