@@ -71,16 +71,6 @@ export default class Lesson implements iEvent {
             if (lesson.id === this.id) {
                 return false;
             }
-            // const isTime = lesson.weekOffsetMS_end < this.weekOffsetMS_start && (lesson.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS) >= this.weekOffsetMS_start
-            // const isSubject = lesson.subject === this.subject
-            // const isRoom =  lesson.room === this.room
-            // const isTeacher = _.isEqual(lesson.teacherIds, this.teacherIds)
-            // const isKlass = _.isEqual(lesson.classIds, this.classIds);
-            // if (isRoom && isSubject) {
-            //     console.log(this.props, 'isTime', isTime, 'isSubject', isSubject, 'isRoom', isRoom, 'isTeacher', isTeacher, 'isKlass', isKlass, lesson.props);
-            // }
-            // return isTime && isSubject && isRoom && isTeacher && isKlass;
-            // )
             return (
                 lesson.subject === this.subject
                 && lesson.room === this.room
@@ -108,7 +98,6 @@ export default class Lesson implements iEvent {
                 && _.isEqual(lesson.classIds, this.classIds)
             )
         });
-        // console.log(this.props, first?.props);
         return last?.lastSuccessiveLesson ?? last;
     }
 
