@@ -48,7 +48,7 @@ const UserPage = observer(() => {
     return (
         <Layout>
             <main className={clsx(styles.main)}>
-                <Section>
+                <Section title="Persönlicher Bereich">
                     <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab'>
                         <TabItem value="account" label="Account" default>
                             <div className={clsx(styles.tab)}>

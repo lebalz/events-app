@@ -4,7 +4,6 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    margin: 3em;
 
     :global .col {
         display: flex;
@@ -20,5 +19,8 @@
     .ical {
         font-size: small;
         font-style: italic;
+    }
+    .icalButtons {
+        display: flex;
     }
 }

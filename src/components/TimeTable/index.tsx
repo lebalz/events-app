@@ -11,10 +11,33 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Klass from '@site/src/models/Untis/Klass';
 import { DAYS } from '@site/src/models/helpers/time';
+import Lesson from '@site/src/models/Untis/Lesson';
 
 
 const localizer = momentLocalizer(moment)
 interface Props {
+}
+
+interface EventProps {
+    subject: string;
+    classes: string;
+    id: number;
+}
+
+interface FullEventProps extends EventProps {
+    start: Date;
+    end: Date;
+}
+
+
+const Event = (props) => {
+    const event: EventProps = props.event;
+    return (
+      <span>
+        <strong>{event.subject}</strong>
+        {': '}<i>{event.classes}</i>
+      </span>
+    )
 }
 
 const TimeTable = observer((props: Props) => {
@@ -22,20 +45,29 @@ const TimeTable = observer((props: Props) => {
     const untisStore = useStore('untisStore');
 
     const lessons = React.useMemo(() => {
-        const lsns = (viewStore.usersLessons || []).filter(l => l.isFirstSuccessiveLesson).map((l, idx) => {
-            const klGroups = Klass.ClassNamesGroupedByYear(l.classes);
-            const kl = Object.values(klGroups).join(', ');
+        const lsns = (viewStore.usersLessons || []).filter(l => l.isFirstSuccessiveLesson).map((l, idx): FullEventProps => {
+            const klGroups = Lesson.GroupedClassesByYear([l]);
+            // const klGroups = Klass.ClassNamesGroupedByYear(l.classes);
+            // const kl = Object.values(klGroups).join(', ');
+            const kl = Object.values(klGroups).sort().join(', ');
             const lastLesson = l.lastSuccessiveLesson ?? l;
             return {
                 start: l.start,
                 end: lastLesson.end,
-                title: `${l.subject}: ${kl}`,
-                description: l.subject,
+                subject: l.subject,
+                classes: kl,
                 id: l.id
             }
         });
         return lsns;
     }, [viewStore.usersLessons]);
+
+    
+    const week = React.useMemo(() => {
+        return {
+            event: Event
+        }
+    }, []);
 
     return (
         <div className={clsx(styles.timeTable)}>
@@ -54,6 +86,9 @@ const TimeTable = observer((props: Props) => {
                     showMultiDayTimes
                     popup
                     selectable
+                    components={{
+                        work_week: week
+                    }}
                     onSelectEvent={({ id }) => {
                         console.log(untisStore.findLesson(id)?.props);
                     }}

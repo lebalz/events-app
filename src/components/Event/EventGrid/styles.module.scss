@@ -152,7 +152,7 @@
 }
 .startTime {
     grid-column: startTime;
-    max-width: 4.5em;
+    max-width: 5.1em;
     &.isAllDay {
         color: transparent;
     }
@@ -172,7 +172,7 @@
 }
 .endTime {
     grid-column: endTime;
-    max-width: 4.5em;
+    max-width: 5.1em;
     &.isAllDay {
         color: transparent;
     }
@@ -180,9 +180,7 @@
     // font-family: monospace;
 }
 .dateTime {
-    input {
-        max-width: 100%;
-    }
+    max-width: 11.5em;
     &.start {
         grid-column-start: startDate;
         grid-column-end: startEnd;

@@ -124,7 +124,7 @@ const config = {
           alt: 'Events App',
           src: 'img/logo.svg',
         },
-        hideOnScroll: true,
+        hideOnScroll: false,
         items: [
           {to: '/calendar', label: 'Kalender', position: 'left'},
           {to: '/table', label: 'Tabelle', position: 'left'},

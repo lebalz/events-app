@@ -7,11 +7,13 @@ import { useStore } from '@site/src/stores/hooks';
 import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_S, SIZE_XS } from '../icons';
 import Button from '../Button';
 import { ApiState } from '@site/src/stores/iStore';
+import {useWindowSize} from '@docusaurus/theme-common';
 
 
 const SemesterSelector = observer(() => {
     const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
+    const windowSize = useWindowSize();
     if (semesterStore.apiStateFor('loadAll') === ApiState.LOADING) {
         return <Loading />;
     }
@@ -19,12 +21,14 @@ const SemesterSelector = observer(() => {
         return null;
     }
     return (<div className={clsx(styles.semesterSelector)} >
-        <Button
-            icon={<ArrowLeft size={SIZE_XS} />}
-            noOutline
-            className={clsx('badge', styles.button)}
-            onClick={() => viewStore.nextSemester(-1)}
-        />
+        {windowSize === 'desktop' && (
+            <Button
+                icon={<ArrowLeft size={SIZE_XS} />}
+                noOutline
+                className={clsx('badge', styles.button)}
+                onClick={() => viewStore.nextSemester(-1)}
+            />
+        )}
         <div className={clsx('dropdown', 'dropdown--hoverable', styles.label)}>
             <button
                 className={clsx(
@@ -58,12 +62,14 @@ const SemesterSelector = observer(() => {
                 ))}
             </ul>
         </div>
-        <Button
-            icon={<ArrowRight size={SIZE_XS} />}
-            noOutline
-            className={clsx('badge', styles.button)}
-            onClick={() => viewStore.nextSemester(1)}
-        />
+        {windowSize === 'desktop' && (
+            <Button
+                icon={<ArrowRight size={SIZE_XS} />}
+                noOutline
+                className={clsx('badge', styles.button)}
+                onClick={() => viewStore.nextSemester(1)}
+            />
+        )}
     </div>);
 });
 

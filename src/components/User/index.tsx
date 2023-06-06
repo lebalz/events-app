@@ -9,16 +9,18 @@ import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
 import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiMicrosoftOutlook, mdiOfficeBuilding, mdiSchool, mdiSync } from '@mdi/js';
 import UntisLinker from './UntisLinker';
-import { Calendar } from '../shared/icons';
+import { Calendar, SIZE_S, SIZE_XS } from '../shared/icons';
 import { EVENTS_API } from '@site/src/authConfig';
 import Button from '../shared/Button';
 import Klass from '@site/src/models/Untis/Klass';
 import Lesson from '@site/src/models/Untis/Lesson';
+import { ApiState } from '@site/src/stores/iStore';
 
 
 interface Props {
     user: UserModel;
 }
+
 
 const User = observer((props: Props) => {
     const { user } = props;
@@ -31,6 +33,7 @@ const User = observer((props: Props) => {
         const kl = Object.values(klGroups).sort().join(', ');
         return kl;
     }, [props.user.untisTeacher?.lessons]);
+
 
     return (
         <div className={clsx(styles.container)}>
@@ -47,18 +50,23 @@ const User = observer((props: Props) => {
                         <div className={clsx(styles.ical)}>
                             {user.icalUrl && `${EVENTS_API}/ical/${user.icalUrl}`}
                         </div>
-                        <Button
-                            href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${user.icalUrl}&name=GBSL`}
-                            text="Outlook"
-                            title='Regenerate iCal Calendar'
-                            icon={mdiMicrosoftOutlook}
-                        />
-                        <Button
-                            onClick={() => userStore.createIcs()}
-                            text="Sync"
-                            icon={mdiSync}
-                            apiState={userStore.apiStateFor('createIcs')}
-                        />
+                        <div className={clsx(styles.icalButtons)}>
+                            <Button
+                                onClick={() => userStore.createIcs()}
+                                text="Sync"
+                                icon={mdiSync}
+                                apiState={userStore.apiStateFor('createIcs')}
+                                size={SIZE_S}
+                                disabled={userStore.apiStateFor('createIcs') === ApiState.LOADING}
+                            />
+                            <Button
+                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${user.icalUrl}&name=GBSL`}
+                                text="Outlook"
+                                title='Regenerate iCal Calendar'
+                                icon={mdiMicrosoftOutlook}
+                                size={SIZE_S}
+                            />
+                        </div>
                     </div>
                 </dd>
 

@@ -27,6 +27,7 @@ const DateTimePicker = (props: Props) => {
     return (
         <div>
             <input 
+                className={clsx(styles.input)}
                 type={'datetime-local'} 
                 value={date}
                 max="2099-12-31T00:01"
