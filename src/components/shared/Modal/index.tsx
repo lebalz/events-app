@@ -21,7 +21,6 @@ const Modal = observer((props: Props) => {
         if (props.open) {
             const top = window.scrollY;
             setMarginTop(top + MARGIN_TOP);
-            console.log(top);
         }
     }, [props.open]);
 

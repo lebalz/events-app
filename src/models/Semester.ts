@@ -4,6 +4,7 @@ import { ApiAction } from "../stores/iStore";
 import { SemesterStore } from "../stores/SemesterStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import { formatDate, formatTime, toGlobalDate, toLocalDate } from "./helpers/time";
+import Lesson from "./Untis/Lesson";
 
 export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [
@@ -120,6 +121,11 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
             return 2;
         }
         return 1;
+    }
+
+    @computed
+    get lessons(): Lesson[] {
+        return this.store.lessonsBySemester(this);
     }
 
     @computed

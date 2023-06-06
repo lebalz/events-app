@@ -29,8 +29,11 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
         return this.root.eventStore.byDateRange(semester.start, semester.end);
     }
 
+    lessonsBySemester(semester: Semester) {
+        return this.root.untisStore.findLessonsBySemester(semester.id);
+    }
+
     jobsBySemester(semester: Semester) {
-        console.log('calc semester jobs', semester.name)
         return this.root.jobStore.bySemester(semester.id);
     }
 

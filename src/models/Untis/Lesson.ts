@@ -7,6 +7,9 @@ import _ from 'lodash';
 
 const MONDAY = Object.freeze(getLastMonday());
 
+const LESSON_DURATION_MS = 45 * MINUTE_2_MS;
+const SUCCESSIVE_LESSON_THRESHOLD_MS = LESSON_DURATION_MS / 2;
+
 export default class Lesson implements iEvent {
     readonly id: number
     readonly room: string
@@ -61,6 +64,59 @@ export default class Lesson implements iEvent {
         });
         return klGroup;
     }
+
+    @computed
+    get firstSuccessiveLesson(): Lesson | undefined {
+        const first = this.semester.lessons.find((lesson) => {
+            if (lesson.id === this.id) {
+                return false;
+            }
+            // const isTime = lesson.weekOffsetMS_end < this.weekOffsetMS_start && (lesson.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS) >= this.weekOffsetMS_start
+            // const isSubject = lesson.subject === this.subject
+            // const isRoom =  lesson.room === this.room
+            // const isTeacher = _.isEqual(lesson.teacherIds, this.teacherIds)
+            // const isKlass = _.isEqual(lesson.classIds, this.classIds);
+            // if (isRoom && isSubject) {
+            //     console.log(this.props, 'isTime', isTime, 'isSubject', isSubject, 'isRoom', isRoom, 'isTeacher', isTeacher, 'isKlass', isKlass, lesson.props);
+            // }
+            // return isTime && isSubject && isRoom && isTeacher && isKlass;
+            // )
+            return (
+                lesson.subject === this.subject
+                && lesson.room === this.room
+                && lesson.weekOffsetMS_end < this.weekOffsetMS_start 
+                && (lesson.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS) >= this.weekOffsetMS_start
+                && _.isEqual(lesson.teacherIds, this.teacherIds)
+                && _.isEqual(lesson.classIds, this.classIds)
+            )
+        });
+        return first?.firstSuccessiveLesson ?? first;
+    }
+
+    @computed
+    get lastSuccessiveLesson(): Lesson | undefined {
+        const last = this.semester.lessons.find((lesson) => {
+            if (lesson.id === this.id) {
+                return false;
+            }
+            return (
+                lesson.subject === this.subject
+                && lesson.room === this.room
+                && lesson.weekOffsetMS_start > this.weekOffsetMS_end 
+                && lesson.weekOffsetMS_start <= this.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS
+                && _.isEqual(lesson.teacherIds, this.teacherIds)
+                && _.isEqual(lesson.classIds, this.classIds)
+            )
+        });
+        // console.log(this.props, first?.props);
+        return last?.lastSuccessiveLesson ?? last;
+    }
+
+    @computed
+    get isFirstSuccessiveLesson() {
+        return !this.firstSuccessiveLesson;
+    }
+
 
     @computed
     get isEF() {
@@ -134,5 +190,21 @@ export default class Lesson implements iEvent {
             return false;
         }
         return other.hasOverlap(this);
+    }
+
+    @computed
+    get props() {
+        return {
+            id: this.id,
+            room: this.room,
+            subject: this.subject,
+            startHHMM: this.startHHMM,
+            endHHMM: this.endHHMM,
+            teacherIds: this.teacherIds.slice(),
+            classIds: this.classIds.slice(),
+            s: this.weekOffsetMS_start,
+            e: this.weekOffsetMS_end,
+            eo: this.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS,
+        }
     }
 }

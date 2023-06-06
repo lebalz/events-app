@@ -48,7 +48,6 @@ const EventGroup = observer((props: Props) => {
                                         block: 'start'
                                     });
                                     setTimeout(() => {
-                                        console.log('now im in')
                                         window.scrollTo({top: 0, behavior: 'smooth'});
                                     }, 2300);
                                 }

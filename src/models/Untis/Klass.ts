@@ -37,7 +37,6 @@ export default class Klass {
     static ClassNamesGroupedByYear(classes: Klass[], threshold: number = 3): {[name: string]: string} {        
         const klGroupsRaw = _.groupBy(_.uniqBy(classes, c => c.id), c => c?.year);
         const klGroup: {[key: string]: string} = {};
-        console.log(klGroupsRaw);
         Object.keys(klGroupsRaw).forEach((year) => {
             if (klGroupsRaw[year].length > threshold) {
                 klGroup[year] = `${year.slice(2)}`;

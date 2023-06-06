@@ -103,6 +103,15 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         },
         { keepAlive: true }
     )
+    findLessonsBySemester = computedFn(
+        function (this: UntisStore, semesterId?: string): Lesson[] {
+            if (!semesterId) {
+                return [];
+            }
+            return this.lessons.filter((l) => l.semesterId === semesterId);
+        },
+        { keepAlive: true }
+    )
 
     findClassesByTeacher = computedFn(
         function (this: UntisStore, teacherId?: number): Klass[] {
