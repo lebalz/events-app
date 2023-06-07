@@ -49,7 +49,7 @@ export const JoiEvent = Joi.object<Event>({
     classes: Joi.array().items(Joi.string()).required(),
     classGroups: Joi.array().items(Joi.string()).required(),
     state: Joi.string().valid(...Object.values(EventState)).required(),
-    jobId: Joi.string(),
+    jobId: Joi.string().allow(null),
     teachersOnly: Joi.boolean(),
     klpOnly: Joi.boolean(),
     subjects: Joi.array().items(Joi.string()).when('teachersOnly', {

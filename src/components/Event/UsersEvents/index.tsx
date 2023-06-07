@@ -23,15 +23,15 @@ const UsersEvents = observer((props: Props) => {
     const { user } = props;
     const eventStore = useStore('eventStore');
     const jobStore = useStore('jobStore');
+    const viewStore = useStore('viewStore');
     if (!user) {
         return null;
     }
-    const myEvents = user.events.filter(e => !e.jobId);
-    const drafts = myEvents.filter(e => e.state === EventState.Draft);
-    const reviewed = myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
-    const adminReview = user?.role === Role.ADMIN ? eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state)) : [];
-    const published = myEvents.filter(e => e.state === EventState.Published);
-    const deleted = myEvents.filter(e => e.isDeleted);
+    const drafts = viewStore.usersEvents({ignoreImported: true, states: [EventState.Draft]});
+    const reviewed = viewStore.usersEvents({ignoreImported: true, states: [EventState.Review, EventState.Refused]});
+    const adminReview = user?.role === Role.ADMIN ? viewStore.allEvents({states: [EventState.Review]}) : [];
+    const published = viewStore.usersEvents({ignoreImported: true, states: [EventState.Published]});
+    const deleted = viewStore.usersEvents({onlyDeleted: true});
 
     return (
         <Tabs>
@@ -103,12 +103,13 @@ const UsersEvents = observer((props: Props) => {
             {jobStore.importJobs.length > 0 && (
                 <TabItem value='import' label='Import'>
                     {jobStore.importJobs.map((job, idx) => {
+                        const events = viewStore.allEvents({ jobId: job.id, orderBy: 'isValid-asc' });
                         return (
                             <LazyDetails
                                 key={idx}
                                 summary={
                                     <summary>
-                                        {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
+                                        {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {events.length}
                                     </summary>
                                 }
                             >
@@ -122,8 +123,8 @@ const UsersEvents = observer((props: Props) => {
                                         iconSide='right'
                                         apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                     />
-                                    <BulkActions events={job.events.filter(e => e.selected)} />
-                                    <EventGrid events={job.events} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
+                                    <BulkActions events={events.filter(e => e.selected)} />
+                                    <EventGrid events={events} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
                                 </div>
                             </LazyDetails>
                         )

@@ -20,13 +20,19 @@ const Table = observer(() => {
     const eventStore = useStore('eventStore');
     const userStore = useStore('userStore');
     const jobStore = useStore('jobStore');
+    const viewStore = useStore('viewStore');
     const userId = userStore.current?.id;
-    const myEvents = eventStore.byUser(userId).filter(e => !e.jobId);
-    const drafts = myEvents.filter(e => e.state === EventState.Draft);
-    const reviewed = myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
-    const adminReview = userStore.current?.role === Role.ADMIN ? eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state)) : [];
-    const published = myEvents.filter(e => e.state === EventState.Published);
-    const deleted = myEvents.filter(e => e.isDeleted);
+
+    // const myEvents = eventStore.byUser(userId).filter(e => !e.jobId);
+    const drafts = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Draft] });
+    const reviewed = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Review, EventState.Refused] });
+    const adminReview = userStore.current?.role === Role.ADMIN ? viewStore.allEvents({ states: [EventState.Review] }) : [];
+    const published = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Published] });
+    const deleted = viewStore.usersEvents({ onlyDeleted: true });
+    // const reviewed = myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
+    // const adminReview = userStore.current?.role === Role.ADMIN ? eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state)) : [];
+    // const published = myEvents.filter(e => e.state === EventState.Published);
+    // const deleted = myEvents.filter(e => e.isDeleted);
 
     return (
         <Layout>
@@ -100,12 +106,13 @@ const Table = observer(() => {
                     {jobStore.importJobs.length > 0 && (
                         <TabItem value='import' label='Import'>
                             {jobStore.importJobs.map((job, idx) => {
+                                const events = viewStore.allEvents({ jobId: job.id, orderBy: 'isValid-desc' });
                                 return (
                                     <LazyDetails
                                         key={idx}
                                         summary={
                                             <summary>
-                                                {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {job.events.length}
+                                                {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {events.length}
                                             </summary>
                                         }
                                     >
@@ -119,8 +126,8 @@ const Table = observer(() => {
                                                 iconSide='right'
                                                 apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                             />
-                                            <BulkActions events={job.events.filter(e => e.selected)} />
-                                            <EventGrid events={job.events} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
+                                            <BulkActions events={events.filter(e => e.selected)} />
+                                            <EventGrid events={events} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
                                         </div>
                                     </LazyDetails>
                                 )

@@ -9,7 +9,7 @@ import gSelectAuthor from './gridConfigs/select_author.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import EventHeader from './EventHeader';
-import { action, reaction } from 'mobx';
+import { action, computed, reaction } from 'mobx';
 import Filter from '../Filter';
 import EventGroup from './EventGroup';
 import { formatDate } from '@site/src/models/helpers/time';
@@ -25,6 +25,7 @@ interface Props {
     groupBy?: 'kw';
     showFilter?: boolean;
     scrollToCurrent?: boolean;
+    sortable?: boolean;
 }
 
 const EventGrid = observer((props: Props) => {

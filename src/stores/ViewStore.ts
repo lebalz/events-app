@@ -2,11 +2,24 @@ import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
 import Semester from '../models/Semester';
 import User from '../models/User';
+import Event from '../models/Event';
 import Lesson from '../models/Untis/Lesson';
 import { EventState } from '../api/event';
 import _ from 'lodash';
 import Department from '../models/Department';
 import { LoadeableStore, ResettableStore } from './iStore';
+import { computedFn } from 'mobx-utils';
+import Job from '../models/Job';
+
+interface EventViewProps {
+    user?: User;
+    jobId?: string;
+    states?: EventState[];
+    ignoreImported?: boolean;
+    onlyImported?: boolean;
+    onlyDeleted?: boolean;
+    orderBy?: `${'start' | 'isValid'}-${'asc' | 'desc'}`;
+}
 
 /**
  * route: /table
@@ -207,6 +220,54 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
         makeObservable(this);
+    }
+
+    usersEvents = ({
+        states = undefined,
+        jobId = undefined,
+        ignoreImported = undefined,
+        onlyImported = undefined,
+        onlyDeleted = undefined,
+        orderBy = undefined
+    }: EventViewProps): Event[] => {
+        return this.allEvents({ user: this.user, jobId, states, ignoreImported, onlyDeleted, onlyImported, orderBy });
+    };
+
+    allEvents = ({
+        user = undefined,
+        jobId = undefined,
+        states = undefined,
+        ignoreImported = undefined,
+        onlyImported = undefined,
+        onlyDeleted = undefined,
+        orderBy = undefined
+    }: EventViewProps) => {
+        let events = user ? user.events : jobId ? this.root.eventStore.byJob(jobId) : this.root.eventStore?.events ?? [];
+        if (ignoreImported) {
+            events = events.filter((e) => !e.jobId);
+        } else if (onlyImported) {
+            events = events.filter((e) => !!e.jobId);
+        }
+        if (onlyDeleted) {
+            events = events.filter((e) => e.isDeleted);
+        }
+        if (states) {
+            const eState = new Set(states);
+            events = events.filter((e) => eState.has(e.state));
+        }
+        if (orderBy) {
+            const [col, direction] = orderBy.split('-');
+            if (col === 'start') {
+                if (direction === 'asc') {
+                    /** already correctly ordered */
+                } else {
+                    events = events.slice().reverse();
+                }
+            } else if (col === 'isValid') {
+                events = _.orderBy(events, ['isValid', 'startTimeMs'], [direction as 'asc' | 'desc', 'asc']);
+            }
+        }
+        return events;
     }
 
     @action
