@@ -60,7 +60,7 @@ const TimeTable = observer((props: Props) => {
             }
         });
         return lsns;
-    }, [viewStore.usersLessons]);
+    }, [viewStore.usersLessons, untisStore.initialized]);
 
     
     const week = React.useMemo(() => {
