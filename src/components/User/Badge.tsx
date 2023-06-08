@@ -19,7 +19,7 @@ const Badge = observer(() => {
                 icon={mdiAccountCircleOutline}
                 iconSide='left'
                 color='primary'
-                href='pathname:///login'
+                href='pathname:///user'
                 target='_self'
                 title='Persönlicher Bereich'
             />
