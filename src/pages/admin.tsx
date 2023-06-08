@@ -10,17 +10,20 @@ import Semester from '../components/Semester';
 import SemesterList from '../components/Semester/List';
 import Button from '../components/shared/Button';
 import { Icon } from '../components/shared/icons';
-import { mdiPlusCircleOutline } from '@mdi/js';
+import { mdiFileExcel, mdiPlusCircleOutline } from '@mdi/js';
 import UserTable from '../components/Admin/UserTable';
 import DepartmentTable from '../components/Admin/DepartmentTable';
 import { Role } from '../api/user';
 import SyncUntis from '../components/Job/SyncUntis';
 import Section from '../components/shared/Section';
+import Upload from '../components/ImportExcel/Upload';
+import Job from '../components/Job';
 
 const AdminView = observer(() => {
     const userStore = useStore('userStore');
     const semesterStore = useStore('semesterStore');
     const viewStore = useStore('viewStore');
+    const jobStore = useStore('jobStore');
     const regPeriodStore = useStore('registrationPeriodStore');
 
     if (userStore.current?.role !== Role.ADMIN) {
@@ -65,6 +68,21 @@ const AdminView = observer(() => {
                 </TabItem>
                 <TabItem value="departments" label="Abteilungen">
                     <DepartmentTable departments={viewStore.adminDepartmentTable.departments} />
+                </TabItem>
+                <TabItem value="import" label="Import">
+                    <Section
+                        title={<span>Excel Import <Icon path={mdiFileExcel} size={2} color={'green'} /></span>}
+                        subtitle="Importiere Daten aus Excel-Dateien."
+                    >
+                        <Upload />
+                        <div>
+                            {jobStore.importJobs.map((job, idx) => {
+                                return (
+                                    <Job key={job.id} job={job} />
+                                )
+                            })}
+                        </div>
+                    </Section>
                 </TabItem>
                 <TabItem value="reg-periods" label="Registrierungs Perioden">
                     This is a banana 🍌

@@ -8,6 +8,7 @@ import iStore from './iStore';
 import Department from '../models/Department';
 import { HOUR_2_MS } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
+import { JobStore } from './JobStore';
 
 export class EventStore extends iStore<EventProps> {
     readonly root: RootStore;

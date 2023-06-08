@@ -10,7 +10,7 @@ import { Icon, Sync } from '../components/shared/icons';
 import { mdiFileExcel } from '@mdi/js';
 import Button from '../components/shared/Button';
 import Section from '../components/shared/Section';
-import Summary from '../components/Job/Summary';
+import {ImportSummary} from '../components/Job/Summary';
 import Details from '../components/Job/Details';
 import Job from '../components/Job';
 

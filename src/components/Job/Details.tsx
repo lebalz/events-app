@@ -4,10 +4,11 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Job, { ImportJob, SyncJob } from '@site/src/models/Job';
+import Job, { ImportJob as ImportJobModel, SyncJob } from '@site/src/models/Job';
 import DefinitionList from '../shared/DefinitionList';
 import { JobType } from '@site/src/api/job';
 import CodeBlock from '@theme/CodeBlock';
+import ImportJob from './ImportJob';
 
 
 interface Props {
@@ -27,9 +28,9 @@ const Details = observer((props: Props) => {
                     {job.type === JobType.IMPORT && (
                         <>
                             <dt>Filename</dt>
-                            <dd>{(job as ImportJob).filename}</dd>
+                            <dd>{(job as ImportJobModel).filename}</dd>
                             <dt>Events</dt>
-                            <dd>{(job as ImportJob).events.length}</dd>
+                            <dd>{(job as ImportJobModel).events.length}</dd>
                         </>
                     )}
                     {job.type === JobType.SYNC_UNTIS && (
@@ -48,6 +49,9 @@ const Details = observer((props: Props) => {
                 <CodeBlock language='json' title='log.json'>
                     {job.fLog}
                 </CodeBlock>
+            )}
+            {job.type === JobType.IMPORT && (job as ImportJobModel).events.length > 0 && (
+                <ImportJob job={job as ImportJobModel} />
             )}
         </div>
     )
