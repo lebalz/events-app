@@ -145,6 +145,9 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
 
     @action
     loadModel(id: string) {
+        if (!id) {
+            return Promise.resolve(undefined);
+        }
         return this.withAbortController(`load-${id}`, (sig) => {
             return apiFind<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
         }).then(action(({ data }) => {

@@ -46,8 +46,9 @@ const config = {
   organizationName: 'lebalz', // Usually your GitHub org/user name.
   projectName: 'events-app', // Usually your repo name.
   customFields: {
-    /** Use Testuser in local dev: set TEST_USERNAME to the test users email adress*/
+    /** Use Testuser in local dev: set TEST_USERNAME and TEST_USER_ID to the test users email adress*/
     TEST_USERNAME: process.env.TEST_USERNAME,
+    TEST_USER_ID: process.env.TEST_USER_ID,
     /** The Domain Name where the api is running */
     DOMAIN: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
     /** The Domain Name of this app */
