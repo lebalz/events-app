@@ -5,12 +5,11 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Link from '@docusaurus/Link';
-import {default as BadgeComponent} from '../shared/Badge';
-import Button from '../shared/Button';
-import { SIZE_S, SIZE_XS } from '../shared/icons';
+import {default as BadgeComponent} from '../../shared/Badge';
+import Button from '../../shared/Button';
 import { mdiAccountCircleOutline } from '@mdi/js';
 
-const Badge = observer(() => {
+const LoginProfileButton = observer(() => {
     const userStore = useStore('userStore');
     if (userStore.current) {
         return (
@@ -32,4 +31,4 @@ const Badge = observer(() => {
     )
 });
 
-export default Badge;
+export default LoginProfileButton;

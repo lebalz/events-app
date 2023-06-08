@@ -130,6 +130,14 @@ const config = {
           {to: '/table', label: 'Tabelle', position: 'left'},
           {to: '/gantt', label: 'Zeitachse', position: 'left'},
           {
+            type: 'custom-myEventsLink',
+            position: 'left'
+          },
+          {
+            type: 'custom-adminLink',
+            position: 'left'
+          },
+          {
             type: 'localeDropdown',
             position: 'right',
           },
