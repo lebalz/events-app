@@ -49,7 +49,7 @@ const EventModal = observer((props: Props) => {
                                     }} 
                                 />
                                 <EventActions event={event} />
-                                <Button color="blue" text="Öffnen" icon={mdiShareCircle}  href={event?.shareUrl} target="_self" />
+                                <Button color="blue" text="Öffnen" icon={mdiShareCircle}  href={event?.shareUrl}/>
                             </>
                         )}
                     </div>

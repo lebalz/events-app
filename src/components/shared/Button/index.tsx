@@ -136,8 +136,8 @@ const Button = (props: Props) => {
     if (props.href) {
         /** it is a link, styled as a button */
         return (<Link
-            href={props.disabled ? '#' : props.href}
-            target={props.target ?? '_blank'}
+            to={props.disabled ? '#' : props.href}
+            target={props.target}
             className={clsx(styles.link, commonCls)}
             title={props.title}
             style={style}

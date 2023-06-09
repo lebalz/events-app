@@ -9,6 +9,31 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLocation, useHistory } from "@docusaurus/router";
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
+const useTestUserNoAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0;
+
+if (useTestUserNoAuth) {
+  const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
+  console.log([   '',
+                  "┌──────────────────────────────────────────────────────────┐",
+                  '│                                                          │',
+                  "│   _   _                       _   _                      │",
+                  "│  | \\ | |           /\\        | | | |                     │",
+                  "│  |  \\| | ___      /  \\  _   _| |_| |__                   │",
+                  "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
+                  "│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │",
+                  "│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │",
+                  '│                                                          │',
+                  '│                                                          │',
+                  `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
+                  '│                                                          │',
+                  '│                                                          │',
+                  '│   --> enable authentication by removing "TEST_USERNAME"  │',
+                  '│       from the environment (or the .env file)            │',
+                  '│                                                          │',
+                  "└──────────────────────────────────────────────────────────┘",
+  ].join('\n'))
+}
+
 
 const selectAccount = () => {
   /**
@@ -45,27 +70,7 @@ msalInstance
   });
 
 const Msal = observer(({ children }: any) => {
-  if (process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0) {
-    const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
-    console.log([
-                    "┌──────────────────────────────────────────────────────────┐",
-                    '│                                                          │',
-                    "│   _   _                       _   _                      │",
-                    "│  | \\ | |           /\\        | | | |                     │",
-                    "│  |  \\| | ___      /  \\  _   _| |_| |__                   │",
-                    "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
-                    "│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │",
-                    "│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │",
-                    '│                                                          │',
-                    '│                                                          │',
-                    `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
-                    '│                                                          │',
-                    '│                                                          │',
-                    '│   --> enable authentication by removing "TEST_USERNAME"  │',
-                    '│       from the environment (or the .env file)            │',
-                    '│                                                          │',
-                    "└──────────────────────────────────────────────────────────┘",
-    ].join('\n'))
+  if (useTestUserNoAuth) {
     return (<>{children}</>);
   }
   return (<MsalProvider instance={msalInstance}>{children}</MsalProvider>);

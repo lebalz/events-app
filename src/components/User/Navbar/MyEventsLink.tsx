@@ -14,9 +14,8 @@ const MyEventsLink = observer(() => {
         const isActive = location.pathname.startsWith('/user');
         return (
             <Link
-                href='pathname:///user?user-tab=events'
+                to='/user?user-tab=events'
                 className={clsx('navbar__item', 'navbar__link', isActive && 'navbar__link--active')}
-                target='_self'
             >
                 Meine
             </Link>

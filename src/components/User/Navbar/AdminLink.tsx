@@ -15,9 +15,8 @@ const AdminLink = observer(() => {
         const isActive = location.pathname.startsWith('/admin');
         return (
             <Link
-                href='pathname:///admin'
+                to='/admin'
                 className={clsx('navbar__item', 'navbar__link', isActive && 'navbar__link--active')}
-                target='_self'
             >
                 Admin
             </Link>
