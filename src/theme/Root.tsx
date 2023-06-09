@@ -7,7 +7,6 @@ import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLocation, useHistory } from "@docusaurus/router";
-import { Reaction, reaction } from "mobx";
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
 
@@ -47,7 +46,26 @@ msalInstance
 
 const Msal = observer(({ children }: any) => {
   if (process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0) {
-    console.warn('USING DEV MODE WITH TESTUSER', TEST_USERNAME);
+    const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
+    console.log([
+                    "┌──────────────────────────────────────────────────────────┐",
+                    '│                                                          │',
+                    "│   _   _                       _   _                      │",
+                    "│  | \\ | |           /\\        | | | |                     │",
+                    "│  |  \\| | ___      /  \\  _   _| |_| |__                   │",
+                    "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
+                    "│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │",
+                    "│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │",
+                    '│                                                          │',
+                    '│                                                          │',
+                    `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
+                    '│                                                          │',
+                    '│                                                          │',
+                    '│   --> enable authentication by removing "TEST_USERNAME"  │',
+                    '│       from the environment (or the .env file)            │',
+                    '│                                                          │',
+                    "└──────────────────────────────────────────────────────────┘",
+    ].join('\n'))
     return (<>{children}</>);
   }
   return (<MsalProvider instance={msalInstance}>{children}</MsalProvider>);
@@ -66,7 +84,7 @@ function Root({ children }) {
   }, [rootStore]);
 
   React.useEffect(() => {
-    if (process.env.NODE_ENV !== 'production' && TEST_USERNAME) {
+    if (process?.env?.NODE_ENV !== 'production' && TEST_USERNAME) {
       rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
     }
   }, [rootStore?.sessionStore]);

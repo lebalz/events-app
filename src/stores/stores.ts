@@ -70,7 +70,6 @@ export class RootStore {
             () => this.sessionStore.account,
             (account) => {
                 if (account) {
-                    console.log('%%% LOAD %%%');
                     /** make sure to first only load a user - in case a new user is created, this prevents parallel upserts */
                     this.userStore.loadUser(account.localAccountId).finally(() => {
                         this.load();
