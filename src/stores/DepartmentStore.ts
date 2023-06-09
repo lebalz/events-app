@@ -27,6 +27,30 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         return [...new Set(this.departments.map((d) => d.letter))].sort();
     }
 
+    isValidClassGroup(group: string) {
+        if (!group || group.length !== 3) {
+            return false;
+        }
+        const match = group.match(/^(?<year>\d\d)(?<departmentLetter>[a-zA-Z])$/);
+        if (!match) {
+            return false;
+        }
+        const { departmentLetter } = match.groups as { year: string, departmentLetter: string, classLetter: string };
+        return this.departments.some((d) => d.letter === departmentLetter);
+    }
+
+    isValidClass(klass: string) {
+        if (!klass || klass.length !== 4) {
+            return false;
+        }
+        const departmentLetter = klass[2];
+        const departments = this.findByDepartmentLetter(departmentLetter);
+        if (departments.length === 0) {
+            return false;
+        }
+        const classLetter = klass[3];
+        return departments.some((d) => d.classLetters.has(classLetter));
+    }
 
 
     createModel(data: DepartmentProps): Department {

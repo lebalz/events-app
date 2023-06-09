@@ -9,8 +9,6 @@ import Klass from '@site/src/models/Untis/Klass';
 import { default as EventModel } from '@site/src/models/Event';
 import Button from '../Button';
 import _ from 'lodash';
-
-
 interface Props {
     event: EventModel;
     departments: DepartmentModel[]
@@ -22,6 +20,7 @@ const Department = observer((props: Props) => {
     const klasses = _.groupBy(allKlasses, c => c.year);
     const someDepartments = departments.some(d => event.departmentIds.has(d.id));
     const allDepartments = someDepartments && departments.every(d => event.departmentIds.has(d.id));
+
     return (
         <div className={clsx(styles.departmentClasses)}>
             <div className={clsx(styles.department)}>
@@ -59,8 +58,8 @@ const Department = observer((props: Props) => {
                     const depIds = _.uniq(klasses[year].map(c => c.departmentId));
                     return (
                         <div className={clsx(styles.year)} key={year}>
-                            <Button 
-                                text={year.slice(2)} 
+                            <Button
+                                text={year.slice(2)}
                                 active={all}
                                 color={some ? 'primary' : 'secondary'}
                                 onClick={() => {

@@ -171,15 +171,19 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
      * ``` 
      * @return {Klass[]}
      */
-    findClassesByGroupName = computedFn(
-        function (this: UntisStore, startPart?: string): Klass[] {
-            if (!startPart) {
-                return [];
-            }
-            return this.classes.filter((kl) => kl.name.startsWith(startPart));
-        },
-        { keepAlive: true }
-    )
+    findClassesByGroupName = (startPart?: string): Klass[] => {
+        if (!startPart) {
+            return [];
+        }
+        return this.classes.filter((kl) => kl.name.startsWith(startPart));
+    }
+
+    hasClassesWithGroupName = (startPart?: string): boolean => {
+        if (!startPart) {
+            return false;
+        }
+        return this.classes.some((kl) => kl.name.startsWith(startPart));
+    }
 
 
 

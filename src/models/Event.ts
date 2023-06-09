@@ -209,9 +209,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     toggleClassGroup(klass: string) {
-        if (this.classGroups.has(klass)) {
+        this.setClassGroup(klass, !this.classGroups.has(klass));
+    }
+
+    @action
+    setClassGroup(klass: string, value: boolean) {
+        if (this.classGroups.has(klass) && !value) {
             this.classGroups.delete(klass);
-        } else {
+        } else if (!this.classGroups.has(klass) && value) {
             this.classGroups.add(klass);
         }
     }
@@ -499,6 +504,16 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     get _unknownClassNames(): KlassName[] {
         const known = new Set(this.untisClasses.map(c => c.name));
         return [...this.classes].filter(c => !known.has(c));
+    }
+
+    @computed
+    get _unknownClassGroups(): string[] {
+        return [...this.classGroups].filter(c => !this.store.hasUntisClassesInClassGroup(c));
+    }
+
+    @computed
+    get unknownClassIdentifiers(): string[] {
+        return [...this._unknownClassNames, ...this._unknownClassGroups];
     }
 
     /**

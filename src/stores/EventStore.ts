@@ -171,6 +171,10 @@ export class EventStore extends iStore<EventProps> {
         return _.uniqBy([...klasses, ...wildcard], 'id');
     }
 
+    hasUntisClassesInClassGroup(classGroupName: string) {
+        return this.root.untisStore.hasClassesWithGroupName(classGroupName);
+    }
+
     getWildcardUntisClasses(event: Event) {
         const klassGroups = [...event.classGroups].map(c => this.root.untisStore.findClassesByGroupName(c)).flat();
         const departmentKlasses = this.getDepartments([...event.departmentIds]).map(d => d.classes).flat();
