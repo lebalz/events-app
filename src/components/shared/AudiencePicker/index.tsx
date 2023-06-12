@@ -13,8 +13,8 @@ import Department from './Department';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
 import _ from 'lodash';
-import { KlassName } from '@site/src/models/helpers/klassNames';
 import ClassSelector from './ClassSelector';
+import { translate } from '@docusaurus/Translate';
 
 
 
@@ -49,7 +49,7 @@ const AudiencePicker = observer((props: Props) => {
             </div>
             <div className={clsx(styles.header)}>
                 <Button
-                    text={'Alle Schulen'}
+                    text={translate({message: 'Alle Schulen', description: 'Button text to toggle all schools on/off', id:'shared.AudiencePicker'})}
                     active={allDepartments}
                     color={someDepartments ? 'primary' : 'secondary'}
                     onClick={() => {
