@@ -7,6 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import Klass from '@site/src/models/Untis/Klass';
 import { default as EventModel } from '@site/src/models/Event';
+import {translate} from '@docusaurus/Translate';
 import Button from '../Button';
 import _ from 'lodash';
 interface Props {
@@ -26,7 +27,7 @@ const Department = observer((props: Props) => {
         <div className={clsx(styles.departmentClasses)}>
             <div className={clsx(styles.department)}>
                 <Button
-                    text={'Alle'}
+                    text={translate({message: 'Alle', description: 'toggle all departments', id: 'shared.AudiencePicker.Department'})}
                     active={allDepartments}
                     color={someDepartments ? 'primary' : 'secondary'}
                     onClick={() => {
