@@ -263,7 +263,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
         if (!value) {
             const affectedDeps = this.departments.filter(d => d.classGroups.has(klassGroup));
-            console.log('ad', affectedDeps, affectedDeps.length, this.departments.map(d => d.name))
             if (affectedDeps.length > 0) {
                 affectedDeps.forEach(dep => {
                     this.departmentIds.delete(dep.id);

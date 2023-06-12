@@ -15,10 +15,12 @@ interface Props {
 }
 
 const Department = observer((props: Props) => {
-    const { departments, event } = props;
+    const { event } = props;
+    const departments = props.departments.filter(d => d.classes.length > 0);
     const allKlasses = departments.map(d => d.classes).flat();
     const klasses = _.groupBy(allKlasses, c => c.year);
-    const { someDepartments, allDepartments } = event.departmentState;
+    const someDepartments = departments.some(d => event.departmentIds.has(d.id));
+    const allDepartments = someDepartments && departments.every(d => event.departmentIds.has(d.id));
 
     return (
         <div className={clsx(styles.departmentClasses)}>
@@ -35,7 +37,7 @@ const Department = observer((props: Props) => {
                         }
                     }}
                 />
-                {departments.filter(d => d.classes.length > 0).map((d) => {
+                {departments.map((d) => {
                     return (
                         <Button
                             key={d.id}
