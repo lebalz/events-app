@@ -3,13 +3,13 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import Klass from '@site/src/models/Untis/Klass';
 import { default as EventModel } from '@site/src/models/Event';
 import {translate} from '@docusaurus/Translate';
-import Button from '../Button';
+import Button from '../../Button';
 import _ from 'lodash';
+import GraduationYear from './GraduationYear';
 interface Props {
     event: EventModel;
     departments: DepartmentModel[]
@@ -51,36 +51,8 @@ const Department = observer((props: Props) => {
                 })}
             </div>
             {
-                Object.keys(klasses).map((year) => {
-                    /** MULTIPLE CLASSES PER YEAR */
-                    const first = (klasses[year] as Klass[])[0];
-                    const groupName = `${year.slice(2)}${first.departmentLetter}`;
-                    const some = klasses[year].some(c => event.affectsClass(c));
-                    const all = event.classGroups.has(groupName) || (some && klasses[year].every(c => event.affectsClass(c)));
-                    return (
-                        <div className={clsx(styles.year)} key={year}>
-                            <Button
-                                text={year.slice(2)}
-                                active={all}
-                                color={some ? 'primary' : 'secondary'}
-                                onClick={() => {
-                                    event.toggleClassGroup(groupName);
-                                }}
-                            />
-                            {_.sortBy(klasses[year], ['letter']).map((kl: Klass) => {
-                                return (<Button
-                                    key={kl.id}
-                                    color={kl.department?.color}
-                                    active={event.affectsClass(kl)}
-                                    text={kl.letter}
-                                    title={`${kl.displayName} (${kl.name}) ${kl.department?.name}`}
-                                    onClick={() => {
-                                        event.toggleClass(kl.name);
-                                    }}
-                                />)
-                            })}
-                        </div>
-                    );
+                Object.values(klasses).map((klasses) => {
+                    return (<GraduationYear event={event} klasses={klasses} key={klasses[0].year} />) 
                 })
             }
         </div>
