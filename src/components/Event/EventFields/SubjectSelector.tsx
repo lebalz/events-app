@@ -9,6 +9,8 @@ import { Props } from './iEventField';
 const SubjectSelector = observer((props: Props) => {
     const untisStore = useStore('untisStore');
     const { event, styles } = props;
+    const affectedDepIds = new Set(event.affectedDepartments.map(d => d.id));
+    const subjects = affectedDepIds.size > 0 ? untisStore.subjects.slice().filter(s => s.departmentIds.some(did => affectedDepIds.has(did))) : untisStore.subjects.slice();
     return (
         <div className={clsx(styles.container)}>
             <Select
@@ -25,9 +27,9 @@ const SubjectSelector = observer((props: Props) => {
                     return {value: s, label: label}
                 })}                
                 options={
-                    untisStore.subjects.slice().map((s) => ({
+                    subjects.map((s) => ({
                         value: s.name,
-                        label: `${s.name} - ${s.description} - ${s.departmentNames}`
+                        label: `${s.name} - ${s.description} - ${s.departments.filter(d => affectedDepIds.has(d.id)).map(d => d.shortName).join(', ')}`
                     }))
                 }
                 onChange={(opt) => {

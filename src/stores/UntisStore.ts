@@ -213,7 +213,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             ]).then(action(([teachers, classes, subjects]) => {
                 this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
                 this.classes.replace(classes.data.map((c) => new Klass(c, this)));
-                this.subjects.replace(subjects.data.map((s) => new Subject(s)));
+                this.subjects.replace(subjects.data.map((s) => new Subject(s, this)));
                 this.initialized = true;
                 return { data: this.teachers };
             }));

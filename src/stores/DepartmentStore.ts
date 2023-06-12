@@ -105,28 +105,33 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         return ids.map((id) => this.find<Department>(id)).filter(d => !!d).sort((a, b) => a.name.localeCompare(b.name));
     }
 
+    /**
+     * returns departments with at least one class and with a valid department letter
+     */
     @computed
-    get departmentsWithLetter(): Department[] {
-        return this.departments.filter((d) => !!d.letter);
+    get departmentsWithClasses(): Department[] {
+        return this.departments.filter((d) => !!d.letter && d.classes.length > 0);
     }
 
     @computed
     get departmentsDe(): Department[] {
-        return this.departmentsWithLetter.filter((d) => d.lang === 'de');
+        return this.departmentsWithClasses.filter((d) => d.lang === 'de');
     }
 
     @computed
     get departmentsFr(): Department[] {
-        return this.departmentsWithLetter.filter((d) => d.lang === 'fr');
+        return this.departmentsWithClasses.filter((d) => d.lang === 'fr');
     }
 
     /**
      * Returns a map of departments grouped by their letter.
-     * @attention departments without a letter are not included in the map.
+     * @attention
+     *  - departments without a letter are not included in the map.
+     *  - departments without at least one class are not included in the map
      */
     @computed
     get groupedByLetter() {
-        const departments = this.departmentsWithLetter;
+        const departments = this.departmentsWithClasses.filter(d => d.classes.length > 0);
         const grouped = _.groupBy(departments, (d) => d.letter);
         return grouped;
     }

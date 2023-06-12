@@ -1,5 +1,5 @@
 import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
-import { Event as EventProps, EventState, JoiEvent } from '../api/event';
+import { Event as EventProps, EventState, JoiEvent, TeachingAffected } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
@@ -43,6 +43,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'departmentIds',
         'klpOnly',
         'subjects',
+        'teachingAffected',
         'teachersOnly'
     ];
     readonly id: string;
@@ -98,6 +99,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable
     allDayType: boolean;
 
+    @observable
+    teachingAffected: TeachingAffected;
+
 
     @observable
     selected: boolean = false;
@@ -125,6 +129,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.subjects.replace(props.subjects);
         this.teachersOnly = props.teachersOnly;
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
+        this.teachingAffected = props.teachingAffected;
 
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
@@ -709,8 +714,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     get departmentState(): DepartmentState {
-        const someDepartments = this.departmentStore.departmentsWithLetter.some(d => this.departmentIds.has(d.id));
-        const allDepartments = someDepartments && this.departmentStore.departmentsWithLetter.every(d => this.departmentIds.has(d.id));
+        const someDepartments = this.departmentStore.departmentsWithClasses.some(d => this.departmentIds.has(d.id));
+        const allDepartments = someDepartments && this.departmentStore.departmentsWithClasses.every(d => this.departmentIds.has(d.id));
 
         const { departmentsDe, departmentsFr } = this.departmentStore;
         const someDepartmentsDe = departmentsDe.some(d => this.departmentIds.has(d.id));
@@ -744,6 +749,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
             klpOnly: this.klpOnly,
+            teachingAffected: this.teachingAffected,
             teachersOnly: this.klpOnly || this.teachersOnly,
             subjects: this.teachersOnly ? [...this.subjects] : [],
             start: toGlobalDate(this.start).toISOString(),

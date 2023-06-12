@@ -59,10 +59,10 @@ export default class Klass {
 
     @computed
     get letter() {
-        if (this.year > 2026) {
-            return this.name.slice(3);
+        if (this.legacyName) {
+            return this.displayName.slice(2);
         }
-        return this.displayName.slice(2);
+        return this.name.slice(3);
     }
 
     @computed

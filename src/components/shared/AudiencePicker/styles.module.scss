@@ -1,10 +1,25 @@
 .audience {
-    .header {
+    max-width: 375px;
+    h4 {
+        margin-bottom: 0.3rem;
+    }
+    .flex {
         display: flex;
-        max-width: 18em;
+        max-width: 100%;
         gap: 0.5em;
         justify-content: flex-start;
         align-items: center;
+    }
+    .affects {
+        
+        :global(.button-group) {
+            --ifm-button-group-spacing: 0;
+            margin: 0.1rem;
+            align-items: stretch;
+            .button {
+                margin: 0rem;
+            }
+        }
     }
     .tabs {
         --ifm-tabs-padding-vertical: 0.1em;
@@ -23,4 +38,16 @@
             }
         }
     }
+    .select {
+        max-width: 100%;
+    }
 }
+
+.toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    // .label {
+    //     font-weight: bold;
+    // }
+}   

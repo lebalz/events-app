@@ -12,6 +12,7 @@ interface Props {
     partialChecked?: boolean;
     className?: string;
     disabled?: boolean;
+    labelSide?: 'left' | 'right';
     onChange?: (checked: boolean, shiftKey?: boolean) => void;
 }
 
@@ -19,6 +20,7 @@ const Checkbox = observer((props: Props) => {
     return (
         <div className={clsx(styles.checkbox, props.checked && styles.checked, props.partialChecked && styles.partialChecked, props.className)}>
             <label className={clsx(styles.label, props.disabled && styles.disabled)}>
+                {props.labelSide === 'left' && props.label}
                 <input
                     className={styles.checkbox}
                     type='checkbox' 
@@ -28,7 +30,7 @@ const Checkbox = observer((props: Props) => {
                     })} 
                     checked={props.checked}
                 />
-                {props.label}
+                {props.labelSide !== 'left' && props.label}
             </label>
         </div>
     )
