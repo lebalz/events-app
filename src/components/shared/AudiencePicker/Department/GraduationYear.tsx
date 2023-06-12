@@ -20,14 +20,14 @@ const GraduationYear = observer((props: Props) => {
     if (klasses.length < 1) {
         return null;
     }
-    const { groupName, year } = klasses[0];
+    const { groupName, year, departmentLetter } = klasses[0];
     const some = klasses.some(c => event.affectsClass(c));
     const all = event.classGroups.has(groupName) || (some && klasses.every(c => event.affectsClass(c)));
 
     return (
         <div className={clsx(styles.year)} key={year}>
             <Button
-                text={`${year}`.slice(2)}
+                text={`${year % 100}${departmentLetter}`}
                 active={all}
                 color={some ? 'primary' : 'secondary'}
                 onClick={() => {

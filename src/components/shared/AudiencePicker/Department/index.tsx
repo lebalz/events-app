@@ -44,7 +44,7 @@ const Department = observer((props: Props) => {
                             key={d.id}
                             text={d.name}
                             active={event.departmentIds.has(d.id)}
-                            color={event.departmentIds.has(d.id) ? 'primary' : 'secondary'}
+                            color={d.color}
                             onClick={() => event.toggleDepartment(d)}
                         />
                     )
