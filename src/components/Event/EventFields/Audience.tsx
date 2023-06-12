@@ -36,7 +36,7 @@ const Audience = observer((props: Props) => {
             >
                 <div className={clsx(styles.tags)}>
                     {
-                        event.departments.map((d, idx) => {
+                        event.affectedDepartments.map((d, idx) => {
                             return (<Badge key={idx} text={d.shortName} color={d.color} />);
                         })
                     }

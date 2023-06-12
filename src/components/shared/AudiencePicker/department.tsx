@@ -18,8 +18,7 @@ const Department = observer((props: Props) => {
     const { departments, event } = props;
     const allKlasses = departments.map(d => d.classes).flat();
     const klasses = _.groupBy(allKlasses, c => c.year);
-    const someDepartments = departments.some(d => event.departmentIds.has(d.id));
-    const allDepartments = someDepartments && departments.every(d => event.departmentIds.has(d.id));
+    const { someDepartments, allDepartments } = event.departmentState;
 
     return (
         <div className={clsx(styles.departmentClasses)}>
@@ -30,9 +29,9 @@ const Department = observer((props: Props) => {
                     color={someDepartments ? 'primary' : 'secondary'}
                     onClick={() => {
                         if (!allDepartments) {
-                            departments.forEach(d => event.setDepartmentId(d.id, true));
+                            departments.forEach(d => event.setDepartment(d, true));
                         } else {
-                            departments.forEach(d => event.setDepartmentId(d.id, false));
+                            departments.forEach(d => event.setDepartment(d, false));
                         }
                     }}
                 />
@@ -43,7 +42,7 @@ const Department = observer((props: Props) => {
                             text={d.name}
                             active={event.departmentIds.has(d.id)}
                             color={event.departmentIds.has(d.id) ? 'primary' : 'secondary'}
-                            onClick={() => event.toggleDepartment(d.id)}
+                            onClick={() => event.toggleDepartment(d)}
                         />
                     )
                 })}
@@ -63,12 +62,6 @@ const Department = observer((props: Props) => {
                                 active={all}
                                 color={some ? 'primary' : 'secondary'}
                                 onClick={() => {
-                                    if (event.classGroups.has(groupName)) {
-                                        klasses[year].forEach(c => event.setClass(c.name, false));
-                                    } else if (all && depIds.every(did => event.departmentIds.has(did))) {
-                                        depIds.forEach(d => event.setDepartmentId(d, false));
-                                        klasses[year].forEach(c => event.setClass(c.name, false));
-                                    }
                                     event.toggleClassGroup(groupName);
                                 }}
                             />
@@ -80,19 +73,7 @@ const Department = observer((props: Props) => {
                                     text={kl.letter}
                                     title={`${kl.displayName} (${kl.name}) ${kl.department?.name}`}
                                     onClick={() => {
-                                        if (all) {
-                                            klasses[year].forEach(c => event.setClass(c.name, true));
-                                            if (event.classGroups.has(groupName)) {
-                                                event.toggleClassGroup(groupName);
-                                            } else if (event.departmentIds.has(kl.departmentId)) {
-                                                allKlasses.filter(c => c.departmentId === kl.departmentId).forEach(c => event.setClass(c.name, true));
-                                                event.toggleDepartment(kl.departmentId);
-                                            }
-                                        }
                                         event.toggleClass(kl.name);
-                                        if (klasses[year].every(c => event.affectsClass(c))) {
-                                            event.toggleClassGroup(groupName);
-                                        }
                                     }}
                                 />)
                             })}

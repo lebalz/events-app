@@ -32,7 +32,7 @@ const Filter = observer((props: Props) => {
                     <Button
                         text={department.name}
                         active={eventTable.departmentIds.has(department.id)}
-                        onClick={() => eventTable.toggleDepartment(department.id)} 
+                        onClick={() => eventTable.toggleDepartment(department)} 
                         color="blue"
                         key={department.id}
                     />

@@ -13,13 +13,8 @@ import Department from './department';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
 import _ from 'lodash';
-import CreatableSelect from 'react-select/creatable';
 import { KlassName } from '@site/src/models/helpers/klassNames';
-
-const createOption = (label: string) => ({
-    label,
-    value: label,
-});
+import ClassSelector from './ClassSelector';
 
 
 
@@ -28,8 +23,6 @@ interface Props {
 }
 
 const AudiencePicker = observer((props: Props) => {
-    const untisStore = useStore('untisStore');
-    const [inputValue, setInputValue] = React.useState('');
     const departmentStore = useStore('departmentStore');
     const userStore = useStore('userStore');
     const { current } = userStore;
@@ -37,39 +30,17 @@ const AudiencePicker = observer((props: Props) => {
         return null
     };
 
-    const departments = _.groupBy(departmentStore.departments, d => d.letter);
+    const departments = departmentStore.groupedByLetter;
     const { event } = props;
-    const someDepartments = departmentStore.departments.filter(d => !!d.letter).some(d => event.departmentIds.has(d.id));
-    const allDepartments = someDepartments && departmentStore.departments.filter(d => !!d.letter).every(d => event.departmentIds.has(d.id));
-    const someDepartmentsD = departmentStore.departments.filter(d => d.letter < 'a').some(d => event.departmentIds.has(d.id));
-    const allDepartmentsD = someDepartments && departmentStore.departments.filter(d => d.letter < 'a').every(d => event.departmentIds.has(d.id));
-    const someDepartmentsF = departmentStore.departments.filter(d => d.letter > 'Z').some(d => event.departmentIds.has(d.id));
-    const allDepartmentsF = someDepartments && departmentStore.departments.filter(d => d.letter > 'Z').every(d => event.departmentIds.has(d.id));
+    const { 
+        someDepartments, 
+        allDepartments, 
+        allDepartmentsDe, 
+        allDepartmentsFr, 
+        someDepartmentsDe, 
+        someDepartmentsFr 
+    } = event.departmentState;
 
-    const handleKeyDown: KeyboardEventHandler = (event) => {
-        if (!inputValue) {
-            return;
-        }
-        switch (event.key) {
-            case 'Space':
-            case 'Enter':
-            case 'Tab':
-                if (inputValue.length === 3) {
-                    const isValid = departmentStore.isValidClassGroup(inputValue);
-                    if (isValid) {
-                        props.event.setClassGroup(inputValue, true);
-                    }
-                } else if (inputValue.length === 4) {
-                    const isValid = departmentStore.isValidClass(inputValue);
-                    if (isValid) {
-                        props.event.setClass(inputValue as KlassName, true);
-                    }
-                }
-                setInputValue('');
-                event.preventDefault();
-                break;
-        }
-    };
     return (
         <div className={clsx(styles.audience)}>
             <div className={clsx(styles.header)}>
@@ -83,33 +54,33 @@ const AudiencePicker = observer((props: Props) => {
                     color={someDepartments ? 'primary' : 'secondary'}
                     onClick={() => {
                         if (!allDepartments) {
-                            departmentStore.departments.forEach(d => event.setDepartmentId(d.id, true));
+                            departmentStore.departments.forEach(d => event.setDepartment(d, true));
                         } else {
-                            departmentStore.departments.forEach(d => event.setDepartmentId(d.id, false));
+                            departmentStore.departments.forEach(d => event.setDepartment(d, false));
                         }
                     }}
                 />
                 <Button
                     text={'GBSL'}
-                    active={allDepartmentsD}
-                    color={someDepartmentsD ? 'primary' : 'secondary'}
+                    active={allDepartmentsDe}
+                    color={someDepartmentsDe ? 'primary' : 'secondary'}
                     onClick={() => {
-                        if (!allDepartmentsD) {
-                            departmentStore.departments.forEach(d => d.letter < 'a' && event.setDepartmentId(d.id, true));
+                        if (!allDepartmentsDe) {
+                            departmentStore.departmentsDe.forEach(d => event.setDepartment(d, true));
                         } else {
-                            departmentStore.departments.forEach(d => d.letter < 'a' && event.setDepartmentId(d.id, false));
+                            departmentStore.departmentsDe.forEach(d => event.setDepartment(d, false));
                         }
                     }}
                 />
                 <Button
                     text={'GBJB'}
-                    active={allDepartmentsF}
-                    color={someDepartmentsF ? 'primary' : 'secondary'}
+                    active={allDepartmentsFr}
+                    color={someDepartmentsFr ? 'primary' : 'secondary'}
                     onClick={() => {
-                        if (!allDepartmentsF) {
-                            departmentStore.departments.forEach(d => d.letter > 'Z' && event.setDepartmentId(d.id, true));
+                        if (!allDepartmentsFr) {
+                            departmentStore.departmentsFr.forEach(d => event.setDepartment(d, true));
                         } else {
-                            departmentStore.departments.forEach(d => d.letter > 'Z' && event.setDepartmentId(d.id, false));
+                            departmentStore.departmentsFr.forEach(d => event.setDepartment(d, false));
                         }
                     }}
                 />
@@ -126,45 +97,7 @@ const AudiencePicker = observer((props: Props) => {
                     )
                 })}
             </Tabs>
-            <CreatableSelect
-                components={{ DropdownIndicator: null }}
-                inputValue={inputValue} /** used for the current typed input */
-                isClearable
-                isMulti
-                menuIsOpen={false}
-                onChange={(newValue, meta) => {
-                    switch (meta.action) {
-                        case 'remove-value':
-                        case 'pop-value':
-                            const toRemove = meta.removedValue.value;
-                            if (toRemove.length === 3) {
-                                event.setClassGroup(toRemove, false);
-                            } else if (toRemove.length === 4) {
-                                event.setClass(toRemove as KlassName, false);
-                            }
-                            break;
-                        case 'clear':
-                            meta.removedValues.forEach((v) => {
-                                const toRemove = v.value;
-                                if (toRemove.length === 3) {
-                                    event.setClassGroup(toRemove, false);
-                                } else if (toRemove.length === 4) {
-                                    event.setClass(toRemove as KlassName, false);
-                                }
-                            });
-                            break;
-
-                    }
-                    /** triggered, when values are removed */
-                    // setValue(newValue)
-                }}
-                onInputChange={(newValue) => {
-                    setInputValue(newValue)
-                }}
-                onKeyDown={handleKeyDown}
-                placeholder="Unbekannte Klassen"
-                value={event.unknownClassIdentifiers.map(createOption)}
-            />
+            <ClassSelector event={event} />
         </div>
     )
 });

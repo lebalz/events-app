@@ -97,11 +97,11 @@ class EventTable {
     }
 
     @action
-    toggleDepartment(departmentId: string): void {
-        if (this.departmentIds.has(departmentId)) {
-            this.departmentIds.delete(departmentId);
+    toggleDepartment(department: Department): void {
+        if (this.departmentIds.has(department.id)) {
+            this.departmentIds.delete(department.id);
         } else {
-            this.departmentIds.add(departmentId);
+            this.departmentIds.add(department.id);
         }
     }
 

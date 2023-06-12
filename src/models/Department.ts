@@ -88,6 +88,12 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.store.getClasses(this);
     }
 
+
+    @computed
+    get classGroups(): Set<string> {
+        return new Set<string>(this.classes.map(c => c.name.slice(0, 3)));
+    }
+
     @computed
     get isCapitalLetter() {
         return this.letter === this.letter.toUpperCase();
@@ -113,6 +119,11 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             return ALPHABET_SMALL.split('');
         }
         return ALPHABET_CAPITAL.split('');
+    }
+
+    @computed
+    get lang(): 'de' | 'fr' {
+        return this.isCapitalLetter ? 'de' : 'fr';
     }
 
     @override

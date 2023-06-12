@@ -185,6 +185,14 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         return this.classes.some((kl) => kl.name.startsWith(startPart));
     }
 
+    get classesGroupedByGroupNames(): Map<string, Klass[]> {
+        const byGroupName = _.groupBy(this.classes, (c) => c.groupName);
+        return Object.keys(byGroupName).reduce((prev, curr) => {
+            prev.set(curr, byGroupName[curr]);
+            return prev;
+        }, new Map<string, Klass[]>());
+    }
+
 
 
     @action

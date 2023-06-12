@@ -80,18 +80,18 @@ const Event = observer((props: Props) => {
                                     </dd>
                                 </>
                             )}
-                            {event.departments.length > 0 && (
+                            {event.affectedDepartments.length > 0 && (
                                 <>
                                     <dt><Translate id="event.departments" description='for a single event: departments'>Departemente</Translate></dt>
-                                    <dd>{event.departments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} color={dp.color} />)}</dd>
+                                    <dd>{event.affectedDepartments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} color={dp.color} />)}</dd>
                                 </>
                             )}
                         </>
                     )}
-                    {event.affectedLessonsByClass.some(al => al.lessons.length > 0) && (
+                    {event.affectedLessonsGroupedByClass.some(al => al.lessons.length > 0) && (
                         <>
                             <dt><Translate id="event.affectedLessons" description='for a single event: affected lessons'>Betroffene Lektionen</Translate></dt>
-                            {event.affectedLessonsByClass.map((kl, idx) => {
+                            {event.affectedLessonsGroupedByClass.map((kl, idx) => {
                                 if (kl.lessons.length === 0) {
                                     return null;
                                 }

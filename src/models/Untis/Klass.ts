@@ -95,4 +95,14 @@ export default class Klass {
         return this.store.findDepartment(this.departmentId);
     }
 
+    /**
+     * the group name
+     * @example '25Gh' -> '25G'
+     *          '23Gh' -> '23G'
+     */
+    @computed
+    get groupName(): string {
+        return this.name.slice(0, 3);
+    }
+
 }

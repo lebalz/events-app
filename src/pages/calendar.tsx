@@ -37,7 +37,7 @@ const Calendar = observer(() => {
         if (e.departmentNames.length === 1) {
             return {
                 style: {
-                    backgroundColor: e.departments.length === 1 ? e.departments[0].color : undefined,
+                    backgroundColor: e.affectedDepartments.length === 1 ? e.affectedDepartments[0].color : undefined,
                 }
             }
         }

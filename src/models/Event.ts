@@ -11,20 +11,31 @@ import Joi from 'joi';
 import _ from 'lodash';
 import { KlassName } from './helpers/klassNames';
 import humanize from 'humanize-duration';
+import Department from './Department';
 
 export interface iEvent {
     weekOffsetMS_start: number;
     weekOffsetMS_end: number;
     year: number;
 }
+
+interface DepartmentState {
+    someDepartments: boolean;
+    allDepartments: boolean;
+    someDepartmentsDe: boolean;
+    allDepartmentsDe: boolean;
+    someDepartmentsFr: boolean;
+    allDepartmentsFr: boolean;
+}
+
 export default class Event extends ApiModel<EventProps, ApiAction> implements iEvent {
     readonly store: EventStore;
     readonly _pristine: EventProps;
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
-        'description', 
-        'descriptionLong', 
-        {attr: 'start', transform: (val) => toLocalDate(new Date(val))}, 
-        {attr: 'end', transform: (val) => toLocalDate(new Date(val))}, 
+        'description',
+        'descriptionLong',
+        { attr: 'start', transform: (val) => toLocalDate(new Date(val)) },
+        { attr: 'end', transform: (val) => toLocalDate(new Date(val)) },
         'location',
         'teachersOnly',
         'classGroups',
@@ -94,7 +105,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable.ref
     _errors?: Joi.ValidationError
 
-    reactionDisposer: IReactionDisposer;
+    validationDisposer: IReactionDisposer;
 
     constructor(props: EventProps, store: EventStore) {
         super();
@@ -114,23 +125,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.subjects.replace(props.subjects);
         this.teachersOnly = props.teachersOnly;
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
-        
+
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
         this.deletedAt = props.deletedAt ? toLocalDate(new Date(props.deletedAt)) : null;
-        
+
         this._pristine_start = toLocalDate(new Date(props.start));
         this._pristine_end = toLocalDate(new Date(props.end));
-        
-        
+
+
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         makeObservable(this);
         if (this.state !== EventState.Published && !this.deletedAt) {
             this.validate();
         }
-        this.reactionDisposer = reaction(
-            () => this.props, 
+        this.validationDisposer = reaction(
+            () => this.props,
             () => {
                 this.validate();
             }
@@ -139,7 +150,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     validate() {
-        const result = JoiEvent.validate(this.props, {abortEarly: false, errors: {language: this.store.root.sessionStore.locale}});
+        const result = JoiEvent.validate(this.props, { abortEarly: false, errors: { language: this.store.root.sessionStore.locale } });
         if (result.error) {
             this._errors = result.error;
         } else {
@@ -187,19 +198,43 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     toggleClass(klass: KlassName) {
-        this.setClass(klass, !this.classes.has(klass));
+        this.setClass(klass, !this.affectedClassNames.has(klass));
     }
 
     @action
-    setClass(klass: KlassName, value: boolean) {
-        if (!klass) {
+    setClass(klass: KlassName, value: boolean, runSideEffects: boolean = true) {
+        if (!klass || klass.length !== 4) {
             return;
         }
-        if (this.classes.has(klass) && !value) {
-            this.classes.delete(klass);
-        } else if (!this.departmentIds.has(klass) && value) {
+        const currentActive = this.classes.has(klass);
+        if (!currentActive && value) {
             this.classes.add(klass);
+        } else if (currentActive && !value) {
+            this.classes.delete(klass);
         }
+        if (!value) {
+            const classGroupName = klass.slice(0, 3);
+            if (this.classGroups.has(classGroupName)) {
+                this.classGroups.delete(classGroupName);
+                const allOfGroup = this.store.root.untisStore.findClassesByGroupName(classGroupName);
+                allOfGroup.forEach(c => {
+                    if (c.name !== klass) {
+                        this.classes.add(c.name);
+                    }
+                })
+            }
+            const department = this.departments.find(d => d.classes.some(c => c.name === klass));
+            if (department) {
+                this.departmentIds.delete(department.id);
+                department.classes.forEach(c => {
+                    if (c.name !== klass) {
+                        this.setClass(c.name, true);
+                    }
+                })
+            }
+        }
+
+        this.normalizeAffectedClasses();
     }
 
     @action
@@ -208,41 +243,128 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    toggleClassGroup(klass: string) {
-        this.setClassGroup(klass, !this.classGroups.has(klass));
+    toggleClassGroup(groupName: string) {
+        const current = this.untisStore.classesGroupedByGroupNames.get(groupName);
+        const isActive = this.classGroups.has(groupName) || current?.every(c => this.affectedClassNames.has(c.name));
+        this.setClassGroup(groupName, !isActive);
     }
 
     @action
-    setClassGroup(klass: string, value: boolean) {
-        if (this.classGroups.has(klass) && !value) {
-            this.classGroups.delete(klass);
-        } else if (!this.classGroups.has(klass) && value) {
-            this.classGroups.add(klass);
-        }
-    }
-
-    @action
-    toggleDepartment(departmentId: string) {
-        this.setDepartmentId(departmentId, !this.departmentIds.has(departmentId));
-    }
-
-    @action
-    setDepartmentId(departmentId: string, value: boolean) {
-        if (!departmentId) {
+    setClassGroup(klassGroup: string, value: boolean, runSideEffects: boolean = true) {
+        if (!klassGroup || klassGroup.length !== 3) {
             return;
         }
-        if (this.departmentIds.has(departmentId) && !value) {
-            this.departmentIds.delete(departmentId);
-        } else if (!this.departmentIds.has(departmentId) && value) {
-            this.departmentIds.add(departmentId);
+        const currentActive = this.classGroups.has(klassGroup);
+        if (!currentActive && value) {
+            this.classGroups.add(klassGroup);
+        } else if (currentActive && !value) {
+            this.classGroups.delete(klassGroup);
         }
+
+        if (!value) {
+            const affectedDeps = this.departments.filter(d => d.classGroups.has(klassGroup));
+            console.log('ad', affectedDeps, affectedDeps.length, this.departments.map(d => d.name))
+            if (affectedDeps.length > 0) {
+                affectedDeps.forEach(dep => {
+                    this.departmentIds.delete(dep.id);
+                    dep.classes.forEach(c => {
+                        if (!c.name.startsWith(klassGroup)) {
+                            this.classes.add(c.name);
+                        }
+                    })
+                })
+            }
+        }
+        this.normalizeAffectedClasses();
+    }
+
+    /**
+     * @returns all the class names, including
+     * - known (untis) class names
+     * - unknown (untis) class names
+     * - class names included by clasGroup
+     * - class names included by department
+     */
+    @computed
+    get affectedClassNames(): Set<string> {
+        const classNames = new Set<string>(this.classes);
+        [...this.classGroups].forEach(cg => {
+            this.store.root.untisStore.findClassesByGroupName(cg).forEach(c => {
+                classNames.add(c.name);
+            });
+        })
+        this.departments.forEach(d => {
+            d.classes.forEach(c => {
+                classNames.add(c.name);
+            })
+        })
+        return classNames;
+    }
+
+    @action
+    normalizeAffectedClasses() {
+        const cNames = new Set<string>(this.affectedClassNames);
+        const classes = new Set<KlassName>();
+        const classGroups = new Set<string>();
+        const departmentIds = new Set<string>();
+        this.departmentStore.departments.forEach(d => {
+            if (d.classes.length > 0 && d.classes.every(c => cNames.has(c.name))) {
+                d.classes.forEach(c => cNames.delete(c.name));
+                departmentIds.add(d.id);
+            }
+        });
+        this.untisStore.classesGroupedByGroupNames.forEach((classes, group) => {
+            if (classes.every(c => cNames.has(c.name))) {
+                classes.forEach(c => cNames.delete(c.name));
+                classGroups.add(group);
+            }
+        });
+        cNames.forEach((c) => {
+            if (c.length === 4) {
+                classes.add(c as KlassName);
+            } else if (c.length === 3) {
+                classGroups.add(c);
+            }
+        })
+        this.classes.replace(classes);
+        this.classGroups.replace(classGroups);
+        this.departmentIds.replace(departmentIds);
+    }
+
+    @action
+    toggleDepartment(department: Department) {
+        this.setDepartment(department, !this.departmentIds.has(department.id));
+    }
+
+    @action
+    setDepartment(department: Department, value: boolean, runSideEffects: boolean = true) {
+        if (!department) {
+            return;
+        }
+        const currentActive = this.departmentIds.has(department.id);
+        if (currentActive && !value) {
+            this.departmentIds.delete(department.id);
+        } else if (!currentActive && value) {
+            this.departmentIds.add(department.id);
+        }
+        this.normalizeAffectedClasses();
+    }
+
+
+
+    /**
+     * @returns departments of the event which are included through the #departmentIds
+     */
+    @computed
+    get departments() {
+        return this.store.getDepartments([...this.departmentIds]);
     }
 
     /**
      * @returns all departments of the event, inlcuding the departments of the classes
      */
     @computed
-    get departments() {
+    get affectedDepartments() {
         const depIds = new Set([...this.departmentIds, ...this.untisClasses.map(c => c.departmentId)]);
         return this.store.getDepartments([...depIds]);
     }
@@ -252,12 +374,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get departmentIdsAll() {
-        return new Set(this.departments.map(d => d.id));
+        return new Set(this.affectedDepartments.map(d => d.id));
     }
 
     @computed
     get departmentNames() {
-        return this.departments.map(d => d.name);
+        return this.affectedDepartments.map(d => d.name);
     }
 
     @action
@@ -328,7 +450,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     get fEndTime() {
         return formatTime(this.end);
     }
-    
+
     @computed
     get startHHMM() {
         return this.start.getHours() * 100 + this.start.getMinutes();
@@ -350,7 +472,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get fClasses(): string[] {
-        const kls: {[year: string]: string[]} = {};
+        const kls: { [year: string]: string[] } = {};
         [...this._selectedClasses.map(c => c.displayName)].sort().forEach(c => {
             const year = c.slice(0, 2);
             if (!kls[year]) {
@@ -468,12 +590,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (!lesson) {
             return false;
         }
-        const {weeks, minutes} = this.duration;
+        const { weeks, minutes } = this.duration;
         const dayOffset = (lesson.weekDay + weeks * 7 - this.weekDay) % 7;
         const startOffset = dayOffset * 24 * 60 + Math.floor(lesson.startHHMM / 100) * 60 + lesson.startHHMM % 100;
         const endOffset = dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + lesson.endHHMM % 100;
         const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
-
         return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
     }
 
@@ -537,9 +658,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get affectedLessonsByClass(): {class: string, lessons: Lesson[]}[] {
+    get affectedLessonsGroupedByClass(): { class: string, lessons: Lesson[] }[] {
         const lessons = this.untisClasses.slice().map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat();
-        const affected: {[kl: string]: Lesson[]} = {};
+        const affected: { [kl: string]: Lesson[] } = {};
         const placedLessonIds = new Set<number>();
         lessons.forEach(l => {
             if (placedLessonIds.has(l.id)) {
@@ -549,7 +670,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             if (l.classes.length > 1) {
                 const letters = l.classes.map(c => c.letter).sort();
                 const year = l.classes[0].year;
-                const name = `${year%100}${letters.length > 3 ? 'er' : letters.join('')}`;
+                const name = `${year % 100}${letters.length > 3 ? 'er' : letters.join('')}`;
                 if (!affected[name]) {
                     affected[name] = [];
                 }
@@ -562,7 +683,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                 affected[name].push(l);
             }
         });
-        return Object.keys(affected).map(kl => ({class: kl, lessons: affected[kl]}));
+        return Object.keys(affected).map(kl => ({ class: kl, lessons: affected[kl] }));
     }
 
     @computed
@@ -578,6 +699,34 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get isDeleted() {
         return !!this.deletedAt;
+    }
+
+    get departmentStore() {
+        return this.store.root.departmentStore;
+    }
+
+    get untisStore() {
+        return this.store.root.untisStore;
+    }
+
+    get departmentState(): DepartmentState {
+        const someDepartments = this.departmentStore.departmentsWithLetter.some(d => this.departmentIds.has(d.id));
+        const allDepartments = someDepartments && this.departmentStore.departmentsWithLetter.every(d => this.departmentIds.has(d.id));
+
+        const { departmentsDe, departmentsFr } = this.departmentStore;
+        const someDepartmentsDe = departmentsDe.some(d => this.departmentIds.has(d.id));
+        const allDepartmentsDe = someDepartmentsDe && departmentsDe.every(d => this.departmentIds.has(d.id));
+        const someDepartmentsFr = departmentsFr.some(d => this.departmentIds.has(d.id));
+        const allDepartmentsFr = someDepartmentsFr && departmentsFr.every(d => this.departmentIds.has(d.id));
+        return {
+            someDepartments,
+            allDepartments,
+            allDepartmentsDe,
+            allDepartmentsFr,
+            someDepartmentsDe,
+            someDepartmentsFr
+        }
+
     }
 
     @override
@@ -618,9 +767,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fDuration() {
         if (this.store?.root?.sessionStore?.locale === 'fr') {
-            return humanize(this.durationMS, {language: 'fr', units: ['w', 'd', 'h', 'm'], round: true});
+            return humanize(this.durationMS, { language: 'fr', units: ['w', 'd', 'h', 'm'], round: true });
         }
-        return humanize(this.durationMS, {language: 'de', units: ['w', 'd', 'h', 'm'], round: true});
+        return humanize(this.durationMS, { language: 'de', units: ['w', 'd', 'h', 'm'], round: true });
     }
 
     /**
@@ -634,6 +783,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @override
     cleanup() {
-        this.reactionDisposer();
+        this.validationDisposer();
     }
 }
