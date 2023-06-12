@@ -35,7 +35,7 @@ const Department = observer((props: Props) => {
                         }
                     }}
                 />
-                {departments.map((d) => {
+                {departments.filter(d => d.classes.length > 0).map((d) => {
                     return (
                         <Button
                             key={d.id}
@@ -54,7 +54,6 @@ const Department = observer((props: Props) => {
                     const groupName = `${year.slice(2)}${first.departmentLetter}`;
                     const some = klasses[year].some(c => event.affectsClass(c));
                     const all = event.classGroups.has(groupName) || (some && klasses[year].every(c => event.affectsClass(c)));
-                    const depIds = _.uniq(klasses[year].map(c => c.departmentId));
                     return (
                         <div className={clsx(styles.year)} key={year}>
                             <Button

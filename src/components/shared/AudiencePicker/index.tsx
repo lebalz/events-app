@@ -9,7 +9,7 @@ import { observer } from 'mobx-react-lite';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { default as DepartmentModel } from '@site/src/models/Department';
-import Department from './department';
+import Department from './Department';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
 import _ from 'lodash';
