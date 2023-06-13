@@ -50,10 +50,14 @@ const Audience = observer((props: Props) => {
                 <div className={clsx(styles.tags)}>
                     {
                         event.fClasses.map((c, idx) => {
-                            const color = unknownClassNames.has(c as KlassName) ? 'red' : 'gray';
-                            return (<Badge key={idx} text={c} color={color} />);
+                            const color = c.classes.length === 0 ? 'red' : 'gray';
+                            return (<Badge key={idx} text={c.text} title={c.classes.map(cl => cl.displayName).join(', ')} color={color} />);
                         })
-
+                    }
+                    {
+                        event._unknownClassGroups.map((cg) => {
+                            return (<Badge key={cg} text={`${cg}*`} color="red" />);
+                        })
                     }
                 </div>
             </div>

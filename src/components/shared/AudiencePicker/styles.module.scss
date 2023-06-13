@@ -41,6 +41,26 @@
     .select {
         max-width: 100%;
     }
+    
+
+    .options {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        max-width: 100%;
+        gap: 0.5em;
+
+        .optionsBtn {
+            svg {
+                transition: transform 0.25s ease-in-out;
+            }
+            &.showOptions {
+                svg {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+    }
 }
 
 .toggle {

@@ -14,9 +14,10 @@ import Checkbox from '../Checkbox';
 import Button from '../Button';
 import _ from 'lodash';
 import ClassSelector from './ClassSelector';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import SubjectSelector from '../../Event/EventFields/SubjectSelector';
 import { TeachingAffected } from '@site/src/api/event';
+import { mdiDotsHorizontalCircleOutline } from '@mdi/js';
 
 
 
@@ -31,6 +32,7 @@ const Translations: { [key in TeachingAffected]: string } = {
 }
 
 const AudiencePicker = observer((props: Props) => {
+    const [showOptions, setShowOptions] = React.useState(false);
     const departmentStore = useStore('departmentStore');
     const userStore = useStore('userStore');
     const { current } = userStore;
@@ -69,8 +71,8 @@ const AudiencePicker = observer((props: Props) => {
                     </div>
                 </div>
             </div>
-            <h4>Fächer</h4>
-            <SubjectSelector event={event} styles={styles} />
+            {/* <h4>Fächer</h4>
+            <SubjectSelector event={event} styles={styles} /> */}
             <h4>Schulen/Klassen</h4>
             <div className={clsx(styles.flex)}>
                 <Button
@@ -122,7 +124,22 @@ const AudiencePicker = observer((props: Props) => {
                     )
                 })}
             </Tabs>
-            <ClassSelector event={event} />
+            <div className={clsx(styles.options)}>
+                <Button
+                    icon={mdiDotsHorizontalCircleOutline}
+                    title='Erweitert'
+                    onClick={() => setShowOptions(!showOptions)}
+                    className={clsx(styles.optionsBtn, (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions)}
+                />
+                {
+                    (showOptions ||event.unknownClassIdentifiers.length > 0) && (
+                        <div>
+                            <h4><Translate>Künftige Klassen</Translate></h4>
+                            <ClassSelector event={event} />
+                        </div>
+                    )
+                }
+            </div>
         </div>
     )
 });

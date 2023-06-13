@@ -207,7 +207,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setClass(klass: KlassName, value: boolean, runSideEffects: boolean = true) {
+    setClass(klass: KlassName, value: boolean) {
         if (!klass || klass.length !== 4) {
             return;
         }
@@ -255,11 +255,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setClassGroup(klassGroup: string, value: boolean, runSideEffects: boolean = true) {
+    setClassGroup(klassGroup: string, value: boolean) {
         if (!klassGroup || klassGroup.length !== 3) {
             return;
         }
         const currentActive = this.classGroups.has(klassGroup);
+
         if (!currentActive && value) {
             this.classGroups.add(klassGroup);
         } else if (currentActive && !value) {
@@ -286,7 +287,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      * @returns all the class names, including
      * - known (untis) class names
      * - unknown (untis) class names
-     * - class names included by clasGroup
+     * - class names included by classGroup
      * - class names included by department
      */
     @computed
@@ -323,13 +324,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                 classGroups.add(group);
             }
         });
+        this._unknownClassGroups.forEach((cg) => {
+            classGroups.add(cg);
+            cNames.forEach(c => {
+                if (c.startsWith(cg)) {
+                    cNames.delete(c);
+                }
+            })
+        });
         cNames.forEach((c) => {
             if (c.length === 4) {
                 classes.add(c as KlassName);
-            } else if (c.length === 3) {
-                classGroups.add(c);
             }
-        })
+        });
         this.classes.replace(classes);
         this.classGroups.replace(classGroups);
         this.departmentIds.replace(departmentIds);
@@ -341,7 +348,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setDepartment(department: Department, value: boolean, runSideEffects: boolean = true) {
+    setDepartment(department: Department, value: boolean) {
         if (!department) {
             return;
         }
@@ -475,17 +482,20 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get fClasses(): string[] {
-        const kls: { [year: string]: string[] } = {};
-        [...this._selectedClasses.map(c => c.displayName)].sort().forEach(c => {
-            const year = c.slice(0, 2);
+    get fClasses(): ({text: string, classes: Klass[]})[] {
+        const kls: { [year: string]: Klass[] } = {};
+        [...this._selectedClasses].sort((a, b) => a.displayName.localeCompare(b.displayName)).forEach(c => {
+            const year = c.legacyName ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
             if (!kls[year]) {
                 kls[year] = [];
             }
-            kls[year].push(c.slice(2));
+            kls[year].push(c);
         });
-        const composed = Object.keys(kls).map(year => `${year}${kls[year].sort().join('')}`);
-        return [...composed, ...this._unknownClassNames].sort();
+        const composed = Object.keys(kls).map(year => ({
+            text: `${year}${kls[year].map(c => c.displayName.slice(year.length)).sort().join('')}`,
+            classes: kls[year]
+        }));
+        return [...composed, ...this._unknownClassNames.map(c => ({text: c, classes: []}))];
     }
 
     @computed

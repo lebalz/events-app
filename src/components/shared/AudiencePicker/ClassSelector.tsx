@@ -24,24 +24,24 @@ const ClassSelector = observer((props: Props) => {
     const { event } = props;
 
     const handleToken = (token: string, action: 'add' |'remove') => {
-        if (inputValue.length === 3) {
-            const isValid = departmentStore.isValidClassGroup(inputValue);
+        if (token.length === 3) {
+            const isValid = departmentStore.isValidClassGroup(token);
             if (isValid) {
-                props.event.setClassGroup(inputValue, action === 'add');
+                props.event.setClassGroup(token, action === 'add');
                 setErrorMessages([]);
                 return true;
             }
-            setErrorMessages([`Abteilung "${inputValue[2]}" nicht gefunden`]);
-        } else if (inputValue.length === 4) {
-            const isValid = departmentStore.isValidClass(inputValue);
+            setErrorMessages([`Abteilung "${token.charAt(2)}" nicht gefunden`]);
+        } else if (token.length === 4) {
+            const isValid = departmentStore.isValidClass(token);
             if (isValid) {
-                props.event.setClass(inputValue as KlassName, action === 'add');
+                props.event.setClass(token as KlassName, action === 'add');
                 setErrorMessages([]);
                 return true;
             }
-            setErrorMessages([`Klasse "${inputValue}" nicht gefunden`]);
+            setErrorMessages([`Klasse "${token}" nicht gefunden`]);
         } else {
-            setErrorMessages([`Unbekannte Abteilung/Klasse "${inputValue}"`]);
+            setErrorMessages([`Unbekannte Abteilung/Klasse "${token}"`]);
         }
         return false;
     }
