@@ -107,7 +107,7 @@ const Event = observer((props: Props) => {
                                     <dd className={clsx(styles.lessons)}>
                                         <div className={clsx(commonClasses)}>
                                             {kl.lessons.map((l, idx) => (
-                                                <Lesson lesson={l} key={l.id} />
+                                                <Lesson lesson={l} key={l.id} className={commonClasses} />
                                             ))}
                                         </div>
                                     </dd>

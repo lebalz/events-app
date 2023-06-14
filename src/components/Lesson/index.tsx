@@ -11,6 +11,7 @@ import { Clock } from '../shared/icons';
 
 interface Props {
     lesson: LessonModel;
+    className?: string;
 }
 
 const Lesson = observer((props: Props) => {
@@ -18,7 +19,7 @@ const Lesson = observer((props: Props) => {
     const userStore = useStore('userStore');
     const { current } = userStore;
     return (
-        <div className={clsx('card', styles.card)}>
+        <div className={clsx('card', styles.card, props.className)}>
             <div className={clsx('card__body', styles.lesson)}>
                 <Badge text={lesson.subject} className={clsx(styles.subject)} />
                 {lesson.teachers.map((teacher, idx) => (
