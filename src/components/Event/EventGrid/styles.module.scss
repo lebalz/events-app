@@ -73,7 +73,7 @@
             content: "";
             position:absolute;
             top:50%; left:0; width:100%; height:1px; 
-            background:black;
+            background: var(--ifm-font-color-base);
         }
     }
 }

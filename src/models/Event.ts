@@ -452,6 +452,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.startTimeMs - other.startTimeMs;
     }
 
+    static fDate(date: Date): string {
+        return formatDate(date);
+    }
+
     @computed
     get fStartTime() {
         return formatTime(this.start);

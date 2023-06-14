@@ -53,8 +53,8 @@ const Event = observer((props: Props) => {
                     <dt><Translate id="event.descriptionLong" description='for a single event: description long'>Beschreibung</Translate></dt>
                     <dd><DescriptionLong {...commonEditProps} /></dd>
                     <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
-                    <dd className={clsx(styles.flex, commonClasses)}>
-                        <State {...commonProps} />
+                    <dd className={clsx(styles.flex)}>
+                        <State {...commonProps} className='' />
                     </dd>
                     <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
                     <dd><KW {...commonProps} /></dd>
@@ -77,7 +77,7 @@ const Event = observer((props: Props) => {
                                 <>
                                     <dt><Translate id="event.classes" description='for a single event: classes'>Klassen</Translate></dt>
                                     <dd>
-                                        <div className={clsx(styles.clases)}>
+                                        <div className={clsx(styles.clases, commonClasses)}>
                                             {[...event.classes].map((cl, idx) => <Badge key={`cl-${idx}`} text={cl} />)}
                                         </div>
                                     </dd>
@@ -86,7 +86,11 @@ const Event = observer((props: Props) => {
                             {event.affectedDepartments.length > 0 && (
                                 <>
                                     <dt><Translate id="event.departments" description='for a single event: departments'>Departemente</Translate></dt>
-                                    <dd>{event.affectedDepartments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} color={dp.color} />)}</dd>
+                                    <dd>
+                                        <div className={commonClasses}>
+                                            {event.affectedDepartments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} color={dp.color} />)}
+                                        </div>
+                                    </dd>
                                 </>
                             )}
                         </>
@@ -99,11 +103,13 @@ const Event = observer((props: Props) => {
                                     return null;
                                 }
                                 return (<React.Fragment key={`kl-${idx}`}>
-                                    <dt >{kl.class}</dt>
+                                    <dt className={commonClasses}>{kl.class}</dt>
                                     <dd className={clsx(styles.lessons)}>
-                                        {kl.lessons.map((l, idx) => (
-                                            <Lesson lesson={l} key={l.id} />
-                                        ))}
+                                        <div className={clsx(commonClasses)}>
+                                            {kl.lessons.map((l, idx) => (
+                                                <Lesson lesson={l} key={l.id} />
+                                            ))}
+                                        </div>
                                     </dd>
                                 </React.Fragment>)
                             })}
