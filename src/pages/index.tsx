@@ -36,8 +36,6 @@ function HomepageHeader() {
 }
 
 const Home = observer(() => {
-  const { siteConfig } = useDocusaurusContext();
-  const viewStore = useStore('viewStore');
   return (
     <Layout
       title="Events"

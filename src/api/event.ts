@@ -78,3 +78,15 @@ export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromi
 export function requestState(state: EventState, ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
     return api.post('event/change_state', {data: {ids: ids, state: state}}, { signal });
 }
+
+export function excel(signal: AbortSignal): AxiosPromise {
+    return api.post(
+        'event/excel',
+        {},
+        {
+            method: 'GET',
+            responseType: 'blob', // important
+            signal
+        }
+    );
+}
