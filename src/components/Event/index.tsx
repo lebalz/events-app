@@ -35,9 +35,12 @@ const Event = observer((props: Props) => {
     const socketStore = useStore('socketStore');
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
-    const commonProps = { event, styles };
+    const commonClasses = clsx(event.isDeleted && styles.deleted);
+    const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
     const [showOptions, setShowOptions] = React.useState(false);
+
+
     return (
         <div className={clsx(styles.eventCard, 'card')}>
             <div className={clsx(styles.header, 'card__header')}>
@@ -50,7 +53,7 @@ const Event = observer((props: Props) => {
                     <dt><Translate id="event.descriptionLong" description='for a single event: description long'>Beschreibung</Translate></dt>
                     <dd><DescriptionLong {...commonEditProps} /></dd>
                     <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
-                    <dd className={styles.flex}>
+                    <dd className={clsx(styles.flex, commonClasses)}>
                         <State {...commonProps} />
                     </dd>
                     <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
@@ -58,9 +61,9 @@ const Event = observer((props: Props) => {
                     <dt><Translate id="event.weekday" description='for a single event: weekday'>Wochentag</Translate></dt>
                     <dd><Day {...commonProps} showFullName showRange /></dd>
                     <dt><Translate id="event.date" description='for a single event: date range'>Datum</Translate></dt>
-                    <dd className={styles.flex}><DateTime {...commonEditProps} time='start' /></dd>
-                    <dd className={styles.flex}><Icon path={mdiArrowRightBottom} /><DateTime {...commonEditProps} time='end' /></dd>
-                    <dd className={clsx(styles.duration, styles.flex)}><Icon path={mdiEqual} />{event.fDuration}</dd>
+                    <dd className={clsx(styles.flex, commonClasses)}><DateTime {...commonEditProps} time='start' /></dd>
+                    <dd className={clsx(styles.flex, commonClasses)}><Icon path={mdiArrowRightBottom} /><DateTime {...commonEditProps} time='end' /></dd>
+                    <dd className={clsx(styles.duration, styles.flex, commonClasses)}><Icon path={mdiEqual} />{event.fDuration}</dd>
                     <dt><Translate id="event.location" description='for a single event: location'>Ort</Translate></dt>
                     <dd><Location {...commonEditProps} /></dd>
                     {event.isEditing ? (

@@ -64,6 +64,18 @@
         // clip-path to remove shadow on some sides: inset(Tpx Rpx Bpx Lpx);
         clip-path: inset(0px 0px calc(-1 * var(--header-shadow-blur)) 0px);
     }
+    
+
+    &.deleted {
+        position:relative;
+          text-decoration:none;
+        &::after {
+            content: "";
+            position:absolute;
+            top:50%; left:0; width:100%; height:1px; 
+            background:black;
+        }
+    }
 }
 .error {
     border: 1px dashed red;
