@@ -132,7 +132,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                     store.loadModel(record.id);
                     break;
                 case IoEvent.DELETED_RECORD:
-                    store.removeFromStore(record.id);
+                    // store.removeFromStore(record.id);
+                    store.loadModel(record.id);
                     break;
             }
         })

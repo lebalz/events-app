@@ -131,7 +131,7 @@
 }
 .state {
     grid-column: isValid;
-    max-width: 2.5em;
+    max-width: min-content;
     align-items: center;
     justify-content: center;
     display: flex;
