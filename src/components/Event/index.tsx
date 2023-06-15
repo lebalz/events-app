@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiArrowRightBottom, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiEqual, mdiText } from '@mdi/js';
+import { mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiEqual, mdiText } from '@mdi/js';
 import { EditIcon, Icon, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
@@ -21,8 +21,7 @@ import Location from './EventFields/Location';
 import Audience from './EventFields/Audience';
 import State from './EventFields/State';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Edit from '../shared/Button/Edit';
-import Actions from './EventFields/Actions';
+import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
 interface Props {
     event: EventModel;
@@ -35,10 +34,12 @@ const Event = observer((props: Props) => {
     const socketStore = useStore('socketStore');
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
+    const history = useHistory();
     const commonClasses = clsx(event.isDeleted && styles.deleted);
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
     const [showOptions, setShowOptions] = React.useState(false);
+
 
 
     return (
@@ -115,26 +116,37 @@ const Event = observer((props: Props) => {
                             })}
                         </>
                     )}
-                    {
-                        !props.inModal && eventStore.canEdit(event) && (
-                            <>
-                                <dt>
-                                    <Button
-                                        icon={mdiDotsHorizontalCircleOutline}
-                                        onClick={() => setShowOptions(!showOptions)}
-                                        className={clsx(styles.optionsBtn, (showOptions || event.isEditing) && styles.showOptions)}
-                                    />
-                                </dt>
-                                <dd>
-                                    {(showOptions || event.isEditing) && (
-                                        <div className={clsx(styles.options)}>
-                                            <EventActions event={event} buttonOrder={['discard', 'save']} />
-                                        </div>
-                                    )}
-                                </dd>
-                            </>
-                        )
-                    }
+                    <dt>
+                        <Button
+                            icon={mdiDotsHorizontalCircleOutline}
+                            onClick={() => setShowOptions(!showOptions)}
+                            disabled={!viewStore.user}
+                            className={clsx(styles.optionsBtn, (showOptions || (!props.inModal && event.isEditing)) && styles.showOptions)}
+                        />
+                    </dt>
+                    <dd>
+                        <div className={clsx(styles.options)}>
+                            {(event.isEditable && (showOptions || (!props.inModal && event.isEditing))) && (
+                                <EventActions event={event} buttonOrder={['discard', 'save']} />
+                            )}
+                            {showOptions && !event.isEditing && (
+                                <Button
+                                    icon={mdiContentDuplicate}
+                                    title='Duplizieren'
+                                    onClick={() => {
+                                        eventStore.clone(event).then((newEvent) => {
+                                            if (newEvent) {
+                                                const id = (newEvent as { id: string }).id;
+                                                history.push(`/user?user-tab=events`);
+                                                eventStore.find(id)?.setEditing(true);
+                                            }
+                                        });
+
+                                    }}
+                                />
+                            )}
+                        </div>
+                    </dd>
                 </DefinitionList>
             </div>
             <div className={clsx('card__footer', styles.footer)}>

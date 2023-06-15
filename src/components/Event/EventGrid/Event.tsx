@@ -50,7 +50,6 @@ const Event = observer((props: RowProps) => {
         props.rowIndex % 2 === 0 ? styles.even : styles.odd,
         event.isDeleted && styles.deleted
     )
-    console.log(event.isDeleted, styles.deleted, commonStyle);
 
     return (
         <React.Fragment>

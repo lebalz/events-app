@@ -80,8 +80,6 @@ const EventGrid = observer((props: Props) => {
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }, 1000);
             return () => clearTimeout(tid);
-        } else {
-            console.log('current not here')
         }
     }, [props.events, props.scrollToCurrent]);
 

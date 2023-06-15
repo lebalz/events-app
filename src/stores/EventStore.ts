@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState, requestState as apiRequestState, excel } from '../api/event';
+import { Event as EventProps, EventState, requestState as apiRequestState, excel as apiDownloadExcel, clone as apiClone } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -10,7 +10,7 @@ import { HOUR_2_MS } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { JobStore } from './JobStore';
 
-export class EventStore extends iStore<EventProps, 'download-excel'> {
+export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}`> {
     readonly root: RootStore;
     readonly API_ENDPOINT = 'event';
     models = observable<Event>([]);
@@ -200,11 +200,26 @@ export class EventStore extends iStore<EventProps, 'download-excel'> {
         });
     }
 
+    @action
+    clone(event: Event) {
+        return this.withAbortController(`clone-${event.id}`, (sig) => {
+            return apiClone(event.id, sig.signal)
+                .then(
+                    action(({ data }) => {
+                        if (data) {
+                            this.addToStore(data);
+                        }
+                        return data;
+                    })
+                );
+        });
+    }
+
     
     @action
     downloadExcel() {
         return this.withAbortController(`download-excel`, (sig) => {
-            return excel(sig.signal);
+            return apiDownloadExcel(sig.signal);
         });
     }
 }

@@ -90,3 +90,11 @@ export function excel(signal: AbortSignal): AxiosPromise {
         }
     );
 }
+
+export function clone(eventId: string, signal: AbortSignal): AxiosPromise<Event> {
+    return api.post(
+        `event/${eventId}/clone`,
+        {},
+        { signal}
+    );
+}

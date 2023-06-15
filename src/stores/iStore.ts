@@ -157,7 +157,15 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                 /** apparently the model is not present anymore - remove it from the store */
                 this.removeFromStore(id);
             }
-        }));
+        })).catch((err) => {
+            if (axios.isCancel(err)) {
+                return;
+            } else {
+                /** apparently the model is not present anymore - remove it from the store */
+                this.removeFromStore(id);
+                return;
+            }
+        });
     }
 
     @action

@@ -80,7 +80,6 @@ const Msal = observer(({ children }: any) => {
 function Root({ children }) {
   const { i18n } = useDocusaurusContext();
   const location = useLocation();
-  const history = useHistory();
   React.useEffect(() => {
     if (!(window as any).store) {
       (window as any).store = rootStore;
