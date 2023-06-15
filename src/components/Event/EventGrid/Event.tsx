@@ -17,6 +17,7 @@ import IsValid from '../EventFields/IsValid';
 import State from '../EventFields/State';
 import {useWindowSize} from '@docusaurus/theme-common';
 import { useStore } from '@site/src/stores/hooks';
+import UserGroup from '../EventFields/UserGroup';
 
 interface RowProps {
     event: EventModel;
@@ -63,6 +64,7 @@ const Event = observer((props: RowProps) => {
             <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
             <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
             <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <UserGroup event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
             <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} isEditGrid={props.isEditGrid} />
             <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
             <Actions event={event} styles={styles} className={clsx(commonStyle)} expandeable />

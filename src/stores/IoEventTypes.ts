@@ -9,7 +9,7 @@ export enum IoEvent {
 }
 
 
-export type RecordTypes = 'EVENT' | 'USER' | 'JOB' | 'DEPARTMENT' | 'SEMESTER' | 'REGISTRATION_PERIOD';
+export type RecordTypes = 'EVENT' | 'USER' | 'JOB' | 'DEPARTMENT' | 'SEMESTER' | 'REGISTRATION_PERIOD' | 'USER_EVENT_GROUP';
 
 export const RecordStoreMap: {[key in RecordTypes]: keyof typeof rootStore} = {
     EVENT: 'eventStore',
@@ -17,7 +17,8 @@ export const RecordStoreMap: {[key in RecordTypes]: keyof typeof rootStore} = {
     JOB: 'jobStore',
     DEPARTMENT: 'departmentStore',
     SEMESTER: 'semesterStore',
-    REGISTRATION_PERIOD: 'registrationPeriodStore'
+    REGISTRATION_PERIOD: 'registrationPeriodStore',
+    USER_EVENT_GROUP: 'userEventGroupStore'
 };
 
 

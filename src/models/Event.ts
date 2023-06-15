@@ -53,6 +53,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly state: EventState;
     readonly _pristine_end: Date;
     readonly _pristine_start: Date;
+    readonly parentId: string | null;
+    readonly userGroupId: string | null;
 
     @observable.ref
     updatedAt: Date;
@@ -130,6 +132,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.teachersOnly = props.teachersOnly;
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
+
+        this.parentId = props.parentId;
+        this.userGroupId = props.userGroupId;
 
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
@@ -763,6 +768,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
             klpOnly: this.klpOnly,
+            parentId: this.parentId,
+            userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
             teachersOnly: this.klpOnly || this.teachersOnly,
             subjects: this.teachersOnly ? [...this.subjects] : [],
@@ -781,6 +788,16 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             hours: Math.ceil(period / HOUR_2_MS),
             minutes: Math.ceil(period / MINUTE_2_MS)
         }
+    }
+
+    @computed
+    get hasUserGroup() {
+        return !!this.userGroupId;
+    }
+
+    @computed
+    get userGroup() {
+        return this.store.root.userStore.findUserGroup(this.userGroupId);
     }
 
     @computed

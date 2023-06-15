@@ -71,6 +71,11 @@ const EventHeader = observer((props: SelectProps) => {
                     Ort
                 </Translate>
             </div>
+            <div style={{gridColumn: 'userGroup'}} className={clsx(commonStyle, styles.userGroup)}>
+                <Translate id="event.eventGrid.th.userGroup" description='th: userGroup'>
+                    Gruppe
+                </Translate>
+            </div>
             <div style={{gridColumn: 'departments'}} className={clsx(commonStyle, styles.departments, props.isEditGrid && styles.editGrid)}>
                 <Translate id="event.eventGrid.th.departments" description='th: departments'>
                     Abteilungen

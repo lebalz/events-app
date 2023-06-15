@@ -5,6 +5,7 @@ import User from '../models/User';
 import _ from 'lodash';
 import iStore from './iStore';
 import Semester from '../models/Semester';
+import UserEventGroup from '../models/UserEventGroup';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
@@ -33,6 +34,10 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     createModel(data: UserProps): User {
         return new User(data, this, this.root.untisStore);
+    }
+
+    findUserGroup(id: string): UserEventGroup | undefined {
+        return this.root.userEventGroupStore.find(id);
     }
 
     @computed

@@ -12,6 +12,7 @@ import { ViewStore } from "./ViewStore";
 import { DepartmentStore } from "./DepartmentStore";
 import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
+import { UserEventGroupStore } from "./UserEventGroupStore";
 
 export class RootStore {
     loadableStores = observable<LoadeableStore<any>>([]);
@@ -29,6 +30,8 @@ export class RootStore {
     departmentStore: DepartmentStore;
     semesterStore: SemesterStore;
     registrationPeriodStore: RegistrationPeriodStore;
+    userEventGroupStore: UserEventGroupStore;
+
 
     viewStore: ViewStore;
     constructor() {
@@ -58,6 +61,9 @@ export class RootStore {
 
         this.registrationPeriodStore = new RegistrationPeriodStore(this);
         this.subscribeTo(this.registrationPeriodStore, ['load', 'reset']);
+
+        this.userEventGroupStore = new UserEventGroupStore(this);
+        this.subscribeTo(this.userEventGroupStore, ['load', 'reset']);
 
         this.viewStore = new ViewStore(this);
         this.subscribeTo(this.viewStore, ['load', 'reset']);

@@ -10,7 +10,7 @@ import Delete from '../../shared/Button/Delete';
 import { action } from 'mobx';
 import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
-import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate } from '@mdi/js';
+import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiTag } from '@mdi/js';
 import { Icon } from '../../shared/icons';
 import { Role } from '@site/src/api/user';
 
@@ -22,6 +22,7 @@ const BulkActions = observer((props: Props) => {
     const { events } = props;
     const userStore = useStore('userStore');
     const eventStore = useStore('eventStore');
+    const userEventGroupStore = useStore('userEventGroupStore');
     const { current } = userStore;
     if (events.length < 1) {
         return null;
@@ -29,6 +30,7 @@ const BulkActions = observer((props: Props) => {
     const state = events[0]?.state;
     const sameState = events.every(event => event.state === state);
     const allValid = events.every(event => event.isValid);
+    const onlyMine = events.every(event => event.authorId === current.id);
     return (
         <div className={clsx(styles.bulk)}>
             <Badge text={`${events.length}`} color='blue' />
@@ -61,7 +63,21 @@ const BulkActions = observer((props: Props) => {
                 </div>
             )}
             {
-                events.every(e => e.authorId === current.id) && (
+                onlyMine && (
+                    <Button
+                        text='Neue Gruppe'
+                        icon={mdiTag}
+                        iconSide='left'
+                        onClick={action(() => {
+                            const ids = events.map(event => event.id);
+                            userEventGroupStore.create(
+                                {event_ids: ids, name: 'Neue Gruppe'},
+                            );
+                    })} />
+                )
+            }
+            {
+                onlyMine && (
                     <Delete onClick={action(() => {
                         events.forEach(event => event.destroy());
                     })} />

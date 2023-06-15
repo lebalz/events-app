@@ -10,6 +10,7 @@
         [startTime] max-content
         [endDate startEnd] max-content
         [endTime] max-content
+        [userGroup] max-content
         [location endEnd] max-content
         [departments] max-content
         [classes] max-content
@@ -19,4 +20,7 @@
     div[class*='author_'] {
         display: none;
     }
+    // div[class*='userGroup_'] {
+    //     display: none;
+    // }
 }

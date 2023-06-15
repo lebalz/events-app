@@ -9,6 +9,7 @@
         [endDate startEnd] max-content
         [endTime] max-content
         [location endEnd] max-content
+        [userGroup] max-content
         [departments] max-content
         [classes] max-content
         [classesEnd descriptionLong] max-content
@@ -23,4 +24,7 @@
     div[class*='state_'] {
         display: none;
     }
+    // div[class*='userGroup_'] {
+    //     display: none;
+    // }
 }

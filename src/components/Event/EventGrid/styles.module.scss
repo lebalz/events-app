@@ -218,6 +218,13 @@
         max-width: inherit;
     }
 }
+.userGroup {
+    grid-column: userGroup;
+    max-width: 7em;
+    &.editGrid {
+        max-width: inherit;
+    }
+}
 
 .tags {
     display: flex;

@@ -31,6 +31,8 @@ export interface PrismaEvent {
     classGroups: string[]
     teachersOnly: boolean
     klpOnly: boolean
+    parentId: string | null
+    userGroupId: string | null
     teachingAffected: TeachingAffected
     subjects: string[]
     createdAt: string
@@ -65,6 +67,8 @@ export const JoiEvent = Joi.object<Event>({
         then: Joi.required(),
         otherwise: Joi.array().empty().required()
     }),
+    parentId: Joi.string().allow(null),
+    userGroupId: Joi.string().allow(null),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
     deletedAt: Joi.date().iso().allow(null)
