@@ -15,6 +15,7 @@ import User from '../components/User';
 import Section from '../components/shared/Section';
 import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
+import UserEventGroup from '../components/UserEventGroup';
 
 
 function HomepageHeader() {
@@ -31,6 +32,7 @@ function HomepageHeader() {
 
 
 const UserPage = observer(() => {
+    const userEventGroupStore = useStore('userEventGroupStore');
     const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
     const { isStudent, loggedIn } = sessionStore;
@@ -79,6 +81,19 @@ const UserPage = observer(() => {
                         <TabItem value="events" label="Events">
                             <div className={clsx(styles.tab)}>
                                 <UsersEvents user={current} />
+                            </div>
+                        </TabItem>
+                        <TabItem value="groups" label="Gruppen">
+                            <div className={clsx(styles.tab)}>
+                                <div className={clsx(styles.groups)}>
+                                    {
+                                        userEventGroupStore.userEventGroups.map((group) => {
+                                            return (
+                                                <UserEventGroup group={group} key={group.id}/>
+                                            );
+                                        })
+                                    }
+                                </div>
                             </div>
                         </TabItem>
                         <TabItem value="time-table" label="Stundenplan">

@@ -55,6 +55,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly _pristine_start: Date;
     readonly parentId: string | null;
     readonly userGroupId: string | null;
+    readonly cloned: boolean;
 
     @observable.ref
     updatedAt: Date;
@@ -132,6 +133,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.teachersOnly = props.teachersOnly;
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
+        this.cloned = props.cloned;
 
         this.parentId = props.parentId;
         this.userGroupId = props.userGroupId;
@@ -423,7 +425,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.selected = selected;
     }
 
-    @computed
+    @override
     get isEditable() {
         if (this.state !== EventState.Draft) {
             return false;
@@ -769,6 +771,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             updatedAt: this.updatedAt.toISOString(),
             klpOnly: this.klpOnly,
             parentId: this.parentId,
+            cloned: this.cloned,
             userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
             teachersOnly: this.klpOnly || this.teachersOnly,

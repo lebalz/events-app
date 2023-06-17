@@ -26,6 +26,7 @@ export interface PrismaEvent {
     description: string
     descriptionLong: string
     state: EventState
+    cloned: boolean
     jobId: string | null
     classes: KlassName[]
     classGroups: string[]
@@ -58,6 +59,7 @@ export const JoiEvent = Joi.object<Event>({
     classes: Joi.array().items(Joi.string()).required(),
     classGroups: Joi.array().items(Joi.string()).required(),
     state: Joi.string().valid(...Object.values(EventState)).required(),
+    cloned: Joi.boolean().required(),
     jobId: Joi.string().allow(null),
     teachersOnly: Joi.boolean(),
     teachingAffected: Joi.string().valid(...Object.values(TeachingAffected)).required(),

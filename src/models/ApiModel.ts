@@ -58,6 +58,11 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
         return this.update(this.pristine);
     }
 
+    @computed
+    get isEditable() {
+        return false;
+    }
+
     @action
     update(props: Partial<T>) {
         this.UPDATEABLE_PROPS.forEach(val => {

@@ -1,10 +1,10 @@
-import { computed, makeObservable, observable, override } from "mobx";
+import { action, computed, makeObservable, observable, override } from "mobx";
 import { UserEventGroup as UserEventGroupProps } from "../api/user_event_group";
 import { ApiAction } from "../stores/iStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
 import { UserEventGroupStore } from "../stores/UserEventGroupStore";
 
-export default class UserEventGroup extends ApiModel<UserEventGroupProps, ApiAction> {
+export default class UserEventGroup extends ApiModel<UserEventGroupProps, ApiAction | `clone-${string}`> {
     readonly UPDATEABLE_PROPS: UpdateableProps<UserEventGroupProps>[] = [
         "name",
         'description'
@@ -44,14 +44,24 @@ export default class UserEventGroup extends ApiModel<UserEventGroupProps, ApiAct
     }
 
     @override
+    get isEditable() {
+        return true;
+    }
+
+    @override
     get props(): UserEventGroupProps {
         return {
             id: this.id,
             name: this.name,
             description: this.description,
-            userId: this.props.userId,
+            userId: this.userId,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
         };
+    }
+
+    @action
+    clone() {
+        this.store.clone(this);
     }
 }

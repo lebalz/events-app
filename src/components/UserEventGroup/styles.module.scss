@@ -1,0 +1,21 @@
+.group {
+    box-shadow: var(--ifm-global-shadow-md);
+    gap: 1rem;
+    .header {
+        display: flex;
+        align-items: flex-start;
+    }
+    .events {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+    .textInput {
+        width: 100%;
+        input {
+            width: 100%;
+            font: bold var(--ifm-h4-font-size) / var(--ifm-heading-line-height)
+            var(--ifm-font-family-base);
+        }
+    }
+}

@@ -126,7 +126,12 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             const store = this.root[RecordStoreMap[record.record]] as iStore<any>;
             switch (type) {
                 case IoEvent.NEW_RECORD:
-                    store.loadModel(record.id);
+                    store.loadModel(record.id).then((model) => {
+                        if (record.record === 'USER_EVENT_GROUP') {
+                            console.log(model);
+                            this.root.userEventGroupStore.reloadEvents(model);
+                        }
+                    });
                     break;
                 case IoEvent.CHANGED_RECORD:
                     store.loadModel(record.id);

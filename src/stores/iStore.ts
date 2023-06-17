@@ -205,7 +205,6 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             return this.addToStore(data, 'create');
         }));
     }
-
 }
 
 export default iStore;

@@ -9,11 +9,12 @@ import { useStore } from '@site/src/stores/hooks';
 interface Props {
     text: string;
     onChange: (text: string) => void;
+    className?: string;
 }
 
 const TextInput = (props: Props) => {
     return (
-        <div>
+        <div className={clsx(props.className)}>
             <input
                 type={'text'}
                 value={props.text}
