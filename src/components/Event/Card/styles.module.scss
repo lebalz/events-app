@@ -1,6 +1,8 @@
 .card {
     box-shadow: var(--ifm-global-shadow-md);
+    flex-basis: 16em;
     .badges {
         display: flex;
+        align-items: flex-start;
     }
 }

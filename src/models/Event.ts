@@ -41,6 +41,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classGroups',
         'classes',
         'departmentIds',
+        'userGroupId',
         'klpOnly',
         'subjects',
         'teachingAffected',
@@ -54,8 +55,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly _pristine_end: Date;
     readonly _pristine_start: Date;
     readonly parentId: string | null;
-    readonly userGroupId: string | null;
     readonly cloned: boolean;
+
+    
+    @observable
+    userGroupId: string | null;
 
     @observable.ref
     updatedAt: Date;

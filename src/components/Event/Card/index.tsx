@@ -7,6 +7,8 @@ import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
+import { mdiSquareRoundedBadge, mdiStickerCircleOutline } from '@mdi/js';
+import { SIZE_XS } from '../../shared/icons';
 
 
 interface Props {
@@ -29,6 +31,11 @@ const EventCard = observer((props: Props) => {
                         event.affectedDepartments.map((d, idx) => {
                             return (<Badge key={d.id} text={d.shortName} color={d.color} />);
                         })
+                    }
+                    {
+                        event.cloned && (
+                            <Badge icon={mdiStickerCircleOutline} color="gold" size={SIZE_XS}/>
+                        )
                     }
                 </div>
                 <div className={clsx(styles.badges)}>

@@ -66,7 +66,6 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     @action
     update(props: Partial<T>) {
         this.UPDATEABLE_PROPS.forEach(val => {
-            const a = typeof val === 'object' ? val.attr : val;
             const hasConfiguration = typeof val === 'object';
             const isUpdater = hasConfiguration && val.update;
             const isTransformer = hasConfiguration && !isUpdater && val.transform;

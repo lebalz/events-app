@@ -13,6 +13,7 @@ import Button from '../../shared/Button';
 import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiTag } from '@mdi/js';
 import { Icon } from '../../shared/icons';
 import { Role } from '@site/src/api/user';
+import Select from 'react-select';
 
 interface Props {
     events: EventModel[];
@@ -64,16 +65,41 @@ const BulkActions = observer((props: Props) => {
             )}
             {
                 onlyMine && (
-                    <Button
-                        text='Neue Gruppe'
-                        icon={mdiTag}
-                        iconSide='left'
-                        onClick={action(() => {
-                            const ids = events.map(event => event.id);
-                            userEventGroupStore.create(
-                                {event_ids: ids, name: 'Neue Gruppe'},
-                            );
-                    })} />
+                    <>
+                        <Button
+                            text='Neue Gruppe'
+                            icon={mdiTag}
+                            iconSide='left'
+                            onClick={action(() => {
+                                const ids = events.map(event => event.id);
+                                userEventGroupStore.create(
+                                    {event_ids: ids, name: 'Neue Gruppe'},
+                                );
+                            })} 
+                        />
+                        <Select
+                            isMulti={false}
+                            isSearchable={true}
+                            isClearable={true}
+                            onChange={(opt) => {
+                                events.forEach(event => {
+                                    event.update({userGroupId: opt?.value ?? null});
+                                    event.save();
+                                });
+                            }}
+                            options={
+                                userEventGroupStore.userEventGroups.map(group => ({
+                                    value: group.id,
+                                    label: group.name,
+                                }))
+                            }
+                            value={
+                                events.every(e => e.userGroupId === events[0].userGroupId) 
+                                ? {value: events[0]?.userGroupId, label: events[0]?.userGroup?.name } 
+                                : undefined
+                            }
+                        />
+                    </>
                 )
             }
             {
