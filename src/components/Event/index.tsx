@@ -43,13 +43,11 @@ const Event = observer((props: Props) => {
 
 
     return (
-        <div className={clsx(styles.eventCard, props.inModal ? styles.modal : 'card')}>
-            { !props.inModal && (
-                <div className={clsx(styles.header, 'card__header')}>
-                    <h3>{event.description}</h3>
-                </div>
-            )}
-            <div className={clsx(!props.inModal && 'card__body')}>
+        <div className={clsx(styles.eventCard, 'card')}>
+            <div className={clsx(styles.header, 'card__header')}>
+                <h3>{event.description}</h3>
+            </div>
+            <div className={clsx('card__body')}>
                 <DefinitionList>
                     <dt><Translate id="event.description" description='for a single event: description'>Titel</Translate></dt>
                     <dd><Description {...commonEditProps} /></dd>
