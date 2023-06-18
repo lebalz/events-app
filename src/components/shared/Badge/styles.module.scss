@@ -42,4 +42,9 @@
         // box-shadow: 0 0 0 100px inset var(--ifm-color-disabled);
         border-color: var(--ifm-color-disabled);
     }
+    &:global(.ui.label) {
+        background-color: var(--semantic-label-background-color);
+        border-color: var(--semantic-label-border-color);
+        color: var(--semantic-label-color);
+    }
 }

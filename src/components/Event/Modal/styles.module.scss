@@ -1,0 +1,7 @@
+.modal {
+    &:global(.ui.modal.transition) {
+        :global .scrolling.content {
+            max-height: calc(95vh - 10em);
+        }
+    }
+}

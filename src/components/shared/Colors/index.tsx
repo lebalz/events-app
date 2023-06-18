@@ -25,7 +25,16 @@ export const ButtonColors = {
     black: 'button--primary'
 }
 
+const SemanticColors = new Set<string>(['red', 'orange', 'yellow', 'olive', 'green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown', 'lightgrey', 'grey', 'black']);
+
 export type Color = keyof typeof Colors;
+
+export const getSematnicColorClass = (color?: string, defaultColor?: Color) => {
+    if (SemanticColors.has(color as string)) {
+        return color;
+    }
+    return SemanticColors.has(defaultColor as string) ? defaultColor : undefined;
+}
 
 export const getColorClass = (color: Color | string | undefined, defaultColor?: Color) => {
     return Colors[color] || Colors[defaultColor];

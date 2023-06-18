@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
+import { Modal as SeModal } from 'semantic-ui-react';
 
 
 interface Props {
@@ -33,20 +34,16 @@ const Modal = observer((props: Props) => {
     }
 
     return (
-        <div
-            className={clsx(props.open && styles.modal, props.open && props.className)}
-            onClick={props.open ? onClose : undefined}
-        >
-            {props.open && (
-                <div
-                    style={{marginTop: `${marginTop}px`}}
-                    className={clsx(styles.content)} 
-                    onClick={(e) => e.stopPropagation()}
-                >
+        <SeModal
+            size='fullscreen'
+            onClose={() => props.onClose && props.onClose()}
+            open={props.open}
+            >
+                <SeModal.Content scrolling>
                     {props.children}
-                </div>
-            )}
-        </div>
+                </SeModal.Content>
+            </SeModal>
+
     );
 });
 
