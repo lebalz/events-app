@@ -1,0 +1,26 @@
+.grid {
+    display: grid;
+    grid-auto-flow: column dense;
+    .cell {
+        .content {
+            margin: 0.25em 0.5em;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        background-color: var(--ifm-color-emphasis-0);
+        &.odd {
+            background: var(--ifm-color-emphasis-100);
+        }
+        &.header {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            transition: transform var(--ifm-transition-fast) ease;
+            font-weight: bold;
+            box-shadow: var(--header-shadow);//var(--ifm-global-shadow-md);
+            // clip-path to remove shadow on some sides: inset(Tpx Rpx Bpx Lpx);
+            clip-path: inset(0px 0px calc(-1 * var(--header-shadow-blur)) 0px);
+        }
+    }
+}
