@@ -100,7 +100,11 @@ const config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.scss'),
+          customCss: [
+            // @import "semantic-ui-css/semantic.min.css"
+            require.resolve('semantic-ui-css/semantic.min.css'),
+            require.resolve('./src/css/custom.scss'),
+          ],
         },
       }),
     ],
