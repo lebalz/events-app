@@ -4,44 +4,29 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { DataItem, Row as RowType } from './types';
+import { DataRow } from '@site/src/stores/ViewStores/TableData';
 
-interface Props<T extends DataItem> {
-    item: T;
+interface Props<T> {
     rowNr: number;
-    config: {
-        transformer?: (item: T) => RowType;
-        defaultTransformer: (item: T) => RowType;
-        colIndexes: Map<string, {index: number, style: React.CSSProperties}>;
-        striped?: boolean;
-        columnNames: string[];
-    }
+    row: DataRow<T>;
+    striped?: boolean;
 }
 
-const Row = observer((props: Props<DataItem>) => {
-    const { config, item } = props;
-    const { colIndexes, columnNames, striped } = config;
-    if (item._component) {
-        return (<>
-            {item._component}
-        </>);
-    }
-    const transformer = props.item._transformer ?? config.transformer ?? config.defaultTransformer;
-    const row = transformer(item);
-    console.log('row')
+const Row = observer(<T extends DataItem>(props: Props<T>) => {
+    const { row } = props;
     return (
         <>
-            {columnNames.map((col, idx) => {
-                const cell = row[col];
+            {row.cells.map((cell, idx) => {
                 return (
                     <div
                         key={idx}
-                        className={clsx(styles.cell, styles.row, cell?.className, (striped && props.rowNr % 2 === 0) ? styles.even : styles.odd)}
+                        className={clsx(styles.cell, styles.row, cell?.className, (props.striped && props.rowNr % 2 === 0) ? styles.even : styles.odd)}
                         style={{
-                            gridColumnStart: colIndexes.get(col).index,
-                            gridColumnEnd: cell?.span ? `span ${cell.span}` : colIndexes.get(col).index + 1,
+                            gridColumn: cell.gridColumn,
+                            maxWidth: cell.maxWidth,
                         }}
                     >
-                        <div className={clsx(styles.content)} style={colIndexes.get(col)?.style}>
+                        <div className={clsx(styles.content)}>
                             {cell?.component ?? cell?.value ?? '-'}
                         </div>
                     </div>

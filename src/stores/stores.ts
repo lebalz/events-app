@@ -8,7 +8,7 @@ import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
 import { LoadeableStore, ResettableStore } from "./iStore";
 import { JobStore } from "./JobStore";
-import { ViewStore } from "./ViewStore";
+import { ViewStore } from "./ViewStores";
 import { DepartmentStore } from "./DepartmentStore";
 import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
