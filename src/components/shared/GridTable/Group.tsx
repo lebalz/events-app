@@ -23,6 +23,7 @@ const Group = observer(<T extends DataItem>(props: Props<T>) => {
         if (onScreen) {
             props.row.setExpanded(true);
         }
+        props.row.setInView(onScreen);
     }, [onScreen, props.row]);
     const {row} = props;
     return (

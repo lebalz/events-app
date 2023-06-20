@@ -100,6 +100,9 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         /**
          * Adds a new model to the store. Existing models with the same id are replaced.
          */
+        if (!data) {
+            return;
+        }
         const model = this.createModel(data, state);
         this.removeFromStore(model.id);
         this.models.push(model);

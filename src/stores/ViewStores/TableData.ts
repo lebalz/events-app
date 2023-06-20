@@ -13,20 +13,20 @@ interface Cell<T> {
     gridColumn?: number;
 }
 
-export interface DataItem<T> {
+export interface DataItem {
     id: string | number;
 }
 
 
-export interface ComponentProps<T> {
+export interface ComponentProps {
     type: 'group' | 'item';
 }
 
-export interface GroupProps<T> extends ComponentProps<T> {
+export interface GroupProps<T> extends ComponentProps {
     type: 'group';
     items: T[];
 }
-export interface ItemProps<T> extends ComponentProps<T> {
+export interface ItemProps<T> extends ComponentProps {
     type: 'item';
     item: T;
 }
@@ -50,7 +50,7 @@ type RawColumnConfig<T> = {
     [key: string]: ColumnProps<T> & {transform: (item: T) => string | number};
 }
 
-interface ConfigProps<T> {
+export interface ConfigProps<T> {
     sortColumn?: keyof T;
     sortDirection?: 'asc' | 'desc';
     columns: RawColumnConfig<T> | ColumnConfig<T>;
@@ -62,10 +62,10 @@ export class DataRow<T> {
     readonly store: Config<T>;
 
     @observable.ref
-    model: T & DataItem<T>;
+    model: T & DataItem;
     readonly type: 'item' = 'item';
 
-    constructor(model: T & DataItem<T>, store: Config<T>) {
+    constructor(model: T & DataItem, store: Config<T>) {
         this.store = store;
         this.model = model;
         makeObservable(this);
@@ -101,22 +101,34 @@ export class DataRow<T> {
 
 export class GroupRow<T> {
     readonly store: Config<T>;
-    @observable.ref
-    models: DataRow<T>[];
+    models = observable.array<DataRow<T>>([], {deep: false});
 
     @observable
     expanded = false;
+
+    @observable
+    inView = false;
     
     readonly type: 'group' = 'group';
     constructor(models: DataRow<T>[], store: Config<T>) {
         this.store = store;
-        this.models = models;
+        this.models.replace(models);
         makeObservable(this);
+    }
+
+    @action
+    setModels(models: DataRow<T>[]) {
+        this.models.replace(models);
     }
 
     @action
     setExpanded(expanded: boolean) {
         this.expanded = expanded;
+    }
+
+    @action
+    setInView(inView: boolean) {
+        this.inView = inView;
     }
 
 
@@ -133,12 +145,18 @@ export class Config<T> {
     @observable
     config: ConfigProps<T>;
 
-    @observable.ref
-    data: DataRow<T>[];
-    constructor(data: (T & DataItem<T>)[], config: ConfigProps<T>, store: TableData) {
+    data = observable<DataRow<T>>([]);
+    grouped = observable<GroupRow<T>>([]);
+    constructor(data: (T & DataItem)[], config: ConfigProps<T>, store: TableData) {
         this.store = store;
-        this.config = config;
-        this.data = data.map((item) => new DataRow(item, this));
+        this.config = {
+            columns: config.columns,
+            sortColumn: config.sortColumn,
+            sortDirection: config.sortDirection,
+            groupBy: config.groupBy,
+            batchSize: config.batchSize
+        };
+        this.data.replace(data.map((item) => new DataRow(item, this)));
         makeObservable(this);
     }
 
@@ -157,6 +175,38 @@ export class Config<T> {
         return Object.freeze(templateColumns);
     }
 
+    @action
+    setData(data: (T & DataItem)[]): void {
+        const newData = data.map((item) => new DataRow(item, this));
+        const newIds = new Set(newData.map((item) => item.id));
+        const oldIds = new Set(this.data.map((item) => item.id));
+        const toRemove = this.data.filter((item) => !newIds.has(item.id));
+        const toAdd = newData.filter((item) => !oldIds.has(item.id));
+        toRemove.forEach((item) => this.data.remove(item));
+        this.data.push(...toAdd);
+        this.updateGroups();
+    }
+
+    @action
+    updateConfig(config: ConfigProps<T>): void {
+        if (config.columns) {
+            this.config.columns = config.columns;
+        }
+        if (config.sortColumn) {
+            this.config.sortColumn = config.sortColumn;
+        }
+        if (config.sortDirection) {
+            this.config.sortDirection = config.sortDirection;
+        }
+        if (config.groupBy) {
+            this.config.groupBy = config.groupBy;
+        }
+        if (config.batchSize) {
+            this.config.batchSize = config.batchSize;
+        }
+        this.updateGroups();
+    }
+
 
     @computed
     get columnSize(): number {
@@ -171,6 +221,7 @@ export class Config<T> {
             this.config.sortColumn = column;
             this.config.sortDirection = 'asc';
         }
+        this.updateGroups();
         console.log('setSortColumn', column, this.config.sortDirection);
     }
 
@@ -182,11 +233,8 @@ export class Config<T> {
         return _.orderBy(this.data, [(r) => r.model[this.config.sortColumn]], [this.config.sortDirection ?? 'asc']);
     }
 
-    @computed
-    get rows(): (DataRow<T> | GroupRow<T>)[] {
-        if (!this.config.groupBy && !this.config.batchSize) {
-            return this.items;
-        }
+    @action
+    updateGroups() {
         const grouped = new Map<string, DataRow<T>[]>();
         this.items.forEach((item, idx) => {
             if (this.config.groupBy) {
@@ -203,29 +251,38 @@ export class Config<T> {
                 grouped.get(key)?.push(item);
             }
         });
-        return [...grouped.keys()].map((key, idx) => {
-            return new GroupRow(grouped.get(key) || [], this);
+        const groups = [...grouped.values()];
+        if (groups.length === 0) {
+            this.grouped.clear();
+        } else if (groups.length < this.grouped.length) {
+            while (groups.length < this.grouped.length) {
+                this.grouped.remove(this.grouped[this.grouped.length - 1]);
+            }
+        }
+        let initial = false
+        groups.forEach((group, idx) => {
+            if (idx >= this.grouped.length) {
+                this.grouped.push(new GroupRow(group, this));
+            } else {
+                this.grouped[idx].setModels(group);
+                /** set everything above the current to visible */
+                if (this.grouped[idx].inView) {
+                    this.grouped[idx].setExpanded(true);
+                    initial = true;
+                } else {
+                /** and only after the last shift, turn it off... */
+                    this.grouped[idx].setExpanded(!initial);
+                }
+            }
         });
-        // if (this.config.groupBy) {
-        //     const groups = _.groupBy(this.items, this.config.groupBy);
-        // }
-        // return this.data.map((item) => {
-        //     if (item._transformer) {
-        //         return item._transformer(item);
-        //     }
+    }
 
-        //     return (Object.keys(this.config.columns) as (keyof T)[]).reduce((acc, key) => {
-        //         const column = this.config.columns[key];
-        //         if (column.transform) {
-        //             acc[key] = column.transform(item);
-        //         } else {
-        //             acc[key] = {
-        //                 value: item[key] as string | number,
-        //             };
-        //         }
-        //         return acc;
-        //     }, {} as Row<T>);
-        // });
+    @computed
+    get rows(): (DataRow<T> | GroupRow<T>)[] {
+        if (!this.config.groupBy && !this.config.batchSize) {
+            return this.items;
+        }
+        return this.grouped;
     }
 
 }
@@ -242,7 +299,7 @@ class TableData {
     }
 
     @action
-    register<T>(id: string, data: (T & DataItem<T>)[], config: ConfigProps<T>): Config<T> {
+    register<T>(id: string, data: (T & DataItem)[], config: ConfigProps<T>): Config<T> {
         const tableConfig = new Config(data, config, this);
         this.tables.set(id, tableConfig);
         return tableConfig;

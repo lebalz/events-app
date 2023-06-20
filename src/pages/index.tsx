@@ -5,9 +5,6 @@ import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 import { observer } from 'mobx-react-lite';
-import Modal from '../components/shared/Modal';
-import Button from '../components/shared/Button';
-import { useStore } from '../stores/hooks';
 
 const getCircularReplacer = () => {
   const seen = new WeakSet();

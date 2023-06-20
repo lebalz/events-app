@@ -1,3 +1,14 @@
+.scroll {
+    --header-shadow-blur: 20px;
+    --header-shadow: 0 3px var(--header-shadow-blur) rgba(0, 0, 0, 0.2);
+    position: relative;
+    max-width: 100%;
+    max-height: 96vh;
+    width: fit-content;
+    overflow-x: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
 .grid {
     display: grid;
     grid-auto-flow: column dense;
