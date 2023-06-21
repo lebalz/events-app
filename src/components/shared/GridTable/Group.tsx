@@ -3,9 +3,8 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useOnScreen } from '@site/src/stores/hooks';
-import { DataItem } from './types';
 import Row from './Row';
-import { GroupRow } from '@site/src/stores/ViewStores/TableData';
+import { DataItem, GroupRow } from '@site/src/stores/ViewStores/TableData';
 
 
 interface Props<T> {

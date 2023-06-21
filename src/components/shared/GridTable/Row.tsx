@@ -3,8 +3,7 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { DataItem, Row as RowType } from './types';
-import { DataRow } from '@site/src/stores/ViewStores/TableData';
+import { DataItem, DataRow } from '@site/src/stores/ViewStores/TableData';
 
 interface Props<T> {
     rowNr: number;
