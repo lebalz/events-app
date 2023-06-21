@@ -1,8 +1,8 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { ReadonlyProps } from './iEventField';
 import { EventState } from '@site/src/api/event';
 import { mdiBookCancel, mdiDeleteForever, mdiFileCertificate, mdiPen, mdiPencilBox, mdiProgressCheck } from '@mdi/js';
@@ -33,7 +33,7 @@ const StateTitle: {[state in EventState]: string} = {
 }
 
 const State = observer((props: ReadonlyProps) => {
-    const { styles, onClick, event } = props;
+    const { onClick, event } = props;
     return (
         <div 
             style={{gridColumn: 'state'}} 

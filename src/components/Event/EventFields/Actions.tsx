@@ -1,5 +1,6 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
@@ -18,7 +19,7 @@ interface Props extends ReadonlyProps {
 }
 
 const Actions = observer((props: Props) => {
-    const { event, styles } = props;
+    const { event } = props;
     const viewStore = useStore('viewStore');
     const windowSize = useWindowSize();
     return (

@@ -5,10 +5,11 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Select, {createFilter} from 'react-select';
 import { Props } from './iEventField';
+import styles from './styles.module.scss';
 
 const SubjectSelector = observer((props: Props) => {
     const untisStore = useStore('untisStore');
-    const { event, styles } = props;
+    const { event } = props;
     const affectedDepIds = new Set(event.affectedDepartments.map(d => d.id));
     const subjects = affectedDepIds.size > 0 ? untisStore.subjects.slice().filter(s => s.departmentIds.some(did => affectedDepIds.has(did))) : untisStore.subjects.slice();
     return (

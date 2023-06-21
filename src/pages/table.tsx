@@ -4,7 +4,7 @@ import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
 import EventGrid from '../components/Event/EventGrid';
 import Button from '../components/shared/Button';
-import { mdiDownloadCircleOutline } from '@mdi/js';
+import { mdiDownloadCircleOutline, mdiTools } from '@mdi/js';
 import GridTable from '../components/shared/GridTable';
 import Day from '../components/Event/EventFields/Day';
 import Description from '../components/Event/EventFields/Description';
@@ -14,6 +14,10 @@ import UserGroup from '../components/Event/EventFields/UserGroup';
 import Audience from '../components/Event/EventFields/Audience';
 import DescriptionLong from '../components/Event/EventFields/DescriptionLong';
 import Actions from '../components/Event/EventFields/Actions';
+import Departments from '../components/Event/EventFields/Departments';
+import Klasses from '../components/Event/EventFields/Klasses';
+import styles from './table.module.scss';
+import { Icon, SIZE_S } from '../components/shared/icons';
 
 const Table = observer(() => {
     const viewStore = useStore('viewStore');
@@ -23,21 +27,23 @@ const Table = observer(() => {
             <div>
                 <EventGrid events={[]} groupBy='kw' showFilter />
                 <GridTable
+                    className={styles.table}
                     data={viewStore.eventTable.events}
                     columns={{
-                        day: { maxWidth: '2.5em', label: 'Tag', transform: (item) => item.fStartDate, render: (item) => <Day event={item} styles={{}} /> },
-                        description: { maxWidth: '16em', label: 'Stichworte', render: (item) => <Description event={item} styles={{}} />},
-                        start: { label: 'Start', render: (item) => <DateTime event={item} styles={{}} time='start'/> },
-                        end: { label: 'Ende', render: (item) => <DateTime event={item} styles={{}} time='end'/> },
-                        location: { label: 'Ort', render: (item) => <Location event={item} styles={{}} /> },
-                        userGroup: { label: 'Gruppe', render: (item) => <UserGroup event={item} styles={{}} /> },
-                        audience: { label: 'Klassen', transform: (item) => item.fClasses.map(t => t.text).join(', '), render: (item) => <Audience event={item} styles={{}} /> },
-                        descriptionLong: {maxWidth: '20em', label: 'Beschreibung', render: (item) => <DescriptionLong event={item} styles={{}} /> },
-                        actions: { label: 'Aktionen', render: (item) => <Actions event={item} styles={{}} />, transform: (item) => item.id },
+                        day: { maxWidth: '2.8em', label: 'Tag', transform: (item) => item.fStartDate, render: (item) => <Day event={item} /> },
+                        description: { maxWidth: '16em', label: 'Stichworte', render: (item) => <Description event={item} />},
+                        start: { label: 'Start', render: (item) => <DateTime event={item}  time='start'/>, className: styles.flex },
+                        end: { label: 'Ende', render: (item) => <DateTime event={item}  time='end'/> },
+                        location: { label: 'Ort', render: (item) => <Location event={item} /> },
+                        userGroup: { label: 'Gruppe', render: (item) => <UserGroup event={item} /> },
+                        departmens: { label: 'Abteilungen', transform: (item) => item.departmentNames.join(', '), render: (item) => <Departments event={item} /> },
+                        classes: { label: 'Klassen', transform: (item) => item.fClasses.map(t => t.text).join(', '), render: (item) => <Klasses event={item} /> },
+                        descriptionLong: {maxWidth: '20em', label: 'Beschreibung', render: (item) => <DescriptionLong event={item} /> },
+                        actions: { label:  <Icon path={mdiTools} size={SIZE_S} />, fixed: { right: 0 }, render: (item) => <Actions event={item} />, transform: (item) => item.id },
                     }}
                     groupBy='kw'
                     groupHeader={(item) => <div>KW {item.models[0].model.kw}</div>}
-                />
+               />
                 <Button
                     onClick={() => {
                         eventStore.downloadExcel().then((res) => {
@@ -56,7 +62,7 @@ const Table = observer(() => {
                     iconSide='left'
                     icon={mdiDownloadCircleOutline}
                     text="Download"
-                />
+               />
             </div>
         </Layout>
     );

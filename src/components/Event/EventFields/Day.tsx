@@ -1,5 +1,6 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
@@ -13,7 +14,7 @@ interface Props extends ReadonlyProps {
     showRange?: boolean;
 }
 const Day = observer((props: Props) => {
-    const { styles, event, showFullName, showRange, onClick } = props;
+    const { event, showFullName, showRange, onClick } = props;
     const viewStore = useStore('viewStore');
     const start = showFullName ? event.dayFullStart : event.dayStart;
     const end = showFullName ? event.dayFullEnd : event.dayEnd;

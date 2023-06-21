@@ -11,22 +11,22 @@ import { Config, ConfigProps, DataItem, GroupRow } from '@site/src/stores/ViewSt
 import { useStore } from '@site/src/stores/hooks';
 
 interface Props<T> extends ConfigProps<T> {
+    mobxId?: string;
     data: (T & DataItem)[];
     batchSize?: number;
     defaultRowHeight?: number;
+    className?: string;
     groupHeader?: (group: GroupRow<T>) => React.JSX.Element;
 }
 
 const GridTable = observer(<T extends DataItem>(props: Props<T>) => {
-    const [id] = React.useState(uuid());
+    const [id] = React.useState(props.mobxId || uuid());
     const viewStore = useStore('viewStore');
     const ref = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         if (id && viewStore) {
             viewStore.tableData.register<T>(id, props.data, props);
-            console.log('register', id);
             return () => {
-                console.log('unregister', id);
                 viewStore.tableData.unregister(id);
             }
         }
@@ -51,9 +51,9 @@ const GridTable = observer(<T extends DataItem>(props: Props<T>) => {
     if (!config) {
         return null;
     }
-    const gridTemplateColumns = `repeat(${config.columnSize}, max-content)`;
+    const gridTemplateColumns = `repeat(${config.columnCount}, max-content)`;
     return (
-        <div className={clsx(styles.scroll)}>
+        <div className={clsx(styles.scroll, props.className)}>
             <div
                 className={clsx(styles.grid)}
                 style={{ gridTemplateColumns }}
@@ -63,12 +63,21 @@ const GridTable = observer(<T extends DataItem>(props: Props<T>) => {
                     <div
                         key={idx}
                         className={clsx(styles.cell, styles.header, column.className)}
-                        style={{ gridColumn: config.colIndices.get(key as keyof T).index }}
+                        style={{
+                            gridColumn: config.colIndices.get(key as keyof T).index, 
+                            width: column.width,
+                            maxWidth: column.maxWidth,
+                            position: column.fixed ? 'sticky' : undefined,
+                            left: column.fixed?.left,
+                            right: column.fixed?.right
+                        }}
                         onClick={() => {
                             config.setSortColumn(key as keyof T);
                         }}
                     >
-                        <div className={clsx(styles.content)}>
+                        <div 
+                            className={clsx(styles.content)}
+                        >
                             {column.component || column.label}
                         </div>
                     </div>

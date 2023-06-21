@@ -1,5 +1,6 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
 import { Props as DefaultProps } from './iEventField';
@@ -10,7 +11,7 @@ interface Props extends DefaultProps {
 }
 
 const DateTime = observer((props: Props) => {
-    const { event, styles, onClick } = props;
+    const { event, onClick } = props;
     const error = event.errorFor(props.time);
     let dateColumn = 'startDate';
     let timeColumn = 'startTime';
@@ -51,16 +52,16 @@ const DateTime = observer((props: Props) => {
                 style={{ gridColumn: dateColumn }}
                 className={clsx(props.className, styles.date, styles[dateColumn], event.isOnOneDay && styles.onOneDay, `grid-${dateColumn}`)}
                 onClick={onClick}
-            >{
-                    fdate
-                }</div>
+            >
+                {fdate}
+            </div>
             <div
                 style={{ gridColumn: timeColumn }}
                 className={clsx(props.className, styles.time, styles[timeColumn], event.isAllDay && styles.allDay, `grid-${timeColumn}`)}
                 onClick={onClick}
-            >{
-                    ftime
-                }</div>
+            >
+                {ftime}
+            </div>
         </>
     )
 });

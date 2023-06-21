@@ -4,7 +4,6 @@ interface CommonProps {
     event: EventModel;
     expandeable?: boolean;
     className?: string;
-    styles: { [className: string]: string };
     onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 export interface ReadonlyProps extends CommonProps {

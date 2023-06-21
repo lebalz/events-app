@@ -2,7 +2,6 @@ import { default as EventModel } from '@site/src/models/Event';
 import { clsx } from 'clsx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import Badge from '../../shared/Badge';
 import KW from '../EventFields/Kw';
 import Day from '../EventFields/Day';
 import Description from '../EventFields/Description';
@@ -54,20 +53,20 @@ const Event = observer((props: RowProps) => {
 
     return (
         <React.Fragment>
-            <State event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
-            <IsValid event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
-            <Select event={event} styles={styles} className={clsx(commonStyle)} onSelect={props.onSelect} expandeable onClick={onClick} />
-            <KW event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
-            <Author event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
-            <Day event={event} styles={styles} className={clsx(commonStyle)} expandeable onClick={onClick} />
-            <Description event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
-            <DateTime event={event} styles={styles} time='start' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
-            <DateTime event={event} styles={styles} time='end' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
-            <Location event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
-            <UserGroup event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
-            <Audience event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} isEditGrid={props.isEditGrid} />
-            <DescriptionLong event={event} styles={styles} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
-            <Actions event={event} styles={styles} className={clsx(commonStyle)} expandeable />
+            <State event={event} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <IsValid event={event} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Select event={event} className={clsx(commonStyle)} onSelect={props.onSelect} expandeable onClick={onClick} />
+            <KW event={event} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Author event={event} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Day event={event} className={clsx(commonStyle)} expandeable onClick={onClick} />
+            <Description event={event} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <DateTime event={event} time='start' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <DateTime event={event} time='end' className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <Location event={event} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <UserGroup event={event} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <Audience event={event} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} isEditGrid={props.isEditGrid} />
+            <DescriptionLong event={event} className={clsx(commonStyle)} isEditable={true} expandeable onClick={onClick} />
+            <Actions event={event} className={clsx(commonStyle)} expandeable />
         </React.Fragment>
     );
 });

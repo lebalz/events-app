@@ -32,7 +32,7 @@ const Group = observer(<T extends DataItem>(props: Props<T>) => {
                 style={{ 
                     height: row.expanded ? undefined : `${row.models.length * props.rowHeight}px`,
                     gridColumnStart: 1,
-                    gridColumnEnd: row.store.columnSize + 1,
+                    gridColumnEnd: row.store.columnCount + 1,
                 }}
                 ref={ref}
             >

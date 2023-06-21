@@ -2,11 +2,12 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
+import styles from './styles.module.scss';
+
 import { ReadonlyProps } from './iEventField';
 
 const KW = observer((props: ReadonlyProps) => {
-    const { styles, onClick } = props;
+    const { onClick } = props;
     return (
         <div 
             style={{gridColumn: 'kw'}} 

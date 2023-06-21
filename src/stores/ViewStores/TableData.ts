@@ -11,6 +11,7 @@ interface Cell<T> {
     width?: string;
     rowName: keyof T;
     gridColumn?: number;
+    fixed?: { right: number, left?: undefined } | { left: number, right?: undefined };
 }
 
 export interface DataItem {
@@ -32,28 +33,26 @@ export interface ItemProps<T> extends ComponentProps {
 }
 
 interface ColumnProps<T> {
-    label: string;
+    label: string | React.ReactNode;
     render?: (item: T) => React.JSX.Element;
     component?: React.ReactNode;
     className?: string;
     maxWidth?: string;
     width?: string;
     sortable?: boolean;
+    fixed?: { right: number, left?: undefined } | { left: number, right?: undefined };
     transform?: (item: T) => string | number;
 }
-
 type ColumnConfig<T> = {
     [key in keyof T]?: ColumnProps<T>;
-}
-
-type RawColumnConfig<T> = {
-    [key: string]: ColumnProps<T> & {transform: (item: T) => string | number};
-}
+} | {
+    [key: string]: ColumnProps<T>;
+};
 
 export interface ConfigProps<T> {
     sortColumn?: keyof T;
     sortDirection?: 'asc' | 'desc';
-    columns: RawColumnConfig<T> | ColumnConfig<T>;
+    columns: ColumnConfig<T>;
     groupBy?: keyof T;
     batchSize?: number;
 }
@@ -79,7 +78,7 @@ export class DataRow<T> {
     @computed
     get cells(): Cell<T>[] {
         return (Object.keys(this.config.columns) as (keyof T)[]).map((key) => {
-            const col = this.config.columns[key as string];
+            const col = this.config.columns[key as string] as ColumnProps<T>;
             const value = col.transform ? col.transform(this.model) : this.model[key] as string | number;
             return {
                 value: value,
@@ -88,6 +87,7 @@ export class DataRow<T> {
                 className: col.className,
                 maxWidth: col.maxWidth,
                 width: col.width,
+                fixed: col.fixed,
                 gridColumn: this.store.colIndices.get(key)?.index,
             }
         });
@@ -101,14 +101,14 @@ export class DataRow<T> {
 
 export class GroupRow<T> {
     readonly store: Config<T>;
-    models = observable.array<DataRow<T>>([], {deep: false});
+    models = observable.array<DataRow<T>>([], { deep: false });
 
     @observable
     expanded = false;
 
     @observable
     inView = false;
-    
+
     readonly type: 'group' = 'group';
     constructor(models: DataRow<T>[], store: Config<T>) {
         this.store = store;
@@ -167,10 +167,10 @@ export class Config<T> {
 
     @computed
     get colIndices() {
-        const templateColumns = new Map<keyof T, {index: number, style: React.CSSProperties}>();
+        const templateColumns = new Map<keyof T, { index: number, style: React.CSSProperties }>();
         (Object.keys(this.header) as (keyof T)[]).forEach((key, idx) => {
             const value = this.header[key as string];
-            templateColumns.set(key, {index: idx + 1, style: {maxWidth: value.maxWidth, width: value.width}});
+            templateColumns.set(key, { index: idx + 1, style: { maxWidth: value.maxWidth, width: value.width } });
         });
         return Object.freeze(templateColumns);
     }
@@ -209,7 +209,7 @@ export class Config<T> {
 
 
     @computed
-    get columnSize(): number {
+    get columnCount(): number {
         return Object.keys(this.config.columns).length;
     }
 
@@ -270,7 +270,7 @@ export class Config<T> {
                     this.grouped[idx].setExpanded(true);
                     initial = true;
                 } else {
-                /** and only after the last shift, turn it off... */
+                    /** and only after the last shift, turn it off... */
                     this.grouped[idx].setExpanded(!initial);
                 }
             }

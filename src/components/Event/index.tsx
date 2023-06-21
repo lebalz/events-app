@@ -23,6 +23,8 @@ import State from './EventFields/State';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
+import Departments from './EventFields/Departments';
+import Klasses from './EventFields/Klasses';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -78,9 +80,7 @@ const Event = observer((props: Props) => {
                                 <>
                                     <dt><Translate id="event.classes" description='for a single event: classes'>Klassen</Translate></dt>
                                     <dd>
-                                        <div className={clsx(styles.clases, commonClasses)}>
-                                            {[...event.classes].map((cl, idx) => <Badge key={`cl-${idx}`} text={cl} />)}
-                                        </div>
+                                        <Klasses {...commonProps} />
                                     </dd>
                                 </>
                             )}
@@ -88,9 +88,7 @@ const Event = observer((props: Props) => {
                                 <>
                                     <dt><Translate id="event.departments" description='for a single event: departments'>Departemente</Translate></dt>
                                     <dd>
-                                        <div className={commonClasses}>
-                                            {event.affectedDepartments.map((dp, idx) => <Badge key={`gr-${idx}`} text={dp.name} color={dp.color} />)}
-                                        </div>
+                                        <Departments {...commonProps} />
                                     </dd>
                                 </>
                             )}
