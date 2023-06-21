@@ -6,6 +6,8 @@ import _ from 'lodash';
 interface Cell<T> {
     value: string | number;
     component?: React.ReactNode;
+    hidden: boolean,
+    colSpan: number,
     className?: string;
     maxWidth?: string;
     width?: string;
@@ -35,6 +37,8 @@ export interface ItemProps<T> extends ComponentProps {
 interface ColumnProps<T> {
     label: string | React.ReactNode;
     render?: (item: T) => React.JSX.Element;
+    colSpan?: (item: T) => number;
+    hidden?: (item: T) => boolean;
     component?: React.ReactNode;
     className?: string;
     maxWidth?: string;
@@ -77,20 +81,42 @@ export class DataRow<T> {
 
     @computed
     get cells(): Cell<T>[] {
-        return (Object.keys(this.config.columns) as (keyof T)[]).map((key) => {
-            const col = this.config.columns[key as string] as ColumnProps<T>;
+        return (Object.keys(this.columnConfig) as (keyof T)[]).map((key, idx) => {
+            const col = this.columnConfig[key as string] as ColumnProps<T>;
             const value = col.transform ? col.transform(this.model) : this.model[key] as string | number;
+            const component = col.render ? col.render(this.model) : undefined;
+            const colSpan = col.colSpan ? col.colSpan(this.model) : 1;
+            const hidden = col.hidden ? col.hidden(this.model) : false;
+            let width = col.width;
+            if (!hidden && colSpan > 1) {
+                const spannedWidths = this.store.columnWidths.slice(idx, idx + colSpan);
+                if (spannedWidths.some((w) => w === undefined)) {
+                    width = undefined;
+                } else {
+                    width = `calc(${spannedWidths.join(' + ')})`
+                }
+            }
             return {
                 value: value,
-                component: col.render ? col.render(this.model) : undefined,
+                component: component,
                 rowName: key,
                 className: col.className,
                 maxWidth: col.maxWidth,
-                width: col.width,
+                width: width,
                 fixed: col.fixed,
                 gridColumn: this.store.colIndices.get(key)?.index,
+                hidden: hidden,
+                colSpan: colSpan,
             }
         });
+    }
+
+    get columnConfig() {
+        return this.config.columns;
+    }
+
+    get columnKeys() {
+        return [...Object.keys(this.config.columns)];
     }
 
     @computed
@@ -161,18 +187,28 @@ export class Config<T> {
     }
 
     @computed
-    get header() {
+    get columns() {
         return this.config.columns;
     }
 
     @computed
     get colIndices() {
         const templateColumns = new Map<keyof T, { index: number, style: React.CSSProperties }>();
-        (Object.keys(this.header) as (keyof T)[]).forEach((key, idx) => {
-            const value = this.header[key as string];
+        (Object.keys(this.columns) as (keyof T)[]).forEach((key, idx) => {
+            const value = this.columns[key as string];
             templateColumns.set(key, { index: idx + 1, style: { maxWidth: value.maxWidth, width: value.width } });
         });
         return Object.freeze(templateColumns);
+    }
+
+    @computed
+    get columnKeys() {
+        return Object.freeze([...Object.keys(this.columns)]);
+    }
+    
+    @computed
+    get columnWidths() {
+        return Object.values(this.columns).map((col) => col.width);
     }
 
     @action
@@ -270,7 +306,7 @@ export class Config<T> {
                     this.grouped[idx].setExpanded(true);
                     initial = true;
                 } else {
-                    /** and only after the last shift, turn it off... */
+                    /** and only after the last shown group, disable the (initial) render... */
                     this.grouped[idx].setExpanded(!initial);
                 }
             }

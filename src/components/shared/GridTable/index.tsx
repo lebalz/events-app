@@ -59,7 +59,7 @@ const GridTable = observer(<T extends DataItem>(props: Props<T>) => {
                 style={{ gridTemplateColumns }}
                 ref={ref}
             >
-                {Object.entries(config.header).map(([key, column], idx) => (
+                {Object.entries(config.columns).map(([key, column], idx) => (
                     <div
                         key={idx}
                         className={clsx(styles.cell, styles.header, column.className)}
