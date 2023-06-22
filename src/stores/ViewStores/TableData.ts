@@ -36,7 +36,7 @@ export interface ItemProps<T> extends ComponentProps {
 
 interface ColumnProps<T> {
     label: string | React.ReactNode;
-    render?: (item: T) => React.JSX.Element;
+    render?: (item: T, self: Config<T>) => React.JSX.Element;
     colSpan?: (item: T) => number;
     hidden?: (item: T) => boolean;
     component?: React.ReactNode;
@@ -84,7 +84,7 @@ export class DataRow<T> {
         return (Object.keys(this.columnConfig) as (keyof T)[]).map((key, idx) => {
             const col = this.columnConfig[key as string] as ColumnProps<T>;
             const value = col.transform ? col.transform(this.model) : this.model[key] as string | number;
-            const component = col.render ? col.render(this.model) : undefined;
+            const component = col.render ? col.render(this.model, this.store) : undefined;
             const colSpan = col.colSpan ? col.colSpan(this.model) : 1;
             const hidden = col.hidden ? col.hidden(this.model) : false;
             let width = col.width;
@@ -263,10 +263,16 @@ export class Config<T> {
 
     @computed
     get items(): DataRow<T>[] {
-        if (!this.config.sortColumn) {
+        if (!this.config.sortColumn && !this.config.groupBy) {
             return this.data;
         }
-        return _.orderBy(this.data, [(r) => r.model[this.config.sortColumn]], [this.config.sortDirection ?? 'asc']);
+        if (!this.config.groupBy) {
+            return _.orderBy(this.data, [(r) => r.model[this.config.sortColumn]], [this.config.sortDirection ?? 'asc']);
+        }
+        if (!this.config.sortColumn) {
+            return _.orderBy(this.data, [(r) => r.model[this.config.groupBy]], ['asc']);
+        }
+        return _.orderBy(this.data, [(r) => r.model[this.config.groupBy], (r) => r.model[this.config.sortColumn]], ['asc', this.config.sortDirection ?? 'asc']);
     }
 
     @action
