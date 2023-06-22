@@ -9,6 +9,7 @@ import Event from '../models/Event';
 moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Layout from '@theme/Layout';
+import { translate } from '@docusaurus/Translate';
 const localizer = momentLocalizer(moment)
 
 const Calendar = observer(() => {
@@ -60,7 +61,7 @@ const Calendar = observer(() => {
                         eventPropGetter={eventStyleGetter}
                         popup
                         messages={{
-                            next: "Nächste",
+                            next: translate({message : "Nächste", id:'calendar.button.nextWeek' , description:'button to show the next week on the calendar'}),
                             previous: "Vorherige",
                             today: "Heute",
                             month: "Monat",
