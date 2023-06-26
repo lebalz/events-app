@@ -17,6 +17,7 @@ interface Props<T> extends ConfigProps<T> {
     defaultRowHeight?: number;
     className?: string;
     groupHeader?: (group: GroupRow<T>) => React.JSX.Element;
+    onRowClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, model: (T & DataItem)) => void;
 }
 
 const GridTable = observer(<T extends DataItem>(props: Props<T>) => {
@@ -90,7 +91,8 @@ const GridTable = observer(<T extends DataItem>(props: Props<T>) => {
                                 row={row}
                                 tableCssSelector={styles.grid}
                                 header={props.groupHeader && props.groupHeader(row)}
-                                rowHeight={props.defaultRowHeight ?? 35}
+                                rowHeight={props.defaultRowHeight ?? 35}                            
+                                onRowClick={props.onRowClick}
                             />
                         )
                     }
@@ -99,6 +101,7 @@ const GridTable = observer(<T extends DataItem>(props: Props<T>) => {
                             key={row.id}
                             row={row}
                             rowNr={idx}
+                            onClick={props.onRowClick}
                         />
                     )
                 })}

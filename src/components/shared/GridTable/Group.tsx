@@ -12,6 +12,7 @@ interface Props<T> {
     header: React.ReactNode;
     tableCssSelector: string;
     rowHeight: number;
+    onRowClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, model: (T & DataItem)) => void;
 }
 
 
@@ -44,6 +45,7 @@ const Group = observer(<T extends DataItem>(props: Props<T>) => {
                         key={idx}
                         row={model}
                         rowNr={idx}
+                        onClick={props.onRowClick}
                     />
                 ))
             )}
