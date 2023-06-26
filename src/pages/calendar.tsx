@@ -62,21 +62,21 @@ const Calendar = observer(() => {
                         popup
                         messages={{
                             next: translate({message : "Nächste", id:'calendar.button.nextWeek' , description:'button to show the next week on the calendar'}),
-                            previous: "Vorherige",
-                            today: "Heute",
-                            month: "Monat",
-                            week: "Woche",
-                            day: "Tag",
-                            agenda: "Agenda",
-                            date: "Datum",
-                            time: "Zeit",
-                            event: "Event",
-                            noEventsInRange: "Keine Events in diesem Zeitraum",
-                            tomorrow: "Morgen",
-                            work_week: "Arbeitswoche",
-                            yesterday: "Gestern",
-                            allDay: "Ganzer Tag",
-                            showMore: total => `+${total} weitere`
+                            previous: translate({message : "Vorherige", id:'calendar.button.previousWeek' , description:'button to show the previous week on the calendar'}),
+                            today: translate({message : "Heute", id:'calendar.button.today' , description:'button to show today on the calendar'}),
+                            month: translate({message : "Monat", id:'calendar.button.month' , description:'button to show the calendar by month'}),
+                            week: translate({message : "Woche", id:'calendar.button.week' , description:'button to show the calendar by week'}),
+                            day: translate({message : "Tag", id:'calendar.button.day' , description:'button to show the calendar by day'}),
+                            agenda: translate({message : "Agenda", id:'calendar.button.agenda' , description:'button to show the calendar as list'}),
+                            date: translate({message : "Datum", id:'calendar.field.date' , description:'title of the table for the date'}),
+                            time: translate({message : "Zeit", id:'calendar.field.time' , description:'title of the table for the time'}),
+                            event: translate({message : "Event", id:'calendar.field.event' , description:'title of the table for the event'}),
+                            noEventsInRange: translate({message : "Keine Events in diesem Zeitraum", id:'calendar.message.noevent' , description:'message if no event in time range'}),
+                            tomorrow: translate({message : "Morgen", id:'calendar.tomorrow' , description:''}),
+                            work_week: translate({message : "Arbeitswoche", id:'calendar.workWeek' , description:''}),
+                            yesterday: translate({message : "Gestern", id:'calendar.yesterday' , description:''}),
+                            allDay: translate({message : "Ganzer Tag", id:'calendar.allDay' , description:''}),
+                            showMore: total => translate({message : `+${total} weitere`, id:'calendar.plus' , description:'show more'})
                         }}
                     />
                 )}
