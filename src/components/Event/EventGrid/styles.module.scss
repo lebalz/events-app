@@ -1,22 +1,9 @@
 .fullscreenContainer {
     background: var(--ifm-color-primary-contrast-background);
 }
-
-.scroll {
-    --header-shadow-blur: 20px;
-    --header-shadow: 0 3px var(--header-shadow-blur) rgba(0, 0, 0, 0.2);
-    position: relative;
-    max-width: 100%;
-    max-height: 96vh;
-    width: fit-content;
-    overflow-x: auto;
-    margin-left: auto;
-    margin-right: auto;
-    &.editable {
-        min-height: min(55em, 95vh);
-    }
+.editable {
+    min-height: min(55em, 95vh);
 }
-
 .grid {
     display: grid;
     grid-template-columns: var(--event-grid-template-columns);

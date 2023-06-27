@@ -1,19 +1,34 @@
 import React from 'react';
 import clsx from 'clsx';
-import Event from './Event';
-import {default as EventModel} from '@site/src/models/Event';
+import { default as EventModel } from '@site/src/models/Event';
 import styles from './styles.module.scss';
 import gDefault from './gridConfigs/default.module.scss';
 import gSelect from './gridConfigs/selectable.module.scss';
 import gSelectAuthor from './gridConfigs/select_author.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import EventHeader from './EventHeader';
 import { action, computed, reaction } from 'mobx';
 import Filter from '../Filter';
-import EventGroup from './EventGroup';
 import { formatDate } from '@site/src/models/helpers/time';
 import EventModal from '../Modal';
+import GridTable from '../../shared/GridTable';
+import { useWindowSize } from '@docusaurus/theme-common';
+import Select from '../EventFields/Select';
+import DateTime from '../EventFields/DateTime';
+import Description from '../EventFields/Description';
+import Day from '../EventFields/Day';
+import UserGroup from '../EventFields/UserGroup';
+import DepartmentsOrAudiencePicker from '../EventFields/DepartmentsOrAudience';
+import DescriptionLong from '../EventFields/DescriptionLong';
+import { Icon, SIZE_S } from '../../shared/icons';
+import Location from '../EventFields/Location';
+import Klasses from '../EventFields/Klasses';
+import Actions from '../EventFields/Actions';
+import { mdiTools } from '@mdi/js';
+import State from '../EventFields/State';
+import IsValid from '../EventFields/IsValid';
+import KW from '../EventFields/Kw';
+import Author from '../EventFields/Author';
 
 
 interface Props {
@@ -26,18 +41,22 @@ interface Props {
     showFilter?: boolean;
     scrollToCurrent?: boolean;
     sortable?: boolean;
+    showState?: boolean;
+    showIsValid?: boolean;
+    showKW?: boolean;
 }
 
 const EventGrid = observer((props: Props) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const viewStore = useStore('viewStore');
+    const windowSize = useWindowSize();
 
     React.useEffect(() => {
         const current = viewStore.fullscreen;
         viewStore.setShowFullscreenButton(props.showFullscreenButton ?? true);
         return () => viewStore.setShowFullscreenButton(current);
     }, []);
-    
+
     React.useEffect(
         () =>
             reaction(
@@ -63,100 +82,77 @@ const EventGrid = observer((props: Props) => {
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
 
-    React.useEffect(() => {
-        // if (!props.scrollToCurrent) {
-        //     return;
-        // }
-        const current = document.querySelector('#current-week');
-        if (current) {
-            current.scrollIntoView(
-                {
-                    behavior: 'smooth',
-                    block: 'start',
-                    inline: 'nearest'
-                }
-            );
-            const tid = setTimeout(() => {
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            }, 1000);
-            return () => clearTimeout(tid);
-        }
-    }, [props.events, props.scrollToCurrent]);
-
-    const grouped = props.events.reduce((acc, event) => {
-        const key = event.kw;
-        if (!acc[key]) {
-            acc[key] = [];
-        }
-        acc[key].push(event);
-        return acc;
-    }, {} as {[key: string]: EventModel[]});
-
-    let gridConfig = props.gridConfig ?? gDefault.grid;
-    if (!props.gridConfig) {
-        if (props.selectable && props.showAuthor) {
-            gridConfig = gSelectAuthor.grid;
-        } else if (props.selectable) {
-            gridConfig = gSelect.grid;
-        } else if (props.showAuthor) {
-            gridConfig = gSelectAuthor.grid;
-        }
-    }
+    // React.useEffect(() => {
+    //     const current = document.querySelector('#current-week');
+    //     if (current) {
+    //         current.scrollIntoView(
+    //             {
+    //                 behavior: 'smooth',
+    //                 block: 'start',
+    //                 inline: 'nearest'
+    //             }
+    //         );
+    //         const tid = setTimeout(() => {
+    //             window.scrollTo({top: 0, behavior: 'smooth'});
+    //         }, 1000);
+    //         return () => clearTimeout(tid);
+    //     }
+    // }, [props.events, props.scrollToCurrent]);
 
     const editable = props.events.some(e => e.isEditable);
-    const isEditGrid = editable && props.events.some(e => e.isEditing);
-
     return (
         <div className={clsx(viewStore.fullscreen && styles.fullscreenContainer)} ref={ref}>
-            <div className={clsx(styles.scroll, editable && styles.editable, 'event-grid')}>
-                {props.showFilter && <Filter />}
-                <div className={clsx(styles.grid, gridConfig, (props.groupBy && viewStore.eventTable.activeGroup) && styles.overview, props.selectable && styles.selectable, props.showAuthor && styles.showAuthor)}>
-                    <EventHeader 
-                        onSelectAll={props.selectable ? action((v) => props.events.forEach(e => e.setSelected(v))) : undefined}
-                        checked={props.events.length > 0 && props.events.every(e => e.selected)} 
-                        partialChecked={props.events.some(e => e.selected)}
-                        isEditGrid={isEditGrid}
-                    />
-                    {props.groupBy ? (
-                        Object.entries(grouped).map(([kw, events]) => (
-                            <EventGroup 
-                                events={events} 
-                                key={kw} 
-                                selectable={props.selectable} 
-                                kw={Number.parseInt(kw, 10)}
-                                id={`KW ${kw}`}
-                                content={
-                                    <>
-                                        <span>KW {kw}</span>
-                                        <span style={{textAlign: 'center'}}>
-                                            {formatDate(events[0].weekStart)} - {formatDate(events[0].weekEnd)}
-                                        </span>
-                                    </>
-                                } 
-                            />
-                        ))
-                    ) : (props.events.map((event, idx) => (
-                        <Event 
-                            styles={styles}
-                            key={event.id} 
-                            rowIndex={idx}
-                            event={event}
-                            isEditGrid={isEditGrid}
-                            onSelect={props.selectable ? 
-                                action((selected: boolean, shiftKey: boolean) => {
+            {props.showFilter && <Filter />}
+            <GridTable
+                className={clsx(styles.table, editable && styles.editable)}
+                data={props.events || []}
+                columns={{
+                    state: props.showState && { width: '2.1em', label: '', render: (item) => <State event={item} />, transform: (item) => item.state },
+                    isValid: props.showIsValid && { width: '2.1em', label: '', render: (item) => <IsValid event={item} />, transform: (item) => item.isValid ? 'Valid' : 'Invalid' },
+                    select: props.selectable && {
+                        width: '2.1em',
+                        label: '',
+                        render: (item, self) => (
+                            <Select
+                                event={item}
+                                onSelect={(selected: boolean, shiftKey: boolean) => {
+                                    const idx = self.items.findIndex(i => i.model.id === item.id);
+                                    const topIdx = self.items.slice(0, idx).findLastIndex(i => i.model.selected);
                                     if (shiftKey) {
-                                        const topIdx = props.events.slice(0, idx).findLastIndex(e => e.selected);
                                         if (topIdx > -1) {
-                                            props.events.slice(topIdx, idx).forEach(e => e.setSelected(selected));
+                                            self.items.slice(topIdx, idx).forEach(i => i.model.setSelected(selected));
                                         }
                                     }
-                                    event.setSelected(selected);
-                                }) : undefined
-                            }
-                        />
-                    )))}
-                </div>
-            </div>
+                                    item.setSelected(selected)
+                                }}
+                            />),
+                        transform: (item) => item.id
+                    },
+                    kw: props.showKW && { width: '2.8em', label: 'KW', transform: (item) => item.kw, render: (item) => <KW event={item} /> },
+                    author: props.showAuthor && { width: '5em', label: 'Author', transform: (item) => item.author?.shortName, render: (item) => <Author event={item} /> },
+                    day: { width: '2.8em', label: 'Tag', transform: (item) => item.fStartDate, render: (item) => <Day event={item} /> },
+                    description: { width: '16em', label: 'Stichworte', render: (item) => <Description event={item} /> },
+                    start: { label: 'Start', render: (item) => <DateTime event={item} time='start' />, className: styles.flex },
+                    end: { label: 'Ende', render: (item) => <DateTime event={item} time='end' />, className: styles.flexEnd },
+                    location: { label: 'Ort', render: (item) => <Location event={item} /> },
+                    userGroup: { label: 'Gruppe', render: (item) => <UserGroup event={item} /> },
+                    departmens: { label: 'Abteilungen', transform: (item) => item.departmentNames.join(', '), render: (item) => <DepartmentsOrAudiencePicker event={item} />, colSpan: (item) => item.isEditing ? 2 : 1 },
+                    classes: { label: 'Klassen', transform: (item) => item.fClasses.map(t => t.text).join(', '), render: (item) => <Klasses event={item} />, hidden: (item) => item.isEditing },
+                    descriptionLong: { width: '20em', label: 'Beschreibung', render: (item) => <DescriptionLong event={item} /> },
+                    actions: { label: <Icon path={mdiTools} size={SIZE_S} />, fixed: { right: 0 }, render: (item) => <Actions event={item} />, transform: (item) => item.id },
+                }}
+                groupBy={props.groupBy}
+                groupHeader={props.groupBy ? (item) => <div>KW {item.models[0].model.kw}</div> : undefined}
+                onRowClick={(e, model) => {
+                    if (e.ctrlKey || e.metaKey || windowSize === 'mobile') {
+                        viewStore.setEventModalId(model.id);
+                    } else if (e.altKey && model.isEditable) {
+                        model.setEditing(true);
+                    } else {
+                        model.setExpanded(true);
+                    }
+                }}
+            />
         </div>
     )
 });
