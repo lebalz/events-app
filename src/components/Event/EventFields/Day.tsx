@@ -14,7 +14,7 @@ interface Props extends ReadonlyProps {
     showRange?: boolean;
 }
 const Day = observer((props: Props) => {
-    const { event, showFullName, showRange, onClick } = props;
+    const { event, showFullName, showRange } = props;
     const viewStore = useStore('viewStore');
     const start = showFullName ? event.dayFullStart : event.dayStart;
     const end = showFullName ? event.dayFullEnd : event.dayEnd;
@@ -22,7 +22,6 @@ const Day = observer((props: Props) => {
         <div 
             style={{gridColumn: 'day'}} 
             className={clsx(styles.day, props.className, 'grid-day')}
-            onClick={onClick}
         >
             <div className={clsx(styles.value)}>
                 {(showRange && event.fStartDate !== event.fEndDate) ? `${start} - ${end}` : start}

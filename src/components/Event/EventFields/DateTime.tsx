@@ -11,7 +11,7 @@ interface Props extends DefaultProps {
 }
 
 const DateTime = observer((props: Props) => {
-    const { event, onClick } = props;
+    const { event } = props;
     const error = event.errorFor(props.time);
     let dateColumn = 'startDate';
     let timeColumn = 'startTime';
@@ -25,7 +25,7 @@ const DateTime = observer((props: Props) => {
         ftime = event.fEndTime;
         date = event.end;
     }
-    if (props.isEditable && props.event.isEditing) {
+    if (event.isEditable && event.isEditing) {
         return (
             <div
                 style={{ gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End` }}
@@ -51,14 +51,12 @@ const DateTime = observer((props: Props) => {
             <div
                 style={{ gridColumn: dateColumn }}
                 className={clsx(props.className, styles.date, styles[dateColumn], event.isOnOneDay && styles.onOneDay, `grid-${dateColumn}`)}
-                onClick={onClick}
             >
                 {fdate}
             </div>
             <div
                 style={{ gridColumn: timeColumn }}
                 className={clsx(props.className, styles.time, styles[timeColumn], event.isAllDay && styles.allDay, `grid-${timeColumn}`)}
-                onClick={onClick}
             >
                 {ftime}
             </div>

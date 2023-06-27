@@ -12,12 +12,11 @@ interface Props extends CommonProps {
 }
 
 const UserGroup = observer((props: Props) => {
-    const { event, onClick } = props;
+    const { event } = props;
     return (
         <div 
             style={{ gridColumn: 'userGroup' }} 
             className={clsx(props.className, styles.userGroup)}
-            onClick={onClick}
         >
             <div className={clsx(styles.tags)}>
                 {event.hasUserGroup && (

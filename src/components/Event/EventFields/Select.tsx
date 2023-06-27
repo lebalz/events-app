@@ -18,6 +18,9 @@ const Select = observer((props: Props) => {
             data-id={event.id}
             style={{gridColumn: 'select'}} 
             className={clsx('grid-select', styles.select, props.className)}
+            onClick={(e) => {
+                e.stopPropagation();
+            }}
         >
             <Checkbox checked={event.selected} onChange={props.onSelect}/>
         </div>

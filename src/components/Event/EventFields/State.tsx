@@ -33,12 +33,11 @@ const StateTitle: {[state in EventState]: string} = {
 }
 
 const State = observer((props: ReadonlyProps) => {
-    const { onClick, event } = props;
+    const { event } = props;
     return (
         <div 
             style={{gridColumn: 'state'}} 
             className={clsx('state', styles.state, props.className, 'grid-isValid')}
-            onClick={onClick}
         >
             <Badge icon={StateButton[event.state]} color={StateColor[event.state]} size={SIZE_S} title={StateTitle[event.state]} />
             {

@@ -11,12 +11,11 @@ interface Props extends CommonProps {
 }
 
 const Klasses = observer((props: Props) => {
-    const { event, onClick } = props;
+    const { event } = props;
     return (
         <div 
             style={{ gridColumn: 'classes' }} 
             className={clsx(props.className, styles.classes, props.isEditGrid && styles.editGrid)}
-            onClick={onClick}
         >
             <div className={clsx(styles.tags)}>
                 {

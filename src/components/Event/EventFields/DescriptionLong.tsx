@@ -7,7 +7,6 @@ import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const DescriptionLong = observer((props: Props) => {
-    const { onClick } = props;
     if (props.isEditable && props.event.isEditing) {
         return (
             <div 
@@ -25,7 +24,6 @@ const DescriptionLong = observer((props: Props) => {
         <div 
             style={{gridColumn: 'descriptionLong'}} 
             className={clsx(styles.descriptionLong, props.className, 'grid-descriptionLong')}
-            onClick={onClick}
         >
             {props.event.descriptionLong}
         </div>

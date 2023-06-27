@@ -17,8 +17,8 @@ interface Props extends CommonProps {
 }
 
 const Audience = observer((props: Props) => {
-    const { event, onClick } = props;
-    if (props.isEditable && props.event.isEditing) {
+    const { event } = props;
+    if (event.isEditable && event.isEditing) {
         return (
             <div
                 style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}

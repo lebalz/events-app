@@ -7,9 +7,9 @@ import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const Description = observer((props: Props) => {
-    const { onClick } = props;
-    const error = props.event.errorFor('description');
-    if (props.isEditable && props.event.isEditing) {
+    const {event} = props;
+    const error = event.errorFor('description');
+    if (event.isEditable && event.isEditing) {
         return (
             <div 
                 style={{gridColumn: 'description'}} 
@@ -17,8 +17,8 @@ const Description = observer((props: Props) => {
                 aria-invalid={!!error}
             >
                 <TextArea
-                    text={props.event.description}
-                    onChange={(text) => props.event.update({description: text})}
+                    text={event.description}
+                    onChange={(text) => event.update({description: text})}
                 />
                 {error && (
                     <div className={styles.errorMessage}>
@@ -32,9 +32,8 @@ const Description = observer((props: Props) => {
         <div 
             style={{gridColumn: 'description'}} 
             className={clsx(styles.description, props.className, 'grid-description')}
-            onClick={onClick}
         >
-            {props.event.description}
+            {event.description}
         </div>
     )
 });
