@@ -6,6 +6,9 @@ import EventGrid from '../components/Event/EventGrid';
 import Button from '../components/shared/Button';
 import { mdiDownloadCircleOutline, mdiTools } from '@mdi/js';
 import {useWindowSize} from '@docusaurus/theme-common';
+import Filter from '../components/Event/Filter';
+import clsx from 'clsx';
+import styles from './table.module.scss';
 
 const Table = observer(() => {
     const viewStore = useStore('viewStore');
@@ -13,7 +16,8 @@ const Table = observer(() => {
     const windowSize = useWindowSize();
     return (
         <Layout>
-            <div>
+            <div className={clsx(styles.table)}>
+                <Filter />
                 <EventGrid 
                     events={viewStore.eventTable.events}
                     groupBy='kw'
