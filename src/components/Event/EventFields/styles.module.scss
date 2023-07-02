@@ -21,8 +21,6 @@
     text-align: end;
     max-width: 2.5em;
 }
-.author {
-}
 .day {
     max-width: 3.5em;
     display: flex;
@@ -73,6 +71,11 @@
     &.end {
         grid-column-start: endDate;
         grid-column-end: endEnd;
+    }
+    &.view {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5em;
     }
 }
 .description {
@@ -192,45 +195,5 @@
     }
     &:hover {
         background-color: var(--ifm-color-secondary-darkest);
-    }
-}
-
-
-
-@media screen and (min-width: 768px) {
-    .scroll {
-        .grid {
-            .actions {
-                position: sticky;
-                right: 0;
-                border-left: 1px solid var(--ifm-color-primary);
-                box-shadow: var(--header-shadow);
-                // clip-path to remove shadow on some sides: inset(Tpx Rpx Bpx Lpx);
-                clip-path: inset(0px 0px 0px calc(-1 * var(--header-shadow-blur)));
-                &.header {
-                    clip-path: inset(0px 0px calc(-1 * var(--header-shadow-blur)) calc(-1 * var(--header-shadow-blur)));
-
-                }
-            }
-            .day {
-                .expand {
-                    display: none;
-                }
-            }
-        }
-    }
-}
-
-[data-theme='dark'] {
-    .scroll {
-        --header-shadow: 0 3px var(--header-shadow-blur) rgba(255, 255, 255, 0.1);
-        .grid {
-            .actions {
-                border-color: var(--ifm-color-primary-darkest);
-            }
-            .eventGroup {
-                color: #8d3599;
-            }
-        }
     }
 }

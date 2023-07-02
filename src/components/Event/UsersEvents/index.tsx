@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import gImport from '../EventGrid/gridConfigs/import_job.module.scss';
 import { useStore } from '@site/src/stores/hooks';
 import User from '@site/src/models/User';
 import { EventState } from '@site/src/api/event';
@@ -10,10 +9,27 @@ import { Role } from '@site/src/api/user';
 import clsx from 'clsx';
 import AddButton from '../AddButton';
 import BulkActions from '../BulkActions';
-import EventGrid from '../EventGrid';
+import EventGrid, { ColumnConfig } from '../EventGrid';
 import LazyDetails from '../../shared/Details';
 import Delete from '../../shared/Button/Delete';
 import styles from './styles.module.scss';
+const COLUMN_CONFIG: ColumnConfig = [
+    'isValid',
+    ['state', {sortable: false, width: undefined}],
+    'select',
+    'kw',
+    'day',
+    'description', 
+    'start',
+    'end',
+    ['userGroup', {sortable: false}],
+    'location',
+    'departmens',
+    'classes',
+    'descriptionLong',
+    ['actions', {fixed: {right: 0}}]
+];
+const COLUMN_CONFIG_ADMIN: ColumnConfig = [...COLUMN_CONFIG.slice(0, 3), 'author', ...COLUMN_CONFIG.slice(3)]
 
 interface Props {
     user: User;
@@ -44,7 +60,7 @@ const UsersEvents = observer((props: Props) => {
                             <BulkActions events={drafts.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={drafts} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
+                            <EventGrid events={drafts} columns={COLUMN_CONFIG} />
                         </div>
                     </div>
                 )}
@@ -57,7 +73,7 @@ const UsersEvents = observer((props: Props) => {
                             <BulkActions events={reviewed.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={reviewed} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
+                            <EventGrid events={reviewed}  columns={COLUMN_CONFIG} />
                         </div>
                     </div>
                 </TabItem>
@@ -70,7 +86,7 @@ const UsersEvents = observer((props: Props) => {
                             <BulkActions events={adminReview.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid showAuthor events={adminReview} showFullscreenButton={false} selectable />
+                            <EventGrid events={adminReview}  columns={COLUMN_CONFIG_ADMIN}/>
                         </div>
                     </div>
                 </TabItem>
@@ -83,7 +99,7 @@ const UsersEvents = observer((props: Props) => {
                             <BulkActions events={published.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={published} showFullscreenButton={false} selectable />
+                            <EventGrid events={published} columns={COLUMN_CONFIG} />
                         </div>
                     </div>
                 </TabItem>
@@ -95,7 +111,7 @@ const UsersEvents = observer((props: Props) => {
                             <h3>Gelöscht</h3>
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={deleted} showFullscreenButton={false} />
+                            <EventGrid events={deleted}  columns={COLUMN_CONFIG}/>
                         </div>
                     </div>
                 </TabItem>
@@ -124,7 +140,7 @@ const UsersEvents = observer((props: Props) => {
                                         apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                     />
                                     <BulkActions events={events.filter(e => e.selected)} />
-                                    <EventGrid events={events} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
+                                    <EventGrid events={events}  columns={COLUMN_CONFIG} />
                                 </div>
                             </LazyDetails>
                         )

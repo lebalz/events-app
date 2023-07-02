@@ -47,20 +47,40 @@ const DateTime = observer((props: Props) => {
         )
     }
     return (
-        <>
+        <div 
+            className={clsx(props.className, styles.dateTime, styles.view)}
+            onClick={(e) => event.setExpanded(!event.isExpanded)}
+        >
             <div
                 style={{ gridColumn: dateColumn }}
-                className={clsx(props.className, styles.date, styles[dateColumn], event.isOnOneDay && styles.onOneDay, `grid-${dateColumn}`)}
+                className={clsx(styles.date, styles[dateColumn], event.isOnOneDay && styles.onOneDay, `grid-${dateColumn}`)}
             >
                 {fdate}
             </div>
             <div
                 style={{ gridColumn: timeColumn }}
-                className={clsx(props.className, styles.time, styles[timeColumn], event.isAllDay && styles.allDay, `grid-${timeColumn}`)}
+                className={clsx(styles.time, styles[timeColumn], event.isAllDay && styles.allDay, `grid-${timeColumn}`)}
             >
                 {ftime}
             </div>
-        </>
+        </div>
+    )
+});
+
+export const StartDateTime = observer((props: DefaultProps) => {
+    return (
+        <DateTime
+            {...props}
+            time='start'
+        />
+    )
+});
+export const EndDateTime = observer((props: DefaultProps) => {
+    return (
+        <DateTime
+            {...props}
+            time='end'
+        />
     )
 });
 

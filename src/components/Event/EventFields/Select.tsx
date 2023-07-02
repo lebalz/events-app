@@ -5,10 +5,11 @@ import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
 import Checkbox from '@site/src/components/shared/Checkbox';
 import styles from './styles.module.scss';
+import Event from '@site/src/models/Event';
 
 
 interface Props extends ReadonlyProps {
-    onSelect: (selected: boolean, shiftKey: boolean) => void;
+    onSelect: (event: Event, selected: boolean, shiftKey: boolean) => void;
 }
 
 const Select = observer((props: Props) => {
@@ -22,7 +23,12 @@ const Select = observer((props: Props) => {
                 e.stopPropagation();
             }}
         >
-            <Checkbox checked={event.selected} onChange={props.onSelect}/>
+            <Checkbox 
+                checked={event.selected}
+                onChange={(checked, shiftKey) => {
+                    props.onSelect(event, checked, shiftKey);
+                }}
+            />
         </div>
     )
 });

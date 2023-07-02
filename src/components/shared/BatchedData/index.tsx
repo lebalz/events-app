@@ -1,35 +1,31 @@
 import React from 'react';
 import clsx from 'clsx';
+
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useOnScreen } from '@site/src/stores/hooks';
-import Row from './Row';
-import { DataItem, GroupRow } from '@site/src/stores/ViewStores/TableData';
+import { useOnScreen, useStore } from '@site/src/stores/hooks';
+import Event from '@site/src/models/Event';
 
-
-interface Props<T> {
-    row: GroupRow<T>;
-    header: React.ReactNode;
-    tableCssSelector: string;
-    rowHeight: number;
-    onRowClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, model: (T & DataItem)) => void;
+interface Props<T extends object> {
+    batchSize: number;
+    events: Event[];
+    GroupHeader?: ({items}: {items: T[]}) => React.JSX.Element;
+    DataComponent: ({item}: {item: T}) => React.JSX.Element;
+    parentRootCssSelector: string;
 }
 
-
-const Group = observer(<T extends DataItem>(props: Props<T>) => {
+const BatchedData = observer(<T extends object>(props: Props<T>) => {
     const ref = React.useRef<HTMLDivElement>(null);
-    const onScreen = useOnScreen(ref, props.tableCssSelector, "0% 30px 0% 30px");
+    const onScreen = useOnScreen(ref, props.parentRootCssSelector, "0% 30px 0% 30px");
     React.useEffect(() => {
-        if (onScreen) {
-            props.row.setExpanded(true);
-        }
-        props.row.setInView(onScreen);
-    }, [onScreen, props.row]);
-    const {row} = props;
+        // if (onScreen) {
+        //     props.row.setExpanded(true);
+        // }
+        // props.row.setInView(onScreen);
+    }, [onScreen, props.data]);
     return (
         <>
-            <div 
-                className={clsx(styles.group)} 
+            <div
                 style={{ 
                     height: row.expanded ? undefined : `${row.models.length * props.rowHeight}px`,
                     gridColumnStart: 1,
@@ -37,7 +33,7 @@ const Group = observer(<T extends DataItem>(props: Props<T>) => {
                 }}
                 ref={ref}
             >
-                {props.header}
+                {props.GroupHeader && <props.GroupHeader items={props.data} />}
             </div>
             {row.expanded && (
                 row.models.map((model, idx) => (
@@ -53,4 +49,4 @@ const Group = observer(<T extends DataItem>(props: Props<T>) => {
     )
 });
 
-export default Group;
+export default BatchedData;

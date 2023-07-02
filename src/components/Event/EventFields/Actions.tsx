@@ -26,6 +26,7 @@ const Actions = observer((props: Props) => {
         <div
             style={{ gridColumn: 'actions' }}
             className={clsx(props.className, styles.actions, 'grid-actions')}
+            onClick={(e) => event.setExpanded(!event.isExpanded)}
         >
             <div className={clsx(styles.flex)}>
                 <Button

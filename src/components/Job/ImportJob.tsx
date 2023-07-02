@@ -11,7 +11,6 @@ import User from '@site/src/models/User';
 import Delete from '../shared/Button/Delete';
 import BulkActions from '../Event/BulkActions';
 import EventGrid from '../Event/EventGrid';
-import gImport from '../Event/EventGrid/gridConfigs/import_job.module.scss';
 import { ImportJob as ImportJobModel } from '@site/src/models/Job';
 
 
@@ -42,7 +41,25 @@ const ImportJob = observer((props: Props) => {
                     apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                 />
                 <BulkActions events={job.events.filter(e => e.selected)} />
-                <EventGrid events={job.events} showFullscreenButton={false} gridConfig={gImport.grid} selectable />
+                <EventGrid 
+                    events={job.events}
+                    columns={[
+                        'isValid',
+                        'select',
+                        ['state', {sortable: false, width: undefined}],
+                        'kw',
+                        'day',
+                        'description', 
+                        'start',
+                        'end',
+                        ['userGroup', {sortable: false}],
+                        'location',
+                        'departmens',
+                        'classes',
+                        'descriptionLong',
+                        ['actions', {fixed: {right: 0}}]
+                    ]}
+                />
             </div>
         </LazyDetails>
     )

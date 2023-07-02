@@ -1,19 +1,14 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { RootStore } from '../stores';
 import Semester from '../../models/Semester';
 import User from '../../models/User';
 import Event from '../../models/Event';
 import Lesson from '../../models/Untis/Lesson';
-import { EventState } from '../../api/event';
 import _ from 'lodash';
-import Department from '../../models/Department';
 import { LoadeableStore, ResettableStore } from '../iStore';
-import { computedFn } from 'mobx-utils';
-import Job from '../../models/Job';
 import EventTable, { EventViewProps } from './EventTable';
 import AdminUserTable from './AdminUserTable';
 import AdminDepartmentTable from './AdminDepartmentTable';
-import TableData from './TableData';
 
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
@@ -37,10 +32,6 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     adminUserTable: AdminUserTable;
     @observable.ref
     adminDepartmentTable: AdminDepartmentTable;
-
-    @observable.ref
-    tableData: TableData;
-
     @observable
     openEventModalId?: string;
 
@@ -51,7 +42,6 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         this.eventTable = new EventTable(this);
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
-        this.tableData = new TableData(this);
         makeObservable(this);
     }
 

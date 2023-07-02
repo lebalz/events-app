@@ -16,6 +16,7 @@ const Departments = observer((props: Props) => {
         <div
             style={{ gridColumn: 'departments' }}
             className={clsx(props.className, styles.departments, 'grid-departments', props.isEditGrid && styles.editGrid)}
+            onClick={(e) => event.setExpanded(!event.isExpanded)}
         >
             <div className={clsx(styles.tags)}>
                 {
