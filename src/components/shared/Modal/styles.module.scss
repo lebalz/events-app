@@ -12,13 +12,14 @@
     flex-direction: column;
     .content {
         margin: auto auto;
-        max-width: calc(100% - 4em);
-        max-height: calc(100% - 4em);
+        max-width: calc(100% - 4rem);
+        max-height: calc(100% - 4rem);
     }
 }
 
-// @media screen and (max-width: 768px) {
-//     .content {
-//         margin-top: 2rem;
-//     }
-// }
+@media screen and (max-width: 768px) {
+    .content {
+        margin-top: 2rem;
+        max-width: calc(100% - 0.4rem);
+    }
+}
