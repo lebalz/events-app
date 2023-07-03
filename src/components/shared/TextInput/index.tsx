@@ -10,6 +10,7 @@ interface Props {
     text: string;
     onChange: (text: string) => void;
     className?: string;
+    placeholder?: string;
 }
 
 const TextInput = (props: Props) => {
@@ -18,6 +19,7 @@ const TextInput = (props: Props) => {
             <input
                 type={'text'}
                 value={props.text}
+                placeholder={props.placeholder}
                 onChange={(e) => {
                     props.onChange(e.currentTarget.value);
                 }}

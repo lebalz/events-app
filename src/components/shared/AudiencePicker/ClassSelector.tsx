@@ -64,7 +64,6 @@ const ClassSelector = observer((props: Props) => {
     };
     return (
         <div>
-
             <CreatableSelect
                     components={{ DropdownIndicator: null }}
                     inputValue={inputValue} /** used for the current typed input */
