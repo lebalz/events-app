@@ -22,10 +22,10 @@ const COLUMN_CONFIG: ColumnConfig = [
     'description', 
     'start',
     'end',
-    ['userGroup', {sortable: false}],
-    'location',
-    'departmens',
-    'classes',
+    ['userGroup', {sortable: true}],
+    ['location', {sortable: true}],
+    ['departmens', {}],
+    ['classes', {}],
     'descriptionLong',
     ['actions', {fixed: {right: 0}}]
 ];
