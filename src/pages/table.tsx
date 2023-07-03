@@ -17,7 +17,7 @@ const Table = observer(() => {
     return (
         <Layout>
             <div className={clsx(styles.table)}>
-                <Filter />
+                <Filter showCurrentAndFuture/>
                 <EventGrid 
                     events={viewStore.eventTable.events}
                     groupBy='kw'

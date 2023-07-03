@@ -10,43 +10,49 @@ moment.locale('de-CH');
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Layout from '@theme/Layout';
 import { translate } from '@docusaurus/Translate';
+import Filter from '../components/Event/Filter';
+import { createTransformer } from 'mobx-utils';
 const localizer = momentLocalizer(moment)
 
-const Calendar = observer(() => {
-    const viewStore = useStore('viewStore');
-    const eventStore = useStore('eventStore');
-    const tasks = (viewStore.semester?.events || []).map((e, idx) => {
+
+const createTasks = createTransformer((events: Event[]) => {
+    return events.map((e, idx) => {
         return {
             start: e.start,
             end: e.end,
             title: e.description,
             description: e.descriptionLong,
+            backgroundColor: e.affectedDepartments.length === 1 ? e.affectedDepartments[0].color : undefined,
             id: e.id
         }
     });
+});
+
+const Calendar = observer(() => {
+    const viewStore = useStore('viewStore');
+    const {eventTable} = viewStore;
+
+    const tasks = createTasks(eventTable.events);
+
     const { defaultDate } = React.useMemo(
         () => ({
           defaultDate: moment().toDate(),
         }),
         []
-      )
-    const eventStyleGetter = (event, start, end, isSelected) => {
-        const e = eventStore.find<Event>(event.id);
-        if (!e) {
-            return {};
-        }
-        if (e.departmentNames.length === 1) {
+      );
+    const eventStyleGetter = React.useMemo(() => {
+        return (event, start, end, isSelected) => {
             return {
                 style: {
-                    backgroundColor: e.affectedDepartments.length === 1 ? e.affectedDepartments[0].color : undefined,
+                    backgroundColor: event.backgroundColor,
                 }
-            }
-        }
-        return {}
-    };
+            };
+        };
+    }, []);
     return (
         <Layout>
             <div>
+                <Filter />
                 {tasks.length > 0 && (
                     <BigCalendar
                         defaultDate={defaultDate}

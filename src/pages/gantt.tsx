@@ -6,12 +6,13 @@ import "gantt-task-react/dist/index.css";
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
+import Filter from '../components/Event/Filter';
+import { createTransformer } from 'mobx-utils';
+import Event from '../models/Event';
 
-const GanttView = observer(() => {
-    const viewStore = useStore('viewStore');
-    const ref = React.useRef<HTMLDivElement>(null);
-    const [timer, setTimer] = React.useState<number>(0);
-    const tasks: Task[] = (viewStore.semester?.events || []).filter((e) => e.isValid).map((e, idx) => {
+
+const createTasks = createTransformer<Event[], Task[]>((events: Event[]) => {
+    return events.map((e, idx) => {
         return {
             start: e.start,
             end: e.end,
@@ -23,12 +24,21 @@ const GanttView = observer(() => {
             styles: { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' },
         }
     });
+});
+
+const GanttView = observer(() => {
+    const viewStore = useStore('viewStore');
+    const { eventTable } = viewStore;
+    const ref = React.useRef<HTMLDivElement>(null);
+    const [timer, setTimer] = React.useState<number>(0);
+    const tasks = createTasks(eventTable.events);
 
     React.useEffect(() => {
         const ts = setTimeout(() => {
             const today = document.querySelector('.today');
             if (today) {
                 today.scrollIntoView();
+                window.scrollTo(0, 0);
             }
         }, 20);
         return () => clearTimeout(ts);
@@ -68,6 +78,7 @@ const GanttView = observer(() => {
                 
     return (
         <Layout>
+            <Filter showCurrentAndFuture />
             <div className={clsx(styles.container)}>
                 <div className={clsx(styles.gantt)} ref={ref}>
                     {tasks.length > 0 && (

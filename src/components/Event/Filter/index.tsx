@@ -11,16 +11,22 @@ import DatePicker from '../../shared/DatePicker';
 import { SIZE_S, SIZE_XS, filterSvgPath } from '../../shared/icons';
 
 interface Props {
+    showCurrentAndFuture?: boolean;
 }
 
 const Filter = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
     const { eventTable } = viewStore;
+    React.useEffect(() => {
+        if (!props.showCurrentAndFuture && eventTable.onlyCurrentWeekAndFuture) {
+            eventTable.setOnlyCurrentWeekAndFuture(false);
+            return () => eventTable.setOnlyCurrentWeekAndFuture(true);
+        }
+    }, [props.showCurrentAndFuture]);
     return (
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.basic)}>
-
                 <div className={clsx(styles.audience, 'button-group', 'button-group--block')}>
                     <Button
                         text="Meine"
@@ -28,7 +34,7 @@ const Filter = observer((props: Props) => {
                         color='blue'
                         onClick={() => eventTable.toggleOnlyMine()}
                     />
-                    {eventTable.showCurrentAndFutureFilter && (
+                    {eventTable.showCurrentAndFutureFilter && props.showCurrentAndFuture && (
                         <Button
                             text="Künftige"
                             active={eventTable.onlyCurrentWeekAndFuture}
