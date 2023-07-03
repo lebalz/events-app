@@ -5,6 +5,7 @@ import User from '../../models/User';
 import { EventState } from '../../api/event';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
+import { getKW } from '@site/src/models/helpers/time';
 
 export interface EventViewProps {
     user?: User;
@@ -37,7 +38,13 @@ class EventTable {
     onlyMine: boolean = false;
 
     @observable
+    _onlyCurrentWeekAndFuture: boolean = true;
+
+    @observable
     activeGroup: string | null = null;
+
+    @observable
+    showAdvancedFilter = false;
 
 
     constructor(store: ViewStore) {
@@ -56,6 +63,36 @@ class EventTable {
     }
 
     @action
+    setOnlyCurrentWeekAndFuture(onlyCurrentWeekAndFuture: boolean): void {
+        this._onlyCurrentWeekAndFuture = onlyCurrentWeekAndFuture;
+    }
+
+    @action
+    setShowAdvancedFilter(showAdvancedFilter: boolean): void {
+        this.showAdvancedFilter = showAdvancedFilter;
+    }
+
+    @computed
+    get hasAdvancedFilters(): boolean {
+        return this.departmentIds.size > 0 || this.klasses.size > 0 || !!this.start || !!this.end;
+    }
+
+    @computed
+    get showCurrentAndFutureFilter(): boolean {
+        const { semester } = this.store;
+        return semester?.isCurrent;
+    }
+
+    @computed
+    get onlyCurrentWeekAndFuture(): boolean {
+        const { semester } = this.store;
+        if (semester?.isPast) {
+            return false;
+        }
+        return this._onlyCurrentWeekAndFuture;
+    }
+
+    @action
     setActiveGroup(kw: string | null): void {
         this.activeGroup = kw;
     }
@@ -66,12 +103,17 @@ class EventTable {
         if (!semester) {
             return [];
         }
+        const currentKw = getKW(new Date());
+        semester.isCurrent
         return semester.events.filter((event) => {
             if (event.state !== EventState.Published) {
                 return false;
             }
             let keep = true;
             if (this.onlyMine && !event.isAffectedByUser) {
+                keep = false;
+            }
+            if (keep && this.onlyCurrentWeekAndFuture && event.kwEnd < currentKw) {
                 keep = false;
             }
             if (keep && this.departmentIds.size > 0) {

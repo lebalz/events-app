@@ -138,11 +138,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         }
         this._semesterId = semester.id;
         this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester).then((data) => {
-            if (this._semesterId === semester.id && Array.isArray(data) && data.length > 0) {
-                this.eventTable.setOnlyMine(true);
-            } else {
-                this.eventTable.setOnlyMine(false);
-            }
+            // if (this._semesterId === semester.id && Array.isArray(data) && data.length > 0) {
+            //     this.eventTable.setOnlyMine(true);
+            // } else {
+            //     this.eventTable.setOnlyMine(false);
+            // }
         });
     }
 
@@ -183,15 +183,15 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @action
     load() {
-        // if (this.root.userStore.getAffectedEventIds.size > 0) {
-        //     this.eventTable.setOnlyMine(true);
-        // }
+        if (this.root.userStore.current?.untisId) {
+            this.eventTable.setOnlyMine(true);
+        }
         return Promise.resolve()
     }
 
     @action
     reset() {
-        // this.eventTable.setOnlyMine(false);
+        this.eventTable.setOnlyMine(false);
     }
 
 }

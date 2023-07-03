@@ -114,8 +114,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     loadAffectedEventIds(user: User, semester?: Semester) {
         return this.withAbortController(`load-affected-events-${user.id}-${semester?.id}`, (sig) => {
             return apiAffectedEventIds(user.id, semester?.id, sig.signal).then(action(({data}) => {
-                this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
-                this.root.viewStore.eventTable.setOnlyMine(data.length > 0);                   
+                this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);            
                 return data;
             }));
         });

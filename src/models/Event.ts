@@ -525,9 +525,20 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.weekOffsetMS_start + this.durationMS;
     }
 
+    /**
+     * Calendar week of the events **start** date
+     */
     @computed
     get kw() {
         return getKW(this.start);
+    }1
+
+    /**
+     * Calendar week of the events **end** date
+     */
+    @computed
+    get kwEnd() {
+        return getKW(this.end);
     }
 
     /**

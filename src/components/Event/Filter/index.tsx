@@ -5,10 +5,10 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
-import { mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
+import { mdiAbacus, mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
-import { SIZE_S, SIZE_XS } from '../../shared/icons';
+import { SIZE_S, SIZE_XS, filterSvgPath } from '../../shared/icons';
 
 interface Props {
 }
@@ -16,31 +16,54 @@ interface Props {
 const Filter = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
-    const {eventTable} = viewStore;
+    const { eventTable } = viewStore;
     return (
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.audience)}>
-                <Button 
+                <Button
                     text="Meine"
                     active={eventTable.onlyMine}
                     color='blue'
                     onClick={() => eventTable.toggleOnlyMine()}
                 />
             </div>
-            <div className={clsx(styles.department, 'button-group', 'button-group--block')}>
-                {departmentStore.usedDepartments.map((department) => (
+            {eventTable.showCurrentAndFutureFilter && (
+                <div className={clsx(styles.audience)}>
                     <Button
-                        text={department.name}
-                        active={eventTable.departmentIds.has(department.id)}
-                        onClick={() => eventTable.toggleDepartment(department)} 
-                        color="blue"
-                        key={department.id}
+                        text="Künftige"
+                        active={eventTable.onlyCurrentWeekAndFuture}
+                        color='blue'
+                        onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
                     />
-                ))}
+                </div>
+            )}
+            <div className={clsx(styles.showMore)}>
+                <Button
+                    icon={filterSvgPath}
+                    size={SIZE_S}
+                    active={eventTable.showAdvancedFilter}
+                    color={eventTable.hasAdvancedFilters ? 'blue' : undefined}
+                    onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
+                />
             </div>
-            <div className={clsx(styles.classes)}>
-                <TextInput onChange={(txt) => eventTable.setClassFilter(txt)} text={eventTable.klassFilter}/>
-            </div>
+            {eventTable.showAdvancedFilter && (
+                <div>
+                    <div className={clsx(styles.department, 'button-group', 'button-group--block')}>
+                        {departmentStore.usedDepartments.map((department) => (
+                            <Button
+                                text={department.name}
+                                active={eventTable.departmentIds.has(department.id)}
+                                onClick={() => eventTable.toggleDepartment(department)}
+                                color="blue"
+                                key={department.id}
+                            />
+                        ))}
+                    </div>
+                    <div className={clsx(styles.classes)}>
+                        <TextInput onChange={(txt) => eventTable.setClassFilter(txt)} text={eventTable.klassFilter} />
+                    </div>
+                </div>
+            )}
             {/* <div className={clsx(styles.date, styles.start)}>
                 {!!eventTable.start ? (
                     <>

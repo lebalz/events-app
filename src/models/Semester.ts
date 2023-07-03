@@ -106,7 +106,13 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
 
     @computed
     get isCurrent() {
-        return this.start.getTime() < Date.now() && this.end.getTime() > Date.now();
+        const now = Date.now();
+        return this.start.getTime() < now && this.end.getTime() > now;
+    }
+
+    @computed
+    get isPast() {
+        return this.end.getTime() < Date.now();
     }
 
     @computed

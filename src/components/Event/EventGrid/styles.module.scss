@@ -67,6 +67,12 @@
                 &.state {
                     justify-content: center;
                 }
+                &.actions {
+                    justify-content: center;
+                }
+            }
+            &.fixed {
+                padding: 0;
             }
         }
     }
