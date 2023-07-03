@@ -19,71 +19,81 @@ const Filter = observer((props: Props) => {
     const { eventTable } = viewStore;
     return (
         <div className={clsx(styles.filter)}>
-            <div className={clsx(styles.audience)}>
-                <Button
-                    text="Meine"
-                    active={eventTable.onlyMine}
-                    color='blue'
-                    onClick={() => eventTable.toggleOnlyMine()}
-                />
-            </div>
-            {eventTable.showCurrentAndFutureFilter && (
+            <div className={clsx(styles.basic)}>
+
                 <div className={clsx(styles.audience)}>
                     <Button
-                        text="Künftige"
-                        active={eventTable.onlyCurrentWeekAndFuture}
+                        text="Meine"
+                        active={eventTable.onlyMine}
                         color='blue'
-                        onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
+                        onClick={() => eventTable.toggleOnlyMine()}
                     />
                 </div>
-            )}
-            <div className={clsx(styles.showMore)}>
-                <Button
-                    icon={filterSvgPath}
-                    size={SIZE_S}
-                    active={eventTable.showAdvancedFilter}
-                    color={eventTable.hasAdvancedFilters ? 'blue' : undefined}
-                    onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
-                />
+                {eventTable.showCurrentAndFutureFilter && (
+                    <div className={clsx(styles.audience)}>
+                        <Button
+                            text="Künftige"
+                            active={eventTable.onlyCurrentWeekAndFuture}
+                            color='blue'
+                            onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
+                        />
+                    </div>
+                )}
+                <div className={clsx(styles.showMore)}>
+                    <Button
+                        icon={filterSvgPath}
+                        size={SIZE_S}
+                        active={eventTable.showAdvancedFilter}
+                        className={clsx(styles.showAdvancedFilter)}
+                        color={eventTable.hasAdvancedFilters ? 'blue' : undefined}
+                        onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
+                    />
+                </div>
             </div>
             {eventTable.showAdvancedFilter && (
-                <div>
-                    <div className={clsx(styles.department, 'button-group', 'button-group--block')}>
-                        {departmentStore.usedDepartments.map((department) => (
-                            <Button
-                                text={department.name}
-                                active={eventTable.departmentIds.has(department.id)}
-                                onClick={() => eventTable.toggleDepartment(department)}
-                                color="blue"
-                                key={department.id}
+                <div className={clsx(styles.advanced)}>
+                    <div>
+                        <div className={clsx(styles.department, 'button-group', 'button-group--block')}>
+                            {departmentStore.usedDepartments.map((department) => (
+                                <Button
+                                    text={department.name}
+                                    active={eventTable.departmentIds.has(department.id)}
+                                    onClick={() => eventTable.toggleDepartment(department)}
+                                    color="blue"
+                                    key={department.id}
+                                />
+                            ))}
+                        </div>
+                        <div className={clsx(styles.classes)}>
+                            Stichworte
+                            <TextInput
+                                onChange={(txt) => eventTable.setTextFilter(txt)} 
+                                text={eventTable.klassFilter} 
                             />
-                        ))}
+                        </div>
                     </div>
-                    <div className={clsx(styles.classes)}>
-                        <TextInput onChange={(txt) => eventTable.setClassFilter(txt)} text={eventTable.klassFilter} />
+                    <div className={clsx(styles.date, styles.start)}>
+                        {!!eventTable.start ? (
+                            <>
+                                <DatePicker date={eventTable.start || new Date()} onChange={(date)=>eventTable.setStartFilter(date)} />
+                                <Button icon={mdiMinusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(null)}/>
+                            </>
+                        ) : (
+                            <Button icon={mdiPlusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(new Date())}/>
+                        )}
+                    </div>
+                    <div className={clsx(styles.date, styles.end)}>
+                        {!!eventTable.end ? (
+                            <>
+                                <DatePicker date={eventTable.end || new Date()} onChange={(date)=>eventTable.setEndFilter(date)} />
+                                <Button icon={mdiMinusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(null)}/>
+                            </>
+                        ) : (
+                            <Button icon={mdiPlusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(new Date())}/>
+                        )}
                     </div>
                 </div>
             )}
-            {/* <div className={clsx(styles.date, styles.start)}>
-                {!!eventTable.start ? (
-                    <>
-                        <DatePicker date={eventTable.start || new Date()} onChange={(date)=>eventTable.setStartFilter(date)} />
-                        <Button icon={mdiMinusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(null)}/>
-                    </>
-                ) : (
-                    <Button icon={mdiPlusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(new Date())}/>
-                )}
-            </div>
-            <div className={clsx(styles.date, styles.end)}>
-                {!!eventTable.end ? (
-                    <>
-                        <DatePicker date={eventTable.end || new Date()} onChange={(date)=>eventTable.setEndFilter(date)} />
-                        <Button icon={mdiMinusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(null)}/>
-                    </>
-                ) : (
-                    <Button icon={mdiPlusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(new Date())}/>
-                )}
-            </div> */}
         </div>
     )
 });

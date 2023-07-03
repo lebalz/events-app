@@ -1,13 +1,33 @@
 .filter {
     display: flex;
-    max-width: 50vw;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90vw;
     flex-wrap: wrap;
-    .department {
+    .basic {
         display: flex;
         flex-wrap: wrap;
+        max-width: 50vw;
+        .showAdvancedFilter {
+            transition: all 0.4s ease-in-out;
+            svg {
+                transition: transform 0.4s ease-in-out;
+            }
+            &:global(.button--active) {
+                svg {
+                    transform: rotate(90deg);
+                }
+            }
+        }
     }
-    .date {
-        display: flex;
-        align-items: center;
+    .advanced {
+        .department {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .date {
+            display: flex;
+            align-items: center;
+        }
     }
 }

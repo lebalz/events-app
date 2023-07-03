@@ -24,7 +24,7 @@ class EventTable {
     private readonly store: ViewStore;
 
     /** filter props */
-    klasses = observable.set<string>();
+    textFilter = observable.set<string>();
     @observable
     klassFilter = '';
 
@@ -74,7 +74,7 @@ class EventTable {
 
     @computed
     get hasAdvancedFilters(): boolean {
-        return this.departmentIds.size > 0 || this.klasses.size > 0 || !!this.start || !!this.end;
+        return this.departmentIds.size > 0 || this.textFilter.size > 0 || !!this.start || !!this.end;
     }
 
     @computed
@@ -119,9 +119,12 @@ class EventTable {
             if (keep && this.departmentIds.size > 0) {
                 keep = [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
-            if (keep && this.klasses.size > 0) {
-                const kls = [...this.klasses]
-                keep = [...event.classes, ...event.untisClasses.map(uc => uc.legacyName).filter(c => !!c)].some((d) => kls.some((k) => d.startsWith(k)));
+            if (keep && this.textFilter.size > 0) {
+                const tokens = [...this.textFilter]
+                keep = [...event.classes, ...event.untisClasses.map(uc => uc.legacyName).filter(c => !!c)].some((d) => tokens.some((k) => d.startsWith(k)));
+                if (!keep) {
+                    keep = tokens.some((tkn) => (event.description + event.descriptionLong + ' ' + event.fStartDate + ' ' + event.fEndDate + ' ' + event.departmentNames.join(' ')).match(new RegExp(tkn, 'i')));
+                }
             }
             if (keep && this.start) {
                 keep = event.end >= this.start;
@@ -143,12 +146,12 @@ class EventTable {
     }
 
     @action
-    setClassFilter(filter: string) {
+    setTextFilter(filter: string) {
         this.klassFilter = filter;
-        this.klasses.clear();
+        this.textFilter.clear();
         filter.split(/[,|;|\s]+/).forEach((f) => {
             if (f) {
-                this.klasses.add(f);
+                this.textFilter.add(f);
             }
         });
     }
