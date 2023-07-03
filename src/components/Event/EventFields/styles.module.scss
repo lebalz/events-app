@@ -27,8 +27,11 @@
     flex-direction: column;
     justify-content: space-between;
     .value {
-        &::after {
-            content: ".";
+        word-wrap: normal;
+        &.abbrev {
+            &::after {
+                content: ".";
+            }
         }
     }
 }
@@ -50,7 +53,7 @@
     max-width: 7em;
     &.onOneDay {
         color: transparent;
-        font-size: 0;
+        // font-size: 0;
     }
     // font-family: monospace;
 }

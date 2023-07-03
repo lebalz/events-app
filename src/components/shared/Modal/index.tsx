@@ -13,17 +13,7 @@ interface Props {
     onClose?: () => void;
 }
 
-const MARGIN_TOP = 42;
-
 const Modal = observer((props: Props) => {
-    const [marginTop, setMarginTop] = React.useState(MARGIN_TOP);
-    React.useEffect(() => {
-        if (props.open) {
-            const top = window.scrollY;
-            setMarginTop(top + MARGIN_TOP);
-        }
-    }, [props.open]);
-
     const onClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();
         e.preventDefault();
@@ -32,6 +22,20 @@ const Modal = observer((props: Props) => {
         }
     }
 
+    React.useEffect(() => {
+        const onEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                if (props.onClose) {
+                    props.onClose();
+                }
+            }
+        }
+        document.addEventListener('keydown', onEsc);
+        return () => {
+            document.removeEventListener('keydown', onEsc);
+        }
+    }, [props.onClose]);
+
     return (
         <div
             className={clsx(props.open && styles.modal, props.open && props.className)}
@@ -39,7 +43,6 @@ const Modal = observer((props: Props) => {
         >
             {props.open && (
                 <div
-                    style={{marginTop: `${marginTop}px`}}
                     className={clsx(styles.content)} 
                     onClick={(e) => e.stopPropagation()}
                 >

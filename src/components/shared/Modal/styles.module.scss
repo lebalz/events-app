@@ -1,5 +1,5 @@
 .modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 9999; /* must be max (9999) to be over the scrollbars*/
@@ -11,13 +11,14 @@
     align-items: center;
     flex-direction: column;
     .content {
-        margin: 3em auto;
-        max-width: 100%;
+        margin: auto auto;
+        max-width: calc(100% - 4em);
+        max-height: calc(100% - 4em);
     }
 }
 
-@media screen and (max-width: 768px) {
-    .content {
-        margin-top: 2rem;
-    }
-}
+// @media screen and (max-width: 768px) {
+//     .content {
+//         margin-top: 2rem;
+//     }
+// }

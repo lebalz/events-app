@@ -12,10 +12,10 @@ import { useStore } from '@site/src/stores/hooks';
 interface Props extends ReadonlyProps {
     showFullName?: boolean;
     showRange?: boolean;
+    showUnexpandButton?: boolean;
 }
 const Day = observer((props: Props) => {
     const { event, showFullName, showRange } = props;
-    const viewStore = useStore('viewStore');
     const start = showFullName ? event.dayFullStart : event.dayStart;
     const end = showFullName ? event.dayFullEnd : event.dayEnd;
     return (
@@ -23,10 +23,10 @@ const Day = observer((props: Props) => {
             style={{gridColumn: 'day'}} 
             className={clsx(styles.day, props.className, 'grid-day')}
         >
-            <div className={clsx(styles.value)}>
+            <div className={clsx(styles.value, !showFullName && styles.abbrev)}>
                 {(showRange && event.fStartDate !== event.fEndDate) ? `${start} - ${end}` : start}
             </div>
-            {props.expandeable && event.isExpanded && (
+            {props.expandeable && props.showUnexpandButton && event.isExpanded && (
                 <div className={clsx(styles.expand)}>
                     <Button icon={mdiArrowExpandUp} onClick={(e) => {
                         e.stopPropagation();

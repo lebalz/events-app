@@ -4,27 +4,13 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
-import DefinitionList from '../shared/DefinitionList';
-import Badge from '../shared/Badge';
-import { mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiEqual, mdiText } from '@mdi/js';
-import { EditIcon, Icon, SIZE_S } from '../shared/icons';
+import { mdiText } from '@mdi/js';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
-import Lesson from '../Lesson';
-import Translate, { translate } from '@docusaurus/Translate';
-import Description from './EventFields/Description';
-import DescriptionLong from './EventFields/DescriptionLong';
-import KW from './EventFields/Kw';
-import Day from './EventFields/Day';
-import DateTime from './EventFields/DateTime';
-import Location from './EventFields/Location';
-import Audience from './EventFields/Audience';
-import State from './EventFields/State';
+import { translate } from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from "@docusaurus/router";
-import EventActions from './EventActions';
-import Departments from './EventFields/Departments';
-import Klasses from './EventFields/Klasses';
+import EventBody from './EventBody';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -32,120 +18,22 @@ interface Props {
 
 const Event = observer((props: Props) => {
     const { event } = props;
-    const { i18n } = useDocusaurusContext();
     const socketStore = useStore('socketStore');
-    const viewStore = useStore('viewStore');
-    const eventStore = useStore('eventStore');
-    const history = useHistory();
     const commonClasses = clsx(event.isDeleted && styles.deleted);
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
-    const [showOptions, setShowOptions] = React.useState(false);
 
 
 
     return (
         <div className={clsx(styles.eventCard, 'card')}>
-            <div className={clsx(styles.header, 'card__header')}>
-                <h3>{event.description}</h3>
-            </div>
+            {!props.inModal && (
+                <div className={clsx(styles.header, 'card__header')}>
+                    <h3>{event.description}</h3>
+                </div>
+            )}
             <div className={clsx('card__body')}>
-                <DefinitionList>
-                    <dt><Translate id="event.description" description='for a single event: description'>Titel</Translate></dt>
-                    <dd><Description {...commonEditProps} /></dd>
-                    <dt><Translate id="event.descriptionLong" description='for a single event: description long'>Beschreibung</Translate></dt>
-                    <dd><DescriptionLong {...commonEditProps} /></dd>
-                    <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
-                    <dd className={clsx(styles.flex)}>
-                        <State {...commonProps} className='' />
-                    </dd>
-                    <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
-                    <dd><KW {...commonProps} /></dd>
-                    <dt><Translate id="event.weekday" description='for a single event: weekday'>Wochentag</Translate></dt>
-                    <dd><Day {...commonProps} showFullName showRange /></dd>
-                    <dt><Translate id="event.date" description='for a single event: date range'>Datum</Translate></dt>
-                    <dd className={clsx(styles.flex, commonClasses)}><DateTime {...commonEditProps} time='start' /></dd>
-                    <dd className={clsx(styles.flex, commonClasses)}><Icon path={mdiArrowRightBottom} /><DateTime {...commonEditProps} time='end' /></dd>
-                    <dd className={clsx(styles.duration, styles.flex, commonClasses)}><Icon path={mdiEqual} />{event.fDuration}</dd>
-                    <dt><Translate id="event.location" description='for a single event: location'>Ort</Translate></dt>
-                    <dd><Location {...commonEditProps} /></dd>
-                    {event.isEditing ? (
-                        <>
-                            <dt><Translate id="event.audience" description='for a single event: class and department picker'>Beteiligte</Translate></dt>
-                            <dd><Audience {...commonEditProps} /></dd>
-                        </>
-                    ) : (
-                        <>
-                            {event.classes.size > 0 && (
-                                <>
-                                    <dt><Translate id="event.classes" description='for a single event: classes'>Klassen</Translate></dt>
-                                    <dd>
-                                        <Klasses {...commonProps} />
-                                    </dd>
-                                </>
-                            )}
-                            {event.affectedDepartments.length > 0 && (
-                                <>
-                                    <dt><Translate id="event.departments" description='for a single event: departments'>Departemente</Translate></dt>
-                                    <dd>
-                                        <Departments {...commonProps} />
-                                    </dd>
-                                </>
-                            )}
-                        </>
-                    )}
-                    {event.affectedLessonsGroupedByClass.some(al => al.lessons.length > 0) && (
-                        <>
-                            <dt><Translate id="event.affectedLessons" description='for a single event: affected lessons'>Betroffene Lektionen</Translate></dt>
-                            {event.affectedLessonsGroupedByClass.map((kl, idx) => {
-                                if (kl.lessons.length === 0) {
-                                    return null;
-                                }
-                                return (<React.Fragment key={`kl-${idx}`}>
-                                    <dt className={commonClasses}>{kl.class}</dt>
-                                    <dd className={clsx(styles.lessons)}>
-                                        <div className={clsx(commonClasses)}>
-                                            {kl.lessons.map((l, idx) => (
-                                                <Lesson lesson={l} key={l.id} className={commonClasses} />
-                                            ))}
-                                        </div>
-                                    </dd>
-                                </React.Fragment>)
-                            })}
-                        </>
-                    )}
-                    <dt>
-                        <Button
-                            icon={mdiDotsHorizontalCircleOutline}
-                            onClick={() => setShowOptions(!showOptions)}
-                            disabled={!viewStore.user}
-                            className={clsx(styles.optionsBtn, (showOptions || (!props.inModal && event.isEditing)) && styles.showOptions)}
-                        />
-                    </dt>
-                    <dd>
-                        <div className={clsx(styles.options)}>
-                            {(event.isEditable && (showOptions || (!props.inModal && event.isEditing))) && (
-                                <EventActions event={event} buttonOrder={['discard', 'save']} />
-                            )}
-                            {showOptions && !event.isEditing && (
-                                <Button
-                                    icon={mdiContentDuplicate}
-                                    title='Duplizieren'
-                                    onClick={() => {
-                                        eventStore.clone(event).then((newEvent) => {
-                                            if (newEvent) {
-                                                const id = (newEvent as { id: string }).id;
-                                                history.push(`/user?user-tab=events`);
-                                                eventStore.find(id)?.setEditing(true);
-                                            }
-                                        });
-
-                                    }}
-                                />
-                            )}
-                        </div>
-                    </dd>
-                </DefinitionList>
+                <EventBody {...props} />
             </div>
             <div className={clsx('card__footer', styles.footer)}>
                 <Button
