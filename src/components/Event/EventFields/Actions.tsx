@@ -26,7 +26,6 @@ const Actions = observer((props: Props) => {
         <div
             style={{ gridColumn: 'actions' }}
             className={clsx(props.className, styles.actions, 'grid-actions')}
-            onClick={(e) => event.setExpanded(!event.isExpanded)}
         >
             <div className={clsx(styles.flex)}>
                 <Button
@@ -61,7 +60,14 @@ const Actions = observer((props: Props) => {
             <div className={clsx(styles.expand)}>
                 {
                     props.expandeable && event.isExpanded && !event.isEditing && (
-                        <Button icon={mdiArrowExpandUp} onClick={() => event.setExpanded(false)} size={SIZE_S} />
+                        <Button 
+                            icon={mdiArrowExpandUp} 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                event.setExpanded(false)
+                            }} 
+                            size={SIZE_S} 
+                        />
                     )
                 }
             </div>

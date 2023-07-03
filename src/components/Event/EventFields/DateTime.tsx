@@ -49,7 +49,6 @@ const DateTime = observer((props: Props) => {
     return (
         <div 
             className={clsx(props.className, styles.dateTime, styles.view)}
-            onClick={(e) => event.setExpanded(!event.isExpanded)}
         >
             <div
                 style={{ gridColumn: dateColumn }}

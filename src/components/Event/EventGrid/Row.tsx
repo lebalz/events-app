@@ -63,11 +63,13 @@ const Row = observer((props: Props) => {
                             left: config.fixed?.left,
                             right: config.fixed?.right
                         }}
+                        onClick={() => props.event.setExpanded(true)}
                         key={index}
                     >
                         <Component
                             event={props.event}
                             className={clsx(styles.content, !props.event.isExpanded && styles.collapsed)}
+                            expandeable
                             {...config.componentProps}
                         />
                     </div>

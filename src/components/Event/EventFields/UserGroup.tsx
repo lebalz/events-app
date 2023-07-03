@@ -17,7 +17,6 @@ const UserGroup = observer((props: Props) => {
         <div 
             style={{ gridColumn: 'userGroup' }} 
             className={clsx(props.className, styles.userGroup)}
-            onClick={(e) => event.setExpanded(!event.isExpanded)}
         >
             <div className={clsx(styles.tags)}>
                 {event.hasUserGroup && (

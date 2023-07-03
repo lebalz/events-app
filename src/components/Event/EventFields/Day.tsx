@@ -22,7 +22,6 @@ const Day = observer((props: Props) => {
         <div 
             style={{gridColumn: 'day'}} 
             className={clsx(styles.day, props.className, 'grid-day')}
-            onClick={(e) => event.setExpanded(!event.isExpanded)}
         >
             <div className={clsx(styles.value)}>
                 {(showRange && event.fStartDate !== event.fEndDate) ? `${start} - ${end}` : start}

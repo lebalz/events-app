@@ -13,7 +13,6 @@ const Author = observer((props: ReadonlyProps) => {
         <div 
             style={{gridColumn: 'author'}} 
             className={clsx('author', styles.author, props.className, 'grid-author')}
-            onClick={(e) => event.setExpanded(!event.isExpanded)}
         >
             <Badge text={(props.event.author?.shortName || props.event.author?.email) ?? '-'}/>
         </div>
