@@ -73,10 +73,10 @@ const Calendar = observer(() => {
                             event: translate({message : "Event", id:'calendar.field.event' , description:'title of the table for the event'}),
                             noEventsInRange: translate({message : "Keine Events in diesem Zeitraum", id:'calendar.message.noevent' , description:'message if no event in time range'}),
                             tomorrow: translate({message : "Morgen", id:'calendar.button.tomorrow' , description:'button label to navigate to the next day'}),
-                            work_week: translate({message : "Arbeitswoche", id:'calendar.workWeek' , description:''}),
-                            yesterday: translate({message : "Gestern", id:'calendar.yesterday' , description:''}),
-                            allDay: translate({message : "Ganzer Tag", id:'calendar.allDay' , description:''}),
-                            showMore: total => translate({message : `+${total} weitere`, id:'calendar.plus' , description:'show more'})
+                            work_week: translate({message : "Arbeitswoche", id:'calendar.button.workWeek' , description:'button label to display a work week'}),
+                            yesterday: translate({message : "Gestern", id:'calendar.button.yesterday' , description:'button label to navigate to the previous day'}),
+                            allDay: translate({message : "Ganzer Tag", id:'calendar.message.allDay' , description:'message if an event spans the whole day'}),
+                            showMore: total => translate({message : `+${total} weitere`, id:'calendar.button.plus' , description:'button label to show more events'})
                         }}
                     />
                 )}
