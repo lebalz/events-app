@@ -18,8 +18,9 @@
 }
 
 @media screen and (max-width: 768px) {
-    .content {
-        margin-top: 2rem;
-        max-width: calc(100% - 0.4rem);
+    .modal {
+        .content {
+            max-width: calc(100% - 1rem);
+        }
     }
 }
