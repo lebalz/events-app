@@ -121,7 +121,8 @@ class EventTable {
             }
             if (keep && this.textFilter.size > 0) {
                 const tokens = [...this.textFilter]
-                keep = [...event.classes, ...event.untisClasses.map(uc => uc.legacyName).filter(c => !!c)].some((d) => tokens.some((k) => d.startsWith(k)));
+                const klassNames = event.fClasses.map(c => c.classes.map(cl => cl.displayName)).join(' ');
+                keep = tokens.some((tkn) => klassNames.match(new RegExp(tkn, 'i')));
                 if (!keep) {
                     keep = tokens.some((tkn) => (event.description + event.descriptionLong + ' ' + event.fStartDate + ' ' + event.fEndDate + ' ' + event.departmentNames.join(' ')).match(new RegExp(tkn, 'i')));
                 }
