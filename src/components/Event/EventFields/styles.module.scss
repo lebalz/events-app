@@ -21,6 +21,11 @@
     text-align: end;
     max-width: 2.5em;
 }
+dd {
+    .kw {
+        text-align: start;
+    }
+}
 .day {
     max-width: 3.5em;
     display: flex;
@@ -53,6 +58,7 @@
     max-width: 7em;
     &.onOneDay {
         color: transparent;
+        margin-left: -32px;
         // font-size: 0;
     }
     // font-family: monospace;
@@ -83,7 +89,6 @@
 }
 .description {
     max-width: min(22em, 80vw);
-    min-width: 16em;
 }
 .location {
     max-width: 10em;
@@ -139,7 +144,6 @@
 }
 .descriptionLong {
     max-width: min(28em, 80vw);
-    min-width: 20em;
 }
 .actions {
     display: flex;

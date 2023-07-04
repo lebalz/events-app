@@ -3,13 +3,14 @@
     gap: 0.5em;
     align-items: center;
 }
+.duration {
+    margin-left: 2em;
+    gap: 0.25rem;
+    // justify-content: center;
+}
 .eventCard {
     box-shadow: var(--ifm-global-shadow-md);
     margin-bottom: 1rem;
-    .duration {
-        margin-left: 2em;
-        gap: 0.25rem;
-    }
     .optionsBtn {
         svg {
             transition: transform 0.25s ease-in-out;

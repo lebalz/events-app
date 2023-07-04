@@ -20,6 +20,7 @@ import UserGroup from '../EventFields/UserGroup';
 import Departments from '../EventFields/Departments';
 import Klasses from '../EventFields/Klasses';
 import DescriptionLong from '../EventFields/DescriptionLong';
+import DepartmentsOrAudiencePicker from '../EventFields/DepartmentsOrAudience';
 
 
 interface Props {
@@ -41,7 +42,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     end: EndDateTime,
     location: Location,
     userGroup: UserGroup,
-    departmens: Departments,
+    departmens: DepartmentsOrAudiencePicker,
     classes: Klasses,
     descriptionLong: DescriptionLong,
 };
@@ -52,11 +53,19 @@ const Row = observer((props: Props) => {
             {props.columns.map((column, index) => {
                 const [name, config] = column;
                 const Component = ComponentMap[name];
+                let span = config.colSpan || 1;
+                if (name === 'departmens' && props.event.isEditing) {
+                    span = 2;
+                } else if (name === 'classes' && props.event.isEditing) {
+                    return null;
+                }
+
+                const gridColumn = `${index + 1} / span ${span}`;
                 return (
                     <div
                         className={clsx(styles.cell, styles[name as string], config.className, (props.index % 2) === 1 && styles.odd)}
                         style={{
-                            gridColumn: `${index + 1} / span ${config.colSpan || 1}`,
+                            gridColumn: gridColumn,
                             maxWidth: config.maxWidth,
                             width: config.width,
                             position: config.fixed ? 'sticky' : undefined,

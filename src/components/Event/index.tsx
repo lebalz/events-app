@@ -20,10 +20,6 @@ const Event = observer((props: Props) => {
     const { event } = props;
     const socketStore = useStore('socketStore');
     const commonClasses = clsx(event.isDeleted && styles.deleted);
-    const commonProps = { event, styles, className: commonClasses };
-    const commonEditProps = { ...commonProps, isEditable: true };
-
-
 
     return (
         <div className={clsx(styles.eventCard, 'card')}>

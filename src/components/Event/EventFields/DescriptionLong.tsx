@@ -8,7 +8,7 @@ import TextArea from '@site/src/components/shared/TextArea';
 
 const DescriptionLong = observer((props: Props) => {
     const {event} = props;
-    if (props.isEditable && event.isEditing) {
+    if (event.isEditable && event.isEditing) {
         return (
             <div 
                 style={{gridColumn: 'descriptionLong'}} 
