@@ -15,7 +15,7 @@ const Departments = observer((props: Props) => {
     return (
         <div
             style={{ gridColumn: 'departments' }}
-            className={clsx(props.className, styles.departments, 'grid-departments', props.isEditGrid && styles.editGrid)}
+            className={clsx(props.className, styles.departments, 'grid-departments', props.isEditGrid && styles.editGrid, event.isExpanded && styles.expanded)}
         >
             <div className={clsx(styles.tags)}>
                 {
