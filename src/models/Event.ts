@@ -317,6 +317,30 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return classNames;
     }
 
+    /**
+     * @returns all known classes, including
+     * - known (untis) class
+     * - classes included by classGroup
+     * - classes included by department
+     * 
+     * unknwon classes are **not** included
+     */
+    @computed
+    get affectedKnownClasses(): Set<Klass> {
+        const klasses = new Set<Klass>(this._selectedClasses);
+        [...this.classGroups].forEach(cg => {
+            this.store.root.untisStore.findClassesByGroupName(cg).forEach(c => {
+                klasses.add(c);
+            });
+        })
+        this.departments.forEach(d => {
+            d.classes.forEach(c => {
+                klasses.add(c);
+            })
+        })
+        return klasses;
+    }
+
     @action
     normalizeAffectedClasses() {
         const cNames = new Set<string>(this.affectedClassNames);
@@ -499,7 +523,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fClasses(): ({text: string, classes: Klass[]})[] {
         const kls: { [year: string]: Klass[] } = {};
-        [...this._selectedClasses].sort((a, b) => a.displayName.localeCompare(b.displayName)).forEach(c => {
+        [...this.affectedKnownClasses].sort((a, b) => a.name.localeCompare(b.name)).forEach(c => {
             const year = c.legacyName ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
             if (!kls[year]) {
                 kls[year] = [];
@@ -510,6 +534,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             text: `${year}${kls[year].map(c => c.displayName.slice(year.length)).sort().join('')}`,
             classes: kls[year]
         }));
+
         return [...composed, ...this._unknownClassNames.map(c => ({text: c, classes: []}))];
     }
 

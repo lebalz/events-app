@@ -108,6 +108,7 @@ dd {
 
 .tags {
     display: flex;
+    gap: 0.1rem;
     overflow-x: auto;
     align-items: baseline;
     &::-webkit-scrollbar {
