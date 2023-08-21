@@ -45,6 +45,9 @@ export const ImportSummary = observer((props: ImportProps) => {
             <StateBadge state={State[job.state]} size={SIZE_S} />
             <Badge text={Text[job.type]} color={Color[job.type]} />
             <Badge text={job.createdAt.toLocaleDateString()} />
+            <div className={clsx(styles.filename)}>
+                {job.filename}
+            </div>
             <div className={clsx(styles.spacer)} />
             {job.type === JobType.IMPORT && <Badge text={`${job.events.length}`} color="blue" />}
             <div className={clsx(styles.spacer)} />

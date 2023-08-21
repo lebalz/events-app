@@ -19,4 +19,15 @@
             font-weight: var(--ifm-font-weight-light);
         }
     }
+    .filename {
+        font-style: italic;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+        margin-left: 2em;
+        width: 15em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
