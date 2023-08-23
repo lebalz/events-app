@@ -556,7 +556,17 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get kw() {
         return getKW(this.start);
-    }1
+    }
+
+    /**
+     * Year + Calendar week of the event, separated by e '-'
+     * **start** date
+     * @example 2023-43 => year 2023, KW 43
+     */
+    @computed
+    get yearsKw() {
+        return `${this.year}-${this.kw}`;
+    }
 
     /**
      * Calendar week of the events **end** date
@@ -603,7 +613,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     /**
-     * Returns the calendar year of the event
+     * Returns the calendar year of the start of the event
      * @example 2023
      */
     @computed

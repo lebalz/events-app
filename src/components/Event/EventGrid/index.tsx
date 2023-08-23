@@ -46,7 +46,7 @@ interface Props {
     events: EventModel[];
     columns: ColumnConfig;
     className?: string;
-    groupBy?: 'kw';
+    groupBy?: 'yearsKw';
 }
 
 interface ViewEvent {
@@ -56,20 +56,21 @@ interface ViewEvent {
 }
 export interface ViewGroup {
     type: 'group';
-    groupBy: 'kw';
+    groupBy: 'yearsKw';
     group: string;
     events?: EventModel[];
 }
 
 const MemoGroup = React.memo(Batch);
-const createGroupEvents = createTransformer<{events: EventModel[], groupBy?: 'kw', orderBy: keyof typeof DefaultConfig, direction: 'asc' | 'desc'},  (ViewEvent | ViewGroup)[][]>((data) => {
+const createGroupEvents = createTransformer<{events: EventModel[], groupBy?: 'yearsKw', orderBy: keyof typeof DefaultConfig, direction: 'asc' | 'desc'},  (ViewEvent | ViewGroup)[][]>((data) => {
     const events = _.orderBy(data.events, [data.orderBy, 'start'], [data.direction, 'asc']);
     const transformed: (ViewEvent | ViewGroup)[] = [];
     if (data.groupBy) {
         const byGroup = _.groupBy(events, data.groupBy);
         let idx = 0;
+
         Object.keys(byGroup).sort().forEach(key => {
-            transformed.push({type: 'group', groupBy: data.groupBy, group: key, events: byGroup[key]});
+            transformed.push({type: 'group', groupBy: data.groupBy, group: key.split('-')[1], events: byGroup[key]});
             byGroup[key].forEach(event => {
                 transformed.push({type: 'event', index: idx, model: event});
                 idx++;

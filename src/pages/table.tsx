@@ -20,7 +20,7 @@ const Table = observer(() => {
                 <Filter showCurrentAndFuture/>
                 <EventGrid 
                     events={viewStore.eventTable.events}
-                    groupBy='kw'
+                    groupBy='yearsKw'
                     columns={[
                       'day',
                       'description', 
