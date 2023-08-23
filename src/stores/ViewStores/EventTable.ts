@@ -25,6 +25,7 @@ class EventTable {
 
     /** filter props */
     textFilter = observable.set<string>();
+
     @observable
     klassFilter = '';
 
@@ -46,10 +47,23 @@ class EventTable {
     @observable
     showAdvancedFilter = false;
 
+    @observable
+    hideDeleted = true;
+
 
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
+    }
+
+    @action
+    toggleHideDeleted() {
+        this.setHideDeleted(!this.hideDeleted);
+    }
+
+    @action
+    setHideDeleted(hide: boolean) {
+        this.hideDeleted = hide;
     }
 
     @action
@@ -111,6 +125,9 @@ class EventTable {
             }
             let keep = true;
             if (this.onlyMine && !event.isAffectedByUser) {
+                keep = false;
+            }
+            if (keep && this.hideDeleted && event.isDeleted) {
                 keep = false;
             }
             if (keep && this.onlyCurrentWeekAndFuture && event.kwEnd < currentKw) {

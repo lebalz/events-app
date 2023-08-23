@@ -9,6 +9,7 @@ import { mdiAbacus, mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js'
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
 import { SIZE_S, SIZE_XS, filterSvgPath } from '../../shared/icons';
+import Checkbox from '../../shared/Checkbox';
 
 interface Props {
     showCurrentAndFuture?: boolean;
@@ -75,6 +76,14 @@ const Filter = observer((props: Props) => {
                                 />
                             ))}
                         </div>
+                    </div>
+                    <div>
+                        <Checkbox 
+                            label='Gelöschte Verstecken?' 
+                            checked={eventTable.hideDeleted} 
+                            onChange={(checked) => eventTable.setHideDeleted(checked)}
+                            labelSide='left'
+                        />
                     </div>
                     <div className={clsx(styles.dates)}>
                         <div className={clsx(styles.date, styles.start)}>

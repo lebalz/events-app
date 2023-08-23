@@ -184,7 +184,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @action
     load() {
         if (this.root.userStore.current?.untisId) {
-            this.eventTable.setOnlyMine(true);
+            // this.eventTable.setOnlyMine(true);
         }
         return Promise.resolve()
     }
