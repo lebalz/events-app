@@ -14,14 +14,14 @@ import Filter from '../components/Event/Filter';
 import { createTransformer } from 'mobx-utils';
 const localizer = momentLocalizer(moment)
 
-
 const createTasks = createTransformer((events: Event[]) => {
     return events.map((e, idx) => {
         return {
             start: e.start,
             end: e.end,
-            title: e.description,
+            title: `${e.isDeleted ? '❌: ' : ''}${e.description}`,
             description: e.descriptionLong,
+            isDeleted: e.isDeleted,
             backgroundColor: e.affectedDepartments.length === 1 ? e.affectedDepartments[0].color : undefined,
             id: e.id
         }
@@ -42,10 +42,12 @@ const Calendar = observer(() => {
       );
     const eventStyleGetter = React.useMemo(() => {
         return (event, start, end, isSelected) => {
+            const style: React.CSSProperties = {  backgroundColor: event.backgroundColor };
+            if (event.isDeleted) {
+                style.textDecoration = 'line-through';
+            }
             return {
-                style: {
-                    backgroundColor: event.backgroundColor,
-                }
+                style: style
             };
         };
     }, []);
