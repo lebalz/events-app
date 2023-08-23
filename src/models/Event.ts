@@ -823,6 +823,32 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get _dupCompareString() {
+        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'parentId', 'cloned', 'userGroupId'];
+        const props = (Object.keys(this.props) as (keyof EventProps)[]).filter(p => {
+            return !exclude.includes(p)
+        }).reduce((acc, key) => {
+            let val = this.props[key];
+            if (Array.isArray(val)) {
+                val = val.sort().join(',');
+            }
+            return {...acc, [key]: val}
+        }, {});
+
+        return JSON.stringify(props);
+    }
+
+    @computed
+    get duplicatedEvents() {
+        return this.store.publicEvents.filter(e => e._dupCompareString === this._dupCompareString && e.id !== this.id);
+    }
+
+    @computed
+    get isDuplicate() {
+        return this.duplicatedEvents.length > 0;
+    }
+
+    @computed
     get duration() {
         const period = this.durationMS;
         return {

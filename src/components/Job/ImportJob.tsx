@@ -45,6 +45,7 @@ const ImportJob = observer((props: Props) => {
                     events={job.events}
                     columns={[
                         'isValid',
+                        'isDuplicate',
                         'select',
                         ['state', {sortable: false, width: undefined}],
                         'kw',

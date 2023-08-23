@@ -23,6 +23,7 @@ export interface ConfigOptions {
 export const DefaultConfig = {
     state: { width: '2.1em', sortable: true } as ConfigOptions,
     isValid: { width: '2.1em', sortable: true } as ConfigOptions,
+    isDuplicate: { width: '2.1em', sortable: true } as ConfigOptions,
     select: { width: '2.3em', componentProps: {onSelect: () => undefined} } as ConfigOptions,
     kw: { width: '2.8em', sortable: true } as ConfigOptions,
     author: { width: '5em', sortable: true } as ConfigOptions,

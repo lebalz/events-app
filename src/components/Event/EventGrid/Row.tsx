@@ -21,6 +21,7 @@ import Departments from '../EventFields/Departments';
 import Klasses from '../EventFields/Klasses';
 import DescriptionLong from '../EventFields/DescriptionLong';
 import DepartmentsOrAudiencePicker from '../EventFields/DepartmentsOrAudience';
+import IsDuplicate from '../EventFields/IsDuplicate';
 
 
 interface Props {
@@ -32,6 +33,7 @@ interface Props {
 const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>> = {
     state: State,
     isValid: IsValid,
+    isDuplicate: IsDuplicate,
     select: Select,
     kw: KW,
     actions: Actions,
