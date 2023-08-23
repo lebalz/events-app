@@ -824,7 +824,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get _dupCompareString() {
-        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'parentId', 'cloned', 'userGroupId'];
+        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'parentId', 'cloned', 'userGroupId', 'state'];
+
         const props = (Object.keys(this.props) as (keyof EventProps)[]).filter(p => {
             return !exclude.includes(p)
         }).reduce((acc, key) => {

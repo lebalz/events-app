@@ -13,15 +13,22 @@ import Event from '../models/Event';
 
 const createTasks = createTransformer<Event[], Task[]>((events: Event[]) => {
     return events.map((e, idx) => {
+        const styles = { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' } as any;
+        if (e.isDeleted) {
+            styles.progressColor = '#ff0000';
+            styles.progressSelectedColor = '#830000';
+            styles.backgroundSelectedColor = '#830000';
+            styles.backgroundColor = '#ff0000';
+        }
         return {
             start: e.start,
             end: e.end,
-            name: e.description,
+            name: `${e.isDeleted ? '❌: ' : ''}${e.description}`,
             id: e.id || `id-${idx}`,
             type: 'task',
             progress: e.progress,
             isDisabled: true,
-            styles: { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' },
+            styles: styles,
         }
     });
 });
