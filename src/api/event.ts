@@ -71,6 +71,7 @@ export const JoiEvent = Joi.object<Event>({
         otherwise: Joi.array().empty().required()
     }),
     parentId: Joi.string().allow(null),
+    versionIds: Joi.array().items(Joi.string()).required(),
     userGroupId: Joi.string().allow(null),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),

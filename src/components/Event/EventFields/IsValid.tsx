@@ -12,6 +12,7 @@ const IsValid = observer((props: ReadonlyProps) => {
         <div 
             style={{gridColumn: 'isValid'}} 
             className={clsx('isValid', styles.isValid, props.className, 'grid-isValid')}
+            onClick={() => console.log(event.id, event._errors)}
         >
             {props.event.isValid ? '' : '❌'}
         </div>
