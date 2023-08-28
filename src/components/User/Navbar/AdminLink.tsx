@@ -11,7 +11,7 @@ import { useLocation } from '@docusaurus/router';
 const AdminLink = observer(() => {
     const location = useLocation();
     const userStore = useStore('userStore');
-    if (userStore.current?.role === Role.ADMIN) {
+    if (userStore.current?.isAdmin) {
         const isActive = location.pathname.startsWith('/admin');
         return (
             <Link

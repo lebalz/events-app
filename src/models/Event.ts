@@ -56,6 +56,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly _pristine_start: Date;
     readonly parentId: string | null;
     readonly cloned: boolean;
+    readonly versionIds: string[];
 
     
     @observable
@@ -109,6 +110,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable
     teachingAffected: TeachingAffected;
 
+    @observable
+    versionsLoaded: boolean = false;
 
     @observable
     selected: boolean = false;
@@ -138,6 +141,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
+        this.versionIds = props.versionIds;
 
         this.parentId = props.parentId;
         this.userGroupId = props.userGroupId;
@@ -195,6 +199,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get author() {
         return this.store.root.userStore.find<User>(this.authorId);
+    }
+
+    @computed
+    get hasParent() {
+        return !!this.parentId;
+    }
+
+    @computed
+    get parent() {
+        return this.store.find<Event>(this.parentId);
+    }
+
+    @computed
+    get children() {
+        return this.store.events.filter(e => e.parentId === this.id);
+    }
+
+    @computed
+    get hasChildren() {
+        return this.children.length > 0;
     }
 
     @computed
@@ -455,9 +479,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @override
     get isEditable() {
-        if (this.state !== EventState.Draft) {
-            return false;
-        }
         return this.store.canEdit(this);
     }
 
@@ -828,8 +849,30 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             subjects: this.teachersOnly ? [...this.subjects] : [],
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
+            versionIds: this.versionIds,
             deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null
         }
+    }
+
+    @computed
+    get versionNumber() {
+        if (this.hasParent) {
+            return this.parent.versionIds.indexOf(this.id) + 1;
+        }
+        return this.versionIds.length + 1;
+    }
+
+    @action
+    loadVersions() {
+        this.store.loadVersions(this).then(action((versions) => {
+            this.versionsLoaded = true;
+            console.log(versions);
+        }));
+    }
+
+    @computed
+    get versions() {
+        return this.versionIds.map(id => this.store.find<Event>(id)).filter(e => !!e).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     }
 
     @computed

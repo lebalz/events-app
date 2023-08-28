@@ -110,12 +110,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 return store.load();
             }
             record.ids.forEach((id) => {
-                const event = store.find(id);
-                if (event) {
-                    store.addToStore({...event.props, state: record.state});
-                } else if (EventState.Published === record.state || this.root.userStore?.current?.role === Role.ADMIN) {
-                    store.loadModel(id);
-                }
+                store.loadModel(id);
             });
         })
     };

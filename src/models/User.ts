@@ -57,6 +57,11 @@ export default class User extends ApiModel<UserProps, ApiAction> {
   }
 
   @computed
+  get isAdmin() {
+    return this.role === Role.ADMIN;
+  }
+
+  @computed
   get lessons() {
     return this.untisTeacher?.lessons || [];
   }

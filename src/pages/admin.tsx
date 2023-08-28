@@ -26,7 +26,7 @@ const AdminView = observer(() => {
     const jobStore = useStore('jobStore');
     const regPeriodStore = useStore('registrationPeriodStore');
 
-    if (userStore.current?.role !== Role.ADMIN) {
+    if (!userStore.current?.isAdmin) {
         return (<Layout>
             <main>
                 <div className='hero hero--primary'>

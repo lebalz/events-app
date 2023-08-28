@@ -10,7 +10,7 @@ import { HOUR_2_MS } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { JobStore } from './JobStore';
 
-export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}`> {
+export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `load-versions-${string}`> {
     readonly root: RootStore;
     readonly API_ENDPOINT = 'event';
     models = observable<Event>([]);
@@ -22,7 +22,7 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     }
 
     canEdit(event: Event) {
-        return this.root.userStore.current?.id === event.authorId;
+        return this.root.userStore.current?.id === event.authorId || this.root.userStore.current?.isAdmin;
     }
 
     affectsUser(event: Event) {
@@ -221,5 +221,11 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
         return this.withAbortController(`download-excel`, (sig) => {
             return apiDownloadExcel(sig.signal);
         });
+    }
+
+    @action
+    loadVersions(event: Event) {
+        const proms = event.versionIds.map((id) => this.loadModel(id));
+        return Promise.all(proms);
     }
 }

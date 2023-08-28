@@ -72,7 +72,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     @action
     setRole(user: User, role: Role) {
-        if (this.current?.role !== Role.ADMIN) {
+        if (!this.current?.isAdmin) {
             return Promise.reject('Not allowed');
         }
         return this.withAbortController(`save-role-${user.id}`, (sig) => {

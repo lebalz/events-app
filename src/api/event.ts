@@ -39,6 +39,7 @@ export interface PrismaEvent {
     createdAt: string
     updatedAt: string
     deletedAt?: string
+    versionIds: string[]
 }
 
 export interface Event extends PrismaEvent {

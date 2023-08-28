@@ -43,9 +43,9 @@ const UsersEvents = observer((props: Props) => {
     if (!user) {
         return null;
     }
-    const drafts = viewStore.usersEvents({ignoreImported: true, states: [EventState.Draft]});
-    const reviewed = viewStore.usersEvents({ignoreImported: true, states: [EventState.Review, EventState.Refused]});
-    const adminReview = user?.role === Role.ADMIN ? viewStore.allEvents({states: [EventState.Review]}) : [];
+    const drafts = viewStore.usersEvents({ignoreImported: true, ignoreDeleted: true, states: [EventState.Draft]});
+    const reviewed = viewStore.usersEvents({ignoreImported: true, ignoreDeleted: true, states: [EventState.Review, EventState.Refused]});
+    const adminReview = user?.isAdmin ? viewStore.allEvents({states: [EventState.Review]}) : [];
     const published = viewStore.usersEvents({ignoreImported: true, states: [EventState.Published]});
     const deleted = viewStore.usersEvents({onlyDeleted: true});
 

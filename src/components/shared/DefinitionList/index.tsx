@@ -8,11 +8,12 @@ import { useStore } from '@site/src/stores/hooks';
 
 interface Props {
     children: ReactNode;
+    className?: string;
 }
 
 const DefinitionList = observer((props: Props) => {
     return (
-        <dl className={clsx(styles.definitionList)}>
+        <dl className={clsx(styles.definitionList, props.className)}>
             {props.children}
         </dl>
     )

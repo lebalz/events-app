@@ -4,13 +4,17 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
-import { mdiText } from '@mdi/js';
+import { mdiHistory, mdiRecordCircleOutline, mdiText } from '@mdi/js';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import { translate } from '@docusaurus/Translate';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from "@docusaurus/router";
 import EventBody from './EventBody';
+import { action } from 'mobx';
+import EventProps from './EventProps';
+import Badge from '../shared/Badge';
+import { Icon } from '../shared/icons';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -19,8 +23,9 @@ interface Props {
 const Event = observer((props: Props) => {
     const { event } = props;
     const socketStore = useStore('socketStore');
+    const eventStore = useStore('eventStore');
     const commonClasses = clsx(event.isDeleted && styles.deleted);
-
+    console.log(event.versions)
     return (
         <div className={clsx(styles.eventCard, 'card')}>
             {!props.inModal && (
@@ -31,7 +36,44 @@ const Event = observer((props: Props) => {
             <div className={clsx('card__body')}>
                 <EventBody {...props} />
             </div>
-            <div className={clsx('card__footer', styles.footer)}>
+            <div className={clsx('card__body')}>
+                {event.versionsLoaded ? (
+                    <div className={clsx(styles.versions)}>
+                        {event.versions.map((version, idx) => {
+                            const isLast = (idx + 1) === event.versions.length;
+                            return (
+                                <React.Fragment key={idx}>
+                                    <div className={clsx(styles.versionItem, (idx % 2) === 0 ? styles.right : styles.left)}>
+                                        <Badge
+                                            text={version.createdAt.toISOString().slice(0, 16).replace('T', ' ')}
+                                            color='blue'
+                                        />
+                                    </div>
+                                    <div className={clsx(styles.versionItem, styles.dot, isLast && styles.last)}>
+                                        <Icon path={mdiRecordCircleOutline} color="blue" />
+                                        <div className={clsx(styles.line)} />
+                                    </div>
+                                    <div className={clsx(styles.versionItem, styles.versionCard, 'card', (idx % 2) === 0 ? styles.left : styles.right)}>
+                                        <div className={clsx('card__body')}>
+                                            <EventProps event={version} />
+                                        </div>
+                                    </div>
+                                </React.Fragment>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <Button
+                        text={translate({ message: "Versionen laden", id: 'event.button.loadVersions', description: 'for a single event: button to load version history' })}
+                        icon={mdiHistory}
+                        onClick={action(() => {
+                            event.loadVersions();
+                        })}
+                        apiState={eventStore.apiStateFor(`load-versions-${event.id}`)}
+                    />
+                )}
+            </div>
+            {/* <div className={clsx('card__footer', styles.footer)}>
                 <Button
                     text={translate({ message: "Alle betroffenen Lektionen anzeigen", id: 'event.button.showAllLessons', description: 'for a single event: button to show all affected lessons' })}
                     icon={mdiText}
@@ -39,7 +81,7 @@ const Event = observer((props: Props) => {
                         socketStore.checkUnpersistedEvent(event.props);
                     }}
                 />
-            </div>
+            </div> */}
         </div>
     )
 });

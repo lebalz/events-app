@@ -42,11 +42,11 @@ const Table = observer(() => {
     // const myEvents = eventStore.byUser(userId).filter(e => !e.jobId);
     const drafts = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Draft] });
     const reviewed = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Review, EventState.Refused] });
-    const adminReview = userStore.current?.role === Role.ADMIN ? viewStore.allEvents({ states: [EventState.Review] }) : [];
+    const adminReview = userStore.current?.isAdmin ? viewStore.allEvents({ states: [EventState.Review] }) : [];
     const published = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Published] });
     const deleted = viewStore.usersEvents({ onlyDeleted: true });
     // const reviewed = myEvents.filter(e => [EventState.Review, EventState.Refused].includes(e.state));
-    // const adminReview = userStore.current?.role === Role.ADMIN ? eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state)) : [];
+    // const adminReview = userStore.current?.isAdmin ? eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state)) : [];
     // const published = myEvents.filter(e => e.state === EventState.Published);
     // const deleted = myEvents.filter(e => e.isDeleted);
     

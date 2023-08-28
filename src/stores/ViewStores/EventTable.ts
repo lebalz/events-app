@@ -14,6 +14,7 @@ export interface EventViewProps {
     ignoreImported?: boolean;
     onlyImported?: boolean;
     onlyDeleted?: boolean;
+    ignoreDeleted?: boolean;
     orderBy?: `${'start' | 'isValid'}-${'asc' | 'desc'}`;
 }
 
@@ -121,6 +122,9 @@ class EventTable {
         semester.isCurrent
         return semester.events.filter((event) => {
             if (event.state !== EventState.Published) {
+                return false;
+            }
+            if (event.hasParent) {
                 return false;
             }
             let keep = true;

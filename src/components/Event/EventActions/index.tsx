@@ -12,6 +12,7 @@ type SortableButton = 'delete' | 'discard' | 'save';
 
 interface Props {
     event: Event;
+    size?: number;
     onDiscard?: () => void;
     buttonOrder?: SortableButton[];
 }
@@ -20,18 +21,19 @@ interface Props {
 
 const EventActions = observer((props: Props) => {
     const [deleteRequested, setDeleteRequested] = React.useState(false);
-    const { event } = props;
+    const { event, size } = props;
     const buttons: {[key in SortableButton]: (props: {key: any}) => React.ReactNode} = {
         delete: ({key}) => (<React.Fragment key={key}><Button
             color="red"
             iconSide='left'
+            size={size}
             text={deleteRequested ? 'Wirklich?' : 'Löschen'}
-            icon={<DeleteIcon />}
+            icon={<DeleteIcon size={size}/>}
             apiState={event.apiStateFor(`destroy-${event.id}`)}
             onClick={() => setDeleteRequested(!deleteRequested)}
         />
             {deleteRequested && (
-                <Button color="red" text="Ja" onClick={() => event.destroy()} />
+                <Button color="red" text="Ja" size={size} onClick={() => event.destroy()} />
             )}
         </React.Fragment>),
         discard: ({key}) => (
@@ -40,8 +42,9 @@ const EventActions = observer((props: Props) => {
                     <Button
                         text={event.isDirty ? 'Verwerfen' : 'Schliessen'}
                         color="black"
+                        size={size}
                         title="Änderungen verwerfen"
-                        icon={<DiscardIcon />}
+                        icon={<DiscardIcon size={size}/>}
                         iconSide='left'
                         onClick={() => {
                             if (event.isDirty) {
@@ -60,8 +63,9 @@ const EventActions = observer((props: Props) => {
                 key={key}
                 color="green"
                 text="Speichern"
+                size={size}
                 disabled={!event.isDirty}
-                icon={<SaveIcon />}
+                icon={<SaveIcon size={size}/>}
                 onClick={() => event.save()}
                 apiState={event.apiStateFor(`save-${event.id}`)}
             />
@@ -86,9 +90,10 @@ const EventActions = observer((props: Props) => {
         <>
             {event?.isEditable && (
                 <Button
+                    size={size}
                     color="orange"
                     text="Bearbeiten"
-                    icon={<EditIcon />}
+                    icon={<EditIcon size={size} />}
                     iconSide='left'
                     onClick={() => event.setEditing(true)}
                 />

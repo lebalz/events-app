@@ -155,10 +155,10 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             return apiFind<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
         }).then(action(({ data }) => {
             if (data && Object.keys(data).length > 0) {
-                this.addToStore(data, 'load');
+                return this.addToStore(data, 'load');
             } else {
                 /** apparently the model is not present anymore - remove it from the store */
-                this.removeFromStore(id);
+                return this.removeFromStore(id);
             }
         })).catch((err) => {
             if (axios.isCancel(err)) {

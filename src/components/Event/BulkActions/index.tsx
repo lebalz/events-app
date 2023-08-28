@@ -48,7 +48,7 @@ const BulkActions = observer((props: Props) => {
                                 eventStore.requestState(events.map(e => e.id), EventState.Draft);
                             }} />
                             {
-                                userStore.current?.role === Role.ADMIN && (
+                                userStore.current?.isAdmin && (
                                     <>
                                         <Button text='Publish' icon={<Icon path={mdiFileCertificate} color='green' />} iconSide='left' className={clsx(styles.success)} onClick={() => {
                                             eventStore.requestState(events.map(e => e.id), EventState.Published);

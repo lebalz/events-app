@@ -16,6 +16,10 @@ dl.definitionList {
         justify-content: flex-end;
         align-items: flex-start;
     }
+    dt:global(.line) {
+        grid-column: 1 / span 2;
+        border-bottom: 1px solid var(--ifm-color-primary);
+    }
     dd {
         grid-column: 2;
         overflow-x: auto;

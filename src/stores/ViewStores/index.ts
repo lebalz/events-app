@@ -9,6 +9,7 @@ import { LoadeableStore, ResettableStore } from '../iStore';
 import EventTable, { EventViewProps } from './EventTable';
 import AdminUserTable from './AdminUserTable';
 import AdminDepartmentTable from './AdminDepartmentTable';
+import { EventState } from '@site/src/api/event';
 
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
@@ -51,9 +52,10 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         ignoreImported = undefined,
         onlyImported = undefined,
         onlyDeleted = undefined,
+        ignoreDeleted = undefined,
         orderBy = undefined
     }: EventViewProps): Event[] => {
-        return this.allEvents({ user: this.user, jobId, states, ignoreImported, onlyDeleted, onlyImported, orderBy });
+        return this.allEvents({ user: this.user, jobId, states, ignoreImported, onlyDeleted, ignoreDeleted, onlyImported, orderBy });
     };
 
     allEvents = ({
@@ -63,9 +65,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         ignoreImported = undefined,
         onlyImported = undefined,
         onlyDeleted = undefined,
+        ignoreDeleted = undefined,
         orderBy = undefined
     }: EventViewProps) => {
         let events = user ? user.events : jobId ? this.root.eventStore.byJob(jobId) : this.root.eventStore?.events ?? [];
+        events = events.filter((e) => !(e.hasParent && e.state === EventState.Published))
         if (ignoreImported) {
             events = events.filter((e) => !e.jobId);
         } else if (onlyImported) {
@@ -73,6 +77,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         }
         if (onlyDeleted) {
             events = events.filter((e) => e.isDeleted);
+        }
+        if (ignoreDeleted) {
+            events = events.filter((e) => !e.isDeleted);
         }
         if (states) {
             const eState = new Set(states);
