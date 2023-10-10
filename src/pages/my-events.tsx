@@ -60,7 +60,7 @@ const Table = observer(() => {
                         {drafts.length > 0 && (
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
-                                    <h3>Unveröffentlicht</h3>
+                                    <h3><Translate id="my-events.unpublished" description="text unpublished">Unveröffentlicht</Translate></h3>
                                     <BulkActions events={drafts.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
@@ -73,7 +73,7 @@ const Table = observer(() => {
                         <TabItem value='reviewed' label='Review'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
-                                    <h3>Im Review</h3>
+                                    <h3><Translate id="my-events.review" description="text In Review">Im Review</Translate></h3>
                                     <BulkActions events={reviewed.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
@@ -86,7 +86,7 @@ const Table = observer(() => {
                         <TabItem value='admin-review' label='Admin'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
-                                    <h3>Review Anfragen für Admin</h3>
+                                    <h3><Translate id="my-events.review.furadmin" description="text In Review - wait for admin">Im ReviewReview Anfragen für Admin</Translate></h3>
                                     <BulkActions events={adminReview.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
@@ -99,7 +99,7 @@ const Table = observer(() => {
                         <TabItem value='published' label='Veröffentlicht'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
-                                    <h3>Veröffentlicht</h3>
+                                    <h3><Translate id="my-events.published" description="published">Veröffentlicht</Translate></h3>
                                     <BulkActions events={published.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
@@ -112,7 +112,7 @@ const Table = observer(() => {
                         <TabItem value='deleted' label='Gelöscht'>
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
-                                    <h3>Gelöscht</h3>
+                                    <h3><Translate id="my-events.deleted" description="deleted">Gelöscht</Translate></h3>
                                 </div>
                                 <div className={clsx('card__body')}>
                                     <EventGrid events={deleted} columns={COLUMN_CONFIG} />
@@ -138,7 +138,10 @@ const Table = observer(() => {
                                                 onClick={() => {
                                                     jobStore.destroy(job);
                                                 }}
-                                                text="Job Löschen"
+                                                text={translate({
+                                                    message : "Job Löschen",
+                                                    id:'my-events.deleted.text' ,
+                                                    description:'my-events.deleted.text'})}
                                                 flyoutSide='right'
                                                 iconSide='right'
                                                 apiState={jobStore.apiStateFor(`destroy-${job.id}`)}

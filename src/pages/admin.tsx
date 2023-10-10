@@ -46,10 +46,20 @@ const AdminView = observer(() => {
                     <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>
                 <TabItem value="semesters" label="Semester">
-                    <Section title="Semester">
+                    <Section title={translate({
+                            message : "Semester",
+                            id:'admin.section.semester' ,
+                            description:'Section Title semester'})}
+                    >
                         <Button 
-                            title='Semester Hinzufügen'
-                            text="Neues Semester"
+                            title={translate({
+                                message : "Semester Hinzufügen",
+                                id:'admin.button.semester.hinzufugen.title' ,
+                                description:'Button Title Semester Hinzufügen'})}
+                            text={translate({
+                                message : "Neues Semester",
+                                id:'admin.button.semester.hinzufuge.text' ,
+                                description:'Button Text Neues Semester'})}
                             iconSide='left'
                             icon={<Icon path={mdiPlusCircleOutline}/>}
                             color='primary'
@@ -71,8 +81,15 @@ const AdminView = observer(() => {
                 </TabItem>
                 <TabItem value="import" label="Import">
                     <Section
-                        title={<span>Excel Import <Icon path={mdiFileExcel} size={2} color={'green'} /></span>}
-                        subtitle="Importiere Daten aus Excel-Dateien."
+                        title={<span>{translate({
+                            message : "Excel Import",
+                            id:'admin.section.import.title' ,
+                            description:'admin.section.import.title'})}
+                        <Icon path={mdiFileExcel} size={2} color={'green'} /></span>}
+                        subtitle={translate({
+                            message : "Importiere Daten aus Excel-Dateien.",
+                            id:'admin.section.import.subtitle' ,
+                            description:'admin.section.import.subtitle'})}
                     >
                         <Upload />
                         <div>

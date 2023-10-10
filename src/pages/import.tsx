@@ -22,8 +22,15 @@ const Example = observer(() => {
     return (
         <Layout>
             <Section
-                title={<span>Excel Import <Icon path={mdiFileExcel} size={2} color={'green'} /></span>}
-                subtitle="Importiere Daten aus Excel-Dateien."
+                title={<span>{translate({
+                    message : "Excel Import",
+                    id:'import.section.title' ,
+                    description:'import.section.title'})}
+                     <Icon path={mdiFileExcel} size={2} color={'green'} /></span>}
+                subtitle={translate({
+                    message : "Importiere Daten aus Excel-Dateien.",
+                    id:'import.section.subtitle' ,
+                    description:'import.section.subtitle'})}
             >
                 <Upload />
                 <div>

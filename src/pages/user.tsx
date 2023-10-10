@@ -50,7 +50,10 @@ const UserPage = observer(() => {
     return (
         <Layout>
             <main className={clsx(styles.main)}>
-                <Section title="Persönlicher Bereich">
+                <Section title={translate({
+                    message : "Persönlicher Bereich",
+                    id:'user.section.title.personal-area' ,
+                    description:'user.section.title.personal-area'})}>
                     <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab' defaultValue='account'>
                         <TabItem value="account" label="Account" default>
                             <div className={clsx(styles.tab)}>
@@ -61,7 +64,10 @@ const UserPage = observer(() => {
                                 {
                                     !current && (
                                         <Button
-                                            text="Aktualisieren"
+                                            text={translate({
+                                                message : "Aktualisieren",
+                                                id:'user.button.refresh.text' ,
+                                                description:'user.button.refresh.text'})}
                                             icon={mdiRefresh}
                                             iconSide='left'
                                             color="orange"
