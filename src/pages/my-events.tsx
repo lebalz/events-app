@@ -14,6 +14,7 @@ import BulkActions from '../components/Event/BulkActions';
 import { Role } from '../api/user';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Translate, { translate } from '@docusaurus/Translate';
 const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     'state',
@@ -55,7 +56,12 @@ const Table = observer(() => {
         <Layout>
             <main className={clsx(styles.main)}>
                 <Tabs>
-                    <TabItem value='my-events' label='Unveröffentlicht'>
+                    <TabItem value='my-events' label={
+                        translate({
+                            message: 'Unveröffentlicht',
+                            id: 'my-events.tab.notpublished'})
+                        }
+                    >
                         <AddButton />
                         {drafts.length > 0 && (
                             <div className={clsx(styles.card, 'card')}>
@@ -70,7 +76,11 @@ const Table = observer(() => {
                         )}
                     </TabItem>
                     {reviewed.length > 0 && (
-                        <TabItem value='reviewed' label='Review'>
+                        <TabItem value='reviewed' label={
+                            translate({
+                                message: 'Review',
+                                id: 'my-events.tab.review'})}
+                        >
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.review" description="text In Review">Im Review</Translate></h3>
@@ -83,7 +93,11 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {adminReview.length > 0 && (
-                        <TabItem value='admin-review' label='Admin'>
+                        <TabItem value='admin-review' label={
+                            translate({
+                                message: 'Admin',
+                                id: 'my-events.tab.admin'})}
+                        >
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.review.furadmin" description="text In Review - wait for admin">Im ReviewReview Anfragen für Admin</Translate></h3>
@@ -96,7 +110,11 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {published.length > 0 && (
-                        <TabItem value='published' label='Veröffentlicht'>
+                        <TabItem value='published' label={
+                            translate({
+                                message: 'Veröffentlicht',
+                                id: 'my-events.tab.published'})}
+                        >
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.published" description="published">Veröffentlicht</Translate></h3>
@@ -109,7 +127,11 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {deleted.length > 0 && (
-                        <TabItem value='deleted' label='Gelöscht'>
+                        <TabItem value='deleted' label={
+                            translate({
+                                message: 'VeröGelöschtffentlicht',
+                                id: 'my-events.tab.deleted'})}
+                        >
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.deleted" description="deleted">Gelöscht</Translate></h3>

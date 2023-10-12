@@ -18,6 +18,7 @@ import SyncUntis from '../components/Job/SyncUntis';
 import Section from '../components/shared/Section';
 import Upload from '../components/ImportExcel/Upload';
 import Job from '../components/Job';
+import { translate } from '@docusaurus/Translate';
 
 const AdminView = observer(() => {
     const userStore = useStore('userStore');
@@ -42,10 +43,10 @@ const AdminView = observer(() => {
     return (
         <Layout wrapperClassName={clsx(styles.layout)}>
             <Tabs className={clsx(styles.tabs)} queryString groupId='admin-tab'>
-                <TabItem value="users" label="Users" default>
+                <TabItem value="users" label={translate({message: 'Users', id: 'admin.tab.users'})} default>
                     <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>
-                <TabItem value="semesters" label="Semester">
+                <TabItem value="semesters" label={translate({message: 'Semester', id: 'admin.tab.Semester'})}>
                     <Section title={translate({
                             message : "Semester",
                             id:'admin.section.semester' ,
@@ -76,10 +77,10 @@ const AdminView = observer(() => {
                     </Section>
                     <SyncUntis />
                 </TabItem>
-                <TabItem value="departments" label="Abteilungen">
+                <TabItem value="departments" label={translate({message: 'Abteilungen', id: 'admin.tab.departments'})}>
                     <DepartmentTable departments={viewStore.adminDepartmentTable.departments} />
                 </TabItem>
-                <TabItem value="import" label="Import">
+                <TabItem value="import" label={translate({message: 'Import', id: 'admin.tab.import'})}>
                     <Section
                         title={<span>{translate({
                             message : "Excel Import",
@@ -101,7 +102,7 @@ const AdminView = observer(() => {
                         </div>
                     </Section>
                 </TabItem>
-                <TabItem value="reg-periods" label="Registrierungs Perioden">
+                <TabItem value="reg-periods" label={translate({message: 'Registrierungs Perioden', id: 'admin.tab.reg-periods'})}>
                     This is a banana 🍌
                 </TabItem>
             </Tabs>

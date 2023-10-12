@@ -16,7 +16,7 @@ import Section from '../components/shared/Section';
 import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
 import UserEventGroup from '../components/UserEventGroup';
-
+import { translate } from '@docusaurus/Translate';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -55,7 +55,11 @@ const UserPage = observer(() => {
                     id:'user.section.title.personal-area' ,
                     description:'user.section.title.personal-area'})}>
                     <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab' defaultValue='account'>
-                        <TabItem value="account" label="Account" default>
+                        <TabItem value="account" label={
+                            translate({
+                                message: 'Account',
+                                id: 'user.tab.account'})}
+                        default>
                             <div className={clsx(styles.tab)}>
                                 {current && (
                                     <User user={current} />
@@ -84,12 +88,18 @@ const UserPage = observer(() => {
                                 />
                             </div>
                         </TabItem>
-                        <TabItem value="events" label="Events">
+                        <TabItem value="events" label={
+                            translate({
+                                message: 'Events',
+                                id: 'user.tab.events'})}>
                             <div className={clsx(styles.tab)}>
                                 <UsersEvents user={current} />
                             </div>
                         </TabItem>
-                        <TabItem value="groups" label="Gruppen">
+                        <TabItem value="groups" label={
+                            translate({
+                                message: 'Gruppen',
+                                id: 'user.tab.groups'})}>
                             <div className={clsx(styles.tab)}>
                                 <div className={clsx(styles.groups)}>
                                     {
@@ -102,7 +112,10 @@ const UserPage = observer(() => {
                                 </div>
                             </div>
                         </TabItem>
-                        <TabItem value="time-table" label="Stundenplan">
+                        <TabItem value="time-table" label={
+                            translate({
+                                message: 'Stundenplan',
+                                id: 'user.tab.time-table'})}>
                             <div className={clsx(styles.tab)}>
                                 <TimeTable />
                             </div>

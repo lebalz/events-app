@@ -13,6 +13,7 @@ import Section from '../components/shared/Section';
 import {ImportSummary} from '../components/Job/Summary';
 import Details from '../components/Job/Details';
 import Job from '../components/Job';
+import { translate } from '@docusaurus/Translate';
 
 const Example = observer(() => {
     const semesterStore = useStore('semesterStore');
