@@ -5,11 +5,10 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, RecordTypes } from './IoEventTypes';
+import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
-import { CheckedUntisLesson, UntisLesson } from '../api/untis';
-import { EventState, Event as EventProps } from '../api/event';
-import { Role } from '../api/user';
+import { CheckedUntisLesson } from '../api/untis';
+import { Event as EventProps } from '../api/event';
 class Message {
     type: string;
     message: string;

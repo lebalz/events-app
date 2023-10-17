@@ -1,6 +1,3 @@
-import { AxiosPromise, CancelTokenSource } from 'axios';
-import api from './base';
-
 export interface RegistrationPeriod {
     id: string
     name: string

@@ -1,7 +1,3 @@
-import { AxiosPromise, CancelTokenSource } from 'axios';
-import api from './base';
-
-
 export enum DepartmentLetter {
     WMS = 'W',
     FMS = 'F',

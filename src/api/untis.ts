@@ -1,6 +1,5 @@
 import api from './base';
-import { AxiosPromise, CancelTokenSource } from 'axios';
-import { Job } from './job';
+import { AxiosPromise } from 'axios';
 import { KlassName } from '../models/helpers/klassNames';
 
 

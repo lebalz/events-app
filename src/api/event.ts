@@ -17,6 +17,13 @@ export enum TeachingAffected {
     NO = 'NO'
 }
 
+export enum EventAudience {
+    LP = 'LP',
+    KLP = 'KLP',
+    STUDENTS = 'STUDENTS',
+    ALL = 'ALL'
+};
+
 export interface PrismaEvent {
     id: string
     authorId: string
@@ -30,8 +37,7 @@ export interface PrismaEvent {
     jobId: string | null
     classes: KlassName[]
     classGroups: string[]
-    teachersOnly: boolean
-    klpOnly: boolean
+    audience: EventAudience
     parentId: string | null
     userGroupId: string | null
     teachingAffected: TeachingAffected
@@ -62,9 +68,8 @@ export const JoiEvent = Joi.object<Event>({
     state: Joi.string().valid(...Object.values(EventState)).required(),
     cloned: Joi.boolean().required(),
     jobId: Joi.string().allow(null),
-    teachersOnly: Joi.boolean(),
+    audience: Joi.string().valid(...Object.values(EventAudience)).required(),
     teachingAffected: Joi.string().valid(...Object.values(TeachingAffected)).required(),
-    klpOnly: Joi.boolean(),
     subjects: Joi.array().items(Joi.string()).when('teachersOnly', {
         is: true,
         then: Joi.required(),

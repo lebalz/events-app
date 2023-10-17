@@ -7,7 +7,7 @@ import Lesson from '../models/Untis/Lesson';
 import Teacher from '../models/Untis/Teacher';
 import { RootStore } from './stores';
 import Event from '../models/Event';
-import iStore, { LoadeableStore, ResettableStore } from './iStore';
+import { LoadeableStore, ResettableStore } from './iStore';
 import { computedFn } from 'mobx-utils';
 import { replaceOrAdd } from './helpers/replaceOrAdd';
 import Department from '../models/Department';

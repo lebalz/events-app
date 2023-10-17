@@ -1,5 +1,5 @@
 import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
-import { Event as EventProps, EventState, JoiEvent, TeachingAffected } from '../api/event';
+import { EventAudience, Event as EventProps, EventState, JoiEvent, TeachingAffected } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
@@ -37,15 +37,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         { attr: 'start', transform: (val) => toLocalDate(new Date(val)) },
         { attr: 'end', transform: (val) => toLocalDate(new Date(val)) },
         'location',
-        'teachersOnly',
+        'audience',
         'classGroups',
         'classes',
         'departmentIds',
         'userGroupId',
-        'klpOnly',
         'subjects',
-        'teachingAffected',
-        'teachersOnly'
+        'teachingAffected'
     ];
     readonly id: string;
     readonly authorId: string;
@@ -100,9 +98,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     allLPs: boolean;
 
     @observable
-    klpOnly: boolean;
-    @observable
-    teachersOnly: boolean;
+    audience: EventAudience;
 
     @observable
     allDayType: boolean;
@@ -135,9 +131,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.description = props.description;
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
-        this.klpOnly = props.klpOnly;
+        this.audience = props.audience;
         this.subjects.replace(props.subjects);
-        this.teachersOnly = props.teachersOnly;
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
@@ -453,13 +448,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setKlpOnly(klpOnly: boolean) {
-        this.klpOnly = klpOnly;
-    }
-
-    @action
-    setTeachersOnly(teachersOnly: boolean) {
-        this.teachersOnly = teachersOnly;
+    setAudience(audience: EventAudience) {
+        this.audience = audience;
     }
 
     @action
@@ -662,14 +652,20 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return (prog / this.durationMS) * 100;
     }
 
+    /** TODO: Refactor and check for correctness! */
     affectsUser(user: User) {
         if (user.departments.some(d => this.departmentIds.has(d.id))) {
             return true;
         }
-        if (this.klpOnly && user.untisTeacher && this.untisClasses.some(c => c.klp?.id === user.untisTeacher?.id)) {
+
+        if (
+            (this.audience === EventAudience.KLP || this.audience === EventAudience.STUDENTS) 
+                && user.untisTeacher 
+                && this.untisClasses.some(c => c.klp?.id === user.untisTeacher.id)
+            ) {
             return true;
         }
-        if (this.teachersOnly && user.classes.some(c => this.affectsClass(c))) {
+        if (this.audience === EventAudience.LP && user.classes.some(c => this.affectsClass(c))) {
             return true;
         }
         if (user.untisTeacher && this.affectedLessons.some(l => l.teacherIds.includes(user.untisTeacher?.id))) {
@@ -838,15 +834,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             descriptionLong: this.descriptionLong,
             location: this.location,
             classGroups: [...this.classGroups],
+            audience: this.audience,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString(),
-            klpOnly: this.klpOnly,
             parentId: this.parentId,
             cloned: this.cloned,
             userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
-            teachersOnly: this.klpOnly || this.teachersOnly,
-            subjects: this.teachersOnly ? [...this.subjects] : [],
+            subjects: this.audience === EventAudience.LP ? [...this.subjects] : [],
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             versionIds: this.versionIds,

@@ -1,5 +1,3 @@
-import { AxiosPromise, CancelTokenSource } from 'axios';
-import api from './base';
 import { Event } from './event';
 
 export type JobBase = {

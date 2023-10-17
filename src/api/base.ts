@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 import { EVENTS_API, apiConfig, msalInstance, TENANT_ID } from '../authConfig';
 import siteConfig from '@generated/docusaurus.config';
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
@@ -19,7 +19,7 @@ const api = axios.create({
 
 
 api.interceptors.request.use(
-  async (config: AxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
     if (process.env.NODE_ENV !== 'production' && TEST_USERNAME) {
       return config;
     }

@@ -1,13 +1,11 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
+import { action, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
-import axios from 'axios';
 import { RootStore } from './stores';
 import iStore, { ApiAction } from './iStore';
 import { Event as EventProps } from '../api/event';
 import {UserEventGroupCreate, UserEventGroup as UserEventGroupProps, create as apiCreate, clone as apiClone, events as fetchEvents} from '../api/user_event_group';
 import UserEventGroup from '../models/UserEventGroup';
 import ApiModel from '../models/ApiModel';
-import Event from '../models/Event';
 
 export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction | `clone-${string}` | `fetch-${string}`> {
     readonly API_ENDPOINT = 'user_event_group';

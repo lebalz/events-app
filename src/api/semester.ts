@@ -1,4 +1,4 @@
-import { AxiosPromise, CancelTokenSource } from 'axios';
+import { AxiosPromise } from 'axios';
 import api from './base';
 import { Job } from './job';
 

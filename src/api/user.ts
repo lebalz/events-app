@@ -1,5 +1,5 @@
 import api from './base';
-import { AxiosPromise, CancelTokenSource } from 'axios';
+import { AxiosPromise } from 'axios';
 
 
 export enum Role {
