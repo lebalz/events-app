@@ -48,7 +48,8 @@ const Actions = observer((props: Props) => {
                         <>
                             <Discard onClick={() => event.reset()} />
                             <Save
-                                disabled={!event.isDirty}
+                                disabled={!event.isDirty || !event.isValid}
+                                title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
                                 onClick={() => event.save()}
                                 apiState={event.apiStateFor(`save-${event.id}`)}
                             />

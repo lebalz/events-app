@@ -85,8 +85,16 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
         return this.dirtyProps;
     }
 
+    @computed
+    get isValid() {
+        return true;
+    }
+
     @action
     save() {
+        if (!this.isValid) {
+            throw new Error('Cannot save invalid model');
+        }
         return this.store.save(this);
     }
 

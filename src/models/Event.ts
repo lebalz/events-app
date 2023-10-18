@@ -1,5 +1,5 @@
 import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
-import { EventAudience, Event as EventProps, EventState, JoiEvent, TeachingAffected } from '../api/event';
+import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, TeachingAffected } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
@@ -165,7 +165,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     validate() {
-        const result = JoiEvent.validate(this.props, { abortEarly: false, errors: { language: this.store.root.sessionStore.locale } });
+        const result = JoiEvent.validate(
+            this.props, 
+            { 
+                abortEarly: false,
+                messages: JoiMessages
+            }
+        );
         if (result.error) {
             this._errors = result.error;
         } else {
@@ -173,7 +179,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
-    @computed
+    @override
     get isValid() {
         return this._errors === undefined || this._errors.details.length === 0;
     }

@@ -3,6 +3,7 @@ import api from './base';
 import { Job } from './job';
 import Joi from 'joi';
 import { KlassName } from '../models/helpers/klassNames';
+import { translate } from '@docusaurus/Translate';
 
 export enum EventState {
     Draft = 'DRAFT',
@@ -57,10 +58,14 @@ const TODAY = new Date();
 export const JoiEvent = Joi.object<Event>({
     id: Joi.string().required(),
     authorId: Joi.string().required(),
-    start: Joi.date().iso().min(`${TODAY.getFullYear()-1}-01-01`).required(),
-    end: Joi.date().iso().required().min(Joi.ref('start')).required(),
+    start: Joi.date().iso().min(`${TODAY.getFullYear()-1}-01-01`).required().label(translate({message: 'Start', id: 'joi.event.start', description: 'Start of event'})),
+    end: Joi.date().iso().required().min(Joi.ref('start')).required()
+            .label(translate({message: 'Ende', id: 'joi.event.end', description: 'End of event'}))
+            .messages({'date.min': translate({message: 'Ende muss grösser oder gleich Start ({start}) sein', id: 'joi.event.end.min', description: 'End of event must be after start'})}),
     location: Joi.string().required().allow(''),
-    description: Joi.string().required(),
+    description: Joi.string().required()
+                    .label(translate({message: 'Stichworte', id: 'joi.event.description', description: 'Description of event'}))
+                    .messages({'string.empty': translate({message: 'Stichworte dürfen nicht leer sein', id: 'joi.event.description.empty', description: 'Description of event must not be empty'})}),
     descriptionLong: Joi.string().required().allow(''),
     departmentIds: Joi.array().items(Joi.string()).required(),
     classes: Joi.array().items(Joi.string()).required(),
@@ -82,6 +87,18 @@ export const JoiEvent = Joi.object<Event>({
     updatedAt: Joi.date().iso().required(),
     deletedAt: Joi.date().iso().allow(null)
 });
+
+/**
+ * @see https://github.com/hapijs/joi/blob/master/lib/types/date.js for default messages
+ */
+export const JoiMessages: Joi.LanguageMessages = {
+    'string.empty': translate({message: '{{#label}} darf nicht leer sein', id: 'joi.string.empty', description: 'Joi validation error for empty string'}),
+    'number.base': translate({message: '{{#label}} Muss eine Zahl sein', id: 'joi.number.base',description: 'Joi validation error for number base'}),
+    'any.invalid': translate({message: '{{#label}} Wert ungültig', id: 'joi.any.invalid',description: 'Joi validation error for any invalid'}),
+    'any.required': translate({message: '{{#label}} Darf nicht leer sein', id: 'joi.any.required',description: 'Joi validation error for required value'}),
+    'date.base': translate({message: '{{#label}} ist kein gültiges Datum', id: 'joi.date.base',description: 'Joi validation error for date base'}),
+    'date.min': translate({message: '{{#label}} muss grösser oder gleich {{:#limit}} sein', id: 'joi.date.base',description: 'Joi validation error for date min'}),
+};
 
 export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromise<Job> {
     return api.post('event/import', formData, { signal });

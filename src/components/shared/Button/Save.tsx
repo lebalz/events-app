@@ -15,12 +15,12 @@ type SaveProps = Props & Base;
 const Save = (props: SaveProps) => {
     return (
         <Button
-            title="Speichern"
+            title={props.title ?? "Speichern"}
             {...extractSharedProps(props)}
             className={clsx(styles.save, props.className)}
             color='green'
             onClick={props.onClick}
-            icon={<SaveIcon size={props.size ?? SIZE_S} disabled={props.disabled} />}
+            icon={<SaveIcon size={props.size ?? SIZE_S} />}
         />
     )
 };

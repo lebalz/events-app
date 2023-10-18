@@ -64,7 +64,8 @@ const EventActions = observer((props: Props) => {
                 color="green"
                 text="Speichern"
                 size={size}
-                disabled={!event.isDirty}
+                disabled={!event.isDirty || !event.isValid}
+                title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
                 icon={<SaveIcon size={size}/>}
                 onClick={() => event.save()}
                 apiState={event.apiStateFor(`save-${event.id}`)}
