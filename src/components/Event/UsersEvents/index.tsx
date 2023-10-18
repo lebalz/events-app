@@ -50,7 +50,7 @@ const UsersEvents = observer((props: Props) => {
     const deleted = viewStore.usersEvents({onlyDeleted: true});
 
     return (
-        <Tabs>
+        <Tabs lazy>
             <TabItem value='my-events' label='Unveröffentlicht'>
                 <AddButton />
                 {drafts.length > 0 && (

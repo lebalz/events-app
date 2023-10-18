@@ -42,7 +42,7 @@ const AdminView = observer(() => {
 
     return (
         <Layout wrapperClassName={clsx(styles.layout)}>
-            <Tabs className={clsx(styles.tabs)} queryString groupId='admin-tab'>
+            <Tabs className={clsx(styles.tabs)} queryString groupId='admin-tab' lazy>
                 <TabItem value="users" label={translate({message: 'Users', id: 'admin.tab.users'})} default>
                     <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>

@@ -7,6 +7,7 @@ import { ApiState } from '@site/src/stores/iStore';
 import { ApiIcon, Icon, SIZE, SIZE_S, SIZE_XS } from '../icons';
 import Link from '@docusaurus/Link';
 import { Color, getButtonColorClass, getColorClass } from '../Colors';
+import { mdiSortAscending } from '@mdi/js';
 
 export interface Base {
     onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -40,7 +41,7 @@ interface TextIconProps extends Base {
     children?: never;
 }
 interface ChildrenProps extends Base {
-    icon?: never;
+    icon?: ReactNode | string;
     text?: never;
     children: ReactNode | ReactNode[];
 }
@@ -107,6 +108,7 @@ const ButtonInner = (props: Props) => {
             </span>
             <span className={clsx(styles.spacer, textAndIcon && iconSide === 'right' && styles.borderRight)}></span>
             {props.icon && iconSide === 'right' && <ButtonIcon {...props} />}
+
         </>
     )
 }

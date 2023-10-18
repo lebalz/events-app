@@ -55,7 +55,7 @@ const Table = observer(() => {
     return (
         <Layout>
             <main className={clsx(styles.main)}>
-                <Tabs>
+                <Tabs lazy>
                     <TabItem value='my-events' label={
                         translate({
                             message: 'Unveröffentlicht',

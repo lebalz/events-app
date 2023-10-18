@@ -54,7 +54,7 @@ const UserPage = observer(() => {
                     message : "Persönlicher Bereich",
                     id:'user.section.title.personal-area' ,
                     description:'user.section.title.personal-area'})}>
-                    <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab' defaultValue='account'>
+                    <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab' defaultValue='account' lazy>
                         <TabItem value="account" label={
                             translate({
                                 message: 'Account',

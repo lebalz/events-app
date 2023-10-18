@@ -6,9 +6,11 @@ import { observer } from 'mobx-react-lite';
 import { ConfigOptions, DefaultConfig } from '.';
 import { formatDate } from '@site/src/models/helpers/time';
 import Translate, {translate} from '@docusaurus/Translate';
-import { Icon, SIZE_S } from '../../shared/icons';
-import { mdiArrowDown, mdiArrowUp, mdiBookmarkCheck, mdiCheckDecagramOutline, mdiTools } from '@mdi/js';
+import { Icon, SIZE, SIZE_S } from '../../shared/icons';
+import { mdiArrowDown, mdiArrowUp, mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
 import Checkbox from '../../shared/Checkbox';
+import Button from '../../shared/Button';
+import Badge from '../../shared/Badge';
 
 
 interface Props extends ConfigOptions {
@@ -34,10 +36,11 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
     departmens: translate({message: 'Abteilungen', id: 'eventGrid.header.departmens', description: 'Label for the Event Grid Columns'}),
     classes: translate({message: 'Klassen', id: 'eventGrid.header.classes', description: 'Label for the Event Grid Columns'}),
     descriptionLong: translate({message: 'Beschreibung', id: 'eventGrid.header.descriptionLong', description: 'Label for the Event Grid Columns'}),
+    isDuplicate: translate({message: 'Duplikat', id: 'eventGrid.header.isDuplicate', description: 'Label for the Event Grid Columns'}),
 };
 
 const ColumnHeader = observer((props: Props) => {
-    let content: JSX.Element;
+    let content: JSX.Element | string = HeaderTitles[props.name];
     switch (props.name) {
         case 'actions':
             content = <Icon path={mdiTools} size={SIZE_S} />;
@@ -66,20 +69,24 @@ const ColumnHeader = observer((props: Props) => {
             }}
             title={HeaderTitles[props.name]}
         >
-            <div
-                className={clsx(styles.content, styles[props.name])}
-                onClick={props.sortable ? props.onClick : undefined}
-            >
-                {
-                    content || HeaderTitles[props.name]
-                }
-                {props.active && (
-                    <Icon
+            {
+                props.sortable ? (
+                    <Button
                         size={SIZE_S}
-                        path={props.active === 'asc' ? mdiArrowUp : mdiArrowDown}
-                    />
-                )}
-            </div>
+                        className={clsx(styles.sortableButton)}
+                        iconSide='left'
+                        disabled={!props.sortable}
+                        icon={props.active ? props.active === 'asc' ? mdiSortAscending : mdiSortDescending : undefined}
+                        onClick={props.sortable ? props.onClick : undefined}
+                    >
+                        {content}
+                    </Button>
+                ) : (
+                    <span className={clsx(styles.content, styles[props.name])}>
+                        {content}
+                    </span>
+                )
+            }
         </div>
     )
 });

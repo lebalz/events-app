@@ -27,7 +27,7 @@ export const DefaultConfig = {
     select: { width: '2.3em', componentProps: {onSelect: () => undefined} } as ConfigOptions,
     kw: { width: '2.8em', sortable: true } as ConfigOptions,
     author: { width: '5em', sortable: true } as ConfigOptions,
-    day: { width: '2.8em', sortable: true } as ConfigOptions,
+    day: { width: '2.8em' } as ConfigOptions,
     description: { width: '16em' } as ConfigOptions,
     start: {sortable: true} as ConfigOptions,
     end: {sortable: true} as ConfigOptions,

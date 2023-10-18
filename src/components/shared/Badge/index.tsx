@@ -31,7 +31,7 @@ interface TextIconProps extends Base {
     children?: never;
 }
 interface ChildrenProps extends Base {
-    icon?: never;
+    icon?: ReactNode | string;
     text?: never;
     children: ReactNode | ReactNode[];
 }

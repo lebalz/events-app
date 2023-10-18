@@ -130,7 +130,7 @@ const AudiencePicker = observer((props: Props) => {
                     }}
                 />
             </div>
-            <Tabs className={clsx(styles.tabs)}>
+            <Tabs className={clsx(styles.tabs)} lazy>
                 {Object.keys(departments).sort().map((letter, idx) => {
                     const color = (departments[letter] as DepartmentModel[])[0].color
                     const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
