@@ -9,15 +9,16 @@ import { useStore } from '@site/src/stores/hooks';
 interface Props {
     text: string;
     onChange: (text: string) => void;
+    search?: boolean;
     className?: string;
     placeholder?: string;
 }
 
 const TextInput = (props: Props) => {
     return (
-        <div className={clsx(props.className)}>
+        <div className={clsx(props.className, styles.textInput)}>
             <input
-                type={'text'}
+                type={props.search ? 'search' : 'text'}
                 value={props.text}
                 placeholder={props.placeholder}
                 onChange={(e) => {

@@ -10,6 +10,8 @@ import Button from '../../shared/Button';
 import { mdiLoading, mdiSortAscending, mdiSortDescending } from '@mdi/js';
 import { Icon, SIZE, SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
+import TextInput from '../../shared/TextInput';
+import Badge from '../../shared/Badge';
 
 
 interface Props {
@@ -48,8 +50,17 @@ const UserTable = observer((props: Props) => {
     const icon = adminUserTable.sortDirection === 'asc' ? mdiSortAscending : mdiSortDescending;
     return (
         <div>
-            <div className={clsx('alert alert--primary')} role='alert'>
-                Users: {users.length}
+            <div className={clsx('alert alert--primary', styles.filter)} role='alert'>
+                <TextInput
+                    placeholder={translate({message: "Filter", id: 'admin.userTable.filter.placeholder', description: 'filter: placeholder'})}
+                    onChange={(txt) => adminUserTable?.setTextFilter(txt)} 
+                    text={adminUserTable?._filter}
+                    search
+                />
+                <Badge 
+                    color='primary'
+                    text={`Users: ${users.length}`}
+                />
             </div>
             <table>
                 <thead>

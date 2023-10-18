@@ -10,6 +10,10 @@ class AdminUserTable {
     sortColumn: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' = 'email';
     @observable
     sortDirection: 'asc' | 'desc' = 'asc';
+
+    @observable
+    _filter = '';
+
     constructor(store: ViewStore) {
         this.store = store;
         makeObservable(this);
@@ -17,7 +21,22 @@ class AdminUserTable {
 
     @computed
     get users(): User[] {
-        return _.orderBy(this.store.root.userStore.models, [this.sortColumn], [this.sortDirection]);
+        const models = this.filter 
+            ? this.store.root.userStore.models.filter((user) => {
+                return user.email.includes(this.filter) || user.shortName?.toLowerCase()?.includes(this.filter);
+            })
+            : this.store.root.userStore.models;
+        return _.orderBy(models, [this.sortColumn], [this.sortDirection]);
+    }
+
+    @computed
+    get filter() {
+        return this._filter.toLowerCase();
+    }
+
+    @action
+    setTextFilter(text?: string): void {
+        this._filter = text || '';
     }
 
     @action
