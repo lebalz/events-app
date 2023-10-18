@@ -30,7 +30,7 @@ const UserTable = observer((props: Props) => {
                 }
             }
             },
-            { threshold: 3 }
+            { threshold: 1 }
         );
 
         if (observerTarget.current) {
