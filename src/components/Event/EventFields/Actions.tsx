@@ -15,6 +15,7 @@ import { useStore } from '@site/src/stores/hooks';
 import {useWindowSize} from '@docusaurus/theme-common';
 import { EventState } from '@site/src/api/event';
 import { useHistory } from '@docusaurus/router';
+import { action } from 'mobx';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
@@ -23,6 +24,7 @@ interface Props extends ReadonlyProps {
 const Actions = observer((props: Props) => {
     const { event } = props;
     const viewStore = useStore('viewStore');
+    const eventStore = useStore('eventStore');
     const windowSize = useWindowSize();
     const history = useHistory();
     return (
@@ -55,13 +57,14 @@ const Actions = observer((props: Props) => {
                                 title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
                                 onClick={() => {
                                     if (event.state !== EventState.Draft) {
-                                        event.save().then((model) => {
-                                            event.setEditing(false);
+                                        event.save().then(action((model) => {
+                                            const current = eventStore.find(event.id);
+                                            current?.reset();
                                             if (model) {
                                                 history.push(`/user?user-tab=events`);
                                                 viewStore.setEventModalId(model.id)
                                             }
-                                        })
+                                        }))
                                     } else {
                                         event.save();
                                     }
