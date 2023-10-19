@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useOnScreen } from '@site/src/stores/hooks';
-import Row from './Row';
 import { BATCH_SIZE } from '.';
 
 

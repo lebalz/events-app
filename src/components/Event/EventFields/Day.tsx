@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
@@ -7,7 +7,6 @@ import { ReadonlyProps } from './iEventField';
 import Button from '../../shared/Button';
 import { mdiArrowExpandUp } from '@mdi/js';
 import { SIZE_S } from '../../shared/icons';
-import { useStore } from '@site/src/stores/hooks';
 
 interface Props extends ReadonlyProps {
     showFullName?: boolean;

@@ -7,8 +7,8 @@ import { useStore } from '@site/src/stores/hooks';
 import {default as UserModel} from '@site/src/models/User';
 import User from './User';
 import Button from '../../shared/Button';
-import { mdiLoading, mdiSortAscending, mdiSortDescending } from '@mdi/js';
-import { Icon, SIZE, SIZE_S } from '../../shared/icons';
+import { mdiSortAscending, mdiSortDescending } from '@mdi/js';
+import { SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import TextInput from '../../shared/TextInput';
 import Badge from '../../shared/Badge';
@@ -18,7 +18,7 @@ interface Props {
     users: UserModel[];
 }
 
-const UserTable = observer((props: Props) => {    
+const UserTable = observer((props: Props) => {
     const [itemsShown, setItemsShown] = React.useState(15);
     const {adminUserTable} = useStore('viewStore');
     const observerTarget = React.useRef(null);

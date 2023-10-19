@@ -18,6 +18,7 @@
 .grid {
     display: grid;
     grid-auto-flow: column dense;
+    align-content: start;
     .cell {
         padding: 0 0.25em;
         &.deleted {

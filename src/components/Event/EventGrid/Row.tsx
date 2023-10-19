@@ -5,7 +5,6 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
-import { ConfigOptions, DefaultConfig } from '.';
 import State from '../EventFields/State';
 import IsValid from '../EventFields/IsValid';
 import Select from '../EventFields/Select';
@@ -22,11 +21,12 @@ import Klasses from '../EventFields/Klasses';
 import DescriptionLong from '../EventFields/DescriptionLong';
 import DepartmentsOrAudiencePicker from '../EventFields/DepartmentsOrAudience';
 import IsDuplicate from '../EventFields/IsDuplicate';
+import { ConfigOptionsSortable, DefaultConfig } from '.';
 
 
 interface Props {
     event: Event;
-    columns: [keyof typeof DefaultConfig, Partial<ConfigOptions>][];
+    columns: [keyof typeof DefaultConfig, Partial<ConfigOptionsSortable>][];
     index: number;
 }
 
@@ -70,6 +70,7 @@ const Row = observer((props: Props) => {
                             gridColumn: gridColumn,
                             maxWidth: config.maxWidth,
                             width: config.width,
+                            minWidth: config.direction ? config.minWidthWhenActive : undefined,
                             position: config.fixed ? 'sticky' : undefined,
                             left: config.fixed?.left,
                             right: config.fixed?.right

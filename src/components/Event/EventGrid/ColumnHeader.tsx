@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { ConfigOptions, DefaultConfig } from '.';
 import { formatDate } from '@site/src/models/helpers/time';
 import Translate, {translate} from '@docusaurus/Translate';
 import { Icon, SIZE, SIZE_S } from '../../shared/icons';
@@ -11,9 +10,10 @@ import { mdiArrowDown, mdiArrowUp, mdiBookmarkCheck, mdiCheckDecagramOutline, md
 import Checkbox from '../../shared/Checkbox';
 import Button from '../../shared/Button';
 import Badge from '../../shared/Badge';
+import { ConfigOptionsSortable, DefaultConfig } from '.';
 
 
-interface Props extends ConfigOptions {
+interface Props extends Partial<ConfigOptionsSortable> {
     gridColumn: number;
     name: keyof typeof DefaultConfig;
     active?: 'asc' | 'desc' | boolean;
@@ -61,8 +61,9 @@ const ColumnHeader = observer((props: Props) => {
             className={clsx(styles.cell, styles.header, props.className, props.sortable && styles.sortable, props.active && styles.active, props.fixed && styles.fixed)}
             style={{
                 gridColumn: props.gridColumn,
-                width: props.width,
+                width: (typeof props.sortable === 'string') ? props.sortable : props.width,
                 maxWidth: props.maxWidth,
+                minWidth: props.direction ? props.minWidthWhenActive : undefined,
                 position: props.fixed ? 'sticky' : undefined,
                 left: props.fixed?.left,
                 right: props.fixed?.right

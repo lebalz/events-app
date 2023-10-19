@@ -10,37 +10,45 @@ import Batch from './Batch';
 import Group from './Group';
 import ColumnHeader from './ColumnHeader';
 
-export interface ConfigOptions {
+interface ConfigOptionsBase {
     width?: string;
     maxWidth?: string;
     fixed?: { right: number, left?: undefined } | { left: number, right?: undefined };
     className?: string;
     colSpan?: number;
     componentProps?: Record<string, any>;
-    sortable?: boolean;
 }
 
-export const DefaultConfig = {
-    state: { width: '2.1em', sortable: true } as ConfigOptions,
-    isValid: { width: '2.1em', sortable: true } as ConfigOptions,
-    isDuplicate: { width: '2.1em', sortable: true } as ConfigOptions,
-    select: { width: '2.3em', componentProps: {onSelect: () => undefined} } as ConfigOptions,
-    kw: { width: '2.8em', sortable: true } as ConfigOptions,
-    author: { width: '5em', sortable: true } as ConfigOptions,
-    day: { width: '2.8em' } as ConfigOptions,
-    description: { width: '16em' } as ConfigOptions,
-    start: {sortable: true} as ConfigOptions,
-    end: {sortable: true} as ConfigOptions,
-    location: {} as ConfigOptions,
-    userGroup: {} as ConfigOptions,
-    departmens: {} as ConfigOptions,
-    classes: {} as ConfigOptions,
-    descriptionLong: { width: '20em' } as ConfigOptions,
-    actions: {} as ConfigOptions,
+export interface ConfigOptionsSortable extends ConfigOptionsBase {
+    sortable: boolean | string;
+    direction?: 'asc' | 'desc';
+    minWidthWhenActive?: string;
+}
+
+export type ConfigOptions = ConfigOptionsBase | ConfigOptionsSortable;
+
+
+export const DefaultConfig: {[key: string]: ConfigOptions} = {
+    state: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
+    isValid: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
+    isDuplicate: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
+    select: { width: '2.3em', componentProps: {onSelect: () => undefined} },
+    kw: { width: '2.8em', sortable: '3.3em', minWidthWhenActive: '4.5em' },
+    author: { width: '5em', sortable: true, minWidthWhenActive: '6em' },
+    day: { width: '2.8em' },
+    description: { width: '16em' },
+    start: {sortable: true},
+    end: {sortable: true},
+    location: {},
+    userGroup: {},
+    departmens: {},
+    classes: {},
+    descriptionLong: { width: '20em' },
+    actions: {},
 };
 
 export const BATCH_SIZE = 15 as const;
-export type ColumnConfig = (keyof typeof DefaultConfig | [keyof typeof DefaultConfig, Partial<ConfigOptions>])[];
+export type ColumnConfig = (keyof typeof DefaultConfig | [keyof typeof DefaultConfig, ConfigOptions])[];
 
 interface Props {
     events: EventModel[];
@@ -96,9 +104,9 @@ const EventGrid = observer((props: Props) => {
             direction: sortDirection
         });
     }, [props.events, sortBy, sortDirection]);
-    const [columns, setColumns] = React.useState<[keyof typeof DefaultConfig, Partial<ConfigOptions>][]>([]);
+    const [columns, setColumns] = React.useState<[keyof typeof DefaultConfig, ConfigOptions][]>([]);
     React.useEffect(() => {
-        const config: [keyof typeof DefaultConfig, Partial<ConfigOptions>][] = [];
+        const config: [keyof typeof DefaultConfig, ConfigOptions][] = [];
         const onSelect = (event: EventModel, selected: boolean, shiftKey: boolean) => {
             if (selected && shiftKey) {
                 const items = groupEvents.flat().filter(e => e.type === 'event').map(e => (e as ViewEvent).model);
@@ -117,12 +125,12 @@ const EventGrid = observer((props: Props) => {
             if (!defaultConf) {
                 return null;
             }
-            config.push([name, { ...defaultConf, ...(isConfig ? col[1] : {}) }]);
+            config.push([name, { ...defaultConf, ...(isConfig ? col[1] : {}), direction: sortBy === name ? sortDirection : undefined }]);
         });
         setColumns(config);
     }, [props.columns, groupEvents]);
 
-
+    console.log(columns)
     const gridTemplateColumns = `repeat(${props.columns.length}, max-content)`;
     return (
         <div className={clsx(styles.scroll, props.className)}>

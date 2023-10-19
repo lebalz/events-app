@@ -5,10 +5,10 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
-import { mdiAbacus, mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
+import { mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
-import { SIZE_S, SIZE_XS, filterSvgPath } from '../../shared/icons';
+import { SIZE_S, filterSvgPath } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
 
 interface Props {
