@@ -213,6 +213,29 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get parents() {
+        if (!this.parentId) {
+            return []
+        }
+        return [this.parent, ...this.parent.parents];
+    }
+
+    @computed
+    get allVersions() {
+        let root: Event = this;
+        while (root.hasParent) {
+            root = root.parent;
+        }
+        const all = [root, ...root.descendants];
+        return _.orderBy(all, ['createdAt'], ['asc']);
+    }
+
+    @computed
+    get descendants() {
+        return this.children.map(c => [c, ...c.descendants]).flat();
+    }
+
+    @computed
     get children() {
         return this.store.events.filter(e => e.parentId === this.id);
     }
@@ -465,6 +488,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get isExpanded() {
+        if (this.isDeleted) {
+            return false;
+        }
         return this.store.root.viewStore.expandedEventIds.has(this.id);
     }
 
@@ -475,7 +501,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @override
     get isEditable() {
-        return this.store.canEdit(this);
+        return !this.isDeleted && this.store.canEdit(this);
     }
 
     /**
@@ -857,10 +883,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get versionNumber() {
-        if (this.hasParent) {
-            return this.parent.versionIds.indexOf(this.id) + 1;
-        }
-        return this.versionIds.length + 1;
+        return this.allVersions.indexOf(this) + 1;
     }
 
     @action

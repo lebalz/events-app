@@ -59,12 +59,6 @@
 .descriptionLong {
     max-width: 30em;
 }
-.deleted {
-    position:relative;
-    text-decoration:none;
-    color: var(--ifm-font-color-secondary);
-    text-decoration: line-through;
-}
 .state {
     display: flex;
     gap: 0.5em;

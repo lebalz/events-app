@@ -69,7 +69,7 @@ const Row = observer((props: Props) => {
                         style={{
                             gridColumn: gridColumn,
                             maxWidth: config.maxWidth,
-                            width: config.width,
+                            width: (typeof config.sortable === 'string') ? config.sortable : config.width,
                             minWidth: config.direction ? config.minWidthWhenActive : undefined,
                             position: config.fixed ? 'sticky' : undefined,
                             left: config.fixed?.left,

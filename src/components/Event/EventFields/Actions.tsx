@@ -13,6 +13,8 @@ import Delete from '@site/src/components/shared/Button/Delete';
 import Edit from '@site/src/components/shared/Button/Edit';
 import { useStore } from '@site/src/stores/hooks';
 import {useWindowSize} from '@docusaurus/theme-common';
+import { EventState } from '@site/src/api/event';
+import { useHistory } from '@docusaurus/router';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
@@ -22,6 +24,7 @@ const Actions = observer((props: Props) => {
     const { event } = props;
     const viewStore = useStore('viewStore');
     const windowSize = useWindowSize();
+    const history = useHistory();
     return (
         <div
             style={{ gridColumn: 'actions' }}
@@ -50,7 +53,19 @@ const Actions = observer((props: Props) => {
                             <Save
                                 disabled={!event.isDirty || !event.isValid}
                                 title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
-                                onClick={() => event.save()}
+                                onClick={() => {
+                                    if (event.state !== EventState.Draft) {
+                                        event.save().then((model) => {
+                                            event.setEditing(false);
+                                            if (model) {
+                                                history.push(`/user?user-tab=events`);
+                                                viewStore.setEventModalId(model.id)
+                                            }
+                                        })
+                                    } else {
+                                        event.save();
+                                    }
+                                }}
                                 apiState={event.apiStateFor(`save-${event.id}`)}
                             />
                             <Delete onClick={() => event.destroy()} apiState={event.apiStateFor(`destroy-${event.id}`)} />

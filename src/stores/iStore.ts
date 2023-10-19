@@ -172,15 +172,16 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    save(model: ApiModel<Model, Api | ApiAction>) {
+    save(model: ApiModel<Model, Api | ApiAction>): Promise<ApiModel<Model, Api | ApiAction> | undefined> {
         if (model.isDirty) {
             const { id } = model;
             return this.withAbortController(`save-${id}`, (sig) => {
                 return apiUpdat<Model>(`${this.API_ENDPOINT}/${id}`, model.props, sig.signal);
             }).then(action(({ data }) => {
                 if (data) {
-                    this.addToStore(data);
+                    return this.addToStore(data);
                 }
+                return undefined
             }));
         }
         return Promise.resolve(undefined);
