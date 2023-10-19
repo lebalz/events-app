@@ -130,7 +130,6 @@ const EventGrid = observer((props: Props) => {
         setColumns(config);
     }, [props.columns, groupEvents]);
 
-    console.log(columns)
     const gridTemplateColumns = `repeat(${props.columns.length}, max-content)`;
     return (
         <div className={clsx(styles.scroll, props.className)}>

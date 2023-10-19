@@ -2,13 +2,13 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
-import EventGrid from '../components/Event/EventGrid';
 import Button from '../components/shared/Button';
 import { mdiDownloadCircleOutline, mdiTools } from '@mdi/js';
 import {useWindowSize} from '@docusaurus/theme-common';
 import Filter from '../components/Event/Filter';
 import clsx from 'clsx';
 import styles from './table.module.scss';
+import EventGrid from '../components/Event/EventGrid';
 
 const Table = observer(() => {
     const viewStore = useStore('viewStore');
@@ -18,7 +18,7 @@ const Table = observer(() => {
         <Layout>
             <div className={clsx(styles.table)}>
                 <Filter showCurrentAndFuture/>
-                <EventGrid 
+                <EventGrid
                     events={viewStore.eventTable.events}
                     groupBy='yearsKw'
                     columns={[
