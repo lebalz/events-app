@@ -213,6 +213,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get publishedParent(): Event | undefined {
+        let root: Event = this.parent;
+        while (root?.hasParent) {
+            root = root.parent;
+        }
+        return root;
+    }
+
+    @computed
     get parents() {
         if (!this.parentId) {
             return []
@@ -222,10 +231,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get allVersions() {
-        let root: Event = this;
-        while (root.hasParent) {
-            root = root.parent;
-        }
+        const root = this.publishedParent || this;
         const all = [root, ...root.descendants];
         return _.orderBy(all, ['createdAt'], ['asc']);
     }
@@ -253,6 +259,35 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get isOnOneDay() {
         return this.fStartDate === this.fEndDate;
+    }
+
+    @computed
+    get canChangeState() {
+        if (!this.isEditable) {
+            return false;
+        }
+        switch (this.state) {
+            case EventState.Draft:
+                return true;
+            case EventState.Review:
+                return this.store.root.userStore.current?.isAdmin;
+        }
+        return false;
+    }
+
+    @computed
+    get possibleStates(): EventState[] {
+        if (!this.canChangeState) {
+            return [];
+        }
+        switch (this.state) {
+            case EventState.Draft:
+                return [EventState.Review];
+            case EventState.Review:
+                return [EventState.Published, EventState.Refused];
+            default:
+                return [];
+        }
     }
 
     @action

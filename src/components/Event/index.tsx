@@ -24,8 +24,6 @@ const Event = observer((props: Props) => {
     const { event } = props;
     const socketStore = useStore('socketStore');
     const eventStore = useStore('eventStore');
-    const commonClasses = clsx(event.isDeleted && styles.deleted);
-    console.log(event.versions)
     return (
         <div className={clsx(styles.eventCard, 'card')}>
             {!props.inModal && (

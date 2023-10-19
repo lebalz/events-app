@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiEqual, mdiRecordCircleOutline, mdiShareCircle, mdiText } from '@mdi/js';
+import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiEqual, mdiRecordCircleOutline, mdiShareCircle, mdiText } from '@mdi/js';
 import { EditIcon, Icon, SIZE, SIZE_S, SIZE_XS } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
@@ -25,6 +25,7 @@ import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
+import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -41,13 +42,32 @@ const EventProps = observer((props: Props) => {
     const commonEditProps = { ...commonProps, isEditable: true };
     const [showOptions, setShowOptions] = React.useState(false);
 
+    const options = new Set<string>();
+    if (!props.inModal && !event.isEditing) {
+        options.add('clone');
+    }
+    if (!props.inModal && event.isEditable) {
+        options.add('actions');
+    }
     return (
         <DefinitionList className={clsx(styles.eventProps)}>
             {props.showVersionHeader && event.hasParent && (
                 <>
-                    <dt><Icon path={mdiArrowRightBoldCircleOutline} color='blue' /></dt>
-                    <dd><Badge color='green' text="Neue Version" /></dd>
-                    <dt className='line'></dt>
+                    {
+                        [EventState.Draft, EventState.Review].includes(event.state) ? (
+                            <>
+                                <dt><Icon path={mdiArrowRightBoldCircleOutline} color='blue' /></dt>
+                                <dd><Badge color='green' text="Neue Version" /></dd>
+                                <dt className='line'></dt>
+                            </>
+                        ) : (
+                            <>
+                                <dt><Icon path={mdiArrowLeftBoldCircleOutline} color='grey' /></dt>
+                                <dd><Badge color='grey' text="Alte Version" /></dd>
+                                <dt className='line'></dt>
+                            </>
+                        )
+                    }
                 </>
             )}
             {props.showVersionHeader && !event.hasParent && event.hasChildren && (
@@ -74,7 +94,7 @@ const EventProps = observer((props: Props) => {
             <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
             <dd>
                 <div className={clsx(styles.flex)}>
-                    <State {...commonProps} className='' />
+                    <State {...commonProps} className='' showText/>
                 </div>
             </dd>
             <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
@@ -144,40 +164,82 @@ const EventProps = observer((props: Props) => {
                     })}
                 </>
             )}
-            <dt>
-                <Button
-                    icon={mdiDotsHorizontalCircleOutline}
-                    onClick={() => setShowOptions(!showOptions)}
-                    disabled={!viewStore.user}
-                    className={clsx(styles.optionsBtn, (showOptions || (!props.inModal && event.isEditing)) && styles.showOptions)}
-                />
-            </dt>
-            <dd>
-                <div className={clsx(styles.options)}>
-                    {(event.isEditable && (showOptions || (!props.inModal && event.isEditing))) && (
-                        <EventActions event={event} size={SIZE*0.99} buttonOrder={['discard', 'save']} />
-                    )}
-                    {showOptions && !event.isEditing && (
-                        <Button
-                            icon={mdiContentDuplicate}
-                            size={SIZE*0.99}
-                            title='Duplizieren'
-                            onClick={() => {
-                                eventStore.clone(event).then((newEvent) => {
-                                    if (newEvent) {
-                                        const id = (newEvent as { id: string }).id;
-                                        history.push(`/user?user-tab=events`);
-                                        eventStore.find(id)?.setEditing(true);
-                                    }
-                                });
+            {
+                event.canChangeState && (
+                    <>
+                        <dt>
+                            <Translate id="event.requestState" description='Requesting the next state, eg. Draft -> Review'>
+                                Status Ändern
+                            </Translate>
+                        </dt>
+                        <dd>
+                            {
+                                event.possibleStates.map((state, idx) => {
+                                    return (
+                                        <Button
+                                            key={state}
+                                            text={EventStateTranslation[state]}
+                                            icon={EventStateButton[state]}
+                                            color={EventStateColor[state]}
+                                            size={SIZE_XS}
+                                            iconSide='left'
+                                            onClick={() => {
+                                                event.requestState(state);
+                                            }}
+                                            apiState={eventStore.apiStateFor(`save-state-${event.id}`)}
+                                        />
+                                    )
+                                })
+                            }
+                        </dd>
+                    </>
+                )
+            }
+            {
+                options.size > 0 && (
+                    <>
+                        <dt>
+                            <Button
+                                icon={mdiDotsHorizontalCircleOutline}
+                                onClick={() => setShowOptions(!showOptions)}
+                                disabled={!viewStore.user}
+                                className={clsx(styles.optionsBtn, (showOptions || (!props.inModal && event.isEditing)) && styles.showOptions)}
+                            />
+                        </dt>
+                        <dd>
+                            <div className={clsx(styles.options)}>
+                                {options.has('actions') && (showOptions || event.isEditing ) && (
+                                    <EventActions 
+                                        event={event}
+                                        size={SIZE*0.99}
+                                        buttonOrder={['discard', 'save']}
+                                    />
+                                )}
+                                {options.has('clone') && showOptions && (
+                                    <Button
+                                        icon={mdiContentDuplicate}
+                                        size={SIZE*0.99}
+                                        title='Duplizieren'
+                                        onClick={() => {
+                                            eventStore.clone(event).then((newEvent) => {
+                                                if (newEvent) {
+                                                    const id = (newEvent as { id: string }).id;
+                                                    history.push(`/user?user-tab=events`);
+                                                    eventStore.find(id)?.setEditing(true);
+                                                }
+                                            });
 
-                            }}
-                        />
-                    )}
-                </div>
-            </dd>
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        </dd>
+                    </>
+                )
+            }
         </DefinitionList>
     )
 });
+
 
 export default EventProps;

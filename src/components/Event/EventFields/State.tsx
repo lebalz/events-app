@@ -1,45 +1,36 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
-import { EventState } from '@site/src/api/event';
-import { mdiBookCancel, mdiDeleteForever, mdiFileCertificate, mdiPen, mdiPencilBox, mdiProgressCheck } from '@mdi/js';
+import { EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
+import { mdiDeleteForever } from '@mdi/js';
 import Badge from '@site/src/components/shared/Badge';
 import { SIZE_S } from '@site/src/components/shared/icons';
-import { Color } from '../../shared/Colors';
 import Event from '@site/src/models/Event';
 
-const StateButton: {[state in EventState]: string} = {
-    [EventState.Draft]: mdiPen,
-    [EventState.Published]: mdiFileCertificate,
-    [EventState.Refused]: mdiBookCancel,
-    [EventState.Review]: mdiProgressCheck
+interface Props extends ReadonlyProps {
+    showText?: boolean;
 }
 
-const StateColor: {[state in EventState]: Color} = {
-    [EventState.Draft]: 'blue',
-    [EventState.Published]: 'green',
-    [EventState.Refused]: 'red',
-    [EventState.Review]: 'orange'
-}
-
-const StateTitle: {[state in EventState]: string} = {
-    [EventState.Draft]: 'Unveröffentlicht',
-    [EventState.Published]: 'Veröffentlicht',
-    [EventState.Refused]: 'Zurückgewiesen',
-    [EventState.Review]: 'Im Review'
-}
-
-const State = observer((props: ReadonlyProps) => {
-    const { event } = props;
+const State = observer((props: Props) => {
+    const { event, showText } = props;
     return (
         <div 
             style={{gridColumn: 'state'}} 
-            className={clsx('state', styles.state, props.className, 'grid-isValid')}
+            className={clsx('state', styles.state, !showText && styles.flex, props.className, 'grid-isValid')}
         >
-            <Badge icon={StateButton[event.state]} color={StateColor[event.state]} size={SIZE_S} title={StateTitle[event.state]} />
+            <div className={clsx(showText && styles.flex)}>
+                <Badge 
+                    icon={EventStateButton[event.state]}
+                    color={EventStateColor[event.state]}
+                    size={SIZE_S}
+                    title={EventStateTranslation[event.state]}
+                    text={showText && EventStateTranslation[event.state]}
+                    iconSide='left'
+                />
+            </div>
             {
                 event.isDeleted && (
                     <Badge 

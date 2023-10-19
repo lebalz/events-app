@@ -4,6 +4,8 @@ import { Job } from './job';
 import Joi from 'joi';
 import { KlassName } from '../models/helpers/klassNames';
 import { translate } from '@docusaurus/Translate';
+import { Color } from '../components/shared/Colors';
+import { mdiBookCancel, mdiFileCertificate, mdiPen, mdiProgressCheck } from '@mdi/js';
 
 export enum EventState {
     Draft = 'DRAFT',
@@ -11,6 +13,28 @@ export enum EventState {
     Published = 'PUBLISHED',
     Refused = 'REFUSED'
 }
+
+export const EventStateTranslation: {[key in EventState]: string} = {
+    [EventState.Draft]: translate({message: 'Entwurf', id: 'event.state.draft', description: 'Event state draft'}),
+    [EventState.Review]: translate({message: 'Zur Prüfung', id: 'event.state.review', description: 'Event state review'}),
+    [EventState.Published]: translate({message: 'Veröffentlicht', id: 'event.state.published', description: 'Event state published'}),
+    [EventState.Refused]: translate({message: 'Zurückgewiesen', id: 'event.state.refused', description: 'Event state refused'})
+}
+
+export const EventStateButton: {[state in EventState]: string} = {
+    [EventState.Draft]: mdiPen,
+    [EventState.Published]: mdiFileCertificate,
+    [EventState.Refused]: mdiBookCancel,
+    [EventState.Review]: mdiProgressCheck
+}
+
+export const EventStateColor: {[state in EventState]: Color} = {
+    [EventState.Draft]: 'blue',
+    [EventState.Published]: 'green',
+    [EventState.Refused]: 'red',
+    [EventState.Review]: 'orange'
+}
+
 
 export enum TeachingAffected {
     YES = 'YES',

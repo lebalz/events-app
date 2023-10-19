@@ -8,7 +8,7 @@ import Modal from '../../shared/Modal';
 import {default as EventModel} from '@site/src/models/Event';
 import Event from '..';
 import Button from '../../shared/Button';
-import { mdiClose, mdiShareCircle } from '@mdi/js';
+import { mdiClose, mdiContentDuplicate, mdiShareCircle } from '@mdi/js';
 import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons';
 import EventActions from '../EventActions';
 import EventBody from '../EventBody';

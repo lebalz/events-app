@@ -26,7 +26,6 @@ const Actions = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const windowSize = useWindowSize();
-    const history = useHistory();
     return (
         <div
             style={{ gridColumn: 'actions' }}
@@ -61,7 +60,6 @@ const Actions = observer((props: Props) => {
                                             const current = eventStore.find(event.id);
                                             current?.reset();
                                             if (model) {
-                                                history.push(`/user?user-tab=events`);
                                                 viewStore.setEventModalId(model.id)
                                             }
                                         }))
