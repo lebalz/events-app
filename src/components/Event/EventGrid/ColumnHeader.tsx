@@ -8,7 +8,7 @@ import Translate, {translate} from '@docusaurus/Translate';
 import { Icon, SIZE, SIZE_S } from '../../shared/icons';
 import { mdiArrowDown, mdiArrowUp, mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
 import Checkbox from '../../shared/Checkbox';
-import Button from '../../shared/Button';
+import Button, { ButtonIcon } from '../../shared/Button';
 import Badge from '../../shared/Badge';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 
@@ -39,6 +39,7 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
     isDuplicate: translate({message: 'Duplikat', id: 'eventGrid.header.isDuplicate', description: 'Label for the Event Grid Columns'}),
 };
 
+
 const ColumnHeader = observer((props: Props) => {
     let content: JSX.Element | string = HeaderTitles[props.name];
     switch (props.name) {
@@ -54,7 +55,9 @@ const ColumnHeader = observer((props: Props) => {
         case 'isValid':
             content = <Icon path={mdiBookmarkCheck} size={SIZE_S} />;
             break;
-
+    }
+    if (props.sortable && typeof content !== 'string') {
+        content = <ButtonIcon icon={content} />
     }
     return (
         <div

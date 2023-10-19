@@ -31,7 +31,7 @@ export type ConfigOptions = ConfigOptionsBase | ConfigOptionsSortable;
 export const DefaultConfig: {[key: string]: ConfigOptions} = {
     state: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
     isValid: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
-    isDuplicate: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
+    isDuplicate: { sortable: true },
     select: { width: '2.3em', componentProps: {onSelect: () => undefined} },
     kw: { width: '2.8em', sortable: '3.3em', minWidthWhenActive: '4.5em' },
     author: { width: '5em', sortable: true, minWidthWhenActive: '6em' },

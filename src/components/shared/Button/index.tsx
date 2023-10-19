@@ -62,7 +62,7 @@ export const extractSharedProps = (props: Base) => {
     }
 }
 
-const ButtonIcon = (props: Props) => {
+export const ButtonIcon = (props: Props) => {
     let icon = props.icon;
     if (typeof icon === 'string') {
         icon = <Icon path={icon} size={props.size} />;
@@ -72,7 +72,7 @@ const ButtonIcon = (props: Props) => {
             {
                 icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
                     <span
-                        className={clsx(styles.icon)}
+                        className={clsx(styles.icon, props.className)}
                     >
                         {icon}
                     </span>
@@ -96,18 +96,16 @@ const ButtonInner = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     return (
         <>
-            {props.icon && iconSide === 'left' && <ButtonIcon {...props} />}
+            {props.icon && iconSide === 'left' && <ButtonIcon {...props} className={undefined} />}
             <span className={clsx(styles.spacer, textAndIcon && iconSide === 'left' && styles.borderLeft)}></span>
-            <span className={clsx()}>
-                {
-                    props.text && <span>{props.text}</span>
-                }
-                {
-                    props.children && props.children
-                }
-            </span>
+            {
+                props.text && <span>{props.text}</span>
+            }
+            {
+                props.children && props.children
+            }
             <span className={clsx(styles.spacer, textAndIcon && iconSide === 'right' && styles.borderRight)}></span>
-            {props.icon && iconSide === 'right' && <ButtonIcon {...props} />}
+            {props.icon && iconSide === 'right' && <ButtonIcon {...props}  className={undefined}/>}
 
         </>
     )
@@ -126,7 +124,8 @@ const Button = (props: Props) => {
     const commonCls = clsx(
         styles.button, 
         props.active && 'button--active',
-        !textAndIcon && props.icon && styles.soloIcon,
+        !textAndIcon && props.icon && styles.reducedPadding,
+        props.children && styles.reducedPadding,
         props.icon &&( props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
         textOnly && styles.soloText,
         'button', 

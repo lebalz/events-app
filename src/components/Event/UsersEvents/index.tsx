@@ -9,10 +9,10 @@ import { Role } from '@site/src/api/user';
 import clsx from 'clsx';
 import AddButton from '../AddButton';
 import BulkActions from '../BulkActions';
-import EventGrid, { ColumnConfig } from '../EventGrid';
 import LazyDetails from '../../shared/Details';
 import Delete from '../../shared/Button/Delete';
 import styles from './styles.module.scss';
+import EventGrid, { ColumnConfig } from '../EventGrid';
 const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     ['state', {sortable: false, width: undefined}],
