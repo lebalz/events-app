@@ -13,10 +13,12 @@ import ColumnHeader from './ColumnHeader';
 interface ConfigOptionsBase {
     width?: string;
     maxWidth?: string;
+    maxContentWidth?: string;
     fixed?: { right: number, left?: undefined } | { left: number, right?: undefined };
     className?: string;
     colSpan?: number;
     componentProps?: Record<string, any>;
+    onEdit?: { colSpan?: number, maxWidth?: string, maxContentWidth?: string }; /** the current event is edited */
 }
 
 export interface ConfigOptionsSortable extends ConfigOptionsBase {
@@ -37,12 +39,12 @@ export const DefaultConfig: {[key: string]: ConfigOptions} = {
     author: { width: '5em', sortable: true, minWidthWhenActive: '6em' },
     day: { width: '2.8em' },
     description: { width: '16em' },
-    start: {sortable: true},
-    end: {sortable: true},
-    location: {maxWidth: '10em'},
-    userGroup: {maxWidth: '7em'},
-    departmens: { maxWidth: '7em' },
-    classes: { maxWidth: '8em' },
+    start: { sortable: true},
+    end: { sortable: true},
+    location: { maxWidth: '10em'},
+    userGroup: { maxContentWidth: '7em'},
+    departmens: { maxContentWidth: '7em', onEdit: {maxWidth: '25em', colSpan: 2, maxContentWidth: '25em'} },
+    classes: { maxContentWidth: '8em', onEdit: {colSpan: 0} },
     descriptionLong: { width: '20em' },
     actions: {},
 };

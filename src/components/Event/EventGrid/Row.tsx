@@ -50,15 +50,21 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
 };
 
 const Row = observer((props: Props) => {
+    console.log('repaint', props.event.id);
     return (
         <>
             {props.columns.map((column, index) => {
                 const [name, config] = column;
                 const Component = ComponentMap[name];
-                let span = config.colSpan || 1;
-                if (name === 'departmens' && props.event.isEditing) {
-                    span = 2;
-                } else if (name === 'classes' && props.event.isEditing) {
+                let span = config.colSpan ?? 1;
+                let maxWidth = config.maxWidth;
+                let maxContentWidth = config.maxContentWidth;
+                if (props.event.isEditing && config.onEdit) {
+                    span = config.onEdit.colSpan ?? 1;
+                    maxWidth = config.onEdit.maxWidth ?? maxWidth;
+                    maxContentWidth = config.onEdit.maxContentWidth ?? maxContentWidth;
+                }
+                if (span === 0) {
                     return null;
                 }
 
@@ -68,7 +74,7 @@ const Row = observer((props: Props) => {
                         className={clsx(styles.cell, (props.event.isDeleted && name !== 'actions') && styles.deleted, styles[name as string], config.className, (props.index % 2) === 1 && styles.odd)}
                         style={{
                             gridColumn: gridColumn,
-                            maxWidth: config.maxWidth,
+                            maxWidth: maxWidth,
                             width: (typeof config.sortable === 'string') ? config.sortable : config.width,
                             minWidth: config.direction ? config.minWidthWhenActive : undefined,
                             position: config.fixed ? 'sticky' : undefined,
@@ -78,12 +84,14 @@ const Row = observer((props: Props) => {
                         onClick={() => props.event.setExpanded(true)}
                         key={index}
                     >
-                        <Component
-                            event={props.event}
-                            className={clsx(styles.content, !props.event.isExpanded && styles.collapsed)}
-                            expandeable
-                            {...config.componentProps}
-                        />
+                        <div style={{maxWidth: maxContentWidth}}>
+                            <Component
+                                event={props.event}
+                                className={clsx(styles.content, !props.event.isExpanded && styles.collapsed)}
+                                expandeable
+                                {...config.componentProps}
+                            />
+                        </div>
                     </div>
                 )
             })
