@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
@@ -15,7 +15,13 @@ const Departments = observer((props: Props) => {
     return (
         <div
             style={{ gridColumn: 'departments' }}
-            className={clsx(props.className, styles.departments, 'grid-departments', props.isEditGrid && styles.editGrid, event.isExpanded && styles.expanded)}
+            className={clsx(
+                props.className,
+                styles.departments,
+                'grid-departments',
+                props.isEditGrid && styles.editGrid,
+                event.isExpanded && styles.expanded
+            )}
         >
             <div className={clsx(styles.tags)}>
                 {

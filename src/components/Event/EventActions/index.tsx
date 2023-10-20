@@ -18,6 +18,7 @@ interface Props {
     size?: number;
     onDiscard?: () => void;
     buttonOrder?: SortableButton[];
+    exclude?: SortableButton[];
 }
 
 
@@ -108,7 +109,8 @@ const EventActions = observer((props: Props) => {
         return (
             <>
                 {
-                    buttonOrder.map((btn: SortableButton) => buttons[btn]({key: btn}))
+                    buttonOrder.filter(b => !(props.exclude || []).includes(b))
+                                .map((btn: SortableButton) => buttons[btn]({key: btn}))
                 }
             </>
         )

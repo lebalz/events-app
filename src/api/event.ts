@@ -15,10 +15,17 @@ export enum EventState {
 }
 
 export const EventStateTranslation: {[key in EventState]: string} = {
-    [EventState.Draft]: translate({message: 'Entwurf', id: 'event.state.draft', description: 'Event state draft'}),
-    [EventState.Review]: translate({message: 'Zur Prüfung', id: 'event.state.review', description: 'Event state review'}),
-    [EventState.Published]: translate({message: 'Veröffentlicht', id: 'event.state.published', description: 'Event state published'}),
-    [EventState.Refused]: translate({message: 'Zurückgewiesen', id: 'event.state.refused', description: 'Event state refused'})
+    [EventState.Draft]: translate({message: 'Entwurf', id: 'event.state.draft', description: '[noun] Event state draft'}),
+    [EventState.Review]: translate({message: 'In Prüfung', id: 'event.state.review', description: '[noun] Event state review'}),
+    [EventState.Published]: translate({message: 'Veröffentlicht', id: 'event.state.published', description: '[noun] Event state published'}),
+    [EventState.Refused]: translate({message: 'Zurückgewiesen', id: 'event.state.refused', description: '[noun] Event state refused'})
+}
+
+export const EventStateActions: {[key in EventState]: string} = {
+    [EventState.Draft]: translate({message: 'Entwurf', id: 'event.state.action:draft', description: '[verb] request event state: draft'}),
+    [EventState.Review]: translate({message: 'Prüfen', id: 'event.state.action:review', description: '[verb] request event: review'}),
+    [EventState.Published]: translate({message: 'Veröffentlichen', id: 'event.state.action:publish', description: '[verb] request event: published'}),
+    [EventState.Refused]: translate({message: 'Zurückweisen', id: 'event.state.action:refuse', description: '[verb] request event state: refused'})
 }
 
 export const EventStateButton: {[state in EventState]: string} = {

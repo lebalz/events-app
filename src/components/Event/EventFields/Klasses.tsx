@@ -8,6 +8,7 @@ import Badge from '@site/src/components/shared/Badge';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean; /** true when at least one element of the grid is edited */
+    maxWidth?: string;
 }
 
 const Klasses = observer((props: Props) => {
@@ -15,7 +16,12 @@ const Klasses = observer((props: Props) => {
     return (
         <div 
             style={{ gridColumn: 'classes' }} 
-            className={clsx(props.className, styles.classes, props.isEditGrid && styles.editGrid, event.isExpanded && styles.expanded)}
+            className={clsx(
+                props.className,
+                styles.classes,
+                props.isEditGrid && styles.editGrid,
+                event.isExpanded && styles.expanded
+            )}
         >
             <div className={clsx(styles.tags)}>
                 {

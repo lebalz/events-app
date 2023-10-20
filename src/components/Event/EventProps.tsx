@@ -25,7 +25,7 @@ import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
-import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
+import { EventState, EventStateActions, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -136,7 +136,11 @@ const EventProps = observer((props: Props) => {
                     )}
                     {event.affectedDepartments.length > 0 && (
                         <>
-                            <dt><Translate id="event.departments" description='for a single event: departments'>Departemente</Translate></dt>
+                            <dt>
+                                <Translate id="event.departments" description='for a single event: departments'>
+                                    Departemente
+                                </Translate>
+                            </dt>
                             <dd>
                                 <Departments {...commonProps} />
                             </dd>
@@ -178,7 +182,7 @@ const EventProps = observer((props: Props) => {
                                     return (
                                         <Button
                                             key={state}
-                                            text={EventStateTranslation[state]}
+                                            text={EventStateActions[state]}
                                             icon={EventStateButton[state]}
                                             color={EventStateColor[state]}
                                             size={SIZE_XS}
@@ -213,6 +217,7 @@ const EventProps = observer((props: Props) => {
                                         event={event}
                                         size={SIZE*0.99}
                                         buttonOrder={['discard', 'save']}
+                                        exclude={props.inModal ? [] : ['open']}
                                     />
                                 )}
                                 {options.has('clone') && showOptions && (
