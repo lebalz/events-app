@@ -15,6 +15,7 @@ import Button from '../shared/Button';
 import Klass from '@site/src/models/Untis/Klass';
 import Lesson from '@site/src/models/Untis/Lesson';
 import { ApiState } from '@site/src/stores/iStore';
+import { translate } from '@docusaurus/Translate';
 
 
 interface Props {
@@ -53,7 +54,8 @@ const User = observer((props: Props) => {
                         <div className={clsx(styles.icalButtons)}>
                             <Button
                                 onClick={() => userStore.createIcs()}
-                                text="Sync"
+                                text={translate({ id: 'user.ical.sync-button.text', message: 'Sync', description: 'Button text for (re)syncing the calendar'})}
+                                title={translate({ id: 'user.ical.sync-button.title', message: 'Synchronisiere meinen Kalender', description: 'Button (hover) title for (re)syncing the calendar'})}
                                 icon={mdiSync}
                                 apiState={userStore.apiStateFor('createIcs')}
                                 size={SIZE_S}
@@ -61,8 +63,9 @@ const User = observer((props: Props) => {
                             />
                             <Button
                                 href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${user.icalUrl}&name=GBSL`}
-                                text="Outlook"
-                                title='Regenerate iCal Calendar'
+                                target='_blank'
+                                text={translate({message: 'Outlook', id: 'user.ical.outlook-button.text', description: 'Button text for adding the calendar to Outlook'})}
+                                title={translate({message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook'})}
                                 icon={mdiMicrosoftOutlook}
                                 size={SIZE_S}
                             />

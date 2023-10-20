@@ -185,7 +185,7 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
 
     @action
     requestState(eventIds: string[], state: EventState) {
-        return this.withAbortController(`save-state-${eventIds.join(':')}`, (sig) => {
+        return this.withAbortController(`save-state-${state}-${eventIds.join(':')}`, (sig) => {
             return apiRequestState(state, eventIds, sig.signal)
                 .then(
                     action(({ data }) => {

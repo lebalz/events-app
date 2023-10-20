@@ -186,7 +186,7 @@ const EventProps = observer((props: Props) => {
                                             onClick={() => {
                                                 event.requestState(state);
                                             }}
-                                            apiState={eventStore.apiStateFor(`save-state-${event.id}`)}
+                                            apiState={eventStore.apiStateFor(`save-state-${state}-${event.id}`)}
                                         />
                                     )
                                 })
