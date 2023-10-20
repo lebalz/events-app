@@ -16,6 +16,7 @@ import {useWindowSize} from '@docusaurus/theme-common';
 import { EventState } from '@site/src/api/event';
 import { useHistory } from '@docusaurus/router';
 import { action } from 'mobx';
+import { translate } from '@docusaurus/Translate';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
@@ -74,17 +75,26 @@ const Actions = observer((props: Props) => {
                     )
                 }
             </div>
-            <div className={clsx(styles.expand)}>
+            <div className={clsx(styles.expand, styles.flex)}>
                 {
                     props.expandeable && event.isExpanded && !event.isEditing && (
-                        <Button 
-                            icon={mdiArrowExpandUp} 
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                event.setExpanded(false)
-                            }} 
-                            size={SIZE_S} 
-                        />
+                        <>
+                            <Button 
+                                icon={mdiArrowExpandUp} 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    event.setExpanded(false)
+                                }} 
+                                size={SIZE_S} 
+                            />
+                            <Button
+                                color="blue"
+                                icon={mdiShareCircle}
+                                href={event.shareUrl}
+                                size={SIZE_S}
+                                title={translate({message: 'Öffnen', id: 'event.open.title', description: 'Button Title (hover) to open an event view'})}
+                            />
+                        </>
                     )
                 }
             </div>
