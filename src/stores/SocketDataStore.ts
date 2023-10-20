@@ -5,10 +5,11 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';
 import axios, { CancelTokenSource } from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap } from './IoEventTypes';
+import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, ReloadAffectingEvents } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson } from '../api/untis';
 import { Event as EventProps } from '../api/event';
+import Semester from '../models/Semester';
 class Message {
     type: string;
     message: string;
@@ -113,6 +114,20 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             });
         })
     };
+    handleReloadAffectingEvents = () => {
+        return action((data: string) => {
+            const record: ReloadAffectingEvents = JSON.parse(data);
+            const current = this.root.userStore.current;
+            if (current) {
+                record.semesterIds.forEach((id) => {
+                    const sem = this.root.semesterStore.find<Semester>(id);
+                    if (sem) {
+                        this.root.userStore.loadAffectedEventIds(current, sem);
+                    }
+                });
+            }
+        })
+    };
 
     handleReload = (type: IoEvent) => {
         return action((data: string) => {
@@ -171,6 +186,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));
         this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
         this.socket.on(IoEvent.CHANGED_STATE, this.handleEventStateChange());
+        this.socket.on(IoEvent.RELOAD_AFFECTING_EVENTS, this.handleReloadAffectingEvents());
     }
 
     checkEvent(eventId: string) {

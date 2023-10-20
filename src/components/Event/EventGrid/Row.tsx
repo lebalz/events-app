@@ -50,7 +50,6 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
 };
 
 const Row = observer((props: Props) => {
-    console.log('repaint', props.event.id);
     return (
         <>
             {props.columns.map((column, index) => {

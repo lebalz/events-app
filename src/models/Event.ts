@@ -925,7 +925,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     loadVersions() {
         this.store.loadVersions(this).then(action((versions) => {
             this.versionsLoaded = true;
-            console.log(versions);
         }));
     }
 
