@@ -132,16 +132,6 @@
             .group {
                 color: #8d3599;
             }
-            .cell {
-                &.header {
-                    &.active {
-                        background: var(--ifm-color-primary-darkest);
-                        &:hover {
-                            background: var(--ifm-color-primary-darker);
-                        }
-                    }
-                }
-            }
         }
     }
 }
