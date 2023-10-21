@@ -10,7 +10,7 @@ import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson } from '../api/untis';
 import { Event as EventProps } from '../api/event';
 import Semester from '../models/Semester';
-class Message {
+interface Message {
     type: string;
     message: string;
 }

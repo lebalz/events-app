@@ -1,10 +1,14 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
-require('dotenv').config()
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+require('dotenv').config();
+import type {Config} from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
 
-const VERSION = 'alpha.1';
+const {themes} = require('prism-react-renderer');
+const lightCodeTheme = themes.github;
+const darkCodeTheme = themes.dracula;
+
+const VERSION = 'beta.1';
 
 /** @type { (string
     | {
@@ -30,7 +34,7 @@ if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
 const GIT_COMMIT_SHA = process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7);
 
 /** @type {import('@docusaurus/types').Config} */
-const config = {
+const config: Config = {
   title: 'Events',
   tagline: 'Events App',
   url: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
@@ -83,10 +87,9 @@ const config = {
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
-      ({
+      {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: 'sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -100,15 +103,15 @@ const config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.scss'),
+          customCss: [
+            './src/css/custom.scss'
+          ],
         },
-      }),
+      } satisfies Preset.Options,
     ],
   ],
 
-  themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
+  themeConfig: {
       announcementBar: {
         id: VERSION,
         content: `🚧 Seite im Aufbau... ${VERSION} 🚧`,
@@ -220,8 +223,9 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ['bash', 'diff', 'json']
       },
-    }),
+  } satisfies Preset.ThemeConfig,
   scripts: [
     ...scripts
   ],
@@ -230,4 +234,4 @@ const config = {
   ]
 };
 
-module.exports = config;
+export default config
