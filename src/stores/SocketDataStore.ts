@@ -190,10 +190,10 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     checkEvent(eventId: string) {
-        this.socket?.emit('checkEvent', {event_id: eventId});
+        this.socket?.emit('checkEvent', {event_id: eventId, semester_id: 'TODO'});
     }
     checkUnpersistedEvent(event: EventProps) {
-        this.socket?.emit('checkUnpersistedEvent', {event: event});
+        this.socket?.emit('checkUnpersistedEvent', {event: event, semester_id: 'TODO'});
     }
 
     checkLogin() {
