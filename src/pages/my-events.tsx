@@ -100,7 +100,7 @@ const Table = observer(() => {
                         >
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
-                                    <h3><Translate id="my-events.review.furadmin" description="text In Review - wait for admin">Im ReviewReview Anfragen für Admin</Translate></h3>
+                                    <h3><Translate id="my-events.review.furadmin" description="text In Review - wait for admin">Anfragen für Admin</Translate></h3>
                                     <BulkActions events={adminReview.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
@@ -129,7 +129,7 @@ const Table = observer(() => {
                     {deleted.length > 0 && (
                         <TabItem value='deleted' label={
                             translate({
-                                message: 'VeröGelöschtffentlicht',
+                                message: 'Gelöscht',
                                 id: 'my-events.tab.deleted'})}
                         >
                             <div className={clsx(styles.card, 'card')}>
