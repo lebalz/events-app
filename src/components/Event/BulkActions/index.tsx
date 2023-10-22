@@ -12,7 +12,6 @@ import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
 import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiTag } from '@mdi/js';
 import { Icon } from '../../shared/icons';
-import { Role } from '@site/src/api/user';
 import Select from 'react-select';
 
 interface Props {
