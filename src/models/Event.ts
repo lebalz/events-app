@@ -3,7 +3,7 @@ import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, 
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday, DAYS_LONG } from './helpers/time';
+import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday, DAYS_LONG, dateBetween } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
@@ -996,6 +996,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get weekDay(): number {
         return this.start.getDay();
+    }
+
+    get affectedSemesters() {
+        return this.store.root.semesterStore.semesters.filter(s => dateBetween(this.start, s.start, s.end) || dateBetween(this.end, s.start, s.end));
     }
 
     @override

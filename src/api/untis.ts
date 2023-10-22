@@ -31,27 +31,15 @@ export interface UntisLesson {
     startHHMM: number
     endHHMM: number
   }
-interface RawUntisLesson {
-    id: number
-    room: string
-    subject: string
-    description: string
-    semester_nr: number
-    year: number
-    week_day: number
-    start_hhmm: number
-    semester_id: string
-    end_hhmm: number
-}
 
 export interface UntisLessonWithTeacher extends UntisLesson {
     teachers: { id: number }[]
     classes: { id: number }[]
 }
 
-export interface CheckedUntisLesson extends RawUntisLesson {
-    teacher_ids: number[];
-    class_ids: number[];
+export interface CheckedUntisLesson extends UntisLesson {
+    teacherIds: number[];
+    classIds: number[];
 }
 
 

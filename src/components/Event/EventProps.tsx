@@ -35,7 +35,11 @@ interface Props {
 const EventProps = observer((props: Props) => {
     const { event } = props;
     const viewStore = useStore('viewStore');
-    const eventStore = useStore('eventStore');
+    const eventStore = useStore('eventStore');    
+    const socketStore = useStore('socketStore');
+    const semesterStore = useStore('semesterStore');
+    const semester = event.affectedSemesters[0] || semesterStore.currentSemester;
+
     const history = useHistory();
     const commonClasses = clsx(event.isDeleted && styles.deleted);
     const commonProps = { event, styles, className: commonClasses };
@@ -148,26 +152,39 @@ const EventProps = observer((props: Props) => {
                     )}
                 </>
             )}
-            {event.affectedLessonsGroupedByClass.some(al => al.lessons.length > 0) && (
-                <>
-                    <dt><Translate id="event.affectedLessons" description='for a single event: affected lessons'>Betroffene Lektionen</Translate></dt>
-                    {event.affectedLessonsGroupedByClass.map((kl, idx) => {
-                        if (kl.lessons.length === 0) {
-                            return null;
+            <dt>
+                <Translate id="event.affectedLessons" description='for a single event: affected lessons'>
+                    Betroffene Lektionen
+                </Translate>
+            </dt>
+            <dd>
+                <Button
+                    text={translate({ message: "Alle laden", id: 'event.button.showAllLessons', description: 'for a single event: button to show all affected lessons' })}
+                    icon={mdiText}
+                    onClick={() => {
+                        if (event.isDirty) {
+                            socketStore.checkUnpersistedEvent(event.props, semester?.id);
+                        } else {
+                            socketStore.checkEvent(event.id, semester?.id);
                         }
-                        return (<React.Fragment key={`kl-${idx}`}>
-                            <dt className={commonClasses}>{kl.class}</dt>
-                            <dd className={clsx(styles.lessons)}>
-                                <div className={clsx(commonClasses)}>
-                                    {kl.lessons.map((l, idx) => (
-                                        <Lesson lesson={l} key={l.id} className={commonClasses} />
-                                    ))}
-                                </div>
-                            </dd>
-                        </React.Fragment>)
-                    })}
-                </>
-            )}
+                    }}
+                />
+            </dd>
+            {event.affectedLessonsGroupedByClass.map((kl, idx) => {
+                if (kl.lessons.length === 0) {
+                    return null;
+                }
+                return (<React.Fragment key={`kl-${idx}`}>
+                    <dt className={commonClasses}>{kl.class}</dt>
+                    <dd className={clsx(styles.lessons)}>
+                        <div className={clsx(commonClasses)}>
+                            {kl.lessons.map((l, idx) => (
+                                <Lesson lesson={l} key={l.id} className={commonClasses} />
+                            ))}
+                        </div>
+                    </dd>
+                </React.Fragment>)
+            })}
             {
                 event.canChangeState && (
                     <>

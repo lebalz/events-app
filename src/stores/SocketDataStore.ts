@@ -177,6 +177,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         });
         this.socket.on('checkEvent', (data: { state: 'success' | 'error', result: CheckedUntisLesson[]}) => {
             if (data.state === 'success') {
+                console.log('checkEvent', data);
                 this.root.untisStore.addLessons(data.result);
             } else {
                 console.log('checkEvent', data);
@@ -189,11 +190,11 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.on(IoEvent.RELOAD_AFFECTING_EVENTS, this.handleReloadAffectingEvents());
     }
 
-    checkEvent(eventId: string) {
-        this.socket?.emit('checkEvent', {event_id: eventId, semester_id: 'TODO'});
+    checkEvent(eventId: string, semesterId: string) {
+        this.socket?.emit('checkEvent', {event_id: eventId, semester_id: semesterId});
     }
-    checkUnpersistedEvent(event: EventProps) {
-        this.socket?.emit('checkUnpersistedEvent', {event: event, semester_id: 'TODO'});
+    checkUnpersistedEvent(event: EventProps, semesterId: string) {
+        this.socket?.emit('checkUnpersistedEvent', {event: event, semester_id: semesterId});
     }
 
     checkLogin() {

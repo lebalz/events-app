@@ -78,3 +78,7 @@ export const getLastMonday = (date: Date = new Date()) => {
     dateCopy.setHours(0, 0, 0, 0);
     return new Date(dateCopy.getTime() - ((dateCopy.getDay() + 6) % 7) * DAY_2_MS);
 }
+
+export const dateBetween = (date: Date, start: Date, end: Date) => {
+    return date.getTime() >= start.getTime() && date.getTime() <= end.getTime();
+}

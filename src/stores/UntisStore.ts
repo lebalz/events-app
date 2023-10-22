@@ -262,19 +262,10 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @action
     addLessons(lessons: CheckedUntisLesson[]) {
         const models = lessons.map((l) => {
-            const teacherIds = l.teacher_ids.map(tid => ({ id: tid}));
-            const klassIds = l.class_ids.map(cid => ({id: cid}));
+            const teacherIds = l.teacherIds.map(tid => ({ id: tid }));
+            const klassIds = l.classIds.map(cid => ({ id: cid }));
             return new Lesson({
-                id: l.id,
-                room: l.room,
-                description: l.description,
-                endHHMM: l.end_hhmm,
-                startHHMM: l.start_hhmm,
-                semesterNr: l.semester_nr,
-                subject: l.subject,
-                weekDay: l.week_day,
-                semesterId: l.semester_id,
-                year: l.year,
+                ...l,
                 classes: klassIds,
                 teachers: teacherIds
             }, this);
