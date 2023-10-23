@@ -28,8 +28,8 @@ export default class Klass {
         this.sf = props.sf;
         this.year = props.year;
         this.departmentId = props.departmentId ?? '';
-        this.teacherIds = (props.teachers || []).map(t => t.id);
-        this.lessonIds = (props.lessons || []).map(t => t.id);
+        this.teacherIds = props.teachers.map(t => t.id);
+        this.lessonIds = props.lessons.map(t => t.id);
 
         makeObservable(this);
     }

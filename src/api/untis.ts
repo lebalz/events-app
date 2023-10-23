@@ -63,8 +63,8 @@ export interface UntisClass {
     departmentId: string | null
 }
 export interface UntisClassWithTeacher extends UntisClass {
-    teachers?: { id: number }[]
-    lessons?: { id: number }[]
+    teachers: { id: number }[]
+    lessons: { id: number }[]
 }
 
 export interface UntisTeacherComplete extends UntisTeacher {
