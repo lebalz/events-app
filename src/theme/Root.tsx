@@ -7,12 +7,13 @@ import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLocation, useHistory } from "@docusaurus/router";
-const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
+const { TEST_USERNAME, TEST_USER_ID } = siteConfig.customFields as { TEST_USERNAME?: string, TEST_USER_ID?: string };
 
 const useTestUserNoAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0;
 
 if (useTestUserNoAuth) {
   const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
+  const n2 = TEST_USER_ID.length > 40 ? 0 : 40 - TEST_USER_ID.length;
   console.log([   '',
                   "┌──────────────────────────────────────────────────────────┐",
                   '│                                                          │',
@@ -25,11 +26,11 @@ if (useTestUserNoAuth) {
                   '│                                                          │',
                   '│                                                          │',
                   `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
-                  '│                                                          │',
+                  `│   TEST_USER_ID:  ${TEST_USER_ID + ' '.repeat(n2)}│`,
                   '│                                                          │',
                   '│   --> enable authentication by removing "TEST_USERNAME"  │',
-                  '│       from the environment (or the .env file)            │',
-                  '│                                                          │',
+                  '│       and "TEST_USER_ID" from the environment            │',
+                  '│       (or the .env file)                                 │',
                   "└──────────────────────────────────────────────────────────┘",
   ].join('\n'))
 }
@@ -42,9 +43,15 @@ const selectAccount = () => {
    */
 
   const currentAccount = msalInstance.getAllAccounts().find((a) => a.tenantId === TENANT_ID);
+  
+  if (process?.env?.NODE_ENV !== 'production' && TEST_USERNAME) {
+    rootStore.sessionStore.setAccount({username: TEST_USERNAME, localAccountId: TEST_USER_ID} as any);
+    return
+  }
+
   if (!currentAccount) {
-    return;
-  }else {
+    rootStore.sessionStore.setAccount(null);
+  } else {
     rootStore.sessionStore.setAccount(currentAccount);
   }
 };
@@ -81,17 +88,13 @@ function Root({ children }) {
   const { i18n } = useDocusaurusContext();
   const location = useLocation();
   React.useEffect(() => {
-    if (!(window as any).store) {
+    if (window) {
       (window as any).store = rootStore;
     }
-    rootStore.load();
-  }, [rootStore]);
-
-  React.useEffect(() => {
-    if (process?.env?.NODE_ENV !== 'production' && TEST_USERNAME) {
-      rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
+    return () => {
+      rootStore.cleanup();
     }
-  }, [rootStore?.sessionStore]);
+  }, [rootStore]);
 
   React.useEffect(() => {
     if (rootStore?.sessionStore) {

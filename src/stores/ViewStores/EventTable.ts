@@ -1,11 +1,10 @@
 
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import Event from '../../models/Event';
+import { action, computed, makeObservable, observable } from 'mobx';
 import User from '../../models/User';
 import { EventState } from '../../api/event';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
-import { getKW } from '@site/src/models/helpers/time';
+import { getLastMonday } from '@site/src/models/helpers/time';
 
 export interface EventViewProps {
     user?: User;
@@ -118,9 +117,10 @@ class EventTable {
         if (!semester) {
             return [];
         }
-        const currentKw = getKW(new Date());
-        semester.isCurrent
-        return semester.events.filter((event) => {
+
+        const currentKwStart = getLastMonday(new Date()).getTime();
+        console.log('et', semester.name, semester.events);
+        const s = semester.events.filter((event) => {
             if (event.state !== EventState.Published) {
                 return false;
             }
@@ -134,7 +134,7 @@ class EventTable {
             if (keep && this.hideDeleted && event.isDeleted) {
                 keep = false;
             }
-            if (keep && this.onlyCurrentWeekAndFuture && event.kwEnd < currentKw) {
+            if (keep && this.onlyCurrentWeekAndFuture && event.endTimeMs < currentKwStart) {
                 keep = false;
             }
             if (keep && this.departmentIds.size > 0) {
@@ -156,6 +156,8 @@ class EventTable {
             }
             return keep;
         });
+        console.log('show', s);
+        return s;
     }
 
     @action

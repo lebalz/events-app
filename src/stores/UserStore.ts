@@ -57,7 +57,8 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @action
     reload() {
         if (this.root.sessionStore.account) {
-            this.load();
+            this.reset();
+            this.load(this.root.viewStore.semesterId);
         }
     }
 

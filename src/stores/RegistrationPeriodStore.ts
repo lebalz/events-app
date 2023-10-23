@@ -23,6 +23,7 @@ export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
     @action
     reload() {
         if (this.root.sessionStore.account) {
+            this.reset();
             this.load();
         }
     }

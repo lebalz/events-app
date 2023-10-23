@@ -16,7 +16,7 @@ export class ResettableStore {
 }
 
 export class LoadeableStore<T> {
-    load(): Promise<T | T[]> {
+    load(semesterId?: string): Promise<T | T[]> {
         /**
          * Load the data from the api
          */
@@ -124,13 +124,16 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
 
 
     @action
-    load(): Promise<any> {
+    load(semesterId?: string): Promise<any> {
         return this.withAbortController('loadAll', (sig) => {
-            return apiAll<Model>(`${this.API_ENDPOINT}/all`, sig.signal)
+            const endPoint = semesterId ?
+                `${this.API_ENDPOINT}/all?semesterId=${semesterId}` :
+                `${this.API_ENDPOINT}/all`;
+            return apiAll<Model>(endPoint, sig.signal)
                 .then(
                     action(({ data }) => {
                         if (data) {
-                            this.models.replace(data.map((d) => this.createModel(d)));
+                            data.map((d) => this.addToStore(d));
                         }
                         return this.models;
                     })

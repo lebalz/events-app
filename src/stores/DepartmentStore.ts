@@ -68,7 +68,8 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     @action
     reload() {
         if (this.root.sessionStore.account) {
-            this.load();
+            this.reset();
+            this.load(this.root.viewStore.semesterId);
         }
     }
 

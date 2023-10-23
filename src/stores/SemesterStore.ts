@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
@@ -10,6 +10,8 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
     readonly API_ENDPOINT = 'semester';
     readonly root: RootStore;
     models = observable<Semester>([]);
+    loadedSemesters = observable.set<string>();
+
     constructor(root: RootStore) {
         super();
         this.root = root;
@@ -45,8 +47,15 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
     @action
     reload() {
         if (this.root.sessionStore.account) {
+            this.reset();
             this.load();
         }
+    }
+
+    @override
+    reset() {
+        this.models.clear();
+        this.loadedSemesters.clear();
     }
 
     nextSemester(currentId: string, offset: number) {

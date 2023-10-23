@@ -31,7 +31,8 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     @action
     reload() {
         if (this.root.sessionStore.account) {
-            this.load();
+            this.reset();
+            this.load(this.root.viewStore.semesterId);
         }
     }
 
@@ -40,12 +41,10 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     addToStore(data: JobAndEventsProps): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
-            if (this.removeFromStore(data.id)) {
-                this.root.departmentStore.reload();
-            }
+            this.removeFromStore(data.id);
             if (job.type === ApiJobType.SYNC_UNTIS) {
-                this.root.eventStore.reload();
-                this.root.userStore.reload();
+                this.root.departmentStore.reload();
+                this.root.untisStore.reload();
             }
             if (data.events) {
                 this.root.eventStore.appendEvents(data.events);

@@ -25,7 +25,8 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
     @action
     reload() {
         if (this.root.sessionStore.account) {
-            this.load();
+            this.reset();
+            this.load(this.root.viewStore.semesterId);
         }
     }
 

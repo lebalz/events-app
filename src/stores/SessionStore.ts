@@ -9,7 +9,7 @@ import { RootStore } from './stores';
 
 class State {    
     @observable.ref
-    account?: AccountInfo;
+    account?: AccountInfo | null = undefined;
 
     @observable.ref
     _msalInstance?: PublicClientApplication;
@@ -25,6 +25,9 @@ export class SessionStore {
     private state: State = new State();
     @observable
     locale: 'de' | 'fr' = 'de';
+
+    @observable
+    initialized = false;
 
     cancelToken: CancelTokenSource = axios.CancelToken.source();
 
@@ -51,21 +54,23 @@ export class SessionStore {
     }
 
     @computed
-    get account(): AccountInfo | undefined {
+    get account(): AccountInfo | null | undefined {
         return this.state.account;
     }
 
     @action
     setMsalInstance(msalInstance: PublicClientApplication) {
+        console.log('MSAL Instance set', msalInstance)
+        this.initialized = true;
         this.state._msalInstance = msalInstance;
     }
 
     @action
-    setAccount(account?: AccountInfo) {
+    setAccount(account?: AccountInfo | null) {
         if (account) {
             this.state.account = account;
-            // if ((account.idTokenClaims?.exp || 0) > Date.now() / 1000) {
-            // }
+        } else if (!this.state.account) {
+            this.state.account = account;
         }
     }
 

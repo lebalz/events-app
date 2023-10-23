@@ -80,6 +80,9 @@ export function subjects(signal: AbortSignal): AxiosPromise<Subject[]> {
 export function teachers(signal: AbortSignal): AxiosPromise<UntisTeacher[]> {
     return api.get('untis/teacher/all',  { signal });
 }
-export function teacher(untisId: number, signal: AbortSignal): AxiosPromise<UntisTeacherComplete> {
+export function teacher(untisId: number, signal: AbortSignal, semesterId?: string): AxiosPromise<UntisTeacherComplete> {
+    if (semesterId) {
+        return api.get(`untis/teacher/${untisId}?semesterId=${semesterId}`,  { signal });
+    }
     return api.get(`untis/teacher/${untisId}`,  { signal });
 }

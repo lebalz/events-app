@@ -14,12 +14,17 @@ import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
 import { UserEventGroupStore } from "./UserEventGroupStore";
 
+type StoreActions = 'load' | 'reset' | 'semester';
+
 export class RootStore {
     loadableStores = observable<LoadeableStore<any>>([]);
     resettableStores = observable<ResettableStore>([]);
+    semesterizedStores = observable<LoadeableStore<any>>([]);
 
     @observable
     initialized = false;
+    @observable
+    loaded = false;
 
     sessionStore: SessionStore;
     untisStore: UntisStore;
@@ -37,6 +42,9 @@ export class RootStore {
     constructor() {
         makeObservable(this);
         this.sessionStore = new SessionStore(this);
+        
+        this.semesterStore = new SemesterStore(this);
+        this.subscribeTo(this.semesterStore, ['load', 'reset']);
 
         this.userStore = new UserStore(this);
         this.subscribeTo(this.userStore, ['load', 'reset']);
@@ -45,7 +53,7 @@ export class RootStore {
         this.subscribeTo(this.untisStore, ['load', 'reset']);
 
         this.eventStore = new EventStore(this);
-        this.subscribeTo(this.eventStore, ['load', 'reset']);
+        this.subscribeTo(this.eventStore, ['load', 'reset', 'semester']);
 
         this.socketStore = new SocketDataStore(this);
         this.subscribeTo(this.socketStore, ['load', 'reset']);
@@ -56,9 +64,6 @@ export class RootStore {
         this.departmentStore = new DepartmentStore(this);
         this.subscribeTo(this.departmentStore, ['load', 'reset']);
 
-        this.semesterStore = new SemesterStore(this);
-        this.subscribeTo(this.semesterStore, ['load', 'reset']);
-
         this.registrationPeriodStore = new RegistrationPeriodStore(this);
         this.subscribeTo(this.registrationPeriodStore, ['load', 'reset']);
 
@@ -66,46 +71,96 @@ export class RootStore {
         this.subscribeTo(this.userEventGroupStore, ['load', 'reset']);
 
         this.viewStore = new ViewStore(this);
-        this.subscribeTo(this.viewStore, ['load', 'reset']);
-
+        this.subscribeTo(this.viewStore,  ['load', 'reset']);
         runInAction(() => {
             this.initialized = true;
-        });
+        })
 
         reaction(
             () => this.sessionStore.account,
             (account) => {
+                console.log('account', account)
                 if (account) {
+                    if (this.userStore.current) {
+                        this.cleanup();
+                    }
                     /** make sure to first only load a user - in case a new user is created, this prevents parallel upserts */
-                    this.userStore.loadUser(account.localAccountId).finally(() => {
+                    this.userStore.loadUser(account.localAccountId)
+                    .then(() => {
+                        return this.semesterStore.load();
+                    })
+                    .finally(() => {
                         this.load();
                     });
                 } else {
-                    console.log('%%% RESET AND LOAD %%%');
-                    this.resettableStores.forEach((store) => store.reset());
+                    if (this.userStore.current) {
+                        console.log('%%% RESET AND LOAD %%%');
+                        this.cleanup();
+                    }
                     this.load();
                 }
             }
         )
+
+        reaction(
+            () => this.viewStore.semesterId,
+            (semesterId) => {
+                if (semesterId) {
+                    this.loadSemester(semesterId, false);
+                }
+            }
+        );
     }
 
 
     subscribeTo(store: ResettableStore, events: ['reset'])
     subscribeTo(store: LoadeableStore<any>, events: ['load'])
+    subscribeTo(store: LoadeableStore<any>, events: ['load', 'semester'])
     subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset'])
+    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset', 'semester'])
     @action
-    subscribeTo(store: any, events: any) {
+    subscribeTo(store: any, events: StoreActions[]) {
         if (events.includes('load')) {
             this.loadableStores.push(store);
         }
         if (events.includes('reset')) {
             this.resettableStores.push(store);
         }
+        if (events.includes('semester')) {
+            this.semesterizedStores.push(store);
+        }
     }
 
     @action
     load() {
-        this.loadableStores.forEach((store) => store.load());
+        console.log('Load Semesters')
+        this.semesterStore.load()
+            .then(action(() => {
+                this.loaded = true;
+                const semesterId = this.semesterStore.currentSemester?.id;
+                this.semesterStore.loadedSemesters.add(semesterId);
+                this.loadableStores.forEach((store) => {
+                    if (store !== this.semesterStore) {
+                        store.load(semesterId)
+                    }
+                });
+            }));
+    }
+
+    @action
+    cleanup() {
+        this.resettableStores.forEach((store) => store.reset());
+    }
+    @action
+    loadSemester(semesterId: string, force: boolean) {
+        if (!force && (!this.loaded || this.semesterStore.loadedSemesters.has(semesterId))) {
+            return;
+        }
+        this.semesterStore.loadedSemesters.add(semesterId);
+        this.semesterizedStores.forEach((store) => {
+            console.log('load', semesterId, (store as any).API_ENDPOINT)
+            store.load(semesterId);
+        });
     }
 }
 
