@@ -194,10 +194,6 @@
     "message": "Toggle word wrap",
     "description": "The title attribute for toggle word wrapping button of code block lines"
   },
-  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": {
-    "message": "Basculement de la barre latérale avec catégorie rétractable '{label}'.",
-    "description": "The ARIA label to toggle the collapsible sidebar category"
-  },
   "theme.NavBar.navAriaLabel": {
     "message": "Main",
     "description": "The ARIA label for the main navigation"
@@ -302,10 +298,6 @@
     "message": "Actions",
     "description": "th: actions"
   },
-  "event.title": {
-    "message": "Titre",
-    "description": "for a single event: title"
-  },
   "event.kw": {
     "message": "KW",
     "description": "for a single event: kw"
@@ -313,10 +305,6 @@
   "event.weekday": {
     "message": "Jour de la semaine",
     "description": "for a single event: weekday"
-  },
-  "event.startDate": {
-    "message": "Date",
-    "description": "for a single event: start date"
   },
   "event.location": {
     "message": "Lieu",
@@ -361,54 +349,6 @@
   "admin.userTable.th.id": {
     "message": "Id",
     "description": "th: id"
-  },
-  "event.eventGrid.th.author": {
-    "message": "Auteur",
-    "description": "th: author"
-  },
-  "event.eventGrid.th.kw": {
-    "message": "KW",
-    "description": "th: kw"
-  },
-  "event.eventGrid.th.day": {
-    "message": "Jour",
-    "description": "th: day"
-  },
-  "event.eventGrid.th.description": {
-    "message": "Mots-clés",
-    "description": "th: description"
-  },
-  "event.eventGrid.th.startDate": {
-    "message": "Lancement",
-    "description": "th: startDate"
-  },
-  "event.eventGrid.th.startTime": {
-    "message": "Temps",
-    "description": "th: startTime"
-  },
-  "event.eventGrid.th.endDate": {
-    "message": "Fin",
-    "description": "th: endDate"
-  },
-  "event.eventGrid.th.endTime": {
-    "message": "Temps",
-    "description": "th: endTime"
-  },
-  "event.eventGrid.th.location": {
-    "message": "Lieu",
-    "description": "th: location"
-  },
-  "event.eventGrid.th.departments": {
-    "message": "Départements",
-    "description": "th: departments"
-  },
-  "event.eventGrid.th.classes": {
-    "message": "Classes",
-    "description": "th: classes"
-  },
-  "event.eventGrid.th.descriptionLong": {
-    "message": "Description",
-    "description": "th: descriptionLong"
   },
   "event.state.draft": {
     "message": "Brouillon",
@@ -850,5 +790,9 @@
   "theme.unlistedContent.message": {
     "message": "Cette page est non répertoriée. Les moteurs de recherche ne vont pas l'indexer et seuls les utilisateurs·trices ayant un lien direct y ont accès.",
     "description": "The unlisted content banner message"
+  },
+  "calendar.button.plus": {
+    "message": "plus",
+    "description": "button label to show more events"
   }
 }

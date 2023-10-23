@@ -84,7 +84,7 @@ const Calendar = observer(() => {
                             work_week: translate({message : "Arbeitswoche", id:'calendar.button.workWeek' , description:'button label to display a work week'}),
                             yesterday: translate({message : "Gestern", id:'calendar.button.yesterday' , description:'button label to navigate to the previous day'}),
                             allDay: translate({message : "Ganzer Tag", id:'calendar.message.allDay' , description:'message if an event spans the whole day'}),
-                            showMore: total => translate({message : `+${total} weitere`, id:'calendar.button.plus' , description:'button label to show more events'})
+                            showMore: total => `+${total} ${translate({message : 'weitere', id:'calendar.button.plus' , description:'button label to show more events'})}`
                         }}
                     />
                 )}

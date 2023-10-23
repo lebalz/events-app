@@ -11,6 +11,7 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
+    "postwrite-translations": "node cleanup-translations.js",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "crowdin": "crowdin",

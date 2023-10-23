@@ -3,25 +3,9 @@
     "message": "Administration",
     "description": "The title of the footer links column with title=Admin in the footer"
   },
-  "link.title.Dashboard": {
-    "message": "Tableau de bord",
-    "description": "The title of the footer links column with title=Dashboard in the footer"
-  },
-  "link.title.More": {
-    "message": "Plus",
-    "description": "The title of the footer links column with title=More in the footer"
-  },
-  "link.item.label.Dashboard": {
-    "message": "Tableau de bord",
-    "description": "The label of footer link with label=Dashboard linking to /admin"
-  },
   "link.item.label.Import": {
     "message": "Importation",
     "description": "The label of footer link with label=Import linking to /import"
-  },
-  "link.item.label.Socket.IO Admin": {
-    "message": "Socket.IO Admin",
-    "description": "The label of footer link with label=Socket.IO Admin linking to https://admin.socket.io/"
   },
   "link.item.label.GBSL": {
     "message": "GBSL",
@@ -63,8 +47,8 @@
     "message": "Socket.IO > Tableau de bord",
     "description": "The label of footer link with label=Socket.IO Dashboard linking to https://admin.socket.io/"
   },
-  "copyright": {
-    "message": "Copyright © 2023 B. Hofer <br /><a class=\"badge badge--primary\" href=\"https://github.com/lebalz/events-app/commit/69819bc145d8cd29e5dddbd264cd330ce82b1f89\">ᚶ 69819bc</a>",
-    "description": "The footer copyright"
+  "link.item.label.Dashboard": {
+    "message": "Dashboard",
+    "description": "The label of footer link with label=Dashboard linking to /admin"
   }
 }

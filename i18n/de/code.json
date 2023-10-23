@@ -104,7 +104,7 @@
     "description": "The default description for a category card in the generated index about how many items this category includes"
   },
   "theme.docs.paginator.navAriaLabel": {
-    "message": "Dokumentation Seiten Navigation",
+    "message": "Dokumentation Seiten",
     "description": "The ARIA label for the docs pagination"
   },
   "theme.docs.paginator.previous": {
@@ -193,10 +193,6 @@
   "theme.CodeBlock.wordWrapToggle": {
     "message": "Toggle word wrap",
     "description": "The title attribute for toggle word wrapping button of code block lines"
-  },
-  "theme.DocSidebarItem.toggleCollapsedCategoryAriaLabel": {
-    "message": "Umschalten der Seitenleiste mit einklappbarer Kategorie '{label}'",
-    "description": "The ARIA label to toggle the collapsible sidebar category"
   },
   "theme.NavBar.navAriaLabel": {
     "message": "Main",
@@ -302,10 +298,6 @@
     "message": "Aktionen",
     "description": "th: actions"
   },
-  "event.title": {
-    "message": "Titel",
-    "description": "for a single event: title"
-  },
   "event.kw": {
     "message": "KW",
     "description": "for a single event: kw"
@@ -313,10 +305,6 @@
   "event.weekday": {
     "message": "Wochentag",
     "description": "for a single event: weekday"
-  },
-  "event.startDate": {
-    "message": "Datum",
-    "description": "for a single event: start date"
   },
   "event.location": {
     "message": "Ort",
@@ -335,7 +323,7 @@
     "description": "for a single event: affected lessons"
   },
   "event.button.showAllLessons": {
-    "message": "Alle betroffenen Lektionen anzeigen",
+    "message": "Alle laden",
     "description": "for a single event: button to show all affected lessons"
   },
   "admin.userTable.th.email": {
@@ -362,52 +350,449 @@
     "message": "Id",
     "description": "th: id"
   },
-  "event.eventGrid.th.author": {
-    "message": "Author",
-    "description": "th: author"
+  "event.state.draft": {
+    "message": "Entwurf",
+    "description": "[noun] Event state draft"
   },
-  "event.eventGrid.th.kw": {
-    "message": "KW",
-    "description": "th: kw"
+  "event.state.review": {
+    "message": "In Prüfung",
+    "description": "[noun] Event state review"
   },
-  "event.eventGrid.th.day": {
-    "message": "Tag",
-    "description": "th: day"
+  "event.state.published": {
+    "message": "Veröffentlicht",
+    "description": "[noun] Event state published"
   },
-  "event.eventGrid.th.description": {
-    "message": "Stichworte",
-    "description": "th: description"
+  "event.state.refused": {
+    "message": "Zurückgewiesen",
+    "description": "[noun] Event state refused"
   },
-  "event.eventGrid.th.startDate": {
+  "event.state.action:draft": {
+    "message": "Entwurf",
+    "description": "[verb] request event state: draft"
+  },
+  "event.state.action:review": {
+    "message": "Prüfen",
+    "description": "[verb] request event: review"
+  },
+  "event.state.action:publish": {
+    "message": "Veröffentlichen",
+    "description": "[verb] request event: published"
+  },
+  "event.state.action:refuse": {
+    "message": "Zurückweisen",
+    "description": "[verb] request event state: refused"
+  },
+  "joi.event.start": {
     "message": "Start",
-    "description": "th: startDate"
+    "description": "Start of event"
   },
-  "event.eventGrid.th.startTime": {
-    "message": "Zeit",
-    "description": "th: startTime"
-  },
-  "event.eventGrid.th.endDate": {
+  "joi.event.end": {
     "message": "Ende",
-    "description": "th: endDate"
+    "description": "End of event"
   },
-  "event.eventGrid.th.endTime": {
+  "joi.event.end.min": {
+    "message": "Ende muss grösser oder gleich Start ({start}) sein",
+    "description": "End of event must be after start"
+  },
+  "joi.event.description": {
+    "message": "Stichworte",
+    "description": "Description of event"
+  },
+  "joi.event.description.empty": {
+    "message": "Stichworte dürfen nicht leer sein",
+    "description": "Description of event must not be empty"
+  },
+  "joi.string.empty": {
+    "message": "{{#label}} darf nicht leer sein",
+    "description": "Joi validation error for empty string"
+  },
+  "joi.number.base": {
+    "message": "{{#label}} Muss eine Zahl sein",
+    "description": "Joi validation error for number base"
+  },
+  "joi.any.invalid": {
+    "message": "{{#label}} Wert ungültig",
+    "description": "Joi validation error for any invalid"
+  },
+  "joi.any.required": {
+    "message": "{{#label}} Darf nicht leer sein",
+    "description": "Joi validation error for required value"
+  },
+  "joi.date.base": {
+    "message": "{{#label}} muss grösser oder gleich {{:#limit}} sein",
+    "description": "Joi validation error for date min"
+  },
+  "admin.tab.users": {
+    "message": "Users"
+  },
+  "admin.tab.Semester": {
+    "message": "Semester"
+  },
+  "admin.section.semester": {
+    "message": "Semester",
+    "description": "Section Title semester"
+  },
+  "admin.button.semester.hinzufugen.title": {
+    "message": "Semester Hinzufügen",
+    "description": "Button Title Semester Hinzufügen"
+  },
+  "admin.button.semester.hinzufuge.text": {
+    "message": "Neues Semester",
+    "description": "Button Text Neues Semester"
+  },
+  "admin.tab.departments": {
+    "message": "Abteilungen"
+  },
+  "admin.tab.import": {
+    "message": "Import"
+  },
+  "admin.section.import.title": {
+    "message": "Excel Import",
+    "description": "admin.section.import.title"
+  },
+  "admin.section.import.subtitle": {
+    "message": "Importiere Daten aus Excel-Dateien.",
+    "description": "admin.section.import.subtitle"
+  },
+  "admin.tab.reg-periods": {
+    "message": "Registrierungs Perioden"
+  },
+  "calendar.button.nextWeek": {
+    "message": "Nächste",
+    "description": "button to show the next week on the calendar"
+  },
+  "calendar.button.previousWeek": {
+    "message": "Vorherige",
+    "description": "button to show the previous week on the calendar"
+  },
+  "calendar.button.today": {
+    "message": "Heute",
+    "description": "button to show today on the calendar"
+  },
+  "calendar.button.month": {
+    "message": "Monat",
+    "description": "button to show the calendar by month"
+  },
+  "calendar.button.week": {
+    "message": "Woche",
+    "description": "button to show the calendar by week"
+  },
+  "calendar.button.day": {
+    "message": "Tag",
+    "description": "button to show the calendar by day"
+  },
+  "calendar.button.agenda": {
+    "message": "Agenda",
+    "description": "button to show the calendar as list"
+  },
+  "calendar.field.date": {
+    "message": "Datum",
+    "description": "title of the table for the date"
+  },
+  "calendar.field.time": {
     "message": "Zeit",
-    "description": "th: endTime"
+    "description": "title of the table for the time"
   },
-  "event.eventGrid.th.location": {
-    "message": "Ort",
-    "description": "th: location"
+  "calendar.field.event": {
+    "message": "Event",
+    "description": "title of the table for the event"
   },
-  "event.eventGrid.th.departments": {
-    "message": "Abteilungen",
-    "description": "th: departments"
+  "calendar.message.noevent": {
+    "message": "Keine Events in diesem Zeitraum",
+    "description": "message if no event in time range"
   },
-  "event.eventGrid.th.classes": {
-    "message": "Klassen",
-    "description": "th: classes"
+  "calendar.button.tomorrow": {
+    "message": "Morgen",
+    "description": "button label to navigate to the next day"
   },
-  "event.eventGrid.th.descriptionLong": {
+  "calendar.button.workWeek": {
+    "message": "Arbeitswoche",
+    "description": "button label to display a work week"
+  },
+  "calendar.button.yesterday": {
+    "message": "Gestern",
+    "description": "button label to navigate to the previous day"
+  },
+  "calendar.message.allDay": {
+    "message": "Ganzer Tag",
+    "description": "message if an event spans the whole day"
+  },
+  "import.section.title": {
+    "message": "Excel Import",
+    "description": "import.section.title"
+  },
+  "import.section.subtitle": {
+    "message": "Importiere Daten aus Excel-Dateien.",
+    "description": "import.section.subtitle"
+  },
+  "my-events.tab.notpublished": {
+    "message": "Unveröffentlicht"
+  },
+  "my-events.unpublished": {
+    "message": "Unveröffentlicht",
+    "description": "text unpublished"
+  },
+  "my-events.tab.review": {
+    "message": "Review"
+  },
+  "my-events.review": {
+    "message": "Im Review",
+    "description": "text In Review"
+  },
+  "my-events.tab.admin": {
+    "message": "Admin"
+  },
+  "my-events.review.furadmin": {
+    "message": "Im ReviewReview Anfragen für Admin",
+    "description": "text In Review - wait for admin"
+  },
+  "my-events.tab.published": {
+    "message": "Veröffentlicht"
+  },
+  "my-events.published": {
+    "message": "Veröffentlicht",
+    "description": "published"
+  },
+  "my-events.tab.deleted": {
+    "message": "VeröGelöschtffentlicht"
+  },
+  "my-events.deleted": {
+    "message": "Gelöscht",
+    "description": "deleted"
+  },
+  "my-events.deleted.text": {
+    "message": "Job Löschen",
+    "description": "my-events.deleted.text"
+  },
+  "user.section.title.personal-area": {
+    "message": "Persönlicher Bereich",
+    "description": "user.section.title.personal-area"
+  },
+  "user.tab.account": {
+    "message": "Account"
+  },
+  "user.button.refresh.text": {
+    "message": "Aktualisieren",
+    "description": "user.button.refresh.text"
+  },
+  "user.tab.events": {
+    "message": "Events"
+  },
+  "user.tab.groups": {
+    "message": "Gruppen"
+  },
+  "user.tab.time-table": {
+    "message": "Stundenplan"
+  },
+  "event.AddButton.text": {
+    "message": "Neues Event",
+    "description": "AddButton text"
+  },
+  "event.description": {
+    "message": "Titel",
+    "description": "for a single event: description"
+  },
+  "event.descriptionLong": {
     "message": "Beschreibung",
-    "description": "th: descriptionLong"
+    "description": "for a single event: description long"
+  },
+  "event.versionNumber": {
+    "message": "Version",
+    "description": "for a single event: version number"
+  },
+  "event.state": {
+    "message": "Status",
+    "description": "for a single event: state"
+  },
+  "event.date": {
+    "message": "Datum",
+    "description": "for a single event: date range"
+  },
+  "event.audience": {
+    "message": "Beteiligte",
+    "description": "for a single event: class and department picker"
+  },
+  "event.requestState": {
+    "message": "Status Ändern",
+    "description": "Requesting the next state, eg. Draft -> Review"
+  },
+  "event.button.loadVersions": {
+    "message": "Versionen laden",
+    "description": "for a single event: button to load version history"
+  },
+  "user.ical.sync-button.text": {
+    "message": "Sync",
+    "description": "Button text for (re)syncing the calendar"
+  },
+  "user.ical.sync-button.title": {
+    "message": "Synchronisiere meinen Kalender",
+    "description": "Button (hover) title for (re)syncing the calendar"
+  },
+  "user.ical.outlook-button.text": {
+    "message": "Outlook",
+    "description": "Button text for adding the calendar to Outlook"
+  },
+  "user.ical.outlook-button.title": {
+    "message": "Abonniere den Kalender in Outlook",
+    "description": "Button text for adding the calendar to Outlook"
+  },
+  "admin.DepartmentTable.th.letter": {
+    "message": "Buchstabe",
+    "description": "th: department letter"
+  },
+  "admin.userTable.filter.placeholder": {
+    "message": "Filter",
+    "description": "filter: placeholder"
+  },
+  "button.open": {
+    "message": "Öffnen",
+    "description": "Button text for open button"
+  },
+  "button.save": {
+    "message": "Speichern",
+    "description": "Button to save changes"
+  },
+  "button.edit": {
+    "message": "Bearbeiten",
+    "description": "Button to edit a model"
+  },
+  "eventGrid.header.state": {
+    "message": "Zustand",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.isValid": {
+    "message": "Valid",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.select": {
+    "message": "Auswählen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.kw": {
+    "message": "KW",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.actions": {
+    "message": "Aktionen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.author": {
+    "message": "Author",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.day": {
+    "message": "Tag",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.description": {
+    "message": "Stichworte",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.start": {
+    "message": "Start",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.end": {
+    "message": "Ende",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.location": {
+    "message": "Ort",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.userGroup": {
+    "message": "Gruppe",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.departmens": {
+    "message": "Abteilungen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.classes": {
+    "message": "Klassen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.descriptionLong": {
+    "message": "Beschreibung",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.isDuplicate": {
+    "message": "Duplikat",
+    "description": "Label for the Event Grid Columns"
+  },
+  "event.open.title": {
+    "message": "Öffnen",
+    "description": "Button Title (hover) to open an event view"
+  },
+  "button.close.title": {
+    "message": "Fenster Schliessen",
+    "description": "Button title to close a modal"
+  },
+  "button.close": {
+    "message": "Schliessen",
+    "description": "Button text to close a modal"
+  },
+  "TeachingAffected.YES.description": {
+    "message": "Ja",
+    "description": "Yes, the teaching is affected and the class is not present"
+  },
+  "TeachingAffected.NO.description": {
+    "message": "Nein",
+    "description": "No, the teaching happens as usual"
+  },
+  "TeachingAffected.PARTIAL.description": {
+    "message": "Teilweise",
+    "description": "Only a part of the class will be present"
+  },
+  "EventAudience.ALL.description": {
+    "message": "Alle",
+    "description": "This event is for everyone, no matter wheter a lesson is affected or not"
+  },
+  "EventAudience.KLP.description": {
+    "message": "KLP",
+    "description": "Only relevant (and displayed) for class teachers"
+  },
+  "EventAudience.LP.description": {
+    "message": "LP",
+    "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
+  },
+  "EventAudience.STUDENTS.description": {
+    "message": "SuS",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "shared.AudiencePicker": {
+    "message": "Alle Schulen",
+    "description": "Button text to toggle all schools on/off"
+  },
+  "Künftige Klassen": {
+    "message": "Künftige Klassen"
+  },
+  "shared.AudiencePicker.Department": {
+    "message": "Alle",
+    "description": "toggle all departments"
+  },
+  "theme.admonition.warning": {
+    "message": "warning",
+    "description": "The default label used for the Warning admonition (:::warning)"
+  },
+  "theme.DocSidebarItem.expandCategoryAriaLabel": {
+    "message": "Expand sidebar category '{label}'",
+    "description": "The ARIA label to expand the sidebar category"
+  },
+  "theme.DocSidebarItem.collapseCategoryAriaLabel": {
+    "message": "Collapse sidebar category '{label}'",
+    "description": "The ARIA label to collapse the sidebar category"
+  },
+  "theme.unlistedContent.title": {
+    "message": "Unlisted page",
+    "description": "The unlisted content banner title"
+  },
+  "theme.unlistedContent.message": {
+    "message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+    "description": "The unlisted content banner message"
+  },
+  "calendar.button.plus": {
+    "message": "weitere",
+    "description": "button label to show more events"
   }
 }
