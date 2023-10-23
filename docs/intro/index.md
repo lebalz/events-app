@@ -28,8 +28,10 @@ sidebar_position: 2
 - HTTP Protocol for API calls to the server
 - Websockets (through [SocketIO](https://socket.io/)) for a permanent connection between the server and the client. Ensures all connected clients are kept synced.
 
+
 ### Data
 All data is stored in a relational database - PSQL is used.
+
 
 ### External Services
 The webuntis data from the school is synced for each semester. This includes
