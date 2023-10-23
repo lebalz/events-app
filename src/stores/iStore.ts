@@ -140,7 +140,9 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                         this.loaded = true;
                         return this.models;
                     })
-                );
+                ).catch((err) => {
+                    console.warn(err);
+                });
         });
 
     }

@@ -208,9 +208,9 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         this.initialized = false;
         return this.withAbortController('untis', (sig) => {
             return Promise.all([
-                fetchTeachers(sig.signal),
-                fetchClasses(sig.signal),
-                fetchSubjects(sig.signal),
+                fetchTeachers(sig.signal).catch(() => { return {data: []}}),
+                fetchClasses(sig.signal).catch(() => { return {data: []}}),
+                fetchSubjects(sig.signal).catch(() => { return {data: []}}),
             ]).then(action(([teachers, classes, subjects]) => {
                 this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
                 this.classes.replace(classes.data.map((c) => new Klass(c, this)));

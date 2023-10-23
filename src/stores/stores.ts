@@ -118,6 +118,7 @@ export class RootStore {
     @action
     initialize() {
         if (this.sessionStore.account) {
+            console.log('Initialized Stores')
             /** make sure to first only load a user - in case a new user is created, this prevents parallel upserts */
             this.userStore.loadUser(this.sessionStore.account.localAccountId)
                 .finally(() => {
@@ -131,10 +132,10 @@ export class RootStore {
     @action
     load() {
         this.semesterStore.load()
-            .then(action(() => {
-                this.loaded = true;
+            .finally(action(() => {
                 const semesterId = this.semesterStore.currentSemester?.id;
                 this.semesterStore.loadedSemesters.add(semesterId);
+                this.loaded = true;
                 this.loadableStores.forEach((store) => {
                     store.load(semesterId)
                 });
