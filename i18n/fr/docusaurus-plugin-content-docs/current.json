@@ -2,5 +2,17 @@
   "version.label": {
     "message": "Suivant",
     "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Scenes": {
+    "message": "Scenes",
+    "description": "The label for category Scenes in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Services": {
+    "message": "Services",
+    "description": "The label for category Services in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.ics": {
+    "message": "ics",
+    "description": "The label for category ics in sidebar tutorialSidebar"
   }
 }

@@ -24,7 +24,11 @@
     "description": "Navbar item with label Stupla"
   },
   "item.label.Meine": {
-    "message": "Mon",
+    "message": "Mon espace",
     "description": "Navbar item with label Meine"
+  },
+  "item.label.Zeitachse": {
+    "message": "Ligne du temps",
+    "description": "Navbar item with label Zeitachse"
   }
 }

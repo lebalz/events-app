@@ -409,5 +409,446 @@
   "event.eventGrid.th.descriptionLong": {
     "message": "Description",
     "description": "th: descriptionLong"
+  },
+  "event.state.draft": {
+    "message": "Brouillon",
+    "description": "[noun] Event state draft"
+  },
+  "event.state.review": {
+    "message": "En vérification",
+    "description": "[noun] Event state review"
+  },
+  "event.state.published": {
+    "message": "Publié",
+    "description": "[noun] Event state published"
+  },
+  "event.state.refused": {
+    "message": "Rejeté",
+    "description": "[noun] Event state refused"
+  },
+  "event.state.action:draft": {
+    "message": "Brouillon",
+    "description": "[verb] request event state: draft"
+  },
+  "event.state.action:review": {
+    "message": "Réviser",
+    "description": "[verb] request event: review"
+  },
+  "event.state.action:publish": {
+    "message": "Publier",
+    "description": "[verb] request event: published"
+  },
+  "event.state.action:refuse": {
+    "message": "Rejeter",
+    "description": "[verb] request event state: refused"
+  },
+  "joi.event.start": {
+    "message": "Début",
+    "description": "Start of event"
+  },
+  "joi.event.end": {
+    "message": "Fin",
+    "description": "End of event"
+  },
+  "joi.event.end.min": {
+    "message": "La date de fin doit être ultérieure ou égale à la date de début ({start})",
+    "description": "End of event must be after start"
+  },
+  "joi.event.description": {
+    "message": "Mots-clés",
+    "description": "Description of event"
+  },
+  "joi.event.description.empty": {
+    "message": "Le champ \"mots-clés\" ne doit pas être vide",
+    "description": "Description of event must not be empty"
+  },
+  "joi.string.empty": {
+    "message": "{{#label}} ne doit pas être vide",
+    "description": "Joi validation error for empty string"
+  },
+  "joi.number.base": {
+    "message": "{{#label}} doit être un nombre",
+    "description": "Joi validation error for number base"
+  },
+  "joi.any.invalid": {
+    "message": "{{#label}} contient une valeur non valable",
+    "description": "Joi validation error for any invalid"
+  },
+  "joi.any.required": {
+    "message": "{{#label}} ne doit pas être vide",
+    "description": "Joi validation error for required value"
+  },
+  "joi.date.base": {
+    "message": "{{#label}} doit être plus grand ou égal à {{:#limit}}",
+    "description": "Joi validation error for date min"
+  },
+  "admin.tab.users": {
+    "message": "Utilisateurs"
+  },
+  "admin.tab.Semester": {
+    "message": "Semestre"
+  },
+  "admin.section.semester": {
+    "message": "Semestre",
+    "description": "Section Title semester"
+  },
+  "admin.button.semester.hinzufugen.title": {
+    "message": "Ajouter un semestre",
+    "description": "Button Title Semester Hinzufügen"
+  },
+  "admin.button.semester.hinzufuge.text": {
+    "message": "Nouveau semestre",
+    "description": "Button Text Neues Semester"
+  },
+  "admin.tab.departments": {
+    "message": "Filières"
+  },
+  "admin.tab.import": {
+    "message": "Importer"
+  },
+  "admin.section.import.title": {
+    "message": "Importation pour Excel",
+    "description": "admin.section.import.title"
+  },
+  "admin.section.import.subtitle": {
+    "message": "Importer les données à partir de données Excel.",
+    "description": "admin.section.import.subtitle"
+  },
+  "admin.tab.reg-periods": {
+    "message": "Période d'enregistrement"
+  },
+  "calendar.button.nextWeek": {
+    "message": "Suivant",
+    "description": "button to show the next week on the calendar"
+  },
+  "calendar.button.previousWeek": {
+    "message": "Précédent",
+    "description": "button to show the previous week on the calendar"
+  },
+  "calendar.button.today": {
+    "message": "Aujourd'hui",
+    "description": "button to show today on the calendar"
+  },
+  "calendar.button.month": {
+    "message": "Mois",
+    "description": "button to show the calendar by month"
+  },
+  "calendar.button.week": {
+    "message": "Semaine",
+    "description": "button to show the calendar by week"
+  },
+  "calendar.button.day": {
+    "message": "Jour",
+    "description": "button to show the calendar by day"
+  },
+  "calendar.button.agenda": {
+    "message": "Agenda",
+    "description": "button to show the calendar as list"
+  },
+  "calendar.field.date": {
+    "message": "Date",
+    "description": "title of the table for the date"
+  },
+  "calendar.field.time": {
+    "message": "Horaire",
+    "description": "title of the table for the time"
+  },
+  "calendar.field.event": {
+    "message": "Évènement",
+    "description": "title of the table for the event"
+  },
+  "calendar.message.noevent": {
+    "message": "Aucun évènement dans cet intervalle de temps",
+    "description": "message if no event in time range"
+  },
+  "calendar.button.tomorrow": {
+    "message": "Demain",
+    "description": "button label to navigate to the next day"
+  },
+  "calendar.button.workWeek": {
+    "message": "Semaines de travail",
+    "description": "button label to display a work week"
+  },
+  "calendar.button.yesterday": {
+    "message": "Hier",
+    "description": "button label to navigate to the previous day"
+  },
+  "calendar.message.allDay": {
+    "message": "Toute la journée",
+    "description": "message if an event spans the whole day"
+  },
+  "import.section.title": {
+    "message": "Importation pour Excel",
+    "description": "import.section.title"
+  },
+  "import.section.subtitle": {
+    "message": "Importer des données à partir de données d'Excel.",
+    "description": "import.section.subtitle"
+  },
+  "my-events.tab.notpublished": {
+    "message": "Non publié"
+  },
+  "my-events.unpublished": {
+    "message": "Non publié",
+    "description": "text unpublished"
+  },
+  "my-events.tab.review": {
+    "message": "Révision"
+  },
+  "my-events.review": {
+    "message": "En révision",
+    "description": "text In Review"
+  },
+  "my-events.tab.admin": {
+    "message": "Administrateur"
+  },
+  "my-events.review.furadmin": {
+    "message": "En attente de la révision de l'administrateur",
+    "description": "text In Review - wait for admin"
+  },
+  "my-events.tab.published": {
+    "message": "Publié"
+  },
+  "my-events.published": {
+    "message": "Publié",
+    "description": "published"
+  },
+  "my-events.tab.deleted": {
+    "message": "VeröGelöschtffentlicht"
+  },
+  "my-events.deleted": {
+    "message": "Supprimé",
+    "description": "deleted"
+  },
+  "my-events.deleted.text": {
+    "message": "Supprimer",
+    "description": "my-events.deleted.text"
+  },
+  "user.section.title.personal-area": {
+    "message": "Espace personnel",
+    "description": "user.section.title.personal-area"
+  },
+  "user.tab.account": {
+    "message": "Compte"
+  },
+  "user.button.refresh.text": {
+    "message": "Actualiser",
+    "description": "user.button.refresh.text"
+  },
+  "user.tab.events": {
+    "message": "Événements"
+  },
+  "user.tab.groups": {
+    "message": "Groupes"
+  },
+  "user.tab.time-table": {
+    "message": "Horaire"
+  },
+  "event.AddButton.text": {
+    "message": "Nouvel événement",
+    "description": "AddButton text"
+  },
+  "event.description": {
+    "message": "Titre",
+    "description": "for a single event: description"
+  },
+  "event.descriptionLong": {
+    "message": "Description",
+    "description": "for a single event: description long"
+  },
+  "event.versionNumber": {
+    "message": "Version",
+    "description": "for a single event: version number"
+  },
+  "event.state": {
+    "message": "Statut",
+    "description": "for a single event: state"
+  },
+  "event.date": {
+    "message": "Date",
+    "description": "for a single event: date range"
+  },
+  "event.audience": {
+    "message": "Participant·e·s",
+    "description": "for a single event: class and department picker"
+  },
+  "event.requestState": {
+    "message": "Changer d’état",
+    "description": "Requesting the next state, eg. Draft -> Review"
+  },
+  "event.button.loadVersions": {
+    "message": "Charger l'historique des versions",
+    "description": "for a single event: button to load version history"
+  },
+  "user.ical.sync-button.text": {
+    "message": "Synchroniser",
+    "description": "Button text for (re)syncing the calendar"
+  },
+  "user.ical.sync-button.title": {
+    "message": "Synchroniser mon calendrier",
+    "description": "Button (hover) title for (re)syncing the calendar"
+  },
+  "user.ical.outlook-button.text": {
+    "message": "Outlook",
+    "description": "Button text for adding the calendar to Outlook"
+  },
+  "user.ical.outlook-button.title": {
+    "message": "Abonner le calendrier dans Outlook",
+    "description": "Button text for adding the calendar to Outlook"
+  },
+  "admin.DepartmentTable.th.letter": {
+    "message": "Sigle",
+    "description": "th: department letter"
+  },
+  "admin.userTable.filter.placeholder": {
+    "message": "Filtre",
+    "description": "filter: placeholder"
+  },
+  "button.open": {
+    "message": "Ouvrir",
+    "description": "Button text for open button"
+  },
+  "button.save": {
+    "message": "Enregistrer",
+    "description": "Button to save changes"
+  },
+  "button.edit": {
+    "message": "Éditer",
+    "description": "Button to edit a model"
+  },
+  "event.open.title": {
+    "message": "Ouvrir",
+    "description": "Button Title (hover) to open an event view"
+  },
+  "eventGrid.header.state": {
+    "message": "État",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.isValid": {
+    "message": "Valide",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.select": {
+    "message": "Choisir",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.kw": {
+    "message": "N°",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.actions": {
+    "message": "Actions",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.author": {
+    "message": "Auteur/Autrice",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.day": {
+    "message": "Jour",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.description": {
+    "message": "Mots-clés",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.start": {
+    "message": "Début",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.end": {
+    "message": "Fin",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.location": {
+    "message": "Lieu",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.userGroup": {
+    "message": "Groupe",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.departmens": {
+    "message": "Filières",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.classes": {
+    "message": "Classes",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.descriptionLong": {
+    "message": "Description",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.isDuplicate": {
+    "message": "Dupliquer",
+    "description": "Label for the Event Grid Columns"
+  },
+  "button.close.title": {
+    "message": "Fermer la Fenêtre",
+    "description": "Button title to close a modal"
+  },
+  "button.close": {
+    "message": "Fermer",
+    "description": "Button text to close a modal"
+  },
+  "TeachingAffected.YES.description": {
+    "message": "Oui",
+    "description": "Yes, the teaching is affected and the class is not present"
+  },
+  "TeachingAffected.NO.description": {
+    "message": "Non",
+    "description": "No, the teaching happens as usual"
+  },
+  "TeachingAffected.PARTIAL.description": {
+    "message": "Partiellement",
+    "description": "Only a part of the class will be present"
+  },
+  "EventAudience.ALL.description": {
+    "message": "Tout",
+    "description": "This event is for everyone, no matter wheter a lesson is affected or not"
+  },
+  "EventAudience.KLP.description": {
+    "message": "MC",
+    "description": "Only relevant (and displayed) for class teachers"
+  },
+  "EventAudience.LP.description": {
+    "message": "M",
+    "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
+  },
+  "EventAudience.STUDENTS.description": {
+    "message": "EL",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "shared.AudiencePicker": {
+    "message": "Toutes les écoles",
+    "description": "Button text to toggle all schools on/off"
+  },
+  "Künftige Klassen": {
+    "message": "Futures classes"
+  },
+  "shared.AudiencePicker.Department": {
+    "message": "Tous",
+    "description": "toggle all departments"
+  },
+  "theme.admonition.warning": {
+    "message": "attention",
+    "description": "The default label used for the Warning admonition (:::warning)"
+  },
+  "theme.DocSidebarItem.expandCategoryAriaLabel": {
+    "message": "Étendre la barre latérale de la catégorie '{label}'",
+    "description": "The ARIA label to expand the sidebar category"
+  },
+  "theme.DocSidebarItem.collapseCategoryAriaLabel": {
+    "message": "Réduire la barre latérale de la catégorie '{label}'",
+    "description": "The ARIA label to collapse the sidebar category"
+  },
+  "theme.unlistedContent.title": {
+    "message": "Page non répertoriée",
+    "description": "The unlisted content banner title"
+  },
+  "theme.unlistedContent.message": {
+    "message": "Cette page est non répertoriée. Les moteurs de recherche ne vont pas l'indexer et seuls les utilisateurs·trices ayant un lien direct y ont accès.",
+    "description": "The unlisted content banner message"
   }
 }

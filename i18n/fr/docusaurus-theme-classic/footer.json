@@ -1,6 +1,6 @@
 {
   "link.title.Admin": {
-    "message": "Admin",
+    "message": "Administration",
     "description": "The title of the footer links column with title=Admin in the footer"
   },
   "link.title.Dashboard": {
@@ -35,8 +35,36 @@
     "message": "GBJB",
     "description": "The label of footer link with label=GBJB linking to https://gfbienne.ch"
   },
+  "link.title.Events": {
+    "message": "Événements",
+    "description": "The title of the footer links column with title=Events in the footer"
+  },
+  "link.title.Links": {
+    "message": "Liens",
+    "description": "The title of the footer links column with title=Links in the footer"
+  },
+  "link.item.label.Kalender": {
+    "message": "Calendrier",
+    "description": "The label of footer link with label=Kalender linking to /calendar"
+  },
+  "link.item.label.Tabelle": {
+    "message": "Liste",
+    "description": "The label of footer link with label=Tabelle linking to /table"
+  },
+  "link.item.label.Gantt": {
+    "message": "Lignes de temps",
+    "description": "The label of footer link with label=Gantt linking to /gantt"
+  },
+  "link.item.label.Dokumentation": {
+    "message": "Documentation",
+    "description": "The label of footer link with label=Dokumentation linking to /docs"
+  },
+  "link.item.label.Socket.IO Dashboard": {
+    "message": "Socket.IO > Tableau de bord",
+    "description": "The label of footer link with label=Socket.IO Dashboard linking to https://admin.socket.io/"
+  },
   "copyright": {
-    "message": "Copyright © 2023 B. Hofer <br /><a class=\"badge badge--primary\" href=\"https://github.com/lebalz/events-app/commit/52va2m\">ᚶ 52va2m</a>",
+    "message": "Copyright © 2023 B. Hofer <br /><a class=\"badge badge--primary\" href=\"https://github.com/lebalz/events-app/commit/69819bc145d8cd29e5dddbd264cd330ce82b1f89\">ᚶ 69819bc</a>",
     "description": "The footer copyright"
   }
 }
