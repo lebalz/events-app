@@ -65,6 +65,8 @@ To start docusaurus with the new translations in e.g. french, run:
 yarn run start --locale fr
 ```
 
+Checkout [Docusaurus](https://docusaurus.io/docs/i18n/tutorial) for further information.
+
 ### Build
 
 ```
