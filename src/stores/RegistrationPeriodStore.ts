@@ -19,13 +19,4 @@ export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
     createModel(data: RegPeriodProps): RegistrationPeriod {
         return new RegistrationPeriod(data, this);
     }
-
-    @action
-    reload() {
-        if (this.root.sessionStore.account) {
-            this.reset();
-            this.load();
-        }
-    }
-
 }

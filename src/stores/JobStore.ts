@@ -28,21 +28,13 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
         return this.root.userStore.find<User>(id);
     }
 
-    @action
-    reload() {
-        if (this.root.sessionStore.account) {
-            this.reset();
-            this.load(this.root.viewStore.semesterId);
-        }
-    }
-
     addToStore(data: JobProps): Job
     @override
     addToStore(data: JobAndEventsProps): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
             this.removeFromStore(data.id);
-            if (job.type === ApiJobType.SYNC_UNTIS) {
+            if (this.loaded && job.type === ApiJobType.SYNC_UNTIS) {
                 this.root.departmentStore.reload();
                 this.root.untisStore.reload();
             }

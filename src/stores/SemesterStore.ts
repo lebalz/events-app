@@ -44,14 +44,6 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
         return this.semesters.find(s => s.isCurrent);
     }
 
-    @action
-    reload() {
-        if (this.root.sessionStore.account) {
-            this.reset();
-            this.load();
-        }
-    }
-
     @override
     reset() {
         this.models.clear();

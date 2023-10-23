@@ -96,6 +96,12 @@ function Root({ children }) {
     }
   }, [rootStore]);
 
+  /** this effect loads initializes all the loads...
+   */
+  React.useEffect(() => {
+    rootStore.initialize();
+  }, [rootStore?.sessionStore?.account]);
+
   React.useEffect(() => {
     if (rootStore?.sessionStore) {
       rootStore.sessionStore.setLocale(i18n.currentLocale as 'de' | 'fr');

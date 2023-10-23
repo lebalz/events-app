@@ -77,15 +77,6 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
         { keepAlive: true }
     );
 
-    @action
-    reload() {
-        this.models.replace([]);
-        if (this.root.sessionStore.account) {
-            this.reset();
-            this.load(this.root.viewStore.semesterId);
-        }
-    }
-
     createModel(data: EventProps, state?: 'load' | 'create'): Event {
         const model = new Event(data, this);
         if (state === 'create') {

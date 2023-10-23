@@ -119,7 +119,6 @@ class EventTable {
         }
 
         const currentKwStart = getLastMonday(new Date()).getTime();
-        console.log('et', semester.name, semester.events);
         const s = semester.events.filter((event) => {
             if (event.state !== EventState.Published) {
                 return false;
@@ -156,7 +155,6 @@ class EventTable {
             }
             return keep;
         });
-        console.log('show', s);
         return s;
     }
 

@@ -24,7 +24,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         reaction(
             () => this.current,
             (user) => {
-                if (user) {                
+                if (user && this.root.loaded) {     
                     this.loadAffectedEventIds(user);
                 }
             }
@@ -52,14 +52,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     usersEvents(user: User) {
         return this.root.eventStore.byUser(user.id);
-    }
-
-    @action
-    reload() {
-        if (this.root.sessionStore.account) {
-            this.reset();
-            this.load(this.root.viewStore.semesterId);
-        }
     }
 
     @action

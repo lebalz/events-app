@@ -17,6 +17,7 @@ interface Message {
 
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
+    
     private cancelToken?: CancelTokenSource;
     abortControllers = new Map<string, AbortController>();
     @observable.ref
@@ -176,7 +177,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         });
         this.socket.on('checkEvent', (data: { state: 'success' | 'error', result: CheckedUntisLesson[]}) => {
             if (data.state === 'success') {
-                console.log('checkEvent', data);
                 this.root.untisStore.addLessons(data.result);
             } else {
                 console.log('checkEvent', data);

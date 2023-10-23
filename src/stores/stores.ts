@@ -44,7 +44,7 @@ export class RootStore {
         this.sessionStore = new SessionStore(this);
         
         this.semesterStore = new SemesterStore(this);
-        this.subscribeTo(this.semesterStore, ['load', 'reset']);
+        this.subscribeTo(this.semesterStore, ['reset']);
 
         this.userStore = new UserStore(this);
         this.subscribeTo(this.userStore, ['load', 'reset']);
@@ -79,25 +79,9 @@ export class RootStore {
         reaction(
             () => this.sessionStore.account,
             (account) => {
-                console.log('account', account)
-                if (account) {
-                    if (this.userStore.current) {
-                        this.cleanup();
-                    }
-                    /** make sure to first only load a user - in case a new user is created, this prevents parallel upserts */
-                    this.userStore.loadUser(account.localAccountId)
-                    .then(() => {
-                        return this.semesterStore.load();
-                    })
-                    .finally(() => {
-                        this.load();
-                    });
-                } else {
-                    if (this.userStore.current) {
-                        console.log('%%% RESET AND LOAD %%%');
-                        this.cleanup();
-                    }
-                    this.load();
+                if (this.loaded) {
+                    this.cleanup();
+                    this.initialize();
                 }
             }
         )
@@ -132,17 +116,27 @@ export class RootStore {
     }
 
     @action
+    initialize() {
+        if (this.sessionStore.account) {
+            /** make sure to first only load a user - in case a new user is created, this prevents parallel upserts */
+            this.userStore.loadUser(this.sessionStore.account.localAccountId)
+                .finally(() => {
+                    this.load();
+                });
+        } else {
+            this.load();
+        }
+    }
+
+    @action
     load() {
-        console.log('Load Semesters')
         this.semesterStore.load()
             .then(action(() => {
                 this.loaded = true;
                 const semesterId = this.semesterStore.currentSemester?.id;
                 this.semesterStore.loadedSemesters.add(semesterId);
                 this.loadableStores.forEach((store) => {
-                    if (store !== this.semesterStore) {
-                        store.load(semesterId)
-                    }
+                    store.load(semesterId)
                 });
             }));
     }
@@ -158,7 +152,6 @@ export class RootStore {
         }
         this.semesterStore.loadedSemesters.add(semesterId);
         this.semesterizedStores.forEach((store) => {
-            console.log('load', semesterId, (store as any).API_ENDPOINT)
             store.load(semesterId);
         });
     }

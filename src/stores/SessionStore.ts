@@ -60,18 +60,13 @@ export class SessionStore {
 
     @action
     setMsalInstance(msalInstance: PublicClientApplication) {
-        console.log('MSAL Instance set', msalInstance)
         this.initialized = true;
         this.state._msalInstance = msalInstance;
     }
 
     @action
     setAccount(account?: AccountInfo | null) {
-        if (account) {
-            this.state.account = account;
-        } else if (!this.state.account) {
-            this.state.account = account;
-        }
+        this.state.account = account;
     }
 
     @computed

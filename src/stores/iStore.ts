@@ -42,6 +42,8 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
 
     abortControllers = new Map<Api | ApiAction, AbortController>();
     apiState = observable.map<Api | ApiAction, ApiState>();
+    @observable
+    loaded = false;
 
     withAbortController<T>(sigId: Api | ApiAction, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
@@ -135,6 +137,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                         if (data) {
                             data.map((d) => this.addToStore(d));
                         }
+                        this.loaded = true;
                         return this.models;
                     })
                 );
@@ -146,6 +149,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     @action
     reset() {
         this.models.clear();
+        this.loaded = false;
     }
 
 
