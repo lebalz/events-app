@@ -43,6 +43,30 @@ TEST_USERNAME="Reto.Holz@gbsl.ch" yarn run start
 
 and make sure, that the user `Reto.Holz@gbsl.ch` exists on your local api.
 
+## Translations
+
+The translations can be found in the `i18n` folder. The `de` folder contains the german (default) translations. The `fr` folder contains the french translations.
+Update the translations with:
+
+```bash
+# for german
+yarn write-translations --locale de
+# for french
+yarn write-translations --locale fr
+```
+
+existing translations will not be overwritten, except you pass the `--overwrite` flag.
+
+After updating the translations, make sure to update the new keys (you can see in git, which keys are new...)
+
+To start docusaurus with the new translations in e.g. french, run:
+
+```bash
+yarn run start --locale fr
+```
+
+Checkout [Docusaurus](https://docusaurus.io/docs/i18n/tutorial) for further information.
+
 ### Build
 
 ```

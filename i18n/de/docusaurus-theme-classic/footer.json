@@ -3,14 +3,6 @@
     "message": "Admin",
     "description": "The title of the footer links column with title=Admin in the footer"
   },
-  "link.title.Dashboard": {
-    "message": "Dashboard",
-    "description": "The title of the footer links column with title=Dashboard in the footer"
-  },
-  "link.title.More": {
-    "message": "Mehr",
-    "description": "The title of the footer links column with title=More in the footer"
-  },
   "link.item.label.Dashboard": {
     "message": "Dashboard",
     "description": "The label of footer link with label=Dashboard linking to /admin"
@@ -18,10 +10,6 @@
   "link.item.label.Import": {
     "message": "Import",
     "description": "The label of footer link with label=Import linking to /import"
-  },
-  "link.item.label.Socket.IO Admin": {
-    "message": "Socket.IO Admin",
-    "description": "The label of footer link with label=Socket.IO Admin linking to https://admin.socket.io/"
   },
   "link.item.label.GBSL": {
     "message": "GBSL",
@@ -34,5 +22,33 @@
   "link.item.label.GBJB": {
     "message": "GBJB",
     "description": "The label of footer link with label=GBJB linking to https://gfbienne.ch"
+  },
+  "link.title.Events": {
+    "message": "Events",
+    "description": "The title of the footer links column with title=Events in the footer"
+  },
+  "link.title.Links": {
+    "message": "Links",
+    "description": "The title of the footer links column with title=Links in the footer"
+  },
+  "link.item.label.Kalender": {
+    "message": "Kalender",
+    "description": "The label of footer link with label=Kalender linking to /calendar"
+  },
+  "link.item.label.Tabelle": {
+    "message": "Tabelle",
+    "description": "The label of footer link with label=Tabelle linking to /table"
+  },
+  "link.item.label.Gantt": {
+    "message": "Gantt",
+    "description": "The label of footer link with label=Gantt linking to /gantt"
+  },
+  "link.item.label.Dokumentation": {
+    "message": "Dokumentation",
+    "description": "The label of footer link with label=Dokumentation linking to /docs"
+  },
+  "link.item.label.Socket.IO Dashboard": {
+    "message": "Socket.IO Dashboard",
+    "description": "The label of footer link with label=Socket.IO Dashboard linking to https://admin.socket.io/"
   }
 }

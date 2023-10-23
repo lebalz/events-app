@@ -15,16 +15,8 @@
     "message": "Tableau",
     "description": "Navbar item with label Tabelle"
   },
-  "item.label.GANTT": {
-    "message": "GANTT",
-    "description": "Navbar item with label GANTT"
-  },
-  "item.label.Stupla": {
-    "message": "Stupla",
-    "description": "Navbar item with label Stupla"
-  },
-  "item.label.Meine": {
-    "message": "Mon",
-    "description": "Navbar item with label Meine"
+  "item.label.Zeitachse": {
+    "message": "Ligne du temps",
+    "description": "Navbar item with label Zeitachse"
   }
 }
