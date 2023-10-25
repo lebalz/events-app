@@ -58,7 +58,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             return res;
         })).catch(action((err) => {
             if (axios.isCancel(err)) {
-                return { data: null };
+                return { data: null } as T;
             } else {
                 this.apiState.set(sigId, ApiState.ERROR);
             }
@@ -125,9 +125,17 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         return old;
     }
 
+    @action
+    postLoad(models: ApiModel<Model, Api | ApiAction>[], success?: boolean): Promise<ApiModel<Model, Api | ApiAction>[]> {
+        /**
+         * Post load hook
+         */
+        return Promise.resolve(models);
+    }
+
 
     @action
-    load(semesterId?: string): Promise<any> {
+    load(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
         return this.withAbortController('loadAll', (sig) => {
             const endPoint = semesterId ?
                 `${this.API_ENDPOINT}/all?semesterId=${semesterId}` :
@@ -138,10 +146,11 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                         if (data) {
                             data.map((d) => this.addToStore(d));
                         }
-                        return this.models;
+                        return this.postLoad(this.models, true);
                     })
                 ).catch((err) => {
                     console.warn(err);
+                    return this.postLoad([], false)
                 }).finally(() => {
                     this.initialLoadPerformed = true;
                 });
