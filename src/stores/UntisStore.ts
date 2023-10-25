@@ -258,6 +258,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         this.classes.clear();
         this.lessons.clear();
         this.teachers.clear();
+        this.initialLoadPerformed = false;
     }
     @action
     save(model) {

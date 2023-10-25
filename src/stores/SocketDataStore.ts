@@ -227,6 +227,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.disconnect();
         api.defaults.headers.common['x-metadata-socketid'] = undefined;
         this.messages.clear();
+        this.initialLoadPerformed = false;
     }
 
     @action
