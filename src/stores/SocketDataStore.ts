@@ -25,6 +25,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
     messages = observable<Message>([]);
 
+    @observable
+    initialLoadPerformed = false;
 
     @observable
     isLive: boolean = false;
@@ -44,9 +46,10 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         );
         reaction(
             () => this.isLive,
-            (isLive) => {
-                console.log('Socket.IO live:', isLive)
-            }
+            action((isLive) => {
+                console.log('Socket.IO live:', isLive);
+                this.initialLoadPerformed = true;
+            })
         );
     }
 

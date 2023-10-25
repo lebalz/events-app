@@ -1,6 +1,6 @@
 
 import React from "react";
-import { action, makeObservable, observable, reaction, runInAction } from "mobx";
+import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
 import { SessionStore } from "./SessionStore";
 import { UserStore } from "./UserStore";
 import { EventStore } from "./EventStore";
@@ -24,7 +24,7 @@ export class RootStore {
     @observable
     initialized = false;
     @observable
-    loaded = false;
+    _initialLoadPerformed = false;
 
     sessionStore: SessionStore;
     untisStore: UntisStore;
@@ -79,7 +79,8 @@ export class RootStore {
         reaction(
             () => this.sessionStore.account,
             (account) => {
-                if (this.loaded) {
+                if (this.initialLoadPerformed) {
+                    console.log('Cleanup!')
                     this.cleanup();
                     this.initialize();
                 }
@@ -115,6 +116,14 @@ export class RootStore {
         }
     }
 
+    @computed
+    get initialLoadPerformed() {
+        if (!this._initialLoadPerformed) {
+            return false;
+        }
+        return this.loadableStores.every((store) => store.initialLoadPerformed);
+    }
+
     @action
     initialize() {
         if (this.sessionStore.account) {
@@ -135,7 +144,7 @@ export class RootStore {
             .finally(action(() => {
                 const semesterId = this.semesterStore.currentSemester?.id;
                 this.semesterStore.loadedSemesters.add(semesterId);
-                this.loaded = true;
+                this._initialLoadPerformed = true;
                 this.loadableStores.forEach((store) => {
                     store.load(semesterId)
                 });
@@ -148,7 +157,7 @@ export class RootStore {
     }
     @action
     loadSemester(semesterId: string, force: boolean) {
-        if (!force && (!this.loaded || this.semesterStore.loadedSemesters.has(semesterId))) {
+        if (!force && (!this.initialLoadPerformed || this.semesterStore.loadedSemesters.has(semesterId))) {
             return;
         }
         this.semesterStore.loadedSemesters.add(semesterId);

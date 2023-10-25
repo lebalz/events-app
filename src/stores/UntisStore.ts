@@ -21,6 +21,8 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     lessons = observable<Lesson>([]);
     teachers = observable<Teacher>([]);
     subjects = observable<Subject>([]);
+    @observable
+    initialLoadPerformed = false;
 
     @observable
     initialized = false;
@@ -220,6 +222,8 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             }));
         }).then(({ data }) => {
             return data || [];
+        }).finally(() => {
+            this.initialLoadPerformed = true;
         });
     }
 

@@ -24,7 +24,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         reaction(
             () => this.current,
             (user) => {
-                if (user && this.root.loaded) {     
+                if (user && this.root.initialLoadPerformed) {     
                     this.loadAffectedEventIds(user);
                 }
             }

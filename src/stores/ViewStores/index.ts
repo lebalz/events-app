@@ -36,6 +36,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable
     openEventModalId?: string;
 
+    @observable
+    initialLoadPerformed = false;
+
     expandedEventIds = observable.set<string>();
 
     constructor(store: RootStore) {
@@ -190,6 +193,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @action
     load() {
+        this.initialLoadPerformed = true;
         if (this.root.userStore.current?.untisId) {
             // this.eventTable.setOnlyMine(true);
         }

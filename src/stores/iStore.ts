@@ -22,6 +22,7 @@ export class LoadeableStore<T> {
          */
         throw new Error('Not implemented');
     }
+    initialLoadPerformed: boolean;
 }
 
 export type ApiAction = 'loadAll' | 'create' | `load-${string}` | `save-${string}` | `destroy-${string}`;
@@ -43,7 +44,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     abortControllers = new Map<Api | ApiAction, AbortController>();
     apiState = observable.map<Api | ApiAction, ApiState>();
     @observable
-    loaded = false;
+    initialLoadPerformed = false;
 
     withAbortController<T>(sigId: Api | ApiAction, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
@@ -83,18 +84,18 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             }
             return this.apiState.get(sigId) || ApiState.IDLE;
         },
-        {keepAlive: true}
+        { keepAlive: true }
     );
-    
+
     // function <V extends ApiModel<Model, Api | ApiAction>>(this: iStore<Model, Api>, id?: string): V {
-    find = computedFn(        
+    find = computedFn(
         function <T>(this: iStore<Model, Api>, id?: string): T & ApiModel<any> {
             if (!id) {
                 return;
             }
             return this.models.find((d) => d.id === id) as T & ApiModel<any>;
         },
-        {keepAlive: true}
+        { keepAlive: true }
     );
 
     @action
@@ -137,11 +138,12 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                         if (data) {
                             data.map((d) => this.addToStore(d));
                         }
-                        this.loaded = true;
                         return this.models;
                     })
                 ).catch((err) => {
                     console.warn(err);
+                }).finally(() => {
+                    this.initialLoadPerformed = true;
                 });
         });
 
@@ -151,7 +153,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     @action
     reset() {
         this.models.clear();
-        this.loaded = false;
+        this.initialLoadPerformed = false;
     }
 
 

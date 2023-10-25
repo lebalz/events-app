@@ -34,7 +34,7 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
             this.removeFromStore(data.id);
-            if (this.loaded && job.type === ApiJobType.SYNC_UNTIS) {
+            if (this.initialLoadPerformed && job.type === ApiJobType.SYNC_UNTIS) {
                 this.root.departmentStore.reload();
                 this.root.untisStore.reload();
             }
