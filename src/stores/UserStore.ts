@@ -51,16 +51,14 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     }
 
     @override
-    postLoad(models: User[], success?: boolean): Promise<User[]> {
+    postLoad(models: User[], success?: boolean): Promise<any> {
         /**
          * Post load hook
          */
         if (success) {
-            return this.loadAffectedEventIds(this.current, this.root.semesterStore.currentSemester).then(() => {
-                return models;
-            });
+            return this.loadAffectedEventIds(this.current, this.root.semesterStore.currentSemester)
         }
-        return Promise.resolve(models);
+        return Promise.resolve();
     }
 
     usersEvents(user: User) {

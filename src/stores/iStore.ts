@@ -126,11 +126,11 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    postLoad(models: ApiModel<Model, Api | ApiAction>[], success?: boolean): Promise<ApiModel<Model, Api | ApiAction>[]> {
+    postLoad(models: ApiModel<Model, Api | ApiAction>[], success?: boolean): Promise<any> {
         /**
          * Post load hook
          */
-        return Promise.resolve(models);
+        return Promise.resolve();
     }
 
 
@@ -146,11 +146,18 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                         if (data) {
                             data.map((d) => this.addToStore(d));
                         }
-                        return this.postLoad(this.models, true);
+                        return this.postLoad(this.models, true)
+                            .then(() => {
+                                return this.models
+                            })
+                            .catch((err) => {
+                                console.warn('Post load hook failed', err);
+                                return this.models;
+                            });
                     })
                 ).catch((err) => {
                     console.warn(err);
-                    return this.postLoad([], false)
+                    return this.postLoad([], false).then(() => []).catch(() => []);
                 }).finally(() => {
                     this.initialLoadPerformed = true;
                 });
