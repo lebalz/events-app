@@ -8,7 +8,6 @@ This website is built using [Docusaurus 2](https://docusaurus.io/), a modern sta
 $ yarn install
 ```
 
-
 #### Environment
 
 Copy the `example.env` file to `.env` and fill in the values.
