@@ -33,10 +33,12 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     addToStore(data: JobAndEventsProps): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
-            this.removeFromStore(data.id);
-            if (this.initialLoadPerformed && job.type === ApiJobType.SYNC_UNTIS) {
-                this.root.departmentStore.reload();
-                this.root.untisStore.reload();
+            if (this.initialLoadPerformed) {
+                this.removeFromStore(data.id);
+                if (job.type === ApiJobType.SYNC_UNTIS) {
+                    this.root.departmentStore.reload();
+                    this.root.untisStore.reload();
+                }
             }
             if (data.events) {
                 this.root.eventStore.appendEvents(data.events);
@@ -53,11 +55,13 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
         if (!id) {
             return;
         }
-        /**
-         * remove events created by this job from eventStore
-         */
-        const eventsToRemove = this.root.eventStore.events.slice().filter((e) => e.jobId === id);
-        this.root.eventStore.removeEvents(eventsToRemove);
+        if (this.initialLoadPerformed) {
+            /**
+             * remove events created by this job from eventStore
+             */
+            const eventsToRemove = this.root.eventStore.events.slice().filter((e) => e.jobId === id);
+            this.root.eventStore.removeEvents(eventsToRemove);
+        }
         /**
          * remove the job from the store
          */
