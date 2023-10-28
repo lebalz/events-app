@@ -1,3 +1,4 @@
+import { translate } from "@docusaurus/Translate";
 
 export const formatTime = (date: Date) => {
     const hours = `${date.getHours()}`.padStart(2, '0');
@@ -30,8 +31,24 @@ export const MINUTE_2_MS = 60 * SEC_2_MS;
 export const HOUR_2_MS = 60 * MINUTE_2_MS;
 export const DAY_2_MS = 24 * HOUR_2_MS; // 1000*60*60*24=86400000
 export const WEEK_2_MS = 7 * DAY_2_MS;
-export const DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'] as const;
-export const DAYS_LONG = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'] as const;
+export const DAYS = [
+    translate({message: 'So', id: 'weekday.so.short', description: 'Weekday Abbreviation'}),
+    translate({message: 'Mo', id: 'weekday.mo.short', description: 'Weekday Abbreviation'}),
+    translate({message: 'Di', id: 'weekday.di.short', description: 'Weekday Abbreviation'}),
+    translate({message: 'Mi', id: 'weekday.mi.short', description: 'Weekday Abbreviation'}),
+    translate({message: 'Do', id: 'weekday.do.short', description: 'Weekday Abbreviation'}),
+    translate({message: 'Fr', id: 'weekday.fr.short', description: 'Weekday Abbreviation'}),
+    translate({message: 'Sa', id: 'weekday.sa.short', description: 'Weekday Abbreviation'})
+] as const;
+export const DAYS_LONG = [
+    translate({message: 'Sonntag', id: 'weekday.so.long', description: 'Weekday full name'}), 
+    translate({message: 'Montag', id: 'weekday.mo.long', description: 'Weekday full name'}), 
+    translate({message: 'Dienstag', id: 'weekday.di.long', description: 'Weekday full name'}), 
+    translate({message: 'Mittwoch', id: 'weekday.mi.long', description: 'Weekday full name'}), 
+    translate({message: 'Donnerstag', id: 'weekday.do.long', description: 'Weekday full name'}), 
+    translate({message: 'Freitag', id: 'weekday.fr.long', description: 'Weekday full name'}), 
+    translate({message: 'Samstag', id: 'weekday.sa.long', description: 'Weekday full name'})
+] as const;
 
 export const getWeekdayOffsetMS = (date: Date) => {
     const days = date.getUTCDay() - 1;

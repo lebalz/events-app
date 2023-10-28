@@ -5,8 +5,10 @@ import { useStore } from '../stores/hooks';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import Event from '../models/Event';
+import siteConfig from '@generated/docusaurus.config';
+const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
-moment.locale('de-CH');
+moment.locale(`${CURRENT_LOCALE}-CH`);
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Layout from '@theme/Layout';
 import { translate } from '@docusaurus/Translate';

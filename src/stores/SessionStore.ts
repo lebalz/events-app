@@ -23,8 +23,6 @@ export class SessionStore {
     private readonly root: RootStore;
     @observable.ref
     private state: State = new State();
-    @observable
-    locale: 'de' | 'fr' = 'de';
 
     @observable
     initialized = false;
@@ -36,13 +34,8 @@ export class SessionStore {
         makeObservable(this);
     }
 
-    @action
-    setLocale(locale: 'de' | 'fr') {
-        if (locale === 'fr') {
-            this.locale = 'fr';
-        } else {
-            this.locale = 'de';
-        }
+    get locale() {
+        return this.root.currentLocale;
     }
 
     @computed

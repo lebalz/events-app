@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Link from '@docusaurus/Link';
 import { useLocation } from '@docusaurus/router';
+import Translate from '@docusaurus/Translate';
 
 const MyEventsLink = observer(() => {
     const userStore = useStore('userStore');
@@ -17,7 +18,9 @@ const MyEventsLink = observer(() => {
                 to='/user?user-tab=events'
                 className={clsx('navbar__item', 'navbar__link', isActive && 'navbar__link--active')}
             >
-                Meine
+                <Translate id="event.filter.mine">
+                    Meine
+                </Translate>
             </Link>
         )
     }

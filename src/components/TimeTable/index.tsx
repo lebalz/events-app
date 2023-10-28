@@ -1,8 +1,10 @@
 import React from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
+import siteConfig from '@generated/docusaurus.config';
+const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
-moment.locale('de-CH');
+moment.locale(`${CURRENT_LOCALE}-CH`);
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import clsx from 'clsx';
 

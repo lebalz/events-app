@@ -13,10 +13,13 @@ import { DepartmentStore } from "./DepartmentStore";
 import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
 import { UserEventGroupStore } from "./UserEventGroupStore";
+import siteConfig from '@generated/docusaurus.config';
+const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 type StoreActions = 'load' | 'reset' | 'semester';
 
 export class RootStore {
+    currentLocale: 'de' | 'fr' = CURRENT_LOCALE ?? 'de';
     loadableStores = observable<LoadeableStore<any>>([]);
     resettableStores = observable<ResettableStore>([]);
     semesterizedStores = observable<LoadeableStore<any>>([]);

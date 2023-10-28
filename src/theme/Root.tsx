@@ -103,12 +103,6 @@ function Root({ children }) {
   }, [rootStore?.sessionStore?.account]);
 
   React.useEffect(() => {
-    if (rootStore?.sessionStore) {
-      rootStore.sessionStore.setLocale(i18n.currentLocale as 'de' | 'fr');
-    }
-  }, [i18n.currentLocale]);
-
-  React.useEffect(() => {
     const modalId = rootStore?.viewStore?.openEventModalId;
     /** ensure no modal is open when changing the routes */
     if (modalId) {

@@ -10,6 +10,7 @@ import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
 import { SIZE_S, filterSvgPath } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
+import { translate } from '@docusaurus/Translate';
 
 interface Props {
     showCurrentAndFuture?: boolean;
@@ -30,14 +31,14 @@ const Filter = observer((props: Props) => {
             <div className={clsx(styles.basic)}>
                 <div className={clsx(styles.audience, 'button-group', 'button-group--block')}>
                     <Button
-                        text="Meine"
+                        text={translate({ message: 'Meine', id: 'event.filter.mine', description: 'Filter: Only events affecting me' })}
                         active={eventTable.onlyMine}
                         color='blue'
                         onClick={() => eventTable.toggleOnlyMine()}
                     />
                     {eventTable.showCurrentAndFutureFilter && props.showCurrentAndFuture && (
                         <Button
-                            text="Künftige"
+                            text={translate({ message: 'Künftige', id: 'event.filter.future', description: 'Filter: Only current and future events' })}
                             active={eventTable.onlyCurrentWeekAndFuture}
                             color='blue'
                             onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
@@ -46,7 +47,7 @@ const Filter = observer((props: Props) => {
                 </div>
                 <div className={clsx(styles.classes, styles.fuzzyFilter)}>
                     <TextInput
-                        placeholder="Stichworte"
+                        placeholder={translate({ message: 'Stichworte', id: 'joi.event.description' })}
                         onChange={(txt) => eventTable.setTextFilter(txt)} 
                         text={eventTable.klassFilter} 
                     />

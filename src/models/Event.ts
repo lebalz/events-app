@@ -983,7 +983,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get fDuration() {
-        if (this.store?.root?.sessionStore?.locale === 'fr') {
+        if (this.store?.root?.currentLocale === 'fr') {
             return humanize(this.durationMS, { language: 'fr', units: ['w', 'd', 'h', 'm'], round: true });
         }
         return humanize(this.durationMS, { language: 'de', units: ['w', 'd', 'h', 'm'], round: true });

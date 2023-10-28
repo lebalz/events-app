@@ -794,5 +794,69 @@
   "calendar.button.plus": {
     "message": "weitere",
     "description": "button label to show more events"
+  },
+  "weekday.so.short": {
+    "message": "So",
+    "description": "Weekday Abbreviation"
+  },
+  "weekday.mo.short": {
+    "message": "Mo",
+    "description": "Weekday Abbreviation"
+  },
+  "weekday.di.short": {
+    "message": "Di",
+    "description": "Weekday Abbreviation"
+  },
+  "weekday.mi.short": {
+    "message": "Mi",
+    "description": "Weekday Abbreviation"
+  },
+  "weekday.do.short": {
+    "message": "Do",
+    "description": "Weekday Abbreviation"
+  },
+  "weekday.fr.short": {
+    "message": "Fr",
+    "description": "Weekday Abbreviation"
+  },
+  "weekday.sa.short": {
+    "message": "Sa",
+    "description": "Weekday Abbreviation"
+  },
+  "weekday.so.long": {
+    "message": "Sonntag",
+    "description": "Weekday full name"
+  },
+  "weekday.mo.long": {
+    "message": "Montag",
+    "description": "Weekday full name"
+  },
+  "weekday.di.long": {
+    "message": "Dienstag",
+    "description": "Weekday full name"
+  },
+  "weekday.mi.long": {
+    "message": "Mittwoch",
+    "description": "Weekday full name"
+  },
+  "weekday.do.long": {
+    "message": "Donnerstag",
+    "description": "Weekday full name"
+  },
+  "weekday.fr.long": {
+    "message": "Freitag",
+    "description": "Weekday full name"
+  },
+  "weekday.sa.long": {
+    "message": "Samstag",
+    "description": "Weekday full name"
+  },
+  "event.filter.mine": {
+    "message": "Meine",
+    "description": "Filter: Only events affecting me"
+  },
+  "event.filter.future": {
+    "message": "Künftige",
+    "description": "Filter: Only current and future events"
   }
 }

@@ -103,6 +103,7 @@ const config: Config = {
     /** The application id uri generated in https://portal.azure.com */
     API_URI: process.env.REACT_APP_API_URI,
     GIT_COMMIT_SHA: process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7),
+    CURRENT_LOCALE: process.env.DOCUSAURUS_CURRENT_LOCALE ?? defaultLocale
   },
 
   // Even if you don't use internalization, you can use this field to set useful
