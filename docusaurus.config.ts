@@ -7,8 +7,36 @@ import type * as Preset from '@docusaurus/preset-classic';
 const {themes} = require('prism-react-renderer');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
+import ConfigLocalized from './docusaurus.config.localized.json';
 
 const VERSION = 'beta.1';
+
+const defaultLocale = 'de';
+
+function getLocalizedConfigValue(key: string) {
+  const currentLocale = process.env.DOCUSAURUS_CURRENT_LOCALE ?? defaultLocale;
+  const values = ConfigLocalized[key];
+  if (!values) {
+    throw new Error(`Localized config key=${key} not found`);
+  }
+  const value = values[currentLocale] ?? values[defaultLocale];
+  if (!value) {
+    throw new Error(
+      `Localized value for config key=${key} not found for both currentLocale=${currentLocale} or defaultLocale=${defaultLocale}`,
+    );
+  }
+  return value;
+}
+
+function getLocalizedCopyright() {
+  return `Copyright © ${new Date().getFullYear()} B. Hofer <br />
+          ${getLocalizedConfigValue('translated_by')} G. Andonie<br/>
+          <a class="badge badge--primary" href="https://github.com/lebalz/events-app/commit/${GIT_COMMIT_SHA}">
+            ᚶ ${GIT_COMMIT_SHA.substring(0, 7)}
+          </a>
+          `;
+}
+
 
 /** @type { (string
     | {
@@ -46,8 +74,8 @@ const GIT_COMMIT_SHA = process.env.DRONE_COMMIT_SHA || Math.random().toString(36
 
 /** @type {import('@docusaurus/types').Config} */
 const config: Config = {
-  title: 'Events',
-  tagline: 'Events App',
+  title: getLocalizedConfigValue('title'),
+  tagline: getLocalizedConfigValue('tagline'),
   url: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -229,7 +257,7 @@ const config: Config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} B. Hofer <br /><a class="badge badge--primary" href="https://github.com/lebalz/events-app/commit/${GIT_COMMIT_SHA}">ᚶ ${GIT_COMMIT_SHA.substring(0, 7)}</a>`,
+        copyright: getLocalizedCopyright(),
       },
       prism: {
         theme: lightCodeTheme,

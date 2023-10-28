@@ -1,17 +1,11 @@
 import Layout from '@theme/Layout';
 import React from 'react';
-import styles from './import.module.scss';
-import clsx from 'clsx';
 import Upload from '../components/ImportExcel/Upload';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
-import LazyDetails from '../components/shared/Details';
-import { Icon, Sync } from '../components/shared/icons';
+import { Icon } from '../components/shared/icons';
 import { mdiFileExcel } from '@mdi/js';
-import Button from '../components/shared/Button';
 import Section from '../components/shared/Section';
-import {ImportSummary} from '../components/Job/Summary';
-import Details from '../components/Job/Details';
 import Job from '../components/Job';
 import { translate } from '@docusaurus/Translate';
 

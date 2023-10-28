@@ -5,6 +5,7 @@ import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 import { observer } from 'mobx-react-lite';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -13,7 +14,10 @@ function HomepageHeader() {
       <div className="container">
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <img src='/img/events.png' />
+        <video autoPlay muted loop id="myVideo" style={{ width: '100%', height: '100%', maxHeight: '1200px' }}>
+          <source src={useBaseUrl("/img/events-ruttl-de.mp4")} type="video/mp4" />
+        </video>
+        {/* <img src='/img/events.png' /> */}
       </div>
     </header>
   );
