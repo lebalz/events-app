@@ -9,7 +9,13 @@ import Layout from '@theme/Layout';
 import Filter from '../components/Event/Filter';
 import { createTransformer } from 'mobx-utils';
 import Event from '../models/Event';
+import siteConfig from '@generated/docusaurus.config';
+const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
+const ISO_639_CODES = {
+    de: 'gsw',
+    fr: 'fr'
+}
 
 const createTasks = createTransformer<Event[], Task[]>((events: Event[]) => {
     return events.map((e, idx) => {
@@ -39,7 +45,7 @@ const GanttView = observer(() => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [timer, setTimer] = React.useState<number>(0);
     const tasks = createTasks(eventTable.events);
-
+    console.log('locale', CURRENT_LOCALE, ISO_639_CODES[CURRENT_LOCALE || 'de'])
     React.useEffect(() => {
         const ts = setTimeout(() => {
             const today = document.querySelector('.today');
@@ -95,7 +101,7 @@ const GanttView = observer(() => {
                             listCellWidth={''}
                             viewDate={new Date()}
                             rowHeight={20}
-                            locale="gsw"
+                            locale={ISO_639_CODES[CURRENT_LOCALE || 'de']}
                             onClick={(task: Task) => {
                                 viewStore.setEventModalId(task.id);
                             }}
