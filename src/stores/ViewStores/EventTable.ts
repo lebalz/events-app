@@ -143,8 +143,11 @@ class EventTable {
                 const tokens = [...this.textFilter]
                 const klassNames = event.fClasses.map(c => c.classes.map(cl => cl.displayName)).join(' ');
                 keep = tokens.some((tkn) => klassNames.match(new RegExp(tkn, 'i')));
+                const depNames = event.departmentNames.join(' ');
                 if (!keep) {
-                    keep = tokens.some((tkn) => (event.description + event.descriptionLong + ' ' + event.fStartDate + ' ' + event.fEndDate + ' ' + event.departmentNames.join(' ')).match(new RegExp(tkn, 'i')));
+                    keep = tokens.some((tkn) => {
+                        return `${event.description} ${event.descriptionLong} ${event.dayFullStart} ${event.fStartDate} ${event.fStartTime} ${event.fEndDate} ${event.fEndTime} ${event.location} ${depNames}`.match(new RegExp(tkn, 'i'))
+                    });
                 }
             }
             if (keep && this.start) {
