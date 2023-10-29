@@ -395,8 +395,7 @@
     "description": "End of event must be after start"
   },
   "joi.event.description": {
-    "message": "Stichworte",
-    "description": "Description of event"
+    "message": "Stichworte"
   },
   "joi.event.description.empty": {
     "message": "Stichworte dürfen nicht leer sein",
@@ -858,5 +857,11 @@
   "event.filter.future": {
     "message": "Künftige",
     "description": "Filter: Only current and future events"
+  },
+  "navbar.item.label.personal": {
+    "message": "Persönlich"
+  },
+  "navbar.item.label.admin": {
+    "message": "Admin"
   }
 }

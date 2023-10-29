@@ -395,8 +395,7 @@
     "description": "End of event must be after start"
   },
   "joi.event.description": {
-    "message": "Mots-clés",
-    "description": "Description of event"
+    "message": "Mots-clés"
   },
   "joi.event.description.empty": {
     "message": "Le champ \"mots-clés\" ne doit pas être vide",
@@ -858,5 +857,11 @@
   "event.filter.future": {
     "message": "Futur",
     "description": "Filter: Only current and future events"
+  },
+  "navbar.item.label.personal": {
+    "message": "Personnel"
+  },
+  "navbar.item.label.admin": {
+    "message": "Admin"
   }
 }

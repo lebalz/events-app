@@ -175,7 +175,7 @@ const config: Config = {
           {to: '/gantt', label: 'Zeitachse', position: 'left'},
           {
             type: 'custom-myEventsLink',
-            position: 'left'
+            position: 'left',
           },
           {
             type: 'custom-adminLink',

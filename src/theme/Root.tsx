@@ -135,11 +135,11 @@ function Root({ children }) {
           content={`${siteConfig.customFields.DOMAIN}/img/og-preview.png`}
         />
       </Head>
-        <StoresProvider value={rootStore}>
-          <Msal>
-            {children}
-          </Msal>
-        </StoresProvider>
+      <StoresProvider value={rootStore}>
+        <Msal>
+          {children}
+        </Msal>
+      </StoresProvider>
     </>
   );
 }
