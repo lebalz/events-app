@@ -17,6 +17,7 @@ const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     ['state', {sortable: false, width: undefined}],
     'select',
+    ['teachingAffected', {componentProps: {show: 'icon'}}],
     'kw',
     'day',
     'description', 

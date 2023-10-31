@@ -26,6 +26,7 @@ import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
 import { EventState, EventStateActions, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
+import TeachingAffected from './EventFields/TeachingAffected';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -152,6 +153,8 @@ const EventProps = observer((props: Props) => {
                     )}
                 </>
             )}
+            <dt><Translate id="event.teachingAffected" description='for a single event: teaching affected?'>Unterricht Betroffen?</Translate></dt>
+            <dd><TeachingAffected event={event} show='both' align='left' /></dd>
             <dt>
                 <Translate id="event.affectedLessons" description='for a single event: affected lessons'>
                     Betroffene Lektionen

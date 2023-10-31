@@ -22,6 +22,7 @@ import DescriptionLong from '../EventFields/DescriptionLong';
 import DepartmentsOrAudiencePicker from '../EventFields/DepartmentsOrAudience';
 import IsDuplicate from '../EventFields/IsDuplicate';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
+import TeachingAffected from '../EventFields/TeachingAffected';
 
 
 interface Props {
@@ -36,6 +37,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     isDuplicate: IsDuplicate,
     select: Select,
     kw: KW,
+    teachingAffected: TeachingAffected,
     actions: Actions,
     author: Author,
     day: Day,

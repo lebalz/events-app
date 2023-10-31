@@ -38,6 +38,25 @@ dd {
         }
     }
 }
+.teachingAffected {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    cursor: pointer;
+    &.center {
+        justify-content: space-evenly;
+    }
+    &.left {
+        justify-content: flex-start;
+    }
+    &.right {
+        justify-content: flex-end;
+    }
+    &.iconOnly {
+        height: calc(var(--ifm-line-height-base) * 1em);
+        align-items: center;
+    }
+}
 .startDate {
     text-align: end;
     // font-family: monospace;

@@ -22,6 +22,7 @@ const Table = observer(() => {
                     events={viewStore.eventTable.events}
                     groupBy='yearsKw'
                     columns={[
+                      ['teachingAffected', {componentProps: { show: 'icon' }}],
                       'day',
                       'description', 
                       'start',

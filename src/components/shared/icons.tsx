@@ -7,6 +7,7 @@ import { ApiState } from '@site/src/stores/iStore';
 export const SIZE = 1;
 export const SIZE_S = 0.8;
 export const SIZE_XS = 0.6;
+export const SIZE_XXS = 0.4;
 
 interface IcoProps extends IconProps {
     disabled?: boolean;

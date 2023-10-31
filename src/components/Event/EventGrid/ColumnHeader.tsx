@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { formatDate } from '@site/src/models/helpers/time';
 import Translate, {translate} from '@docusaurus/Translate';
 import { Icon, SIZE, SIZE_S } from '../../shared/icons';
-import { mdiArrowDown, mdiArrowUp, mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
+import { mdiArrowDown, mdiArrowUp, mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSchool, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
 import Checkbox from '../../shared/Checkbox';
 import Button, { ButtonIcon } from '../../shared/Button';
 import Badge from '../../shared/Badge';
@@ -54,6 +54,9 @@ const ColumnHeader = observer((props: Props) => {
             break;
         case 'isValid':
             content = <Icon path={mdiBookmarkCheck} size={SIZE_S} />;
+            break;
+        case 'teachingAffected':
+            content = <Icon path={mdiSchool} size={SIZE_S} title={translate({message: 'Unterricht betroffen?', id: 'eventGrid.header.teachingAffected.title', description: 'Message when hovering the icon'})} />;
             break;
     }
     if (props.sortable && typeof content !== 'string') {
