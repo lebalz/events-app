@@ -34,6 +34,17 @@ cp example.env .env
 $ yarn run start
 ```
 
+#### First time
+
+1. Edit the `.env` file and fill in at least the the values that are relevant for development (see above).
+2. Run
+```bash
+yarn install
+yarn run start
+```
+
+If you have troubles with npm or yarn, try to delete the `node_modules` folder and run `yarn install` again.
+
 #### upgrade Docusaurus
 
 ```bash
