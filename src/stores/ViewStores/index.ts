@@ -147,13 +147,13 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
             return;
         }
         this._semesterId = semester.id;
-        this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester).then((data) => {
-            // if (this._semesterId === semester.id && Array.isArray(data) && data.length > 0) {
-            //     this.eventTable.setOnlyMine(true);
-            // } else {
-            //     this.eventTable.setOnlyMine(false);
-            // }
-        });
+        // this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester).then((data) => {
+        //     // if (this._semesterId === semester.id && Array.isArray(data) && data.length > 0) {
+        //     //     this.eventTable.setOnlyMine(true);
+        //     // } else {
+        //     //     this.eventTable.setOnlyMine(false);
+        //     // }
+        // });
     }
 
     @action

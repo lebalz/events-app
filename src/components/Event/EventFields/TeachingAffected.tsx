@@ -34,7 +34,6 @@ const TitleMap: {[key in TeachingAffectedType]: string} = {
 
 const TeachingAffected = observer((props: Props) => {
     const { event, show } = props;
-    console.log(props);
     return (
         <div 
             style={{gridColumn: 'teachingAffected'}}
