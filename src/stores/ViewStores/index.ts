@@ -164,6 +164,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @computed
+    get loggedIn(): boolean {
+        return this.root.sessionStore.loggedIn;
+    }
+
+    @computed
     get user(): User | undefined {
         if (!this._userId) {
             return this.root.userStore.current;

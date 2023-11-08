@@ -96,9 +96,8 @@
     }
 
     .group {
-        // color: var(--ifm-color-primary-lighter);
-        color: #be09b4; 
-        background: var(--ifm-color-secondary-darker);
+        color: var(--ifm-navbar-link-hover-color);
+        background: var(--ifm-navbar-background-color);
         cursor: pointer;
         display: flex;
         font-size: calc(.875rem * var(--ifm-button-size-multiplier));
@@ -110,10 +109,7 @@
         position: sticky;
         top: 32px;
         z-index: 1;
-
-        &:hover {
-            background: var(--ifm-color-secondary-darkest);
-        }
+        box-shadow: var(--header-shadow);
     }
 }
 
@@ -150,6 +146,11 @@
         .grid {
             .actions {
                 border-color: var(--ifm-color-primary-darkest);
+            }
+            .group {
+                color: var(--ifm-navbar-link-hover-color);
+                background: var(--ifm-navbar-background-color);
+                box-shadow: 0 3px 8px #080008a8;
             }
         }
     }

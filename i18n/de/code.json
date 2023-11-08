@@ -395,7 +395,7 @@
     "description": "End of event must be after start"
   },
   "joi.event.description": {
-    "message": "Stichworte"
+    "message": "Suche"
   },
   "joi.event.description.empty": {
     "message": "Stichworte dürfen nicht leer sein",
@@ -863,5 +863,37 @@
   },
   "navbar.item.label.admin": {
     "message": "Admin"
+  },
+  "event.teachingAffected": {
+    "message": "Unterricht Betroffen?",
+    "description": "for a single event: teaching affected?"
+  },
+  "eventField.teachingAffected.no": {
+    "message": "Nein",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial": {
+    "message": "Teilweise",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes": {
+    "message": "Ja",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.no.title": {
+    "message": "Betrifft den Unterricht nicht",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial.title": {
+    "message": "Unterricht teilweise betroffen",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes.title": {
+    "message": "Unterricht betroffen",
+    "description": "Label for the Event Field"
+  },
+  "eventGrid.header.teachingAffected.title": {
+    "message": "Unterricht betroffen?",
+    "description": "Message when hovering the icon"
   }
 }

@@ -77,7 +77,7 @@ yarn write-translations --locale de
 yarn write-translations --locale fr
 ```
 
-existing translations will not be overwritten, except you pass the `--overwrite` flag.
+existing translations will not be overwritten, except you pass the `--override` flag.
 
 After updating the translations, make sure to update the new keys (you can see in git, which keys are new...)
 

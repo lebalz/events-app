@@ -30,12 +30,16 @@ const Filter = observer((props: Props) => {
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.basic)}>
                 <div className={clsx(styles.audience, 'button-group', 'button-group--block')}>
-                    <Button
-                        text={translate({ message: 'Meine', id: 'event.filter.mine', description: 'Filter: Only events affecting me' })}
-                        active={eventTable.onlyMine}
-                        color='blue'
-                        onClick={() => eventTable.toggleOnlyMine()}
-                    />
+                    {
+                        !!viewStore.user && (
+                            <Button
+                                text={translate({ message: 'Meine', id: 'event.filter.mine', description: 'Filter: Only events affecting me' })}
+                                active={eventTable.onlyMine}
+                                color='blue'
+                                onClick={() => eventTable.toggleOnlyMine()}
+                            />
+                        )
+                    }
                     {eventTable.showCurrentAndFutureFilter && props.showCurrentAndFuture && (
                         <Button
                             text={translate({ message: 'Künftige', id: 'event.filter.future', description: 'Filter: Only current and future events' })}
@@ -47,7 +51,7 @@ const Filter = observer((props: Props) => {
                 </div>
                 <div className={clsx(styles.classes, styles.fuzzyFilter)}>
                     <TextInput
-                        placeholder={translate({ message: 'Stichworte', id: 'joi.event.description' })}
+                        placeholder={translate({ message: 'Suche', id: 'joi.event.description' })}
                         onChange={(txt) => eventTable.setTextFilter(txt)} 
                         text={eventTable.klassFilter} 
                     />
