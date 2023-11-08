@@ -28,6 +28,10 @@ interface DepartmentState {
     allDepartmentsFr: boolean;
 }
 
+const currentKW = getKW(new Date());
+const currentYear = new Date().getFullYear();
+export const CURRENT_YYYY_KW = `${currentYear}-${currentKW}`;
+
 export default class Event extends ApiModel<EventProps, ApiAction> implements iEvent {
     readonly store: EventStore;
     readonly _pristine: EventProps;
@@ -84,9 +88,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable
     end: Date;
-
-    @observable
-    affectsCurrent: boolean;
 
     @observable
     deletedAt?: Date;
@@ -652,6 +653,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get kwEnd() {
         return getKW(this.end);
+    }
+
+    get isCurrentWeek() {
+        return this.yearsKw === CURRENT_YYYY_KW;
+    }
+
+    @computed
+    get isToday() {
+        return this.fStartDate === formatDate(new Date()) || dateBetween(new Date(), this.start, this.end);
     }
 
     /**

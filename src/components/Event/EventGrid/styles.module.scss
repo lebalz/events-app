@@ -54,9 +54,22 @@
         }
 
         background-color: var(--ifm-color-emphasis-0);
+        &.currentWeek:not(.actions) {
+            background-color: #fbfb4718;
+            &.today {
+                background-color: #85ff7c20;
+            }
+        }
 
         &.odd {
             background: var(--ifm-color-emphasis-100);
+            
+            &.currentWeek:not(.actions) {
+                background-color: #fbfb4733;
+                &.today {
+                    background-color: #85ff7c3d;
+                }
+            }
         }
 
         &.header {
@@ -93,6 +106,8 @@
                 padding: 0;
             }
         }
+
+        
     }
 
     .group {
@@ -110,6 +125,10 @@
         top: 32px;
         z-index: 1;
         box-shadow: var(--header-shadow);
+        &.current {
+            background: #ffff94;
+            color: black;
+        }
     }
 }
 
@@ -151,6 +170,10 @@
                 color: var(--ifm-navbar-link-hover-color);
                 background: var(--ifm-navbar-background-color);
                 box-shadow: 0 3px 8px #080008a8;
+                &.current {            
+                    background: #6b6b12;
+                    color: white;
+                }
             }
         }
     }

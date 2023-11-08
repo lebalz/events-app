@@ -72,7 +72,15 @@ const Row = observer((props: Props) => {
                 const gridColumn = `${index + 1} / span ${span}`;
                 return (
                     <div
-                        className={clsx(styles.cell, (props.event.isDeleted && name !== 'actions') && styles.deleted, styles[name as string], config.className, (props.index % 2) === 1 && styles.odd)}
+                        className={clsx(
+                            styles.cell, 
+                            (props.event.isDeleted && name !== 'actions') && styles.deleted, 
+                            styles[name as string], 
+                            config.className, 
+                            (props.index % 2) === 1 && styles.odd,
+                            props.event.isToday && styles.today,
+                            props.event.isCurrentWeek && styles.currentWeek,
+                        )}
                         style={{
                             gridColumn: gridColumn,
                             maxWidth: maxWidth,

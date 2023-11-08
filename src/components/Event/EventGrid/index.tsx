@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { default as EventModel } from '@site/src/models/Event';
+import { CURRENT_YYYY_KW, default as EventModel } from '@site/src/models/Event';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Row from './Row';
@@ -9,6 +9,7 @@ import _ from 'lodash';
 import Batch from './Batch';
 import Group from './Group';
 import ColumnHeader from './ColumnHeader';
+import { getKW } from '@site/src/models/helpers/time';
 
 interface ConfigOptionsBase {
     width?: string;
@@ -69,6 +70,7 @@ export interface ViewGroup {
     type: 'group';
     groupBy: 'yearsKw';
     group: string;
+    isCurrent?: boolean;
     events?: EventModel[];
 }
 
@@ -81,7 +83,13 @@ const createGroupEvents = createTransformer<{events: EventModel[], groupBy?: 'ye
         let idx = 0;
 
         Object.keys(byGroup).sort().forEach(key => {
-            transformed.push({type: 'group', groupBy: data.groupBy, group: key.split('-')[1], events: byGroup[key]});
+            transformed.push({
+                type: 'group', 
+                groupBy: data.groupBy, 
+                group: key.split('-')[1],
+                isCurrent: key === CURRENT_YYYY_KW,
+                events: byGroup[key]
+            });
             byGroup[key].forEach(event => {
                 transformed.push({type: 'event', index: idx, model: event});
                 idx++;
