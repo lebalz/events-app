@@ -895,5 +895,9 @@
   "eventGrid.header.teachingAffected.title": {
     "message": "Unterricht betroffen?",
     "description": "Message when hovering the icon"
+  },
+  "untis.lesson.ef": {
+    "message": "EF",
+    "description": "Abbreviation of the Ergänzungsfach"
   }
 }

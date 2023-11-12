@@ -58,7 +58,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly _pristine_start: Date;
     readonly parentId: string | null;
     readonly cloned: boolean;
-    readonly versionIds: string[];
+    readonly publishedVersionIds: string[];
 
     
     @observable
@@ -137,7 +137,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
-        this.versionIds = props.versionIds;
+        this.publishedVersionIds = props.publishedVersionIds;
 
         this.parentId = props.parentId;
         this.userGroupId = props.userGroupId;
@@ -201,55 +201,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get author() {
         return this.store.root.userStore.find<User>(this.authorId);
-    }
-
-    @computed
-    get hasParent() {
-        return !!this.parentId;
-    }
-
-    @computed
-    get parent() {
-        return this.store.find<Event>(this.parentId);
-    }
-
-    @computed
-    get publishedParent(): Event | undefined {
-        let root: Event = this.parent;
-        while (root?.hasParent) {
-            root = root.parent;
-        }
-        return root;
-    }
-
-    @computed
-    get parents() {
-        if (!this.parentId) {
-            return []
-        }
-        return [this.parent, ...this.parent.parents];
-    }
-
-    @computed
-    get allVersions() {
-        const root = this.publishedParent || this;
-        const all = [root, ...root.descendants];
-        return _.orderBy(all, ['createdAt'], ['asc']);
-    }
-
-    @computed
-    get descendants() {
-        return this.children.map(c => [c, ...c.descendants]).flat();
-    }
-
-    @computed
-    get children() {
-        return this.store.events.filter(e => e.parentId === this.id);
-    }
-
-    @computed
-    get hasChildren() {
-        return this.children.length > 0;
     }
 
     @computed
@@ -921,14 +872,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             subjects: this.audience === EventAudience.LP ? [...this.subjects] : [],
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
-            versionIds: this.versionIds,
+            publishedVersionIds: this.publishedVersionIds,
             deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null
         }
     }
 
     @computed
     get versionNumber() {
-        return this.allVersions.indexOf(this) + 1;
+        return this.publishedVersionIds.length + 1;
     }
 
     @action
@@ -939,8 +890,65 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get publishedVersions() {
+        return this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    }
+
+    @computed
     get versions() {
-        return this.versionIds.map(id => this.store.find<Event>(id)).filter(e => !!e).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+        if (!this.store.root.userStore.current?.isAdmin) {
+            return this.publishedVersions;
+        }
+        return this.allVersions;
+    }
+
+    @computed
+    get hasParent() {
+        return !!this.parentId;
+    }
+
+    @computed
+    get parent() {
+        return this.store.find<Event>(this.parentId);
+    }
+
+    @computed
+    get publishedParent(): Event | undefined {
+        let root: Event = this.parent;
+        while (root?.hasParent) {
+            root = root.parent;
+        }
+        return root;
+    }
+
+    @computed
+    get parents() {
+        if (!this.parentId) {
+            return []
+        }
+        return [this.parent, ...this.parent.parents];
+    }
+
+    @computed
+    get allVersions() {
+        const root = this.publishedParent || this;
+        const all = [root, ...root.descendants];
+        return _.orderBy(all, ['createdAt'], ['asc']);
+    }
+
+    @computed
+    get descendants() {
+        return this.children.map(c => [c, ...c.descendants]).flat();
+    }
+
+    @computed
+    get children() {
+        return this.store.events.filter(e => e.parentId === this.id);
+    }
+
+    @computed
+    get hasChildren() {
+        return this.children.length > 0;
     }
 
     @computed

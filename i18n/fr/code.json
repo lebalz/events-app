@@ -863,5 +863,9 @@
   },
   "navbar.item.label.admin": {
     "message": "Admin"
+  },
+  "untis.lesson.ef": {
+    "message": "OC",
+    "description": "Abbreviation of the Ergänzungsfach"
   }
 }

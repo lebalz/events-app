@@ -36,7 +36,11 @@ const Actions = observer((props: Props) => {
                 <Button
                     title='Übersicht Öffnen'
                     icon={<Icon path={mdiArrowExpandAll} color="blue" size={SIZE_S} />}
-                    onClick={() => viewStore.setEventModalId(event.id)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        viewStore.setEventModalId(event.id);
+                    }}
                 />
                 {
                     event.isEditable && !event.isEditing && (
