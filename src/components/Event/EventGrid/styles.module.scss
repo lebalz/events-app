@@ -54,20 +54,20 @@
         }
 
         background-color: var(--ifm-color-emphasis-0);
+
         &.currentWeek:not(.actions) {
-            background-color: #fbfb4718;
+            background: var(--color-current-week-even-background);
             &.today {
-                background-color: #85ff7c20;
+                background: var(--color-today-even-background);
             }
         }
 
         &.odd {
-            background: var(--ifm-color-emphasis-100);
-            
+            background: var(--ifm-color-emphasis-100);            
             &.currentWeek:not(.actions) {
-                background-color: #fbfb4733;
+                background: var(--color-current-week-odd-background);
                 &.today {
-                    background-color: #85ff7c3d;
+                    background: var(--color-today-odd-background);
                 }
             }
         }
@@ -126,8 +126,8 @@
         z-index: 1;
         box-shadow: var(--header-shadow);
         &.current {
-            background: #ffff94;
-            color: black;
+            background: var(--ifm-color-primary);
+            color: var(--ifm-button-color);
         }
     }
 }
@@ -161,7 +161,6 @@
 [data-theme='dark'] {
     .scroll {
         --header-shadow: 0 3px var(--header-shadow-blur) rgba(255, 255, 255, 0.1);
-
         .grid {
             .actions {
                 border-color: var(--ifm-color-primary-darkest);
@@ -170,9 +169,9 @@
                 color: var(--ifm-navbar-link-hover-color);
                 background: var(--ifm-navbar-background-color);
                 box-shadow: 0 3px 8px #080008a8;
-                &.current {            
-                    background: #6b6b12;
-                    color: white;
+                &.current {
+                    background: var(--ifm-color-primary);
+                    color: var(--ifm-button-color);
                 }
             }
         }

@@ -28,6 +28,12 @@
   --ifm-color-disabled: #6e6e6e;
   /*default badge background*/
   --ifm-badge-background-color: var(--ifm-color-secondary);
+
+  
+  --color-current-week-odd-background: #7732820c;
+  --color-current-week-even-background: #7732821e;
+  --color-today-even-background: #85ff7c20;
+  --color-today-odd-background: #85ff7c3d;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -41,6 +47,7 @@
   --ifm-color-primary-lightest: #ebd8ff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --ifm-color-disabled: #6e6e6e;
+  --color-current-week-even-background: #7732823a;
   .rbc-toolbar {
     color: var(--ifm-font-color-base);
     button {
