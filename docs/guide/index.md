@@ -62,3 +62,17 @@ messages={{
         id: 'my-events.tab.review'})
     }>
 ```
+
+### Travailler sur une nouvelle branche sur le dépôt original
+
+    git clone git@github.com:lebalz/events-app.git events-app
+    cd events-app
+    git checkout -b "nom-de-la-nouvelle-branche"
+    # Maintenant sur la nouvelle branche
+    # travailler et faire des commits
+    # et lors du premier push
+    git push -u origin neuer-branch-name
+    # continuer à travailler...
+    # pour les push suivants :
+    git push
+

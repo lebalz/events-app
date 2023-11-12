@@ -39,13 +39,23 @@ const User = observer((props: Props) => {
     return (
         <div className={clsx(styles.container)}>
             <DefinitionList>
-                <dt><Badge text="Login" icon={mdiAccountCircleOutline} iconSide={iconSide} color='gray' /></dt>
+                <dt><Badge text={translate({
+                        message : "Login",
+                        id:'components.user.index.login' ,
+                        description:'Button Login'})} icon={mdiAccountCircleOutline} iconSide={iconSide} color='gray' /></dt>
                 <dd>{user.email}</dd>
 
-                <dt><Badge text="Untis Account" icon={mdiLink} iconSide={iconSide} color='gray' /></dt>
+                <dt><Badge text={translate({
+                        message : "Untis Account",
+                        id:'components.user.index.untis.account.button' ,
+                        description:'Button Untis Account'})}
+                        icon={mdiLink} iconSide={iconSide} color='gray' /></dt>
                 <dd><UntisLinker user={current} /></dd>
 
-                <dt><Badge text="Kalender" icon={<Calendar />} iconSide={iconSide} color='gray' /></dt>
+                <dt><Badge text={translate({
+                        message : "Calendar",
+                        id:'components.user.index.calendar' ,
+                        description:'Button Calendar'})} icon={<Calendar />} iconSide={iconSide} color='gray' /></dt>
                 <dd>
                     <div>
                         <div className={clsx(styles.ical)}>
@@ -73,17 +83,29 @@ const User = observer((props: Props) => {
                     </div>
                 </dd>
 
-                <dt><Badge text="Events" icon={mdiCalendarBlankMultiple} iconSide={iconSide} color='gray' /></dt>
+                <dt><Badge text={translate({
+                        message : "Events",
+                        id:'components.user.index.events' ,
+                        description:'Button Events'})} icon={mdiCalendarBlankMultiple} iconSide={iconSide} color='gray' /></dt>
                 <dd>{user.events.length}</dd>
 
                 {
                     user.untisTeacher && (
                         <>
-                            <dt><Badge text="Schulen" icon={mdiOfficeBuilding} iconSide={iconSide} color='gray' /></dt>
+                            <dt><Badge text={translate({
+                        message : "Schools",
+                        id:'components.user.index.schools' ,
+                        description:'Button Schools'})} icon={mdiOfficeBuilding} iconSide={iconSide} color='gray' /></dt>
                             <dd>{[...new Set(user.untisTeacher.departments.map(d => d.name))].join(', ')}</dd>
-                            <dt><Badge text="Klassen" icon={mdiAccountGroup} iconSide={iconSide} color='gray' /></dt>
+                            <dt><Badge text={translate({
+                        message : "Class",
+                        id:'components.user.index.classes' ,
+                        description:'Button class'})} icon={mdiAccountGroup} iconSide={iconSide} color='gray' /></dt>
                             <dd>{classes}</dd>
-                            <dt><Badge text="Fächer" icon={mdiSchool} iconSide={iconSide} color='gray' /></dt>
+                            <dt><Badge text={translate({
+                        message : "Subjects",
+                        id:'components.user.index.subjects' ,
+                        description:'Button subjects'})} icon={mdiSchool} iconSide={iconSide} color='gray' /></dt>
                             <dd>{[...new Set(user.untisTeacher.lessons.map(l => l.subject))].join(', ')}</dd>
                         </>
                     )

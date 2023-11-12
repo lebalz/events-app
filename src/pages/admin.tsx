@@ -32,8 +32,16 @@ const AdminView = observer(() => {
             <main>
                 <div className='hero hero--primary'>
                     <div className='container'>
-                        <h1 className='hero__title'>Nur für Admins</h1>
-                        <p className='hero__subtitle'>Nur für Administratoren zugänglicher Bereich</p>
+                        <h1 className='hero__title'>
+                            <Translate id="admin.noadmin.titre" description="the title for no administrator">
+                                For administrators only
+                            </Translate>
+                        </h1>
+                        <p className='hero__subtitle'>
+                            <Translate id="admin.noadmin.text" description="">
+                                Area reserved for administrators
+                            </Translate>
+                        </p>
                     </div>
                 </div>
             </main>

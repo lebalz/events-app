@@ -326,16 +326,24 @@
     "message": "Afficher toutes les leçons concernées",
     "description": "for a single event: button to show all affected lessons"
   },
+  "admin.noadmin.titre": {
+    "message": "Zone administration",
+    "description": "the title for no administrator"
+  },
+  "admin.noadmin.text": {
+    "message": "Zone réservée aux administateurs",
+    "description": "The text for not administrator"
+  },
   "admin.userTable.th.email": {
     "message": "Email",
     "description": "th: email"
   },
   "admin.userTable.th.role": {
-    "message": "Rouleau",
+    "message": "Rôle",
     "description": "th: role"
   },
   "admin.userTable.th.shortName": {
-    "message": "Abréviation",
+    "message": "Sigle",
     "description": "th: shortName"
   },
   "admin.userTable.th.createdAt": {
@@ -863,5 +871,57 @@
   },
   "navbar.item.label.admin": {
     "message": "Admin"
+  },
+  "components.user.index.untis.account.button": {
+    "message": "Compte Untis"
+  },
+  "components.user.index.login": {
+    "message": "Identifiant"
+  },
+  "components.user.index.calendar": {
+    "message": "Calendrier"
+  },
+  "components.user.index.events": {
+    "message": "Évènements"
+  },
+  "components.user.index.schools": {
+    "message": "Écoles"
+  },
+  "components.user.index.classes": {
+    "message": "Classes"
+  },
+  "components.user.index.subjects": {
+    "message": "Disciplines"
+  },
+  "components.event.usersevents.index.tabitem.notpublished": {
+    "message": "Évènements non publiés"
+  },
+  "components.event.usersevents.index.header.notpublished": {
+    "message": "Non publiés"
+  },
+  "components.event.usersevents.index.tabitem.reviewed": {
+    "message": "Évènements en révision"
+  },
+  "components.event.usersevents.index.header.reviewed": {
+    "message": "En révision"
+  },
+  "components.event.usersevents.index.tabitem.admin": {
+    "message": "Admin"
+  },
+  "components.event.usersevents.index.header.admin": {
+    "message": "En attente de révision"
+  },
+  "components.event.usersevents.index.tabitem.published": {
+    "message": "Évènements publiés"
+  },
+  "components.event.usersevents.index.header.published": {
+    "message": "Publiés"
+  },
+  "components.event.usersevents.index.tabitem.deleted": {
+    "message": "Évènements supprimés"
+  },
+  "components.event.usersevents.index.header.deleted": {
+    "message": "Supprimés"
   }
+
 }
