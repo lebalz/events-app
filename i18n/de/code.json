@@ -899,5 +899,85 @@
   "untis.lesson.ef": {
     "message": "EF",
     "description": "Abbreviation of the Ergänzungsfach"
+  },
+  "admin.noadmin.titre": {
+    "message": "For administrators only",
+    "description": "the title for no administrator"
+  },
+  "admin.noadmin.text": {
+    "message": "Area reserved for administrators",
+    "description": "the description text for no admins"
+  },
+  "components.user.index.login": {
+    "message": "Login",
+    "description": "Button Login"
+  },
+  "components.user.index.untis.account.button": {
+    "message": "Untis Account",
+    "description": "Button Untis Account"
+  },
+  "components.user.index.calendar": {
+    "message": "Calendar",
+    "description": "Button Calendar"
+  },
+  "user.ical.outlook.calendar-name": {
+    "message": "GBSL",
+    "description": "Name of the calendar in Outlook"
+  },
+  "components.user.index.events": {
+    "message": "Events",
+    "description": "Button Events"
+  },
+  "components.user.index.schools": {
+    "message": "Schools",
+    "description": "Button Schools"
+  },
+  "components.user.index.classes": {
+    "message": "Class",
+    "description": "Button class"
+  },
+  "components.user.index.subjects": {
+    "message": "Subjects",
+    "description": "Button subjects"
+  },
+  "components.event.usersevents.index.tabitem.notpublished": {
+    "message": "Not published",
+    "description": "Text not published"
+  },
+  "components.event.usersevents.index.header.notpublished": {
+    "message": "Not published",
+    "description": "Th: not published"
+  },
+  "components.event.usersevents.index.tabitem.reviewed": {
+    "message": "Not published",
+    "description": "Events reviewed"
+  },
+  "components.event.usersevents.index.header.reviewed": {
+    "message": "Reviewed",
+    "description": "Events reviewed"
+  },
+  "components.event.usersevents.index.tabitem.admin": {
+    "message": "Admin",
+    "description": "Events admin"
+  },
+  "components.event.usersevents.index.header.admin": {
+    "message": "Review Anfragen für Admin",
+    "description": "Events admin"
+  },
+  "components.event.usersevents.index.tabitem.published": {
+    "message": "Veröffentlicht",
+    "description": "Events published"
+  },
+  "components.event.usersevents.index.header.published": {
+    "message": "Veröffentlicht",
+    "description": "Th : Events published"
+  },
+  "components.event.usersevents.index.tabitem.deleted": {
+    "message": "",
+    "description": "Events deleted"
+  },
+  "components.event.usersevents.index.header.deleted": {
+    "message": "Gelöscht",
+    "description": "Th: Events deleted"
   }
 }
