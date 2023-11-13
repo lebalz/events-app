@@ -941,19 +941,19 @@
     "description": "Button subjects"
   },
   "components.event.usersevents.index.tabitem.notpublished": {
-    "message": "Not published",
+    "message": "Unveröffentlicht",
     "description": "Text not published"
   },
   "components.event.usersevents.index.header.notpublished": {
-    "message": "Not published",
+    "message": "Unveröffentlicht",
     "description": "Th: not published"
   },
   "components.event.usersevents.index.tabitem.reviewed": {
-    "message": "Not published",
+    "message": "Review",
     "description": "Events reviewed"
   },
   "components.event.usersevents.index.header.reviewed": {
-    "message": "Reviewed",
+    "message": "Im Review",
     "description": "Events reviewed"
   },
   "components.event.usersevents.index.tabitem.admin": {
@@ -973,11 +973,15 @@
     "description": "Th : Events published"
   },
   "components.event.usersevents.index.tabitem.deleted": {
-    "message": "",
+    "message": "Gelöscht",
     "description": "Events deleted"
   },
   "components.event.usersevents.index.header.deleted": {
     "message": "Gelöscht",
     "description": "Th: Events deleted"
+  },
+  "components.event.usersevents.index.delete": {
+    "message": "Job Löschen",
+    "description": "Text to delete a job"
   }
 }

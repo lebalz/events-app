@@ -56,11 +56,10 @@ const UsersEvents = observer((props: Props) => {
             <TabItem
                 value='my-events'
                 label={translate({
-                    message: 'Not published',
+                    message: 'Unveröffentlicht',
                     id: 'components.event.usersevents.index.tabitem.notpublished',
                     description: 'Text not published'
-                })
-                }
+                })}
             >
                 <AddButton />
                 {drafts.length > 0 && (
@@ -68,7 +67,7 @@ const UsersEvents = observer((props: Props) => {
                         <div className={clsx('card__header')}>
                             <h3>{
                                 translate({
-                                    message: 'Not published',
+                                    message: 'Unveröffentlicht',
                                     id: 'components.event.usersevents.index.header.notpublished',
                                     description: 'Th: not published'
                                 })
@@ -85,7 +84,7 @@ const UsersEvents = observer((props: Props) => {
                 <TabItem
                     value='reviewed'
                     label={translate({
-                        message: 'Not published',
+                        message: 'Review',
                         id: 'components.event.usersevents.index.tabitem.reviewed',
                         description: 'Events reviewed'
                     })}
@@ -94,7 +93,7 @@ const UsersEvents = observer((props: Props) => {
                         <div className={clsx('card__header')}>
                             <h3>{
                                 translate({
-                                    message: 'Reviewed',
+                                    message: 'Im Review',
                                     id: 'components.event.usersevents.index.header.reviewed',
                                     description: 'Events reviewed'
                                 })
@@ -163,7 +162,7 @@ const UsersEvents = observer((props: Props) => {
                 <TabItem
                     value='deleted'
                     label={translate({
-                        message: '',
+                        message: 'Gelöscht',
                         id: 'components.event.usersevents.index.tabitem.deleted',
                         description: 'Events deleted'
                     })}
@@ -202,7 +201,13 @@ const UsersEvents = observer((props: Props) => {
                                         onClick={() => {
                                             jobStore.destroy(job);
                                         }}
-                                        text="Job Löschen"
+                                        text={
+                                            translate({
+                                                message: 'Job Löschen', 
+                                                id: 'components.event.usersevents.index.delete',
+                                                description: 'Text to delete a job'
+                                            })
+                                        }
                                         flyoutSide='right'
                                         iconSide='right'
                                         apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
