@@ -36,7 +36,7 @@ const Event = observer((props: Props) => {
             <div className={clsx('card__body')}>
                 {event.versionsLoaded ? (
                     <div className={clsx(styles.versions)}>
-                        {event.versions.map((version, idx) => {
+                        {event.versions.toReversed().map((version, idx) => {
                             const isLast = (idx + 1) === event.versions.length;
                             return (
                                 <React.Fragment key={idx}>

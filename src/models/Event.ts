@@ -879,7 +879,24 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get versionNumber() {
-        return this.publishedVersionIds.length + 1;
+        if (this.hasParent) {
+            let version = 0;
+            let subversion = 0;
+            this.versions.every(e => {
+                if (e.state === EventState.Published) {
+                    version++;
+                    subversion = 0;
+                } else {
+                    subversion++;
+                }
+                return e.id !== this.id;
+            });
+            if (subversion > 0) {
+                return `${version}.${subversion}`;
+            }
+            return `${version}`;
+        }
+        return `${this.publishedVersionIds.length + 1}`;
     }
 
     @action
@@ -891,7 +908,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get publishedVersions() {
-        return this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+        const all = this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e);
+        return _.orderBy(all, ['createdAt'], ['asc']);
     }
 
     @computed
@@ -931,19 +949,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get allVersions() {
-        const root = this.publishedParent || this;
+        const root: Event = this.publishedParent || this;
         const all = [root, ...root.descendants];
         return _.orderBy(all, ['createdAt'], ['asc']);
     }
 
     @computed
-    get descendants() {
-        return this.children.map(c => [c, ...c.descendants]).flat();
+    get descendants(): Event[] {
+        return this.children.flatMap<Event>(c => [c, ...c.descendants]);
     }
 
     @computed
     get children() {
-        return this.store.events.filter(e => e.parentId === this.id);
+        return this.store.findChildren(this.id);
     }
 
     @computed

@@ -49,6 +49,16 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
         { keepAlive: true }
     );
 
+    findChildren = computedFn(
+        function (this: EventStore, parentId?: string): Event[] {
+            if (!parentId) {
+                return [];
+            }
+            return this.events.filter((e) => e.parentId === parentId);
+        },
+        { keepAlive: true }
+    );
+
     byJob = computedFn(
         function (this: EventStore, jobId?: string): Event[] {
             if (!jobId) {
