@@ -332,7 +332,7 @@
   },
   "admin.noadmin.text": {
     "message": "Zone réservée aux administateurs",
-    "description": "The text for not administrator"
+    "description": "the description text for no admins"
   },
   "admin.userTable.th.email": {
     "message": "Email",
@@ -939,5 +939,9 @@
   "components.event.usersevents.index.header.deleted": {
     "message": "Supprimés",
     "description": "Th: Events deleted"
+  },
+  "user.ical.outlook.calendar-name": {
+    "message": "GBJB",
+    "description": "Name of the calendar in Outlook"
   }
 }

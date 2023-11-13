@@ -16,20 +16,20 @@ import EventGrid, { ColumnConfig } from '../EventGrid';
 import { translate } from '@docusaurus/Translate';
 const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
-    ['state', {sortable: false, width: undefined}],
+    ['state', { sortable: false, width: undefined }],
     'select',
-    ['teachingAffected', {componentProps: {show: 'icon'}}],
+    ['teachingAffected', { componentProps: { show: 'icon' } }],
     'kw',
     'day',
-    'description', 
+    'description',
     'start',
     'end',
-    ['userGroup', {sortable: true}],
-    ['location', {sortable: true}],
+    ['userGroup', { sortable: true }],
+    ['location', { sortable: true }],
     ['departmens', {}],
     ['classes', {}],
     'descriptionLong',
-    ['actions', {fixed: {right: 0}}]
+    ['actions', { fixed: { right: 0 } }]
 ];
 const COLUMN_CONFIG_ADMIN: ColumnConfig = [...COLUMN_CONFIG.slice(0, 3), 'author', ...COLUMN_CONFIG.slice(3)]
 
@@ -45,26 +45,34 @@ const UsersEvents = observer((props: Props) => {
     if (!user) {
         return null;
     }
-    const drafts = viewStore.usersEvents({ignoreImported: true, ignoreDeleted: true, states: [EventState.Draft]});
-    const reviewed = viewStore.usersEvents({ignoreImported: true, ignoreDeleted: true, states: [EventState.Review, EventState.Refused]});
-    const adminReview = user?.isAdmin ? viewStore.allEvents({states: [EventState.Review]}) : [];
-    const published = viewStore.usersEvents({ignoreImported: true, states: [EventState.Published]});
-    const deleted = viewStore.usersEvents({onlyDeleted: true});
+    const drafts = viewStore.usersEvents({ ignoreImported: true, ignoreDeleted: true, states: [EventState.Draft] });
+    const reviewed = viewStore.usersEvents({ ignoreImported: true, ignoreDeleted: true, states: [EventState.Review, EventState.Refused] });
+    const adminReview = user?.isAdmin ? viewStore.allEvents({ states: [EventState.Review] }) : [];
+    const published = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Published] });
+    const deleted = viewStore.usersEvents({ onlyDeleted: true });
 
     return (
         <Tabs lazy>
-            <TabItem value='my-events' label={translate({
-                message: 'Not published',
-                id: 'components.event.usersevents.index.tabitem.notpublished',
-                description: 'Text not published'})}>
+            <TabItem
+                value='my-events'
+                label={translate({
+                    message: 'Not published',
+                    id: 'components.event.usersevents.index.tabitem.notpublished',
+                    description: 'Text not published'
+                })
+                }
+            >
                 <AddButton />
                 {drafts.length > 0 && (
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
-                            <h3>{translate({
-                                message: 'Not published',
-                                id: 'components.event.usersevents.index.header.notpublished',
-                                description: 'Th: not published'})}</h3>
+                            <h3>{
+                                translate({
+                                    message: 'Not published',
+                                    id: 'components.event.usersevents.index.header.notpublished',
+                                    description: 'Th: not published'
+                                })
+                            }</h3>
                             <BulkActions events={drafts.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
@@ -74,54 +82,75 @@ const UsersEvents = observer((props: Props) => {
                 )}
             </TabItem>
             {reviewed.length > 0 && (
-                <TabItem value='reviewed' label={translate({
-                    message: 'Not published',
-                    id: 'components.event.usersevents.index.tabitem.reviewed',
-                    description: 'Events reviewed'})}>
+                <TabItem
+                    value='reviewed'
+                    label={translate({
+                        message: 'Not published',
+                        id: 'components.event.usersevents.index.tabitem.reviewed',
+                        description: 'Events reviewed'
+                    })}
+                >
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
-                            <h3>{translate({
-                                message: 'Reviewed',
-                                id: 'components.event.usersevents.index.header.reviewed',
-                                description: 'Events reviewed'})}</h3>
+                            <h3>{
+                                translate({
+                                    message: 'Reviewed',
+                                    id: 'components.event.usersevents.index.header.reviewed',
+                                    description: 'Events reviewed'
+                                })
+                            }</h3>
                             <BulkActions events={reviewed.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={reviewed}  columns={COLUMN_CONFIG} />
+                            <EventGrid events={reviewed} columns={COLUMN_CONFIG} />
                         </div>
                     </div>
                 </TabItem>
             )}
             {adminReview.length > 0 && (
-                <TabItem value='admin-review' label={translate({
-                    message: 'Admin',
-                    id: 'components.event.usersevents.index.tabitem.admin',
-                    description: 'Events admin'})}>
+                <TabItem
+                    value='admin-review'
+                    label={translate({
+                        message: 'Admin',
+                        id: 'components.event.usersevents.index.tabitem.admin',
+                        description: 'Events admin'
+                    })}
+                >
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
-                            <h3>{translate({
-                                message: 'Review Anfragen für Admin',
-                                id: 'components.event.usersevents.index.header.admin',
-                                description: 'Events admin'})}</h3>
+                            <h3>{
+                                translate({
+                                    message: 'Review Anfragen für Admin',
+                                    id: 'components.event.usersevents.index.header.admin',
+                                    description: 'Events admin'
+                                })}
+                            </h3>
                             <BulkActions events={adminReview.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={adminReview}  columns={COLUMN_CONFIG_ADMIN}/>
+                            <EventGrid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
                         </div>
                     </div>
                 </TabItem>
             )}
             {published.length > 0 && (
-                <TabItem value='published' label={translate({
-                    message: 'Veröffentlicht',
-                    id: 'components.event.usersevents.index.tabitem.published',
-                    description: 'Events published'})}>
+                <TabItem
+                    value='published'
+                    label={translate({
+                        message: 'Veröffentlicht',
+                        id: 'components.event.usersevents.index.tabitem.published',
+                        description: 'Events published'
+                    })}
+                >
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
-                            <h3>{translate({
-                                message: 'Veröffentlicht',
-                                id: 'components.event.usersevents.index.header.published',
-                                description: 'Th : Events published'})}</h3>
+                            <h3>{
+                                translate({
+                                    message: 'Veröffentlicht',
+                                    id: 'components.event.usersevents.index.header.published',
+                                    description: 'Th : Events published'
+                                })
+                            }</h3>
                             <BulkActions events={published.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
@@ -131,19 +160,26 @@ const UsersEvents = observer((props: Props) => {
                 </TabItem>
             )}
             {deleted.length > 0 && (
-                <TabItem value='deleted' label={translate({
-                    message: '',
-                    id: 'components.event.usersevents.index.tabitem.deleted',
-                    description: 'Events deleted'})}>
+                <TabItem
+                    value='deleted'
+                    label={translate({
+                        message: '',
+                        id: 'components.event.usersevents.index.tabitem.deleted',
+                        description: 'Events deleted'
+                    })}
+                >
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
-                            <h3>{translate({
-                                message: 'Gelöscht',
-                                id: 'components.event.usersevents.index.header.deleted',
-                                description: 'Th: Events deleted'})}</h3>
+                            <h3>{
+                                translate({
+                                    message: 'Gelöscht',
+                                    id: 'components.event.usersevents.index.header.deleted',
+                                    description: 'Th: Events deleted'
+                                })
+                            }</h3>
                         </div>
                         <div className={clsx('card__body')}>
-                            <EventGrid events={deleted}  columns={COLUMN_CONFIG}/>
+                            <EventGrid events={deleted} columns={COLUMN_CONFIG} />
                         </div>
                     </div>
                 </TabItem>
@@ -172,7 +208,7 @@ const UsersEvents = observer((props: Props) => {
                                         apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                     />
                                     <BulkActions events={events.filter(e => e.selected)} />
-                                    <EventGrid events={events}  columns={COLUMN_CONFIG} />
+                                    <EventGrid events={events} columns={COLUMN_CONFIG} />
                                 </div>
                             </LazyDetails>
                         )
