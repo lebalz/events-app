@@ -873,55 +873,71 @@
     "message": "Admin"
   },
   "components.user.index.untis.account.button": {
-    "message": "Compte Untis"
+    "message": "Compte Untis",
+    "description": "Button Untis Account"
   },
   "components.user.index.login": {
-    "message": "Identifiant"
+    "message": "Identifiant",
+    "description": "Button Login"
   },
   "components.user.index.calendar": {
-    "message": "Calendrier"
+    "message": "Calendrier",
+    "description": "Button Calendar"
   },
   "components.user.index.events": {
-    "message": "Évènements"
+    "message": "Évènements",
+    "description": "Button Events"
   },
   "components.user.index.schools": {
-    "message": "Écoles"
+    "message": "Écoles",
+    "description": "Button Schools"
   },
   "components.user.index.classes": {
-    "message": "Classes"
+    "message": "Classes",
+    "description": "Button class"
   },
   "components.user.index.subjects": {
-    "message": "Disciplines"
+    "message": "Disciplines",
+    "description": "Button subjects"
   },
   "components.event.usersevents.index.tabitem.notpublished": {
-    "message": "Évènements non publiés"
+    "message": "Évènements non publiés",
+    "description": "Text not published"
   },
   "components.event.usersevents.index.header.notpublished": {
-    "message": "Non publiés"
+    "message": "Non publiés",
+    "description": "Th: not published"
   },
   "components.event.usersevents.index.tabitem.reviewed": {
-    "message": "Évènements en révision"
+    "message": "Évènements en révision",
+    "description": "Events reviewed"
   },
   "components.event.usersevents.index.header.reviewed": {
-    "message": "En révision"
+    "message": "En révision",
+    "description": "Events reviewed"
   },
   "components.event.usersevents.index.tabitem.admin": {
-    "message": "Admin"
+    "message": "Admin",
+    "description": "Events admin"
   },
   "components.event.usersevents.index.header.admin": {
-    "message": "En attente de révision"
+    "message": "En attente de révision",
+    "description": "Events admin"
   },
   "components.event.usersevents.index.tabitem.published": {
-    "message": "Évènements publiés"
+    "message": "Évènements publiés",
+    "description": "Events published"
   },
   "components.event.usersevents.index.header.published": {
-    "message": "Publiés"
+    "message": "Publiés",
+    "description": "Th : Events published"
   },
   "components.event.usersevents.index.tabitem.deleted": {
-    "message": "Évènements supprimés"
+    "message": "Évènements supprimés",
+    "description": "Events deleted"
   },
   "components.event.usersevents.index.header.deleted": {
-    "message": "Supprimés"
+    "message": "Supprimés",
+    "description": "Th: Events deleted"
   }
-
 }
