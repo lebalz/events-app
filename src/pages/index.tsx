@@ -14,7 +14,7 @@ function HomepageHeader() {
       <div className="container">
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <video autoPlay muted loop id="myVideo" style={{ width: '100%', height: '100%', maxHeight: '1200px' }}>
+        <video autoPlay controls muted loop id="myVideo" style={{ width: '100%', height: '100%', maxHeight: '1200px' }}>
           <source src={useBaseUrl("/img/events-ruttl-de.mp4")} type="video/mp4" />
         </video>
         {/* <img src='/img/events.png' /> */}
