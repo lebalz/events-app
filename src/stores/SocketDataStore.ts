@@ -48,7 +48,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             () => this.isLive,
             action((isLive) => {
                 console.log('Socket.IO live:', isLive);
-                this.initialLoadPerformed = true;
             })
         );
     }
@@ -237,7 +236,9 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 this.reconnect();
             }
             return []
-        })
+        }).finally(() => {
+            this.initialLoadPerformed = true;
+        });
     }
 
 }

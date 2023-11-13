@@ -45,7 +45,6 @@ const GanttView = observer(() => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [timer, setTimer] = React.useState<number>(0);
     const tasks = createTasks(eventTable.events);
-    console.log('locale', CURRENT_LOCALE, ISO_639_CODES[CURRENT_LOCALE || 'de'])
     React.useEffect(() => {
         const ts = setTimeout(() => {
             const today = document.querySelector('.today');

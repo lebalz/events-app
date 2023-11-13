@@ -4,8 +4,10 @@ import { UntisLessonWithTeacher } from '../../api/untis';
 import Event, { iEvent } from '../Event';
 import { DAYS, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, getLastMonday } from '../helpers/time';
 import _ from 'lodash';
+import { translate } from '@docusaurus/Translate';
 
 const MONDAY = Object.freeze(getLastMonday());
+const EF_ABBREVS = ['EF', 'OC'] as const;
 
 const LESSON_DURATION_MS = 45 * MINUTE_2_MS;
 const SUCCESSIVE_LESSON_THRESHOLD_MS = LESSON_DURATION_MS / 2;
@@ -59,8 +61,9 @@ export default class Lesson implements iEvent {
             }
         });
         const efYears = _.uniqBy(efs, c => c?.year).map(c => c?.year);
+        const efAbbrev = translate({message: 'EF', description: 'Abbreviation of the Ergänzungsfach', id: 'untis.lesson.ef'})
         efYears.forEach((year) => {
-            klGroup[year] = `EF[${year % 100}]`;
+            klGroup[year] = `${efAbbrev}[${year % 100}]`;
         });
         return klGroup;
     }
@@ -109,7 +112,7 @@ export default class Lesson implements iEvent {
 
     @computed
     get isEF() {
-        return this.subject.startsWith('EF') || this.subject.startsWith('OC');
+        return EF_ABBREVS.some(ef => this.subject.startsWith(ef));
     }
 
     @computed

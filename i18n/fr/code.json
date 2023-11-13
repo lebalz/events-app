@@ -943,5 +943,9 @@
   "user.ical.outlook.calendar-name": {
     "message": "GBJB",
     "description": "Name of the calendar in Outlook"
+  },
+  "untis.lesson.ef": {
+    "message": "OC",
+    "description": "Abbreviation of the Ergänzungsfach"
   }
 }

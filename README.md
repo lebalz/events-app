@@ -16,11 +16,34 @@ Copy the `example.env` file to `.env` and fill in the values.
 cp example.env .env
 ```
 
+| Variable               | For         | Default                 | Example                                | Description                                                                                                                        |
+|:-----------------------|:------------|:------------------------|:---------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------|
+| REACT_APP_DOMAIN       | Production  | `http://localhost:3000` |                                        | Domain of the hosted app                                                                                                           |
+| REACT_APP_EVENTS_API   | Production  | `http://localhost:3002` |                                        | Url of the API Endpoint                                                                                                            |
+| REACT_APP_CLIENT_ID    | Production  |                         |                                        | Azure ID: Client ID                                                                                                                |
+| REACT_APP_TENANT_ID    | Production  |                         |                                        | Azure AD: Tenant Id                                                                                                                |
+| REACT_APP_API_URI      | Production  |                         |                                        | Azure AD: API Url                                                                                                                  |
+| REACT_APP_UMAMI_ID     | Production  |                         |                                        | For user stats                                                                                                                     |
+| CROWDIN_PERSONAL_TOKEN | Production  |                         |                                        | Used to download translations during build step. (Not used currently)                                                              |
+| TEST_USER_ID           | Development |                         | `9fe3404a-f21c-4327-9f5a-c2818308fed4` | To log in offline. Must be the same as `ADMIN_ID` or `USER_ID` in [👉 Dev-Backend](https://github.com/lebalz/events-api#env)       |
+| TEST_USERNAME          | Development |                         | `admin.bar@bazz.ch`                    | To log in offline. Must be the same as `ADMIN_EMAIL` or `USER_EMAIL` in [👉 Dev-Backend](https://github.com/lebalz/events-api#env) |
+
 ### Local Development
 
 ```
 $ yarn run start
 ```
+
+#### First time
+
+1. Edit the `.env` file and fill in at least the the values that are relevant for development (see above).
+2. Run
+```bash
+yarn install
+yarn run start
+```
+
+If you have troubles with npm or yarn, try to delete the `node_modules` folder and run `yarn install` again.
 
 #### upgrade Docusaurus
 
@@ -37,7 +60,7 @@ Set the env variables `TEST_USERNAME` to a valid (existing!) user email.
 or you could too provide the variable as direct arguments to the start script:
 
 ```bash
-TEST_USERNAME="Reto.Holz@gbsl.ch" yarn run start
+TEST_USERNAME="Reto.Holz@gbsl.ch" TEST_USER_ID="9fe3404a-f21c-4327-9f5a-c2818308fed4" yarn run start
 ```
 
 and make sure, that the user `Reto.Holz@gbsl.ch` exists on your local api.
@@ -54,7 +77,7 @@ yarn write-translations --locale de
 yarn write-translations --locale fr
 ```
 
-existing translations will not be overwritten, except you pass the `--overwrite` flag.
+existing translations will not be overwritten, except you pass the `--override` flag.
 
 After updating the translations, make sure to update the new keys (you can see in git, which keys are new...)
 

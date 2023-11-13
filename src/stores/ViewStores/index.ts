@@ -147,13 +147,13 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
             return;
         }
         this._semesterId = semester.id;
-        this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester).then((data) => {
-            // if (this._semesterId === semester.id && Array.isArray(data) && data.length > 0) {
-            //     this.eventTable.setOnlyMine(true);
-            // } else {
-            //     this.eventTable.setOnlyMine(false);
-            // }
-        });
+        // this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester).then((data) => {
+        //     // if (this._semesterId === semester.id && Array.isArray(data) && data.length > 0) {
+        //     //     this.eventTable.setOnlyMine(true);
+        //     // } else {
+        //     //     this.eventTable.setOnlyMine(false);
+        //     // }
+        // });
     }
 
     @action
@@ -161,6 +161,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         const offset = direction > 0 ? -1 : 1;
         const semester = this.root.semesterStore.nextSemester(this.semesterId, offset);
         this.setSemester(semester);
+    }
+
+    @computed
+    get loggedIn(): boolean {
+        return this.root.sessionStore.loggedIn;
     }
 
     @computed

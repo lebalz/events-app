@@ -8,6 +8,7 @@ import { formatDate } from '@site/src/models/helpers/time';
 
 
 interface Props extends ViewGroup {
+    isCurrent?: boolean;
 }
 
 
@@ -19,7 +20,7 @@ const Group = observer((props: Props) => {
     return (
         <div
             key={`group-${props.group}`}
-            className={clsx(styles.group)}
+            className={clsx(styles.group, props.isCurrent && styles.current)}
             style={{
                 gridColumn: '1 / -1',
             }} 

@@ -167,6 +167,9 @@ export class RootStore {
         this.semesterizedStores.forEach((store) => {
             store.load(semesterId);
         });
+        if (this.sessionStore.loggedIn) {
+            this.userStore.loadAffectedEventIds(this.userStore.current, this.semesterStore.currentSemester);
+        }
     }
 }
 
