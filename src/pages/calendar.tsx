@@ -59,6 +59,7 @@ const Calendar = observer(() => {
                 <Filter />
                 {tasks.length > 0 && (
                     <BigCalendar
+                        defaultView='week'
                         defaultDate={defaultDate}
                         localizer={localizer}
                         events={tasks}
