@@ -25,7 +25,6 @@ const Audience = observer((props: Props) => {
                 className={clsx(styles.audience, 'grid-audience', props.className)}
             >
                 <AudiencePicker event={event} />
-                {/* <SubjectSelector event={event} styles={styles}/> */}
             </div>
         )
     }

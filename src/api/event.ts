@@ -73,7 +73,6 @@ export interface PrismaEvent {
     parentId: string | null
     userGroupId: string | null
     teachingAffected: TeachingAffected
-    subjects: string[]
     createdAt: string
     updatedAt: string
     deletedAt?: string
@@ -106,11 +105,6 @@ export const JoiEvent = Joi.object<Event>({
     jobId: Joi.string().allow(null),
     audience: Joi.string().valid(...Object.values(EventAudience)).required(),
     teachingAffected: Joi.string().valid(...Object.values(TeachingAffected)).required(),
-    subjects: Joi.array().items(Joi.string()).when('teachersOnly', {
-        is: true,
-        then: Joi.required(),
-        otherwise: Joi.array().empty().required()
-    }),
     parentId: Joi.string().allow(null),
     publishedVersionIds: Joi.array().items(Joi.string()).required(),
     userGroupId: Joi.string().allow(null),

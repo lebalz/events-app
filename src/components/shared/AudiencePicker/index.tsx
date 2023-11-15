@@ -1,5 +1,5 @@
 
-import React, { KeyboardEventHandler } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
@@ -10,12 +10,10 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import Department from './Department';
-import Checkbox from '../Checkbox';
 import Button from '../Button';
 import _ from 'lodash';
 import ClassSelector from './ClassSelector';
 import Translate, { translate } from '@docusaurus/Translate';
-import SubjectSelector from '../../Event/EventFields/SubjectSelector';
 import { EventAudience, TeachingAffected } from '@site/src/api/event';
 import { mdiDotsHorizontalCircleOutline } from '@mdi/js';
 
@@ -89,8 +87,6 @@ const AudiencePicker = observer((props: Props) => {
                     </div>
                 </div>
             </div>
-            {/* <h4>Fächer</h4>
-            <SubjectSelector event={event} styles={styles} /> */}
             <h4>Schulen/Klassen</h4>
             <div className={clsx(styles.flex)}>
                 <Button

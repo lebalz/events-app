@@ -46,7 +46,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classes',
         'departmentIds',
         'userGroupId',
-        'subjects',
         'teachingAffected'
     ];
     readonly id: string;
@@ -74,7 +73,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     departmentIds = observable.set<string>([]);
     classes = observable.set<KlassName>([]);
-    subjects = observable.set<string>([]);
     classGroups = observable.set<string>([]);
 
     @observable
@@ -133,7 +131,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
         this.audience = props.audience;
-        this.subjects.replace(props.subjects);
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
@@ -286,11 +283,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
 
         this.normalizeAffectedClasses();
-    }
-
-    @action
-    setSubjects(subjects: string[]) {
-        this.subjects.replace(subjects);
     }
 
     @action
@@ -869,7 +861,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             cloned: this.cloned,
             userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
-            subjects: this.audience === EventAudience.LP ? [...this.subjects] : [],
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
