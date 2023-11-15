@@ -9,13 +9,13 @@ import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
 import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiMicrosoftOutlook, mdiOfficeBuilding, mdiSchool, mdiSync } from '@mdi/js';
 import UntisLinker from './UntisLinker';
-import { Calendar, SIZE_S, SIZE_XS } from '../shared/icons';
+import { Calendar, SIZE_S } from '../shared/icons';
 import { EVENTS_API } from '@site/src/authConfig';
 import Button from '../shared/Button';
-import Klass from '@site/src/models/Untis/Klass';
 import Lesson from '@site/src/models/Untis/Lesson';
 import { ApiState } from '@site/src/stores/iStore';
 import { translate } from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 
 interface Props {
@@ -24,10 +24,12 @@ interface Props {
 
 
 const User = observer((props: Props) => {
+    const { i18n } = useDocusaurusContext();
     const { user } = props;
     const userStore = useStore('userStore');
     const current = user;
     const iconSide = 'right';
+    const {currentLocale} = i18n;
 
     const classes = React.useMemo(() => {
         const klGroups = Lesson.GroupedClassesByYear(user.untisTeacher?.lessons || [], 10);
@@ -81,7 +83,7 @@ const User = observer((props: Props) => {
                 <dd>
                     <div>
                         <div className={clsx(styles.ical)}>
-                            {user.icalUrl && `${EVENTS_API}/ical/${user.icalUrl}`}
+                            {user.icalUrl && `${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}`}
                         </div>
                         <div className={clsx(styles.icalButtons)}>
                             <Button
@@ -94,7 +96,7 @@ const User = observer((props: Props) => {
                                 disabled={userStore.apiStateFor('createIcs') === ApiState.LOADING}
                             />
                             <Button
-                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${user.icalUrl}&name=${translate({message: 'GBSL', id: 'user.ical.outlook.calendar-name', description: 'Name of the calendar in Outlook'})}`}
+                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}&name=${translate({message: 'GBSL', id: 'user.ical.outlook.calendar-name', description: 'Name of the calendar in Outlook'})}`}
                                 target='_blank'
                                 text={translate({message: 'Outlook', id: 'user.ical.outlook-button.text', description: 'Button text for adding the calendar to Outlook'})}
                                 title={translate({message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook'})}

@@ -20,7 +20,6 @@ import DateTime, { EndDateTime, StartDateTime } from './EventFields/DateTime';
 import Location from './EventFields/Location';
 import Audience from './EventFields/Audience';
 import State from './EventFields/State';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
 import Departments from './EventFields/Departments';

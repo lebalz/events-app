@@ -128,10 +128,14 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {deleted.length > 0 && (
-                        <TabItem value='deleted' label={
-                            translate({
-                                message: 'VeröGelöschtffentlicht',
-                                id: 'my-events.tab.deleted'})}
+                        <TabItem 
+                            value='deleted'
+                            label={
+                                translate({
+                                    message: 'Gelöscht',
+                                    id: 'my-events.tab.deleted'
+                                })
+                            }
                         >
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>

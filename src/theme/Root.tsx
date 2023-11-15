@@ -6,7 +6,7 @@ import { msalInstance, TENANT_ID } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { useLocation, useHistory } from "@docusaurus/router";
+import { useLocation } from "@docusaurus/router";
 const { TEST_USERNAME, TEST_USER_ID } = siteConfig.customFields as { TEST_USERNAME?: string, TEST_USER_ID?: string };
 
 const useTestUserNoAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0;
@@ -85,7 +85,6 @@ const Msal = observer(({ children }: any) => {
 
 // Default implementation, that you can customize
 function Root({ children }) {
-  const { i18n } = useDocusaurusContext();
   const location = useLocation();
   React.useEffect(() => {
     if (window) {
