@@ -143,8 +143,8 @@ const User = observer((props: Props) => {
                     />
                 </dt>
                 <dd>
-                    <div>
-                        <div className={clsx('card')}>
+                    <div className={clsx(styles.icalSettings)}>
+                        <div className={clsx('card', styles.personal, styles.card)}>
                             <div className={clsx('card__header')}>
                                 <h5>
                                     <Translate id="ical.section.personal" description='personal ical sync address'>
@@ -160,6 +160,7 @@ const User = observer((props: Props) => {
                                             text={translate({ message: 'Outlook', id: 'user.ical.outlook-button.text', description: 'Button text for adding the calendar to Outlook' })}
                                             title={translate({ message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook' })}
                                             icon={mdiMicrosoftOutlook}
+                                            color={'primary'}
                                             size={SIZE_S}
                                         />
                                         <Button
@@ -177,7 +178,7 @@ const User = observer((props: Props) => {
                                     </div>
                             </div>
                         </div>
-                        <div className={clsx('card')}>
+                        <div className={clsx('card', styles.card)}>
                             <div className={clsx('card__header')}>
                                 <h5>
                                     <Translate id="ical.section.departments" description='departments ical sync address'>
@@ -206,7 +207,7 @@ const User = observer((props: Props) => {
                                 ))}
                             </div>
                         </div>
-                        <div className={clsx('card')}>
+                        <div className={clsx('card', styles.card)}>
                             <div className={clsx('card__header')}>
                                 <h5>
                                     <Translate id="ical.section.classes" description='classes ical sync address'>
