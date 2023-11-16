@@ -995,5 +995,13 @@
   "ical.section.classes": {
     "message": "Klassen Kalender",
     "description": "classes ical sync address"
+  },
+  "event.bulk_actions.pubslish": {
+    "message": "Veröffentlichen",
+    "description": "Publish Event"
+  },
+  "event.bulk_actions.refuse": {
+    "message": "Zurückweisen",
+    "description": "Refuse Event review"
   }
 }
