@@ -23,4 +23,15 @@
     .icalButtons {
         display: flex;
     }
+
+    .icalWrapper {
+        max-height: 20em;
+        overflow-y: auto;
+        .publicIcal  {
+            display: flex;
+            .icalButton {
+                flex-basis: 7em;
+            }
+        }
+    }
 }

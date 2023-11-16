@@ -917,7 +917,7 @@
     "description": "Button Untis Account"
   },
   "components.user.index.calendar": {
-    "message": "Calendar",
+    "message": "Kalender Abonnieren",
     "description": "Button Calendar"
   },
   "user.ical.outlook.calendar-name": {
@@ -929,15 +929,15 @@
     "description": "Button Events"
   },
   "components.user.index.schools": {
-    "message": "Schools",
+    "message": "Schulen",
     "description": "Button Schools"
   },
   "components.user.index.classes": {
-    "message": "Class",
+    "message": "Klassen",
     "description": "Button class"
   },
   "components.user.index.subjects": {
-    "message": "Subjects",
+    "message": "Fächer",
     "description": "Button subjects"
   },
   "components.event.usersevents.index.tabitem.notpublished": {
@@ -983,5 +983,17 @@
   "components.event.usersevents.index.delete": {
     "message": "Job Löschen",
     "description": "Text to delete a job"
+  },
+  "ical.section.personal": {
+    "message": "Persönlicher Kalender",
+    "description": "personal ical sync address"
+  },
+  "ical.section.departments": {
+    "message": "Abteilungs-Kalender",
+    "description": "departments ical sync address"
+  },
+  "ical.section.classes": {
+    "message": "Klassen Kalender",
+    "description": "classes ical sync address"
   }
 }

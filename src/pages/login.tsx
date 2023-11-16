@@ -30,7 +30,7 @@ const Login = observer(() => {
     const { current } = userStore;
     if (loggedIn) {
         return (
-            <Redirect to={'/user'} />
+            <Redirect to={'/user?user-tab=account'} />
         );
     }
     return (

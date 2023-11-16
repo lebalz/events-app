@@ -17,7 +17,7 @@ const LoginProfileButton = observer(() => {
                 icon={mdiAccountCircleOutline}
                 iconSide='left'
                 color='primary'
-                href='/user'
+                href='/user?user-tab=account'
                 title='Persönlicher Bereich'
             />
         )
