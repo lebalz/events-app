@@ -79,12 +79,6 @@ export default class Klass {
     }
 
     @computed
-    get klp(): Teacher | undefined {
-        const ks = this.lessons.find(l => l.subject==='KS' || l.subject==='MC');
-        return ks?.teachers && ks.teachers[0];
-    }
-
-    @computed
     get lessons() {
         const current = this.store.currentSemester;
         return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semesterId === current?.id);

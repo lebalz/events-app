@@ -672,28 +672,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return (prog / this.durationMS) * 100;
     }
 
-    /** TODO: Refactor and check for correctness! */
-    affectsUser(user: User) {
-        if (user.departments.some(d => this.departmentIds.has(d.id))) {
-            return true;
-        }
-
-        if (
-            (this.audience === EventAudience.KLP || this.audience === EventAudience.STUDENTS) 
-                && user.untisTeacher 
-                && this.untisClasses.some(c => c.klp?.id === user.untisTeacher.id)
-            ) {
-            return true;
-        }
-        if (this.audience === EventAudience.LP && user.classes.some(c => this.affectsClass(c))) {
-            return true;
-        }
-        if (user.untisTeacher && this.affectedLessons.some(l => l.teacherIds.includes(user.untisTeacher?.id))) {
-            return true;
-        }
-        return false;
-    }
-
     affectsClass(klass: Klass): boolean {
         return this.untisClasses.some(c => c.id === klass.id);
     }

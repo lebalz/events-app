@@ -11,7 +11,6 @@ import EventGrid, { ColumnConfig } from '../components/Event/EventGrid';
 import { EventState } from '../api/event';
 import styles from './my-events.module.scss';
 import BulkActions from '../components/Event/BulkActions';
-import { Role } from '../api/user';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Translate, { translate } from '@docusaurus/Translate';
