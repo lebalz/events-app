@@ -191,7 +191,7 @@ const User = observer((props: Props) => {
                                     <div className={clsx(styles.publicIcal)} key={c.name}>
                                         <div className={clsx(styles.icalButton)}>
                                             <Button
-                                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${c.name}.ics&name=${c.name}`}
+                                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${c.name}.ics&name=${c.displayName}`}
                                                 target='_blank'
                                                 text={c.displayName}
                                                 title={translate({ message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook' })}
