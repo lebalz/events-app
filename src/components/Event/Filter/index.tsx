@@ -11,13 +11,53 @@ import DatePicker from '../../shared/DatePicker';
 import { SIZE_S, filterSvgPath } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
 import { translate } from '@docusaurus/Translate';
-import Select from 'react-select';
+import Select, { Theme, ThemeConfig } from 'react-select';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
 
 interface Props {
     showCurrentAndFuture?: boolean;
 }
+
+const selectStyleConfig = {
+    option: (styles, { data, isFocused }) => ({
+        ...styles,
+        color: (data as unknown as { color: string })?.color,
+        backgroundColor: isFocused ? 'var(--docusaurus-collapse-button-bg-hover)' : undefined
+    }),
+    multiValue: (styles, { data }) => ({
+        ...styles,
+        color: (data as unknown as { color: string })?.color,
+    }),
+    multiValueLabel: (styles, { data }) => ({
+        ...styles,
+        color: (data as unknown as { color: string })?.color,
+    }),
+    valueContainer: (styles) => ({
+        ...styles,
+        padding: '0px',
+        paddingLeft: '4px'
+    }),
+    menuPortal: (base) => ({ ...base, zIndex: 9999 })
+};
+
+const selectClassNamesConfig = {
+    indicatorsContainer: () => styles.indicatorsContainer,
+    multiValue: () => styles.multiValue,
+    control: () => styles.control,
+    menu: () => styles.control
+};
+
+const selectThemeConfig = (theme: Theme) => ({
+    ...theme,
+    colors: {
+        ...theme.colors,
+        primary25: 'var(--ifm-color-primary-lightest)',
+        primary50: 'var(--ifm-color-primary-lighter)',
+        primary75: 'var(--ifm-color-primary-light)',
+        primary: 'var(--ifm-color-primary)',
+    },
+});
 
 const Filter = observer((props: Props) => {
     const viewStore = useStore('viewStore');
@@ -56,8 +96,8 @@ const Filter = observer((props: Props) => {
                 <div className={clsx(styles.classes, styles.fuzzyFilter)}>
                     <TextInput
                         placeholder={translate({ message: 'Suche', id: 'joi.event.description' })}
-                        onChange={(txt) => eventTable.setTextFilter(txt)} 
-                        text={eventTable.klassFilter} 
+                        onChange={(txt) => eventTable.setTextFilter(txt)}
+                        text={eventTable.klassFilter}
                     />
                 </div>
                 <div className={clsx(styles.showMore)}>
@@ -73,7 +113,7 @@ const Filter = observer((props: Props) => {
             </div>
             {eventTable.showAdvancedFilter && (
                 <div className={clsx(styles.advanced)}>
-                    <div>
+                    <div className={clsx(styles.selects)}>
                         <div className={clsx(styles.department)}>
                             <Select
                                 isMulti
@@ -81,37 +121,22 @@ const Filter = observer((props: Props) => {
                                 placeholder={translate({ message: 'Abteilungen', id: 'event.filter.departments', description: 'Filter: Departments' })}
                                 name="departments-filter"
                                 menuPortalTarget={document.body}
-                                options={_.orderBy(departmentStore.usedDepartments, ['name']).map(d => ({value: d.id, label: d.name, color: d.color}))}
-                                styles={{
-                                    option: (styles, { data }) => ({
-                                        ...styles, 
-                                        color: (data as unknown as {color: string}).color
-                                    }),
-                                    multiValue: (styles, { data }) => ({
-                                        ...styles,
-                                        color: (data as unknown as {color: string}).color,
-                                    }),
-                                    multiValueLabel: (styles, { data }) => ({
-                                          ...styles,
-                                          color: (data as unknown as {color: string}).color,
-                                    }),
-                                    valueContainer: (styles) => ({
-                                        ...styles,
-                                        padding: '0px 2px'
-                                    }),
-                                    menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                                }}
+                                options={_.orderBy(departmentStore.usedDepartments, ['name']).map(d => ({ value: d.id, label: d.name, color: d?.color }))}
+                                styles={selectStyleConfig}
+                                className={clsx(styles.select)}
+                                classNames={selectClassNamesConfig}
                                 value={[...eventTable.departmentIds].map(id => {
                                     const department = departmentStore.find<Department>(id);
-                                    return {value: id, label: department?.name || '', color: department?.color || '#ccc' }
+                                    return { value: id, label: department?.name || '', color: department?.color || '#ccc' }
                                 })}
                                 onChange={(opt) => {
                                     const ids = opt.map(o => o.value);
                                     eventTable.setDepartmentIds(ids);
                                 }}
+                                theme={selectThemeConfig}
                             />
                         </div>
-                        
+
                         <div className={clsx(styles.classes)}>
                             <Select
                                 isMulti
@@ -119,41 +144,26 @@ const Filter = observer((props: Props) => {
                                 placeholder={translate({ message: 'Klassen', id: 'event.filter.classes', description: 'Filter: Classes' })}
                                 name="class-filter"
                                 menuPortalTarget={document.body}
-                                options={_.orderBy(untisStore.classes, ['name']).map(c => ({value: c.name, label: c.displayName, color: c.department.color}))}
-                                styles={{
-                                    option: (styles, { data }) => ({
-                                        ...styles,
-                                        color: (data as unknown as {color: string}).color
-                                    }),
-                                    multiValue: (styles, { data }) => ({
-                                        ...styles,
-                                        color: (data as unknown as {color: string}).color,
-                                    }),
-                                    multiValueLabel: (styles, { data }) => ({
-                                          ...styles,
-                                          color: (data as unknown as {color: string}).color,
-                                    }),
-                                    valueContainer: (styles) => ({
-                                        ...styles,
-                                        padding: '0px 2px'
-                                    }),
-                                    menuPortal: (base) => ({ ...base, zIndex: 9999 })
-                                }}
+                                options={_.orderBy(untisStore.classes, ['name']).map(c => ({ value: c.name, label: c.displayName, color: c.department?.color }))}
+                                styles={selectStyleConfig}
+                                className={clsx(styles.select)}
+                                classNames={selectClassNamesConfig}
                                 value={[...eventTable.classNames].map(id => {
                                     const klass = untisStore.findClassByName(id);
-                                    return {value: id, label: klass?.name || '', color: klass?.department.color || '#ccc' }
+                                    return { value: id, label: klass?.name || '', color: klass?.department?.color || '#ccc' }
                                 })}
                                 onChange={(opt) => {
                                     const cNames = opt.map(o => o.value);
                                     eventTable.setClassNames(cNames);
                                 }}
+                                theme={selectThemeConfig}
                             />
                         </div>
                     </div>
                     <div>
-                        <Checkbox 
-                            label='Gelöschte Verstecken?' 
-                            checked={eventTable.hideDeleted} 
+                        <Checkbox
+                            label='Gelöschte Verstecken?'
+                            checked={eventTable.hideDeleted}
                             onChange={(checked) => eventTable.setHideDeleted(checked)}
                             labelSide='left'
                         />
@@ -162,24 +172,24 @@ const Filter = observer((props: Props) => {
                         <div className={clsx(styles.date, styles.start)}>
                             {!!eventTable.start ? (
                                 <>
-                                    <DatePicker date={eventTable.start || new Date()} onChange={(date)=>eventTable.setStartFilter(date)} />
-                                    <Button icon={mdiMinusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(null)}/>
+                                    <DatePicker date={eventTable.start || new Date()} onChange={(date) => eventTable.setStartFilter(date)} />
+                                    <Button icon={mdiMinusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(null)} />
                                 </>
                             ) : (
-                                <Button icon={mdiPlusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(new Date())}/>
+                                <Button icon={mdiPlusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(new Date())} />
                             )}
                         </div>
                         <div className={clsx(styles.date, styles.end)}>
                             {!!eventTable.end ? (
                                 <>
-                                    <DatePicker date={eventTable.end || new Date()} onChange={(date)=>eventTable.setEndFilter(date)} />
-                                    <Button icon={mdiMinusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(null)}/>
+                                    <DatePicker date={eventTable.end || new Date()} onChange={(date) => eventTable.setEndFilter(date)} />
+                                    <Button icon={mdiMinusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(null)} />
                                 </>
                             ) : (
-                                <Button icon={mdiPlusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(new Date())}/>
+                                <Button icon={mdiPlusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(new Date())} />
                             )}
                         </div>
-                        </div>
+                    </div>
                 </div>
             )}
         </div>
