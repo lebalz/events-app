@@ -34,6 +34,7 @@ class EventTable {
     @observable
     end: Date | null = null;
     departmentIds = observable.set<string>();
+    classNames = observable.set<string>();
 
     @observable
     onlyMine: boolean = false;
@@ -139,6 +140,10 @@ class EventTable {
             if (keep && this.departmentIds.size > 0) {
                 keep = [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
+            if (keep && this.classNames.size > 0) {
+                const intersection = new Set([...this.classNames].filter(c => event.affectedClassNames.has(c)));
+                keep = intersection.size > 0;
+            }
             if (keep && this.textFilter.size > 0) {
                 const tokens = [...this.textFilter]
                 const klassNames = event.fClasses.map(c => c.classes.map(cl => cl.displayName)).join(' ');
@@ -168,6 +173,16 @@ class EventTable {
         } else {
             this.departmentIds.add(department.id);
         }
+    }
+
+    @action
+    setDepartmentIds(ids: string[]) {
+        this.departmentIds.replace(ids);
+    }
+
+    @action
+    setClassNames(names: string[]) {
+        this.classNames.replace(names);
     }
 
     @action

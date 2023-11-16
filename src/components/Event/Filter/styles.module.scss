@@ -25,9 +25,8 @@
         }
     }
     .advanced {
-        .department {
-            display: flex;
-            flex-wrap: wrap;
+        .classes {
+            min-width: 21em;
         }
         .dates {
             display: flex;

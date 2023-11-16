@@ -11,6 +11,9 @@ import DatePicker from '../../shared/DatePicker';
 import { SIZE_S, filterSvgPath } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
 import { translate } from '@docusaurus/Translate';
+import Select from 'react-select';
+import Department from '@site/src/models/Department';
+import _ from 'lodash';
 
 interface Props {
     showCurrentAndFuture?: boolean;
@@ -19,6 +22,7 @@ interface Props {
 const Filter = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
+    const untisStore = useStore('untisStore');
     const { eventTable } = viewStore;
     React.useEffect(() => {
         if (!props.showCurrentAndFuture && eventTable.onlyCurrentWeekAndFuture) {
@@ -70,16 +74,80 @@ const Filter = observer((props: Props) => {
             {eventTable.showAdvancedFilter && (
                 <div className={clsx(styles.advanced)}>
                     <div>
-                        <div className={clsx(styles.department, 'button-group', 'button-group--block')}>
-                            {departmentStore.usedDepartments.map((department) => (
-                                <Button
-                                    text={department.name}
-                                    active={eventTable.departmentIds.has(department.id)}
-                                    onClick={() => eventTable.toggleDepartment(department)}
-                                    color="blue"
-                                    key={department.id}
-                                />
-                            ))}
+                        <div className={clsx(styles.department)}>
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                placeholder={translate({ message: 'Abteilungen', id: 'event.filter.departments', description: 'Filter: Departments' })}
+                                name="departments-filter"
+                                menuPortalTarget={document.body}
+                                options={_.orderBy(departmentStore.usedDepartments, ['name']).map(d => ({value: d.id, label: d.name, color: d.color}))}
+                                styles={{
+                                    option: (styles, { data }) => ({
+                                        ...styles, 
+                                        color: (data as unknown as {color: string}).color
+                                    }),
+                                    multiValue: (styles, { data }) => ({
+                                        ...styles,
+                                        color: (data as unknown as {color: string}).color,
+                                    }),
+                                    multiValueLabel: (styles, { data }) => ({
+                                          ...styles,
+                                          color: (data as unknown as {color: string}).color,
+                                    }),
+                                    valueContainer: (styles) => ({
+                                        ...styles,
+                                        padding: '0px 2px'
+                                    }),
+                                    menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                                }}
+                                value={[...eventTable.departmentIds].map(id => {
+                                    const department = departmentStore.find<Department>(id);
+                                    return {value: id, label: department?.name || '', color: department?.color || '#ccc' }
+                                })}
+                                onChange={(opt) => {
+                                    const ids = opt.map(o => o.value);
+                                    eventTable.setDepartmentIds(ids);
+                                }}
+                            />
+                        </div>
+                        
+                        <div className={clsx(styles.classes)}>
+                            <Select
+                                isMulti
+                                closeMenuOnSelect={false}
+                                placeholder={translate({ message: 'Klassen', id: 'event.filter.classes', description: 'Filter: Classes' })}
+                                name="class-filter"
+                                menuPortalTarget={document.body}
+                                options={_.orderBy(untisStore.classes, ['name']).map(c => ({value: c.name, label: c.displayName, color: c.department.color}))}
+                                styles={{
+                                    option: (styles, { data }) => ({
+                                        ...styles,
+                                        color: (data as unknown as {color: string}).color
+                                    }),
+                                    multiValue: (styles, { data }) => ({
+                                        ...styles,
+                                        color: (data as unknown as {color: string}).color,
+                                    }),
+                                    multiValueLabel: (styles, { data }) => ({
+                                          ...styles,
+                                          color: (data as unknown as {color: string}).color,
+                                    }),
+                                    valueContainer: (styles) => ({
+                                        ...styles,
+                                        padding: '0px 2px'
+                                    }),
+                                    menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                                }}
+                                value={[...eventTable.classNames].map(id => {
+                                    const klass = untisStore.findClassByName(id);
+                                    return {value: id, label: klass?.name || '', color: klass?.department.color || '#ccc' }
+                                })}
+                                onChange={(opt) => {
+                                    const cNames = opt.map(o => o.value);
+                                    eventTable.setClassNames(cNames);
+                                }}
+                            />
                         </div>
                     </div>
                     <div>

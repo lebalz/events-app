@@ -1003,5 +1003,13 @@
   "event.bulk_actions.refuse": {
     "message": "Zurückweisen",
     "description": "Refuse Event review"
+  },
+  "event.filter.departments": {
+    "message": "Abteilungen",
+    "description": "Filter: Departments"
+  },
+  "event.filter.classes": {
+    "message": "Klassen",
+    "description": "Filter: Classes"
   }
 }
