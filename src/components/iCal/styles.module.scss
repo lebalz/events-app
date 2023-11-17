@@ -20,6 +20,7 @@
                 .icalButton {
                     display: flex;
                     flex-basis: 8em;
+                    flex-shrink: 0;
                     &.department {
                         flex-basis: 11em;
                     } 
