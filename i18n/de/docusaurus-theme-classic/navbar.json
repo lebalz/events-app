@@ -18,5 +18,9 @@
   "item.label.Zeitachse": {
     "message": "Zeitachse",
     "description": "Navbar item with label Zeitachse"
+  },
+  "item.label.Outlook": {
+    "message": "Outlook",
+    "description": "Navbar item with label Outlook"
   }
 }

@@ -18,19 +18,6 @@ import TimeTable from '../components/TimeTable';
 import UserEventGroup from '../components/UserEventGroup';
 import { translate } from '@docusaurus/Translate';
 
-function HomepageHeader() {
-    const { siteConfig } = useDocusaurusContext();
-    return (
-        <header className={clsx('hero hero--primary', indexStyles.heroBanner)}>
-            <div className="container">
-                <h1 className="hero__title">{siteConfig.title}</h1>
-                <p className="hero__subtitle">{siteConfig.tagline}</p>
-            </div>
-        </header>
-    );
-}
-
-
 const UserPage = observer(() => {
     const userEventGroupStore = useStore('userEventGroupStore');
     const sessionStore = useStore('sessionStore');
@@ -55,11 +42,14 @@ const UserPage = observer(() => {
                     id:'user.section.title.personal-area' ,
                     description:'user.section.title.personal-area'})}>
                     <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab' defaultValue='account' lazy>
-                        <TabItem value="account" label={
-                            translate({
+                        <TabItem 
+                            value="account" 
+                            label={translate({
                                 message: 'Account',
-                                id: 'user.tab.account'})}
-                        default>
+                                id: 'user.tab.account'
+                            })}
+                            default
+                        >
                             <div className={clsx(styles.tab)}>
                                 {current && (
                                     <User user={current} />
@@ -88,18 +78,24 @@ const UserPage = observer(() => {
                                 />
                             </div>
                         </TabItem>
-                        <TabItem value="events" label={
-                            translate({
+                        <TabItem 
+                            value="events" 
+                            label={translate({
                                 message: 'Events',
-                                id: 'user.tab.events'})}>
+                                id: 'user.tab.events'
+                            })}
+                        >
                             <div className={clsx(styles.tab)}>
                                 <UsersEvents user={current} />
                             </div>
                         </TabItem>
-                        <TabItem value="groups" label={
-                            translate({
+                        <TabItem 
+                            value="groups" 
+                            label={translate({
                                 message: 'Gruppen',
-                                id: 'user.tab.groups'})}>
+                                id: 'user.tab.groups'
+                            })}
+                        >
                             <div className={clsx(styles.tab)}>
                                 <div className={clsx(styles.groups)}>
                                     {
@@ -112,10 +108,13 @@ const UserPage = observer(() => {
                                 </div>
                             </div>
                         </TabItem>
-                        <TabItem value="time-table" label={
-                            translate({
+                        <TabItem 
+                            value="time-table" 
+                            label={translate({
                                 message: 'Stundenplan',
-                                id: 'user.tab.time-table'})}>
+                                id: 'user.tab.time-table'
+                            })}
+                        >
                             <div className={clsx(styles.tab)}>
                                 <TimeTable />
                             </div>

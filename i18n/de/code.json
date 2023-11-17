@@ -1011,5 +1011,33 @@
   "event.filter.classes": {
     "message": "Klassen",
     "description": "Filter: Classes"
+  },
+  "abo.section.title.subscribe-calendar": {
+    "message": "Kalender Abonnieren",
+    "description": "subscribe to calendars .ics file"
+  },
+  "abo.section.subtitle.subscribe-calendar": {
+    "message": "Abonniere Kalender in einem Kalenderprogramm wie z.B. Outlook",
+    "description": "subscribe to calendars .ics file"
+  },
+  "ical.section.personal.description": {
+    "message": "Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die Lektionen mit Klassen betreffen und für KLP's auch alle Termine, die für die eigene Klasse relevant sind.",
+    "description": "text which explains, which things are included in the personal calendar"
+  },
+  "ical.user_without_untis.message": {
+    "message": "Sie müssen sich zuerst mit Untis verbinden, um einen persönlichen Kalender zu erhalten.",
+    "description": "Message for a user, that is logged in, but is not linked to a untis account"
+  },
+  "ical.link.text.settings": {
+    "message": "Einstellungen",
+    "description": "Link text to navigate to the user settings"
+  },
+  "user.ical.filter.class.placeholder": {
+    "message": "Filtern nach Klasse",
+    "description": "Placeholder text for the filter input"
+  },
+  "user.ical.filter.department.placeholder": {
+    "message": "Filtern nach Schule",
+    "description": "Placeholder text for the filter input"
   }
 }

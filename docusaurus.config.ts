@@ -177,6 +177,7 @@ const config: Config = {
           {to: '/calendar', label: 'Kalender', position: 'left'},
           {to: '/table', label: 'Tabelle', position: 'left'},
           {to: '/gantt', label: 'Zeitachse', position: 'left'},
+          {to: '/subscribe', label: 'Outlook', position: 'left'},
           {
             type: 'custom-myEventsLink',
             position: 'left',
