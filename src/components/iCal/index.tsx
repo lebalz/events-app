@@ -55,7 +55,7 @@ const ICal = observer((props: Props) => {
                                         size={SIZE_S}
                                     />
                                     <Button
-                                        href={`webcal://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${user.icalUrl}`}
+                                        href={`webcals://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${user.icalUrl}`}
                                         target='_blank'
                                         title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
                                         icon={mdiCalendar}                                        
@@ -115,7 +115,7 @@ const ICal = observer((props: Props) => {
                                         color={c.department?.color}
                                     />
                                     <Button
-                                        href={`webcal://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${c.name}.ics`}
+                                        href={`webcals://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${c.name}.ics`}
                                         target='_blank'
                                         color={c.department?.color}
                                         title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
@@ -159,7 +159,7 @@ const ICal = observer((props: Props) => {
                                         size={SIZE_S}
                                     />
                                     <Button
-                                        href={`webcal://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics`}
+                                        href={`webcals://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics`}
                                         target='_blank'
                                         color={d.color}
                                         title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
