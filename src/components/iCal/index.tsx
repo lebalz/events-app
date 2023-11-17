@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button from '../shared/Button';
-import { mdiMicrosoftOutlook, mdiSync } from '@mdi/js';
+import { mdiCalendar, mdiMicrosoftOutlook, mdiSync } from '@mdi/js';
 import { SIZE_S } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import { EVENTS_API } from '@site/src/authConfig';
@@ -32,11 +32,11 @@ const ICal = observer((props: Props) => {
             {user && (
                 <div className={clsx('card', styles.personal, styles.card)}>
                     <div className={clsx('card__header')}>
-                        <h5>
+                        <h4>
                             <Translate id="ical.section.personal" description='personal ical sync address'>
                                 Persönlicher Kalender
                             </Translate>
-                        </h5>
+                        </h4>
                         <Translate id="ical.section.personal.description" description='text which explains, which things are included in the personal calendar'>
                             Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die Lektionen mit Klassen betreffen und für KLP's auch alle Termine, die für die eigene Klasse relevant sind.
                         </Translate>
@@ -51,6 +51,15 @@ const ICal = observer((props: Props) => {
                                         text={translate({ message: 'Outlook', id: 'user.ical.outlook-button.text', description: 'Button text for adding the calendar to Outlook' })}
                                         title={translate({ message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook' })}
                                         icon={mdiMicrosoftOutlook}
+                                        color={'primary'}
+                                        size={SIZE_S}
+                                    />
+                                    <Button
+                                        href={`webcal://${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}&name=${translate({ message: 'GBSL', id: 'user.ical.outlook.calendar-name', description: 'Name of the calendar in Outlook' })}`}
+                                        target='_blank'
+                                        title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
+                                        icon={mdiCalendar}                                        
+
                                         color={'primary'}
                                         size={SIZE_S}
                                     />
@@ -80,18 +89,18 @@ const ICal = observer((props: Props) => {
             )}
             <div className={clsx('card', styles.card)}>
                 <div className={clsx('card__header')}>
-                    <h5>
+                    <h4>
                         <Translate id="ical.section.departments" description='departments ical sync address'>
                             Abteilungs-Kalender
                         </Translate>
-                    </h5>
-                </div>
-                <div className={clsx('card__body')}>
+                    </h4>
                     <TextInput 
                         text={viewStore.icalListClassFilter} 
                         onChange={(text) => viewStore.setIcalListClassFilter(text)}
                         placeholder={translate({message: 'Filtern nach Klasse', id: 'user.ical.filter.class.placeholder', description: 'Placeholder text for the filter input'})}
                     />
+                </div>
+                <div className={clsx('card__body')}>
                     <div className={clsx(styles.icalWrapper)}>
                         {_.orderBy(viewStore.icalListClassesFiltered, ['name'], ['asc']).map(c => (
                             <div className={clsx(styles.publicIcal)} key={c.name}>
@@ -103,7 +112,15 @@ const ICal = observer((props: Props) => {
                                         title={translate({ message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook' })}
                                         icon={mdiMicrosoftOutlook}
                                         size={SIZE_S}
-                                        color={c.department.color}
+                                        color={c.department?.color}
+                                    />
+                                    <Button
+                                        href={`webcal://${EVENTS_API}/ical/${currentLocale}/${c.name}.ics&name=${c.displayName}`}
+                                        target='_blank'
+                                        color={c.department?.color}
+                                        title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
+                                        icon={mdiCalendar}
+                                        size={SIZE_S}
                                     />
                                 </div>
                                 <div className={clsx(styles.ical)}>
@@ -116,22 +133,22 @@ const ICal = observer((props: Props) => {
             </div>
             <div className={clsx('card', styles.card)}>
                 <div className={clsx('card__header')}>
-                    <h5>
+                    <h4>
                         <Translate id="ical.section.classes" description='classes ical sync address'>
                             Klassen Kalender
                         </Translate>
-                    </h5>
-                </div>
-                <div className={clsx('card__body')}>
+                    </h4>
                     <TextInput 
                         text={viewStore.icalListDepartmentsFilter} 
                         onChange={(text) => viewStore.setIcalListDepartmentsFilter(text)}
                         placeholder={translate({message: 'Filtern nach Schule', id: 'user.ical.filter.department.placeholder', description: 'Placeholder text for the filter input'})}
                     />
+                </div>
+                <div className={clsx('card__body')}>
                     <div className={clsx(styles.icalWrapper)}>
                         {_.orderBy(viewStore.icalListDepartmentsFiltered, ['name'], ['asc']).map(d => (
                             <div className={clsx(styles.publicIcal)} key={d.name}>
-                                <div className={clsx(styles.icalButton)}>
+                                <div className={clsx(styles.icalButton, styles.department)}>
                                     <Button
                                         href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics&name=${d.name}`}
                                         target='_blank'
@@ -139,6 +156,14 @@ const ICal = observer((props: Props) => {
                                         color={d.color}
                                         title={translate({ message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook' })}
                                         icon={mdiMicrosoftOutlook}
+                                        size={SIZE_S}
+                                    />
+                                    <Button
+                                        href={`webcal://${EVENTS_API}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics&name=${d.name}`}
+                                        target='_blank'
+                                        color={d.color}
+                                        title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
+                                        icon={mdiCalendar}
                                         size={SIZE_S}
                                     />
                                 </div>

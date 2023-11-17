@@ -18,7 +18,11 @@
             .publicIcal  {
                 display: flex;
                 .icalButton {
-                    flex-basis: 7em;
+                    display: flex;
+                    flex-basis: 8em;
+                    &.department {
+                        flex-basis: 11em;
+                    } 
                 }
             }
         }
