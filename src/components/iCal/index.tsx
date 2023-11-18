@@ -38,7 +38,7 @@ const ICal = observer((props: Props) => {
                             </Translate>
                         </h4>
                         <Translate id="ical.section.personal.description" description='text which explains, which things are included in the personal calendar'>
-                            Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die Lektionen mit Klassen betreffen und für KLP's auch alle Termine, die für die eigene Klasse relevant sind.
+                            Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die eigene Lektionen betreffen und für KLP's auch alle Termine der eigenen Klasse.
                         </Translate>
                     </div>
                     <div className={clsx('card__body')}>
@@ -53,24 +53,6 @@ const ICal = observer((props: Props) => {
                                         icon={mdiMicrosoftOutlook}
                                         color={'primary'}
                                         size={SIZE_S}
-                                    />
-                                    <Button
-                                        href={`webcals://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${user.icalUrl}`}
-                                        target='_blank'
-                                        title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
-                                        icon={mdiCalendar}                                        
-
-                                        color={'primary'}
-                                        size={SIZE_S}
-                                    />
-                                    <Button
-                                        onClick={() => userStore.createIcs()}
-                                        text={translate({ id: 'user.ical.sync-button.text', message: 'Sync', description: 'Button text for (re)syncing the calendar' })}
-                                        title={translate({ id: 'user.ical.sync-button.title', message: 'Synchronisiere meinen Kalender', description: 'Button (hover) title for (re)syncing the calendar' })}
-                                        icon={mdiSync}
-                                        apiState={userStore.apiStateFor('createIcs')}
-                                        size={SIZE_S}
-                                        disabled={userStore.apiStateFor('createIcs') === ApiState.LOADING}
                                     />
                                 </div>
                                 <div className={clsx(styles.ical)}>
@@ -114,14 +96,6 @@ const ICal = observer((props: Props) => {
                                         size={SIZE_S}
                                         color={c.department?.color}
                                     />
-                                    <Button
-                                        href={`webcals://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${c.name}.ics`}
-                                        target='_blank'
-                                        color={c.department?.color}
-                                        title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
-                                        icon={mdiCalendar}
-                                        size={SIZE_S}
-                                    />
                                 </div>
                                 <div className={clsx(styles.ical)}>
                                     {`${EVENTS_API}/ical/${currentLocale}/${c.name}.ics`}
@@ -156,14 +130,6 @@ const ICal = observer((props: Props) => {
                                         color={d.color}
                                         title={translate({ message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook' })}
                                         icon={mdiMicrosoftOutlook}
-                                        size={SIZE_S}
-                                    />
-                                    <Button
-                                        href={`webcals://${EVENTS_API.replace(/https?:\/\//, '')}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics`}
-                                        target='_blank'
-                                        color={d.color}
-                                        title={translate({ message: 'Öffnen in Kalender-Programm', id: 'user.ical.webcal-button.title', description: 'Button text for adding the calendar to Outlook' })}
-                                        icon={mdiCalendar}
                                         size={SIZE_S}
                                     />
                                 </div>

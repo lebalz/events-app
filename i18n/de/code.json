@@ -1021,7 +1021,7 @@
     "description": "subscribe to calendars .ics file"
   },
   "ical.section.personal.description": {
-    "message": "Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die Lektionen mit Klassen betreffen und für KLP's auch alle Termine, die für die eigene Klasse relevant sind.",
+    "message": "Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die eigene Lektionen betreffen und für KLP's auch alle Termine der eigenen Klasse.",
     "description": "text which explains, which things are included in the personal calendar"
   },
   "ical.user_without_untis.message": {
