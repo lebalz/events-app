@@ -1039,5 +1039,33 @@
   "user.ical.filter.department.placeholder": {
     "message": "Filtern nach Schule",
     "description": "Placeholder text for the filter input"
+  },
+  "navcard.subscribe.text": {
+    "message": "Outlook",
+    "description": "Button text for navigating to the subscribe page"
+  },
+  "navcard.table.text": {
+    "message": "Tabelle",
+    "description": "Button text for navigating to the table page"
+  },
+  "navcard.calendar.text": {
+    "message": "Kalender",
+    "description": "Button text for navigating to the calendar page"
+  },
+  "navcard.gantt.text": {
+    "message": "Zeitachse",
+    "description": "Button text for navigating to the gantt page"
+  },
+  "navcard.user.account": {
+    "message": "Account",
+    "description": "Button text for navigating to the user account page"
+  },
+  "navcard.user.events": {
+    "message": "Meine Events",
+    "description": "Button text for navigating to the users events page"
+  },
+  "navcard.admin.text": {
+    "message": "Admin",
+    "description": "Button text for navigating to the admin page"
   }
 }

@@ -21,3 +21,23 @@
   align-items: center;
   justify-content: center;
 }
+
+.navCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center;
+  .navCard {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 8em;
+    max-width: 11em;
+    .navCardIcon {
+      display: flex;
+      justify-content: center;
+    }
+    &:hover {
+      box-shadow: var(--ifm-global-shadow-md);
+    }
+  }
+}

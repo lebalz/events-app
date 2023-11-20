@@ -74,7 +74,6 @@ if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
 
 const GIT_COMMIT_SHA = process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7);
 
-/** @type {import('@docusaurus/types').Config} */
 const config: Config = {
   title: getLocalizedConfigValue('title'),
   tagline: getLocalizedConfigValue('tagline'),

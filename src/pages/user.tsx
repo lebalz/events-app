@@ -4,8 +4,6 @@ import styles from './user.module.scss';
 import Layout from '@theme/Layout';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import { default as indexStyles } from './index.module.css';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
