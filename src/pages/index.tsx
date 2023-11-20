@@ -65,12 +65,6 @@ const Home = observer(() => {
                 <Section>
                     <div className={clsx(styles.navCards)}>
                         <NavCard
-                            icon={mdiMicrosoftOutlook}
-                            to={useBaseUrl('/subscribe')}
-                            label={translate({ message: 'Outlook', id: 'navcard.subscribe.text', description: 'Button text for navigating to the subscribe page' })}
-                            displayFor='public'
-                        />
-                        <NavCard
                             icon={mdiTable}
                             to={useBaseUrl('/table')}
                             label={translate({ message: 'Tabelle', id: 'navcard.table.text', description: 'Button text for navigating to the table page' })}
@@ -86,6 +80,12 @@ const Home = observer(() => {
                             icon={mdiChartTimeline}
                             to={useBaseUrl('/gantt')}
                             label={translate({ message: 'Zeitachse', id: 'navcard.gantt.text', description: 'Button text for navigating to the gantt page' })}
+                            displayFor='public'
+                        />
+                        <NavCard
+                            icon={mdiMicrosoftOutlook}
+                            to={useBaseUrl('/subscribe')}
+                            label={translate({ message: 'Outlook', id: 'navcard.subscribe.text', description: 'Button text for navigating to the subscribe page' })}
                             displayFor='public'
                         />
                         <NavCard
