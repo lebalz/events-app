@@ -9,7 +9,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Section from '../components/shared/Section';
 import { translate } from '@docusaurus/Translate';
 import Icon from '@mdi/react';
-import { mdiAccountCircleOutline, mdiCalendarAccount, mdiCalendarMonth, mdiChartTimeline, mdiMicrosoftOutlook, mdiSecurity, mdiTable } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiCalendarAccount, mdiCalendarMonth, mdiChartTimeline, mdiMicrosoftOutlook, mdiSecurity, mdiViewList } from '@mdi/js';
 import Link from '@docusaurus/Link';
 import { useStore } from '../stores/hooks';
 
@@ -65,7 +65,7 @@ const Home = observer(() => {
                 <Section>
                     <div className={clsx(styles.navCards)}>
                         <NavCard
-                            icon={mdiTable}
+                            icon={mdiViewList}
                             to={useBaseUrl('/table')}
                             label={translate({ message: 'Tabelle', id: 'navcard.table.text', description: 'Button text for navigating to the table page' })}
                             displayFor='public'
