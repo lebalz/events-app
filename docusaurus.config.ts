@@ -9,7 +9,7 @@ const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 import ConfigLocalized from './docusaurus.config.localized.json';
 
-const VERSION = 'beta.1';
+const VERSION = 'beta.1.0';
 
 const defaultLocale = 'de';
 
@@ -157,8 +157,9 @@ const config: Config = {
   themeConfig: {
       announcementBar: {
         id: VERSION,
-        content: `🚧 Seite im Aufbau... ${VERSION} 🚧`,
-        backgroundColor: '#fcff00'
+        content: `🚧 Beta-Phase: ${VERSION} 🚧`,
+        backgroundColor: 'var(--color-current-week-odd-background)',
+        textColor: 'var(--ifm-font-color-base)'
       },
       docs: {
         sidebar: {
