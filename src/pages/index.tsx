@@ -56,6 +56,12 @@ const NavCard = observer((props: NavProps) => {
 
 const Home = observer(() => {
     const { i18n } = useDocusaurusContext();
+    const ref = React.useRef<HTMLVideoElement>(null);
+    React.useEffect(() => {
+        if (ref.current) {
+            ref.current.playbackRate = 0.5;
+        }
+    }, [ref]);
     return (
         <Layout
             title="Events"
@@ -129,7 +135,15 @@ const Home = observer(() => {
                                 </h3>
                             </div>
                             <div className='card__footer'>
-                                <video autoPlay controls muted loop id="myVideo" style={{ width: '100%', height: '100%', maxHeight: '1200px' }}>
+                                <video 
+                                    autoPlay 
+                                    controls 
+                                    muted
+                                    loop 
+                                    id="myVideo"
+                                    ref={ref}
+                                    style={{ width: '100%', height: '100%', maxHeight: '1200px' }}
+                                >
                                     <source src={useBaseUrl("/img/events-ruttl-de.mp4")} type="video/mp4" />
                                 </video>
                             </div>
