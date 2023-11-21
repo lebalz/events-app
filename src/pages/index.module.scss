@@ -32,12 +32,14 @@
     flex-shrink: 1;
     flex-basis: 8em;
     max-width: 11em;
+    box-shadow: var(--ifm-global-shadow-md);
     .navCardIcon {
       display: flex;
       justify-content: center;
     }
     &:hover {
-      box-shadow: var(--ifm-global-shadow-md);
+      box-shadow: var(--ifm-global-shadow-ld);
+      background: var(--ifm-dropdown-hover-background-color);
     }
   }
 }
