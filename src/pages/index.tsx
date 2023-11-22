@@ -68,7 +68,7 @@ const Home = observer(() => {
             description="Events Application">
             <HomepageHeader />
             <main>
-                <Section>
+                <Section className={clsx(styles.navCardSection)}>
                     <div className={clsx(styles.navCards)}>
                         <NavCard
                             icon={mdiViewList}
