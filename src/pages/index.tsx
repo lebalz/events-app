@@ -83,7 +83,7 @@ const Home = observer(() => {
                             displayFor='public'
                         />
                         <NavCard
-                            icon={mdiChartTimeline}
+                            icon={'M 2 2 H 4 V 20 H 22 V 22 H 2 V 2 M 7 10 H 17 V 13 H 7 V 10 M 11 15 H 21 V 18 H 11 V 15 M 6 5 H 21 V 8 H 6 Z'}
                             to={useBaseUrl('/gantt')}
                             label={translate({ message: 'Zeitachse', id: 'navcard.gantt.text', description: 'Button text for navigating to the gantt page' })}
                             displayFor='public'
