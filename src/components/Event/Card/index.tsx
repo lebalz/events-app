@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
-import { mdiSquareRoundedBadge, mdiStickerCircleOutline } from '@mdi/js';
+import { mdiStickerCircleOutline } from '@mdi/js';
 import { SIZE_XS } from '../../shared/icons';
 
 

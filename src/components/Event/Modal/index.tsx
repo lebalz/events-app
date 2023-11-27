@@ -22,7 +22,7 @@ interface Props {
 const EventModal = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
-    const [buttonsWithText, setButtonsWithText] = React.useState(4);
+    const [expandedButtons, setExpandedButtons] = React.useState(4);
     const { openEventModalId } = viewStore;
     const event = eventStore.find<EventModel>(openEventModalId);
     const onResize = React.useCallback((target: HTMLDivElement) => {
@@ -31,13 +31,13 @@ const EventModal = observer((props: Props) => {
         // 3 buttons --> 360px
         // 4 buttons --> 460px
         if (currentWidth > 460) {
-            setButtonsWithText(4);
+            setExpandedButtons(4);
         } else if (currentWidth > 360) {
-            setButtonsWithText(3);
+            setExpandedButtons(3);
         } else if (currentWidth > 260) {
-            setButtonsWithText(2);
+            setExpandedButtons(2);
         } else {
-            setButtonsWithText(1);
+            setExpandedButtons(1);
         }
     }, [openEventModalId]);
     
@@ -63,7 +63,7 @@ const EventModal = observer((props: Props) => {
                             <EventActions 
                                 event={event}
                                 onDiscard={() => viewStore.setEventModalId()}
-                                buttonsWithText={buttonsWithText}
+                                expandedButtons={expandedButtons}
                             />
                         ) : (
                             <>
@@ -71,7 +71,7 @@ const EventModal = observer((props: Props) => {
                                     color="secondary"
                                     title={translate({message: 'Fenster Schliessen', id: 'button.close.title', description: 'Button title to close a modal'})}
                                     text={
-                                        buttonsWithText > 2 ? 
+                                        expandedButtons > 2 ? 
                                             translate({message: 'Schliessen', id: 'button.close', description: 'Button text to close a modal'}) : 
                                             undefined
                                     } 
@@ -81,11 +81,11 @@ const EventModal = observer((props: Props) => {
                                         viewStore.setEventModalId()
                                     }} 
                                 />
-                                <EventActions event={event} buttonsWithText={buttonsWithText - 2} />
+                                <EventActions event={event} expandedButtons={expandedButtons - 2} />
                                 <Button 
                                     color="blue"
                                     text={
-                                        buttonsWithText > 2 ? 
+                                        expandedButtons > 2 ? 
                                             translate({message: 'Öffnen', id: 'button.open', description: 'Button text for open button'}) : 
                                             undefined
                                     }

@@ -455,6 +455,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.affectedDepartments.map(d => d.name);
     }
 
+    @computed
+    get isDraft() {
+        return this.state === EventState.Draft;
+    }
+
+    @computed
+    get isPublished() {
+        return this.state === EventState.Published;
+    }
+
+    @computed
+    get isRefused() {
+        return this.state === EventState.Refused;
+    }
+
+    @computed
+    get isReview() {
+        return this.state === EventState.Review;
+    }
+
     @action
     setAudience(audience: EventAudience) {
         this.audience = audience;

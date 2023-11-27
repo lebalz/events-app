@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
-import { EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
+import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 import { mdiDeleteForever } from '@mdi/js';
 import Badge from '@site/src/components/shared/Badge';
 import { SIZE_S } from '@site/src/components/shared/icons';
@@ -16,6 +16,7 @@ interface Props extends ReadonlyProps {
 
 const State = observer((props: Props) => {
     const { event, showText } = props;
+    const state = (event.isDirty && !event.isDraft) ? EventState.Draft : event.state;
     return (
         <div 
             style={{gridColumn: 'state'}} 
@@ -23,11 +24,11 @@ const State = observer((props: Props) => {
         >
             <div className={clsx(showText && styles.flex)}>
                 <Badge 
-                    icon={EventStateButton[event.state]}
-                    color={EventStateColor[event.state]}
+                    icon={EventStateButton[state]}
+                    color={EventStateColor[state]}
                     size={SIZE_S}
-                    title={EventStateTranslation[event.state]}
-                    text={showText && EventStateTranslation[event.state]}
+                    title={EventStateTranslation[state]}
+                    text={showText && EventStateTranslation[state]}
                     iconSide='left'
                 />
             </div>
