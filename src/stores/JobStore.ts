@@ -4,11 +4,11 @@ import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType as ApiJobType} from '../api/job';
-import { importExcel as postExcel } from '../api/event';
+import { ImportType, importEvents as postImportEvents } from '../api/event';
 import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
 
-export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
+export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;
     readonly API_ENDPOINT = 'job';
 
@@ -99,11 +99,11 @@ export class JobStore extends iStore<JobProps, `postExcel-${string}`> {
     }
 
     @action
-    importExcel(file: File) {
+    importEvents(file: File, type: ImportType) {
         const formData = new FormData();
         formData.append('terminplan', file);
-        return this.withAbortController(`postExcel-${file.name}`, (sig) => {
-            return postExcel(formData, sig.signal).then(({ data }) => {
+        return this.withAbortController(`importFile-${file.name}`, (sig) => {
+            return postImportEvents(formData, type, sig.signal).then(({ data }) => {
                 if (data) {
                     const job = this.addToStore(data);
                     return job;

@@ -56,6 +56,12 @@ export enum EventAudience {
     ALL = 'ALL'
 };
 
+export enum ImportType {
+    GBSL_XLSX = 'GBSL_XLSX',
+    GBJB_CSV = 'GBJB_CSV',
+    EVENTS_XLSX = 'EVENTS_XLSX',
+}
+
 export interface PrismaEvent {
     id: string
     authorId: string
@@ -125,8 +131,8 @@ export const JoiMessages: Joi.LanguageMessages = {
     'date.min': translate({message: '{{#label}} muss grösser oder gleich {{:#limit}} sein', id: 'joi.date.base',description: 'Joi validation error for date min'}),
 };
 
-export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromise<Job> {
-    return api.post('event/import', formData, { signal });
+export function importEvents(formData: FormData, type: ImportType, signal: AbortSignal): AxiosPromise<Job> {
+    return api.post(`event/import?type=${type}`, formData, { signal });
 }
 
 
