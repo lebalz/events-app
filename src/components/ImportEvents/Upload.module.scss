@@ -1,10 +1,15 @@
 .dropArea {
     width: 100%;
     position: relative;
-    display: flex;
-    gap: 10px;
-    flex-direction: column;
-    justify-content: center;
+    display: grid; 
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: min-content 1fr; 
+
+    gap: 0px;
+    grid-template-areas: 
+      "icon input"
+      "icon upload";
+    justify-items: center;
     align-items: center;
     height: 200px;
     border-radius: var(--ifm-button-border-radius);
@@ -17,15 +22,23 @@
         background: var(--ifm-hover-overlay);
         border-color: var(--ifm-color-secondary-dark);
     }
+    .icon {
+        grid-area: icon;
+    }
+    .button {
+        grid-area: upload;
+    }
 
     input[type=file] {
+        grid-area: input;
+        margin-top: 1rem;
         border: none;
         width: 90%;
         max-width: 100%;
         color: var(--ifm-font-color-base);
         padding: 1rem 1.5rem;
         background: var(--ifm-background-color);
-        border-radius: var(--ifm-button-border-radius);;
+        border-radius: var(--ifm-button-border-radius);
         border: 1px solid var(--ifm-color-secondary-darkest);
     }
 
