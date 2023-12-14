@@ -5,7 +5,7 @@ import styles from './Upload.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../shared/Button';
-import { mdiFileUploadOutline } from '@mdi/js';
+import { mdiFileUploadOutline, mdiFileExcel, mdiFileDelimited } from '@mdi/js';
 import { Icon, SIZE_S } from '../shared/icons';
 import { ImportType } from '@site/src/api/event';
 
@@ -17,6 +17,16 @@ const FileEnding: {[key in ImportType]: '.xlsx' | '.csv'} = {
     [ImportType.GBJB_CSV]: '.csv',
     [ImportType.GBSL_XLSX]: '.xlsx',
 }
+const FileIcon: {[key in ImportType]: string} = {
+    [ImportType.EVENTS_XLSX]: mdiFileExcel,
+    [ImportType.GBJB_CSV]: mdiFileDelimited,
+    [ImportType.GBSL_XLSX]: mdiFileExcel
+}
+const FileIconColor: {[key in ImportType]: string} = {
+    [ImportType.EVENTS_XLSX]: 'green',
+    [ImportType.GBJB_CSV]: 'blue',
+    [ImportType.GBSL_XLSX]: 'green'
+}
 
 const Upload = observer((props: Props) => {
     const [selectedFile, setSelectedFile] = useState<File>(null);
@@ -25,6 +35,7 @@ const Upload = observer((props: Props) => {
 
     return (
         <label className={clsx(styles.dropArea)} htmlFor="excel-import">
+            <Icon path={FileIcon[props.type]} size={4} className={clsx(styles.icon)} color={FileIconColor[props.type]}/>
             <input
                 className={clsx('button', 'button--secondary')}
                 key={fileInputKey}
@@ -32,7 +43,6 @@ const Upload = observer((props: Props) => {
                 id="excel-import"
                 name="terminplan"
                 accept={FileEnding[props.type]}
-                style={{ marginBottom: '12px' }}
                 multiple={false}
                 onChange={(e) => setSelectedFile(e.currentTarget!.files![0])}
             />
@@ -52,6 +62,7 @@ const Upload = observer((props: Props) => {
                     setFileInputKey(fileInputKey + 1);
                     return false;
                 }}
+                className={clsx(styles.button)}
                 icon={<Icon path={mdiFileUploadOutline} size={SIZE_S} />}
             />
         </label>

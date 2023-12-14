@@ -73,6 +73,8 @@ Update the translations with:
 ```bash
 # for german
 yarn write-translations --locale de
+# for german override existing translations
+yarn write-translations --locale de --override
 # for french
 yarn write-translations --locale fr
 ```

@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Section from '../shared/Section';
 import Translate, { translate } from '@docusaurus/Translate';
 import { Icon } from '../shared/icons';
-import { mdiFileExcel } from '@mdi/js';
+import { mdiFileExcel, mdiFileImport } from '@mdi/js';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { ImportType } from '@site/src/api/event';
@@ -25,10 +25,10 @@ const ImportEvents = observer((props: Props) => {
         <Section
             title={
                 <span>
+                    <Icon path={mdiFileImport} size={2} color={'var(--ifm-color-primary)'} />
                     <Translate id="import.section.title" description="import.section.title">
-                        Excel Import
+                        Datei Importieren
                     </Translate>
-                    <Icon path={mdiFileExcel} size={2} color={'green'} />
                 </span>}
             subtitle={translate({
                 message: "Importiere Daten aus Excel-Dateien.",
