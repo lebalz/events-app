@@ -115,7 +115,7 @@ const Home = observer(() => {
                     </div>
                 </Section>
                 <Section>
-                    {i18n?.currentLocale === 'de' && (
+                    {i18n?.currentLocale === 'de' ? (
                         <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
                             <div className="card__header">
                                 <h2>
@@ -134,6 +134,22 @@ const Home = observer(() => {
                                     Vielen Dank für die Mithilfe!
                                 </h3>
                             </div>
+                            <div className='card__footer'>
+                                <video 
+                                    autoPlay 
+                                    controls 
+                                    muted
+                                    loop 
+                                    id="myVideo"
+                                    ref={ref}
+                                    style={{ width: '100%', height: '100%', maxHeight: '1200px' }}
+                                >
+                                    <source src={useBaseUrl("/img/events-ruttl-de.mp4")} type="video/mp4" />
+                                </video>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
                             <div className='card__footer'>
                                 <video 
                                     autoPlay 
