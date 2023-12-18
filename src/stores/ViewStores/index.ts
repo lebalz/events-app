@@ -47,7 +47,8 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable
     icalListClassFilter = '';
 
-
+    @observable
+    calendarViewDate = (new Date()).toISOString().split('T')[0];
 
     expandedEventIds = observable.set<string>();
 
@@ -111,6 +112,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
             }
         }
         return events;
+    }
+
+    @action
+    setCalendarViewDate(date: Date) {
+        this.calendarViewDate = date.toISOString().split('T')[0];
     }
 
     @action
