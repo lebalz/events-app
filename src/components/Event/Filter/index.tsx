@@ -150,7 +150,7 @@ const Filter = observer((props: Props) => {
                                 classNames={selectClassNamesConfig}
                                 value={[...eventTable.classNames].map(id => {
                                     const klass = untisStore.findClassByName(id);
-                                    return { value: id, label: klass?.name || '', color: klass?.department?.color || '#ccc' }
+                                    return { value: id, label: klass?.displayName || '', color: klass?.department?.color || '#ccc' }
                                 })}
                                 onChange={(opt) => {
                                     const cNames = opt.map(o => o.value);
