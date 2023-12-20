@@ -9,7 +9,7 @@ const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 import ConfigLocalized from './docusaurus.config.localized.json';
 
-const VERSION = 'beta.1.0';
+const VERSION = 'beta.1.1';
 
 const defaultLocale = 'de';
 
