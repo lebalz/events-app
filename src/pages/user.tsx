@@ -54,7 +54,7 @@ const UserPage = observer(() => {
                                 )}
                                 <div style={{ height: '3em' }}></div>
                                 {
-                                    !current && (
+                                    sessionStore.needsRefresh && (
                                         <Button
                                             text={translate({
                                                 message : "Aktualisieren",

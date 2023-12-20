@@ -1075,5 +1075,13 @@
   "import.tab.gbjb": {
     "message": "GBJB Import",
     "description": "import.tab.gbjb"
+  },
+  "navbar.loginProfileButton.modal.header": {
+    "message": "Session abgelaufen",
+    "description": "When the login token must be recreated"
+  },
+  "navbar.loginProfileButton.modal.body": {
+    "message": "Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.",
+    "description": "When the login token must be recreated"
   }
 }
