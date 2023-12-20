@@ -15,65 +15,66 @@ const LoginProfileButton = observer(() => {
     const sessionStore = useStore('sessionStore');
     if (userStore.current) {
         return (
-            <>
-                <Button
-                    text={userStore.current.shortName || userStore.current.firstName}
-                    icon={mdiAccountCircleOutline}
-                    iconSide='left'
-                    color='primary'
-                    href='/user?user-tab=account'
-                    title='Persönlicher Bereich'
-                />
-                {sessionStore.needsRefresh && (
-                    <Modal
-                        open={sessionStore.needsRefresh}
-                    >
-                        <div className={clsx(styles.card, 'card')}>
-                            <div className={clsx('card__header')}>
-                                <h3>
-                                    <Translate id='navbar.loginProfileButton.modal.header' description='When the login token must be recreated'>
-                                        Session abgelaufen
-                                    </Translate>
-                                </h3>
-                            </div>
-                            <div className={clsx('card__body')}>
-                                <p>
-                                    <Translate id='navbar.loginProfileButton.modal.body' description='When the login token must be recreated'>
-                                        Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.
-                                    </Translate>
-                                </p>
-                            </div>
-                            <div className={clsx('card__footer')}>
-                                <div className="button-group button-group--block">
-                                    <Button
-                                        onClick={() => sessionStore.logout()}
-                                        text="Logout"
-                                        color='red'
-                                        noOutline
-                                        className={clsx(styles.logout)}
-                                    />
-                                    <Button
-                                        text={translate({
-                                            message : "Aktualisieren",
-                                            id:'user.button.refresh.text' ,
-                                            description:'user.button.refresh.text'})}
-                                        icon={mdiRefresh}
-                                        iconSide='left'
-                                        color="orange"
-                                        onClick={() => sessionStore.login()}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </Modal>
-                )}
-            </>
+            <Button
+                text={userStore.current.shortName || userStore.current.firstName}
+                icon={mdiAccountCircleOutline}
+                iconSide='left'
+                color='primary'
+                href='/user?user-tab=account'
+                title='Persönlicher Bereich'
+            />
         )
     }
     return (
-        <div className={clsx(styles.login)}>
-            <Link to={'/login'}>Login 🔑</Link>
-        </div>
+        <>
+            <div className={clsx(styles.login)}>
+                <Link to={'/login'}>Login 🔑</Link>
+            </div>
+            {sessionStore.needsRefresh && (
+                <Modal
+                    open={sessionStore.needsRefresh}
+                >
+                    <div className={clsx(styles.card, 'card')}>
+                        <div className={clsx('card__header')}>
+                            <h3>
+                                <Translate id='navbar.loginProfileButton.modal.header' description='When the login token must be recreated'>
+                                    Session abgelaufen
+                                </Translate>
+                            </h3>
+                        </div>
+                        <div className={clsx('card__body')}>
+                            <p>
+                                <Translate id='navbar.loginProfileButton.modal.body' description='When the login token must be recreated'>
+                                    Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.
+                                </Translate>
+                            </p>
+                        </div>
+                        <div className={clsx('card__footer')}>
+                            <div className="button-group button-group--block">
+                                <Button
+                                    onClick={() => sessionStore.logout()}
+                                    text="Logout"
+                                    color='red'
+                                    noOutline
+                                    className={clsx(styles.logout)}
+                                />
+                                <Button
+                                    text={translate({
+                                        message: "Aktualisieren",
+                                        id: 'user.button.refresh.text',
+                                        description: 'user.button.refresh.text'
+                                    })}
+                                    icon={mdiRefresh}
+                                    iconSide='left'
+                                    color="orange"
+                                    onClick={() => sessionStore.login()}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
+            )}
+        </>
     )
 });
 
