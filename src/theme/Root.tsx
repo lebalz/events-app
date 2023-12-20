@@ -41,8 +41,9 @@ const selectAccount = () => {
    * See here for more information on account retrieval:
    * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-common/docs/Accounts.md
    */
-
-  const currentAccount = msalInstance.getAllAccounts().find((a) => a.tenantId === TENANT_ID);
+  const accounts = msalInstance.getAllAccounts();
+  console.log('accounts', accounts);
+  const currentAccount = accounts.find((a) => a.tenantId === TENANT_ID);
   
   if (process?.env?.NODE_ENV !== 'production' && TEST_USERNAME) {
     rootStore.sessionStore.setAccount({username: TEST_USERNAME, localAccountId: TEST_USER_ID} as any);
