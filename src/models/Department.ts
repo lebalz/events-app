@@ -16,6 +16,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         'name', 
         'description', 
         'color', 
+        'department1_Id',
+        'department2_Id',
         {
             attr: 'letter', 
             transform: (val) => {
@@ -45,6 +47,11 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
 
     @observable
     color: string;
+
+    @observable
+    department1_Id: string | null | undefined;
+    @observable
+    department2_Id: string | null | undefined;
     
     @observable
     letter: string;
@@ -64,6 +71,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.letter = props.letter;
         this.description = props.description;
         this.classLetters.replace(props.classLetters.sort());
+        this.department1_Id = props.department1_Id;
+        this.department2_Id = props.department2_Id;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         makeObservable(this);
@@ -88,6 +97,30 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.store.getClasses(this);
     }
 
+    @computed
+    get department1(): Department | null {
+        return this.store.find(this.department1_Id);
+    }
+
+    @computed
+    get department2(): Department | null {
+        return this.store.find(this.department2_Id);
+    }
+
+    @computed
+    get isSubDepartment(): boolean {
+        return !!this.department1_Id;
+    }
+
+    @computed
+    get subDepartments(): Department[] {
+        return this.store.departments.filter(d => d.department1_Id === this.id)
+    }
+
+    @computed
+    get isSchool(): boolean {
+        return !this.isSubDepartment;
+    }
 
     @computed
     get classGroups(): Set<string> {
@@ -133,6 +166,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             name: this.name,
             color: this.color,
             letter: this.letter as DepartmentLetter,
+            department1_Id: this.department1_Id,
+            department2_Id: this.department2_Id,
             classLetters: [...this.classLetters],
             description: this.description,
             createdAt: this.createdAt.toISOString(),

@@ -84,6 +84,11 @@ export class SessionStore {
     }
 
     @action
+    refresh() {
+        this.login();
+    }
+
+    @action
     login() {
         this.msalInstance.loginRedirect(loginRequest).catch((e) => {
             console.warn(e);

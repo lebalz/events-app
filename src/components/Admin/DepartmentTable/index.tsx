@@ -7,20 +7,19 @@ import { useStore } from '@site/src/stores/hooks';
 import {default as UserModel} from '@site/src/models/User';
 import Department from './Department';
 import Button from '../../shared/Button';
-import { mdiPlusCircleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js';
-import { SIZE, SIZE_S } from '../../shared/icons';
+import { mdiDotsSquare, mdiPlusCircleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js';
+import { Icon, SIZE, SIZE_S } from '../../shared/icons';
 import {default as DepartmentModel} from '@site/src/models/Department';
 import Translate, { translate } from '@docusaurus/Translate';
 
 
 interface Props {
-    departments: DepartmentModel[];
 }
 
 const DepartmentTable = observer((props: Props) => {
     const departmentStore = useStore('departmentStore');
     const {adminDepartmentTable} = useStore('viewStore');
-    const {departments} = props;
+    const {departments} = adminDepartmentTable;
     const icon = adminDepartmentTable.sortDirection === 'asc' ? mdiSortAscending : mdiSortDescending;
     return (
         <div>
@@ -34,6 +33,7 @@ const DepartmentTable = observer((props: Props) => {
             <table>
                 <thead>
                     <tr>
+                        <th><Icon path={mdiDotsSquare} /></th>
                         <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'name' && icon} text={translate({message: 'Name', description: 'th: name', id: 'admin.DepartmentTable.th.name'})} onClick={() => adminDepartmentTable.setSortColumn('name')} /></th>
                         <th><Translate id="admin.DepartmentTable.th.description" description='th: description'>Beschreibung</Translate></th>
                         <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'letter' && icon} text={translate({message: 'Buchstabe', description: 'th: department letter', id: 'admin.DepartmentTable.th.letter'})} onClick={() => adminDepartmentTable.setSortColumn('letter')}/></th>
@@ -47,8 +47,17 @@ const DepartmentTable = observer((props: Props) => {
                 </thead>
                 <tbody>
                     {
-                        departments.map((dep, idx) => {
-                            return <Department key={dep.id} department={dep} />;
+                        departments.filter(d =>d.isSchool).map((dep, idx) => {
+                            return (
+                                <>
+                                    <Department key={dep.id} department={dep} />
+                                    {dep.subDepartments.map((subDep) => {
+                                        return (
+                                            <Department key={`${dep.id}--${subDep.id}`} department={subDep} />
+                                        )
+                                    })}
+                                </>
+                            )
                         })
                     }
                 </tbody>

@@ -67,7 +67,7 @@ const LoginProfileButton = observer(() => {
                                     icon={mdiRefresh}
                                     iconSide='left'
                                     color="orange"
-                                    onClick={() => sessionStore.login()}
+                                    onClick={() => sessionStore.refresh()}
                                 />
                             </div>
                         </div>

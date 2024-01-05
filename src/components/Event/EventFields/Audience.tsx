@@ -1,14 +1,10 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Props as CommonProps } from './iEventField';
-import Badge from '@site/src/components/shared/Badge';
 import AudiencePicker from '@site/src/components/shared/AudiencePicker';
-import { KlassName } from '@site/src/models/helpers/klassNames';
-import SubjectSelector from './SubjectSelector';
-import ErrorBoundary from '@docusaurus/ErrorBoundary';
 import Departments from './Departments';
 import Klasses from './Klasses';
 
