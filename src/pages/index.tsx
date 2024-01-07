@@ -134,7 +134,7 @@ const Home = observer(() => {
                                     Vielen Dank für die Mithilfe!
                                 </h3>
                             </div>
-                            <div className='card__footer'>
+                            <div className='card__body'>
                                 <video 
                                     autoPlay 
                                     controls 
@@ -146,6 +146,16 @@ const Home = observer(() => {
                                 >
                                     <source src={useBaseUrl("/img/events-ruttl-de.mp4")} type="video/mp4" />
                                 </video>
+                            </div>
+                            <div className='card__body'>
+                                <h3>Changelog</h3>
+                                <h4>Version: Beta 1.2</h4>
+                                <ul>
+                                    <li>Termin-Filter: Wer EF Unterrichtet, wurde bisher automatisch auch dem GBJB zugeteilt (bei EF's werden alle Gym-Klassen zugeteilt, also auch Nicht-Bilingue Klassen des GBJB, so dass bisher eine Zugehörigkeit zum GBJB abgeleitet wurde). Für das EF bzw. OC ist dieser Fehler behoben. Falls bei anderen Fächern ebenfalls Schulübergreifend Klassen zugeordnet werden, gerne melden. <a href="https://github.com/lebalz/events-api/pull/9" target="_blank">PR: Bilingue flag and relations for events</a></li>
+                                    <li>Beim Erfassen von Terminen für Bilingua-Klassen, welche nur <i>LP</i> oder <i>ALLE</i> betreffen, kann nun angegeben werden, ob Lehrpersonen der abderen Schule auch betroffen sind (bspw. bei 26Gn das GBJB oder bei 26mT das GBSL) </li>
+                                    <li>Admin-Bereich: Bilingue-Departemente können nun den zugehörigen Schulen zugewiesen werden</li>
+                                    <li>Admin-Bereich: GBJB Import von CSV Dateien <a href="https://github.com/lebalz/events-api/pull/8">PR: Create import service for gbjb csv files</a></li>
+                                </ul>
                             </div>
                         </div>
                     ) : (

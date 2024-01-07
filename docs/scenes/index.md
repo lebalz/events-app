@@ -1,6 +1,6 @@
 # Scenes
 
-## Event with Class 25h
+## Event with Class 25 and 26 from GBSL
 for a class event
 ![](images/event-filtering-class-light.svg#gh-light-mode-only)![](images/event-filtering-class-dark.svg#gh-dark-mode-only)
 
