@@ -86,6 +86,26 @@ const AudiencePicker = observer((props: Props) => {
                         })}
                     </div>
                 </div>
+                {
+                    [EventAudience.ALL, EventAudience.LP].includes(event.audience) && event.affectedDepartments.some(d => d.isSubDepartment && !!d.department2_Id) && (
+                        <div className={styles.toggle}>
+                            <span className={styles.label}>Bilingue Lehrpersonen betroffen?</span>
+                            <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
+                            <Button
+                                    text="Ja"
+                                    onClick={() => event.update({ affectsDepartment2: true })}
+                                    active={event.affectsDepartment2}
+                                />
+                                <Button
+                                    text="Nein"
+                                    onClick={() => event.update({ affectsDepartment2: false })}
+                                    active={!event.affectsDepartment2}
+                                />
+                            </div>
+                        </div>
+                    )
+                }
+                
             </div>
             <h4>Schulen/Klassen</h4>
             <div className={clsx(styles.flex)}>

@@ -28,4 +28,10 @@
             padding: 0;
         }
     }
+    &.subDepartment {
+        td {
+            padding-left: 2em;
+            padding-top: 2px;
+        }
+    }
 }

@@ -89,7 +89,7 @@ const AdminView = observer(() => {
                     <SyncUntis />
                 </TabItem>
                 <TabItem value="departments" label={translate({message: 'Abteilungen', id: 'admin.tab.departments'})}>
-                    <DepartmentTable departments={viewStore.adminDepartmentTable.departments} />
+                    <DepartmentTable />
                 </TabItem>
                 <TabItem value="import" label={translate({message: 'Import', id: 'admin.tab.import'})}>
                     <ImportEvents />

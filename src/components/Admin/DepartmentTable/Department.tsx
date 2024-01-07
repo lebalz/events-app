@@ -15,6 +15,9 @@ import TextInput from '../../shared/TextInput';
 import Select from 'react-select';
 import { DepartmentLetter } from '@site/src/api/department';
 import Button from '../../shared/Button';
+import { mdiArrowBottomRightThick, mdiArrowCollapseRight, mdiArrowRightBottomBold, mdiCircle, mdiCircleSmall } from '@mdi/js';
+import { SIZE_S } from '../../shared/icons';
+import { Popover, ArrowContainer } from "react-tiny-popover";
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -23,10 +26,81 @@ interface Props {
 }
 
 const Department = observer((props: Props) => {
+    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const departmentStore = useStore('departmentStore');
     const {department} = props;
     return (
-        <tr className={clsx(styles.department)}>
+        <tr className={clsx(styles.department, department.isSubDepartment && styles.subDepartment)}>
+            <td>
+                <Popover
+                    isOpen={isPopoverOpen}
+                    positions={["bottom"]}
+                    align="center"
+                    padding={0}
+                    onClickOutside={() => setIsPopoverOpen(false)}
+                    content={({ position, childRect, popoverRect }) => (
+                        <ArrowContainer
+                            position={position}
+                            childRect={childRect}
+                            popoverRect={popoverRect}
+                            arrowColor={'var(--ifm-color-primary)'}
+                            arrowSize={8}
+                        >
+                            <div className="card">
+                                <div className="card__header">
+                                    <h3>Zugehörigkeit der Schule</h3>
+                                </div>
+                                <div className="card__body">
+                                    <h4>Zugehörige Schule</h4>
+                                    <Select 
+                                        menuPortalTarget={document.body}
+                                        styles={{ 
+                                            menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                                        }}
+                                        value={{value: department.department1_Id, label: department.department1?.name}}
+                                        options={
+                                            departmentStore.departments.filter(d => !d.isSubDepartment && d.id !== department.id).map(d => ({value: d.id, label: d.name}))
+                                        }
+                                        onChange={(opt) => {
+                                            department.update({department1_Id: opt?.value as string});
+                                        }}
+                                        isMulti={false}
+                                        isSearchable={true}
+                                        isClearable={true}
+                                    />
+                                </div>
+                                <div className="card__body">
+                                    <h4>Zweite Schule</h4>
+                                    <Select 
+                                        menuPortalTarget={document.body}
+                                        styles={{ 
+                                            menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                                        }}
+                                        value={{value: department.department2_Id, label: department.department2?.name}}
+                                        options={
+                                            departmentStore.departments.filter(d => !d.isSubDepartment && d.id !== department.id).map(d => ({value: d.id, label: d.name}))
+                                        }
+                                        onChange={(opt) => {
+                                            department.update({department2_Id: opt?.value as string});
+                                        }}
+                                        isMulti={false}
+                                        isSearchable={true}
+                                        isClearable={true}
+                                    />
+                                </div>
+                            </div>
+                        </ArrowContainer>
+                    )}
+                >
+                    <div onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
+                        <Button 
+                            icon={department.isSubDepartment ? mdiArrowRightBottomBold : mdiCircleSmall}
+                            size={SIZE_S}
+                            color={department.isSubDepartment ? department.department1.color : department.color}
+                        />
+                    </div>
+                </Popover>
+            </td>
             <td>
                 <TextInput text={department.name} onChange={(txt) => department.update({name: txt})} />
             </td>

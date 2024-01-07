@@ -7,6 +7,7 @@ import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLocation } from "@docusaurus/router";
+import { AuthenticationResult } from "@azure/msal-browser";
 const { TEST_USERNAME, TEST_USER_ID } = siteConfig.customFields as { TEST_USERNAME?: string, TEST_USER_ID?: string };
 
 const useTestUserNoAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0;
@@ -43,7 +44,7 @@ const selectAccount = () => {
    */
   const accounts = msalInstance.getAllAccounts();
   console.log('accounts', accounts);
-  const currentAccount = accounts.find((a) => a.tenantId === TENANT_ID);
+  const currentAccount = accounts.filter((a) => a.tenantId === TENANT_ID).find((a) => /@(edu\.)?(gbsl|gbjb)\.ch/.test(a.username));
   
   if (process?.env?.NODE_ENV !== 'production' && TEST_USERNAME) {
     rootStore.sessionStore.setAccount({username: TEST_USERNAME, localAccountId: TEST_USER_ID} as any);
@@ -57,13 +58,14 @@ const selectAccount = () => {
   }
 };
 
-const handleResponse = (response) => {
+const handleResponse = (response: AuthenticationResult) => {
   /**
    * To see the full list of response object properties, visit:
    * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#response
    */
   rootStore.sessionStore.setMsalInstance(msalInstance);
   if (response !== null) {
+    console.log('exp on', response.expiresOn);
     rootStore.sessionStore.setAccount(response.account);
   } else {
     selectAccount();

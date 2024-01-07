@@ -46,7 +46,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classes',
         'departmentIds',
         'userGroupId',
-        'teachingAffected'
+        'teachingAffected',
+        'affectsDepartment2'
     ];
     readonly id: string;
     readonly authorId: string;
@@ -114,6 +115,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable.ref
     _errors?: Joi.ValidationError
 
+    @observable
+    affectsDepartment2: boolean;
+
     validationDisposer: IReactionDisposer;
 
     constructor(props: EventProps, store: EventStore) {
@@ -135,6 +139,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
         this.publishedVersionIds = props.publishedVersionIds;
+        this.affectsDepartment2 = props.affectsDepartment2;
 
         this.parentId = props.parentId;
         this.userGroupId = props.userGroupId;
@@ -859,6 +864,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             cloned: this.cloned,
             userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
+            affectsDepartment2: this.affectsDepartment2,
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
