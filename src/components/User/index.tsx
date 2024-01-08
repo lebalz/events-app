@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import { default as UserModel } from '@site/src/models/User';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiMicrosoftOutlook, mdiOfficeBuilding, mdiSchool, mdiSync } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiLogout, mdiMicrosoftOutlook, mdiOfficeBuilding, mdiRefresh, mdiSchool, mdiSync } from '@mdi/js';
 import UntisLinker from './UntisLinker';
 import { Calendar, SIZE_S } from '../shared/icons';
 import { EVENTS_API } from '@site/src/authConfig';
@@ -28,9 +28,7 @@ interface Props {
 const User = observer((props: Props) => {
     const { i18n } = useDocusaurusContext();
     const { user } = props;
-    const userStore = useStore('userStore');
-    const untisStore = useStore('untisStore');
-    const departmentStore = useStore('departmentStore');
+    const sessionStore = useStore('sessionStore');
     const current = user;
     const iconSide = 'right';
     const { currentLocale } = i18n;
@@ -75,6 +73,49 @@ const User = observer((props: Props) => {
                 <dt>
                     <Badge
                         text={translate({
+                            message: "Account",
+                            id: 'components.user.index.account',
+                            description: 'Label for the account'
+                        })}
+                        icon={mdiAccountCircleOutline}
+                        iconSide={iconSide}
+                        color='gray'
+                    />
+                </dt>
+                <dd>
+                    {
+                        sessionStore.needsRefresh && (
+                            <Button
+                                text={translate({
+                                    message : "Aktualisieren",
+                                    id:'user.button.refresh.text' ,
+                                    description:'user.button.refresh.text'})}
+                                icon={mdiRefresh}
+                                iconSide='left'
+                                size={SIZE_S}
+                                color="orange"
+                                onClick={() => sessionStore.login()}
+                            />
+                        )
+                    }
+                    <Button
+                        onClick={() => sessionStore.logout()}
+                        text={translate({
+                            message: "Logout",
+                            id: 'components.user.index.logout',
+                            description: 'Button label to logout'
+                        })}
+                        color='red'
+                        icon={mdiLogout}
+                        iconSide='left'
+                        size={SIZE_S}
+                        noOutline
+                        className={clsx(styles.logout)}
+                    />
+                </dd>
+                <dt>
+                    <Badge
+                        text={translate({
                             message: "Events",
                             id: 'components.user.index.events',
                             description: 'Button Events'
@@ -85,7 +126,6 @@ const User = observer((props: Props) => {
                     />
                 </dt>
                 <dd>{user.events.length}</dd>
-
                 {
                     user.untisTeacher && (
                         <>

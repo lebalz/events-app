@@ -52,28 +52,6 @@ const UserPage = observer(() => {
                                 {current && (
                                     <User user={current} />
                                 )}
-                                <div style={{ height: '3em' }}></div>
-                                {
-                                    sessionStore.needsRefresh && (
-                                        <Button
-                                            text={translate({
-                                                message : "Aktualisieren",
-                                                id:'user.button.refresh.text' ,
-                                                description:'user.button.refresh.text'})}
-                                            icon={mdiRefresh}
-                                            iconSide='left'
-                                            color="orange"
-                                            onClick={() => sessionStore.login()}
-                                        />
-                                    )
-                                }
-                                <Button
-                                    onClick={() => sessionStore.logout()}
-                                    text="Logout"
-                                    color='red'
-                                    noOutline
-                                    className={clsx(styles.logout)}
-                                />
                             </div>
                         </TabItem>
                         <TabItem 
