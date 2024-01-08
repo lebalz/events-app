@@ -72,8 +72,8 @@ const ICal = observer((props: Props) => {
             <div className={clsx('card', styles.card)}>
                 <div className={clsx('card__header')}>
                     <h4>
-                        <Translate id="ical.section.departments" description='departments ical sync address'>
-                            Abteilungs-Kalender
+                        <Translate id="ical.section.classes" description='classes ical sync address'>
+                            Klassen Kalender
                         </Translate>
                     </h4>
                     <TextInput 
@@ -108,8 +108,8 @@ const ICal = observer((props: Props) => {
             <div className={clsx('card', styles.card)}>
                 <div className={clsx('card__header')}>
                     <h4>
-                        <Translate id="ical.section.classes" description='classes ical sync address'>
-                            Klassen Kalender
+                        <Translate id="ical.section.departments" description='departments ical sync address'>
+                            Abteilungs-Kalender
                         </Translate>
                     </h4>
                     <TextInput 
