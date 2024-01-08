@@ -168,7 +168,7 @@ export class RootStore {
             store.load(semesterId);
         });
         if (this.sessionStore.loggedIn) {
-            this.userStore.loadAffectedEventIds(this.userStore.current, this.semesterStore.currentSemester);
+            this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
         }
     }
 }

@@ -125,7 +125,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 record.semesterIds.forEach((id) => {
                     const sem = this.root.semesterStore.find<Semester>(id);
                     if (sem) {
-                        this.root.userStore.loadAffectedEventIds(current, sem);
+                        this.root.userStore.loadAffectedEventIds(current, sem.id);
                     }
                 });
             }

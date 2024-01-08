@@ -9,6 +9,10 @@ import Button from '../../shared/Button';
 import { mdiAccountCircleOutline, mdiRefresh } from '@mdi/js';
 import Modal from '../../shared/Modal';
 import Translate, { translate } from '@docusaurus/Translate';
+import siteConfig from '@generated/docusaurus.config';
+const { TEST_USERNAME, TEST_USER_ID } = siteConfig.customFields as { TEST_USERNAME?: string, TEST_USER_ID?: string };
+
+const noAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0 && TEST_USER_ID?.length > 0;
 
 const LoginProfileButton = observer(() => {
     const userStore = useStore('userStore');
@@ -30,7 +34,7 @@ const LoginProfileButton = observer(() => {
             <div className={clsx(styles.login)}>
                 <Link to={'/login'}>Login 🔑</Link>
             </div>
-            {sessionStore.needsRefresh && (
+            {sessionStore.needsRefresh && !noAuth && (
                 <Modal
                     open={sessionStore.needsRefresh}
                 >
