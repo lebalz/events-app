@@ -13,7 +13,7 @@
   },
   "link.item.label.GBSL": {
     "message": "GBSL",
-    "description": "The label of footer link with label=GBSL linking to https://gbsl.ch"
+    "description": "The label of footer link with label=GBSL linking to https://www.gbsl.ch"
   },
   "link.item.label.GitHub": {
     "message": "GitHub",
@@ -21,7 +21,7 @@
   },
   "link.item.label.GBJB": {
     "message": "GBJB",
-    "description": "The label of footer link with label=GBJB linking to https://gfbienne.ch"
+    "description": "The label of footer link with label=GBJB linking to https://gbjb.ch"
   },
   "link.title.Events": {
     "message": "Events",

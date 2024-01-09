@@ -246,11 +246,11 @@ const config: Config = {
             items: [
               {
                 label: 'GBSL',
-                href: 'https://gbsl.ch',
+                href: 'https://www.gbsl.ch',
               },
               {
                 label: 'GBJB',
-                href: 'https://gfbienne.ch',
+                href: 'https://gbjb.ch',
               },
               {
                 label: 'GitHub',
