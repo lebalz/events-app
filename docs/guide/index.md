@@ -78,3 +78,15 @@ git push -u origin neuer-branch-name
 git push
 ```
 
+### Continuer à travailler lorsque la branche a été fusionnée sur le dépôt original
+```bash
+# Revenir sur la branche principale
+git checkout main
+# Mettre la branche à jour
+git pull
+# Supprimer l'ancienne branche
+git branch -d nom-ancienne-branche
+# Créer une nouvelle branche pour un nouveau développement
+git checkout -b "nom-de-la-nouvelle-branche"
+```
+
