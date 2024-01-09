@@ -612,7 +612,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get yearsKw() {
-        return `${this.year}-${this.kw}`;
+        const kw = `${this.kw}`.padStart(2, '0');
+        return `${this.year}-${kw}`;
     }
 
     /**
