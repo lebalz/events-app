@@ -4,18 +4,20 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import {default as UserModel} from '@site/src/models/User';
+import { default as UserModel } from '@site/src/models/User';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiMicrosoftOutlook, mdiOfficeBuilding, mdiSchool, mdiSync } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiLogout, mdiMicrosoftOutlook, mdiOfficeBuilding, mdiRefresh, mdiSchool, mdiSync } from '@mdi/js';
 import UntisLinker from './UntisLinker';
-import { Calendar, SIZE_S, SIZE_XS } from '../shared/icons';
+import { Calendar, SIZE_S } from '../shared/icons';
 import { EVENTS_API } from '@site/src/authConfig';
 import Button from '../shared/Button';
-import Klass from '@site/src/models/Untis/Klass';
 import Lesson from '@site/src/models/Untis/Lesson';
 import { ApiState } from '@site/src/stores/iStore';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import _ from 'lodash';
+import ICal from '../iCal';
 
 
 interface Props {
@@ -24,10 +26,12 @@ interface Props {
 
 
 const User = observer((props: Props) => {
+    const { i18n } = useDocusaurusContext();
     const { user } = props;
-    const userStore = useStore('userStore');
+    const sessionStore = useStore('sessionStore');
     const current = user;
     const iconSide = 'right';
+    const { currentLocale } = i18n;
 
     const classes = React.useMemo(() => {
         const klGroups = Lesson.GroupedClassesByYear(user.untisTeacher?.lessons || [], 10);
@@ -42,9 +46,9 @@ const User = observer((props: Props) => {
                 <dt>
                     <Badge
                         text={translate({
-                            message : "Login",
-                            id:'components.user.index.login' ,
-                            description:'Button Login'
+                            message: "Login",
+                            id: 'components.user.index.login',
+                            description: 'Button Login'
                         })}
                         icon={mdiAccountCircleOutline}
                         iconSide={iconSide}
@@ -56,9 +60,9 @@ const User = observer((props: Props) => {
                 <dt>
                     <Badge
                         text={translate({
-                            message : "Untis Account",
-                            id:'components.user.index.untis.account.button' ,
-                            description:'Button Untis Account'
+                            message: "Untis Account",
+                            id: 'components.user.index.untis.account.button',
+                            description: 'Button Untis Account'
                         })}
                         icon={mdiLink}
                         iconSide={iconSide}
@@ -69,48 +73,52 @@ const User = observer((props: Props) => {
                 <dt>
                     <Badge
                         text={translate({
-                            message : "Calendar",
-                            id:'components.user.index.calendar' ,
-                            description:'Button Calendar'
+                            message: "Account",
+                            id: 'components.user.index.account',
+                            description: 'Label for the account'
                         })}
-                        icon={<Calendar />}
+                        icon={mdiAccountCircleOutline}
                         iconSide={iconSide}
                         color='gray'
                     />
                 </dt>
                 <dd>
-                    <div>
-                        <div className={clsx(styles.ical)}>
-                            {user.icalUrl && `${EVENTS_API}/ical/${user.icalUrl}`}
-                        </div>
-                        <div className={clsx(styles.icalButtons)}>
+                    {
+                        sessionStore.needsRefresh && (
                             <Button
-                                onClick={() => userStore.createIcs()}
-                                text={translate({ id: 'user.ical.sync-button.text', message: 'Sync', description: 'Button text for (re)syncing the calendar'})}
-                                title={translate({ id: 'user.ical.sync-button.title', message: 'Synchronisiere meinen Kalender', description: 'Button (hover) title for (re)syncing the calendar'})}
-                                icon={mdiSync}
-                                apiState={userStore.apiStateFor('createIcs')}
+                                text={translate({
+                                    message : "Aktualisieren",
+                                    id:'user.button.refresh.text' ,
+                                    description:'user.button.refresh.text'})}
+                                icon={mdiRefresh}
+                                iconSide='left'
                                 size={SIZE_S}
-                                disabled={userStore.apiStateFor('createIcs') === ApiState.LOADING}
+                                color="orange"
+                                onClick={() => sessionStore.login()}
                             />
-                            <Button
-                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${user.icalUrl}&name=${translate({message: 'GBSL', id: 'user.ical.outlook.calendar-name', description: 'Name of the calendar in Outlook'})}`}
-                                target='_blank'
-                                text={translate({message: 'Outlook', id: 'user.ical.outlook-button.text', description: 'Button text for adding the calendar to Outlook'})}
-                                title={translate({message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook'})}
-                                icon={mdiMicrosoftOutlook}
-                                size={SIZE_S}
-                            />
-                        </div>
-                    </div>
+                        )
+                    }
+                    <Button
+                        onClick={() => sessionStore.logout()}
+                        text={translate({
+                            message: "Logout",
+                            id: 'components.user.index.logout',
+                            description: 'Button label to logout'
+                        })}
+                        color='red'
+                        icon={mdiLogout}
+                        iconSide='left'
+                        size={SIZE_S}
+                        noOutline
+                        className={clsx(styles.logout)}
+                    />
                 </dd>
-
                 <dt>
                     <Badge
                         text={translate({
-                            message : "Events",
-                            id:'components.user.index.events' ,
-                            description:'Button Events'
+                            message: "Events",
+                            id: 'components.user.index.events',
+                            description: 'Button Events'
                         })}
                         icon={mdiCalendarBlankMultiple}
                         iconSide={iconSide}
@@ -118,29 +126,66 @@ const User = observer((props: Props) => {
                     />
                 </dt>
                 <dd>{user.events.length}</dd>
-
                 {
                     user.untisTeacher && (
                         <>
-                            <dt><Badge text={translate({
-                        message : "Schools",
-                        id:'components.user.index.schools' ,
-                        description:'Button Schools'})} icon={mdiOfficeBuilding} iconSide={iconSide} color='gray' /></dt>
+                            <dt>
+                                <Badge
+                                    text={translate({
+                                        message: "Schulen",
+                                        id: 'components.user.index.schools',
+                                        description: 'Button Schools'
+                                    })}
+                                    icon={mdiOfficeBuilding}
+                                    iconSide={iconSide}
+                                    color='gray'
+                                />
+                            </dt>
                             <dd>{[...new Set(user.untisTeacher.departments.map(d => d.name))].join(', ')}</dd>
-                            <dt><Badge text={translate({
-                        message : "Class",
-                        id:'components.user.index.classes' ,
-                        description:'Button class'})} icon={mdiAccountGroup} iconSide={iconSide} color='gray' /></dt>
+                            <dt>
+                                <Badge
+                                    text={translate({
+                                        message: "Klassen",
+                                        id: 'components.user.index.classes',
+                                        description: 'Button class'
+                                    })}
+                                    icon={mdiAccountGroup}
+                                    iconSide={iconSide}
+                                    color='gray'
+                                />
+                            </dt>
                             <dd>{classes}</dd>
-                            <dt><Badge text={translate({
-                        message : "Subjects",
-                        id:'components.user.index.subjects' ,
-                        description:'Button subjects'})} icon={mdiSchool} iconSide={iconSide} color='gray' /></dt>
+                            <dt>
+                                <Badge
+                                    text={translate({
+                                        message: "Fächer",
+                                        id: 'components.user.index.subjects',
+                                        description: 'Button subjects'
+                                    })}
+                                    icon={mdiSchool}
+                                    iconSide={iconSide}
+                                    color='gray'
+                                />
+                            </dt>
                             <dd>{[...new Set(user.untisTeacher.lessons.map(l => l.subject))].join(', ')}</dd>
                         </>
                     )
                 }
-
+                <dt>
+                    <Badge
+                        text={translate({
+                            message: "Kalender Abonnieren",
+                            id: 'components.user.index.calendar',
+                            description: 'Button Calendar'
+                        })}
+                        icon={<Calendar />}
+                        iconSide={iconSide}
+                        color='gray'
+                    />
+                </dt>
+                <dd>
+                    <ICal />
+                </dd>
             </DefinitionList>
         </div>
     )

@@ -13,6 +13,7 @@ import Button from '../../shared/Button';
 import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiTag } from '@mdi/js';
 import { Icon } from '../../shared/icons';
 import Select from 'react-select';
+import { translate } from '@docusaurus/Translate';
 
 interface Props {
     events: EventModel[];
@@ -49,12 +50,24 @@ const BulkActions = observer((props: Props) => {
                             {
                                 userStore.current?.isAdmin && (
                                     <>
-                                        <Button text='Publish' icon={<Icon path={mdiFileCertificate} color='green' />} iconSide='left' className={clsx(styles.success)} onClick={() => {
-                                            eventStore.requestState(events.map(e => e.id), EventState.Published);
-                                        }} />
-                                        <Button text='Refuse' icon={<Icon path={mdiBookCancel} color='orange' />} iconSide='left' className={clsx(styles.revoke)} onClick={() => {
-                                            eventStore.requestState(events.map(e => e.id), EventState.Refused);
-                                        }} />
+                                        <Button 
+                                            text={translate({message: 'Veröffentlichen', id: 'event.bulk_actions.pubslish', description: 'Publish Event'})}
+                                            icon={<Icon path={mdiFileCertificate} color='green' />}
+                                            iconSide='left'
+                                            className={clsx(styles.success)}
+                                            onClick={() => {
+                                                eventStore.requestState(events.map(e => e.id), EventState.Published);
+                                            }}
+                                        />
+                                        <Button 
+                                            text={translate({message: 'Zurückweisen', id: 'event.bulk_actions.refuse', description: 'Refuse Event review'})}
+                                            icon={<Icon path={mdiBookCancel} color='orange' />}
+                                            iconSide='left'
+                                            className={clsx(styles.revoke)} 
+                                            onClick={() => {
+                                                eventStore.requestState(events.map(e => e.id), EventState.Refused);
+                                            }}
+                                        />
                                     </>
                                 )
                             }

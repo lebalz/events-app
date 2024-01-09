@@ -8,7 +8,6 @@ import iStore from './iStore';
 import Department from '../models/Department';
 import { HOUR_2_MS } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
-import { JobStore } from './JobStore';
 
 export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `load-versions-${string}`> {
     readonly root: RootStore;
@@ -22,7 +21,10 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     }
 
     canEdit(event: Event) {
-        return this.root.userStore.current?.id === event.authorId || this.root.userStore.current?.isAdmin;
+        if (event.state === EventState.Draft) {
+            return event.authorId === this.root.userStore.current?.id;
+        }
+        return !!this.root.userStore.current;
     }
 
     affectsUser(event: Event) {

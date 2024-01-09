@@ -517,7 +517,7 @@
     "description": "message if an event spans the whole day"
   },
   "import.section.title": {
-    "message": "Excel Import",
+    "message": "Datei Importieren",
     "description": "import.section.title"
   },
   "import.section.subtitle": {
@@ -553,7 +553,7 @@
     "description": "published"
   },
   "my-events.tab.deleted": {
-    "message": "VeröGelöschtffentlicht"
+    "message": "Gelöscht"
   },
   "my-events.deleted": {
     "message": "Gelöscht",
@@ -917,7 +917,7 @@
     "description": "Button Untis Account"
   },
   "components.user.index.calendar": {
-    "message": "Calendar",
+    "message": "Kalender Abonnieren",
     "description": "Button Calendar"
   },
   "user.ical.outlook.calendar-name": {
@@ -929,15 +929,15 @@
     "description": "Button Events"
   },
   "components.user.index.schools": {
-    "message": "Schools",
+    "message": "Schulen",
     "description": "Button Schools"
   },
   "components.user.index.classes": {
-    "message": "Class",
+    "message": "Klassen",
     "description": "Button class"
   },
   "components.user.index.subjects": {
-    "message": "Subjects",
+    "message": "Fächer",
     "description": "Button subjects"
   },
   "components.event.usersevents.index.tabitem.notpublished": {
@@ -983,5 +983,105 @@
   "components.event.usersevents.index.delete": {
     "message": "Job Löschen",
     "description": "Text to delete a job"
+  },
+  "ical.section.personal": {
+    "message": "Persönlicher Kalender",
+    "description": "personal ical sync address"
+  },
+  "ical.section.departments": {
+    "message": "Abteilungs-Kalender",
+    "description": "departments ical sync address"
+  },
+  "ical.section.classes": {
+    "message": "Klassen Kalender",
+    "description": "classes ical sync address"
+  },
+  "event.bulk_actions.pubslish": {
+    "message": "Veröffentlichen",
+    "description": "Publish Event"
+  },
+  "event.bulk_actions.refuse": {
+    "message": "Zurückweisen",
+    "description": "Refuse Event review"
+  },
+  "event.filter.departments": {
+    "message": "Abteilungen",
+    "description": "Filter: Departments"
+  },
+  "event.filter.classes": {
+    "message": "Klassen",
+    "description": "Filter: Classes"
+  },
+  "abo.section.title.subscribe-calendar": {
+    "message": "Kalender Abonnieren",
+    "description": "subscribe to calendars .ics file"
+  },
+  "abo.section.subtitle.subscribe-calendar": {
+    "message": "Abonniere Kalender in einem Kalenderprogramm wie z.B. Outlook",
+    "description": "subscribe to calendars .ics file"
+  },
+  "ical.section.personal.description": {
+    "message": "Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die eigene Lektionen betreffen und für KLP's auch alle Termine der eigenen Klasse.",
+    "description": "text which explains, which things are included in the personal calendar"
+  },
+  "ical.user_without_untis.message": {
+    "message": "Sie müssen sich zuerst mit Untis verbinden, um einen persönlichen Kalender zu erhalten.",
+    "description": "Message for a user, that is logged in, but is not linked to a untis account"
+  },
+  "ical.link.text.settings": {
+    "message": "Einstellungen",
+    "description": "Link text to navigate to the user settings"
+  },
+  "user.ical.filter.class.placeholder": {
+    "message": "Filtern nach Klasse",
+    "description": "Placeholder text for the filter input"
+  },
+  "user.ical.filter.department.placeholder": {
+    "message": "Filtern nach Schule",
+    "description": "Placeholder text for the filter input"
+  },
+  "navcard.subscribe.text": {
+    "message": "Outlook",
+    "description": "Button text for navigating to the subscribe page"
+  },
+  "navcard.table.text": {
+    "message": "Tabelle",
+    "description": "Button text for navigating to the table page"
+  },
+  "navcard.calendar.text": {
+    "message": "Kalender",
+    "description": "Button text for navigating to the calendar page"
+  },
+  "navcard.gantt.text": {
+    "message": "Zeitachse",
+    "description": "Button text for navigating to the gantt page"
+  },
+  "navcard.user.account": {
+    "message": "Account",
+    "description": "Button text for navigating to the user account page"
+  },
+  "navcard.user.events": {
+    "message": "Meine Events",
+    "description": "Button text for navigating to the users events page"
+  },
+  "navcard.admin.text": {
+    "message": "Admin",
+    "description": "Button text for navigating to the admin page"
+  },
+  "import.tab.gbsl": {
+    "message": "GBSL Import",
+    "description": "import.tab.gbsl"
+  },
+  "import.tab.gbjb": {
+    "message": "GBJB Import",
+    "description": "import.tab.gbjb"
+  },
+  "navbar.loginProfileButton.modal.header": {
+    "message": "Session abgelaufen",
+    "description": "When the login token must be recreated"
+  },
+  "navbar.loginProfileButton.modal.body": {
+    "message": "Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.",
+    "description": "When the login token must be recreated"
   }
 }

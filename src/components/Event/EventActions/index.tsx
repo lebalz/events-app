@@ -17,7 +17,7 @@ type SortableButton = 'delete' | 'discard' | 'save' | 'open';
 interface Props {
     event: Event;
     size?: number;
-    buttonsWithText?: number;
+    expandedButtons?: number;
     onDiscard?: () => void;
     buttonOrder?: SortableButton[];
     exclude?: SortableButton[];
@@ -30,13 +30,13 @@ const EventActions = observer((props: Props) => {
     const { event, size } = props;
     const eventStore = useStore('eventStore');
     const viewStore = useStore('viewStore');
-    const buttons: {[key in SortableButton]: (props: {key: any, showText?: boolean}) => React.ReactNode} = {
-        delete: ({key, showText}) => (<React.Fragment key={key}><Button
+    const buttons: { [key in SortableButton]: (props: { key: any, showText?: boolean }) => React.ReactNode } = {
+        delete: ({ key, showText }) => (<React.Fragment key={key}><Button
             color="red"
             iconSide='left'
             size={size}
             text={showText ? deleteRequested ? 'Wirklich?' : 'Löschen' : undefined}
-            icon={<DeleteIcon size={size}/>}
+            icon={<DeleteIcon size={size} />}
             apiState={event.apiStateFor(`destroy-${event.id}`)}
             onClick={() => setDeleteRequested(!deleteRequested)}
         />
@@ -44,7 +44,7 @@ const EventActions = observer((props: Props) => {
                 <Button color="red" text="Ja" size={size} onClick={() => event.destroy()} />
             )}
         </React.Fragment>),
-        discard: ({key, showText}) => (
+        discard: ({ key, showText }) => (
             <React.Fragment key={key}>
                 {(event?.isDirty || event?.isEditing) && (
                     <Button
@@ -52,7 +52,7 @@ const EventActions = observer((props: Props) => {
                         color="black"
                         size={size}
                         title="Änderungen verwerfen"
-                        icon={<DiscardIcon size={size}/>}
+                        icon={<DiscardIcon size={size} />}
                         iconSide='left'
                         onClick={() => {
                             if (event.isDirty) {
@@ -65,24 +65,24 @@ const EventActions = observer((props: Props) => {
                 )}
             </React.Fragment>
         ),
-        open: ({key, showText}) => (
-            <Button 
+        open: ({ key, showText }) => (
+            <Button
                 key={`open-${key}`}
                 color="blue"
-                text={showText ? translate({message: 'Öffnen', id: 'button.open'}) : undefined}
+                text={showText ? translate({ message: 'Öffnen', id: 'button.open' }) : undefined}
                 icon={mdiShareCircle}
                 href={event.shareUrl}
             />
         ),
-        save: ({key, showText}) => (
+        save: ({ key, showText }) => (
             <Button
                 key={key}
                 color="green"
-                text={showText ? translate({message: 'Speichern', id: 'button.save', description: 'Button to save changes'}) : undefined}
+                text={showText ? translate({ message: 'Speichern', id: 'button.save', description: 'Button to save changes' }) : undefined}
                 size={size}
                 disabled={!event.isDirty || !event.isValid}
                 title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
-                icon={<SaveIcon size={size}/>}
+                icon={<SaveIcon size={size} />}
                 iconSide='left'
                 onClick={() => {
                     if (event.state !== EventState.Draft) {
@@ -107,13 +107,13 @@ const EventActions = observer((props: Props) => {
             buttonOrder.push(btn);
         }
     });
-    const buttonsWithText = props.buttonsWithText ?? buttonOrder.length;
+    const buttonsWithText = props.expandedButtons ?? buttonOrder.length;
     if (event.isEditing) {
         return (
             <>
                 {
                     buttonOrder.filter(b => !(props.exclude || []).includes(b))
-                                .map((btn: SortableButton) => buttons[btn]({key: btn, showText: buttonsWithText >= buttonOrder.length}))
+                        .map((btn: SortableButton) => buttons[btn]({ key: btn, showText: buttonsWithText >= buttonOrder.length }))
                 }
             </>
         )
@@ -124,7 +124,7 @@ const EventActions = observer((props: Props) => {
                 <Button
                     size={size}
                     color="orange"
-                    text={buttonsWithText >= 1 ? translate({message: 'Bearbeiten', id: 'button.edit', description: 'Button to edit a model'}) : undefined}
+                    text={buttonsWithText >= 1 ? translate({ message: 'Bearbeiten', id: 'button.edit', description: 'Button to edit a model' }) : undefined}
                     icon={<EditIcon size={size} />}
                     iconSide='left'
                     onClick={() => event.setEditing(true)}

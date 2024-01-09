@@ -43,7 +43,7 @@ const Actions = observer((props: Props) => {
                     }}
                 />
                 {
-                    event.isEditable && !event.isEditing && (
+                    event.isEditable && (event.state === EventState.Draft || (props.expandeable && event.isExpanded)) && !event.isEditing && (
                         <Edit onClick={() => {
                             event.setEditing(true);
                             if (windowSize === 'mobile') {
@@ -58,7 +58,12 @@ const Actions = observer((props: Props) => {
                             <Discard onClick={() => event.reset()} />
                             <Save
                                 disabled={!event.isDirty || !event.isValid}
-                                title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
+                                title={event.isValid 
+                                    ? event.isDraft 
+                                        ? 'Änderungen speichern'
+                                        : 'Als neue Version speichern (kann als Änderungsvorschlag eingereicht werden)'
+                                    : 'Fehler beheben vor dem Speichern'
+                                }
                                 onClick={() => {
                                     if (event.state !== EventState.Draft) {
                                         event.save().then(action((model) => {

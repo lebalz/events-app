@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiEqual, mdiRecordCircleOutline, mdiShareCircle, mdiText } from '@mdi/js';
-import { EditIcon, Icon, SIZE, SIZE_S, SIZE_XS } from '../shared/icons';
+import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
+import { Icon, SIZE, SIZE_XS } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -16,17 +16,17 @@ import Description from './EventFields/Description';
 import DescriptionLong from './EventFields/DescriptionLong';
 import KW from './EventFields/Kw';
 import Day from './EventFields/Day';
-import DateTime, { EndDateTime, StartDateTime } from './EventFields/DateTime';
+import { EndDateTime, StartDateTime } from './EventFields/DateTime';
 import Location from './EventFields/Location';
 import Audience from './EventFields/Audience';
 import State from './EventFields/State';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
-import { EventState, EventStateActions, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
+import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import TeachingAffected from './EventFields/TeachingAffected';
+import Version from './EventFields/Version';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -36,7 +36,7 @@ interface Props {
 const EventProps = observer((props: Props) => {
     const { event } = props;
     const viewStore = useStore('viewStore');
-    const eventStore = useStore('eventStore');    
+    const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
     const semesterStore = useStore('semesterStore');
     const semester = event.affectedSemesters[0] || semesterStore.currentSemester;
@@ -87,19 +87,13 @@ const EventProps = observer((props: Props) => {
             <dt><Translate id="event.descriptionLong" description='for a single event: description long'>Beschreibung</Translate></dt>
             <dd><DescriptionLong {...commonEditProps} /></dd>
             <dt><Translate id="event.versionNumber" description='for a single event: version number'>Version</Translate></dt>
-            <dd><div style={{display: 'flex'}}>
-                <Badge text={`V${event.versionNumber}`} />
-                {!event.hasParent && <Icon path={mdiRecordCircleOutline} color="green" />}
-                {!event.hasParent && <Badge 
-                                            text={event.updatedAt.toISOString().slice(0, 16).replace('T', ' ')} 
-                                            color='blue'
-                                        />}
-                </div>
+            <dd>
+                <Version {...commonProps} />
             </dd>
             <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
             <dd>
                 <div className={clsx(styles.flex)}>
-                    <State {...commonProps} className='' showText/>
+                    <State {...commonProps} showText />
                 </div>
             </dd>
             <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
@@ -232,10 +226,10 @@ const EventProps = observer((props: Props) => {
                         </dt>
                         <dd>
                             <div className={clsx(styles.options)}>
-                                {options.has('actions') && (showOptions || event.isEditing ) && (
-                                    <EventActions 
+                                {options.has('actions') && (showOptions || event.isEditing) && (
+                                    <EventActions
                                         event={event}
-                                        size={SIZE*0.99}
+                                        size={SIZE * 0.99}
                                         buttonOrder={['discard', 'save']}
                                         exclude={props.inModal ? [] : ['open']}
                                     />
@@ -243,7 +237,7 @@ const EventProps = observer((props: Props) => {
                                 {options.has('clone') && showOptions && (
                                     <Button
                                         icon={mdiContentDuplicate}
-                                        size={SIZE*0.99}
+                                        size={SIZE * 0.99}
                                         title='Duplizieren'
                                         onClick={() => {
                                             eventStore.clone(event).then((newEvent) => {

@@ -51,6 +51,17 @@ export class SessionStore {
         return this.state.account;
     }
 
+    @computed
+    get needsRefresh(): boolean {
+        if (!this.account) {
+            return false;
+        }
+        if (this.root.userStore.initialLoadPerformed) {
+            return !!!this.root.userStore.current;
+        }
+        return false;
+    }
+
     @action
     setMsalInstance(msalInstance: PublicClientApplication) {
         this.initialized = true;
@@ -70,6 +81,11 @@ export class SessionStore {
     @computed
     get loggedIn(): boolean {
         return !!this.state.account;
+    }
+
+    @action
+    refresh() {
+        this.login();
     }
 
     @action

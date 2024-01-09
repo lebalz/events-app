@@ -56,7 +56,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
          * Post load hook
          */
         if (success) {
-            return this.loadAffectedEventIds(this.current, this.root.semesterStore.currentSemester)
+            return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id)
         }
         return Promise.resolve();
     }
@@ -115,12 +115,12 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     }
     
     @action
-    loadAffectedEventIds(user?: User, semester?: Semester) {
+    loadAffectedEventIds(user?: User, semesterId?: string) {
         if (!user) {
             return Promise.resolve([]);
         }
-        return this.withAbortController(`load-affected-events-${user.id}-${semester?.id}`, (sig) => {
-            return apiAffectedEventIds(user.id, semester?.id, sig.signal).then(action(({data}) => {
+        return this.withAbortController(`load-affected-events-${user.id}-${semesterId}`, (sig) => {
+            return apiAffectedEventIds(user.id, semesterId, sig.signal).then(action(({data}) => {
                 this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);            
                 return data;
             }));

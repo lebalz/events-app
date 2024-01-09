@@ -81,12 +81,11 @@ const createGroupEvents = createTransformer<{events: EventModel[], groupBy?: 'ye
     if (data.groupBy) {
         const byGroup = _.groupBy(events, data.groupBy);
         let idx = 0;
-
         Object.keys(byGroup).sort().forEach(key => {
             transformed.push({
                 type: 'group', 
                 groupBy: data.groupBy, 
-                group: key.split('-')[1],
+                group: key.split('-')[1].replace(/^0+/, ''),
                 isCurrent: key === CURRENT_YYYY_KW,
                 events: byGroup[key]
             });

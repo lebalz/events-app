@@ -10,6 +10,8 @@ import EventTable, { EventViewProps } from './EventTable';
 import AdminUserTable from './AdminUserTable';
 import AdminDepartmentTable from './AdminDepartmentTable';
 import { EventState } from '@site/src/api/event';
+import Klass from '@site/src/models/Untis/Klass';
+import Department from '@site/src/models/Department';
 
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
@@ -38,6 +40,15 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @observable
     initialLoadPerformed = false;
+
+    @observable
+    icalListDepartmentsFilter = '';
+
+    @observable
+    icalListClassFilter = '';
+
+    @observable
+    calendarViewDate = (new Date()).toISOString().split('T')[0];
 
     expandedEventIds = observable.set<string>();
 
@@ -104,6 +115,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @action
+    setCalendarViewDate(date: Date) {
+        this.calendarViewDate = date.toISOString().split('T')[0];
+    }
+
+    @action
     setEventModalId(modalId?: string): void {
         this.openEventModalId = modalId;
     }
@@ -147,7 +163,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
             return;
         }
         this._semesterId = semester.id;
-        // this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester).then((data) => {
+        // this.root.userStore.loadAffectedEventIds(this.root.userStore.current, this.semester?.id).then((data) => {
         //     // if (this._semesterId === semester.id && Array.isArray(data) && data.length > 0) {
         //     //     this.eventTable.setOnlyMine(true);
         //     // } else {
@@ -208,6 +224,28 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @action
     reset() {
         this.eventTable.setOnlyMine(false);
+    }
+
+    @action
+    setIcalListDepartmentsFilter(departments: string) {
+        this.icalListDepartmentsFilter = departments;
+    }
+
+    @computed
+    get icalListDepartmentsFiltered() {
+        const match = (dep: Department, s: string) => dep.shortName.toLowerCase().includes(s) || dep.name.toLowerCase().includes(s);
+        return this.root.departmentStore.departments.filter((d) => match(d, this.icalListDepartmentsFilter.toLowerCase()));
+    }
+
+    @action
+    setIcalListClassFilter(classes: string) {
+        this.icalListClassFilter = classes;
+    }
+
+    @computed
+    get icalListClassesFiltered() {
+        const match = (klass: Klass, s: string) => klass.legacyName?.includes(s) || klass.name.includes(s);
+        return this.root.untisStore.classes.filter((c) => match(c, this.icalListClassFilter));
     }
 
 }

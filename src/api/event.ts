@@ -56,6 +56,12 @@ export enum EventAudience {
     ALL = 'ALL'
 };
 
+export enum ImportType {
+    GBSL_XLSX = 'GBSL_XLSX',
+    GBJB_CSV = 'GBJB_CSV',
+    EVENTS_XLSX = 'EVENTS_XLSX',
+}
+
 export interface PrismaEvent {
     id: string
     authorId: string
@@ -73,7 +79,7 @@ export interface PrismaEvent {
     parentId: string | null
     userGroupId: string | null
     teachingAffected: TeachingAffected
-    subjects: string[]
+    affectsDepartment2: boolean
     createdAt: string
     updatedAt: string
     deletedAt?: string
@@ -106,11 +112,7 @@ export const JoiEvent = Joi.object<Event>({
     jobId: Joi.string().allow(null),
     audience: Joi.string().valid(...Object.values(EventAudience)).required(),
     teachingAffected: Joi.string().valid(...Object.values(TeachingAffected)).required(),
-    subjects: Joi.array().items(Joi.string()).when('teachersOnly', {
-        is: true,
-        then: Joi.required(),
-        otherwise: Joi.array().empty().required()
-    }),
+    affectsDepartment2: Joi.boolean().required(),
     parentId: Joi.string().allow(null),
     publishedVersionIds: Joi.array().items(Joi.string()).required(),
     userGroupId: Joi.string().allow(null),
@@ -131,8 +133,8 @@ export const JoiMessages: Joi.LanguageMessages = {
     'date.min': translate({message: '{{#label}} muss grösser oder gleich {{:#limit}} sein', id: 'joi.date.base',description: 'Joi validation error for date min'}),
 };
 
-export function importExcel(formData: FormData, signal: AbortSignal): AxiosPromise<Job> {
-    return api.post('event/import', formData, { signal });
+export function importEvents(formData: FormData, type: ImportType, signal: AbortSignal): AxiosPromise<Job> {
+    return api.post(`event/import?type=${type}`, formData, { signal });
 }
 
 

@@ -1,5 +1,5 @@
 
-import React, { KeyboardEventHandler } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
@@ -10,12 +10,10 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import Department from './Department';
-import Checkbox from '../Checkbox';
 import Button from '../Button';
 import _ from 'lodash';
 import ClassSelector from './ClassSelector';
 import Translate, { translate } from '@docusaurus/Translate';
-import SubjectSelector from '../../Event/EventFields/SubjectSelector';
 import { EventAudience, TeachingAffected } from '@site/src/api/event';
 import { mdiDotsHorizontalCircleOutline } from '@mdi/js';
 
@@ -88,9 +86,27 @@ const AudiencePicker = observer((props: Props) => {
                         })}
                     </div>
                 </div>
+                {
+                    [EventAudience.ALL, EventAudience.LP].includes(event.audience) && event.affectedDepartments.some(d => d.isSubDepartment && !!d.department2_Id) && (
+                        <div className={styles.toggle}>
+                            <span className={styles.label}>Bilingue Lehrpersonen betroffen?</span>
+                            <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
+                            <Button
+                                    text="Ja"
+                                    onClick={() => event.update({ affectsDepartment2: true })}
+                                    active={event.affectsDepartment2}
+                                />
+                                <Button
+                                    text="Nein"
+                                    onClick={() => event.update({ affectsDepartment2: false })}
+                                    active={!event.affectsDepartment2}
+                                />
+                            </div>
+                        </div>
+                    )
+                }
+                
             </div>
-            {/* <h4>Fächer</h4>
-            <SubjectSelector event={event} styles={styles} /> */}
             <h4>Schulen/Klassen</h4>
             <div className={clsx(styles.flex)}>
                 <Button

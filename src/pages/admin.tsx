@@ -14,9 +14,10 @@ import UserTable from '../components/Admin/UserTable';
 import DepartmentTable from '../components/Admin/DepartmentTable';
 import SyncUntis from '../components/Job/SyncUntis';
 import Section from '../components/shared/Section';
-import Upload from '../components/ImportExcel/Upload';
+import Upload from '../components/ImportEvents/Upload';
 import Job from '../components/Job';
 import Translate, { translate } from '@docusaurus/Translate';
+import ImportEvents from '../components/ImportEvents';
 
 const AdminView = observer(() => {
     const userStore = useStore('userStore');
@@ -88,35 +89,10 @@ const AdminView = observer(() => {
                     <SyncUntis />
                 </TabItem>
                 <TabItem value="departments" label={translate({message: 'Abteilungen', id: 'admin.tab.departments'})}>
-                    <DepartmentTable departments={viewStore.adminDepartmentTable.departments} />
+                    <DepartmentTable />
                 </TabItem>
                 <TabItem value="import" label={translate({message: 'Import', id: 'admin.tab.import'})}>
-                    <Section
-                        title={(
-                            <span>{
-                                translate({
-                                    message : "Excel Import",
-                                    id:'admin.section.import.title' ,
-                                    description:'admin.section.import.title'
-                                })}
-                                <Icon path={mdiFileExcel} size={2} color={'green'} />
-                            </span>
-                        )}
-                        subtitle={translate({
-                            message : "Importiere Daten aus Excel-Dateien.",
-                            id:'admin.section.import.subtitle' ,
-                            description:'admin.section.import.subtitle'
-                        })}
-                    >
-                        <Upload />
-                        <div>
-                            {jobStore.importJobs.map((job, idx) => {
-                                return (
-                                    <Job key={job.id} job={job} />
-                                )
-                            })}
-                        </div>
-                    </Section>
+                    <ImportEvents />
                 </TabItem>
                 <TabItem value="reg-periods" label={translate({message: 'Registrierungs Perioden', id: 'admin.tab.reg-periods'})}>
                     🚧 Under construction... 🏗️

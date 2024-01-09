@@ -11,7 +11,6 @@ import EventGrid, { ColumnConfig } from '../components/Event/EventGrid';
 import { EventState } from '../api/event';
 import styles from './my-events.module.scss';
 import BulkActions from '../components/Event/BulkActions';
-import { Role } from '../api/user';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -128,10 +127,14 @@ const Table = observer(() => {
                         </TabItem>
                     )}
                     {deleted.length > 0 && (
-                        <TabItem value='deleted' label={
-                            translate({
-                                message: 'VeröGelöschtffentlicht',
-                                id: 'my-events.tab.deleted'})}
+                        <TabItem 
+                            value='deleted'
+                            label={
+                                translate({
+                                    message: 'Gelöscht',
+                                    id: 'my-events.tab.deleted'
+                                })
+                            }
                         >
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>

@@ -26,6 +26,8 @@ export interface Department {
     letter: DepartmentLetter;
     classLetters: string[]
     description: string;
+    department1_Id: string | null;
+    department2_Id: string | null;
     createdAt: string;
     updatedAt: string;
 }

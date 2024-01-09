@@ -46,8 +46,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classes',
         'departmentIds',
         'userGroupId',
-        'subjects',
-        'teachingAffected'
+        'teachingAffected',
+        'affectsDepartment2'
     ];
     readonly id: string;
     readonly authorId: string;
@@ -74,7 +74,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     departmentIds = observable.set<string>([]);
     classes = observable.set<KlassName>([]);
-    subjects = observable.set<string>([]);
     classGroups = observable.set<string>([]);
 
     @observable
@@ -116,6 +115,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable.ref
     _errors?: Joi.ValidationError
 
+    @observable
+    affectsDepartment2: boolean;
+
     validationDisposer: IReactionDisposer;
 
     constructor(props: EventProps, store: EventStore) {
@@ -133,11 +135,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
         this.audience = props.audience;
-        this.subjects.replace(props.subjects);
         this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
         this.publishedVersionIds = props.publishedVersionIds;
+        this.affectsDepartment2 = props.affectsDepartment2;
 
         this.parentId = props.parentId;
         this.userGroupId = props.userGroupId;
@@ -286,11 +288,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
 
         this.normalizeAffectedClasses();
-    }
-
-    @action
-    setSubjects(subjects: string[]) {
-        this.subjects.replace(subjects);
     }
 
     @action
@@ -463,6 +460,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.affectedDepartments.map(d => d.name);
     }
 
+    @computed
+    get isDraft() {
+        return this.state === EventState.Draft;
+    }
+
+    @computed
+    get isPublished() {
+        return this.state === EventState.Published;
+    }
+
+    @computed
+    get isRefused() {
+        return this.state === EventState.Refused;
+    }
+
+    @computed
+    get isReview() {
+        return this.state === EventState.Review;
+    }
+
     @action
     setAudience(audience: EventAudience) {
         this.audience = audience;
@@ -595,7 +612,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get yearsKw() {
-        return `${this.year}-${this.kw}`;
+        const kw = `${this.kw}`.padStart(2, '0');
+        return `${this.year}-${kw}`;
     }
 
     /**
@@ -678,28 +696,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             return 100;
         }
         return (prog / this.durationMS) * 100;
-    }
-
-    /** TODO: Refactor and check for correctness! */
-    affectsUser(user: User) {
-        if (user.departments.some(d => this.departmentIds.has(d.id))) {
-            return true;
-        }
-
-        if (
-            (this.audience === EventAudience.KLP || this.audience === EventAudience.STUDENTS) 
-                && user.untisTeacher 
-                && this.untisClasses.some(c => c.klp?.id === user.untisTeacher.id)
-            ) {
-            return true;
-        }
-        if (this.audience === EventAudience.LP && user.classes.some(c => this.affectsClass(c))) {
-            return true;
-        }
-        if (user.untisTeacher && this.affectedLessons.some(l => l.teacherIds.includes(user.untisTeacher?.id))) {
-            return true;
-        }
-        return false;
     }
 
     affectsClass(klass: Klass): boolean {
@@ -869,7 +865,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             cloned: this.cloned,
             userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
-            subjects: this.audience === EventAudience.LP ? [...this.subjects] : [],
+            affectsDepartment2: this.affectsDepartment2,
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
@@ -971,7 +967,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get _dupCompareString() {
-        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'parentId', 'cloned', 'userGroupId', 'state'];
+        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'deletedAt', 'parentId', 'cloned', 'userGroupId', 'state'];
 
         const props = (Object.keys(this.props) as (keyof EventProps)[]).filter(p => {
             return !exclude.includes(p)

@@ -9,7 +9,7 @@ const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 import ConfigLocalized from './docusaurus.config.localized.json';
 
-const VERSION = 'beta.1';
+const VERSION = 'beta.1.2';
 
 const defaultLocale = 'de';
 
@@ -74,7 +74,6 @@ if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
 
 const GIT_COMMIT_SHA = process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7);
 
-/** @type {import('@docusaurus/types').Config} */
 const config: Config = {
   title: getLocalizedConfigValue('title'),
   tagline: getLocalizedConfigValue('tagline'),
@@ -158,8 +157,9 @@ const config: Config = {
   themeConfig: {
       announcementBar: {
         id: VERSION,
-        content: `🚧 Seite im Aufbau... ${VERSION} 🚧`,
-        backgroundColor: '#fcff00'
+        content: `🚧 Beta-Phase: ${VERSION} 🚧`,
+        backgroundColor: 'var(--color-current-week-odd-background)',
+        textColor: 'var(--ifm-font-color-base)'
       },
       docs: {
         sidebar: {
@@ -177,6 +177,7 @@ const config: Config = {
           {to: '/calendar', label: 'Kalender', position: 'left'},
           {to: '/table', label: 'Tabelle', position: 'left'},
           {to: '/gantt', label: 'Zeitachse', position: 'left'},
+          {to: '/subscribe', label: 'Outlook', position: 'left'},
           {
             type: 'custom-myEventsLink',
             position: 'left',
@@ -245,11 +246,11 @@ const config: Config = {
             items: [
               {
                 label: 'GBSL',
-                href: 'https://gbsl.ch',
+                href: 'https://www.gbsl.ch',
               },
               {
                 label: 'GBJB',
-                href: 'https://gfbienne.ch',
+                href: 'https://gbjb.ch',
               },
               {
                 label: 'GitHub',
