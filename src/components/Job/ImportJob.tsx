@@ -12,6 +12,7 @@ import Delete from '../shared/Button/Delete';
 import BulkActions from '../Event/BulkActions';
 import EventGrid from '../Event/EventGrid';
 import { ImportJob as ImportJobModel } from '@site/src/models/Job';
+import Translate, { translate } from '@docusaurus/Translate';
 
 
 interface Props {
@@ -35,7 +36,7 @@ const ImportJob = observer((props: Props) => {
                     onClick={() => {
                         jobStore.destroy(job);
                     }}
-                    text="Job Löschen"
+                    text={translate({ id: 'job.delete', message: 'Job Löschen', description: 'job.delete' })}
                     flyoutSide='right'
                     iconSide='right'
                     apiState={jobStore.apiStateFor(`destroy-${job.id}`)}

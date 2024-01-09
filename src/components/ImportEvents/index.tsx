@@ -39,13 +39,13 @@ const ImportEvents = observer((props: Props) => {
             <Tabs lazy>
                 <TabItem
                     value="gbsl"
-                    label={translate({ id: 'import.tab.gbsl', message: 'GBSL Import', description: 'import.tab.gbsl' })}
+                    label={translate({ id: 'import.tab.gbsl.label', message: 'GBSL Import', description: 'import.tab.gbsl' })}
                 >
                     <Upload type={ImportType.GBSL_XLSX} />
                 </TabItem>
                 <TabItem
                     value="gbjb"
-                    label={translate({ id: 'import.tab.gbjb', message: 'GBJB Import', description: 'import.tab.gbjb' })}
+                    label={translate({ id: 'import.tab.gbjb.label', message: 'GBJB Import', description: 'import.tab.gbjb' })}
                 >
                     <Upload type={ImportType.GBJB_CSV} />
                 </TabItem>

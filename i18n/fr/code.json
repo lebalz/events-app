@@ -947,5 +947,136 @@
   "untis.lesson.ef": {
     "message": "OC",
     "description": "Abbreviation of the Ergänzungsfach"
+  },
+  "event.bulk_actions.editing": {
+    "message": "Éditer",
+    "description": "Publish Event"
+  },
+  "event.bulk_actions.request_review": {
+    "message": "Évènements en révision",
+    "description": "Request Review"
+  },
+  "event.bulk_actions.publish": {
+    "message": "Publier",
+    "description": "Publish Event"
+  },
+  "event.bulk_actions.refuse": {
+    "message": "Rejeter",
+    "description": "Refuse Event review"
+  }
+  ,
+  "ical.section.personal": {
+    "message": "Calendrier personnel",
+    "description": "personal ical sync address"
+  }
+  ,
+  "ical.section.personal.description": {
+    "message": "Le calendrier personnel n'affiche que les rendez-vous qui vous concernent. Les délais administratifs (comme la saisie des notes), les rendez-vous qui concernent vos propres leçons et, pour les MC, également tous les rendez-vous de votre classe.",
+    "description": "text which explains, which things are included in the personal calendar"
+  },
+  "ical.user_without_untis.message": {
+    "message": "Vous devez d'abord vous connecter à Untis pour obtenir un calendrier personnel.",
+    "description": "Message for a user, that is logged in, but is not linked to a untis account"
+  },
+  "ical.link.text.settings": {
+    "message": "Calendrier de classes",
+    "description": "classes ical sync address"
+  }
+  ,
+  "ical.section.classes": {
+    "message": "Calendriers des classes",
+    "description": "classes ical sync address"
+  },
+  "user.ical.filter.class.placeholder": {
+    "message": "Filter par classe",
+    "description": "Placeholder text for the filter input"
+  },
+  "ical.section.departments": {
+    "message": "Calendriers par filière",
+    "description": "departments ical sync address"
+  },
+  "user.ical.filter.department.placeholder": {
+    "message": "Filtrer par filière",
+    "description": "Placeholder text for the filter input"
+  },"abo.section.subtitle.subscribe-calendar": {
+    "message": "Pour synchroniser un calendrier dans son agenda personnel, comme par exemple Outlook.",
+    "description": "subscribe to calendars .ics file"
+  },
+  "abo.section.title.subscribe-calendar": {
+    "message": "S'abonner à des calendriers",
+    "description": "subscribe to calendars .ics file"
+  },
+  "import.tab.gbsl.label": {
+    "message": "Importation pour le GBSL",
+    "description": "Label pour l'importation pour le GBSL"
+  },
+  "import.tab.gbjb.label": {
+    "message": "Importation pour le GBJB",
+    "description": "Label pour l'importation pour le GBJB"
+  },
+  "upload.button.text": {
+    "message": "Télécharger",
+    "description": "text on the button upload"
+  },
+  "upload.button.title": {
+    "message": "Importer les données CSV/XLSX",
+    "description": "Text displayed on mouse-over"
+  },
+  "job.SyncUntis.section.title": {
+    "message": "Synchroniser l'horaire (WebUntis)",
+    "description": "Title of the section syncUntis"
+  },
+  "job.SyncUntis.section.subtitle": {
+    "message": "Synchroniser l'horaire, les classes et les enseignant·e·s de WebUntis",
+    "description": "Subtitle of the section syncUntis"
+  }
+  ,
+  "job.SyncUntis.badge.text": {
+    "message": "Synchronisation Untis",
+    "description": "Text of the badge for sync Untis"
+  },
+  "job.SyncUntis.button.text": {
+    "message": "Synchroniser Untis",
+    "description": "Text of the button for sync Untis"
+  },
+  "job.delete": {
+    "message": "Supprimer",
+    "description": "job.delete"
+  },
+  "job.summary.text": {
+    "message": "Synchronisation avec Untis",
+    "description": "Text of the button to sync Untis"
+  },
+  "shared.header.concerns": {
+    "message": "Concerne",
+    "description": "The title in the window used to select the participants involved in the event"
+  },
+  "shared.text.lesson.concerned": {
+    "message": "Leçons impactées ?",
+    "description": "The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
+  },
+  "shared.text.people.concerned": {
+    "message": "Qui ?",
+    "description": "The text in the window used to select the participants involved in the event asking which people is concerned by an event"
+  },
+  "shared.text.bilingual.people.concerned": {
+    "message": "Profs bilingues concerné·e·s ?",
+    "description": "The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event"
+  },
+  "shared.button.yes": {
+    "message": "Oui",
+    "description": "Button text yes"
+  },
+  "shared.button.no": {
+    "message": "Non",
+    "description": "Button text no"
+  },
+  "shared.header.school_departement": {
+    "message": "Écoles/classes",
+    "description": "The title in the window for the event"
+  },
+  "shared.button.title.expand": {
+    "message": "Étendre",
+    "description": "Text appearing on the expand button"
   }
 }
