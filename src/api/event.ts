@@ -134,12 +134,12 @@ export const JoiMessages: Joi.LanguageMessages = {
 };
 
 export function importEvents(formData: FormData, type: ImportType, signal: AbortSignal): AxiosPromise<Job> {
-    return api.post(`event/import?type=${type}`, formData, { signal });
+    return api.post(`events/import?type=${type}`, formData, { signal });
 }
 
 
 export function requestState(state: EventState, ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
-    return api.post('event/change_state', {data: {ids: ids, state: state}}, { signal });
+    return api.post('events/change_state', {data: {ids: ids, state: state}}, { signal });
 }
 
 export function excel(signal: AbortSignal): AxiosPromise {
