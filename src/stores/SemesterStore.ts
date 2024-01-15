@@ -7,7 +7,7 @@ import Semester from '../models/Semester';
 import {syncUntis as apiStartSyncJob} from '../api/semester';
 
 export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${string}`> {
-    readonly API_ENDPOINT = 'semester';
+    readonly API_ENDPOINT = 'semesters';
     readonly root: RootStore;
     models = observable<Semester>([]);
     loadedSemesters = observable.set<string>();

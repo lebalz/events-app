@@ -144,7 +144,7 @@ export function requestState(state: EventState, ids: string[], signal: AbortSign
 
 export function excel(signal: AbortSignal): AxiosPromise {
     return api.post(
-        'event/excel',
+        'events/excel',
         {},
         {
             method: 'GET',
@@ -156,7 +156,7 @@ export function excel(signal: AbortSignal): AxiosPromise {
 
 export function clone(eventId: string, signal: AbortSignal): AxiosPromise<Event> {
     return api.post(
-        `event/${eventId}/clone`,
+        `events/${eventId}/clone`,
         {},
         { signal}
     );

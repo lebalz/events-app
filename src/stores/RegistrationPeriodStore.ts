@@ -6,7 +6,7 @@ import {RegistrationPeriod as RegPeriodProps} from '../api/registration_period';
 import RegistrationPeriod from '../models/RegistrationPeriod';
 
 export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
-    readonly API_ENDPOINT = 'registration_period';
+    readonly API_ENDPOINT = 'registration_periods';
     readonly root: RootStore;
 
     models = observable<RegistrationPeriod>([]);

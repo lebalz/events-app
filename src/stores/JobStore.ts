@@ -10,7 +10,7 @@ import User from '../models/User';
 
 export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = 'job';
+    readonly API_ENDPOINT = 'jobs';
 
     models = observable<Job>([]);
     cancelToken = axios.CancelToken.source();

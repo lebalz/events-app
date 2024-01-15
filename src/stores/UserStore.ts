@@ -10,7 +10,7 @@ import UserEventGroup from '../models/UserEventGroup';
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
 export class UserStore extends iStore<UserProps, ApiAction> {
-    readonly API_ENDPOINT = 'user';
+    readonly API_ENDPOINT = 'users';
     readonly root: RootStore;
     models = observable<User>([]);
 

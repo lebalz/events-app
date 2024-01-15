@@ -138,8 +138,8 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     load(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
         return this.withAbortController('loadAll', (sig) => {
             const endPoint = semesterId ?
-                `${this.API_ENDPOINT}/all?semesterId=${semesterId}` :
-                `${this.API_ENDPOINT}/all`;
+                `${this.API_ENDPOINT}?semesterId=${semesterId}` :
+                `${this.API_ENDPOINT}`;
             return apiAll<Model>(endPoint, sig.signal)
                 .then(
                     action(({ data }) => {

@@ -8,7 +8,7 @@ import { computedFn } from 'mobx-utils';
 
 export class DepartmentStore extends iStore<DepartmentProps> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = 'department';
+    readonly API_ENDPOINT = 'departments';
     models = observable<Department>([]);
     
     constructor(root: RootStore) {

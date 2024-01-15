@@ -11,7 +11,7 @@ import Lesson from '../models/Untis/Lesson';
 
 export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `load-versions-${string}`> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = 'event';
+    readonly API_ENDPOINT = 'events';
     models = observable<Event>([]);
     
     constructor(root: RootStore) {

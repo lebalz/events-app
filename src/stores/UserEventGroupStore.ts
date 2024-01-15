@@ -8,7 +8,7 @@ import UserEventGroup from '../models/UserEventGroup';
 import ApiModel from '../models/ApiModel';
 
 export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction | `clone-${string}` | `fetch-${string}`> {
-    readonly API_ENDPOINT = 'user_event_group';
+    readonly API_ENDPOINT = 'user_event_groups';
     readonly root: RootStore;
 
     models = observable<UserEventGroup>([]);

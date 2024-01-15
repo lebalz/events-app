@@ -154,10 +154,13 @@ export class RootStore {
             }));
     }
 
+
     @action
     cleanup() {
         this.resettableStores.forEach((store) => store.reset());
     }
+
+
     @action
     loadSemester(semesterId: string, force: boolean) {
         if (!force && (!this.initialLoadPerformed || this.semesterStore.loadedSemesters.has(semesterId))) {
