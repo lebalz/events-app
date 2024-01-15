@@ -6,6 +6,7 @@ import {
 import { action, computed, makeObservable, observable } from 'mobx';
 import { loginRequest } from '../authConfig';
 import { RootStore } from './stores';
+import { setupAxios } from '../api/base';
 
 class State {    
     @observable.ref
@@ -69,8 +70,13 @@ export class SessionStore {
     }
 
     @action
-    setAccount(account?: AccountInfo | null) {
+    setAccount(account?: AccountInfo | null, reconfig: boolean = false) {
         this.state.account = account;
+        if (reconfig) {
+            setupAxios(account);
+            this.root.cleanup();
+            this.root.load('authorized');
+        }
     }
 
     @computed
@@ -85,7 +91,18 @@ export class SessionStore {
 
     @action
     refresh() {
-        this.login();
+        if (this.account && this.msalInstance)  {
+            this.msalInstance.acquireTokenSilent({
+                account: this.account,
+                scopes: loginRequest.scopes,
+            }).then((response) => {
+                this.setAccount(response.account, true);
+            }).catch((e) => {
+                console.warn(e);
+            });
+        } else {
+            this.login();
+        }
     }
 
     @action

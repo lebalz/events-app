@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@azure/msal-browser": "^2.28.3",
-    "@azure/msal-react": "^1.4.7",
+    "@azure/msal-react": "^2.0.9",
     "@crowdin/cli": "3",
     "@docusaurus/core": "^3.1.0",
     "@docusaurus/preset-classic": "^3.1.0",
