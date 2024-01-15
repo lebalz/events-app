@@ -7,7 +7,7 @@ import axios from "axios";
 
 type ApiModelInst = ApiModel<any, any>;
 export class ResettableStore {
-    reset() {
+    resetUserData() {
         /**
          * Reset the store to its initial state
          */
@@ -16,16 +16,22 @@ export class ResettableStore {
 }
 
 export class LoadeableStore<T> {
-    load(semesterId?: string): Promise<T | T[]> {
+    loadPublic(semesterId?: string): Promise<T | T[]> {
         /**
-         * Load the data from the api
+         * Load the data from the public api
+         */
+        throw new Error('Not implemented');
+    }
+    loadAuthorized(semesterId?: string): Promise<T | T[]> {
+        /**
+         * Load the data from the authorized api
          */
         throw new Error('Not implemented');
     }
     initialLoadPerformed: boolean;
 }
 
-export type ApiAction = 'loadAll' | 'create' | `load-${string}` | `save-${string}` | `destroy-${string}`;
+export type ApiAction = `loadPublic-${string}` | `loadAuthorized-${string}` | 'create' | `load-${string}` | `save-${string}` | `destroy-${string}`;
 export enum ApiState {
     IDLE = 'idle',
     LOADING = 'loading',
@@ -38,7 +44,11 @@ const API_STATE_RESET_TIMEOUT = 1500;
 
 abstract class iStore<Model extends { id: string }, Api = ''> extends ResettableStore implements LoadeableStore<any> {
     abstract readonly root: RootStore;
-    abstract readonly API_ENDPOINT: string;
+    abstract readonly API_ENDPOINT: {
+        Base: string;
+        LoadPublic?: string;
+        LoadAuthorized?: string;
+    };
     abstract models: IObservableArray<ApiModel<Model, Api | ApiAction>>;
 
     abortControllers = new Map<Api | ApiAction, AbortController>();
@@ -126,27 +136,23 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    postLoad(models: ApiModel<Model, Api | ApiAction>[], success?: boolean): Promise<any> {
+    postLoad(models: ApiModel<Model, Api | ApiAction>[], publicModels: boolean, success?: boolean): Promise<any> {
         /**
          * Post load hook
          */
         return Promise.resolve();
     }
 
-
     @action
-    load(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
-        return this.withAbortController('loadAll', (sig) => {
-            const endPoint = semesterId ?
-                `${this.API_ENDPOINT}/all?semesterId=${semesterId}` :
-                `${this.API_ENDPOINT}/all`;
+    _load(endPoint: string, models: 'public' | 'authorized', sigId: Api | ApiAction) {        
+        return this.withAbortController(sigId, (sig) => {
             return apiAll<Model>(endPoint, sig.signal)
                 .then(
                     action(({ data }) => {
                         if (data) {
                             data.map((d) => this.addToStore(d));
                         }
-                        return this.postLoad(this.models, true)
+                        return this.postLoad(this.models, models === 'public', true)
                             .then(() => {
                                 return this.models
                             })
@@ -157,18 +163,41 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                     })
                 ).catch((err) => {
                     console.warn(err);
-                    return this.postLoad([], false).then(() => []).catch(() => []);
+                    return this.postLoad([], models === 'public', false).then(() => []).catch(() => []);
                 }).finally(() => {
                     this.initialLoadPerformed = true;
                 });
         });
-
     }
 
 
     @action
-    reset() {
-        this.models.clear();
+    loadPublic(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
+        if (!this.API_ENDPOINT.LoadPublic) {
+            return this.postLoad([], true, true).then(() => []).catch(() => []);
+        };
+        const endPoint = semesterId ?
+            `${this.API_ENDPOINT.LoadPublic}?semesterId=${semesterId}` :
+            `${this.API_ENDPOINT.LoadPublic}`;
+        return this._load(endPoint, 'public', `loadPublic-${semesterId}`);
+    }
+
+    @action
+    loadAuthorized(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
+        if (!this.API_ENDPOINT.LoadAuthorized) {
+            return this.postLoad([], false, true).then(() => []).catch(() => []);
+        }
+        const endPoint = semesterId ?
+            `${this.API_ENDPOINT.LoadAuthorized}?semesterId=${semesterId}` :
+            `${this.API_ENDPOINT.LoadAuthorized}`;
+        return this._load(endPoint, 'authorized', `loadAuthorized-${semesterId}`);
+    }
+
+
+    @action
+    resetUserData() {
+        const anonymeModels = this.models.slice().filter((m) => !m.isUserModel);
+        this.models.replace(anonymeModels);
         this.initialLoadPerformed = false;
     }
 
@@ -179,7 +208,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             return Promise.resolve(undefined);
         }
         return this.withAbortController(`load-${id}`, (sig) => {
-            return apiFind<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
+            return apiFind<Model>(`${this.API_ENDPOINT.Base}/${id}`, sig.signal);
         }).then(action(({ data }) => {
             if (data && Object.keys(data).length > 0) {
                 return this.addToStore(data, 'load');
@@ -203,7 +232,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         if (model.isDirty) {
             const { id } = model;
             return this.withAbortController(`save-${id}`, (sig) => {
-                return apiUpdat<Model>(`${this.API_ENDPOINT}/${id}`, model.props, sig.signal);
+                return apiUpdat<Model>(`${this.API_ENDPOINT.Base}/${id}`, model.props, sig.signal);
             }).then(action(({ data }) => {
                 if (data) {
                     return this.addToStore(data);
@@ -218,7 +247,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     destroy(model: ApiModel<Model, Api | ApiAction>) {
         const { id } = model;
         this.withAbortController(`destroy-${id}`, (sig) => {
-            return apiDestroy<Model>(`${this.API_ENDPOINT}/${id}`, sig.signal);
+            return apiDestroy<Model>(`${this.API_ENDPOINT.Base}/${id}`, sig.signal);
         }).then(action(() => {
             // this.removeFromStore(id);
             this.loadModel(id);
@@ -231,7 +260,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
          * Save the model to the api
          */
         return this.withAbortController('create', (sig) => {
-            return apiCreate<Model>(this.API_ENDPOINT, model, sig.signal);
+            return apiCreate<Model>(this.API_ENDPOINT.Base, model, sig.signal);
         }).then(action(({ data }) => {
             return this.addToStore(data, 'create');
         }));

@@ -10,6 +10,7 @@ export default class UserEventGroup extends ApiModel<UserEventGroupProps, ApiAct
         'description'
     ];
     readonly _pristine: UserEventGroupProps;
+    readonly isUserModel = true;
     readonly store: UserEventGroupStore;
     readonly id: string;
     readonly createdAt: Date;

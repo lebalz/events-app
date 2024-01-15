@@ -100,9 +100,9 @@ function Root({ children }) {
 
   /** this effect loads initializes all the loads...
    */
-  React.useEffect(() => {
-    rootStore.initialize();
-  }, [rootStore?.sessionStore?.account]);
+  // React.useEffect(() => {
+  //   rootStore.initialize();
+  // }, [rootStore?.sessionStore?.account]);
 
   React.useEffect(() => {
     const modalId = rootStore?.viewStore?.openEventModalId;

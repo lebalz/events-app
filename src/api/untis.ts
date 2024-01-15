@@ -72,17 +72,17 @@ export interface UntisTeacherComplete extends UntisTeacher {
 }
 
 export function classes(signal: AbortSignal): AxiosPromise<UntisClassWithTeacher[]> {
-    return api.get('untis/class/all',  { signal });
+    return api.get('untis/classes',  { signal });
 }
 export function subjects(signal: AbortSignal): AxiosPromise<Subject[]> {
     return api.get('untis/subjects',  { signal });
 }
 export function teachers(signal: AbortSignal): AxiosPromise<UntisTeacher[]> {
-    return api.get('untis/teacher/all',  { signal });
+    return api.get('untis/teachers',  { signal });
 }
 export function teacher(untisId: number, signal: AbortSignal, semesterId?: string): AxiosPromise<UntisTeacherComplete> {
     if (semesterId) {
-        return api.get(`untis/teacher/${untisId}?semesterId=${semesterId}`,  { signal });
+        return api.get(`untis/teachers/${untisId}?semesterId=${semesterId}`,  { signal });
     }
-    return api.get(`untis/teacher/${untisId}`,  { signal });
+    return api.get(`untis/teachers/${untisId}`,  { signal });
 }

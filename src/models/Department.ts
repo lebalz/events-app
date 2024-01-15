@@ -40,6 +40,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     readonly _pristine: DepartmentProps;
     readonly id: string;
     readonly createdAt: Date;
+    readonly isUserModel = false;
     @observable
     name: string;
     @observable.ref

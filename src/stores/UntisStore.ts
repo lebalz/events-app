@@ -200,13 +200,28 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @action
     reload() {
         if (this.root.sessionStore.account) {
-            this.reset();
-            this.load();
+            this.resetUserData();
+            this.loadAuthorized();
         }
     }
 
     @action
-    load() {
+    loadPublic(semesterId?: string): Promise<UntisTeacher[]> {
+        if (this.classes.length > 0) {
+            return Promise.resolve(this.teachers);
+        }
+        return this.withAbortController('untis-public', (sig) => {
+            return fetchClasses(sig.signal).catch(() => { return {data: []}});
+        }).then(action(({ data }) => {
+            if (this.classes.length === 0 && data.length > 0) {
+                this.classes.replace(data.map((c) => new Klass(c, this)));
+            }
+            return this.teachers; /** only classes were loaded, no untis teachers */
+        }));
+    }
+
+    @action
+    loadAuthorized() {
         this.initialized = false;
         return this.withAbortController('untis', (sig) => {
             return Promise.all([
@@ -254,12 +269,13 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     }
 
     @action
-    reset() {
+    resetUserData() {
         this.classes.clear();
         this.lessons.clear();
         this.teachers.clear();
         this.initialLoadPerformed = false;
     }
+
     @action
     save(model) {
         throw new Error('Not implemented');
