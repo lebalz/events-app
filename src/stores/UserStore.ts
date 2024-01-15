@@ -58,7 +58,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         /**
          * Post load hook
          */
-        if (publicModels && success) {
+        if (!publicModels && success) {
             return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id)
         }
         return Promise.resolve();
