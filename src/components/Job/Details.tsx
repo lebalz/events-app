@@ -9,6 +9,8 @@ import DefinitionList from '../shared/DefinitionList';
 import { JobType } from '@site/src/api/job';
 import CodeBlock from '@theme/CodeBlock';
 import ImportJob from './ImportJob';
+import Button from '../shared/Button';
+import Badge from '../shared/Badge';
 
 
 interface Props {
@@ -30,7 +32,11 @@ const Details = observer((props: Props) => {
                             <dt>Filename</dt>
                             <dd>{(job as ImportJobModel).filename}</dd>
                             <dt>Events</dt>
-                            <dd>{(job as ImportJobModel).events.length}</dd>
+                            <dd>{
+                                (job as ImportJobModel).fullyLoaded ? 
+                                    <Badge text={`${(job as ImportJobModel).events.length}`} color='primary'/>
+                                    : (<Button text='Laden' onClick={() => (job as ImportJobModel).loadEvents()} color='primary'/>)
+                            }</dd>
                         </>
                     )}
                     {job.type === JobType.SYNC_UNTIS && (

@@ -31,9 +31,10 @@ function isInSummary(node: HTMLElement | null): boolean {
      * `<summary>` tag
      */
     summary?: ReactElement | string;
+    onOpenChange?: (open: boolean) => void;
   } & ComponentProps<'details'>;
   
-  const LazyDetails = ({summary, children, ...props}: DetailsProps): JSX.Element => {
+  const LazyDetails = ({summary, children, onOpenChange, ...props}: DetailsProps): JSX.Element => {
     const isBrowser = useIsBrowser();
     const detailsRef = useRef<HTMLDetailsElement>(null);
   
@@ -88,7 +89,11 @@ function isInSummary(node: HTMLElement | null): boolean {
             // Don't do this, it breaks close animation!
             // setOpen(false);
           }
-        }}>
+          if (onOpenChange) {
+            onOpenChange(collapsed);
+          }
+        }}
+      >
         {summaryElement}
   
         <Collapsible

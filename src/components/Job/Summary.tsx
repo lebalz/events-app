@@ -49,7 +49,7 @@ export const ImportSummary = observer((props: ImportProps) => {
                 {job.filename}
             </div>
             <div className={clsx(styles.spacer)} />
-            {job.type === JobType.IMPORT && <Badge text={`${job.events.length}`} color="blue" />}
+            {job.type === JobType.IMPORT && job.fullyLoaded && <Badge text={`${job.events.length}`} color="blue" />}
             <div className={clsx(styles.spacer)} />
             <Delete
                 onClick={() => {

@@ -7,6 +7,8 @@ import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType a
 import { ImportType, importEvents as postImportEvents } from '../api/event';
 import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
+import { runInThisContext } from 'vm';
+import { find } from '../api/api_model';
 
 export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;
@@ -95,6 +97,17 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     @action
     loadJob(id: string) {
         return this.loadModel(id);
+    }
+
+    @action
+    loadJobEvents(id: string) {
+        return this.withAbortController(`load-${id}`, (sig) => {
+            return find<JobAndEventsProps>(`${this.API_ENDPOINT.Base}/${id}`, sig.signal).then(({ data }) => {
+                if (data && data.events?.length > 0) {
+                    this.root.eventStore.appendEvents(data.events);
+                }
+            });
+        });
     }
 
     bySemester(semesterId: string) {

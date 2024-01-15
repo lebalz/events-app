@@ -1,4 +1,4 @@
-import { makeObservable, computed } from "mobx";
+import { makeObservable, computed, observable, action } from "mobx";
 import { JobType as ApiJobType, JobState, Job as JobProps, UntisSyncJob, UntisImportJob } from "../api/job";
 import { ApiAction } from "../stores/iStore";
 import { JobStore } from "../stores/JobStore";
@@ -109,10 +109,29 @@ export class SyncJob extends Job {
 export class ImportJob extends Job {
     readonly type: ApiJobType.IMPORT = ApiJobType.IMPORT;
     readonly filename?: string;
+
+    @observable
+    fullyLoaded = false;
+
     constructor(props: UntisImportJob, store: JobStore) {
         super(props, store);
         this.filename = props.filename;
         makeObservable(this);
+    }
+
+    @action
+    loadEvents() {
+        if (this.fullyLoaded) {
+            return;
+        }
+        this.store.loadJobEvents(this.id).then(() => {
+            this.fullyLoaded = true;
+        });
+    }
+
+    @computed
+    get isLoadingEvents() {
+        return this.apiState(`load-${this.id}`) === 'loading';
     }
 
     @computed
