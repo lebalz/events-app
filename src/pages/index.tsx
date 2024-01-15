@@ -149,7 +149,14 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
-                                <h4>Version: Beta 1.2</h4>
+                                <h4>Version: Beta 1.3 (15.01.2024)</h4>
+                                <ul>
+                                    <li>Inkrementelles Laden: Es werden die öffentlichen Termine geladen, <b>während</b> die Benutzer:in eingeloggt wird. Sobald die Anmeldeinformationen vorhanden sind, werden auch die persönlichen Daten geladen. Führt zu einem schnelleren Laden der Seite.  <a href="https://github.com/lebalz/events-app/pull/17"></a></li>
+                                    <li>Logour Button ist nun im sichtbaren Bereich auf der <a href="/user?user-tab=account">User-Seite</a></li>
+                                    <li>Fix: Abonnierbare Kalender sind korrekt beschriftet</li>
+                                    <li>Fix: Kalenderwochen werden auch beim Jahreswechsel korrekt sortiert</li>
+                                </ul>
+                                <h4>Version: Beta 1.2 (07.01.2024)</h4>
                                 <ul>
                                     <li>Termin-Filter: Wer EF Unterrichtet, wurde bisher automatisch auch dem GBJB zugeteilt (bei EF's werden alle Gym-Klassen zugeteilt, also auch Nicht-Bilingue Klassen des GBJB, so dass bisher eine Zugehörigkeit zum GBJB abgeleitet wurde). Für das EF bzw. OC ist dieser Fehler behoben. Falls bei anderen Fächern ebenfalls Schulübergreifend Klassen zugeordnet werden, gerne melden. <a href="https://github.com/lebalz/events-api/pull/9" target="_blank">PR: Bilingue flag and relations for events</a></li>
                                     <li>Beim Erfassen von Terminen für Bilingua-Klassen, welche nur <i>LP</i> oder <i>ALLE</i> betreffen, kann nun angegeben werden, ob Lehrpersonen der abderen Schule auch betroffen sind (bspw. bei 26Gn das GBJB oder bei 26mT das GBSL) </li>
