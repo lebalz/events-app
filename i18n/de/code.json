@@ -1021,7 +1021,7 @@
     "description": "subscribe to calendars .ics file"
   },
   "ical.section.personal.description": {
-    "message": "Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die eigene Lektionen betreffen und für KLP's auch alle Termine der eigenen Klasse.",
+    "message": "Dieser Kalender ist mit dem persönlichen Stundenplan abgeglichen und zeigt nur die für Sie relevanten Termine an. Es werden administrative Termine (bspw. Konvente), den Unterricht betreffende Lektionen (bspw. eine Klasse ist nicht anwesend) und für KLP's die eigene Klasse betreffenden Termine angezeigt.",
     "description": "text which explains, which things are included in the personal calendar"
   },
   "ical.user_without_untis.message": {
@@ -1083,5 +1083,13 @@
   "navbar.loginProfileButton.modal.body": {
     "message": "Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.",
     "description": "When the login token must be recreated"
+  },
+  "components.user.index.account": {
+    "message": "Account",
+    "description": "Label for the account"
+  },
+  "components.user.index.logout": {
+    "message": "Logout",
+    "description": "Button label to logout"
   }
 }

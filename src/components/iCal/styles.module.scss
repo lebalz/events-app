@@ -8,10 +8,6 @@
         .icalButtons {
             display: flex;
         }
-        .ical {
-            font-size: small;
-            font-style: italic;
-        }
         .icalWrapper {
             max-height: 20em;
             overflow-y: auto;
@@ -19,13 +15,17 @@
                 display: flex;
                 .icalButton {
                     display: flex;
-                    flex-basis:6.5em;
+                    flex-basis:11em;
                     flex-shrink: 0;
                     &.department {
-                        flex-basis: 8em;
+                        flex-basis: 16em;
                     } 
                 }
             }
+        }
+        .ical {
+            font-size: small;
+            font-style: italic;
         }
         &.personal {
             flex-basis: 100%;

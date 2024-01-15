@@ -5,8 +5,8 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
-import Button from '../shared/Button';
-import { mdiCalendar, mdiMicrosoftOutlook, mdiSync } from '@mdi/js';
+import Button, { ButtonIcon } from '../shared/Button';
+import { mdiCalendar, mdiDownload, mdiDownloadOutline, mdiMicrosoftOutlook, mdiSync } from '@mdi/js';
 import { SIZE_S } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import { EVENTS_API } from '@site/src/authConfig';
@@ -38,7 +38,7 @@ const ICal = observer((props: Props) => {
                             </Translate>
                         </h4>
                         <Translate id="ical.section.personal.description" description='text which explains, which things are included in the personal calendar'>
-                            Der persönliche Kalender zeigt nur die für Sie relevanten Termine an. Administrative Termine (wie Konvente oder Noteneintragen), Termine die eigene Lektionen betreffen und für KLP's auch alle Termine der eigenen Klasse.
+                            Dieser Kalender ist mit dem persönlichen Stundenplan abgeglichen und zeigt nur die für Sie relevanten Termine an. Es werden administrative Termine (bspw. Konvente), den Unterricht betreffende Lektionen (bspw. eine Klasse ist nicht anwesend) und für KLP's die eigene Klasse betreffenden Termine angezeigt.
                         </Translate>
                     </div>
                     <div className={clsx('card__body')}>
@@ -96,6 +96,14 @@ const ICal = observer((props: Props) => {
                                         size={SIZE_S}
                                         color={c.department?.color}
                                     />
+                                    <Button
+                                        href={`${EVENTS_API}/ical/${currentLocale}/${c.name}.ics`}
+                                        icon={mdiDownloadOutline}
+                                        text={c.displayName}
+                                        color={c.department?.color}
+                                        size={SIZE_S}
+                                        iconSide='right'
+                                    />
                                 </div>
                                 <div className={clsx(styles.ical)}>
                                     {`${EVENTS_API}/ical/${currentLocale}/${c.name}.ics`}
@@ -131,6 +139,14 @@ const ICal = observer((props: Props) => {
                                         title={translate({ message: 'Abonniere den Kalender in Outlook', id: 'user.ical.outlook-button.title', description: 'Button text for adding the calendar to Outlook' })}
                                         icon={mdiMicrosoftOutlook}
                                         size={SIZE_S}
+                                    />
+                                    <Button
+                                        href={`${EVENTS_API}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics`}
+                                        icon={mdiDownloadOutline}
+                                        text={d.name}
+                                        color={d.color}
+                                        size={SIZE_S}
+                                        iconSide='right'
                                     />
                                 </div>
                                 <div className={clsx(styles.ical)}>

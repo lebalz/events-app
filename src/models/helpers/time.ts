@@ -1,7 +1,7 @@
 import { translate } from "@docusaurus/Translate";
 
 export const formatTime = (date: Date) => {
-    const hours = `${date.getHours()}`.padStart(2, '0');
+    const hours = `${date.getHours()}`;
     const minutes = `${date.getMinutes()}`.padStart(2, '0');
     return `${hours}:${minutes}`;
 }
@@ -9,7 +9,7 @@ export const formatTime = (date: Date) => {
 export const formatDate = (date: Date) => {
     const day = `${date.getDate()}`.padStart(2, '0');
     const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    const year = `${date.getFullYear()}`.padStart(4, '0');
+    const year = `${date.getFullYear()}`.padStart(4, '0').slice(2);
 
     return `${day}.${month}.${year}`;
 }
