@@ -109,9 +109,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         return action((data: string) => {
             const record: ChangedState = JSON.parse(data);
             const store = this.root.eventStore;
-            if (record.ids.length > 20) {
-                return store.load();
-            }
             record.ids.forEach((id) => {
                 store.loadModel(id);
             });
@@ -222,7 +219,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     @action
-    reset() {
+    resetUserData() {
         this.disconnect();
         api.defaults.headers.common['x-metadata-socketid'] = undefined;
         this.messages.clear();
@@ -230,7 +227,12 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     @action
-    load() {
+    loadPublic(semesterId?: string) {
+        return Promise.resolve();
+    }
+
+    @action
+    loadAuthorized() {
         return this.checkLogin().then((reconnect) => {
             if (reconnect) {
                 this.reconnect();

@@ -213,7 +213,12 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @action
-    load() {
+    loadPublic(semesterId?: string) {
+        return Promise.resolve();
+    }
+
+    @action
+    loadAuthorized() {
         this.initialLoadPerformed = true;
         if (this.root.userStore.current?.untisId) {
             // this.eventTable.setOnlyMine(true);
@@ -222,8 +227,8 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @action
-    reset() {
-        this.eventTable.setOnlyMine(false);
+    resetUserData() {
+        // this.eventTable.setOnlyMine(false);
     }
 
     @action

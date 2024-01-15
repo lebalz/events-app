@@ -10,7 +10,10 @@ import UserEventGroup from '../models/UserEventGroup';
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
 export class UserStore extends iStore<UserProps, ApiAction> {
-    readonly API_ENDPOINT = 'users';
+    readonly API_ENDPOINT = {
+        Base: 'users',
+        LoadAuthorized: 'users'
+    };
     readonly root: RootStore;
     models = observable<User>([]);
 
@@ -51,11 +54,11 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     }
 
     @override
-    postLoad(models: User[], success?: boolean): Promise<any> {
+    postLoad(models: User[], publicModels: boolean, success?: boolean): Promise<any> {
         /**
          * Post load hook
          */
-        if (success) {
+        if (publicModels && success) {
             return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id)
         }
         return Promise.resolve();

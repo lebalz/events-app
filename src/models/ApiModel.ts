@@ -15,6 +15,7 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly store: iStore<T, any>;
     abstract readonly id: string;
     abstract readonly UPDATEABLE_PROPS: UpdateableProps<T>[];
+    abstract readonly isUserModel: boolean;
 
     @observable
     _isEditing = false;

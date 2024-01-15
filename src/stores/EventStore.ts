@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import { Event as EventProps, EventState, requestState as apiRequestState, excel as apiDownloadExcel, clone as apiClone } from '../api/event';
 import Event from '../models/Event';
@@ -11,7 +11,11 @@ import Lesson from '../models/Untis/Lesson';
 
 export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `load-versions-${string}`> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = 'events';
+    readonly API_ENDPOINT = {
+        Base: 'events',
+        LoadPublic: 'events',
+        LoadAuthorized: 'user/events'
+    };
     models = observable<Event>([]);
     
     constructor(root: RootStore) {

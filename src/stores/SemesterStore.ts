@@ -7,7 +7,10 @@ import Semester from '../models/Semester';
 import {syncUntis as apiStartSyncJob} from '../api/semester';
 
 export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${string}`> {
-    readonly API_ENDPOINT = 'semesters';
+    readonly API_ENDPOINT = {
+        Base: 'semesters',
+        LoadPublic: 'semesters'
+    };
     readonly root: RootStore;
     models = observable<Semester>([]);
     loadedSemesters = observable.set<string>();
@@ -45,7 +48,7 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
     }
 
     @override
-    reset() {
+    resetUserData() {
         this.models.clear();
         this.loadedSemesters.clear();
     }

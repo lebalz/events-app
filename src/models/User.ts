@@ -8,6 +8,7 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 export default class User extends ApiModel<UserProps, ApiAction> {
   readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId', 'role'];
   readonly store: UserStore;
+  readonly isUserModel = true;
   readonly _pristine: UserProps;
   private readonly untisStore: UntisStore;
   readonly id: string;

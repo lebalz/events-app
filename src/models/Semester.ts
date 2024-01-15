@@ -13,6 +13,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
         { attr: 'untisSyncDate', transform: (val) => toLocalDate(new Date(val)) }, 
         'name'
     ];
+    readonly isUserModel = false;
     readonly _pristine: SemesterProps;
     readonly store: SemesterStore;
     readonly id: string;

@@ -35,6 +35,7 @@ export const CURRENT_YYYY_KW = `${currentYear}-${currentKW}`;
 export default class Event extends ApiModel<EventProps, ApiAction> implements iEvent {
     readonly store: EventStore;
     readonly _pristine: EventProps;
+    readonly isUserModel: boolean;
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
         'description',
         'descriptionLong',
@@ -123,6 +124,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     constructor(props: EventProps, store: EventStore) {
         super();
         this._pristine = props;
+        this.isUserModel = props.state !== EventState.Published || !props.parentId;
         this.store = store;
         this.id = props.id;
         this.jobId = props.jobId;
