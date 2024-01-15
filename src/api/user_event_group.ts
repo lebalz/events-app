@@ -16,13 +16,13 @@ export interface UserEventGroupCreate extends Partial<UserEventGroup> {
 }
 
 export function create(data: UserEventGroupCreate, signal: AbortSignal): AxiosPromise<UserEventGroup> {
-    return api.post('user_event_group', data, { signal });
+    return api.post('user_event_groups', data, { signal });
 }
 
 export function clone(groupId: string, signal: AbortSignal): AxiosPromise<UserEventGroup> {
-    return api.post(`user_event_group/${groupId}/clone`, {}, { signal });
+    return api.post(`user_event_groups/${groupId}/clone`, {}, { signal });
 }
 
 export function events<T>(groupId: string, signal: AbortSignal): AxiosPromise<Event[]> {
-    return api.get(`user_event_group/${groupId}/events`, { signal });
+    return api.get(`user_event_groups/${groupId}/events`, { signal });
 }

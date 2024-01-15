@@ -8,6 +8,7 @@ import { toGlobalDate, toLocalDate } from "./helpers/time";
 export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<RegPeriodProps>[] = [];
     readonly _pristine: RegPeriodProps;
+    readonly isUserModel = false;
     readonly store: RegistrationPeriodStore;
     readonly id: string;
     readonly name: string;

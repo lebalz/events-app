@@ -8,7 +8,10 @@ import { computedFn } from 'mobx-utils';
 
 export class DepartmentStore extends iStore<DepartmentProps> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = 'department';
+    readonly API_ENDPOINT = {
+        Base: 'departments',
+        LoadPublic: 'departments'
+    };
     models = observable<Department>([]);
     
     constructor(root: RootStore) {
@@ -68,8 +71,8 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     @action
     reload() {
         if (this.root.sessionStore.account) {
-            this.reset();
-            this.load(this.root.viewStore.semesterId);
+            this.resetUserData();
+            this.loadPublic(this.root.viewStore.semesterId);
         }
     }
 

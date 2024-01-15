@@ -9,6 +9,7 @@ import { formatDate } from "./helpers/time";
 
 export default class Job extends ApiModel<JobProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<JobProps>[] = [];
+    readonly isUserModel = true;
     readonly store: JobStore;
     readonly _pristine: JobProps;
     readonly id: string;
