@@ -107,7 +107,7 @@ const AudiencePicker = observer((props: Props) => {
                             </Translate>
                         </span>
                             <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                            <Button
+                                <Button
                                     text={translate({ message: 'Ja', id: 'shared.button.yes', description: 'Button text yes' })}
                                     onClick={() => event.update({ affectsDepartment2: true })}
                                     active={event.affectsDepartment2}
@@ -186,9 +186,9 @@ const AudiencePicker = observer((props: Props) => {
                     className={clsx(styles.optionsBtn, (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions)}
                 />
                 {
-                    (showOptions ||event.unknownClassIdentifiers.length > 0) && (
+                    (showOptions || event.unknownClassIdentifiers.length > 0) && (
                         <div>
-                            <h4><Translate >Künftige Klassen</Translate></h4>
+                            <h4><Translate id="shared.audiencePicker.title.futureClasses">Künftige Klassen</Translate></h4>
                             <ClassSelector event={event} />
                         </div>
                     )

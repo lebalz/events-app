@@ -771,7 +771,7 @@
     "message": "Toutes les écoles",
     "description": "Button text to toggle all schools on/off"
   },
-  "Künftige Klassen": {
+  "shared.audiencePicker.title.futureClasses": {
     "message": "Futures classes"
   },
   "shared.AudiencePicker.Department": {
