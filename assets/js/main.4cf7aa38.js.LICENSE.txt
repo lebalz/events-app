@@ -20,6 +20,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @azure/msal-common v13.3.1 2023-10-27 */
 
+/*! @azure/msal-react v2.0.9 2024-01-09 */
+
 /*! Bundled license information:
 
 prismjs/prism.js:
