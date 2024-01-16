@@ -36,7 +36,11 @@ const ImportJob = observer((props: Props) => {
                     onClick={() => {
                         jobStore.destroy(job);
                     }}
-                    text={translate({ id: 'job.delete', message: 'Job Löschen', description: 'job.delete' })}
+                    text={translate({
+                        id: 'job.delete',
+                        message: 'Job Löschen',
+                        description: 'job.delete'
+                    })}
                     flyoutSide='right'
                     iconSide='right'
                     apiState={jobStore.apiStateFor(`destroy-${job.id}`)}

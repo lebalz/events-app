@@ -46,7 +46,13 @@ const SyncSemester = observer((props: Props) => {
                     className={clsx(styles.details)}
                     summary={
                         <summary className={clsx(styles.summary)}>
-                            <Badge text={translate({ id: 'job.SyncUntis.badge.text', message: 'Sync Untis', description: 'Text of the badge for sync Untis' })} color="orange" />
+                            <Badge
+                                text={translate({
+                                    id: 'job.SyncUntis.badge.text',
+                                    message: 'Sync Untis',
+                                    description: 'Text of the badge for sync Untis'
+                                })}
+                                color="orange" />
                             <div className={clsx(styles.spacer)} />
                                 <Badge text={`${semester.name}`} color="blue" />
                             <div className={clsx(styles.spacer)} />
@@ -57,7 +63,11 @@ const SyncSemester = observer((props: Props) => {
                                     semesterStore.syncUntis(semester);
                                 }}
                                 disabled={jobStore.hasPendingSyncJobs}
-                                text={translate({ id: 'job.SyncUntis.button.text', message: 'Sync Untis', description: 'Text of the button for sync Untis' })}
+                                text={translate({
+                                    id: 'job.SyncUntis.button.text',
+                                    message: 'Sync Untis',
+                                    description: 'Text of the button for sync Untis'
+                                })}
                                 icon={<Sync spin={isPending} />}
                                 className="button--primary"
                             />

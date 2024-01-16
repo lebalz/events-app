@@ -69,11 +69,19 @@ const EventModal = observer((props: Props) => {
                             <>
                                 <Button
                                     color="secondary"
-                                    title={translate({message: 'Fenster Schliessen', id: 'button.close.title', description: 'Button title to close a modal'})}
+                                    title={translate({
+                                        message: 'Fenster Schliessen',
+                                        id: 'button.close.title',
+                                        description: 'Button title to close a modal'
+                                    })}
                                     text={
                                         expandedButtons > 2 ? 
-                                            translate({message: 'Schliessen', id: 'button.close', description: 'Button text to close a modal'}) : 
-                                            undefined
+                                            translate({message:
+                                                'Schliessen',
+                                                id: 'button.close',
+                                                description: 'Button text to close a modal'
+                                            })
+                                            : undefined
                                     } 
                                     icon={mdiClose} 
                                     iconSide='left' 
@@ -86,8 +94,11 @@ const EventModal = observer((props: Props) => {
                                     color="blue"
                                     text={
                                         expandedButtons > 2 ? 
-                                            translate({message: 'Öffnen', id: 'button.open', description: 'Button text for open button'}) : 
-                                            undefined
+                                            translate({message: 'Öffnen',
+                                            id: 'button.open',
+                                            description: 'Button text for open button'
+                                        })
+                                        : undefined
                                     }
                                     icon={mdiShareCircle}
                                     href={event?.shareUrl}

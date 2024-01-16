@@ -24,7 +24,10 @@ const DepartmentTable = observer((props: Props) => {
     return (
         <div>
             <Button
-                text={translate({message: 'Neue Abteilung', description: 'Create a new department', id: 'admin.DepartmentTable.create'})}
+                text={translate({
+                    message: 'Neue Abteilung',
+                    description: 'Create a new department',
+                    id: 'admin.DepartmentTable.create'})}
                 onClick={() => departmentStore.create({name: ' '})}
                 iconSide='left'
                 icon={mdiPlusCircleOutline}
@@ -34,15 +37,78 @@ const DepartmentTable = observer((props: Props) => {
                 <thead>
                     <tr>
                         <th><Icon path={mdiDotsSquare} /></th>
-                        <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'name' && icon} text={translate({message: 'Name', description: 'th: name', id: 'admin.DepartmentTable.th.name'})} onClick={() => adminDepartmentTable.setSortColumn('name')} /></th>
-                        <th><Translate id="admin.DepartmentTable.th.description" description='th: description'>Beschreibung</Translate></th>
-                        <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'letter' && icon} text={translate({message: 'Buchstabe', description: 'th: department letter', id: 'admin.DepartmentTable.th.letter'})} onClick={() => adminDepartmentTable.setSortColumn('letter')}/></th>
-                        <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'color' && icon} text={translate({message: 'Farbe', description: 'th: color', id: 'admin.DepartmentTable.th.color'})} onClick={() => adminDepartmentTable.setSortColumn('color')}/></th>
+                        <th><Button
+                                size={SIZE_S}
+                                iconSide='left'
+                                icon={adminDepartmentTable.sortColumn === 'name' && icon}
+                                text={translate({
+                                    message: 'Name',
+                                    description: 'th: name',
+                                    id: 'admin.DepartmentTable.th.name'
+                                })}
+                                onClick={() => adminDepartmentTable.setSortColumn('name')} /></th>
+                        <th><Translate
+                                id="admin.DepartmentTable.th.description"
+                                description='th: description'
+                            >
+                            Beschreibung
+                            </Translate></th>
+                        <th><Button
+                                size={SIZE_S}
+                                iconSide='left'
+                                icon={adminDepartmentTable.sortColumn === 'letter' && icon}
+                                text={translate({
+                                    message: 'Buchstabe',
+                                    description: 'th: department letter',
+                                    id: 'admin.DepartmentTable.th.letter'
+                                })}
+                                onClick={() => adminDepartmentTable.setSortColumn('letter')}
+                            /></th>
+                        <th><Button
+                                size={SIZE_S}
+                                iconSide='left'
+                                icon={adminDepartmentTable.sortColumn === 'color' && icon}
+                                text={translate({
+                                    message: 'Farbe',
+                                    description: 'th: color',
+                                    id: 'admin.DepartmentTable.th.color'
+                                })}
+                                onClick={() => adminDepartmentTable.setSortColumn('color')}
+                            /></th>
                         <th>Klassen-Buchstaben</th>
-                        <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'createdAt' && icon} text={translate({message: 'Erstellt', description: 'th: created At', id: 'admin.DepartmentTable.th.createdAt'})} onClick={() => adminDepartmentTable.setSortColumn('createdAt')}/></th>
-                        <th><Button size={SIZE_S} iconSide='left' icon={adminDepartmentTable.sortColumn === 'updatedAt' && icon} text={translate({message: 'Aktualisiert', description: 'th: updatedAt', id: 'admin.DepartmentTable.th.updatedAt'})} onClick={() => adminDepartmentTable.setSortColumn('updatedAt')}/></th>
-                        <th><Translate id="admin.DepartmentTable.th.id" description='th: id'>Id</Translate></th>
-                        <th><Translate id="admin.DepartmentTable.th.actions" description='th: actions'>Aktionen</Translate></th>
+                        <th><Button
+                                size={SIZE_S}
+                                iconSide='left'
+                                icon={adminDepartmentTable.sortColumn === 'createdAt' && icon}
+                                text={translate({
+                                    message: 'Erstellt',
+                                    description: 'th: created At',
+                                    id: 'admin.DepartmentTable.th.createdAt'})}
+                                    onClick={() => adminDepartmentTable.setSortColumn('createdAt')}
+                            /></th>
+                        <th><Button
+                                size={SIZE_S}
+                                iconSide='left'
+                                icon={adminDepartmentTable.sortColumn === 'updatedAt' && icon}
+                                text={translate({
+                                    message: 'Aktualisiert',
+                                    description: 'th: updatedAt',
+                                    id: 'admin.DepartmentTable.th.updatedAt'
+                                })}
+                                onClick={() => adminDepartmentTable.setSortColumn('updatedAt')}
+                            /></th>
+                        <th><Translate
+                                id="admin.DepartmentTable.th.id"
+                                description='th: id'
+                            >
+                            Id
+                            </Translate></th>
+                        <th><Translate
+                                id="admin.DepartmentTable.th.actions"
+                                description='th: actions'
+                            >
+                            Aktionen
+                            </Translate></th>
                     </tr>
                 </thead>
                 <tbody>

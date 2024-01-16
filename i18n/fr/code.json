@@ -1078,5 +1078,45 @@
   "shared.button.title.expand": {
     "message": "Étendre",
     "description": "Text appearing on the expand button"
+  },
+  "share.audiencePicker.placeholder.unknownClasses": {
+    "message": "Classes inconnues",
+    "description": "share.audiencePicker.placeholder.unknownClasses"
+  },
+  "share.audiencePicker.classSelector.errorMsg.department": {
+    "message": "Filière \"{letter}\" non trouvée",
+    "description": "Error message department not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.class": {
+    "message": "Klasse \"{tok}\" nicht gefunden",
+    "description": "Error message class not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.classOrDepartment": {
+    "message": "Filière ou classe inconnue\"{tok}\"",
+    "description": "Error message class or department not found"
+  },
+  "share.button.save.title": {
+    "message": "Enregistrer",
+    "description": "Text of the button save"
+  },
+  "share.button.edit.title": {
+    "message": "Éditer",
+    "description": "Text of the button edit"
+  },
+  "share.button.discard.title": {
+    "message": "Annuler",
+    "description": "Text of the button discard"
+  },
+  "share.button.delete.title": {
+    "message": "Supprimer",
+    "description": "Text of the button delete"
+  },
+  "share.button.copy.title": {
+    "message": "Copier",
+    "description": "Text of the button copy"
+  },
+  "share.button.clone.title": {
+    "message": "Cloner",
+    "description": "Text of the button clone"
   }
 }

@@ -26,7 +26,10 @@ const ImportEvents = observer((props: Props) => {
             title={
                 <span>
                     <Icon path={mdiFileImport} size={2} color={'var(--ifm-color-primary)'} />
-                    <Translate id="import.section.title" description="import.section.title">
+                    <Translate
+                        id="import.section.title"
+                        description="import.section.title"
+                    >
                         Datei Importieren
                     </Translate>
                 </span>}
@@ -39,13 +42,21 @@ const ImportEvents = observer((props: Props) => {
             <Tabs lazy>
                 <TabItem
                     value="gbsl"
-                    label={translate({ id: 'import.tab.gbsl.label', message: 'GBSL Import', description: 'import.tab.gbsl' })}
+                    label={translate({
+                        id: 'import.tab.gbsl.label',
+                        message: 'GBSL Import',
+                        description: 'import.tab.gbsl'
+                    })}
                 >
                     <Upload type={ImportType.GBSL_XLSX} />
                 </TabItem>
                 <TabItem
                     value="gbjb"
-                    label={translate({ id: 'import.tab.gbjb.label', message: 'GBJB Import', description: 'import.tab.gbjb' })}
+                    label={translate({
+                        id: 'import.tab.gbjb.label',
+                        message: 'GBJB Import',
+                        description: 'import.tab.gbjb'
+                    })}
                 >
                     <Upload type={ImportType.GBJB_CSV} />
                 </TabItem>

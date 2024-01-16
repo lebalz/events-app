@@ -15,8 +15,16 @@ const SyncUntis = observer((props: Props) => {
     const semesterStore = useStore('semesterStore');
     return (
         <Section
-            title={translate({ id: 'job.SyncUntis.section.title', message: 'Stundenpläne Synchronisieren (WebUntis)', description: 'Title of the section syncUntis' })}
-            subtitle={translate({ id: 'job.SyncUntis.section.subtitle', message: 'Synchronisiere die Stundenpläne, Klassen und Lehrpersonen von WebUntis.', description: 'Subtitle of the section syncUntis'})}
+            title={translate({
+                id: 'job.SyncUntis.section.title',
+                message: 'Stundenpläne Synchronisieren (WebUntis)',
+                description: 'Title of the section syncUntis'
+            })}
+            subtitle={translate({
+                id: 'job.SyncUntis.section.subtitle',
+                message: 'Synchronisiere die Stundenpläne, Klassen und Lehrpersonen von WebUntis.',
+                description: 'Subtitle of the section syncUntis'
+            })}
         >
             {
                 semesterStore.semesters.map((semester, idx) => {

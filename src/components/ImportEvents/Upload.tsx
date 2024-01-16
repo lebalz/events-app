@@ -48,8 +48,16 @@ const Upload = observer((props: Props) => {
                 onChange={(e) => setSelectedFile(e.currentTarget!.files![0])}
             />
             <Button
-                text={translate({ id: 'upload.button.text', message: 'Upload', description: 'text on the button upload' })}
-                title={translate({ id: 'upload.button.title', message: 'Importiere Excel-Datei', description: 'Text displayed on mouse-over over the upload button' })}
+                text={translate({
+                    id: 'upload.button.text',
+                    message: 'Upload',
+                    description: 'text on the button upload'
+                })}
+                title={translate({
+                    id: 'upload.button.title',
+                    message: 'Importiere Excel-Datei',
+                    description: 'Text displayed on mouse-over over the upload button'
+                })}
                 disabled={!selectedFile}
                 color='primary'
                 onClick={(e) => {

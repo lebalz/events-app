@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import { EditIcon, SIZE_S } from '../icons';
 import Button, { Base, extractSharedProps } from '.';
 import { mdiContentDuplicate } from '@mdi/js';
+import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {
     onClick: () => void;

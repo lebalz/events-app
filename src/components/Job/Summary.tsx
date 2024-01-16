@@ -96,7 +96,11 @@ export const SyncSummary = observer((props: SyncProps) => {
                         }
                         return false;
                     }}
-                    text={translate({ id: 'job.summary.text', message: 'Sync Untis', description: 'Text of the button to sync Untis' })}
+                    text={translate({
+                        id: 'job.summary.text',
+                        message: 'Sync Untis',
+                        description: 'Text of the button to sync Untis'
+                    })}
                     icon={<Sync spin={isPending} />}
                     color={job.isInSync ? "primary" : "black"}
                 />
