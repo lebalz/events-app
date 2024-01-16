@@ -19,7 +19,11 @@ const Clone = (props: EditProps) => {
     return (
         <Button
             icon={mdiContentDuplicate}
-            title='Duplizieren'
+            title={translate({
+                message : "Duplizieren",
+                id : "share.button.clone.title",
+                description : "Text of the button clone"
+            })}
             {...extractSharedProps(props)}
             className={clsx( props.className)}
             size={props.size ?? SIZE_S}
