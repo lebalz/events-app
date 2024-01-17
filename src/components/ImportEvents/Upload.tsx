@@ -8,6 +8,7 @@ import Button from '../shared/Button';
 import { mdiFileUploadOutline, mdiFileExcel, mdiFileDelimited } from '@mdi/js';
 import { Icon, SIZE_S } from '../shared/icons';
 import { ImportType } from '@site/src/api/event';
+import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {
     type: ImportType;
@@ -47,8 +48,16 @@ const Upload = observer((props: Props) => {
                 onChange={(e) => setSelectedFile(e.currentTarget!.files![0])}
             />
             <Button
-                text='Upload'
-                title="Importiere Excel-Datei"
+                text={translate({
+                    id: 'upload.button.text',
+                    message: 'Upload',
+                    description: 'text on the button upload'
+                })}
+                title={translate({
+                    id: 'upload.button.title',
+                    message: 'Importiere Excel-Datei',
+                    description: 'Text displayed on mouse-over over the upload button'
+                })}
                 disabled={!selectedFile}
                 color='primary'
                 onClick={(e) => {

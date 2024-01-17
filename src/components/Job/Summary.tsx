@@ -12,6 +12,7 @@ import Delete from '../shared/Button/Delete';
 import { SIZE_S, Sync } from '../shared/icons';
 import Badge from '../shared/Badge';
 import { Color as ColorType } from '../shared/Colors';
+import Translate, { translate } from '@docusaurus/Translate';
 
 
 
@@ -95,7 +96,11 @@ export const SyncSummary = observer((props: SyncProps) => {
                         }
                         return false;
                     }}
-                    text="Sync Untis"
+                    text={translate({
+                        id: 'job.summary.text',
+                        message: 'Sync Untis',
+                        description: 'Text of the button to sync Untis'
+                    })}
                     icon={<Sync spin={isPending} />}
                     color={job.isInSync ? "primary" : "black"}
                 />

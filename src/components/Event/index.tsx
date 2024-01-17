@@ -59,7 +59,11 @@ const Event = observer((props: Props) => {
                     </div>
                 ) : (
                     <Button
-                        text={translate({ message: "Versionen laden", id: 'event.button.loadVersions', description: 'for a single event: button to load version history' })}
+                        text={translate({
+                            message: "Versionen laden",
+                            id: 'event.button.loadVersions',
+                            description: 'for a single event: button to load version history'
+                        })}
                         icon={mdiHistory}
                         onClick={action(() => {
                             event.loadVersions();

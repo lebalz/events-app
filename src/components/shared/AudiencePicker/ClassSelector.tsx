@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import CreatableSelect from 'react-select/creatable';
 import { KlassName } from '@site/src/models/helpers/klassNames';
+import Translate, { translate } from '@docusaurus/Translate';
 
 const createOption = (label: string) => ({
     label,
@@ -31,7 +32,16 @@ const ClassSelector = observer((props: Props) => {
                 setErrorMessages([]);
                 return true;
             }
-            setErrorMessages([`Abteilung "${token.charAt(2)}" nicht gefunden`]);
+            setErrorMessages([
+                translate(
+                    {
+                        message : `Abteilung "{letter}" nicht gefunden`,
+                        id : "share.audiencePicker.classSelector.errorMsg.department",
+                        description : "Error message department not found"
+                    },
+                    {letter : token.charAt(2)}
+                )
+            ]);
         } else if (token.length === 4) {
             const isValid = departmentStore.isValidClass(token);
             if (isValid) {
@@ -39,9 +49,27 @@ const ClassSelector = observer((props: Props) => {
                 setErrorMessages([]);
                 return true;
             }
-            setErrorMessages([`Klasse "${token}" nicht gefunden`]);
+            setErrorMessages([
+                translate(
+                    {
+                        message : `Klasse "{tok}" nicht gefunden`,
+                        id : "share.audiencePicker.classSelector.errorMsg.class",
+                        description : "Error message class not found" 
+                    },
+                    {tok : token}
+                )
+            ]);
         } else {
-            setErrorMessages([`Unbekannte Abteilung/Klasse "${token}"`]);
+            setErrorMessages([
+                translate(
+                    {
+                        message : `Unbekannte Abteilung/Klasse "{tok}"`,
+                        id : "share.audiencePicker.classSelector.errorMsg.classOrDepartment",
+                        description : "Error message class or department not found" 
+                    },
+                    {tok : token}
+                )
+            ]);
         }
         return false;
     }
@@ -99,7 +127,11 @@ const ClassSelector = observer((props: Props) => {
                         setInputValue(newValue)
                     }}
                     onKeyDown={handleKeyDown}
-                    placeholder="Unbekannte Klassen"
+                    placeholder={translate({
+                        message : "Unbekannte Klassen",
+                        id : "share.audiencePicker.placeholder.unknownClasses",
+                        description : "share.audiencePicker.placeholder.unknownClasses"
+                    })}
                     value={event.unknownClassIdentifiers.map(createOption)}
                 />
                 {errorMessages.map((errorMessage, idx) => (

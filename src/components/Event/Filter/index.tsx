@@ -77,7 +77,11 @@ const Filter = observer((props: Props) => {
                     {
                         !!viewStore.user && (
                             <Button
-                                text={translate({ message: 'Meine', id: 'event.filter.mine', description: 'Filter: Only events affecting me' })}
+                                text={translate({
+                                    message: 'Meine',
+                                    id: 'event.filter.mine',
+                                    description: 'Filter: Only events affecting me'
+                                })}
                                 active={eventTable.onlyMine}
                                 color='blue'
                                 onClick={() => eventTable.toggleOnlyMine()}
@@ -86,7 +90,11 @@ const Filter = observer((props: Props) => {
                     }
                     {eventTable.showCurrentAndFutureFilter && props.showCurrentAndFuture && (
                         <Button
-                            text={translate({ message: 'Künftige', id: 'event.filter.future', description: 'Filter: Only current and future events' })}
+                            text={translate({
+                                message: 'Künftige',
+                                id: 'event.filter.future',
+                                description: 'Filter: Only current and future events'
+                            })}
                             active={eventTable.onlyCurrentWeekAndFuture}
                             color='blue'
                             onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
@@ -95,7 +103,10 @@ const Filter = observer((props: Props) => {
                 </div>
                 <div className={clsx(styles.classes, styles.fuzzyFilter)}>
                     <TextInput
-                        placeholder={translate({ message: 'Suche', id: 'joi.event.description' })}
+                        placeholder={translate({
+                            message: 'Suche',
+                            id: 'joi.event.description'
+                        })}
                         onChange={(txt) => eventTable.setTextFilter(txt)}
                         text={eventTable.klassFilter}
                     />
@@ -118,7 +129,11 @@ const Filter = observer((props: Props) => {
                             <Select
                                 isMulti
                                 closeMenuOnSelect={false}
-                                placeholder={translate({ message: 'Abteilungen', id: 'event.filter.departments', description: 'Filter: Departments' })}
+                                placeholder={translate({
+                                    message: 'Abteilungen',
+                                    id: 'event.filter.departments',
+                                    description: 'Filter: Departments'
+                                })}
                                 name="departments-filter"
                                 menuPortalTarget={document.body}
                                 options={_.orderBy(departmentStore.usedDepartments, ['name']).map(d => ({ value: d.id, label: d.name, color: d?.color }))}
@@ -141,7 +156,11 @@ const Filter = observer((props: Props) => {
                             <Select
                                 isMulti
                                 closeMenuOnSelect={false}
-                                placeholder={translate({ message: 'Klassen', id: 'event.filter.classes', description: 'Filter: Classes' })}
+                                placeholder={translate({
+                                    message: 'Klassen',
+                                    id: 'event.filter.classes',
+                                    description: 'Filter: Classes'
+                                })}
                                 name="class-filter"
                                 menuPortalTarget={document.body}
                                 options={_.orderBy(untisStore.classes, ['name']).map(c => ({ value: c.name, label: c.displayName, color: c.department?.color }))}

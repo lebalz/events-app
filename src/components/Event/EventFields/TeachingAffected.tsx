@@ -21,15 +21,39 @@ const ColorMap: {[key in TeachingAffectedType]: string} = {
 }
 
 const DescriptionMap: {[key in TeachingAffectedType]: string} = {
-    [TeachingAffectedType.NO]: translate({message: 'Nein', id: 'eventField.teachingAffected.no', description: 'Label for the Event Field'}),
-    [TeachingAffectedType.PARTIAL]: translate({message: 'Teilweise', id: 'eventField.teachingAffected.partial', description: 'Label for the Event Field'}),
-    [TeachingAffectedType.YES]: translate({message: 'Ja', id: 'eventField.teachingAffected.yes', description: 'Label for the Event Field'}),
+    [TeachingAffectedType.NO]: translate({
+        message: 'Nein',
+        id: 'eventField.teachingAffected.no',
+        description: 'Label for the Event Field'
+    }),
+    [TeachingAffectedType.PARTIAL]: translate({
+        message: 'Teilweise',
+        id: 'eventField.teachingAffected.partial',
+        description: 'Label for the Event Field'
+    }),
+    [TeachingAffectedType.YES]: translate({
+        message: 'Ja',
+        id: 'eventField.teachingAffected.yes',
+        description: 'Label for the Event Field'
+    }),
 }
 
 const TitleMap: {[key in TeachingAffectedType]: string} = {
-    [TeachingAffectedType.NO]: translate({message: 'Betrifft den Unterricht nicht', id: 'eventField.teachingAffected.no.title', description: 'Label for the Event Field'}),
-    [TeachingAffectedType.PARTIAL]: translate({message: 'Unterricht teilweise betroffen', id: 'eventField.teachingAffected.partial.title', description: 'Label for the Event Field'}),
-    [TeachingAffectedType.YES]: translate({message: 'Unterricht betroffen', id: 'eventField.teachingAffected.yes.title', description: 'Label for the Event Field'}),
+    [TeachingAffectedType.NO]: translate({
+        message: 'Betrifft den Unterricht nicht',
+        id: 'eventField.teachingAffected.no.title',
+        description: 'Label for the Event Field'
+    }),
+    [TeachingAffectedType.PARTIAL]: translate({
+        message: 'Unterricht teilweise betroffen',
+        id: 'eventField.teachingAffected.partial.title',
+        description: 'Label for the Event Field'
+    }),
+    [TeachingAffectedType.YES]: translate({
+        message: 'Unterricht betroffen',
+        id: 'eventField.teachingAffected.yes.title',
+        description: 'Label for the Event Field'
+    }),
 }
 
 const TeachingAffected = observer((props: Props) => {

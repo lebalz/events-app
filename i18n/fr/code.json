@@ -771,7 +771,7 @@
     "message": "Toutes les écoles",
     "description": "Button text to toggle all schools on/off"
   },
-  "Künftige Klassen": {
+  "shared.audiencePicker.title.futureClasses": {
     "message": "Futures classes"
   },
   "shared.AudiencePicker.Department": {
@@ -947,5 +947,273 @@
   "untis.lesson.ef": {
     "message": "OC",
     "description": "Abbreviation of the Ergänzungsfach"
+  },
+  "event.bulk_actions.editing": {
+    "message": "Éditer",
+    "description": "Edit Event"
+  },
+  "event.bulk_actions.request_review": {
+    "message": "Évènements en révision",
+    "description": "Request Review"
+  },
+  "event.bulk_actions.publish": {
+    "message": "Publier",
+    "description": "Publish Event"
+  },
+  "event.bulk_actions.refuse": {
+    "message": "Rejeter",
+    "description": "Refuse Event review"
+  },
+  "ical.section.personal": {
+    "message": "Calendrier personnel",
+    "description": "personal ical sync address"
+  },
+  "ical.section.personal.description": {
+    "message": "Le calendrier personnel n'affiche que les rendez-vous qui vous concernent. Les délais administratifs (comme la saisie des notes), les rendez-vous qui concernent vos propres leçons et, pour les MC, également tous les rendez-vous de votre classe.",
+    "description": "text which explains, which things are included in the personal calendar"
+  },
+  "ical.user_without_untis.message": {
+    "message": "Vous devez d'abord vous connecter à Untis pour obtenir un calendrier personnel.",
+    "description": "Message for a user, that is logged in, but is not linked to a untis account"
+  },
+  "ical.link.text.settings": {
+    "message": "Calendrier de classes",
+    "description": "Link text to navigate to the user settings"
+  },
+  "ical.section.classes": {
+    "message": "Calendriers des classes",
+    "description": "classes ical sync address"
+  },
+  "user.ical.filter.class.placeholder": {
+    "message": "Filter par classe",
+    "description": "Placeholder text for the filter input"
+  },
+  "ical.section.departments": {
+    "message": "Calendriers par filière",
+    "description": "departments ical sync address"
+  },
+  "user.ical.filter.department.placeholder": {
+    "message": "Filtrer par filière",
+    "description": "Placeholder text for the filter input"
+  },
+  "abo.section.subtitle.subscribe-calendar": {
+    "message": "Pour synchroniser un calendrier dans son agenda personnel, comme par exemple Outlook.",
+    "description": "subscribe to calendars .ics file"
+  },
+  "abo.section.title.subscribe-calendar": {
+    "message": "S'abonner à des calendriers",
+    "description": "subscribe to calendars .ics file"
+  },
+  "import.tab.gbsl.label": {
+    "message": "Importation pour le GBSL",
+    "description": "import.tab.gbsl"
+  },
+  "import.tab.gbjb.label": {
+    "message": "Importation pour le GBJB",
+    "description": "import.tab.gbjb"
+  },
+  "upload.button.text": {
+    "message": "Télécharger",
+    "description": "text on the button upload"
+  },
+  "upload.button.title": {
+    "message": "Importer les données CSV/XLSX",
+    "description": "Text displayed on mouse-over over the upload button"
+  },
+  "job.SyncUntis.section.title": {
+    "message": "Synchroniser l'horaire (WebUntis)",
+    "description": "Title of the section syncUntis"
+  },
+  "job.SyncUntis.section.subtitle": {
+    "message": "Synchroniser l'horaire, les classes et les enseignant·e·s de WebUntis",
+    "description": "Subtitle of the section syncUntis"
+  },
+  "job.SyncUntis.badge.text": {
+    "message": "Synchronisation Untis",
+    "description": "Text of the badge for sync Untis"
+  },
+  "job.SyncUntis.button.text": {
+    "message": "Synchroniser Untis",
+    "description": "Text of the button for sync Untis"
+  },
+  "job.delete": {
+    "message": "Supprimer",
+    "description": "job.delete"
+  },
+  "job.summary.text": {
+    "message": "Synchronisation avec Untis",
+    "description": "Text of the button to sync Untis"
+  },
+  "shared.header.concerns": {
+    "message": "Concerne",
+    "description": "The title in the window used to select the participants involved in the event"
+  },
+  "shared.text.lesson.concerned": {
+    "message": "Leçons impactées ?",
+    "description": "The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
+  },
+  "shared.text.people.concerned": {
+    "message": "Qui ?",
+    "description": "The text in the window used to select the participants involved in the event asking which people is concerned by an event"
+  },
+  "shared.text.bilingual.people.concerned": {
+    "message": "Profs bilingues concerné·e·s ?",
+    "description": "The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event"
+  },
+  "shared.button.yes": {
+    "message": "Oui",
+    "description": "Button text yes"
+  },
+  "shared.button.no": {
+    "message": "Non",
+    "description": "Button text no"
+  },
+  "shared.header.school_departement": {
+    "message": "Écoles/classes",
+    "description": "The title in the window for the event."
+  },
+  "shared.button.title.expand": {
+    "message": "Étendre",
+    "description": "Text appearing on the expand button"
+  },
+  "share.audiencePicker.placeholder.unknownClasses": {
+    "message": "Classes inconnues",
+    "description": "share.audiencePicker.placeholder.unknownClasses"
+  },
+  "share.audiencePicker.classSelector.errorMsg.department": {
+    "message": "Filière \"{letter}\" non trouvée",
+    "description": "Error message department not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.class": {
+    "message": "Klasse \"{tok}\" nicht gefunden",
+    "description": "Error message class not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.classOrDepartment": {
+    "message": "Filière ou classe inconnue\"{tok}\"",
+    "description": "Error message class or department not found"
+  },
+  "share.button.save.title": {
+    "message": "Enregistrer",
+    "description": "Text of the button save"
+  },
+  "share.button.edit.title": {
+    "message": "Éditer",
+    "description": "Text of the button edit"
+  },
+  "share.button.discard.title": {
+    "message": "Annuler",
+    "description": "Text of the button discard"
+  },
+  "share.button.delete.title": {
+    "message": "Supprimer",
+    "description": "Text of the button delete"
+  },
+  "share.button.copy.title": {
+    "message": "Copier",
+    "description": "Text of the button copy"
+  },
+  "share.button.clone.title": {
+    "message": "Cloner",
+    "description": "Text of the button clone"
+  },
+  "navcard.table.text": {
+    "message": "Tabelle",
+    "description": "Button text for navigating to the table page"
+  },
+  "navcard.calendar.text": {
+    "message": "Kalender",
+    "description": "Button text for navigating to the calendar page"
+  },
+  "navcard.gantt.text": {
+    "message": "Zeitachse",
+    "description": "Button text for navigating to the gantt page"
+  },
+  "navcard.subscribe.text": {
+    "message": "Outlook",
+    "description": "Button text for navigating to the subscribe page"
+  },
+  "navcard.user.account": {
+    "message": "Account",
+    "description": "Button text for navigating to the user account page"
+  },
+  "navcard.user.events": {
+    "message": "Meine Events",
+    "description": "Button text for navigating to the users events page"
+  },
+  "navcard.admin.text": {
+    "message": "Admin",
+    "description": "Button text for navigating to the admin page"
+  },
+  "event.teachingAffected": {
+    "message": "Unterricht Betroffen?",
+    "description": "for a single event: teaching affected?"
+  },
+  "components.user.index.account": {
+    "message": "Account",
+    "description": "Label for the account"
+  },
+  "components.user.index.logout": {
+    "message": "Logout",
+    "description": "Button label to logout"
+  },
+  "eventField.teachingAffected.no": {
+    "message": "Nein",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial": {
+    "message": "Teilweise",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes": {
+    "message": "Ja",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.no.title": {
+    "message": "Betrifft den Unterricht nicht",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial.title": {
+    "message": "Unterricht teilweise betroffen",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes.title": {
+    "message": "Unterricht betroffen",
+    "description": "Label for the Event Field"
+  },
+  "eventGrid.header.teachingAffected.title": {
+    "message": "Unterricht betroffen?",
+    "description": "Message when hovering the icon"
+  },
+  "event.filter.departments": {
+    "message": "Abteilungen",
+    "description": "Filter: Departments"
+  },
+  "event.filter.classes": {
+    "message": "Klassen",
+    "description": "Filter: Classes"
+  },
+  "components.event.usersevents.index.delete": {
+    "message": "Job Löschen",
+    "description": "Text to delete a job"
+  },
+  "navbar.loginProfileButton.modal.header": {
+    "message": "Session abgelaufen",
+    "description": "When the login token must be recreated"
+  },
+  "navbar.loginProfileButton.modal.body": {
+    "message": "Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.",
+    "description": "When the login token must be recreated"
+  },
+  "share.badge.error.title": {
+    "message": "Erreur",
+    "description": "share.badge.error.title"
+  },
+  "share.badge.loading.title": {
+    "message": "Laden",
+    "description": "share.badge.loading.title"
+  },
+  "share.badge.success.title": {
+    "message": "Erfolgreich",
+    "description": "share.badge.success.title"
   }
 }

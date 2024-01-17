@@ -27,7 +27,11 @@ const Department = observer((props: Props) => {
         <div className={clsx(styles.departmentClasses)}>
             <div className={clsx(styles.department)}>
                 <Button
-                    text={translate({message: 'Alle', description: 'toggle all departments', id: 'shared.AudiencePicker.Department'})}
+                    text={translate({
+                        message: 'Alle',
+                        description: 'toggle all departments',
+                        id: 'shared.AudiencePicker.Department'
+                    })}
                     active={allDepartments}
                     color={someDepartments ? 'primary' : 'secondary'}
                     onClick={() => {
