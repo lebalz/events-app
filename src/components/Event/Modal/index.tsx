@@ -94,11 +94,12 @@ const EventModal = observer((props: Props) => {
                                     color="blue"
                                     text={
                                         expandedButtons > 2 ? 
-                                            translate({message: 'Öffnen',
-                                            id: 'button.open',
-                                            description: 'Button text for open button'
-                                        })
-                                        : undefined
+                                            translate({
+                                                message: 'Öffnen',
+                                                id: 'button.open',
+                                                description: 'Button text for open button'
+                                            })
+                                            : undefined
                                     }
                                     icon={mdiShareCircle}
                                     href={event?.shareUrl}

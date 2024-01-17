@@ -27,34 +27,41 @@ const TranslationsTA: { [key in TeachingAffected]: string } = {
     [TeachingAffected.YES]: translate({
         message: 'Ja',
         description: 'Yes, the teaching is affected and the class is not present',
-        id: 'TeachingAffected.YES.description'}),
+        id: 'TeachingAffected.YES.description'
+    }),
     [TeachingAffected.NO]: translate({
         message: 'Nein',
         description: 'No, the teaching happens as usual',
-        id: 'TeachingAffected.NO.description'}),
+        id: 'TeachingAffected.NO.description'
+    }),
     [TeachingAffected.PARTIAL]: translate({
         message: 'Teilweise',
         description: 'Only a part of the class will be present',
-        id: 'TeachingAffected.PARTIAL.description'})
+        id: 'TeachingAffected.PARTIAL.description'
+    })
 }
 
 const TranslationsEA: { [key in EventAudience]: string } = {
-    [EventAudience.ALL]: translate({ 
+    [EventAudience.ALL]: translate({
         message: 'Alle',
         description: 'This event is for everyone, no matter wheter a lesson is affected or not',
-        id: 'EventAudience.ALL.description'}),
+        id: 'EventAudience.ALL.description'
+    }),
     [EventAudience.KLP]: translate({
         message: 'KLP',
         description: 'Only relevant (and displayed) for class teachers',
-        id: 'EventAudience.KLP.description'}),
+        id: 'EventAudience.KLP.description'
+    }),
     [EventAudience.LP]: translate({
         message: 'LP',
         description: 'Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)',
-        id: 'EventAudience.LP.description'}),
+        id: 'EventAudience.LP.description'
+    }),
     [EventAudience.STUDENTS]: translate({
         message: 'SuS',
         description: 'Relevant for SuS only, their KLP will be informed aswell',
-        id: 'EventAudience.STUDENTS.description'})
+        id: 'EventAudience.STUDENTS.description'
+    })
 }
 
 const AudiencePicker = observer((props: Props) => {
@@ -132,10 +139,10 @@ const AudiencePicker = observer((props: Props) => {
                     [EventAudience.ALL, EventAudience.LP].includes(event.audience) && event.affectedDepartments.some(d => d.isSubDepartment && !!d.department2_Id) && (
                         <div className={styles.toggle}>
                             <span className={styles.label}>
-                            <Translate id="shared.text.bilingual.people.concerned" description="The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event">
-                                Bilingue Lehrpersonen betroffen?
-                            </Translate>
-                        </span>
+                                <Translate id="shared.text.bilingual.people.concerned" description="The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event">
+                                    Bilingue Lehrpersonen betroffen?
+                                </Translate>
+                            </span>
                             <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
                                 <Button
                                     text={translate({
@@ -159,7 +166,7 @@ const AudiencePicker = observer((props: Props) => {
                         </div>
                     )
                 }
-                
+
             </div>
             <h4>
                 <Translate
@@ -237,11 +244,13 @@ const AudiencePicker = observer((props: Props) => {
                 {
                     (showOptions || event.unknownClassIdentifiers.length > 0) && (
                         <div>
-                            <h4><Translate
-                                id="shared.audiencePicker.title.futureClasses"
-                            >
-                                Künftige Klassen
-                            </Translate></h4>
+                            <h4>
+                                <Translate
+                                    id="shared.audiencePicker.title.futureClasses"
+                                >
+                                    Künftige Klassen
+                                </Translate>
+                            </h4>
                             <ClassSelector event={event} />
                         </div>
                     )

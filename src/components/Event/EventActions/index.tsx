@@ -69,10 +69,12 @@ const EventActions = observer((props: Props) => {
             <Button
                 key={`open-${key}`}
                 color="blue"
-                text={showText ? translate({
-                    message: 'Öffnen',
-                    id: 'button.open'
-                    }) : undefined
+                text={showText ?
+                    translate({
+                            message: 'Öffnen',
+                            id: 'button.open'
+                        })
+                    : undefined
                 }
                 icon={mdiShareCircle}
                 href={event.shareUrl}
@@ -82,11 +84,13 @@ const EventActions = observer((props: Props) => {
             <Button
                 key={key}
                 color="green"
-                text={showText ? translate({
-                    message: 'Speichern',
-                    id: 'button.save',
-                    description: 'Button to save changes'
-                    }) : undefined
+                text={showText ?
+                        translate({
+                                message: 'Speichern',
+                                id: 'button.save',
+                                description: 'Button to save changes'
+                            })
+                        : undefined
                 }
                 size={size}
                 disabled={!event.isDirty || !event.isValid}
@@ -133,11 +137,13 @@ const EventActions = observer((props: Props) => {
                 <Button
                     size={size}
                     color="orange"
-                    text={buttonsWithText >= 1 ? translate({
-                        message: 'Bearbeiten',
-                        id: 'button.edit',
-                        description: 'Button to edit a model'
-                        }) : undefined
+                    text={buttonsWithText >= 1 ? 
+                            translate({
+                                message: 'Bearbeiten',
+                                id: 'button.edit',
+                                description: 'Button to edit a model'
+                                })
+                            : undefined
                     }
                     icon={<EditIcon size={size} />}
                     iconSide='left'

@@ -53,10 +53,10 @@ const ICal = observer((props: Props) => {
                                 <div className={clsx(styles.icalButtons)}>
                                     <Button
                                         href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}&name=${translate({
-                                                message: 'GBSL',
-                                                id: 'user.ical.outlook.calendar-name',
-                                                description: 'Name of the calendar in Outlook'
-                                            })}`
+                                            message: 'GBSL',
+                                            id: 'user.ical.outlook.calendar-name',
+                                            description: 'Name of the calendar in Outlook'
+                                        })}`
                                         }
                                         target='_blank'
                                         text={translate({
@@ -92,7 +92,8 @@ const ICal = observer((props: Props) => {
                                         description="Link text to navigate to the user settings"
                                     >
                                         Einstellungen
-                                    </Translate></Link>
+                                    </Translate>
+                                </Link>
                             </div>
                         )}
                     </div>
@@ -108,8 +109,8 @@ const ICal = observer((props: Props) => {
                             Klassen Kalender
                         </Translate>
                     </h4>
-                    <TextInput 
-                        text={viewStore.icalListClassFilter} 
+                    <TextInput
+                        text={viewStore.icalListClassFilter}
                         onChange={(text) => viewStore.setIcalListClassFilter(text)}
                         placeholder={translate({
                             message: 'Filtern nach Klasse',
@@ -154,8 +155,8 @@ const ICal = observer((props: Props) => {
                             Abteilungs-Kalender
                         </Translate>
                     </h4>
-                    <TextInput 
-                        text={viewStore.icalListDepartmentsFilter} 
+                    <TextInput
+                        text={viewStore.icalListDepartmentsFilter}
                         onChange={(text) => viewStore.setIcalListDepartmentsFilter(text)}
                         placeholder={translate({
                             message: 'Filtern nach Schule',

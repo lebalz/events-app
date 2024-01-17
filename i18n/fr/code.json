@@ -950,7 +950,7 @@
   },
   "event.bulk_actions.editing": {
     "message": "Éditer",
-    "description": "Publish Event"
+    "description": "Edit Event"
   },
   "event.bulk_actions.request_review": {
     "message": "Évènements en révision",
@@ -963,13 +963,11 @@
   "event.bulk_actions.refuse": {
     "message": "Rejeter",
     "description": "Refuse Event review"
-  }
-  ,
+  },
   "ical.section.personal": {
     "message": "Calendrier personnel",
     "description": "personal ical sync address"
-  }
-  ,
+  },
   "ical.section.personal.description": {
     "message": "Le calendrier personnel n'affiche que les rendez-vous qui vous concernent. Les délais administratifs (comme la saisie des notes), les rendez-vous qui concernent vos propres leçons et, pour les MC, également tous les rendez-vous de votre classe.",
     "description": "text which explains, which things are included in the personal calendar"
@@ -980,9 +978,8 @@
   },
   "ical.link.text.settings": {
     "message": "Calendrier de classes",
-    "description": "classes ical sync address"
-  }
-  ,
+    "description": "Link text to navigate to the user settings"
+  },
   "ical.section.classes": {
     "message": "Calendriers des classes",
     "description": "classes ical sync address"
@@ -998,7 +995,8 @@
   "user.ical.filter.department.placeholder": {
     "message": "Filtrer par filière",
     "description": "Placeholder text for the filter input"
-  },"abo.section.subtitle.subscribe-calendar": {
+  },
+  "abo.section.subtitle.subscribe-calendar": {
     "message": "Pour synchroniser un calendrier dans son agenda personnel, comme par exemple Outlook.",
     "description": "subscribe to calendars .ics file"
   },
@@ -1008,11 +1006,11 @@
   },
   "import.tab.gbsl.label": {
     "message": "Importation pour le GBSL",
-    "description": "Label pour l'importation pour le GBSL"
+    "description": "import.tab.gbsl"
   },
   "import.tab.gbjb.label": {
     "message": "Importation pour le GBJB",
-    "description": "Label pour l'importation pour le GBJB"
+    "description": "import.tab.gbjb"
   },
   "upload.button.text": {
     "message": "Télécharger",
@@ -1020,7 +1018,7 @@
   },
   "upload.button.title": {
     "message": "Importer les données CSV/XLSX",
-    "description": "Text displayed on mouse-over"
+    "description": "Text displayed on mouse-over over the upload button"
   },
   "job.SyncUntis.section.title": {
     "message": "Synchroniser l'horaire (WebUntis)",
@@ -1029,8 +1027,7 @@
   "job.SyncUntis.section.subtitle": {
     "message": "Synchroniser l'horaire, les classes et les enseignant·e·s de WebUntis",
     "description": "Subtitle of the section syncUntis"
-  }
-  ,
+  },
   "job.SyncUntis.badge.text": {
     "message": "Synchronisation Untis",
     "description": "Text of the badge for sync Untis"
@@ -1073,7 +1070,7 @@
   },
   "shared.header.school_departement": {
     "message": "Écoles/classes",
-    "description": "The title in the window for the event"
+    "description": "The title in the window for the event."
   },
   "shared.button.title.expand": {
     "message": "Étendre",
@@ -1118,5 +1115,105 @@
   "share.button.clone.title": {
     "message": "Cloner",
     "description": "Text of the button clone"
+  },
+  "navcard.table.text": {
+    "message": "Tabelle",
+    "description": "Button text for navigating to the table page"
+  },
+  "navcard.calendar.text": {
+    "message": "Kalender",
+    "description": "Button text for navigating to the calendar page"
+  },
+  "navcard.gantt.text": {
+    "message": "Zeitachse",
+    "description": "Button text for navigating to the gantt page"
+  },
+  "navcard.subscribe.text": {
+    "message": "Outlook",
+    "description": "Button text for navigating to the subscribe page"
+  },
+  "navcard.user.account": {
+    "message": "Account",
+    "description": "Button text for navigating to the user account page"
+  },
+  "navcard.user.events": {
+    "message": "Meine Events",
+    "description": "Button text for navigating to the users events page"
+  },
+  "navcard.admin.text": {
+    "message": "Admin",
+    "description": "Button text for navigating to the admin page"
+  },
+  "event.teachingAffected": {
+    "message": "Unterricht Betroffen?",
+    "description": "for a single event: teaching affected?"
+  },
+  "components.user.index.account": {
+    "message": "Account",
+    "description": "Label for the account"
+  },
+  "components.user.index.logout": {
+    "message": "Logout",
+    "description": "Button label to logout"
+  },
+  "eventField.teachingAffected.no": {
+    "message": "Nein",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial": {
+    "message": "Teilweise",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes": {
+    "message": "Ja",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.no.title": {
+    "message": "Betrifft den Unterricht nicht",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial.title": {
+    "message": "Unterricht teilweise betroffen",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes.title": {
+    "message": "Unterricht betroffen",
+    "description": "Label for the Event Field"
+  },
+  "eventGrid.header.teachingAffected.title": {
+    "message": "Unterricht betroffen?",
+    "description": "Message when hovering the icon"
+  },
+  "event.filter.departments": {
+    "message": "Abteilungen",
+    "description": "Filter: Departments"
+  },
+  "event.filter.classes": {
+    "message": "Klassen",
+    "description": "Filter: Classes"
+  },
+  "components.event.usersevents.index.delete": {
+    "message": "Job Löschen",
+    "description": "Text to delete a job"
+  },
+  "navbar.loginProfileButton.modal.header": {
+    "message": "Session abgelaufen",
+    "description": "When the login token must be recreated"
+  },
+  "navbar.loginProfileButton.modal.body": {
+    "message": "Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.",
+    "description": "When the login token must be recreated"
+  },
+  "share.badge.error.title": {
+    "message": "Erreur",
+    "description": "share.badge.error.title"
+  },
+  "share.badge.loading.title": {
+    "message": "Laden",
+    "description": "share.badge.loading.title"
+  },
+  "share.badge.success.title": {
+    "message": "Erfolgreich",
+    "description": "share.badge.success.title"
   }
 }
