@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Props as DefaultProps } from './iEventField';
 import DateTimePicker from '@site/src/components/shared/DateTimePicker';
+import Checkbox from '../../shared/Checkbox';
 
 interface Props extends DefaultProps {
     time: 'start' | 'end'
@@ -37,7 +38,17 @@ const DateTime = observer((props: Props) => {
                         const d = date.toISOString();
                         event.update({ [props.time]: d })
                     }}
+                    type={event.allDay ? 'date' : 'datetime'}
                 />
+                {props.time === 'start' && (
+                    <Checkbox
+                        checked={event.allDay}
+                        onChange={(checked) => {
+                            event.setAllDay(checked);
+                        }}
+                        label='Ganztägig'
+                    />
+                )}
                 {error && (
                     <div className={styles.errorMessage}>
                         {error.message}

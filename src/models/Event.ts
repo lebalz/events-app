@@ -102,7 +102,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     audience: EventAudience;
 
     @observable
-    allDayType: boolean;
+    allDay: boolean;
 
     @observable
     teachingAffected: TeachingAffected;
@@ -567,6 +567,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fEndDate() {
         return formatDate(this.end);
+    }
+
+    @action
+    setAllDay(allDay: boolean) {
+        this.allDay = allDay;
     }
 
     @computed

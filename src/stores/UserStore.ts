@@ -24,14 +24,14 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         super();
         this.root = root;
         makeObservable(this);
-        reaction(
-            () => this.current,
-            (user) => {
-                if (user && this.root.initialLoadPerformed) {     
-                    this.loadAffectedEventIds(user);
-                }
-            }
-        )
+        // reaction(
+        //     () => this.current,
+        //     (user) => {
+        //         if (user && this.root.initialLoadPerformed) {     
+        //             this.loadAffectedEventIds(user);
+        //         }
+        //     }
+        // )
     }
 
 
