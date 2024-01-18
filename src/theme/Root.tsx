@@ -77,7 +77,7 @@ msalInstance
   .then(handleResponse)
   .catch((error) => {
     if (error instanceof InteractionRequiredAuthError) {
-      console.log('InteractionRequiredAuthError', error);
+      console.log('InteractionRequiredAuthError', rootStore.sessionStore.msalInstance, rootStore.sessionStore.account);
       rootStore.sessionStore.refresh();
     }
     console.error(error);
