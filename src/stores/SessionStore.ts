@@ -91,13 +91,15 @@ export class SessionStore {
     }
 
     @action
-    refresh() {
+    refresh(ignoreResponse: boolean = false) {
         if (this.account && this.msalInstance)  {
             this.msalInstance.acquireTokenSilent({
                 account: this.account,
                 scopes: loginRequest.scopes,
             }).then((response) => {
-                this.setAccount(response.account, true);
+                if (!ignoreResponse) {
+                    this.setAccount(response.account, true);
+                }
             }).catch((e) => {
                 if (e instanceof InteractionRequiredAuthError) {
                     return this.msalInstance.acquireTokenRedirect({

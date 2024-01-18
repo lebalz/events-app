@@ -56,7 +56,7 @@ const selectAccount = () => {
   } else {
     rootStore.sessionStore.setAccount(currentAccount);
     console.log('refreshing');
-    rootStore.sessionStore.refresh();
+    rootStore.sessionStore.refresh(true);
   }
 };
 
