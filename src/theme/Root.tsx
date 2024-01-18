@@ -78,10 +78,7 @@ msalInstance
   .catch((error) => {
     if (error instanceof InteractionRequiredAuthError) {
       console.log('InteractionRequiredAuthError', error);
-      return msalInstance.acquireTokenRedirect({
-        ...tokenRequest,
-        account: msalInstance.getAllAccounts().filter((a) => a.tenantId === TENANT_ID).find((a) => /@(edu\.)?(gbsl|gbjb)\.ch/.test(a.username))
-      })
+      rootStore.sessionStore.refresh();
     }
     console.error(error);
   });
