@@ -101,7 +101,11 @@ const Actions = observer((props: Props) => {
                                 icon={mdiShareCircle}
                                 href={event.shareUrl}
                                 size={SIZE_S}
-                                title={translate({message: 'Öffnen', id: 'event.open.title', description: 'Button Title (hover) to open an event view'})}
+                                title={translate({
+                                    message: 'Öffnen',
+                                    id: 'event.open.title',
+                                    description: 'Button Title (hover) to open an event view'
+                                })}
                             />
                         </>
                     )

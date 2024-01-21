@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { EditIcon, SIZE_S, Copy as CopyIcon, Loading, Success, Error } from '../icons';
 import Button, { Base, extractSharedProps } from '.';
+import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {
     size?: number;
@@ -40,7 +41,11 @@ const Copy = (props: EditProps) => {
     }
     return (
         <Button
-            title="Kopieren"
+            title={translate({
+                message : "Kopieren",
+                id : "share.button.copy.title",
+                description : "Text of the button copy"
+            })}
             {...extractSharedProps(props)}
             onClick={(e) => {
                 e.preventDefault();

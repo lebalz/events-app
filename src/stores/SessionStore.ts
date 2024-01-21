@@ -1,6 +1,7 @@
 import axios, { CancelTokenSource } from 'axios';
 import {
     AccountInfo,
+    InteractionRequiredAuthError,
     PublicClientApplication,
 } from '@azure/msal-browser';
 import { action, computed, makeObservable, observable } from 'mobx';
@@ -90,14 +91,22 @@ export class SessionStore {
     }
 
     @action
-    refresh() {
+    refresh(ignoreResponse: boolean = false) {
         if (this.account && this.msalInstance)  {
             this.msalInstance.acquireTokenSilent({
                 account: this.account,
                 scopes: loginRequest.scopes,
             }).then((response) => {
-                this.setAccount(response.account, true);
+                if (!ignoreResponse) {
+                    this.setAccount(response.account, true);
+                }
             }).catch((e) => {
+                if (e instanceof InteractionRequiredAuthError) {
+                    return this.msalInstance.acquireTokenRedirect({
+                      scopes: loginRequest.scopes,
+                      account: this.account
+                    });
+                }
                 console.warn(e);
             });
         } else {

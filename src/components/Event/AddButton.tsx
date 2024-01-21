@@ -18,7 +18,11 @@ const AddButton = observer((props: Props) => {
     const windowSize = useWindowSize();
     return (
         <Button
-            text={translate({ message: 'Neues Event', description: 'AddButton text', id: 'event.AddButton.text' })}
+            text={translate({
+                message: 'Neues Event',
+                description: 'AddButton text',
+                id: 'event.AddButton.text'
+            })}
             icon={<Icon path={mdiPlusCircleOutline} size={SIZE} />}
             iconSide="left"
             color='primary'

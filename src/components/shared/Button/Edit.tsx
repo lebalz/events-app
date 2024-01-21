@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { EditIcon, SIZE_S } from '../icons';
 import Button, { Base, extractSharedProps } from '.';
+import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {
     onClick: () => void;
@@ -16,7 +17,11 @@ type EditProps = Props & Base;
 const Edit = (props: EditProps) => {
     return (
         <Button
-            title="Bearbeiten"
+            title={translate({
+                message : "Bearbeiten",
+                id : "share.button.edit.title",
+                description : "Text of the button edit"
+            })}
             {...extractSharedProps(props)}
             className={clsx(styles.edit, props.className)}
             color='orange'

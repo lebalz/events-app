@@ -24,16 +24,44 @@ interface Props {
 }
 
 const TranslationsTA: { [key in TeachingAffected]: string } = {
-    [TeachingAffected.YES]: translate({ message: 'Ja', description: 'Yes, the teaching is affected and the class is not present', id: 'TeachingAffected.YES.description' }),
-    [TeachingAffected.NO]: translate({ message: 'Nein', description: 'No, the teaching happens as usual', id: 'TeachingAffected.NO.description' }),
-    [TeachingAffected.PARTIAL]: translate({ message: 'Teilweise', description: 'Only a part of the class will be present', id: 'TeachingAffected.PARTIAL.description' })
+    [TeachingAffected.YES]: translate({
+        message: 'Ja',
+        description: 'Yes, the teaching is affected and the class is not present',
+        id: 'TeachingAffected.YES.description'
+    }),
+    [TeachingAffected.NO]: translate({
+        message: 'Nein',
+        description: 'No, the teaching happens as usual',
+        id: 'TeachingAffected.NO.description'
+    }),
+    [TeachingAffected.PARTIAL]: translate({
+        message: 'Teilweise',
+        description: 'Only a part of the class will be present',
+        id: 'TeachingAffected.PARTIAL.description'
+    })
 }
 
 const TranslationsEA: { [key in EventAudience]: string } = {
-    [EventAudience.ALL]: translate({ message: 'Alle', description: 'This event is for everyone, no matter wheter a lesson is affected or not', id: 'EventAudience.ALL.description' }),
-    [EventAudience.KLP]: translate({ message: 'KLP', description: 'Only relevant (and displayed) for class teachers', id: 'EventAudience.KLP.description' }),
-    [EventAudience.LP]: translate({ message: 'LP', description: 'Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)', id: 'EventAudience.LP.description' }),
-    [EventAudience.STUDENTS]: translate({ message: 'SuS', description: 'Relevant for SuS only, their KLP will be informed aswell', id: 'EventAudience.STUDENTS.description' })
+    [EventAudience.ALL]: translate({
+        message: 'Alle',
+        description: 'This event is for everyone, no matter wheter a lesson is affected or not',
+        id: 'EventAudience.ALL.description'
+    }),
+    [EventAudience.KLP]: translate({
+        message: 'KLP',
+        description: 'Only relevant (and displayed) for class teachers',
+        id: 'EventAudience.KLP.description'
+    }),
+    [EventAudience.LP]: translate({
+        message: 'LP',
+        description: 'Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)',
+        id: 'EventAudience.LP.description'
+    }),
+    [EventAudience.STUDENTS]: translate({
+        message: 'SuS',
+        description: 'Relevant for SuS only, their KLP will be informed aswell',
+        id: 'EventAudience.STUDENTS.description'
+    })
 }
 
 const AudiencePicker = observer((props: Props) => {
@@ -59,9 +87,23 @@ const AudiencePicker = observer((props: Props) => {
     return (
         <div className={clsx(styles.audience)}>
             <div className={clsx(styles.affects)}>
-                <h4>Betrifft</h4>
+                <h4>
+                    <Translate
+                        id="shared.header.concerns"
+                        description="The title in the window used to select the participants involved in the event"
+                    >
+                        Betrifft
+                    </Translate>
+                </h4>
                 <div className={styles.toggle}>
-                    <span className={styles.label}>Betrifft</span>
+                    <span className={styles.label}>
+                        <Translate
+                            id="shared.text.people.concerned"
+                            description="The text in the window used to select the participants involved in the event asking which people is concerned by an event"
+                        >
+                            Betrifft
+                        </Translate>
+                    </span>
                     <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
                         {Object.keys(EventAudience).map(audience => {
                             return (<Button
@@ -74,7 +116,14 @@ const AudiencePicker = observer((props: Props) => {
                     </div>
                 </div>
                 <div className={styles.toggle}>
-                    <span className={styles.label}>Unterricht Betroffen?</span>
+                    <span className={styles.label}>
+                        <Translate
+                            id="shared.text.lesson.concerned"
+                            description="The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
+                        >
+                            Unterricht Betroffen?
+                        </Translate>
+                    </span>
                     <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
                         {Object.keys(TeachingAffected).map(affected => {
                             return (<Button
@@ -89,15 +138,27 @@ const AudiencePicker = observer((props: Props) => {
                 {
                     [EventAudience.ALL, EventAudience.LP].includes(event.audience) && event.affectedDepartments.some(d => d.isSubDepartment && !!d.department2_Id) && (
                         <div className={styles.toggle}>
-                            <span className={styles.label}>Bilingue Lehrpersonen betroffen?</span>
+                            <span className={styles.label}>
+                                <Translate id="shared.text.bilingual.people.concerned" description="The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event">
+                                    Bilingue Lehrpersonen betroffen?
+                                </Translate>
+                            </span>
                             <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                            <Button
-                                    text="Ja"
+                                <Button
+                                    text={translate({
+                                        message: 'Ja',
+                                        id: 'shared.button.yes',
+                                        description: 'Button text yes'
+                                    })}
                                     onClick={() => event.update({ affectsDepartment2: true })}
                                     active={event.affectsDepartment2}
                                 />
                                 <Button
-                                    text="Nein"
+                                    text={translate({
+                                        message: 'Nein',
+                                        id: 'shared.button.no',
+                                        description: 'Button text no'
+                                    })}
                                     onClick={() => event.update({ affectsDepartment2: false })}
                                     active={!event.affectsDepartment2}
                                 />
@@ -105,12 +166,23 @@ const AudiencePicker = observer((props: Props) => {
                         </div>
                     )
                 }
-                
+
             </div>
-            <h4>Schulen/Klassen</h4>
+            <h4>
+                <Translate
+                    id="shared.header.school_departement"
+                    description="The title in the window for the event."
+                >
+                    Schulen/Klassen
+                </Translate>
+            </h4>
             <div className={clsx(styles.flex)}>
                 <Button
-                    text={translate({ message: 'Alle Schulen', description: 'Button text to toggle all schools on/off', id: 'shared.AudiencePicker' })}
+                    text={translate({
+                        message: 'Alle Schulen',
+                        description: 'Button text to toggle all schools on/off',
+                        id: 'shared.AudiencePicker'
+                    })}
                     active={allDepartments}
                     color={someDepartments ? 'primary' : 'secondary'}
                     onClick={() => {
@@ -161,14 +233,24 @@ const AudiencePicker = observer((props: Props) => {
             <div className={clsx(styles.options)}>
                 <Button
                     icon={mdiDotsHorizontalCircleOutline}
-                    title='Erweitert'
+                    title={translate({
+                        message: 'Erweitert',
+                        id: 'shared.button.title.expand',
+                        description: 'Text appearing on the expand button'
+                    })}
                     onClick={() => setShowOptions(!showOptions)}
                     className={clsx(styles.optionsBtn, (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions)}
                 />
                 {
-                    (showOptions ||event.unknownClassIdentifiers.length > 0) && (
+                    (showOptions || event.unknownClassIdentifiers.length > 0) && (
                         <div>
-                            <h4><Translate>Künftige Klassen</Translate></h4>
+                            <h4>
+                                <Translate
+                                    id="shared.audiencePicker.title.futureClasses"
+                                >
+                                    Künftige Klassen
+                                </Translate>
+                            </h4>
                             <ClassSelector event={event} />
                         </div>
                     )

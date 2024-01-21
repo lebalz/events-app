@@ -21,22 +21,86 @@ interface Props extends Partial<ConfigOptionsSortable> {
 }
 
 const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
-    state: translate({message: 'Zustand', id: 'eventGrid.header.state', description: 'Label for the Event Grid Columns'}),
-    isValid: translate({message: 'Valid', id: 'eventGrid.header.isValid', description: 'Label for the Event Grid Columns'}),
-    select: translate({message: 'Auswählen', id: 'eventGrid.header.select', description: 'Label for the Event Grid Columns'}),
-    kw: translate({message: 'KW', id: 'eventGrid.header.kw', description: 'Label for the Event Grid Columns'}),
-    actions: translate({message: 'Aktionen', id: 'eventGrid.header.actions', description: 'Label for the Event Grid Columns'}),
-    author: translate({message: 'Author', id: 'eventGrid.header.author', description: 'Label for the Event Grid Columns'}),
-    day: translate({message: 'Tag', id: 'eventGrid.header.day', description: 'Label for the Event Grid Columns'}),
-    description: translate({message: 'Stichworte', id: 'eventGrid.header.description', description: 'Label for the Event Grid Columns'}),
-    start: translate({message: 'Start', id: 'eventGrid.header.start', description: 'Label for the Event Grid Columns'}),
-    end: translate({message: 'Ende', id: 'eventGrid.header.end', description: 'Label for the Event Grid Columns'}),
-    location: translate({message: 'Ort', id: 'eventGrid.header.location', description: 'Label for the Event Grid Columns'}),
-    userGroup: translate({message: 'Gruppe', id: 'eventGrid.header.userGroup', description: 'Label for the Event Grid Columns'}),
-    departmens: translate({message: 'Abteilungen', id: 'eventGrid.header.departmens', description: 'Label for the Event Grid Columns'}),
-    classes: translate({message: 'Klassen', id: 'eventGrid.header.classes', description: 'Label for the Event Grid Columns'}),
-    descriptionLong: translate({message: 'Beschreibung', id: 'eventGrid.header.descriptionLong', description: 'Label for the Event Grid Columns'}),
-    isDuplicate: translate({message: 'Duplikat', id: 'eventGrid.header.isDuplicate', description: 'Label for the Event Grid Columns'}),
+    state: translate({
+        message: 'Zustand',
+        id: 'eventGrid.header.state',
+        description: 'Label for the Event Grid Columns'
+    }),
+    isValid: translate({
+        message: 'Valid',
+        id: 'eventGrid.header.isValid',
+        description: 'Label for the Event Grid Columns'
+    }),
+    select: translate({
+        message: 'Auswählen',
+        id: 'eventGrid.header.select',
+        description: 'Label for the Event Grid Columns'
+    }),
+    kw: translate({
+        message: 'KW',
+        id: 'eventGrid.header.kw',
+        description: 'Label for the Event Grid Columns'
+    }),
+    actions: translate({
+        message: 'Aktionen',
+        id: 'eventGrid.header.actions',
+        description: 'Label for the Event Grid Columns'
+    }),
+    author: translate({
+        message: 'Author',
+        id: 'eventGrid.header.author',
+        description: 'Label for the Event Grid Columns'
+    }),
+    day: translate({
+        message: 'Tag',
+        id: 'eventGrid.header.day',
+        description: 'Label for the Event Grid Columns'
+    }),
+    description: translate({
+        message: 'Stichworte',
+        id: 'eventGrid.header.description',
+        description: 'Label for the Event Grid Columns'
+    }),
+    start: translate({
+        message: 'Start',
+        id: 'eventGrid.header.start',
+        description: 'Label for the Event Grid Columns'
+    }),
+    end: translate({
+        message: 'Ende',
+        id: 'eventGrid.header.end',
+        description: 'Label for the Event Grid Columns'
+    }),
+    location: translate({
+        message: 'Ort',
+        id: 'eventGrid.header.location',
+        description: 'Label for the Event Grid Columns'
+    }),
+    userGroup: translate({
+        message: 'Gruppe',
+        id: 'eventGrid.header.userGroup',
+        description: 'Label for the Event Grid Columns'
+    }),
+    departmens: translate({
+        message: 'Abteilungen',
+        id: 'eventGrid.header.departmens',
+        description: 'Label for the Event Grid Columns'
+    }),
+    classes: translate({
+        message: 'Klassen',
+        id: 'eventGrid.header.classes',
+        description: 'Label for the Event Grid Columns'
+    }),
+    descriptionLong: translate({
+        message: 'Beschreibung',
+        id: 'eventGrid.header.descriptionLong',
+        description: 'Label for the Event Grid Columns'
+    }),
+    isDuplicate: translate({
+        message: 'Duplikat',
+        id: 'eventGrid.header.isDuplicate',
+        description: 'Label for the Event Grid Columns'
+    }),
 };
 
 
@@ -56,7 +120,15 @@ const ColumnHeader = observer((props: Props) => {
             content = <Icon path={mdiBookmarkCheck} size={SIZE_S} />;
             break;
         case 'teachingAffected':
-            content = <Icon path={mdiSchool} size={SIZE_S} title={translate({message: 'Unterricht betroffen?', id: 'eventGrid.header.teachingAffected.title', description: 'Message when hovering the icon'})} />;
+            content = <Icon
+                path={mdiSchool}
+                size={SIZE_S}
+                title={translate({
+                    message: 'Unterricht betroffen?',
+                    id: 'eventGrid.header.teachingAffected.title',
+                    description: 'Message when hovering the icon'
+                })}
+            />;
             break;
     }
     if (props.sortable && typeof content !== 'string') {

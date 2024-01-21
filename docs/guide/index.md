@@ -17,7 +17,10 @@ import Translate from '@docusaurus/Translate';
 ### Traduire directement du texte en HTML :
 On ajoute directement la balise Translate :
 ```tsx
-<Translate id="header.transation.id" description="the header description">
+<Translate
+    id="header.transation.id"
+    description="the header description"
+>
     This header will be translated
 </Translate>
 ```
@@ -37,7 +40,8 @@ devient:
     title={translate({
         message : "blablab",
         id:'...' ,
-        description:'...'})}
+        description:'...
+    })}
     text={translate...}
     ...
 ```
@@ -56,11 +60,43 @@ messages={{
 
 ### Traduire dans un objet Dicosaurus :
 ```tsx
-<TabItem value='reviewed' label={
-    translate({
+<TabItem
+    value='reviewed'
+    label={translate({
         message: 'Review',
-        id: 'my-events.tab.review'})
-    }>
+        id: 'my-events.tab.review'
+    })}
+>
+```
+
+
+### Traduire dans un objet JS avec variable
+```tsx
+setErrorMessages([`Abteilung "${token.charAt(2)}" nicht gefunden`]);
+```
+
+devient :
+
+```tsx
+setErrorMessages([
+    translate(
+        {
+            message : `Abteilung "{letter}" nicht gefunden`,
+            id : "share.audiencePicker.classSelector.errormsg.department",
+            description : "Error message department not found"
+        },
+
+        {letter : token.charAt(2)}
+    )
+]);
+
+et dans fr/code.json :
+
+```tsx
+    "..."" : {
+        "message" : "Abteilung \"{letter}\" nicht gefunden",
+        "description" : "..."
+    }
 ```
 
 ### Travailler sur une nouvelle branche sur le dépôt original

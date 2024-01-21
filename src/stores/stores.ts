@@ -88,7 +88,6 @@ export class RootStore {
                 }
                 if (account && semesterId && !prevSemesterId) {
                     this.semesterStore.loadedSemesters.add(semesterId);
-                    this._initialLoadPerformed = true;
                     this.load('authorized', semesterId);
                 }
             }
@@ -100,6 +99,7 @@ export class RootStore {
                 if (semesterId) {
                     console.log('load semester', semesterId);
                     this.loadSemester(semesterId);
+                    this._initialLoadPerformed = true;
                 }
             }
         );
@@ -161,7 +161,7 @@ export class RootStore {
 
     @action
     loadSemester(semesterId: string) {
-        if (!this.initialLoadPerformed || this.semesterStore.loadedSemesters.has(semesterId)) {
+        if (!this._initialLoadPerformed || this.semesterStore.loadedSemesters.has(semesterId)) {
             return;
         }
         this.semesterStore.loadedSemesters.add(semesterId);

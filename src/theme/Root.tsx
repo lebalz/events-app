@@ -2,12 +2,12 @@ import React from "react";
 import { MsalProvider } from "@azure/msal-react";
 import { StoresProvider, rootStore } from "../stores/stores";
 import { observer } from "mobx-react-lite";
-import { msalInstance, TENANT_ID } from "../authConfig";
+import { msalInstance, TENANT_ID, tokenRequest } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLocation } from "@docusaurus/router";
-import { AuthenticationResult } from "@azure/msal-browser";
+import { AuthenticationResult, InteractionRequiredAuthError } from "@azure/msal-browser";
 const { TEST_USERNAME, TEST_USER_ID } = siteConfig.customFields as { TEST_USERNAME?: string, TEST_USER_ID?: string };
 
 const useTestUserNoAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0;
@@ -55,6 +55,8 @@ const selectAccount = () => {
     rootStore.sessionStore.setAccount(null);
   } else {
     rootStore.sessionStore.setAccount(currentAccount);
+    console.log('refreshing');
+    rootStore.sessionStore.refresh(true);
   }
 };
 
@@ -76,6 +78,10 @@ msalInstance
   .handleRedirectPromise()
   .then(handleResponse)
   .catch((error) => {
+    if (error instanceof InteractionRequiredAuthError) {
+      console.log('InteractionRequiredAuthError', rootStore.sessionStore.msalInstance, rootStore.sessionStore.account);
+      rootStore.sessionStore.refresh();
+    }
     console.error(error);
   });
 

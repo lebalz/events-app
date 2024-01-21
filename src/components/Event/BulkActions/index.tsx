@@ -38,20 +38,44 @@ const BulkActions = observer((props: Props) => {
             {sameState && (
                 <div className={clsx(styles.stateActions)}>
                     {state === EventState.Draft && allValid && (
-                        <Button text='Request Review' icon={<Icon path={mdiBookmarkCheck} color='blue' />} className={clsx(styles.blue)} iconSide='left' onClick={() => {
-                            eventStore.requestState(events.map(e => e.id), EventState.Review);
-                        }} />
+                        <Button
+                            text={translate({
+                                message: 'Überprüfung anfordern',
+                                id: 'event.bulk_actions.request_review',
+                                description: 'Request Review'
+                            })}
+                            icon={<Icon path={mdiBookmarkCheck}
+                            color='blue' />}
+                            className={clsx(styles.blue)}
+                            iconSide='left'
+                            onClick={() => {
+                                eventStore.requestState(events.map(e => e.id), EventState.Review);
+                            }}
+                        />
                     )}
                     {state === EventState.Review && (
                         <>
-                            <Button text='Bearbeiten' icon={<Icon path={mdiBookmarkMinus} color='blue' />} className={clsx(styles.blue)} iconSide='left' onClick={() => {
-                                eventStore.requestState(events.map(e => e.id), EventState.Draft);
-                            }} />
+                            <Button
+                                text={translate({
+                                    message: 'Bearbeiten',
+                                    id: 'event.bulk_actions.editing',
+                                    description: 'Edit Event'
+                                })}
+                                icon={<Icon path={mdiBookmarkMinus}
+                                color='blue' />} className={clsx(styles.blue)}
+                                iconSide='left' onClick={() => {
+                                    eventStore.requestState(events.map(e => e.id), EventState.Draft);
+                                }}
+                            />
                             {
                                 userStore.current?.isAdmin && (
                                     <>
                                         <Button 
-                                            text={translate({message: 'Veröffentlichen', id: 'event.bulk_actions.pubslish', description: 'Publish Event'})}
+                                            text={translate({
+                                                message: 'Veröffentlichen',
+                                                id: 'event.bulk_actions.publish',
+                                                description: 'Publish Event'
+                                            })}
                                             icon={<Icon path={mdiFileCertificate} color='green' />}
                                             iconSide='left'
                                             className={clsx(styles.success)}
@@ -60,7 +84,11 @@ const BulkActions = observer((props: Props) => {
                                             }}
                                         />
                                         <Button 
-                                            text={translate({message: 'Zurückweisen', id: 'event.bulk_actions.refuse', description: 'Refuse Event review'})}
+                                            text={translate({
+                                                message: 'Zurückweisen',
+                                                id: 'event.bulk_actions.refuse',
+                                                description: 'Refuse Event review'
+                                            })}
                                             icon={<Icon path={mdiBookCancel} color='orange' />}
                                             iconSide='left'
                                             className={clsx(styles.revoke)} 

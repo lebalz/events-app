@@ -82,25 +82,74 @@ const EventProps = observer((props: Props) => {
                     <dt className='line'></dt>
                 </>
             )}
-            <dt><Translate id="event.description" description='for a single event: description'>Titel</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.description"
+                    description='for a single event: description'
+                >
+                    Titel
+                </Translate>
+            </dt>
             <dd><Description {...commonEditProps} /></dd>
-            <dt><Translate id="event.descriptionLong" description='for a single event: description long'>Beschreibung</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.descriptionLong"
+                    description='for a single event: description long'
+                >
+                    Beschreibung
+                </Translate>
+            </dt>
             <dd><DescriptionLong {...commonEditProps} /></dd>
-            <dt><Translate id="event.versionNumber" description='for a single event: version number'>Version</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.versionNumber"
+                    description='for a single event: version number'
+                >
+                    Version
+                </Translate>
+            </dt>
             <dd>
                 <Version {...commonProps} />
             </dd>
-            <dt><Translate id="event.state" description='for a single event: state'>Status</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.state"
+                    description='for a single event: state'
+                >
+                    Status
+                </Translate>
+            </dt>
             <dd>
                 <div className={clsx(styles.flex)}>
                     <State {...commonProps} showText />
                 </div>
             </dd>
-            <dt><Translate id="event.kw" description='for a single event: kw'>KW</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.kw"
+                    description='for a single event: kw'
+                >
+                    KW
+                </Translate>
+            </dt>
             <dd><KW {...commonProps} /></dd>
-            <dt><Translate id="event.weekday" description='for a single event: weekday'>Wochentag</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.weekday"
+                    description='for a single event: weekday'
+                >
+                    Wochentag
+                </Translate>
+            </dt>
             <dd><Day {...commonProps} showFullName showRange /></dd>
-            <dt><Translate id="event.date" description='for a single event: date range'>Datum</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.date"
+                    description='for a single event: date range'
+                >
+                    Datum
+                </Translate>
+            </dt>
             <dd>
                 <div className={clsx(styles.flex, commonClasses)}>
                     <StartDateTime {...commonEditProps} />
@@ -116,18 +165,39 @@ const EventProps = observer((props: Props) => {
                     <Icon path={mdiEqual} />{event.fDuration}
                 </div>
             </dd>
-            <dt><Translate id="event.location" description='for a single event: location'>Ort</Translate></dt>
+            <dt>
+                <Translate
+                    id="event.location"
+                    description='for a single event: location'
+                >
+                    Ort
+                </Translate>
+            </dt>
             <dd><Location {...commonEditProps} /></dd>
             {event.isEditing ? (
                 <>
-                    <dt><Translate id="event.audience" description='for a single event: class and department picker'>Beteiligte</Translate></dt>
+                    <dt>
+                        <Translate
+                            id="event.audience"
+                            description='for a single event: class and department picker'
+                        >
+                            Beteiligte
+                        </Translate>
+                    </dt>
                     <dd><Audience {...commonEditProps} /></dd>
                 </>
             ) : (
                 <>
                     {event.classes.size > 0 && (
                         <>
-                            <dt><Translate id="event.classes" description='for a single event: classes'>Klassen</Translate></dt>
+                            <dt>
+                                <Translate
+                                    id="event.classes"
+                                    description='for a single event: classes'
+                                >
+                                    Klassen
+                                </Translate>
+                            </dt>
                             <dd>
                                 <Klasses {...commonProps} />
                             </dd>
@@ -136,7 +206,10 @@ const EventProps = observer((props: Props) => {
                     {event.affectedDepartments.length > 0 && (
                         <>
                             <dt>
-                                <Translate id="event.departments" description='for a single event: departments'>
+                                <Translate
+                                    id="event.departments"
+                                    description='for a single event: departments'
+                                >
                                     Departemente
                                 </Translate>
                             </dt>
@@ -147,16 +220,28 @@ const EventProps = observer((props: Props) => {
                     )}
                 </>
             )}
-            <dt><Translate id="event.teachingAffected" description='for a single event: teaching affected?'>Unterricht Betroffen?</Translate></dt>
+            <dt><Translate
+                id="event.teachingAffected"
+                description='for a single event: teaching affected?'
+            >
+                Unterricht Betroffen?
+            </Translate></dt>
             <dd><TeachingAffected event={event} show='both' align='left' /></dd>
             <dt>
-                <Translate id="event.affectedLessons" description='for a single event: affected lessons'>
+                <Translate
+                    id="event.affectedLessons"
+                    description='for a single event: affected lessons'
+                >
                     Betroffene Lektionen
                 </Translate>
             </dt>
             <dd>
                 <Button
-                    text={translate({ message: "Alle laden", id: 'event.button.showAllLessons', description: 'for a single event: button to show all affected lessons' })}
+                    text={translate({
+                        message: "Alle laden",
+                        id: 'event.button.showAllLessons',
+                        description: 'for a single event: button to show all affected lessons'
+                    })}
                     icon={mdiText}
                     onClick={() => {
                         if (event.isDirty) {
@@ -186,7 +271,10 @@ const EventProps = observer((props: Props) => {
                 event.canChangeState && (
                     <>
                         <dt>
-                            <Translate id="event.requestState" description='Requesting the next state, eg. Draft -> Review'>
+                            <Translate
+                                id="event.requestState"
+                                description='Requesting the next state, eg. Draft -> Review'
+                            >
                                 Status Ändern
                             </Translate>
                         </dt>

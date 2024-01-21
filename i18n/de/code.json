@@ -763,7 +763,7 @@
     "message": "Alle Schulen",
     "description": "Button text to toggle all schools on/off"
   },
-  "Künftige Klassen": {
+  "shared.audiencePicker.title.futureClasses": {
     "message": "Künftige Klassen"
   },
   "shared.AudiencePicker.Department": {
@@ -1091,5 +1091,141 @@
   "components.user.index.logout": {
     "message": "Logout",
     "description": "Button label to logout"
+  },
+  "upload.button.text": {
+    "message": "Upload",
+    "description": "text on the button upload"
+  },
+  "upload.button.title": {
+    "message": "Importiere Excel-Datei",
+    "description": "Text displayed on mouse-over over the upload button"
+  },
+  "import.tab.gbsl.label": {
+    "message": "GBSL Import",
+    "description": "import.tab.gbsl"
+  },
+  "import.tab.gbjb.label": {
+    "message": "GBJB Import",
+    "description": "import.tab.gbjb"
+  },
+  "job.delete": {
+    "message": "Job Löschen",
+    "description": "job.delete"
+  },
+  "job.summary.text": {
+    "message": "Sync Untis",
+    "description": "Text of the button to sync Untis"
+  },
+  "event.bulk_actions.request_review": {
+    "message": "Überprüfung anfordern",
+    "description": "Request Review"
+  },
+  "event.bulk_actions.editing": {
+    "message": "Bearbeiten",
+    "description": "Edit Event"
+  },
+  "event.bulk_actions.publish": {
+    "message": "Veröffentlichen",
+    "description": "Publish Event"
+  },
+  "job.SyncUntis.badge.text": {
+    "message": "Sync Untis",
+    "description": "Text of the badge for sync Untis"
+  },
+  "job.SyncUntis.button.text": {
+    "message": "Sync Untis",
+    "description": "Text of the button for sync Untis"
+  },
+  "job.SyncUntis.section.title": {
+    "message": "Stundenpläne Synchronisieren (WebUntis)",
+    "description": "Title of the section syncUntis"
+  },
+  "job.SyncUntis.section.subtitle": {
+    "message": "Synchronisiere die Stundenpläne, Klassen und Lehrpersonen von WebUntis.",
+    "description": "Subtitle of the section syncUntis"
+  },
+  "share.audiencePicker.classSelector.errorMsg.department": {
+    "message": "Abteilung \"{letter}\" nicht gefunden",
+    "description": "Error message department not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.class": {
+    "message": "Klasse \"{tok}\" nicht gefunden",
+    "description": "Error message class not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.classOrDepartment": {
+    "message": "Unbekannte Abteilung/Klasse \"{tok}\"",
+    "description": "Error message class or department not found"
+  },
+  "share.audiencePicker.placeholder.unknownClasses": {
+    "message": "Unbekannte Klassen",
+    "description": "share.audiencePicker.placeholder.unknownClasses"
+  },
+  "shared.header.concerns": {
+    "message": "Betrifft",
+    "description": "The title in the window used to select the participants involved in the event"
+  },
+  "shared.text.people.concerned": {
+    "message": "Betrifft",
+    "description": "The text in the window used to select the participants involved in the event asking which people is concerned by an event"
+  },
+  "shared.text.lesson.concerned": {
+    "message": "Unterricht Betroffen?",
+    "description": "The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
+  },
+  "shared.text.bilingual.people.concerned": {
+    "message": "Bilingue Lehrpersonen betroffen?",
+    "description": "The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event"
+  },
+  "shared.button.yes": {
+    "message": "Ja",
+    "description": "Button text yes"
+  },
+  "shared.button.no": {
+    "message": "Nein",
+    "description": "Button text no"
+  },
+  "shared.header.school_departement": {
+    "message": "Schulen/Klassen",
+    "description": "The title in the window for the event."
+  },
+  "shared.button.title.expand": {
+    "message": "Erweitert",
+    "description": "Text appearing on the expand button"
+  },
+  "share.badge.error.title": {
+    "message": "Erreur",
+    "description": "share.badge.error.title"
+  },
+  "share.badge.loading.title": {
+    "message": "Laden",
+    "description": "share.badge.loading.title"
+  },
+  "share.badge.success.title": {
+    "message": "Erfolgreich",
+    "description": "share.badge.success.title"
+  },
+  "share.button.clone.title": {
+    "message": "Duplizieren",
+    "description": "Text of the button clone"
+  },
+  "share.button.copy.title": {
+    "message": "Kopieren",
+    "description": "Text of the button copy"
+  },
+  "share.button.delete.title": {
+    "message": "Löschen",
+    "description": "Text of the button delete"
+  },
+  "share.button.discard.title": {
+    "message": "Änderungen verwerfen",
+    "description": "Text of the button discard"
+  },
+  "share.button.edit.title": {
+    "message": "Bearbeiten",
+    "description": "Text of the button edit"
+  },
+  "share.button.save.title": {
+    "message": "Speichern",
+    "description": "Text of the button save"
   }
 }
