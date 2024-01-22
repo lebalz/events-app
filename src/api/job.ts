@@ -6,6 +6,7 @@ export type JobBase = {
     state: JobState
     userId: string
     log?: string
+    description: string
     createdAt: Date
     updatedAt: Date
 }

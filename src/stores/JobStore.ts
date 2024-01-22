@@ -132,4 +132,13 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     jobEvents(jobId: string) {
         return this.root.eventStore.byJob(jobId);
     }
+
+    @action
+    cancelJob(job: Job) {
+        if (!this.root.userStore.current?.isAdmin) {
+            return;
+        }
+        job.update({ state: JobState.ERROR, description: 'Canceled' });
+        job.save();
+    }
 }

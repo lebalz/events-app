@@ -1,4 +1,4 @@
-import { makeObservable, computed, observable, action } from "mobx";
+import { makeObservable, computed, observable, action, override } from "mobx";
 import { JobType as ApiJobType, JobState, Job as JobProps, UntisSyncJob, UntisImportJob } from "../api/job";
 import { ApiAction } from "../stores/iStore";
 import { JobStore } from "../stores/JobStore";
@@ -14,11 +14,13 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
     readonly _pristine: JobProps;
     readonly id: string;
     readonly type: ApiJobType;
-    readonly state: JobState;
     readonly userId: string;
     readonly log?: string;
     readonly createdAt: Date;
     readonly updatedAt: Date;
+
+    @observable state: JobState;
+    @observable description: string;
 
     constructor(props: JobProps, store: JobStore) {
         super();
@@ -29,6 +31,7 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
         this.state = props.state;
         this.userId = props.userId;
         this.log = props.log;
+        this.description = props.description;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
 
@@ -68,10 +71,10 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
     apiState(sid: ApiAction) {
         return this.store.apiStateFor(sid);
     }
-
 }
 
 export class SyncJob extends Job {
+    readonly UPDATEABLE_PROPS: UpdateableProps<JobProps>[] = ['description', 'state'];
     readonly type: ApiJobType.SYNC_UNTIS = ApiJobType.SYNC_UNTIS;
     readonly semesterId?: string;
     readonly syncDate: Date;
@@ -102,6 +105,27 @@ export class SyncJob extends Job {
     @computed
     get isInSync() {
         return this.semester?.fUntisSyncDate === this.fSyncDate;
+    }
+
+    @override
+    get props(): UntisSyncJob {
+        return {
+            id: this.id,
+            type: ApiJobType.SYNC_UNTIS,
+            state: this.state,
+            userId: this.userId,
+            semesterId: this.semesterId,
+            syncDate: this.syncDate,
+            log: this.log,
+            description: this.description,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt
+        }
+    }
+
+    @action
+    cancel() {
+        this.store.cancelJob(this);
     }
 }
 

@@ -13,6 +13,7 @@ import { SIZE_S, Sync } from '../shared/icons';
 import Badge from '../shared/Badge';
 import { Color as ColorType } from '../shared/Colors';
 import Translate, { translate } from '@docusaurus/Translate';
+import { mdiCancel } from '@mdi/js';
 
 
 
@@ -105,6 +106,25 @@ export const SyncSummary = observer((props: SyncProps) => {
                     color={job.isInSync ? "primary" : "black"}
                 />
             )}
+            {
+                job.state === JobState.PENDING && (                    
+                    <Button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            job.cancel();
+                        }}
+                        text={translate({
+                            id: 'job.cancel.text',
+                            message: 'Cancel',
+                            description: 'Text of the button to cancel a job'
+                        })}
+                        icon={mdiCancel}
+                        color='red'
+                    />
+                    
+                )
+            }
         </summary>
     )
 });
