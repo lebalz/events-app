@@ -15,10 +15,24 @@ interface Props {
 }
 
 const EventView = observer((props: Props) => {
+    const [ids, setIds] = React.useState<string[]>([]);
     const location = useLocation();
     const eventStore = useStore('eventStore');
-    const parsed = queryString.parse(location.search);
-    const events = eventStore.byIds(parsed.id);
+    React.useEffect(() => {
+        if (eventStore.initialLoadPerformed) {
+            const parsed = queryString.parse(location.search);
+            const _ids: string[] = [];
+            if (typeof parsed.id === 'string') {
+                _ids.push(parsed.id);
+            } else {
+                _ids.push(...parsed.id);
+            }
+            setIds(_ids);
+            _ids.filter(id => !eventStore.find(id)).forEach(id => eventStore.loadModel(id));
+        }
+    }, [location.search, eventStore.initialLoadPerformed]);
+
+    const events = eventStore.byIds(ids);
     const title = events.length > 1 ? 'Termine' : 'Termin';
 
     return (
