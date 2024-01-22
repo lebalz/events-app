@@ -149,10 +149,16 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.4 22.01.2024)</h4>
+                                <ul>
+                                    <li>Eingabe: Option für die Eingabe von ganztägigen Terminen hinzugefügt.</li>
+                                    <li>Fix: Verbesserung des UI's wenn die Mehrfaktor-Authentifizierung notwendig ist.</li>
+                                    <li>Zeitachse: Titelleiste ist beim Scrollen oben am Fenster fixiert.</li>
+                                </ul>
                                 <h4>Version: Beta 1.3 (15.01.2024)</h4>
                                 <ul>
                                     <li>Inkrementelles Laden: Es werden die öffentlichen Termine geladen, <b>während</b> die Benutzer:in eingeloggt wird. Sobald die Anmeldeinformationen vorhanden sind, werden auch die persönlichen Daten geladen. Führt zu einem schnelleren Laden der Seite.  <a href="https://github.com/lebalz/events-app/pull/17"></a></li>
-                                    <li>Logour Button ist nun im sichtbaren Bereich auf der <a href="/user?user-tab=account">User-Seite</a></li>
+                                    <li>Logout Button ist nun im sichtbaren Bereich auf der <a href="/user?user-tab=account">User-Seite</a></li>
                                     <li>Fix: Abonnierbare Kalender sind korrekt beschriftet</li>
                                     <li>Fix: Kalenderwochen werden auch beim Jahreswechsel korrekt sortiert</li>
                                 </ul>
