@@ -155,16 +155,20 @@ const EventProps = observer((props: Props) => {
                     <StartDateTime {...commonEditProps} />
                 </div>
             </dd>
-            <dd>
-                <div className={clsx(styles.flex, commonClasses)}>
-                    <Icon path={mdiArrowRightBottom} /><EndDateTime {...commonEditProps} />
-                </div>
-            </dd>
-            <dd>
-                <div className={clsx(styles.duration, styles.flex, commonClasses)}>
-                    <Icon path={mdiEqual} />{event.fDuration}
-                </div>
-            </dd>
+            {!(event.isAllDay && event.isOnOneDay && !event.isEditing) && (
+                <>
+                    <dd>
+                        <div className={clsx(styles.flex, commonClasses)}>
+                            <Icon path={mdiArrowRightBottom} /><EndDateTime {...commonEditProps} />
+                        </div>
+                    </dd>
+                    <dd>
+                        <div className={clsx(styles.duration, styles.flex, commonClasses)}>
+                            <Icon path={mdiEqual} />{event.fDuration}
+                        </div>
+                    </dd>
+                </>
+            )}
             <dt>
                 <Translate
                     id="event.location"

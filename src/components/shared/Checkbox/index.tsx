@@ -28,7 +28,7 @@ const Checkbox = observer((props: Props) => {
                     onChange={action((e) => {
                         props.onChange(!props.checked, (e.nativeEvent as any).shiftKey);
                     })} 
-                    checked={props.checked}
+                    checked={!!props.checked}
                 />
                 {props.labelSide !== 'left' && props.label}
             </label>

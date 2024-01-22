@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Props as DefaultProps } from './iEventField';
 import DateTimePicker from '@site/src/components/shared/DateTimePicker';
 import Checkbox from '../../shared/Checkbox';
+import DatePicker from '../../shared/DatePicker';
 
 interface Props extends DefaultProps {
     time: 'start' | 'end'
@@ -32,17 +33,29 @@ const DateTime = observer((props: Props) => {
                 style={{ gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End` }}
                 className={clsx(props.className, 'grid-dateTime', styles.dateTime, styles[props.time], error && styles.error)}
             >
-                <DateTimePicker
-                    date={date}
-                    onChange={(date) => {
-                        const d = date.toISOString();
-                        event.update({ [props.time]: d })
-                    }}
-                    type={event.allDay ? 'date' : 'datetime'}
-                />
+                {
+                    event.showAsAllDay ? (
+                        <DatePicker
+                            date={date}
+                            onChange={(date) => {
+                                const d = date.toISOString();
+                                event.update({ [props.time]: d })
+                            }}
+                            time={props.time}
+                        />
+                    ) : (
+                        <DateTimePicker
+                            date={date}
+                            onChange={(date) => {
+                                const d = date.toISOString();
+                                event.update({ [props.time]: d })
+                            }}
+                        />
+                    )
+                }
                 {props.time === 'start' && (
                     <Checkbox
-                        checked={event.allDay}
+                        checked={event.showAsAllDay}
                         onChange={(checked) => {
                             event.setAllDay(checked);
                         }}
@@ -67,12 +80,14 @@ const DateTime = observer((props: Props) => {
             >
                 {fdate}
             </div>
-            <div
-                style={{ gridColumn: timeColumn }}
-                className={clsx(styles.time, styles[timeColumn], event.isAllDay && styles.allDay, `grid-${timeColumn}`)}
-            >
-                {ftime}
-            </div>
+            {!event.isAllDay && (
+                <div
+                    style={{ gridColumn: timeColumn }}
+                    className={clsx(styles.time, styles[timeColumn], `grid-${timeColumn}`)}
+                >
+                    {ftime}
+                </div>
+            )}
         </div>
     )
 });

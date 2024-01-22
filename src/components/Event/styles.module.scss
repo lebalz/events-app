@@ -4,17 +4,12 @@
     align-items: center;
 }
 .duration {
-    margin-left: 2em;
+    margin-left: 1.8em;
     gap: 0.25rem;
-    // justify-content: center;
 }
 .eventCard {
     box-shadow: var(--ifm-global-shadow-md);
     margin-bottom: 1rem;
-    // button[type="button"]:global(.button) {
-    //     margin: 0;
-    //     line-height: 1;
-    // }
 }
 .eventBody {
     display: flex;
