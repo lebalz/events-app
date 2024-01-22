@@ -1227,5 +1227,9 @@
   "share.button.save.title": {
     "message": "Speichern",
     "description": "Text of the button save"
+  },
+  "event.reduce.title": {
+    "message": "Auf eine Zeile reduzieren",
+    "description": "Button Title (hover) to reduce an expanded event in the table view"
   }
 }

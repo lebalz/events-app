@@ -93,8 +93,13 @@ const Actions = observer((props: Props) => {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     event.setExpanded(false)
-                                }} 
+                                }}
                                 size={SIZE_S} 
+                                title={translate({
+                                    message: 'Auf eine Zeile reduzieren',
+                                    id: 'event.reduce.title',
+                                    description: 'Button Title (hover) to reduce an expanded event in the table view'
+                                })}
                             />
                             <Button
                                 color="blue"
