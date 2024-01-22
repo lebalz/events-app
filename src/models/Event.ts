@@ -102,7 +102,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     audience: EventAudience;
 
     @observable
-    allDayType: boolean;
+    showAsAllDay: boolean;
 
     @observable
     teachingAffected: TeachingAffected;
@@ -156,6 +156,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
+        this.showAsAllDay = this.isAllDay;
+
         makeObservable(this);
         if (this.state !== EventState.Published && !this.deletedAt) {
             this.validate();
@@ -209,7 +211,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get isAllDay() {
-        return this.start.getHours() === 0 && this.start.getMinutes() === 0 && this.end.getHours() === 23 && this.end.getMinutes() === 59;
+        return this.start.getHours() === 0 && this.start.getMinutes() === 0 && this.end.getHours() === 0 && this.end.getMinutes() === 0;
     }
 
     @computed
@@ -547,6 +549,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get fEndTime() {
+        if (this.end.getHours() === 0 && this.end.getMinutes() === 0) {
+            return '24:00';
+        }
         return formatTime(this.end);
     }
 
@@ -566,7 +571,24 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get fEndDate() {
+        if (this.isAllDay) {
+            return formatDate(new Date(this.end.getTime() - 1));
+        }
         return formatDate(this.end);
+    }
+
+    @action
+    setAllDay(allDay: boolean) {
+        this.showAsAllDay = allDay;
+        if (allDay) {
+            const dEnd = new Date(toGlobalDate(this.end).getTime() - 1);
+            dEnd.setUTCHours(24, 0, 0, 0);
+            this.update({ end: dEnd.toISOString() });
+        }
+        if (!allDay) {
+            const d = new Date(this.end.getTime() - 1);
+            this.update({ end: toGlobalDate(d).toISOString() });
+        }
     }
 
     @computed
@@ -658,7 +680,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get dayEnd(): typeof DAYS[number] {
-        return DAYS[this.end.getDay()];
+        /**
+         * subtract a millisecond to take in account, that the 1.1.2024-24:00 is in JS the 2.1.2024-00:00
+         */
+        const newDate = new Date(this.end.getTime() - 1);
+        return DAYS[newDate.getDay()];
     }
 
     @computed
@@ -668,7 +694,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get dayFullEnd(): typeof DAYS_LONG[number] {
-        return DAYS_LONG[this.end.getDay()];
+        const newDate = new Date(this.end.getTime() - 1);
+        return DAYS_LONG[newDate.getDay()];
     }
 
     /**

@@ -59,30 +59,21 @@ dd {
 }
 .startDate {
     text-align: end;
-    // font-family: monospace;
 }
 .startTime {
-    &.isAllDay {
-        color: transparent;
-    }
-    // font-weight: bold;
-    // font-family: monospace;
+    width: 2.5em;
+    text-align: end;
 }
 .endDate {
     text-align: end;
     &.onOneDay {
         color: transparent;
         margin-left: -32px;
-        // font-size: 0;
     }
-    // font-family: monospace;
 }
 .endTime {
-    &.isAllDay {
-        color: transparent;
-    }
-    // font-weight: bold;
-    // font-family: monospace;
+    width: 2.5em;
+    text-align: end;
 }
 .dateTime {
     &.start {
@@ -99,10 +90,6 @@ dd {
         gap: 0.5em;
     }
 }
-// .description {
-// }
-// .location {
-// }
 .departments {
     &.editGrid {
         max-width: inherit;

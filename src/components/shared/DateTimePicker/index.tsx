@@ -3,7 +3,7 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { toGlobalDate } from '@site/src/models/helpers/time';
+import { toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
 import { action } from 'mobx';
 
 
