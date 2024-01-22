@@ -87,11 +87,24 @@ const GanttView = observer(() => {
             }
         }
     }, [ref.current, timer]);
+
+    const onScroll = React.useMemo(() => {
+        return (e: React.UIEvent<HTMLDivElement>) => {
+            const target = e.target as HTMLDivElement;
+            const header = target.querySelector<HTMLElement>('div[dir="ltr"] > svg');
+            if (header) {
+                header.style.transform = `translateY(${target.scrollTop}px)`;
+            }
+        }
+    }, []);
                 
     return (
         <Layout>
             <Filter showCurrentAndFuture />
-            <div className={clsx(styles.container)}>
+            <div 
+                className={clsx(styles.container)}
+                onScroll={onScroll}
+            >
                 <div className={clsx(styles.gantt)} ref={ref}>
                     {tasks.length > 0 && (
                         <Gantt
