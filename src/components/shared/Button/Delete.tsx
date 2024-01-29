@@ -41,6 +41,7 @@ const Delete = (props: DeleteProps) => {
                         description : "Text of the button confirm"
                     })
                 }
+                on="click"
                 isOpen={isOpen}
                 onOpen={() => setIsOpen(true)}
                 onClose={() => setIsOpen(false)}
@@ -83,27 +84,6 @@ const Delete = (props: DeleteProps) => {
                 </div>
             </Popup>
         </span>
-        // <span className={clsx(styles.delete, promptDelete && styles.expanded, props.className)} ref={ref}>
-        //     {(props.flyoutSide ?? 'left') === 'left' && Flyout}
-        //     <Button
-        //         title={translate({
-        //             message : "Löschen",
-        //             id : "share.button.delete.title",
-        //             description : "Text of the button delete"
-        //         })}
-        //         {...extractSharedProps(props)}
-        //         className={clsx(props.className, styles.delete, props.flyoutSide === 'right' && styles.right, props.className)}
-        //         onClick={(e) => {
-        //             setPromptDelete(!promptDelete);
-        //             document.addEventListener('click', onBlur);
-        //             e.stopPropagation();
-        //             e.preventDefault();
-        //         }}
-        //         color='red'
-        //         icon={<DeleteIcon size={props.size ?? SIZE_S} />}
-        //     />
-        //     {props.flyoutSide === 'right' && Flyout}
-        // </span>
     )
 };
 
