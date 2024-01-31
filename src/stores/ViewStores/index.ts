@@ -39,7 +39,15 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     openEventModalId?: string;
 
     @observable
-    initialLoadPerformed = false;
+    initialAuthorizedLoadPerformed = false;
+
+    get initialPublicLoadPerformed() {
+        return this.initialAuthorizedLoadPerformed;
+    }
+
+    get initialLoadPerformed() {
+        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
+    }
 
     @observable
     icalListDepartmentsFilter = '';
@@ -219,7 +227,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @action
     loadAuthorized() {
-        this.initialLoadPerformed = true;
+        this.initialAuthorizedLoadPerformed = true;
         if (this.root.userStore.current?.untisId) {
             // this.eventTable.setOnlyMine(true);
         }

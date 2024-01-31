@@ -2,15 +2,14 @@ import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import {Semester as SemesterProps} from '../api/semester';
+import { Semester as SemesterProps } from '../api/semester';
 import Semester from '../models/Semester';
-import {syncUntis as apiStartSyncJob} from '../api/semester';
+import { syncUntis as apiStartSyncJob } from '../api/semester';
+import { EndPoint } from './EndPoint';
 
 export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${string}`> {
-    readonly API_ENDPOINT = {
-        Base: 'semesters',
-        LoadPublic: 'semesters'
-    };
+    readonly ApiEndpoint = new EndPoint('semesters', { public: true });
+
     readonly root: RootStore;
     models = observable<Semester>([]);
     loadedSemesters = observable.set<string>();

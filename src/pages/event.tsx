@@ -19,7 +19,7 @@ const EventView = observer((props: Props) => {
     const location = useLocation();
     const eventStore = useStore('eventStore');
     React.useEffect(() => {
-        if (eventStore.initialLoadPerformed) {
+        if (eventStore.initialPublicLoadPerformed) {
             const parsed = queryString.parse(location.search);
             const _ids: string[] = [];
             if (typeof parsed.id === 'string') {
@@ -30,7 +30,7 @@ const EventView = observer((props: Props) => {
             setIds(_ids);
             _ids.filter(id => !eventStore.find(id)).forEach(id => eventStore.loadModel(id));
         }
-    }, [location.search, eventStore.initialLoadPerformed]);
+    }, [location.search, eventStore.initialPublicLoadPerformed]);
 
     const events = eventStore.byIds(ids);
     const title = events.length > 1 ? 'Termine' : 'Termin';

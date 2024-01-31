@@ -58,7 +58,7 @@ export class SessionStore {
         if (!this.account) {
             return false;
         }
-        if (this.root.userStore.initialLoadPerformed) {
+        if (this.root.userStore.initialAuthorizedLoadPerformed) {
             return !!!this.root.userStore.current;
         }
         return false;
@@ -66,14 +66,17 @@ export class SessionStore {
 
     @action
     setMsalInstance(msalInstance: PublicClientApplication) {
+        console.log('set msal instance', msalInstance)
         this.initialized = true;
         this.state._msalInstance = msalInstance;
     }
 
     @action
     setAccount(account?: AccountInfo | null, reconfig: boolean = false) {
+        console.log('set account', account, reconfig);
         this.state.account = account;
         if (reconfig) {
+            console.log('reconfiguring axios')
             setupAxios(account);
             this.root.cleanup();
             this.root.load('authorized');
@@ -92,6 +95,7 @@ export class SessionStore {
 
     @action
     refresh(ignoreResponse: boolean = false) {
+        console.log('refresh')
         if (this.account && this.msalInstance)  {
             this.msalInstance.acquireTokenSilent({
                 account: this.account,
@@ -107,7 +111,7 @@ export class SessionStore {
                       account: this.account
                     });
                 }
-                console.warn(e);
+                console.warn('didnt work out', e);
             });
         } else {
             this.login();

@@ -4,6 +4,7 @@ import { all as apiAll, find as apiFind, create as apiCreate, destroy as apiDest
 import { RootStore } from "./stores";
 import { computedFn } from "mobx-utils";
 import axios from "axios";
+import { EndPoint } from "./EndPoint";
 
 type ApiModelInst = ApiModel<any, any>;
 export class ResettableStore {
@@ -28,6 +29,8 @@ export class LoadeableStore<T> {
          */
         throw new Error('Not implemented');
     }
+    initialPublicLoadPerformed: boolean;
+    initialAuthorizedLoadPerformed: boolean;
     initialLoadPerformed: boolean;
 }
 
@@ -44,17 +47,14 @@ const API_STATE_RESET_TIMEOUT = 1500;
 
 abstract class iStore<Model extends { id: string }, Api = ''> extends ResettableStore implements LoadeableStore<any> {
     abstract readonly root: RootStore;
-    abstract readonly API_ENDPOINT: {
-        Base: string;
-        LoadPublic?: string;
-        LoadAuthorized?: string;
-    };
+
+    @observable.ref
+    abstract readonly ApiEndpoint: EndPoint;
+
     abstract models: IObservableArray<ApiModel<Model, Api | ApiAction>>;
 
     abortControllers = new Map<Api | ApiAction, AbortController>();
     apiState = observable.map<Api | ApiAction, ApiState>();
-    @observable
-    initialLoadPerformed = false;
 
     withAbortController<T>(sigId: Api | ApiAction, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
@@ -83,6 +83,18 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                 }
             }), API_STATE_RESET_TIMEOUT);
         });
+    }
+
+    get initialPublicLoadPerformed() {
+        return this.ApiEndpoint.loaded('public');
+    }
+
+    get initialAuthorizedLoadPerformed() {
+        return this.ApiEndpoint.loaded('authorized');
+    }
+
+    get initialLoadPerformed() {
+        return this.ApiEndpoint.loaded('all');
     }
 
     abstract createModel(data: Model, state?: 'load' | 'create'): ApiModel<Model, Api | ApiAction>;
@@ -164,33 +176,27 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                 ).catch((err) => {
                     console.warn(err);
                     return this.postLoad([], models === 'public', false).then(() => []).catch(() => []);
-                }).finally(() => {
-                    this.initialLoadPerformed = true;
-                });
+                }).finally(action(() => {
+                    this.ApiEndpoint.setLoaded(models);
+                }));
         });
     }
 
 
     @action
     loadPublic(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
-        if (!this.API_ENDPOINT.LoadPublic) {
+        if (!this.ApiEndpoint.hasPublicRoute) {
             return this.postLoad([], true, true).then(() => []).catch(() => []);
         };
-        const endPoint = semesterId ?
-            `${this.API_ENDPOINT.LoadPublic}?semesterId=${semesterId}` :
-            `${this.API_ENDPOINT.LoadPublic}`;
-        return this._load(endPoint, 'public', `loadPublic-${semesterId}`);
+        return this._load(this.ApiEndpoint.routeWithSemesterId('public', semesterId), 'public', `loadPublic-${semesterId}`);
     }
 
     @action
     loadAuthorized(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
-        if (!this.API_ENDPOINT.LoadAuthorized) {
+        if (!this.ApiEndpoint.hasAuthorizedRoute) {
             return this.postLoad([], false, true).then(() => []).catch(() => []);
         }
-        const endPoint = semesterId ?
-            `${this.API_ENDPOINT.LoadAuthorized}?semesterId=${semesterId}` :
-            `${this.API_ENDPOINT.LoadAuthorized}`;
-        return this._load(endPoint, 'authorized', `loadAuthorized-${semesterId}`);
+        return this._load(this.ApiEndpoint.routeWithSemesterId('authorized', semesterId), 'authorized', `loadAuthorized-${semesterId}`);
     }
 
 
@@ -198,7 +204,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     resetUserData() {
         const anonymeModels = this.models.slice().filter((m) => !m.isUserModel);
         this.models.replace(anonymeModels);
-        this.initialLoadPerformed = false;
+        this.ApiEndpoint.reset('authorized');
     }
 
 
@@ -208,7 +214,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             return Promise.resolve(undefined);
         }
         return this.withAbortController(`load-${id}`, (sig) => {
-            return apiFind<Model>(`${this.API_ENDPOINT.Base}/${id}`, sig.signal);
+            return apiFind<Model>(`${this.ApiEndpoint.Base}/${id}`, sig.signal);
         }).then(action(({ data }) => {
             if (data && Object.keys(data).length > 0) {
                 return this.addToStore(data, 'load');
@@ -232,7 +238,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         if (model.isDirty) {
             const { id } = model;
             return this.withAbortController(`save-${id}`, (sig) => {
-                return apiUpdat<Model>(`${this.API_ENDPOINT.Base}/${id}`, model.props, sig.signal);
+                return apiUpdat<Model>(`${this.ApiEndpoint.Base}/${id}`, model.props, sig.signal);
             }).then(action(({ data }) => {
                 if (data) {
                     return this.addToStore(data);
@@ -247,7 +253,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     destroy(model: ApiModel<Model, Api | ApiAction>) {
         const { id } = model;
         this.withAbortController(`destroy-${id}`, (sig) => {
-            return apiDestroy<Model>(`${this.API_ENDPOINT.Base}/${id}`, sig.signal);
+            return apiDestroy<Model>(`${this.ApiEndpoint.Base}/${id}`, sig.signal);
         }).then(action(() => {
             // this.removeFromStore(id);
             this.loadModel(id);
@@ -260,7 +266,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
          * Save the model to the api
          */
         return this.withAbortController('create', (sig) => {
-            return apiCreate<Model>(this.API_ENDPOINT.Base, model, sig.signal);
+            return apiCreate<Model>(this.ApiEndpoint.Base, model, sig.signal);
         }).then(action(({ data }) => {
             return this.addToStore(data, 'create');
         }));

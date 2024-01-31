@@ -6,7 +6,7 @@ import { UserStore } from "./UserStore";
 import { EventStore } from "./EventStore";
 import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
-import { LoadeableStore, ResettableStore } from "./iStore";
+import { ApiState, LoadeableStore, ResettableStore } from "./iStore";
 import { JobStore } from "./JobStore";
 import { ViewStore } from "./ViewStores";
 import { DepartmentStore } from "./DepartmentStore";
@@ -28,7 +28,7 @@ export class RootStore {
     @observable
     initialized = false;
     @observable
-    _initialLoadPerformed = false;
+    _initialSemesterLoaded = false;
 
     sessionStore: SessionStore;
     untisStore: UntisStore;
@@ -83,10 +83,16 @@ export class RootStore {
         reaction(
             (): [AccountInfo, string] => [this.sessionStore.account, this.viewStore.semesterId],
             ([account, semesterId], [prevAccount, prevSemesterId]) => {
+                console.log('run reaction', account, semesterId, prevAccount, prevSemesterId)
                 if (prevAccount && account !== prevAccount) {
+                    console.log('cleanup');
                     this.cleanup();
                 }
+                // const firstSemesterLoad = semesterId && !prevSemesterId;
+                // console.log('loading', firstSemesterLoad, this.userStore.apiStateFor(`loadAuthorized-${semesterId}`));
+                // const reloadUser = !firstSemesterLoad && !this.userStore.initialPublicLoadPerformed && this.userStore.apiStateFor(`loadAuthorized-${semesterId}`) !== ApiState.LOADING;
                 if (account && semesterId && !prevSemesterId) {
+                    console.log('load authorized', semesterId);
                     this.semesterStore.loadedSemesters.add(semesterId);
                     this.load('authorized', semesterId);
                 }
@@ -99,7 +105,7 @@ export class RootStore {
                 if (semesterId) {
                     console.log('load semester', semesterId);
                     this.loadSemester(semesterId);
-                    this._initialLoadPerformed = true;
+                    this._initialSemesterLoaded = true;
                 }
             }
         );
@@ -124,14 +130,6 @@ export class RootStore {
         }
     }
 
-    @computed
-    get initialLoadPerformed() {
-        if (!this._initialLoadPerformed) {
-            return false;
-        }
-        return this.loadableStores.every((store) => store.initialLoadPerformed);
-    }
-
     /**
      * Initialize the stores
      * When the page initially loads, this will be called by the root component (@see src/theme/Root.tsx)
@@ -143,13 +141,13 @@ export class RootStore {
 
     @action
     load(type: 'public' | 'authorized', semesterId?: string) {
-        this.loadableStores.forEach((store) => {
+        return Promise.all(this.loadableStores.map((store) => {
             if (type === 'public') {
-                store.loadPublic(semesterId);
+                return store.loadPublic(semesterId);
             } else {
-                store.loadAuthorized(semesterId);
+                return store.loadAuthorized(semesterId);
             }
-        });
+        }));
     }
 
 
@@ -161,7 +159,7 @@ export class RootStore {
 
     @action
     loadSemester(semesterId: string) {
-        if (!this._initialLoadPerformed || this.semesterStore.loadedSemesters.has(semesterId)) {
+        if (!this._initialSemesterLoaded || this.semesterStore.loadedSemesters.has(semesterId)) {
             return;
         }
         this.semesterStore.loadedSemesters.add(semesterId);

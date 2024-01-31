@@ -2,18 +2,18 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import {DepartmentLetter, Department as DepartmentProps} from '../api/department';
+import { DepartmentLetter, Department as DepartmentProps } from '../api/department';
 import Department from '../models/Department';
 import { computedFn } from 'mobx-utils';
+import { EndPoint } from './EndPoint';
 
 export class DepartmentStore extends iStore<DepartmentProps> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = {
-        Base: 'departments',
-        LoadPublic: 'departments'
-    };
+
+    readonly ApiEndpoint = new EndPoint('departments', { public: true });
+
     models = observable<Department>([]);
-    
+
     constructor(root: RootStore) {
         super()
         this.root = root;
@@ -57,7 +57,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
 
 
     createModel(data: DepartmentProps): Department {
-        return new Department(data, this);        
+        return new Department(data, this);
     }
 
     getEvents(department: Department) {
