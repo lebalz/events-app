@@ -9,6 +9,7 @@ import Button from '../../shared/Button';
 import { mdiAccountCircleOutline } from '@mdi/js';
 import { useIsAuthenticated } from '@azure/msal-react';
 import siteConfig from '@generated/docusaurus.config';
+import { ApiState } from '@site/src/stores/iStore';
 const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean};
 
 
@@ -21,6 +22,7 @@ const LoginProfileButton = observer(() => {
                 text={userStore.current?.shortName || userStore.current?.firstName || 'Profil'}
                 icon={mdiAccountCircleOutline}
                 iconSide='left'
+                apiState={userStore.current ? ApiState.IDLE : ApiState.LOADING}
                 color='primary'
                 href='/user?user-tab=account'
                 title='Persönlicher Bereich'
