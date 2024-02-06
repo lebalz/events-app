@@ -149,13 +149,13 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
-                                <h4>Version: Beta 1.5 6.02.2024)</h4>
+                                <h4>Version: Beta 1.5 (6.02.2024)</h4>
                                 <ul>
                                     <li>Fix: Firefox spielt Video ab</li>
                                     <li>Fix: Login sollte nun auf allen Browsern funktionieren und die Account-Daten werden auch nach dem ersten Login geladen.</li>
                                     <li>Bestätigung für das Löschen eines Events ist nun ein Popup.</li>
                                 </ul>
-                                <h4>Version: Beta 1.4 22.01.2024)</h4>
+                                <h4>Version: Beta 1.4 (22.01.2024)</h4>
                                 <ul>
                                     <li>Eingabe: Option für die Eingabe von ganztägigen Terminen hinzugefügt.</li>
                                     <li>Fix: Verbesserung des UI's wenn die Mehrfaktor-Authentifizierung notwendig ist.</li>
