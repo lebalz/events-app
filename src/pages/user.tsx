@@ -49,8 +49,25 @@ const UserPage = observer(() => {
                             default
                         >
                             <div className={clsx(styles.tab)}>
-                                {current && (
+                                {current ? (
                                     <User user={current} />
+                                ) : (
+                                    <div>
+                                        <Button
+                                            text={translate({
+                                                message: 'Aktualisieren',
+                                                id: 'user.button.refresh'
+                                            })}
+                                            icon={mdiRefresh}
+                                            iconSide='left'
+                                            onClick={() => {
+                                                localStorage.clear();
+                                                window.location.reload();
+                                            }}
+                                            color='orange'
+                                            noOutline
+                                        />
+                                    </div>
                                 )}
                             </div>
                         </TabItem>
