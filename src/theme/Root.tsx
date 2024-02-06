@@ -66,14 +66,13 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
         <MsalProvider 
             instance={msalInstance}
         >
-            <MsalAccount>
-                {children}
-            </MsalAccount>
+            <MsalAccount />
+            {children}
         </MsalProvider>
     );
 });
 
-const MsalAccount = observer(({ children }: {children: React.ReactNode}) => {
+const MsalAccount = observer(() => {
     const {accounts, inProgress, instance} = useMsal();
     const isAuthenticated = useIsAuthenticated();
 
@@ -97,7 +96,9 @@ const MsalAccount = observer(({ children }: {children: React.ReactNode}) => {
         }
 
     }, [accounts, inProgress, instance, isAuthenticated]);
-    return (children)
+    return (
+        <div data--isAuthenticated={isAuthenticated} data--account={instance.getActiveAccount()?.username}></div>
+    )
 });
 
 // Default implementation, that you can customize
