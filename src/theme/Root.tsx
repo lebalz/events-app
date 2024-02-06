@@ -97,7 +97,7 @@ const MsalAccount = observer(() => {
 
     }, [accounts, inProgress, instance, isAuthenticated]);
     return (
-        <div data--isAuthenticated={isAuthenticated} data--account={instance.getActiveAccount()?.username}></div>
+        <div data--isauthenticated={isAuthenticated} data--account={instance.getActiveAccount()?.username}></div>
     )
 });
 
