@@ -133,14 +133,14 @@ const DepartmentTable = observer((props: Props) => {
                     {
                         departments.filter(d => d.isSchool).map((dep, idx) => {
                             return (
-                                <>
+                                <React.Fragment key={idx}>
                                     <Department key={dep.id} department={dep} />
                                     {dep.subDepartments.map((subDep) => {
                                         return (
                                             <Department key={`${dep.id}--${subDep.id}`} department={subDep} />
                                         )
                                     })}
-                                </>
+                                </React.Fragment>
                             )
                         })
                     }

@@ -19,6 +19,11 @@ export type User = {
     updatedAt: string
 }
 
+export function currentUser(signal: AbortSignal): AxiosPromise<User> {
+    return api.get('/user', { signal });
+}
+
+
 export function linkToUntis(userId: string, untisId: number, signal: AbortSignal): AxiosPromise<User> {
     return api.put(
         `users/${userId}/link_to_untis`,
@@ -47,5 +52,3 @@ export function affectedEventIds(userId: string, semesterId: string | undefined,
     const query = semesterId ? `?semesterId=${semesterId}` : '';
     return api.get(`/users/${userId}/affected-event-ids${query}`, { signal });
 }
-
-

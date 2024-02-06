@@ -8,14 +8,13 @@ import iStore from './iStore';
 import Department from '../models/Department';
 import { HOUR_2_MS } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
+import { EndPoint } from './EndPoint';
 
 export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `load-versions-${string}`> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = {
-        Base: 'events',
-        LoadPublic: 'events',
-        LoadAuthorized: 'user/events'
-    };
+    
+    readonly ApiEndpoint = new EndPoint('events', {authorized: 'user/events', public: true});
+
     models = observable<Event>([]);
     
     constructor(root: RootStore) {

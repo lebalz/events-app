@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { LogLevel, PublicClientApplication } from "@azure/msal-browser";
+import { Configuration, LogLevel, PublicClientApplication } from "@azure/msal-browser";
 import siteConfig from '@generated/docusaurus.config';
 
 export interface CustomFields {
@@ -22,11 +22,15 @@ export const {EVENTS_API, CLIENT_ID, DOMAIN, TENANT_ID, API_URI} = siteConfig.cu
  * For a full list of MSAL.js configuration parameters, visit:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md
  */
-export const msalConfig = {
+//cloudDiscoveryMetadata: '{"tenant_discovery_endpoint":"https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration","api-version":"1.1",
+//"metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}'
+    
+export const msalConfig: Configuration = {
   auth: {
     clientId: CLIENT_ID,
     authority: `https://login.microsoftonline.com/${TENANT_ID}`,
     redirectUri: DOMAIN,
+    postLogoutRedirectUri: DOMAIN
   },
   cache: {
     cacheLocation: "localStorage", // This configures where your cache will be stored
@@ -88,5 +92,3 @@ export const loginRequest = {
 export const tokenRequest = {
   scopes: [...apiConfig.scopes],
 };
-
-export const msalInstance = new PublicClientApplication(msalConfig);

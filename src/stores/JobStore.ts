@@ -1,24 +1,20 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
-import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType as ApiJobType} from '../api/job';
 import { ImportType, importEvents as postImportEvents } from '../api/event';
 import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
-import { runInThisContext } from 'vm';
 import { find } from '../api/api_model';
+import { EndPoint } from './EndPoint';
 
 export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;
-    readonly API_ENDPOINT = {
-        Base: 'jobs',
-        LoadAuthorized: 'jobs'
-    }
+
+    readonly ApiEndpoint = new EndPoint('jobs', {authorized: true});
 
     models = observable<Job>([]);
-    cancelToken = axios.CancelToken.source();
     constructor(root: RootStore) {
         super();
         this.root = root;
@@ -38,7 +34,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     addToStore(data: JobAndEventsProps): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
-            if (this.initialLoadPerformed) {
+            if (this.initialAuthorizedLoadPerformed) {
                 this.removeFromStore(data.id);
                 if (job.type === ApiJobType.SYNC_UNTIS) {
                     this.root.departmentStore.reload();
@@ -60,7 +56,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         if (!id) {
             return;
         }
-        if (this.initialLoadPerformed) {
+        if (this.initialAuthorizedLoadPerformed) {
             /**
              * remove events created by this job from eventStore
              */
@@ -102,7 +98,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     @action
     loadJobEvents(id: string) {
         return this.withAbortController(`load-${id}`, (sig) => {
-            return find<JobAndEventsProps>(`${this.API_ENDPOINT.Base}/${id}`, sig.signal).then(({ data }) => {
+            return find<JobAndEventsProps>(`${this.ApiEndpoint.Base}/${id}`, sig.signal).then(({ data }) => {
                 if (data && data.events?.length > 0) {
                     this.root.eventStore.appendEvents(data.events);
                 }

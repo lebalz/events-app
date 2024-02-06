@@ -1,15 +1,13 @@
-import { action, makeObservable, observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import {RegistrationPeriod as RegPeriodProps} from '../api/registration_period';
+import { RegistrationPeriod as RegPeriodProps } from '../api/registration_period';
 import RegistrationPeriod from '../models/RegistrationPeriod';
+import { EndPoint } from './EndPoint';
 
 export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
-    readonly API_ENDPOINT = {
-        Base: 'registration_periods',
-        LoadPublic: 'registration_periods'
-    };
+    readonly ApiEndpoint = new EndPoint('registration_periods', {});
     readonly root: RootStore;
 
     models = observable<RegistrationPeriod>([]);

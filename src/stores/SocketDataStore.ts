@@ -26,7 +26,15 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     messages = observable<Message>([]);
 
     @observable
-    initialLoadPerformed = false;
+    initialAuthorizedLoadPerformed = false;
+
+    get initialPublicLoadPerformed() {
+        return this.initialAuthorizedLoadPerformed;
+    }
+
+    get initialLoadPerformed() {
+        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
+    }
 
     @observable
     isLive: boolean = false;
@@ -223,7 +231,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.disconnect();
         api.defaults.headers.common['x-metadata-socketid'] = undefined;
         this.messages.clear();
-        this.initialLoadPerformed = false;
+        this.initialAuthorizedLoadPerformed = false;
     }
 
     @action
@@ -238,9 +246,9 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 this.reconnect();
             }
             return []
-        }).finally(() => {
-            this.initialLoadPerformed = true;
-        });
+        }).finally(action(() => {
+            this.initialAuthorizedLoadPerformed = true;
+        }));
     }
 
 }

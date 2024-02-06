@@ -22,7 +22,15 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     teachers = observable<Teacher>([]);
     subjects = observable<Subject>([]);
     @observable
-    initialLoadPerformed = false;
+    initialPublicLoadPerformed = false;
+
+    get initialAuthorizedLoadPerformed() {
+        return this.initialPublicLoadPerformed;
+    }
+
+    get initialLoadPerformed() {
+        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
+    }
 
     @observable
     initialized = false;
@@ -199,7 +207,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
 
     @action
     reload() {
-        if (this.root.sessionStore.account) {
+        if (this.root.sessionStore.loggedIn) {
             this.resetUserData();
             this.loadAuthorized();
         }
@@ -237,9 +245,9 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             }));
         }).then(({ data }) => {
             return data || [];
-        }).finally(() => {
-            this.initialLoadPerformed = true;
-        });
+        }).finally(action(() => {
+            this.initialPublicLoadPerformed = true;
+        }));
     }
 
     @computed
@@ -273,7 +281,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         this.classes.clear();
         this.lessons.clear();
         this.teachers.clear();
-        this.initialLoadPerformed = false;
+        this.initialPublicLoadPerformed = false;
     }
 
     @action

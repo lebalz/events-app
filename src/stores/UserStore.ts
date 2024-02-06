@@ -1,19 +1,17 @@
 import { override, action, computed, makeObservable, observable, reaction } from 'mobx';
-import {User as UserProps, linkToUntis, createIcs, Role, setRole, affectedEventIds as apiAffectedEventIds } from '../api/user';
+import { User as UserProps, linkToUntis, createIcs, Role, setRole, affectedEventIds as apiAffectedEventIds } from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
 import iStore from './iStore';
-import Semester from '../models/Semester';
 import UserEventGroup from '../models/UserEventGroup';
+import { EndPoint } from './EndPoint';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
 export class UserStore extends iStore<UserProps, ApiAction> {
-    readonly API_ENDPOINT = {
-        Base: 'users',
-        LoadAuthorized: 'users'
-    };
+    readonly ApiEndpoint = new EndPoint('users', { authorized: true });
+
     readonly root: RootStore;
     models = observable<User>([]);
 
@@ -24,14 +22,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         super();
         this.root = root;
         makeObservable(this);
-        // reaction(
-        //     () => this.current,
-        //     (user) => {
-        //         if (user && this.root.initialLoadPerformed) {     
-        //             this.loadAffectedEventIds(user);
-        //         }
-        //     }
-        // )
     }
 
 
@@ -47,7 +37,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     get current(): User | undefined {
         return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username?.toLowerCase());
     }
-    
+
     @computed
     get currentUsersEvents() {
         return this.root.eventStore.byUser(this.current?.id);;
@@ -71,7 +61,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @action
     linkUserToUntis(user: User, untisId: number) {
         return this.withAbortController('linkUserToUntis', (sig) => {
-            return linkToUntis(user.id, untisId, sig.signal).then(({data}) => {
+            return linkToUntis(user.id, untisId, sig.signal).then(({ data }) => {
                 user.setUntisId(data.untisId);
             });
         });
@@ -83,7 +73,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             return Promise.reject('Not allowed');
         }
         return this.withAbortController(`save-role-${user.id}`, (sig) => {
-            return setRole(user.id, role, sig.signal).then(({data}) => {
+            return setRole(user.id, role, sig.signal).then(({ data }) => {
                 this.addToStore(data);
             });
         });
@@ -96,12 +86,12 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     @action
     createIcs() {
-        const {current} = this;
+        const { current } = this;
         if (!current) {
             return Promise.reject('No current user');
         }
         return this.withAbortController('createIcs', (sig) => {
-            return createIcs(current.id, sig.signal).then(({data}) => {
+            return createIcs(current.id, sig.signal).then(({ data }) => {
                 if (this.current?.id === current.id) {
                     this.addToStore(data);
                 }
@@ -116,15 +106,15 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         }
         return this.affectedEventIds;
     }
-    
+
     @action
     loadAffectedEventIds(user?: User, semesterId?: string) {
         if (!user) {
             return Promise.resolve([]);
         }
         return this.withAbortController(`load-affected-events-${user.id}-${semesterId}`, (sig) => {
-            return apiAffectedEventIds(user.id, semesterId, sig.signal).then(action(({data}) => {
-                this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);            
+            return apiAffectedEventIds(user.id, semesterId, sig.signal).then(action(({ data }) => {
+                this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
                 return data;
             }));
         });

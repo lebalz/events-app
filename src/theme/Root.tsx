@@ -1,155 +1,141 @@
 import React from "react";
-import { MsalProvider } from "@azure/msal-react";
+import { MsalProvider, useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { StoresProvider, rootStore } from "../stores/stores";
 import { observer } from "mobx-react-lite";
-import { msalInstance, TENANT_ID, tokenRequest } from "../authConfig";
+import { TENANT_ID, msalConfig } from "../authConfig";
 import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useLocation } from "@docusaurus/router";
-import { AuthenticationResult, InteractionRequiredAuthError } from "@azure/msal-browser";
-const { TEST_USERNAME, TEST_USER_ID } = siteConfig.customFields as { TEST_USERNAME?: string, TEST_USER_ID?: string };
+import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from "@azure/msal-browser";
+import { setupAxios } from "../api/base";
+const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 
-const useTestUserNoAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0;
+export const msalInstance = new PublicClientApplication(msalConfig);
 
-if (useTestUserNoAuth) {
-  const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
-  const n2 = TEST_USER_ID.length > 40 ? 0 : 40 - TEST_USER_ID.length;
-  console.log([   '',
-                  "┌──────────────────────────────────────────────────────────┐",
-                  '│                                                          │',
-                  "│   _   _                       _   _                      │",
-                  "│  | \\ | |           /\\        | | | |                     │",
-                  "│  |  \\| | ___      /  \\  _   _| |_| |__                   │",
-                  "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
-                  "│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │",
-                  "│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │",
-                  '│                                                          │',
-                  '│                                                          │',
-                  `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
-                  `│   TEST_USER_ID:  ${TEST_USER_ID + ' '.repeat(n2)}│`,
-                  '│                                                          │',
-                  '│   --> enable authentication by removing "TEST_USERNAME"  │',
-                  '│       and "TEST_USER_ID" from the environment            │',
-                  '│       (or the .env file)                                 │',
-                  "└──────────────────────────────────────────────────────────┘",
-  ].join('\n'))
+if (NO_AUTH) {
+    const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
+    console.log(['',
+        "┌──────────────────────────────────────────────────────────┐",
+        '│                                                          │',
+        "│   _   _                       _   _                      │",
+        "│  | \\ | |           /\\        | | | |                     │",
+        "│  |  \\| | ___      /  \\  _   _| |_| |__                   │",
+        "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
+        "│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │",
+        "│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │",
+        '│                                                          │',
+        '│                                                          │',
+        `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
+        '│                                                          │',
+        '│   --> enable authentication by removing "TEST_USERNAME"  │',
+        '│       from the environment (or the .env file)            │',
+        "└──────────────────────────────────────────────────────────┘",
+    ].join('\n'))
 }
 
+const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
+    React.useEffect(() => {
+        if (NO_AUTH) {
+            rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
+            rootStore.load('authorized');
+            return;
+        }
+        msalInstance.initialize().then(() => {
+            if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0) {
+                // Account selection logic is app dependent. Adjust as needed for different use cases.
+                const account = msalInstance.getAllAccounts().filter((a) => a.tenantId === TENANT_ID).find((a) => /@(edu\.)?(gbsl|gbjb)\.ch/.test(a.username));
+                if (account) {
+                    msalInstance.setActiveAccount(account);
+                }
+            }
+            msalInstance.enableAccountStorageEvents();
+            msalInstance.addEventCallback((event) => {
+                if (event.eventType === EventType.LOGIN_SUCCESS && (event.payload as {account: AccountInfo}).account) {
+                    const account = (event.payload  as {account: AccountInfo}).account;
+                    msalInstance.setActiveAccount(account);
+                }
+            });
 
-const selectAccount = () => {
-  /**
-   * See here for more information on account retrieval:
-   * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-common/docs/Accounts.md
-   */
-  const accounts = msalInstance.getAllAccounts();
-  console.log('accounts', accounts);
-  const currentAccount = accounts.filter((a) => a.tenantId === TENANT_ID).find((a) => /@(edu\.)?(gbsl|gbjb)\.ch/.test(a.username));
-  
-  if (process?.env?.NODE_ENV !== 'production' && TEST_USERNAME) {
-    rootStore.sessionStore.setAccount({username: TEST_USERNAME, localAccountId: TEST_USER_ID} as any);
-    return
-  }
+        })
+    }, [msalInstance]);
 
-  if (!currentAccount) {
-    rootStore.sessionStore.setAccount(null);
-  } else {
-    rootStore.sessionStore.setAccount(currentAccount);
-    console.log('refreshing');
-    rootStore.sessionStore.refresh(true);
-  }
-};
-
-const handleResponse = (response: AuthenticationResult) => {
-  /**
-   * To see the full list of response object properties, visit:
-   * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/request-response-object.md#response
-   */
-  rootStore.sessionStore.setMsalInstance(msalInstance);
-  if (response !== null) {
-    console.log('exp on', response.expiresOn);
-    rootStore.sessionStore.setAccount(response.account);
-  } else {
-    selectAccount();
-  }
-};
-
-msalInstance
-  .handleRedirectPromise()
-  .then(handleResponse)
-  .catch((error) => {
-    if (error instanceof InteractionRequiredAuthError) {
-      console.log('InteractionRequiredAuthError', rootStore.sessionStore.msalInstance, rootStore.sessionStore.account);
-      rootStore.sessionStore.refresh();
+    if (NO_AUTH) {
+        return children;
     }
-    console.error(error);
-  });
+    return (
+        <MsalProvider 
+            instance={msalInstance}
+        >
+            <MsalAccount>
+                {children}
+            </MsalAccount>
+        </MsalProvider>
+    );
+});
 
-const Msal = observer(({ children }: any) => {
-  if (useTestUserNoAuth) {
-    return (<>{children}</>);
-  }
-  return (<MsalProvider instance={msalInstance}>{children}</MsalProvider>);
+const MsalAccount = observer(({ children }: {children: React.ReactNode}) => {
+    const {accounts, inProgress, instance} = useMsal();
+    const isAuthenticated = useIsAuthenticated();
+
+    React.useEffect(() => {
+        if (isAuthenticated && inProgress === InteractionStatus.None) {
+            const active = instance.getActiveAccount();
+            if (active) {
+                /**
+                 * order matters
+                 * 1. setup axios with the correct tokens
+                 * 2. set the msal instance and account to the session store
+                 * 3. load authorized entities
+                 */
+                setupAxios();
+                setTimeout(() => {
+                    rootStore.sessionStore.setAccount(active);
+                    rootStore.load('authorized');
+                }, 0);
+                    
+            }
+        }
+
+    }, [accounts, inProgress, instance, isAuthenticated]);
+    return (children)
 });
 
 // Default implementation, that you can customize
 function Root({ children }) {
-  const location = useLocation();
-  React.useEffect(() => {
-    if (window) {
-      (window as any).store = rootStore;
-    }
-    return () => {
-      rootStore.cleanup();
-    }
-  }, [rootStore]);
+    const location = useLocation();
+    React.useEffect(() => {
+        if (window) {
+            (window as any).store = rootStore;
+        }
+        return () => {
+            rootStore.cleanup();
+        }
+    }, [rootStore]);
 
-  /** this effect loads initializes all the loads...
-   */
-  // React.useEffect(() => {
-  //   rootStore.initialize();
-  // }, [rootStore?.sessionStore?.account]);
+    React.useEffect(() => {
+        const modalId = rootStore?.viewStore?.openEventModalId;
+        /** ensure no modal is open when changing the routes */
+        if (modalId) {
+            rootStore.viewStore.setEventModalId();
+        }
+    }, [location, rootStore?.viewStore]);
 
-  React.useEffect(() => {
-    const modalId = rootStore?.viewStore?.openEventModalId;
-    /** ensure no modal is open when changing the routes */
-    if (modalId) {
-      rootStore.viewStore.setEventModalId();
-    }
-  }, [location, rootStore?.viewStore]);
-
-  // React.useEffect(() => {
-  //   console.log('openEventModalId', rootStore?.viewStore?.openEventModalId);
-  // }, [rootStore?.viewStore.openEventModalId]);
-
-  // reaction(
-  //   () => rootStore?.viewStore?.openEventModalId, 
-  //   (openEventModalId, prev, r) => {
-  //     if (openEventModalId && openEventModalId !== prev && location.hash !== `#${openEventModalId}`) {
-  //       history.push(`#${openEventModalId}`);
-  //     } else {
-  //       history.replace(`${location.pathname}${location.search}`);
-  //     }
-  //   }
-  // );
-
-
-  return (
-    <>
-      <Head>
-        <meta property="og:description" content={siteConfig.tagline} />
-        <meta
-          property="og:image"
-          content={`${siteConfig.customFields.DOMAIN}/img/og-preview.png`}
-        />
-      </Head>
-      <StoresProvider value={rootStore}>
-        <Msal>
-          {children}
-        </Msal>
-      </StoresProvider>
-    </>
-  );
+    return (
+        <>
+            <Head>
+                <meta property="og:description" content={siteConfig.tagline} />
+                <meta
+                    property="og:image"
+                    content={`${siteConfig.customFields.DOMAIN}/img/og-preview.png`}
+                />
+            </Head>
+            <StoresProvider value={rootStore}>
+                <MsalWrapper>
+                    {children}
+                </MsalWrapper>
+            </StoresProvider>
+        </>
+    );
 }
 
 export default Root;
