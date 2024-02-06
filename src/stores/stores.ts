@@ -1,12 +1,12 @@
 
 import React from "react";
-import { action, computed, makeObservable, observable, reaction, runInAction } from "mobx";
+import { action, makeObservable, observable, reaction } from "mobx";
 import { SessionStore } from "./SessionStore";
 import { UserStore } from "./UserStore";
 import { EventStore } from "./EventStore";
 import { UntisStore } from './UntisStore';
 import { SocketDataStore } from "./SocketDataStore";
-import { ApiState, LoadeableStore, ResettableStore } from "./iStore";
+import { LoadeableStore, ResettableStore } from "./iStore";
 import { JobStore } from "./JobStore";
 import { ViewStore } from "./ViewStores";
 import { DepartmentStore } from "./DepartmentStore";
@@ -14,7 +14,6 @@ import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
 import { UserEventGroupStore } from "./UserEventGroupStore";
 import siteConfig from '@generated/docusaurus.config';
-import { AccountInfo } from "@azure/msal-browser";
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 type StoreActions = 'load' | 'reset' | 'semester';
@@ -25,8 +24,6 @@ export class RootStore {
     resettableStores = observable<ResettableStore>([]);
     semesterizedStores = observable<LoadeableStore<any>>([]);
 
-    @observable
-    initialized = false;
     @observable
     _initialSemesterLoaded = false;
 
@@ -76,40 +73,17 @@ export class RootStore {
 
         this.viewStore = new ViewStore(this);
         this.subscribeTo(this.viewStore,  ['load', 'reset']);
-        runInAction(() => {
-            this.initialized = true;
-        });
-
-        reaction(
-            (): [AccountInfo, string] => [this.sessionStore.account, this.viewStore.semesterId],
-            ([account, semesterId], [prevAccount, prevSemesterId]) => {
-                console.log('run reaction', account, semesterId, prevAccount, prevSemesterId)
-                if (prevAccount && account !== prevAccount) {
-                    console.log('cleanup');
-                    this.cleanup();
-                }
-                // const firstSemesterLoad = semesterId && !prevSemesterId;
-                // console.log('loading', firstSemesterLoad, this.userStore.apiStateFor(`loadAuthorized-${semesterId}`));
-                // const reloadUser = !firstSemesterLoad && !this.userStore.initialPublicLoadPerformed && this.userStore.apiStateFor(`loadAuthorized-${semesterId}`) !== ApiState.LOADING;
-                if (account && semesterId && !prevSemesterId) {
-                    console.log('load authorized', semesterId);
-                    this.semesterStore.loadedSemesters.add(semesterId);
-                    this.load('authorized', semesterId);
-                }
-            }
-        )
 
         reaction(
             () => this.viewStore.semesterId,
             (semesterId) => {
                 if (semesterId) {
-                    console.log('load semester', semesterId);
                     this.loadSemester(semesterId);
                     this._initialSemesterLoaded = true;
                 }
             }
         );
-        this.initialize();
+        this.load('public');
     }
 
     subscribeTo(store: ResettableStore, events: ['reset'])
@@ -130,15 +104,6 @@ export class RootStore {
         }
     }
 
-    /**
-     * Initialize the stores
-     * When the page initially loads, this will be called by the root component (@see src/theme/Root.tsx)
-     */
-    @action
-    initialize() {
-        this.load('public');
-    }
-
     @action
     load(type: 'public' | 'authorized', semesterId?: string) {
         return Promise.all(this.loadableStores.map((store) => {
@@ -150,12 +115,10 @@ export class RootStore {
         }));
     }
 
-
     @action
     cleanup() {
         this.resettableStores.forEach((store) => store.resetUserData());
     }
-
 
     @action
     loadSemester(semesterId: string) {
@@ -165,10 +128,12 @@ export class RootStore {
         this.semesterStore.loadedSemesters.add(semesterId);
         this.semesterizedStores.forEach((store) => {
             store.loadPublic(semesterId);
-            store.loadAuthorized(semesterId);
         });
-        if (this.sessionStore.loggedIn) {
+        if (this.sessionStore.loggedIn && this.semesterStore.currentSemester && this.semesterStore.currentSemester.id !== semesterId) {
             this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
+            this.semesterizedStores.forEach((store) => {            
+                store.loadAuthorized(semesterId);
+            })
         }
     }
 }

@@ -171,14 +171,17 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                             .catch((err) => {
                                 console.warn('Post load hook failed', err);
                                 return this.models;
+                            }).finally(() => {
+                                this.ApiEndpoint.setLoaded(models);
                             });
                     })
                 ).catch((err) => {
-                    console.warn(err);
+                    if (err.code !== 'ERR_CANCELED') {
+                        this.ApiEndpoint.setLoaded(models);
+                    }
+                    console.warn(err.code);
                     return this.postLoad([], models === 'public', false).then(() => []).catch(() => []);
-                }).finally(action(() => {
-                    this.ApiEndpoint.setLoaded(models);
-                }));
+                });
         });
     }
 
@@ -188,7 +191,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         if (!this.ApiEndpoint.hasPublicRoute) {
             return this.postLoad([], true, true).then(() => []).catch(() => []);
         };
-        return this._load(this.ApiEndpoint.routeWithSemesterId('public', semesterId), 'public', `loadPublic-${semesterId}`);
+        return this._load(this.ApiEndpoint.routeWithSemesterId('public', semesterId), 'public', `loadPublic-${this.ApiEndpoint.Base}-${semesterId}`);
     }
 
     @action

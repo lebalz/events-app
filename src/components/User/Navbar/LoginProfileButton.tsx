@@ -6,21 +6,19 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Link from '@docusaurus/Link';
 import Button from '../../shared/Button';
-import { mdiAccountCircleOutline, mdiRefresh } from '@mdi/js';
-import Modal from '../../shared/Modal';
-import Translate, { translate } from '@docusaurus/Translate';
+import { mdiAccountCircleOutline } from '@mdi/js';
+import { useIsAuthenticated } from '@azure/msal-react';
 import siteConfig from '@generated/docusaurus.config';
-const { TEST_USERNAME, TEST_USER_ID } = siteConfig.customFields as { TEST_USERNAME?: string, TEST_USER_ID?: string };
+const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean};
 
-const noAuth = process.env.NODE_ENV !== 'production' && TEST_USERNAME?.length > 0 && TEST_USER_ID?.length > 0;
 
 const LoginProfileButton = observer(() => {
     const userStore = useStore('userStore');
-    const sessionStore = useStore('sessionStore');
-    if (userStore.current) {
+    const isAuthenticated = useIsAuthenticated();
+    if (isAuthenticated || NO_AUTH) {
         return (
             <Button
-                text={userStore.current.shortName || userStore.current.firstName}
+                text={userStore.current?.shortName || userStore.current?.firstName || 'Profil'}
                 icon={mdiAccountCircleOutline}
                 iconSide='left'
                 color='primary'
@@ -34,50 +32,6 @@ const LoginProfileButton = observer(() => {
             <div className={clsx(styles.login)}>
                 <Link to={'/login'}>Login 🔑</Link>
             </div>
-            {sessionStore.needsRefresh && !noAuth && (
-                <Modal
-                    open={sessionStore.needsRefresh}
-                >
-                    <div className={clsx(styles.card, 'card')}>
-                        <div className={clsx('card__header')}>
-                            <h3>
-                                <Translate id='navbar.loginProfileButton.modal.header' description='When the login token must be recreated'>
-                                    Session abgelaufen
-                                </Translate>
-                            </h3>
-                        </div>
-                        <div className={clsx('card__body')}>
-                            <p>
-                                <Translate id='navbar.loginProfileButton.modal.body' description='When the login token must be recreated'>
-                                    Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.
-                                </Translate>
-                            </p>
-                        </div>
-                        <div className={clsx('card__footer')}>
-                            <div className="button-group button-group--block">
-                                <Button
-                                    onClick={() => sessionStore.logout()}
-                                    text="Logout"
-                                    color='red'
-                                    noOutline
-                                    className={clsx(styles.logout)}
-                                />
-                                <Button
-                                    text={translate({
-                                        message: "Aktualisieren",
-                                        id: 'user.button.refresh.text',
-                                        description: 'user.button.refresh.text'
-                                    })}
-                                    icon={mdiRefresh}
-                                    iconSide='left'
-                                    color="orange"
-                                    onClick={() => sessionStore.refresh()}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
-            )}
         </>
     )
 });

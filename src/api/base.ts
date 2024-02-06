@@ -1,7 +1,8 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
-import { EVENTS_API, apiConfig, msalInstance, TENANT_ID } from '../authConfig';
+import { EVENTS_API, apiConfig, TENANT_ID } from '../authConfig';
 import siteConfig from '@generated/docusaurus.config';
-import { AccountInfo } from '@azure/msal-browser';
+import { PublicClientApplication } from '@azure/msal-browser';
+import { msalInstance } from '../theme/Root';
 const { TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string };
 
 export namespace Api {
@@ -18,29 +19,31 @@ const api = axios.create({
     headers: {}
 });
 
-export const setupAxios = (account?: AccountInfo) => {
+export const setupAxios = () => {
+    /** clear all current interceptors and set them up... */
     api.interceptors.request.clear();
-    if (!account) {
-        return;
-    }
     api.interceptors.request.use(
         async (config: InternalAxiosRequestConfig) => {
             if (process.env.NODE_ENV !== 'production' && TEST_USERNAME) {
                 return config;
             }
-            if (account) {
+            // This will only return a non-null value if you have logic somewhere else that calls the setActiveAccount API
+            // --> @see src/theme/Root.tsx
+            const activeAccount = msalInstance.getActiveAccount();
+            if (activeAccount) {
                 const accessTokenResponse = await msalInstance.acquireTokenSilent({
                     scopes: apiConfig.scopes,
-                    account: account
+                    account: activeAccount
                 });
-
-                if (accessTokenResponse) {
-                    const accessToken = accessTokenResponse.accessToken;
-                    if (config.headers && accessToken) {
-                        config.headers['Authorization'] = 'Bearer ' + accessToken;
-                    }
+                const accessToken = accessTokenResponse.accessToken;
+                if (config.headers && accessToken) {
+                    config.headers['Authorization'] = 'Bearer ' + accessToken;
                 }
             } else {
+                /*
+                * User is not signed in. Throw error or wait for user to login.
+                * Do not attempt to log a user in outside of the context of MsalProvider
+                */
                 if (config.headers['Authorization']) {
                     delete config.headers['Authorization'];
                 }
@@ -53,11 +56,8 @@ export const setupAxios = (account?: AccountInfo) => {
     );
 };
 
-const account = msalInstance.getAllAccounts().find((a) => a.tenantId === TENANT_ID);
-setupAxios(account);
 
-
-export function checkLogin(signal: AbortSignal) {
+export const checkLogin = (signal: AbortSignal) => {
     return api.get('checklogin', { signal });
 }
 

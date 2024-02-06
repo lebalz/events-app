@@ -4,14 +4,12 @@ import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
 import iStore from './iStore';
-import Semester from '../models/Semester';
 import UserEventGroup from '../models/UserEventGroup';
 import { EndPoint } from './EndPoint';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
 export class UserStore extends iStore<UserProps, ApiAction> {
-
     readonly ApiEndpoint = new EndPoint('users', { authorized: true });
 
     readonly root: RootStore;
@@ -24,14 +22,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         super();
         this.root = root;
         makeObservable(this);
-        // reaction(
-        //     () => this.current,
-        //     (user) => {
-        //         if (user && this.root.initialLoadPerformed) {     
-        //             this.loadAffectedEventIds(user);
-        //         }
-        //     }
-        // )
     }
 
 

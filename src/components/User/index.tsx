@@ -3,21 +3,18 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { default as UserModel } from '@site/src/models/User';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiLogout, mdiMicrosoftOutlook, mdiOfficeBuilding, mdiRefresh, mdiSchool, mdiSync } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiLogout, mdiOfficeBuilding, mdiSchool } from '@mdi/js';
 import UntisLinker from './UntisLinker';
 import { Calendar, SIZE_S } from '../shared/icons';
-import { EVENTS_API } from '@site/src/authConfig';
 import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
-import { ApiState } from '@site/src/stores/iStore';
-import Translate, { translate } from '@docusaurus/Translate';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
 import ICal from '../iCal';
+import { useMsal } from '@azure/msal-react';
 
 
 interface Props {
@@ -26,12 +23,10 @@ interface Props {
 
 
 const User = observer((props: Props) => {
-    const { i18n } = useDocusaurusContext();
     const { user } = props;
-    const sessionStore = useStore('sessionStore');
+    const { instance } = useMsal();
     const current = user;
     const iconSide = 'right';
-    const { currentLocale } = i18n;
 
     const classes = React.useMemo(() => {
         const klGroups = Lesson.GroupedClassesByYear(user.untisTeacher?.lessons || [], 10);
@@ -83,23 +78,8 @@ const User = observer((props: Props) => {
                     />
                 </dt>
                 <dd>
-                    {
-                        sessionStore.needsRefresh && (
-                            <Button
-                                text={translate({
-                                    message : "Aktualisieren",
-                                    id:'user.button.refresh.text' ,
-                                    description:'user.button.refresh.text'})}
-                                icon={mdiRefresh}
-                                iconSide='left'
-                                size={SIZE_S}
-                                color="orange"
-                                onClick={() => sessionStore.login()}
-                            />
-                        )
-                    }
                     <Button
-                        onClick={() => sessionStore.logout()}
+                        onClick={() => instance.logoutRedirect()}
                         text={translate({
                             message: "Logout",
                             id: 'components.user.index.logout',

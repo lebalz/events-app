@@ -4,10 +4,13 @@ import styles from './login.module.scss';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { default as indexStyles } from './index.module.scss';
-import { useStore } from '../stores/hooks';
 import Link from '@docusaurus/Link';
+import { useMsal, useIsAuthenticated } from "@azure/msal-react";
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
+import { tokenRequest } from '../authConfig';
+import siteConfig from '@generated/docusaurus.config';
+const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean};
 
 
 function HomepageHeader() {
@@ -24,11 +27,9 @@ function HomepageHeader() {
 
 
 const Login = observer(() => {
-    const sessionStore = useStore('sessionStore');
-    const userStore = useStore('userStore');
-    const { account, loggedIn } = sessionStore;
-    const { current } = userStore;
-    if (loggedIn) {
+    const isAuthenticated = useIsAuthenticated();
+    const { instance } = useMsal();
+    if (isAuthenticated || NO_AUTH) {
         return (
             <Redirect to={'/user?user-tab=account'} />
         );
@@ -38,8 +39,13 @@ const Login = observer(() => {
             <HomepageHeader />
             <main>
                 <div className={styles.loginPage}>
-                    <Link to="/" onClick={() => sessionStore.login()} className="button button--warning" style={{color: 'black'}}>
-                        Login mit GBSL Account
+                    <Link 
+                        to="/" 
+                        onClick={() => instance.acquireTokenRedirect(tokenRequest)} 
+                        className="button button--warning" 
+                        style={{color: 'black'}}
+                    >
+                        Login mit Schul-Account
                     </Link>
                 </div>
             </main>

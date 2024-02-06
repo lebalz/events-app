@@ -1,13 +1,11 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
-import axios from 'axios';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType as ApiJobType} from '../api/job';
 import { ImportType, importEvents as postImportEvents } from '../api/event';
 import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
-import { runInThisContext } from 'vm';
 import { find } from '../api/api_model';
 import { EndPoint } from './EndPoint';
 
@@ -36,7 +34,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     addToStore(data: JobAndEventsProps): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
-            if (this.initialPublicLoadPerformed) {
+            if (this.initialAuthorizedLoadPerformed) {
                 this.removeFromStore(data.id);
                 if (job.type === ApiJobType.SYNC_UNTIS) {
                     this.root.departmentStore.reload();

@@ -2,7 +2,7 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import { DepartmentLetter, Department as DepartmentProps } from '../api/department';
+import { Department as DepartmentProps } from '../api/department';
 import Department from '../models/Department';
 import { computedFn } from 'mobx-utils';
 import { EndPoint } from './EndPoint';
@@ -70,7 +70,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
 
     @action
     reload() {
-        if (this.root.sessionStore.account) {
+        if (this.root.sessionStore.loggedIn) {
             this.resetUserData();
             this.loadPublic(this.root.viewStore.semesterId);
         }
