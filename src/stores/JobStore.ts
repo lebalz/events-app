@@ -126,7 +126,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     }
 
     jobEvents(jobId: string) {
-        return this.root.eventStore.byJob(jobId);
+        return this.root.eventStore.byJob(jobId).filter((e) => !e.hasParent);
     }
 
     @action
