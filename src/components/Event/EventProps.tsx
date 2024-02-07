@@ -35,6 +35,7 @@ interface Props {
 
 const EventProps = observer((props: Props) => {
     const { event } = props;
+    const [showAllAffectedLessons, setShowAllAffectedLessons] = React.useState(false);
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
@@ -248,6 +249,11 @@ const EventProps = observer((props: Props) => {
                     })}
                     icon={mdiText}
                     onClick={() => {
+                        const showAll = !showAllAffectedLessons;
+                        setShowAllAffectedLessons(showAll);
+                        if (!showAll) {
+                            return;
+                        }
                         if (event.isDirty) {
                             socketStore.checkUnpersistedEvent(event.props, semester?.id);
                         } else {
@@ -256,7 +262,7 @@ const EventProps = observer((props: Props) => {
                     }}
                 />
             </dd>
-            {event.affectedLessonsGroupedByClass.map((kl, idx) => {
+            {(showAllAffectedLessons ? event.affectedLessonsGroupedByClass : event.usersAffectedLessonsGroupedByClass).map((kl, idx) => {
                 if (kl.lessons.length === 0) {
                     return null;
                 }

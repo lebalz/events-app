@@ -802,7 +802,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return _.uniqBy(lessons, 'id').sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start);
     }
 
-    @computed
     get affectedLessonsGroupedByClass(): { class: string, lessons: Lesson[] }[] {
         const lessons = this.untisClasses.slice().map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat();
         const affected: { [kl: string]: Lesson[] } = {};
@@ -815,13 +814,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             if (l.classes.length > 1) {
                 const letters = l.classes.map(c => c.letter).sort();
                 const year = l.classes[0].year;
-                const name = `${year % 100}${letters.length > 3 ? 'er' : letters.join('')}`;
+                const name = `${year % 100}${letters.length > 4 ? '*' : letters.join('')}`;
                 if (!affected[name]) {
                     affected[name] = [];
                 }
                 affected[name].push(l);
             } else if (l.classes.length === 1) {
-                const name = l.classes[0].name;
+                const name = l.classes[0].displayName;
                 if (!affected[name]) {
                     affected[name] = [];
                 }
@@ -829,6 +828,18 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             }
         });
         return Object.keys(affected).map(kl => ({ class: kl, lessons: affected[kl] }));
+    }
+
+    get usersAffectedLessonsGroupedByClass(): { class: string, lessons: Lesson[] }[] {
+        const lessons = this.affectedLessonsGroupedByClass;
+        const tId = this.store.root.userStore.current?.untisTeacher?.id;
+        if (!tId) {
+            return lessons;
+        }
+        lessons.forEach(l => {
+            l.lessons = l.lessons.filter(l => l.teacherIds.includes(tId));
+        });
+        return lessons.filter(l => l.lessons.length > 0);
     }
 
     @computed
