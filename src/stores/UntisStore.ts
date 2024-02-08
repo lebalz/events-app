@@ -41,18 +41,24 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             () => this.root.userStore.current?.untisId,
             (id) => {
                 if (id) {
-                    this.loadUntisTeacher(id).then(() => {
-                        const teacher = this.root.userStore.current?.untisTeacher;
-                        if (teacher) {
-                            /** 
-                             * configure the filter for this user 
-                             */
-                            this.root.viewStore.eventTable.setDepartmentIds(teacher.usersDepartments.map(d => d.id));               
-                        }
-                    });
+                    this.loadUntisTeacher(id);
                 }
             }
         )
+        reaction(
+            () => this.root.userStore.current?.untisTeacher?.lessons,
+            (lessons) => {
+                if (lessons.length > 0) {
+                    const teacher = this.root.userStore.current?.untisTeacher;
+                    if (teacher) {
+                        /** 
+                         * configure the filter for this user 
+                         */
+                        this.root.viewStore.eventTable.setDepartmentIds(teacher.usersDepartments.map(d => d.id));               
+                    }
+                }
+            }
+        );
     }
 
     @computed
