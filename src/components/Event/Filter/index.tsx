@@ -5,15 +5,16 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
-import { mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
+import { mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline, mdiStar, mdiStarCircle, mdiStarOutline } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
-import { SIZE_S, filterSvgPath } from '../../shared/icons';
+import { SIZE_S, FilterSvgPath, SIZE_XS } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
 import { translate } from '@docusaurus/Translate';
 import Select, { Theme, ThemeConfig } from 'react-select';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
+import Icon, { Stack } from '@mdi/react';
 
 interface Props {
     showCurrentAndFuture?: boolean;
@@ -38,7 +39,7 @@ const selectStyleConfig = {
         padding: '0px',
         paddingLeft: '4px'
     }),
-    menuPortal: (base) => ({ ...base, zIndex: 9999 })
+    menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
 };
 
 const selectClassNamesConfig = {
@@ -113,13 +114,25 @@ const Filter = observer((props: Props) => {
                 </div>
                 <div className={clsx(styles.showMore)}>
                     <Button
-                        icon={filterSvgPath}
+                        icon={FilterSvgPath}
                         size={SIZE_S}
                         active={eventTable.showAdvancedFilter}
                         className={clsx(styles.showAdvancedFilter)}
                         color={eventTable.hasAdvancedFilters ? 'blue' : undefined}
                         onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
                     />
+                    {eventTable.hasAdvancedFilters && (
+                        <span className={clsx(styles.dirty)}>
+                            <Stack size={SIZE_XS}>
+                                <Icon path={mdiCircle} size={SIZE_XS} color="var(--ifm-background-surface-color)"/>
+                                <Icon
+                                    path={mdiStar}
+                                    size={0.9*SIZE_XS}
+                                    color="var(--ifm-color-blue)"
+                                />
+                            </Stack>
+                        </span>
+                    )}
                 </div>
             </div>
             {eventTable.showAdvancedFilter && (
@@ -191,21 +204,49 @@ const Filter = observer((props: Props) => {
                         <div className={clsx(styles.date, styles.start)}>
                             {!!eventTable.start ? (
                                 <>
-                                    <DatePicker date={eventTable.start || new Date()} onChange={(date) => eventTable.setStartFilter(date)} />
-                                    <Button icon={mdiMinusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(null)} />
+                                    <DatePicker 
+                                        date={eventTable.start || new Date()} 
+                                        onChange={(date) => eventTable.setStartFilter(date)}
+                                        time="start"
+                                    />
+                                    <Button 
+                                        icon={mdiMinusCircleOutline} 
+                                        iconSide='left'
+                                        text='Start'
+                                        onClick={() => eventTable.setStartFilter(null)}
+                                    />
                                 </>
                             ) : (
-                                <Button icon={mdiPlusCircleOutline} iconSide='left' text='Start' onClick={() => eventTable.setStartFilter(new Date())} />
+                                <Button 
+                                    icon={mdiPlusCircleOutline} 
+                                    iconSide='left' 
+                                    text='Start'
+                                    onClick={() => eventTable.setStartFilter(new Date())}
+                                />
                             )}
                         </div>
                         <div className={clsx(styles.date, styles.end)}>
                             {!!eventTable.end ? (
                                 <>
-                                    <DatePicker date={eventTable.end || new Date()} onChange={(date) => eventTable.setEndFilter(date)} />
-                                    <Button icon={mdiMinusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(null)} />
+                                    <DatePicker 
+                                        date={eventTable.end || new Date()} 
+                                        onChange={(date) => eventTable.setEndFilter(date)}
+                                        time="end"
+                                    />
+                                    <Button 
+                                        icon={mdiMinusCircleOutline} 
+                                        iconSide='left' 
+                                        text='Ende' 
+                                        onClick={() => eventTable.setEndFilter(null)} 
+                                    />
                                 </>
                             ) : (
-                                <Button icon={mdiPlusCircleOutline} iconSide='left' text='Ende' onClick={() => eventTable.setEndFilter(new Date())} />
+                                <Button 
+                                    icon={mdiPlusCircleOutline} 
+                                    iconSide='left' 
+                                    text='Ende'
+                                    onClick={() => eventTable.setEndFilter(new Date())}
+                                />
                             )}
                         </div>
                     </div>

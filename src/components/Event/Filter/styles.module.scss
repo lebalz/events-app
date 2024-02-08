@@ -12,15 +12,23 @@
         .audience {
             display: flex;
         }
-        .showAdvancedFilter {
-            transition: all 0.4s ease-in-out;
-            svg {
-                transition: transform 0.4s ease-in-out;
-            }
-            &:global(.button--active) {
+        .showMore {
+            position: relative;
+            .showAdvancedFilter {
+                transition: all 0.4s ease-in-out;
                 svg {
-                    transform: rotate(90deg);
+                    transition: transform 0.4s ease-in-out;
                 }
+                &:global(.button--active) {
+                    svg {
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+            .dirty {
+                position: absolute;
+                top: -16%;
+                right: -16%;
             }
         }
     }

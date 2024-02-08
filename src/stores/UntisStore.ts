@@ -41,7 +41,15 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             () => this.root.userStore.current?.untisId,
             (id) => {
                 if (id) {
-                    this.loadUntisTeacher(id);
+                    this.loadUntisTeacher(id).then(() => {
+                        const teacher = this.root.userStore.current?.untisTeacher;
+                        if (teacher) {
+                            /** 
+                             * configure the filter for this user 
+                             */
+                            this.root.viewStore.eventTable.setDepartmentIds(teacher.usersDepartments.map(d => d.id));               
+                        }
+                    });
                 }
             }
         )
@@ -240,15 +248,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
                 this.classes.replace(classes.data.map((c) => new Klass(c, this)));
                 this.subjects.replace(subjects.data.map((s) => new Subject(s, this)));
-                setTimeout(() => {
-                    const teacher = this.root.userStore.current?.untisTeacher;
-                    if (teacher) {
-                        /** 
-                         * configure the filter for this user 
-                         */
-                        this.root.viewStore.eventTable.setDepartmentIds(teacher.usersDepartments.map(d => d.id));               
-                    }
-                }, 0);
                 this.initialized = true;
                 return { data: this.teachers };
             }));
@@ -277,6 +276,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                     replaceOrAdd(lessons, lesson, (a, b) => a.id === b.id);
                 });
                 this.lessons.replace(lessons);
+                return data;
             }));
         })
     }

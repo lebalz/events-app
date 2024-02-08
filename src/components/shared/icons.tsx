@@ -16,7 +16,7 @@ interface IcoProps extends IconProps {
 type Props = Partial<IcoProps>;
 
 /** nice tool to edit svg path: https://yqnn.github.io/svg-path-editor/ */
-export const filterSvgPath = 'M 22 4.5 H 8.25 a 3.125 3.125 90 1 0 0 1.25 h 13.75 V 4.5 Z M 5.125 7 a 1.875 1.875 90 1 1 0 -3.75 a 1.875 1.875 90 0 1 0 3.75 Z m 13.75 8.75 a 3.125 3.125 90 0 0 -3.0625 2.5 H 2 v 1.25 h 13.8125 a 3.125 3.125 90 1 0 3.0625 -3.75 Z m 0 5 a 1.875 1.875 90 1 1 0 -3.75 a 1.875 1.875 90 0 1 0 3.75 Z M 22 11.375 h -6.9375 a 3.125 3.125 90 0 0 -6.125 0 H 2 v 1.25 h 6.9375 a 3.125 3.125 90 0 0 6.125 0 H 22 v -1.25 Z m -10 2.5 a 1.875 1.875 90 1 1 0 -3.75 a 1.875 1.875 90 0 1 0 3.75 Z';
+export const FilterSvgPath = 'M 22 4.5 H 8.25 a 3.125 3.125 90 1 0 0 1.25 h 13.75 V 4.5 Z M 5.125 7 a 1.875 1.875 90 1 1 0 -3.75 a 1.875 1.875 90 0 1 0 3.75 Z m 13.75 8.75 a 3.125 3.125 90 0 0 -3.0625 2.5 H 2 v 1.25 h 13.8125 a 3.125 3.125 90 1 0 3.0625 -3.75 Z m 0 5 a 1.875 1.875 90 1 1 0 -3.75 a 1.875 1.875 90 0 1 0 3.75 Z M 22 11.375 h -6.9375 a 3.125 3.125 90 0 0 -6.125 0 H 2 v 1.25 h 6.9375 a 3.125 3.125 90 0 0 6.125 0 H 22 v -1.25 Z m -10 2.5 a 1.875 1.875 90 1 1 0 -3.75 a 1.875 1.875 90 0 1 0 3.75 Z' as const;
 
 export const Icon = (props: IcoProps) => {
     let color = props.disabled ? 'var(--ifm-color-disabled)' : props.color;
