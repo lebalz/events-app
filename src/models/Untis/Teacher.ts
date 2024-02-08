@@ -3,6 +3,17 @@ import { computed, makeObservable, observable } from 'mobx';
 import { UntisTeacher } from '../../api/untis';
 import Department from '../Department';
 
+const isLowerCase = (str: string) => {
+    return str === str.toLowerCase();
+}
+
+const isUpperCase = (str: string) => {
+    return str === str.toUpperCase();
+}
+
+const isFromDepartment = (departmentLetter: string, untisAbbrev: string) => {
+    return (isUpperCase(departmentLetter) && isLowerCase(untisAbbrev)) || (isLowerCase(departmentLetter) && isUpperCase(untisAbbrev));
+}
 
 export default class Teacher {
     readonly id: number;
@@ -35,8 +46,16 @@ export default class Teacher {
 
     @computed
     get departments(): Department[] {
-        return this.classes.map(c => c.department).filter(d => d !== undefined);
+        return [...new Set(this.classes.map(c => c.department).filter(d => d !== undefined))];
     }
+
+    /**
+     * only the relevant departments for this teacher
+     */
+    get usersDepartments(): Department[] {
+        return [...new Set(this.lessons.flatMap(l => l.isEF ? l.classes.filter(c => isFromDepartment(c.departmentLetter, this.name)) : l.classes).map(c => c.department).filter(d => d !== undefined))];
+    }
+
     @computed
     get lessons() {
       return this.store.findLessonsByTeacher(this.id);

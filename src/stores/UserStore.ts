@@ -45,10 +45,13 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     @override
     postLoad(models: User[], publicModels: boolean, success?: boolean): Promise<any> {
-        /**
-         * Post load hook
-         */
-        if (!publicModels && success) {
+        if (!publicModels && success && this.current) {
+            if (this.current.untisTeacher) {
+                /**
+                 * configure the filter for this user 
+                 */
+                this.root.viewStore.eventTable.setDepartmentIds(this.current.untisTeacher.usersDepartments.map(d => d.id));               
+            }
             return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id)
         }
         return Promise.resolve();
