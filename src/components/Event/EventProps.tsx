@@ -40,10 +40,10 @@ const EventProps = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
     const semesterStore = useStore('semesterStore');
-    const semester = event.affectedSemesters[0] || semesterStore.currentSemester;
+    const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
 
     const history = useHistory();
-    const commonClasses = clsx(event.isDeleted && styles.deleted);
+    const commonClasses = clsx(event?.isDeleted && styles.deleted);
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
     const [showOptions, setShowOptions] = React.useState(false);
@@ -54,6 +54,9 @@ const EventProps = observer((props: Props) => {
     }
     if (!props.inModal && event.isEditable) {
         options.add('actions');
+    }
+    if (!event) {
+        return null;
     }
     return (
         <DefinitionList className={clsx(styles.eventProps)}>

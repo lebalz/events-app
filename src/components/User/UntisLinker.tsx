@@ -22,7 +22,7 @@ const UntisLinker = observer((props: Props) => {
             <Select
                 menuPortalTarget={document.body}
                 styles={{ 
-                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' }),
                     valueContainer: (base) => ({...base, flexBasis: '12em'})
                 }}
                 className={clsx(styles.select)}

@@ -14,8 +14,9 @@ import Button from '../Button';
 import _ from 'lodash';
 import ClassSelector from './ClassSelector';
 import Translate, { translate } from '@docusaurus/Translate';
-import { EventAudience, TeachingAffected } from '@site/src/api/event';
+import { AffectedAudience, EventAudience, EventAudienceIcons, EventAudienceTranslationLong, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
 import { mdiDotsHorizontalCircleOutline } from '@mdi/js';
+import { Icon, SIZE_S } from '../icons';
 
 
 
@@ -38,29 +39,6 @@ const TranslationsTA: { [key in TeachingAffected]: string } = {
         message: 'Teilweise',
         description: 'Only a part of the class will be present',
         id: 'TeachingAffected.PARTIAL.description'
-    })
-}
-
-const TranslationsEA: { [key in EventAudience]: string } = {
-    [EventAudience.ALL]: translate({
-        message: 'Alle',
-        description: 'This event is for everyone, no matter wheter a lesson is affected or not',
-        id: 'EventAudience.ALL.description'
-    }),
-    [EventAudience.KLP]: translate({
-        message: 'KLP',
-        description: 'Only relevant (and displayed) for class teachers',
-        id: 'EventAudience.KLP.description'
-    }),
-    [EventAudience.LP]: translate({
-        message: 'LP',
-        description: 'Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)',
-        id: 'EventAudience.LP.description'
-    }),
-    [EventAudience.STUDENTS]: translate({
-        message: 'SuS',
-        description: 'Relevant for SuS only, their KLP will be informed aswell',
-        id: 'EventAudience.STUDENTS.description'
     })
 }
 
@@ -92,7 +70,7 @@ const AudiencePicker = observer((props: Props) => {
                         id="shared.header.concerns"
                         description="The title in the window used to select the participants involved in the event"
                     >
-                        Betrifft
+                        Publikum
                     </Translate>
                 </h4>
                 <div className={styles.toggle}>
@@ -107,12 +85,35 @@ const AudiencePicker = observer((props: Props) => {
                     <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
                         {Object.keys(EventAudience).map(audience => {
                             return (<Button
-                                text={TranslationsEA[audience]}
+                                text={EventAudienceTranslationShort[audience]}
                                 onClick={() => event.update({ audience: EventAudience[audience] })}
                                 active={event.audience === audience}
                                 key={audience}
                             />)
                         })}
+                    </div>
+                    <div className={clsx(styles.infoArea)}>
+                        <div className={clsx(styles.info)}>
+                            {[EventAudience.LP, EventAudience.KLP, EventAudience.STUDENTS].map(audience => {
+                                return (
+                                    <div className={clsx(styles.audience)} key={audience}>
+                                        <div className={clsx(styles.audienceIcon)}>
+                                            <Icon path={EventAudienceIcons[audience]} size={SIZE_S} />
+                                        </div>
+                                        <div className={clsx(styles.audienceDescription)}>
+                                            <Icon path={AffectedAudience[event.audience][audience].icon} color={AffectedAudience[event.audience][audience].color} size={SIZE_S} />
+                                            {AffectedAudience[event.audience][audience].description || EventAudienceTranslationLong[audience]}
+                                            {audience === event.audience && (
+                                                <>
+                                                    <br />
+                                                    {`${translate({message: 'z.B.', id: 'EventAudience.forExample'})} ${AffectedAudience[event.audience].example}`}
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
                 <div className={styles.toggle}>
@@ -223,8 +224,15 @@ const AudiencePicker = observer((props: Props) => {
                     const color = (departments[letter] as DepartmentModel[])[0].color
                     const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
                     return (
-                        // @ts-ignore
-                        <TabItem value={letter} label={departmentStore.letterToName(letter)} key={letter} attributes={{ className: clsx(touched && styles.touched), style: { color: color } }}>
+                        <TabItem 
+                            value={letter}
+                            label={departmentStore.letterToName(letter)}
+                            key={letter} 
+                            attributes={{ 
+                                className: clsx(touched && styles.touched), 
+                                style: { color: color } 
+                            }}
+                        >
                             <Department departments={departments[letter]} event={event} />
                         </TabItem>
                     )

@@ -1,11 +1,12 @@
-import { AxiosPromise, CancelTokenSource } from 'axios';
+import { AxiosPromise } from 'axios';
 import api from './base';
 import { Job } from './job';
 import Joi from 'joi';
 import { KlassName } from '../models/helpers/klassNames';
 import { translate } from '@docusaurus/Translate';
 import { Color } from '../components/shared/Colors';
-import { mdiBookCancel, mdiFileCertificate, mdiPen, mdiProgressCheck } from '@mdi/js';
+import { mdiAccountGroup, mdiAccountHeart, mdiBookCancel, mdiCalendarCheck, mdiCalendarRemove, mdiFileCertificate, mdiGlasses, mdiPen, mdiProgressCheck, mdiSchool } from '@mdi/js';
+import { CalendarCheckPartial } from '../components/shared/icons';
 
 export enum EventState {
     Draft = 'DRAFT',
@@ -55,6 +56,138 @@ export enum EventAudience {
     STUDENTS = 'STUDENTS',
     ALL = 'ALL'
 };
+
+export const EventAudienceIcons: {[key in EventAudience]: string} = {
+    [EventAudience.LP]: mdiGlasses,
+    [EventAudience.KLP]: mdiAccountHeart,
+    [EventAudience.STUDENTS]: mdiSchool,
+    [EventAudience.ALL]: mdiAccountGroup
+}
+
+export const EventAudienceTranslationShort: { [key in EventAudience]: string } = {
+    [EventAudience.ALL]: translate({
+        message: 'Alle',
+        description: 'This event is for everyone, no matter wheter a lesson is affected or not',
+        id: 'EventAudience.ALL.description'
+    }),
+    [EventAudience.KLP]: translate({
+        message: 'KLP',
+        description: 'Only relevant (and displayed) for class teachers',
+        id: 'EventAudience.KLP.description'
+    }),
+    [EventAudience.LP]: translate({
+        message: 'LP',
+        description: 'Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)',
+        id: 'EventAudience.LP.description'
+    }),
+    [EventAudience.STUDENTS]: translate({
+        message: 'SuS',
+        description: 'Relevant for SuS only, their KLP will be informed aswell',
+        id: 'EventAudience.STUDENTS.description'
+    })
+}
+
+
+export const EventAudienceTranslationLong: { [key in EventAudience]: string } = {
+    [EventAudience.ALL]: translate({
+        message: 'Alle',
+        description: 'This event is for everyone, no matter wheter a lesson is affected or not',
+        id: 'EventAudience.ALL.description.long'
+    }),
+    [EventAudience.KLP]: translate({
+        message: 'Klassenlehrpersonen',
+        description: 'Only relevant (and displayed) for class teachers',
+        id: 'EventAudience.KLP.description.long'
+    }),
+    [EventAudience.LP]: translate({
+        message: 'Lehrpersonen',
+        description: 'Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)',
+        id: 'EventAudience.LP.description.long'
+    }),
+    [EventAudience.STUDENTS]: translate({
+        message: 'Schüler:innen',
+        description: 'Relevant for SuS only, their KLP will be informed aswell',
+        id: 'EventAudience.STUDENTS.description.long'
+    })
+}
+
+interface AudienceConfig {
+    icon?: string
+    color?: Color
+    example?: string
+    description?: string
+}
+
+interface AffectedAudienceConfig {
+    [EventAudience.LP]: AudienceConfig
+    [EventAudience.KLP]: AudienceConfig
+    [EventAudience.STUDENTS]: AudienceConfig
+    example: string
+}
+
+export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} = {
+    [EventAudience.LP]: {
+        [EventAudience.LP]: {
+            icon: mdiCalendarCheck,
+            color: 'green',
+        },
+        [EventAudience.KLP]: {
+            icon: mdiCalendarRemove,
+            color: 'red',
+        },
+        [EventAudience.STUDENTS]: {
+            icon: mdiCalendarRemove,
+            color: 'red',
+        },
+        example: translate({message: 'Noteneingabe in Evento', id: 'EventAudience.LP.example', description: 'Teachers Example'})
+    },
+    [EventAudience.KLP]: {
+        [EventAudience.LP]: {
+            icon: mdiCalendarRemove,
+            color: 'red',
+        },
+        [EventAudience.KLP]: {
+            icon: mdiCalendarCheck,
+            color: 'green',
+        },
+        [EventAudience.STUDENTS]: {
+            icon: mdiCalendarRemove,
+            color: 'red',
+        },
+        example: translate({message: 'Einsammeln unterschriebener Zeugnisse', id: 'EventAudience.KLP.example', description: 'KLP Example'})
+    },
+    [EventAudience.ALL]: {
+        [EventAudience.LP]: {
+            icon: mdiCalendarCheck,
+            color: 'green',
+        },
+        [EventAudience.KLP]: {
+            icon: mdiCalendarCheck,
+            color: 'green',
+        },
+        [EventAudience.STUDENTS]: {
+            icon: mdiCalendarCheck,
+            color: 'green',
+        },
+        example: translate({message: 'Schulstart', id: 'EventAudience.ALL.example', description: 'All Example'})
+    },
+    [EventAudience.STUDENTS]: {
+        [EventAudience.LP]: {
+            icon: CalendarCheckPartial,
+            color: 'orange',
+            description: translate({message: 'Lehrpersonen mit betroffenen Lektionen', id: 'EventAudience.STUDENTS.LP.description', description: 'audience: students, description for LP'}), 
+        },
+        [EventAudience.KLP]: {
+            icon: mdiCalendarCheck,
+            color: 'green',
+        },
+        [EventAudience.STUDENTS]: {
+            icon: mdiCalendarCheck,
+            color: 'green',
+        },
+        example: translate({message: 'Exkursion', id: 'EventAudience.LP.example', description: 'Students Example'})
+    }
+}
 
 export enum ImportType {
     GBSL_XLSX = 'GBSL_XLSX',

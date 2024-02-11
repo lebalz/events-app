@@ -3,7 +3,7 @@ import { RootStore } from './stores';
 import { io, Socket } from "socket.io-client";
 import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';
-import axios, { CancelTokenSource } from 'axios';
+import axios from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, ReloadAffectingEvents } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
@@ -17,8 +17,6 @@ interface Message {
 
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
-    
-    private cancelToken?: CancelTokenSource;
     abortControllers = new Map<string, AbortController>();
     @observable.ref
     socket?: Socket;

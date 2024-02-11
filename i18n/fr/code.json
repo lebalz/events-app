@@ -1215,5 +1215,63 @@
   "share.badge.success.title": {
     "message": "Erfolgreich",
     "description": "share.badge.success.title"
+  },
+  "EventAudience.ALL.description.long": {
+    "message": "Alle",
+    "description": "This event is for everyone, no matter wheter a lesson is affected or not"
+  },
+  "EventAudience.KLP.description.long": {
+    "message": "Klassenlehrpersonen",
+    "description": "Only relevant (and displayed) for class teachers"
+  },
+  "EventAudience.LP.description.long": {
+    "message": "Lehrpersonen",
+    "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
+  },
+  "EventAudience.STUDENTS.description.long": {
+    "message": "Schüler:innen",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "EventAudience.LP.example": {
+    "message": "Exkursion",
+    "description": "Students Example"
+  },
+  "EventAudience.KLP.example": {
+    "message": "Einsammeln unterschriebener Zeugnisse",
+    "description": "KLP Example"
+  },
+  "EventAudience.ALL.example": {
+    "message": "Schulstart",
+    "description": "All Example"
+  },
+  "EventAudience.STUDENTS.LP.description": {
+    "message": "Lehrpersonen mit betroffenen Lektionen",
+    "description": "audience: students, description for LP"
+  },
+  "user.button.refresh": {
+    "message": "Aktualisieren"
+  },
+  "job.cancel.text": {
+    "message": "Cancel",
+    "description": "Text of the button to cancel a job"
+  },
+  "event.reduce.title": {
+    "message": "Auf eine Zeile reduzieren",
+    "description": "Button Title (hover) to reduce an expanded event in the table view"
+  },
+  "EventAudience.forExample": {
+    "message": "z.B."
+  },
+  "share.button.delete.confirm": {
+    "message": "Wirklich Löschen?",
+    "description": "Text of the button confirm"
+  },
+  "share.button.delete.confirm.no": {
+    "message": "Nein",
+    "description": "Text of the button confirm no"
+  },
+  "share.button.delete.confirm.yes": {
+    "message": "Ja",
+    "description": "Text of the button confirm yes"
   }
 }

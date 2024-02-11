@@ -7,28 +7,30 @@ import { ArrowContainer, Popover, PopoverAlign, PopoverPosition } from 'react-ti
 import { observable } from 'mobx';
 
 interface Props {
-    isOpen?: boolean
-    onClose?: () => void
-    onOpen?: () => void
+    isOpen?: boolean;
+    onClose?: () => void;
+    onOpen?: () => void;
     delay?: number;
-    popupTitle?: string
-    on?: 'click' | 'hover'
-    trigger: JSX.Element
-    positions?: PopoverPosition | PopoverPosition[]
-    align?: PopoverAlign
-    content?: JSX.Element
-    children?: JSX.Element
+    popupTitle?: string;
+    on?: 'click' | 'hover';
+    trigger: JSX.Element;
+    positions?: PopoverPosition | PopoverPosition[];
+    align?: PopoverAlign;
+    content?: JSX.Element;
+    children?: JSX.Element;
+    maxWidth?: string;
 }
 
 
 interface CardProps {
     content: JSX.Element
     header?: string | JSX.Element
+    maxWidth?: string;
 }
 
 const Card = observer((props: CardProps) => {
     return (
-        <div className="card">
+        <div className="card" style={{maxWidth: props.maxWidth}}>
             {props.header && (
                 <div className='card__header'>
                     <h3>{props.header}</h3>
@@ -122,6 +124,8 @@ const Popup = observer((props: Props) => {
             padding={0}
             align={props.align}
             positions={props.positions}
+            containerStyle={{zIndex: 'calc(var(--ifm-z-index-overlay) + 10)'}}
+            reposition={true}
             content={({ position, childRect, popoverRect }) => (
                 <ArrowContainer
                     position={position}
@@ -133,6 +137,7 @@ const Popup = observer((props: Props) => {
                     <Card
                         content={props.content || props.children}
                         header={props.popupTitle}
+                        maxWidth={props.maxWidth}
                     />
                 </ArrowContainer>
             )}
@@ -145,14 +150,16 @@ const Popup = observer((props: Props) => {
                         if (isControlled) {
                             props.onOpen!();
                         } else {
-                            setIsPopoverOpen(true)
+                            setIsPopoverOpen(true);
+                            props.onOpen?.();
                         }
                     }}
                     onClose={() => {
                         if (isControlled) {
                             props.onClose!();
                         } else {
-                            setIsPopoverOpen(false)
+                            setIsPopoverOpen(false);
+                            props.onClose?.();
                         }                    
                     }}
                 >

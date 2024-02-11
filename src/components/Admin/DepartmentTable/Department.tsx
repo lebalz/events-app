@@ -55,7 +55,7 @@ const Department = observer((props: Props) => {
                                     <Select 
                                         menuPortalTarget={document.body}
                                         styles={{ 
-                                            menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                                            menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
                                         }}
                                         value={{value: department.department1_Id, label: department.department1?.name}}
                                         options={
@@ -74,7 +74,7 @@ const Department = observer((props: Props) => {
                                     <Select 
                                         menuPortalTarget={document.body}
                                         styles={{ 
-                                            menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                                            menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
                                         }}
                                         value={{value: department.department2_Id, label: department.department2?.name}}
                                         options={
@@ -112,7 +112,7 @@ const Department = observer((props: Props) => {
                 <Select 
                     menuPortalTarget={document.body}
                     styles={{ 
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 })
+                        menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
                     }}
                     value={{value: department.letter, label: department.letter}}
                     options={
