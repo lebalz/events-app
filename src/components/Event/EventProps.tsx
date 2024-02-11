@@ -27,6 +27,8 @@ import Klasses from './EventFields/Klasses';
 import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import TeachingAffected from './EventFields/TeachingAffected';
 import Version from './EventFields/Version';
+import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -35,6 +37,7 @@ interface Props {
 
 const EventProps = observer((props: Props) => {
     const { event } = props;
+    const { i18n } = useDocusaurusContext();
     const [showAllAffectedLessons, setShowAllAffectedLessons] = React.useState(false);
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
@@ -344,7 +347,7 @@ const EventProps = observer((props: Props) => {
                                             eventStore.clone(event).then((newEvent) => {
                                                 if (newEvent) {
                                                     const id = (newEvent as { id: string }).id;
-                                                    history.push(`/user?user-tab=events`);
+                                                    history.push(`${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events`);
                                                     eventStore.find(id)?.setEditing(true);
                                                 }
                                             });
