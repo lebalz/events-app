@@ -149,6 +149,14 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.6 (11.02.2024)</h4>
+                                <ul>
+                                    <li>Neu: Beim Erfassen eines Termins werden nun Erklärungen für die Eigenschaft "Publikum: Alle/LP/KLP/SuS" angezeigt</li>
+                                    <li>Neu: Beim Laden des Profils werden automatisch nur Termine der <b>Abteilungen</b> (bspw. Gym GBSL) angezeigt, an welchen man unterrichtet.</li>
+                                    <li>Durch erneutes Klicken auf "Betroffene Lektionen laden" können diese nun auch wieder ausgeblendet werden.</li>
+                                    <li>Fix: Falls sich das Login "aufhängt" und oben Links durchgehend das "Profil" geladen wird, kann durch Klicken auf das Profil und anschliessendes "Aktualisieren" das Login neu angestossen werden.</li>
+                                    <li>Fix: Wird ein Termin auf der französischen Seite geklont, funktioniert die Weiterleitung nun korrekt.</li>
+                                </ul>
                                 <h4>Version: Beta 1.5 (6.02.2024)</h4>
                                 <ul>
                                     <li>Fix: Firefox spielt Video ab</li>
