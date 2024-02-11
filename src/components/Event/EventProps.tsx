@@ -5,9 +5,10 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
+import {default as ShowAffectedAudience} from '../shared/AudiencePicker/Audience';
 import Badge from '../shared/Badge';
 import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
-import { Icon, SIZE, SIZE_XS } from '../shared/icons';
+import { Icon, SIZE, SIZE_S, SIZE_XS } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -24,10 +25,9 @@ import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
-import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
+import { AffectedAudience, EventAudience, EventAudienceIcons, EventAudienceTranslationLong, EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import TeachingAffected from './EventFields/TeachingAffected';
 import Version from './EventFields/Version';
-import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 interface Props {
     event: EventModel;
@@ -192,7 +192,7 @@ const EventProps = observer((props: Props) => {
                             id="event.audience"
                             description='for a single event: class and department picker'
                         >
-                            Beteiligte
+                            Publikum
                         </Translate>
                     </dt>
                     <dd><Audience {...commonEditProps} /></dd>
@@ -229,14 +229,27 @@ const EventProps = observer((props: Props) => {
                             </dd>
                         </>
                     )}
+                    <dt>
+                        <Translate
+                            id="event.audience"
+                            description='for a single event: class and department picker'
+                        >
+                            Publikum
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <ShowAffectedAudience event={event} />
+                    </dd>
                 </>
             )}
-            <dt><Translate
-                id="event.teachingAffected"
-                description='for a single event: teaching affected?'
-            >
-                Unterricht Betroffen?
-            </Translate></dt>
+            <dt>
+                <Translate
+                    id="event.teachingAffected"
+                    description='for a single event: teaching affected?'
+                >
+                    Unterricht Betroffen?
+                </Translate>
+            </dt>
             <dd><TeachingAffected event={event} show='both' align='left' /></dd>
             <dt>
                 <Translate

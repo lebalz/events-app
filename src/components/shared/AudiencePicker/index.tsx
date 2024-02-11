@@ -14,9 +14,9 @@ import Button from '../Button';
 import _ from 'lodash';
 import ClassSelector from './ClassSelector';
 import Translate, { translate } from '@docusaurus/Translate';
-import { AffectedAudience, EventAudience, EventAudienceIcons, EventAudienceTranslationLong, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
+import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
 import { mdiDotsHorizontalCircleOutline } from '@mdi/js';
-import { Icon, SIZE_S } from '../icons';
+import Audience from './Audience';
 
 
 
@@ -92,29 +92,7 @@ const AudiencePicker = observer((props: Props) => {
                             />)
                         })}
                     </div>
-                    <div className={clsx(styles.infoArea)}>
-                        <div className={clsx(styles.info)}>
-                            {[EventAudience.LP, EventAudience.KLP, EventAudience.STUDENTS].map(audience => {
-                                return (
-                                    <div className={clsx(styles.audience)} key={audience}>
-                                        <div className={clsx(styles.audienceIcon)}>
-                                            <Icon path={EventAudienceIcons[audience]} size={SIZE_S} />
-                                        </div>
-                                        <div className={clsx(styles.audienceDescription)}>
-                                            <Icon path={AffectedAudience[event.audience][audience].icon} color={AffectedAudience[event.audience][audience].color} size={SIZE_S} />
-                                            {AffectedAudience[event.audience][audience].description || EventAudienceTranslationLong[audience]}
-                                            {audience === event.audience && (
-                                                <>
-                                                    <br />
-                                                    {`${translate({message: 'z.B.', id: 'EventAudience.forExample'})} ${AffectedAudience[event.audience].example}`}
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </div>
+                    <Audience event={event} showExample marginLeft='2em' />
                 </div>
                 <div className={styles.toggle}>
                     <span className={styles.label}>
