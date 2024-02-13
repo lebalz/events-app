@@ -30,7 +30,6 @@ export const setupAxios = () => {
             // This will only return a non-null value if you have logic somewhere else that calls the setActiveAccount API
             // --> @see src/theme/Root.tsx
             const activeAccount = msalInstance.getActiveAccount();
-            console.log('activeAccount', activeAccount);    
             if (activeAccount) {
                 try {
                     const accessTokenResponse = await msalInstance.acquireTokenSilent({
