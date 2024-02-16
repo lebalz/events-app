@@ -199,7 +199,7 @@ const EventProps = observer((props: Props) => {
                 </>
             ) : (
                 <>
-                    {event.classes.size > 0 && (
+                    {(event.classes.size + event.classGroups.size) > 0 && (
                         <>
                             <dt>
                                 <Translate
