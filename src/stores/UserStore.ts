@@ -24,7 +24,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         makeObservable(this);
     }
 
-
     createModel(data: UserProps): User {
         return new User(data, this, this.root.untisStore);
     }

@@ -6,7 +6,7 @@ import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 
 export default class User extends ApiModel<UserProps, ApiAction> {
-  readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId', 'role'];
+  readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId', 'role', 'notifyOnEventUpdate'];
   readonly store: UserStore;
   readonly isUserModel = true;
   readonly _pristine: UserProps;
@@ -22,6 +22,8 @@ export default class User extends ApiModel<UserProps, ApiAction> {
   readonly icalUrl: string | null;
 
   @observable
+  notifyOnEventUpdate: boolean;
+  @observable
   untisId?: number;
 
   constructor(props: UserProps, store: UserStore, untisStore: UntisStore) {
@@ -31,6 +33,7 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     this.untisStore = untisStore;
     this.id = props.id;
     this.email = props.email;
+    this.notifyOnEventUpdate = props.notifyOnEventUpdate;
     this.role = props.role;
     this.firstName = props.firstName;
     this.lastName = props.lastName;
@@ -95,6 +98,7 @@ export default class User extends ApiModel<UserProps, ApiAction> {
       email: this.email,
       firstName: this.firstName,
       lastName: this.lastName,
+      notifyOnEventUpdate: this.notifyOnEventUpdate,
       role: this.role,
       untisId: this.untisId,
       icsLocator: this.icalUrl,

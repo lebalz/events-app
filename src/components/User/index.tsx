@@ -6,15 +6,17 @@ import { observer } from 'mobx-react-lite';
 import { default as UserModel } from '@site/src/models/User';
 import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
-import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiLink, mdiLogout, mdiOfficeBuilding, mdiSchool } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiAccountGroup, mdiCalendarBlankMultiple, mdiEmail, mdiEmailAlert, mdiLink, mdiLogout, mdiOfficeBuilding, mdiSchool } from '@mdi/js';
 import UntisLinker from './UntisLinker';
-import { Calendar, SIZE_S } from '../shared/icons';
+import { ApiIcon, Calendar, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
 import { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
 import ICal from '../iCal';
 import { useMsal } from '@azure/msal-react';
+import Checkbox from '../shared/Checkbox';
+import { ApiState } from '@site/src/stores/iStore';
 
 
 interface Props {
@@ -51,6 +53,38 @@ const User = observer((props: Props) => {
                     />
                 </dt>
                 <dd>{user.email}</dd>
+                <dt>
+                    <Badge
+                        text={translate({
+                            message: "Email Benachrichtigungen",
+                            id: 'components.user.index.email.notifications',
+                            description: 'Notification Preferences'
+                        })}
+                        icon={
+                            user.apiStateFor(`save-${user.id}`) !== ApiState.IDLE ? (
+                                ApiIcon[user.apiStateFor(`save-${user.id}`)]()
+                            ) : (
+                                mdiEmail
+                            )
+                        }
+                        iconSide={iconSide}
+                        color='gray'
+                    />
+                </dt>
+                <dd>
+                    <Checkbox 
+                        checked={user.notifyOnEventUpdate}
+                        label={translate({
+                            message: 'Benachrichtigungen für geänderte Termine erhalten',
+                            id: 'components.user.index.email.notifications.notifyOnEventUpdate',
+                            description: 'Label for the notification preference'
+                        })}
+                        onChange={(checked) => {
+                            user.update({'notifyOnEventUpdate': checked});
+                            setTimeout(() => user.save(), 0);
+                        }}
+                    />
+                </dd>
 
                 <dt>
                     <Badge

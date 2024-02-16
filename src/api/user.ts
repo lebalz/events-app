@@ -13,6 +13,7 @@ export type User = {
     untisId?: number
     firstName: string
     lastName: string
+    notifyOnEventUpdate: boolean
     role: Role
     icsLocator: string | null
     createdAt: string
