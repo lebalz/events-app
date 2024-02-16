@@ -101,7 +101,7 @@ const UserTable = observer((props: Props) => {
                                 iconSide='left'
                                 icon={adminUserTable.sortColumn === 'notifyOnEventUpdate' && icon}
                                 text={translate({
-                                    message: "Rolle",
+                                    message: "Mail bei Event-Update",
                                     id: 'admin.userTable.th.notifyOnEventUpdate',
                                     description: 'th: notifyOnEventUpdate'
                                 })}

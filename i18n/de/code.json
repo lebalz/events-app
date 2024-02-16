@@ -608,7 +608,7 @@
     "description": "for a single event: date range"
   },
   "event.audience": {
-    "message": "Beteiligte",
+    "message": "Publikum",
     "description": "for a single event: class and department picker"
   },
   "event.requestState": {
@@ -1285,5 +1285,17 @@
   "share.button.delete.confirm.yes": {
     "message": "Ja",
     "description": "Text of the button confirm yes"
+  },
+  "components.user.index.email.notifications": {
+    "message": "Email Benachrichtigungen",
+    "description": "Notification Preferences"
+  },
+  "components.user.index.email.notifications.notifyOnEventUpdate": {
+    "message": "Benachrichtigungen für geänderte Termine erhalten",
+    "description": "Label for the notification preference"
+  },
+  "admin.userTable.th.notifyOnEventUpdate": {
+    "message": "Mail bei Event-Update",
+    "description": "th: notifyOnEventUpdate"
   }
 }
