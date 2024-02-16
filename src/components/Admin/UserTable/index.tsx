@@ -99,6 +99,19 @@ const UserTable = observer((props: Props) => {
                             <Button 
                                 size={SIZE_S}
                                 iconSide='left'
+                                icon={adminUserTable.sortColumn === 'notifyOnEventUpdate' && icon}
+                                text={translate({
+                                    message: "Rolle",
+                                    id: 'admin.userTable.th.notifyOnEventUpdate',
+                                    description: 'th: notifyOnEventUpdate'
+                                })}
+                                onClick={() => adminUserTable.setSortColumn('notifyOnEventUpdate')} 
+                            />
+                        </th>
+                        <th>
+                            <Button 
+                                size={SIZE_S}
+                                iconSide='left'
                                 icon={adminUserTable.sortColumn === 'shortName' && icon}
                                 text={translate({
                                     message: "Kürzel",

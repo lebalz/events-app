@@ -11,6 +11,7 @@ import { Role } from '@site/src/api/user';
 import Button from '../../shared/Button';
 import UntisLinker from '../../User/UntisLinker';
 import { ApiState } from '@site/src/stores/iStore';
+import { mdiCheck, mdiCheckboxBlank, mdiCheckboxBlankBadge, mdiCheckboxMarked, mdiCloseBox } from '@mdi/js';
 
 
 interface Props {
@@ -39,6 +40,7 @@ const UserTable = observer((props: Props) => {
                     }
                 </div>
             </td>
+            <td><Badge icon={user.notifyOnEventUpdate ? mdiCheckboxMarked : mdiCheckboxBlank} color={user.notifyOnEventUpdate ? 'green' : 'grey'} /></td>
             <td><UntisLinker user={user} /></td>
             <td>{formatDateTime(user.createdAt)}</td>
             <td>{formatDateTime(user.updatedAt)}</td>

@@ -7,7 +7,7 @@ import _ from 'lodash';
 class AdminUserTable {
     private readonly store: ViewStore;
     @observable
-    sortColumn: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' = 'email';
+    sortColumn: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' | 'notifyOnEventUpdate' = 'email';
     @observable
     sortDirection: 'asc' | 'desc' = 'asc';
 
@@ -40,7 +40,7 @@ class AdminUserTable {
     }
 
     @action
-    setSortColumn(column: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt'): void {
+    setSortColumn(column: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' | 'notifyOnEventUpdate'): void {
         if (this.sortColumn === column) {
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
