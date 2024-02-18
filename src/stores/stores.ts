@@ -12,7 +12,7 @@ import { ViewStore } from "./ViewStores";
 import { DepartmentStore } from "./DepartmentStore";
 import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
 import { SemesterStore } from "./SemesterStore";
-import { UserEventGroupStore } from "./UserEventGroupStore";
+import { EventGroupStore } from "./EventGroupStore";
 import siteConfig from '@generated/docusaurus.config';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
@@ -36,7 +36,7 @@ export class RootStore {
     departmentStore: DepartmentStore;
     semesterStore: SemesterStore;
     registrationPeriodStore: RegistrationPeriodStore;
-    userEventGroupStore: UserEventGroupStore;
+    eventGroupStore: EventGroupStore;
 
 
     viewStore: ViewStore;
@@ -68,8 +68,8 @@ export class RootStore {
         this.registrationPeriodStore = new RegistrationPeriodStore(this);
         this.subscribeTo(this.registrationPeriodStore, ['load', 'reset']);
 
-        this.userEventGroupStore = new UserEventGroupStore(this);
-        this.subscribeTo(this.userEventGroupStore, ['load', 'reset']);
+        this.eventGroupStore = new EventGroupStore(this);
+        this.subscribeTo(this.eventGroupStore, ['load', 'reset']);
 
         this.viewStore = new ViewStore(this);
         this.subscribeTo(this.viewStore,  ['load', 'reset']);

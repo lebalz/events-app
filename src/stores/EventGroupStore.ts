@@ -3,14 +3,14 @@ import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore, { ApiAction } from './iStore';
 import { Event as EventProps } from '../api/event';
-import { UserEventGroupCreate, UserEventGroup as UserEventGroupProps, create as apiCreate, clone as apiClone, events as fetchEvents } from '../api/user_event_group';
-import UserEventGroup from '../models/UserEventGroup';
+import { EventGroupCreate, EventGroup as EventGroupProps, create as apiCreate, clone as apiClone, events as fetchEvents } from '../api/event_group';
+import UserEventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
 
-export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction | `clone-${string}` | `fetch-${string}`> {
+export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-${string}` | `fetch-${string}`> {
 
-    readonly ApiEndpoint = new EndPoint('user_event_groups', { authorized: true });
+    readonly ApiEndpoint = new EndPoint('event_groups', { authorized: true });
 
     readonly root: RootStore;
 
@@ -21,7 +21,7 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
         makeObservable(this);
     }
 
-    createModel(data: UserEventGroupProps): UserEventGroup {
+    createModel(data: EventGroupProps): UserEventGroup {
         return new UserEventGroup(data, this);
     }
 
@@ -38,7 +38,7 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
     }
 
     @override
-    create(model: UserEventGroupCreate) {
+    create(model: EventGroupCreate) {
         /**
          * Save the model to the api
          */
@@ -61,7 +61,7 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
 
         return this.withAbortController(`clone-${model.id}`, (sig) => {
             return apiClone(model.id, sig.signal);
-        }).then(({ data }: { data: UserEventGroupProps }) => {
+        }).then(({ data }: { data: EventGroupProps }) => {
             const group = this.addToStore(data);
             return this.reloadEvents(group);
         }).catch((err) => {
@@ -70,7 +70,7 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
     }
 
     @action
-    reloadEvents(model: ApiModel<UserEventGroupProps, ApiAction>) {
+    reloadEvents(model: ApiModel<EventGroupProps, ApiAction>) {
         if (!model) {
             return;
         }

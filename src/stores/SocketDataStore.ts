@@ -143,7 +143,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 case IoEvent.NEW_RECORD:
                     store.loadModel(record.id).then((model) => {
                         if (record.record === 'USER_EVENT_GROUP') {
-                            this.root.userEventGroupStore.reloadEvents(model);
+                            this.root.eventGroupStore.reloadEvents(model);
                         }
                     });
                     break;

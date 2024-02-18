@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import Badge from '../shared/Badge';
 import Button from '../shared/Button';
-import { default as UserEventGroupModel } from '@site/src/models/UserEventGroup';
+import { default as EventGroupModel } from '@site/src/models/EventGroup';
 import EventCard from '../Event/Card';
 import TextInput from '../shared/TextInput';
 import Edit from '../shared/Button/Edit';
@@ -18,7 +18,7 @@ import Clone from '../shared/Button/Clone';
 
 
 interface Props {
-    group: UserEventGroupModel
+    group: EventGroupModel
 }
 
 const UserEventGroup = observer((props: Props) => {

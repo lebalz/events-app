@@ -46,7 +46,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classGroups',
         'classes',
         'departmentIds',
-        'userGroupId',
         'teachingAffected',
         'affectsDepartment2'
     ];
@@ -60,10 +59,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly parentId: string | null;
     readonly cloned: boolean;
     readonly publishedVersionIds: string[];
-
-    
-    @observable
-    userGroupId: string | null;
 
     @observable.ref
     updatedAt: Date;
@@ -144,7 +139,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.affectsDepartment2 = props.affectsDepartment2;
 
         this.parentId = props.parentId;
-        this.userGroupId = props.userGroupId;
 
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
@@ -903,7 +897,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             updatedAt: this.updatedAt.toISOString(),
             parentId: this.parentId,
             cloned: this.cloned,
-            userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
             affectsDepartment2: this.affectsDepartment2,
             start: toGlobalDate(this.start).toISOString(),
@@ -1007,7 +1000,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get _dupCompareString() {
-        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'deletedAt', 'parentId', 'cloned', 'userGroupId', 'state'];
+        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'deletedAt', 'parentId', 'cloned', 'state'];
 
         const props = (Object.keys(this.props) as (keyof EventProps)[]).filter(p => {
             return !exclude.includes(p)
@@ -1041,16 +1034,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             hours: Math.ceil(period / HOUR_2_MS),
             minutes: Math.ceil(period / MINUTE_2_MS)
         }
-    }
-
-    @computed
-    get hasUserGroup() {
-        return !!this.userGroupId;
-    }
-
-    @computed
-    get userGroup() {
-        return this.store.root.userStore.findUserGroup(this.userGroupId);
     }
 
     @computed

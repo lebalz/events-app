@@ -19,7 +19,7 @@ export const RecordStoreMap: {[key in RecordTypes]: keyof typeof rootStore} = {
     DEPARTMENT: 'departmentStore',
     SEMESTER: 'semesterStore',
     REGISTRATION_PERIOD: 'registrationPeriodStore',
-    USER_EVENT_GROUP: 'userEventGroupStore',
+    USER_EVENT_GROUP: 'eventGroupStore',
     RELOAD_AFFECTING_EVENTS: 'userStore'
 } as const;
 

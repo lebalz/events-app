@@ -12,7 +12,6 @@ import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
 import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiTag } from '@mdi/js';
 import { Icon } from '../../shared/icons';
-import Select from 'react-select';
 import { translate } from '@docusaurus/Translate';
 
 interface Props {
@@ -23,7 +22,7 @@ const BulkActions = observer((props: Props) => {
     const { events } = props;
     const userStore = useStore('userStore');
     const eventStore = useStore('eventStore');
-    const userEventGroupStore = useStore('userEventGroupStore');
+    const eventGroupStore = useStore('eventGroupStore');
     const { current } = userStore;
     if (events.length < 1) {
         return null;
@@ -112,12 +111,12 @@ const BulkActions = observer((props: Props) => {
                             iconSide='left'
                             onClick={action(() => {
                                 const ids = events.map(event => event.id);
-                                userEventGroupStore.create(
+                                eventGroupStore.create(
                                     {event_ids: ids, name: 'Neue Gruppe'},
                                 );
                             })} 
                         />
-                        <Select
+                        {/* <Select
                             isMulti={false}
                             isSearchable={true}
                             isClearable={true}
@@ -128,7 +127,7 @@ const BulkActions = observer((props: Props) => {
                                 });
                             }}
                             options={
-                                userEventGroupStore.userEventGroups.map(group => ({
+                                eventGroupStore.userEventGroups.map(group => ({
                                     value: group.id,
                                     label: group.name,
                                 }))
@@ -138,7 +137,7 @@ const BulkActions = observer((props: Props) => {
                                 ? {value: events[0]?.userGroupId, label: events[0]?.userGroup?.name } 
                                 : undefined
                             }
-                        />
+                        /> */}
                     </>
                 )
             }

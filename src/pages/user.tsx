@@ -17,7 +17,7 @@ import UserEventGroup from '../components/UserEventGroup';
 import { translate } from '@docusaurus/Translate';
 
 const UserPage = observer(() => {
-    const userEventGroupStore = useStore('userEventGroupStore');
+    const eventGroupStore = useStore('eventGroupStore');
     const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
     const { isStudent, loggedIn } = sessionStore;
@@ -92,7 +92,7 @@ const UserPage = observer(() => {
                             <div className={clsx(styles.tab)}>
                                 <div className={clsx(styles.groups)}>
                                     {
-                                        userEventGroupStore.userEventGroups.map((group) => {
+                                        eventGroupStore.userEventGroups.map((group) => {
                                             return (
                                                 <UserEventGroup group={group} key={group.id}/>
                                             );

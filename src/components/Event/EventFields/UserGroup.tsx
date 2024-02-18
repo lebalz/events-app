@@ -19,9 +19,9 @@ const UserGroup = observer((props: Props) => {
             className={clsx(props.className, styles.userGroup)}
         >
             <div className={clsx(styles.tags)}>
-                {event.hasUserGroup && (
+                {/* {event.hasUserGroup && (
                     <Badge text={event.userGroup?.name} color="blue" />
-                )}
+                )} */}
             </div>
         </div>
     )
