@@ -292,3 +292,8 @@ export function clone(eventId: string, signal: AbortSignal): AxiosPromise<Event>
         { signal}
     );
 }
+
+
+export function all<T>(ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
+    return api.get('events', { params: { ids },  signal });
+}

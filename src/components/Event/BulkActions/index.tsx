@@ -13,6 +13,9 @@ import Button from '../../shared/Button';
 import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiTag } from '@mdi/js';
 import { Icon } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
+import Select from 'react-select';
+import EventGroup from '@site/src/models/EventGroup';
+import { options } from 'joi';
 
 interface Props {
     events: EventModel[];
@@ -114,30 +117,46 @@ const BulkActions = observer((props: Props) => {
                                 eventGroupStore.create(
                                     {event_ids: ids, name: 'Neue Gruppe'},
                                 );
-                            })} 
+                            })}
                         />
-                        {/* <Select
-                            isMulti={false}
+                        <Select
+                            isMulti={true}
                             isSearchable={true}
                             isClearable={true}
-                            onChange={(opt) => {
-                                events.forEach(event => {
-                                    event.update({userGroupId: opt?.value ?? null});
-                                    event.save();
-                                });
+                            menuPortalTarget={document.body}
+                            styles={{ 
+                                menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
+                            }}
+                            onChange={(options, meta) => {
+                                switch (meta.action) {
+                                    case 'select-option':
+                                        const group = eventGroupStore.find<EventGroup>(meta.option.value);
+                                        if (group) {
+                                            group.addEvents(events);
+                                        }
+                                        break;
+                                    case 'remove-value':
+                                        const rmGroup = eventGroupStore.find<EventGroup>(meta.removedValue?.value);
+                                        if (rmGroup) {
+                                            rmGroup.removeEvents(events);
+                                        }
+                                        break;
+                                }
                             }}
                             options={
-                                eventGroupStore.userEventGroups.map(group => ({
+                                eventGroupStore.eventGroups.map(group => ({
                                     value: group.id,
                                     label: group.name,
                                 }))
                             }
                             value={
-                                events.every(e => e.userGroupId === events[0].userGroupId) 
-                                ? {value: events[0]?.userGroupId, label: events[0]?.userGroup?.name } 
-                                : undefined
+                                events.reduce((acc, event) => {
+                                    const gIds = new Set(event.groups.map(g => g.id));
+                                    return acc.filter(({id}) => gIds.has(id));
+                                }, events[0]?.groups?.map(g => ({id: g.id, name: g.name })) || []).
+                                map(g => ({value: g.id, label: g.name}))
                             }
-                        /> */}
+                        />
                     </>
                 )
             }

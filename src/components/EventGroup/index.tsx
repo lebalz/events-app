@@ -41,6 +41,10 @@ const UserEventGroup = observer((props: Props) => {
                             </small>)
                     }
                 </div>
+                <Badge text={group.isFullyLoaded ? `${group.eventCount}` : `${group.events.length} / ${group.eventCount}`} color='blue' />
+                {!group.isFullyLoaded && (
+                    <Button onClick={() => group.loadEvents()} className={styles.loadButton}>Load</Button>
+                )}
                 <ModelActions 
                     model={group} 
                     rightNodes={

@@ -4,7 +4,7 @@ import { RootStore } from './stores';
 import iStore, { ApiAction } from './iStore';
 import { Event as EventProps } from '../api/event';
 import { EventGroupCreate, EventGroup as EventGroupProps, create as apiCreate, clone as apiClone, events as fetchEvents } from '../api/event_group';
-import UserEventGroup from '../models/EventGroup';
+import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
 
@@ -14,15 +14,15 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
 
     readonly root: RootStore;
 
-    models = observable<UserEventGroup>([]);
+    models = observable<EventGroup>([]);
     constructor(root: RootStore) {
         super();
         this.root = root;
         makeObservable(this);
     }
 
-    createModel(data: EventGroupProps): UserEventGroup {
-        return new UserEventGroup(data, this);
+    createModel(data: EventGroupProps): EventGroup {
+        return new EventGroup(data, this);
     }
 
     get eventStore() {
@@ -33,8 +33,8 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
         return this.root.userStore;
     }
 
-    get userEventGroups(): UserEventGroup[] {
-        return this.models as UserEventGroup[];
+    get eventGroups(): EventGroup[] {
+        return this.models as EventGroup[];
     }
 
     @override
@@ -51,7 +51,7 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
     }
 
     @action
-    clone(model: UserEventGroup) {
+    clone(model: EventGroup) {
         /**
          * Clone the model to the api
          */

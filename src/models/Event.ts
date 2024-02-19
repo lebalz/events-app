@@ -1057,6 +1057,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.root.semesterStore.semesters.filter(s => dateBetween(this.start, s.start, s.end) || dateBetween(this.end, s.start, s.end));
     }
 
+    @computed
+    get groups() {
+        return this.store.root.eventGroupStore.eventGroups.filter(g => g.eventIds.has(this.id));
+    }
+
     @override
     cleanup() {
         this.validationDisposer();

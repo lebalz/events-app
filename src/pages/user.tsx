@@ -13,7 +13,7 @@ import User from '../components/User';
 import Section from '../components/shared/Section';
 import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
-import UserEventGroup from '../components/UserEventGroup';
+import UserEventGroup from '../components/EventGroup';
 import { translate } from '@docusaurus/Translate';
 
 const UserPage = observer(() => {
@@ -92,7 +92,7 @@ const UserPage = observer(() => {
                             <div className={clsx(styles.tab)}>
                                 <div className={clsx(styles.groups)}>
                                     {
-                                        eventGroupStore.userEventGroups.map((group) => {
+                                        eventGroupStore.eventGroups.map((group) => {
                                             return (
                                                 <UserEventGroup group={group} key={group.id}/>
                                             );

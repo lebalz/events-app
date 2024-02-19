@@ -4,7 +4,7 @@ import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
 import iStore from './iStore';
-import UserEventGroup from '../models/EventGroup';
+import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
@@ -28,7 +28,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         return new User(data, this, this.root.untisStore);
     }
 
-    findUserGroup(id: string): UserEventGroup | undefined {
+    findUserGroup(id: string): EventGroup | undefined {
         return this.root.eventGroupStore.find(id);
     }
 

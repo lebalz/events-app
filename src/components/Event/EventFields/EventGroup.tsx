@@ -11,7 +11,7 @@ interface Props extends CommonProps {
     isEditGrid?: boolean; /** true when at least one element of the grid is edited */
 }
 
-const UserGroup = observer((props: Props) => {
+const EventGroup = observer((props: Props) => {
     const { event } = props;
     return (
         <div 
@@ -27,4 +27,4 @@ const UserGroup = observer((props: Props) => {
     )
 });
 
-export default UserGroup;
+export default EventGroup;

@@ -6,12 +6,8 @@ export interface EventGroup {
     id: string
     name: string
     description: string
-    users: {
-        id: string
-    }[]
-    events: {
-        id: string
-    }[]
+    userIds: string[]
+    eventIds: string[]
     createdAt: string
     updatedAt: string
 }
