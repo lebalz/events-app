@@ -1044,6 +1044,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return humanize(this.durationMS, { language: 'de', units: ['w', 'd', 'h', 'm'], round: true });
     }
 
+    @computed
+    get fDurationCompact() {
+        if (this.store?.root?.currentLocale === 'fr') {
+            return humanize(this.durationMS, { language: 'fr', units: ['w', 'd', 'h', 'm'], largest: 1, round: true });
+        }
+        return humanize(this.durationMS, { language: 'de', units: ['w', 'd', 'h', 'm'], largest: 1, round: true });
+    }
+
     /**
      * @returns The day of the week of the event
      * @example 0 = Sunday, 1 = Monday, 2 = Tuesday, ...

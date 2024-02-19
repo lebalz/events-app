@@ -154,10 +154,15 @@ export const Clock = (props: Props & {hour: number}) => {
     );
 };
 
-
-export const ApiIcon: {[key in ApiState]: (props?: Partial<IconProps>) => JSX.Element} = {
-    [ApiState.IDLE]: (props: Partial<IconProps> = {}) => <Idle {...props} />,
-    [ApiState.LOADING]: (props: Partial<IconProps> = {}) => <Loading {...props} />,
-    [ApiState.ERROR]: (props: Partial<IconProps> = {}) => <Error {...props} />,
-    [ApiState.SUCCESS]: (props: Partial<IconProps> = {}) => <Success {...props} />
+export const ApiIcon = (props: {state: ApiState} & Partial<IconProps>) => {
+    switch (props.state) {
+        case ApiState.IDLE:
+            return <Idle {...props} />;
+        case ApiState.LOADING:
+            return <Loading {...props} />;
+        case ApiState.ERROR:
+            return <Error {...props} />;
+        case ApiState.SUCCESS:
+            return <Success {...props} />;
+    }
 }

@@ -9,7 +9,6 @@ import _ from 'lodash';
 import Batch from './Batch';
 import Group from './Group';
 import ColumnHeader from './ColumnHeader';
-import { getKW } from '@site/src/models/helpers/time';
 
 interface ConfigOptionsBase {
     width?: string;
@@ -32,6 +31,8 @@ export type ConfigOptions = ConfigOptionsBase | ConfigOptionsSortable;
 
 
 export const DefaultConfig: {[key: string]: ConfigOptions} = {
+    updatedAt: { width: '7em', sortable: true, minWidthWhenActive: '7em' },
+    createdAt: { width: '7em', sortable: true, minWidthWhenActive: '7em' },
     state: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
     isValid: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
     isDuplicate: { sortable: true },

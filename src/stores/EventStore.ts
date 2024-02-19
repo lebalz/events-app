@@ -237,8 +237,8 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     }
 
     @action
-    loadEvents(ids: string[]) {
-        return this.withAbortController(`load-events-${ids.sort().join(':')}`, (sig) => {
+    loadEvents(ids: string[], sigId: string) {
+        return this.withAbortController(`load-events-${sigId}`, (sig) => {
             return apiFetchEvents(ids, sig.signal)
                 .then(action(({ data }) => {
                     if (data) {

@@ -62,7 +62,7 @@ const User = observer((props: Props) => {
                         })}
                         icon={
                             user.apiStateFor(`save-${user.id}`) !== ApiState.IDLE ? (
-                                ApiIcon[user.apiStateFor(`save-${user.id}`)]()
+                                <ApiIcon state={user.apiStateFor(`save-${user.id}`)} />
                             ) : (
                                 mdiEmail
                             )

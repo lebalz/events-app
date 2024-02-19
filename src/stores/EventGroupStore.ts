@@ -45,8 +45,12 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
         return this.withAbortController('create', (sig) => {
             return apiCreate(model, sig.signal);
         }).then(action(({ data }) => {
-            const cloned = this.addToStore(data, 'create');
-            return this.reloadEvents(cloned).then(() => cloned);
+            const model = this.addToStore(data, 'create');
+            if (model._pristine.eventIds.length > 0) {
+                return this.reloadEvents(model).then(() => model);
+            } else {
+                return model;
+            }
         }));
     }
 

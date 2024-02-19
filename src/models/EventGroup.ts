@@ -63,8 +63,12 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     loadEvents() {
         if (!this.isFullyLoaded) {
             const missingIds = [...this.eventIds].filter(id => !this.store.eventStore.find(id));
-            return this.store.eventStore.loadEvents(missingIds);
+            return this.store.eventStore.loadEvents(missingIds, this.id);
         }
+    }
+
+    get apiState() {
+        return this.store.eventStore.apiStateFor(`load-events-${this.id}`);
     }
 
     @override

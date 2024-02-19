@@ -13,11 +13,10 @@ import User from '../components/User';
 import Section from '../components/shared/Section';
 import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
-import UserEventGroup from '../components/EventGroup';
 import { translate } from '@docusaurus/Translate';
+import Groups from '../components/EventGroup/Groups';
 
 const UserPage = observer(() => {
-    const eventGroupStore = useStore('eventGroupStore');
     const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
     const { isStudent, loggedIn } = sessionStore;
@@ -46,7 +45,6 @@ const UserPage = observer(() => {
                                 message: 'Account',
                                 id: 'user.tab.account'
                             })}
-                            default
                         >
                             <div className={clsx(styles.tab)}>
                                 {current ? (
@@ -90,15 +88,7 @@ const UserPage = observer(() => {
                             })}
                         >
                             <div className={clsx(styles.tab)}>
-                                <div className={clsx(styles.groups)}>
-                                    {
-                                        eventGroupStore.eventGroups.map((group) => {
-                                            return (
-                                                <UserEventGroup group={group} key={group.id}/>
-                                            );
-                                        })
-                                    }
-                                </div>
+                                <Groups />
                             </div>
                         </TabItem>
                         <TabItem 

@@ -23,6 +23,8 @@ import DepartmentsOrAudiencePicker from '../EventFields/DepartmentsOrAudience';
 import IsDuplicate from '../EventFields/IsDuplicate';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 import TeachingAffected from '../EventFields/TeachingAffected';
+import CreatedAt from '../EventFields/CreatedAt';
+import UpdatedAt from '../EventFields/UpdatedAt';
 
 
 interface Props {
@@ -32,6 +34,8 @@ interface Props {
 }
 
 const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>> = {
+    updatedAt: UpdatedAt,
+    createdAt: CreatedAt,
     state: State,
     isValid: IsValid,
     isDuplicate: IsDuplicate,

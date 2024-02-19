@@ -15,6 +15,15 @@ import TextArea from '../shared/TextArea';
 import Save from '../shared/Button/Save';
 import ModelActions from '../ModelActions';
 import Clone from '../shared/Button/Clone';
+import BulkActions from '../Event/BulkActions';
+import EventGrid from '../Event/EventGrid';
+import LazyDetails from '../shared/Details';
+import { ApiIcon, DeleteIcon, Error, Loading, SIZE_S } from '../shared/icons';
+import { ApiState } from '@site/src/stores/iStore';
+import Popup from '../shared/Popup';
+import { translate } from '@docusaurus/Translate';
+import { mdiExclamationThick, mdiFlashTriangle } from '@mdi/js';
+import { formatDateTime } from '@site/src/models/helpers/time';
 
 
 interface Props {
@@ -22,11 +31,11 @@ interface Props {
 }
 
 const UserEventGroup = observer((props: Props) => {
-    const viewStore = useStore('viewStore');
+    const [isOpen, setIsOpen] = React.useState(false);
     const { group } = props;
 
     return (
-        <div className={clsx(styles.group, 'card')}>
+        <div className={clsx(styles.group, 'card', isOpen && styles.open)}>
             <div className={clsx(styles.header, 'card__header')}>
                 <div className="avatar__intro">
                     {group.isEditing
@@ -40,38 +49,73 @@ const UserEventGroup = observer((props: Props) => {
                                 {group.description}
                             </small>)
                     }
+                    <Badge text={formatDateTime(group.createdAt)} color='gray' />
+                    <Badge text={formatDateTime(group.updatedAt)} color='gray' />
                 </div>
-                <Badge text={group.isFullyLoaded ? `${group.eventCount}` : `${group.events.length} / ${group.eventCount}`} color='blue' />
-                {!group.isFullyLoaded && (
-                    <Button onClick={() => group.loadEvents()} className={styles.loadButton}>Load</Button>
-                )}
                 <ModelActions 
                     model={group} 
+                    hideDelete={group.eventCount > 0}
                     rightNodes={
                         <>
-                        {
-                            group.isEditing && (
-                                <Clone
-                                    onClick={() => {
-                                        group.clone();
-                                    }}
-                                    apiState={group.apiStateFor(`clone-${group.id}`)}
-                                />
-                            )
-                        }
+                            {
+                                group.isEditing && (
+                                    <Clone
+                                        onClick={() => {
+                                            group.clone();
+                                        }}
+                                        apiState={group.apiStateFor(`clone-${group.id}`)}
+                                    />
+                                )
+                            }
                         </>
                     }
                 />
             </div>
-            <div className={clsx(styles.events, 'card__body')}>
-                {
-                    group.events.map(e => {
-                        return (
-                            <EventCard event={e} key={e.id} />
-                        )
-                    })
+            <div className={clsx(styles.spacer)}></div>
+            <LazyDetails
+                className={clsx(styles.eventDetails, 'card__footer')}
+                summary={
+                    <summary>
+                        <div className={clsx(styles.summary)}>
+                            Events
+                            <div className={clsx(styles.badges)}>
+                                {group.apiState !== ApiState.IDLE && (<ApiIcon state={group.apiState} />)}
+                                <Badge text={`${group.eventCount}`} color='blue' />
+                            </div>
+                        </div>
+                    </summary>
                 }
-            </div>
+                onOpenChange={(open) => {
+                    setIsOpen(open);
+                    if (open && !group.isFullyLoaded) {
+                        group.loadEvents();
+                    }
+                }}
+            >
+                <div className={clsx(styles.events, 'card__body')}>
+                    <BulkActions events={group.events.filter(e => e.selected)} />
+                    <EventGrid 
+                        events={group.events}
+                        columns={[
+                            'isValid',
+                            'select',
+                            ['state', {sortable: false, width: undefined}],
+                            ['teachingAffected', {componentProps: {show: 'icon'}}],
+                            'kw',
+                            'day',
+                            'description', 
+                            'start',
+                            'end',
+                            ['userGroup', {sortable: false}],
+                            'location',
+                            'departmens',
+                            'classes',
+                            'descriptionLong',
+                            ['actions', {fixed: {right: 0}}]
+                        ]}
+                    />
+                </div>
+            </LazyDetails>
         </div>
     )
 });

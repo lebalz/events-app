@@ -3,13 +3,11 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { formatDate } from '@site/src/models/helpers/time';
-import Translate, {translate} from '@docusaurus/Translate';
-import { Icon, SIZE, SIZE_S } from '../../shared/icons';
-import { mdiArrowDown, mdiArrowUp, mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSchool, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
+import {translate} from '@docusaurus/Translate';
+import { Icon, SIZE_S } from '../../shared/icons';
+import { mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSchool, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
 import Checkbox from '../../shared/Checkbox';
 import Button, { ButtonIcon } from '../../shared/Button';
-import Badge from '../../shared/Badge';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 
 
@@ -24,6 +22,16 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
     state: translate({
         message: 'Zustand',
         id: 'eventGrid.header.state',
+        description: 'Label for the Event Grid Columns'
+    }),
+    createdAt: translate({
+        message: 'Erstellt am',
+        id: 'eventGrid.header.createdAt',
+        description: 'Label for the Event Grid Columns'
+    }),
+    updatedAt: translate({
+        message: 'Geändert am',
+        id: 'eventGrid.header.updatedAt',
         description: 'Label for the Event Grid Columns'
     }),
     isValid: translate({
