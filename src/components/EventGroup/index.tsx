@@ -18,12 +18,13 @@ import Clone from '../shared/Button/Clone';
 import BulkActions from '../Event/BulkActions';
 import EventGrid from '../Event/EventGrid';
 import LazyDetails from '../shared/Details';
-import { ApiIcon, DeleteIcon, Error, Loading, SIZE_S } from '../shared/icons';
+import { ApiIcon, DeleteIcon, Error, Icon, Loading, SIZE_S } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import Popup from '../shared/Popup';
-import { translate } from '@docusaurus/Translate';
-import { mdiExclamationThick, mdiFlashTriangle } from '@mdi/js';
+import Translate, { translate } from '@docusaurus/Translate';
+import { mdiAccount, mdiAccountGroup, mdiExclamationThick, mdiFlashTriangle } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
+import DefinitionList from '../shared/DefinitionList';
 
 
 interface Props {
@@ -39,18 +40,33 @@ const UserEventGroup = observer((props: Props) => {
             <div className={clsx(styles.header, 'card__header')}>
                 <div className="avatar__intro">
                     {group.isEditing
-                        ? <TextInput className={styles.textInput} text={group.name} onChange={(text) => group.update({ name: text })} />
-                        : <div className="avatar__name">{group.name}</div>
+                        ? (
+                            <TextInput 
+                                className={styles.textInput} 
+                                text={group.name} 
+                                onChange={(text) => group.update({ name: text })} 
+                            />
+                        ) : (
+                            <div
+                                className="avatar__name"
+                            >
+                                {group.name}
+                            </div>
+                        )
                     }
                     {
                         group.isEditing
-                            ? (<TextArea text={group.description} onChange={(text) => group.update({ description: text })} />)
-                            : (<small className="avatar__subtitle">
-                                {group.description}
-                            </small>)
+                            ? (
+                                <TextArea 
+                                    text={group.description} 
+                                    onChange={(text) => group.update({ description: text })} 
+                                />
+                            ) : (
+                                <small className="avatar__subtitle">
+                                    {group.description || <wbr />}
+                                </small>
+                            )
                     }
-                    <Badge text={formatDateTime(group.createdAt)} color='gray' />
-                    <Badge text={formatDateTime(group.updatedAt)} color='gray' />
                 </div>
                 <ModelActions 
                     model={group} 
@@ -70,6 +86,25 @@ const UserEventGroup = observer((props: Props) => {
                         </>
                     }
                 />
+                <Badge
+                    icon={group.userIds.size > 1 ? mdiAccountGroup : mdiAccount}
+                    iconSide='left'
+                    size={SIZE_S}
+                    text={group.userIds.size > 1 ? `${group.userIds.size}` : undefined}
+                    color={group.userIds.size > 1 ? 'blue' : 'gray'}
+                />
+            </div>
+            <div className={clsx(styles.body, 'card__body')}>
+                {
+                    isOpen && (
+                        <DefinitionList>
+                            <dt><Translate id="group.createdAt">Erstellt Am</Translate></dt>
+                            <dd><Badge text={formatDateTime(group.createdAt)} color='gray' /></dd>
+                            <dt><Translate id="group.updatedAt">Geàndert Am</Translate></dt>
+                            <dd><Badge text={formatDateTime(group.updatedAt)} color='gray' /></dd>
+                        </DefinitionList>
+                    )
+                }
             </div>
             <div className={clsx(styles.spacer)}></div>
             <LazyDetails

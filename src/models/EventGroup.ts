@@ -50,6 +50,11 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     }
 
     @computed
+    get users() {
+        return this.store.userStore.models.filter(user => this.userIds.has(user.id));
+    }
+
+    @computed
     get eventCount() {
         return this.eventIds.size;
     }

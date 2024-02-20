@@ -1,7 +1,7 @@
 .group {
     box-shadow: var(--ifm-global-shadow-md);
-    gap: 1rem;
     flex-basis: 20em;
+    align-self: flex-start;
     transition: flex-basis var(--ifm-transition-fast) ease-in;
     &.open {
         flex-basis: 100%;

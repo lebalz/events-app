@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, override } from 'mobx';
+import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore, { ApiAction } from './iStore';
@@ -33,8 +33,9 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
         return this.root.userStore;
     }
 
+    @computed
     get eventGroups(): EventGroup[] {
-        return this.models as EventGroup[];
+        return _.orderBy(this.models, ['_pristine.name'], ['asc']) as EventGroup[];
     }
 
     @override
