@@ -127,6 +127,34 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     }
 
     @action
+    appendUserId(id: string) {
+        this._pristine.userIds.push(id);
+        this.userIds.add(id);
+    }
+    @action
+    appendEventId(id: string) {
+        this._pristine.eventIds.push(id);
+        this.eventIds.add(id);
+        this.loadEvents();
+    }
+    @action
+    rmUserId(id: string) {
+        const idx = this._pristine.userIds.findIndex(v => v === id);
+        if (idx >= 0) {
+            this._pristine.userIds.splice(idx, 1);
+        }
+        this.userIds.delete(id);
+    }
+    @action
+    rmEventId(id: string) {
+        const idx = this._pristine.eventIds.findIndex(v => v === id);
+        if (idx >= 0) {
+            this._pristine.eventIds.splice(idx, 1);
+        }
+        this.eventIds.delete(id);
+    }
+
+    @action
     clone() {
         this.store.clone(this);
     }
