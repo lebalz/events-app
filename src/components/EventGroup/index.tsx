@@ -3,28 +3,24 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Event from '@site/src/models/Event';
 import Badge from '../shared/Badge';
 import Button from '../shared/Button';
 import { default as EventGroupModel } from '@site/src/models/EventGroup';
-import EventCard from '../Event/Card';
 import TextInput from '../shared/TextInput';
-import Edit from '../shared/Button/Edit';
 import TextArea from '../shared/TextArea';
-import Save from '../shared/Button/Save';
 import ModelActions from '../ModelActions';
 import Clone from '../shared/Button/Clone';
 import BulkActions from '../Event/BulkActions';
 import EventGrid from '../Event/EventGrid';
 import LazyDetails from '../shared/Details';
-import { ApiIcon, DeleteIcon, Error, Icon, Loading, SIZE_S } from '../shared/icons';
+import { ApiIcon, SIZE_S } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
-import Popup from '../shared/Popup';
-import Translate, { translate } from '@docusaurus/Translate';
-import { mdiAccount, mdiAccountGroup, mdiExclamationThick, mdiFlashTriangle } from '@mdi/js';
+import Translate from '@docusaurus/Translate';
+import { mdiAccount, mdiAccountGroup } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
+import _ from 'lodash';
+import UserTable from './UserTable';
 
 
 interface Props {
@@ -33,10 +29,10 @@ interface Props {
 
 const UserEventGroup = observer((props: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
+    const [showUsers, setShowUsers] = React.useState(false);
     const { group } = props;
-
     return (
-        <div className={clsx(styles.group, 'card', isOpen && styles.open)}>
+        <div className={clsx(styles.group, 'card', isOpen && styles.open, showUsers && styles.showUsers)}>
             <div className={clsx(styles.header, 'card__header')}>
                 <div className="avatar__intro">
                     {group.isEditing
@@ -68,31 +64,34 @@ const UserEventGroup = observer((props: Props) => {
                             )
                     }
                 </div>
-                <ModelActions 
-                    model={group} 
-                    hideDelete={group.eventCount > 0}
-                    rightNodes={
-                        <>
-                            {
-                                group.isEditing && (
-                                    <Clone
-                                        onClick={() => {
-                                            group.clone();
-                                        }}
-                                        apiState={group.apiStateFor(`clone-${group.id}`)}
-                                    />
-                                )
-                            }
-                        </>
-                    }
-                />
-                <Badge
-                    icon={group.userIds.size > 1 ? mdiAccountGroup : mdiAccount}
-                    iconSide='left'
-                    size={SIZE_S}
-                    text={group.userIds.size > 1 ? `${group.userIds.size}` : undefined}
-                    color={group.userIds.size > 1 ? 'blue' : 'gray'}
-                />
+                <div className={clsx(styles.badges)}>
+                    <Button
+                        icon={group.userIds.size > 1 ? mdiAccountGroup : mdiAccount}
+                        iconSide='left'
+                        size={SIZE_S}
+                        text={group.userIds.size > 1 ? `${group.userIds.size}` : undefined}
+                        color={group.userIds.size > 1 ? 'blue' : 'gray'}
+                        onClick={() => setShowUsers(!showUsers)}
+                    />
+                    <ModelActions 
+                        model={group} 
+                        hideDelete={group.eventCount > 0}
+                        rightNodes={
+                            <>
+                                {
+                                    group.isEditing && (
+                                        <Clone
+                                            onClick={() => {
+                                                group.clone();
+                                            }}
+                                            apiState={group.apiStateFor(`clone-${group.id}`)}
+                                        />
+                                    )
+                                }
+                            </>
+                        }
+                    />
+                </div>
             </div>
             <div className={clsx(styles.body, 'card__body')}>
                 {
@@ -100,9 +99,14 @@ const UserEventGroup = observer((props: Props) => {
                         <DefinitionList>
                             <dt><Translate id="group.createdAt">Erstellt Am</Translate></dt>
                             <dd><Badge text={formatDateTime(group.createdAt)} color='gray' /></dd>
-                            <dt><Translate id="group.updatedAt">Geàndert Am</Translate></dt>
+                            <dt><Translate id="group.updatedAt">Geändert Am</Translate></dt>
                             <dd><Badge text={formatDateTime(group.updatedAt)} color='gray' /></dd>
                         </DefinitionList>
+                    )
+                }
+                {
+                    showUsers && (
+                        <UserTable group={group} />
                     )
                 }
             </div>

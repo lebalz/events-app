@@ -3,6 +3,9 @@
     flex-basis: 20em;
     align-self: flex-start;
     transition: flex-basis var(--ifm-transition-fast) ease-in;
+    &.showUsers {
+        flex-basis: 22em;        
+    }
     &.open {
         flex-basis: 100%;
     }
@@ -32,9 +35,9 @@
     }
     .badges {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         flex-wrap: wrap;
-        gap: 0.5em;
+        gap: 0.1sem;
     }
     .spacer {
         flex-grow: 1;

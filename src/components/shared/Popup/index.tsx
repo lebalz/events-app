@@ -19,6 +19,8 @@ interface Props {
     content?: JSX.Element;
     children?: JSX.Element;
     maxWidth?: string;
+    classNameTrigger?: string;
+    classNamePopup?: string;
 }
 
 
@@ -26,11 +28,15 @@ interface CardProps {
     content: JSX.Element
     header?: string | JSX.Element
     maxWidth?: string;
+    classNamePopup?: string;
 }
 
 const Card = observer((props: CardProps) => {
     return (
-        <div className="card" style={{maxWidth: props.maxWidth}}>
+        <div 
+            className={clsx('card', props.classNamePopup)} 
+            style={{maxWidth: props.maxWidth}}
+        >
             {props.header && (
                 <div className='card__header'>
                     <h3>{props.header}</h3>
@@ -51,13 +57,14 @@ interface TriggerProps {
     delay?: number;
 }
 
-const ClickTrigger = observer((props: TriggerProps) => {
+const ClickTrigger = observer(React.forwardRef<HTMLDivElement, TriggerProps>((props, ref) => {
     const [isOpen, setIsOpen] = React.useState(props.isOpen);
     React.useEffect(() => {
         setIsOpen(props.isOpen)
     }, [props.isOpen]);
     return (
-        <span
+        <div
+            ref={ref}
             onClick={(e) => {
                 if (isOpen) {
                     props.onClose()
@@ -66,11 +73,12 @@ const ClickTrigger = observer((props: TriggerProps) => {
                 }
                 setIsOpen(!isOpen);
             }}
+            className={clsx(styles.trigger)}
         >
             {props.children}
-        </span>
+        </div>
     )
-});
+}));
 
 const HoverTrigger = observer((props: TriggerProps) => {
     const [isOpen, setIsOpen] = React.useState(props.isOpen);
@@ -120,7 +128,14 @@ const Popup = observer((props: Props) => {
     return (
         <Popover
             isOpen={isControlled ? props.isOpen : isPopoverOpen}
-            onClickOutside={props.onClose}
+            onClickOutside={() => {
+                if (isControlled) {
+                    props.onClose()
+                } else {
+                    setIsPopoverOpen(false)
+                    props.onClose?.();
+                }
+            }}
             padding={0}
             align={props.align}
             positions={props.positions}
@@ -138,14 +153,15 @@ const Popup = observer((props: Props) => {
                         content={props.content || props.children}
                         header={props.popupTitle}
                         maxWidth={props.maxWidth}
+                        classNamePopup={clsx(props.classNamePopup)}
                     />
                 </ArrowContainer>
             )}
         >
-            <span>
+            {/* <span className={clsx(props.classNameTrigger)}> */}
                 <Trigger
                     isOpen={isControlled ? props.isOpen : isPopoverOpen}
-                    delay={props.delay}
+                    delay={props.delay}                    
                     onOpen={() => {
                         if (isControlled) {
                             props.onOpen!();
@@ -165,7 +181,8 @@ const Popup = observer((props: Props) => {
                 >
                     {props.trigger}
                 </Trigger>
-            </span>
+                
+            {/* </span> */}
         </Popover>
     )
 });

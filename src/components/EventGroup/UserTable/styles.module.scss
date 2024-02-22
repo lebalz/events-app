@@ -1,0 +1,20 @@
+
+.userTable {
+    --ifm-table-cell-padding: 0.1em;
+    td {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+    .trigger {
+        align-self: flex-start;
+    }
+}
+.popup {
+    box-shadow: var(--ifm-global-shadow-md);
+    .addContainer {
+        .addUsersWrapper {
+            max-height: 12em;
+            overflow: auto;
+        }
+    }
+}
