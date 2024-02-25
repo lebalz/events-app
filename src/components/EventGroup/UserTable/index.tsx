@@ -13,6 +13,7 @@ import Badge from '../../shared/Badge';
 import Popup from '../../shared/Popup';
 import TextInput from '../../shared/TextInput';
 import { useStore } from '@site/src/stores/hooks';
+import AddUserPopup from './AddUserPopup';
 
 
 interface Props {
@@ -74,7 +75,6 @@ const UserTableHeadRow = (props: HeadProps) => {
 const UserTable = observer((props: Props) => {
     const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('asc');
     const [sortColumn, setSortColumn] = React.useState<'shortName' | 'firstName' | 'lastName'>('shortName');
-    const [searchText, setSearchText] = React.useState('');
 
     const onColumnHeaderClick = (column: 'shortName' | 'firstName' | 'lastName') => {
         if (column === sortColumn) {
@@ -86,61 +86,9 @@ const UserTable = observer((props: Props) => {
 
     const userStore = useStore('userStore');
 
-
     return (
         <div>
-            <Popup
-                trigger={<Button icon={mdiPlusCircleOutline} size={SIZE_S} />}
-                align='center'
-                positions={['top']}
-                classNameTrigger={styles.trigger}
-                classNamePopup={styles.popup}
-            >
-                <div className={clsx(styles.addContainer)}>
-                    <TextInput
-                        text={searchText}
-                        onChange={setSearchText}
-                        autoFocus
-                        placeholder={translate({
-                            message: 'Suche',
-                            id: 'eventGroup.userTable.search',
-                            description: 'search'
-                        })}
-                        search
-                    />
-                    <div className={clsx(styles.addUsersWrapper)}>
-                        <table className={clsx(styles.userTable)}>
-                            <tbody>
-                            {
-                                _.orderBy(
-                                    userStore.models.filter(u => u.firstName.includes(searchText) || u.lastName.includes(searchText) || u.shortName?.includes(searchText)), 
-                                    ['lastName'], 
-                                    ['asc']
-                                ).map((user) => {
-                                    return (
-                                        <tr>
-                                            <td><Badge text={user.shortName || '-'} /></td>
-                                            <td>{user.firstName}</td>
-                                            <td>{user.lastName}</td>
-                                            <td>
-                                                <Button
-                                                    icon={mdiPlusCircleOutline}
-                                                    size={SIZE_S}
-                                                    color='green'
-                                                    onClick={() => { props.group.addUsers([user]) }}
-                                                />
-                                            </td>
-                                        </tr>
-                                    )
-
-                                })
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </Popup>
-                
+            <AddUserPopup group={props.group} />                
             <table className={clsx(styles.userTable)}>
                 <thead>
                     <UserTableHeadRow
@@ -153,7 +101,7 @@ const UserTable = observer((props: Props) => {
                     {
                         _.orderBy(props.group.users, [sortColumn], [sortDirection]).map((member) => {
                             return (
-                                <tr>
+                                <tr key={member.id}>
                                     <td><Badge text={member.shortName || '-'} /></td>
                                     <td>{member.firstName}</td>
                                     <td>{member.lastName}</td>

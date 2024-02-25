@@ -5,12 +5,21 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
 import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
 
 interface Props {
     date: Date;
     time: 'start' | 'end';
     onChange: (date: Date) => void;
+    disabled?: boolean;
+    /**
+     * Optional id to force a rerender of the component
+     * - this will refresh the date to the currently provided date
+     * - this is useful if the date is changed from outside the component
+     *   (and is not applied by default because an infinite update-cycle would be triggered otherwise)
+     */
+    id?: string;
 }
 
 const toDate = (date: Date | string, time: 'start' | 'end') => {
@@ -37,8 +46,10 @@ const initDate = (date: Date, time: 'start' | 'end') => {
     return newDate;
 }
 
-const DatePicker = (props: Props) => {
+const DatePicker = observer((props: Props) => {
     const [date, setDate] = React.useState<string>(initDate(props.date, props.time).toISOString().substring(0, 10));
+    const [_id, _setId] = React.useState<string>(props.id);
+
     React.useEffect(action(() => {
         try {
             props.onChange(toDate(date, props.time));
@@ -46,17 +57,26 @@ const DatePicker = (props: Props) => {
             /** invalid date - ignore */
         }
     }), [date, props.time]);
+    
+    React.useEffect(() => {
+        if (props.id !== _id) {
+            _setId(props.id);
+            setDate(initDate(props.date, props.time).toISOString().substring(0, 10));
+        }
+    }, [_id, props.id, props.date, props.time]);
+
     return (
         <div>
             <input 
                 type={'date'} 
                 value={date}
+                disabled={props.disabled}
                 onChange={(e) => {
                     setDate(e.currentTarget.value);
                 }}
             />
         </div>
     )
-};
+});
 
 export default DatePicker;

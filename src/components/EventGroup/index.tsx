@@ -13,14 +13,15 @@ import Clone from '../shared/Button/Clone';
 import BulkActions from '../Event/BulkActions';
 import EventGrid from '../Event/EventGrid';
 import LazyDetails from '../shared/Details';
-import { ApiIcon, SIZE_S } from '../shared/icons';
+import { ApiIcon, DiscardIcon, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import { mdiAccount, mdiAccountGroup } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
 import _ from 'lodash';
 import UserTable from './UserTable';
+import ShiftDatesEditor from './ShiftDatesEditor';
 
 
 interface Props {
@@ -29,6 +30,7 @@ interface Props {
 
 const UserEventGroup = observer((props: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
+    const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
     const [showUsers, setShowUsers] = React.useState(false);
     const { group } = props;
     return (
@@ -96,12 +98,67 @@ const UserEventGroup = observer((props: Props) => {
             <div className={clsx(styles.body, 'card__body')}>
                 {
                     isOpen && (
-                        <DefinitionList>
-                            <dt><Translate id="group.createdAt">Erstellt Am</Translate></dt>
-                            <dd><Badge text={formatDateTime(group.createdAt)} color='gray' /></dd>
-                            <dt><Translate id="group.updatedAt">Geändert Am</Translate></dt>
-                            <dd><Badge text={formatDateTime(group.updatedAt)} color='gray' /></dd>
-                        </DefinitionList>
+                        <>
+                            <DefinitionList>
+                                <dt><Translate id="group.createdAt">Erstellt Am</Translate></dt>
+                                <dd><Badge text={formatDateTime(group.createdAt)} color='gray' /></dd>
+                                <dt><Translate id="group.updatedAt">Geändert Am</Translate></dt>
+                                <dd><Badge text={formatDateTime(group.updatedAt)} color='gray' /></dd>
+                                <dt><Translate id="group.clone.dt">Duplizieren</Translate></dt>
+                                <dd>
+                                    <Translate id="group.clone.description">Gruppe inkl. Termine </Translate>
+                                    <Clone onClick={group.clone} apiState={group.apiStateFor(`clone-${group.id}`)} />
+                                </dd>
+                                {
+                                    group.eventCount > 0 && (
+                                        <>
+                                            <dt><Translate id="group.shiftDates.dt">Datum Verschieben</Translate></dt>
+                                            <dd>
+                                                <Translate id="group.shiftDates.description">Alle unveröffentlichten Termine um eine bestimmte Anzahl Tage verschieben</Translate>
+                                                <Button
+                                                    text={
+                                                        isShiftEditorOpen ?
+                                                            translate({id: 'group.shiftDates.closeShiftEditor', message: 'Editor schliessen'}) :
+                                                            translate({id: 'group.shiftDates.openShiftEditor', message: 'Editor öffnen'})
+                                                    }
+                                                    onClick={() => setShiftEditorOpen(!isShiftEditorOpen)}
+                                                />
+                                            </dd>
+                                        </>
+                                    )
+                                }
+                                {group.events.some(e => e.isDirty) && (
+                                    <>
+                                        <dt>
+                                            <Translate id="group.groupActions">Aktionen</Translate>
+                                        </dt>
+                                        <dd>
+                                            <div className={clsx(styles.actions)}>
+                                                <Button
+                                                    text={translate({id: "group.actions.saveAll", message: "Alle Speichern"})}
+                                                    onClick={() => group.saveAll()}
+                                                    color='green'
+                                                    icon={<SaveIcon size={SIZE_S} />}
+                                                    iconSide='left'
+                                                />
+                                                <Button
+                                                    text={translate({id: "group.actions.discardAll", message: "Alle Verwerfen"})}
+                                                    onClick={() => group.discardAll()}
+                                                    color='black'
+                                                    icon={<DiscardIcon size={SIZE_S} />}
+                                                    iconSide='left'
+                                                />
+                                            </div>
+                                        </dd>
+                                    </>
+                                )}
+                            </DefinitionList>
+                            {
+                                isShiftEditorOpen && (
+                                    <ShiftDatesEditor group={group} close={() => setShiftEditorOpen(false)} />
+                                )
+                            }
+                        </>
                     )
                 }
                 {

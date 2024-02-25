@@ -5,6 +5,7 @@ import ApiModel, { UpdateableProps } from "./ApiModel";
 import { EventGroupStore } from "../stores/EventGroupStore";
 import Event from "./Event";
 import User from "./User";
+import { toGlobalDate } from "./helpers/time";
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
     readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = [
@@ -87,6 +88,28 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         if (this.isDirty) {
             this.save();
         }
+    }
+
+    @action
+    shiftEvents(shiftMs: number) {
+        this.events.filter(e => e.isDraft).forEach(event => {
+            const start = new Date(event.start.getTime() + shiftMs);
+            const end = new Date(event.end.getTime() + shiftMs);
+            event.update({ 
+                start: toGlobalDate(start).toISOString(), 
+                end: toGlobalDate(end).toISOString()
+            });
+        });
+    }
+
+    @action
+    saveAll() {
+        this.events.filter(e => e.isDirty).forEach(event => event.save());
+    }
+
+    @action
+    discardAll() {
+        this.events.filter(e => e.isDirty).forEach(event => event.reset());        
     }
 
     @action

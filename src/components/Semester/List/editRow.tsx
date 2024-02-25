@@ -32,16 +32,16 @@ const EditTr = observer((props: Props) => {
                 <TextInput text={semester.name} onChange={(text) => { semester.update({ name: text }) }} />
             </td>
             <td>
-                <DatePicker date={semester.start} onChange={(date) => { semester.update({ start: date.toISOString() }) }} />
+                <DatePicker time='start' date={semester.start} onChange={(date) => { semester.update({ start: date.toISOString() }) }} />
 
             </td>
             <td>
-                <DatePicker date={semester.end} onChange={(date) => { semester.update({ end: date.toISOString() }) }} />
+                <DatePicker time='end' date={semester.end} onChange={(date) => { semester.update({ end: date.toISOString() }) }} />
             </td>
             <td>
                 <div className={clsx(styles.syncDate)}>
                     {!semester.isSyncdateWithinSemester && (<Badge icon={mdiAlertOutline} color='orange' title='Das Synchronisationsdatum liegt nicht im Semester'/>)}
-                    <DatePicker date={semester.untisSyncDate} onChange={(date) => { semester.update({ untisSyncDate: date.toISOString() }) }} />
+                    <DatePicker time='start' date={semester.untisSyncDate} onChange={(date) => { semester.update({ untisSyncDate: date.toISOString() }) }} />
                 </div>
             </td>
             <td>

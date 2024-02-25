@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    flex-wrap: wrap;
+    .event {
+        box-shadow: var(--ifm-global-shadow-md);
+        flex-basis: 360px;
+        flex-grow: 1.5;
+    }
+    .actions {
+        flex-basis: 180px;
+        flex-grow: 1;
+        .dates {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+}
