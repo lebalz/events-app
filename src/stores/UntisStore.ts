@@ -48,7 +48,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         reaction(
             () => this.root.userStore.current?.untisTeacher?.lessons,
             (lessons) => {
-                if (lessons.length > 0) {
+                if (lessons?.length > 0) {
                     const teacher = this.root.userStore.current?.untisTeacher;
                     if (teacher) {
                         /** 
@@ -235,7 +235,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         return this.withAbortController('untis-public', (sig) => {
             return fetchClasses(sig.signal).catch(() => { return {data: []}});
         }).then(action(({ data }) => {
-            if (this.classes.length === 0 && data.length > 0) {
+            if (this.classes.length === 0 && data?.length > 0) {
                 this.classes.replace(data.map((c) => new Klass(c, this)));
             }
             return this.teachers; /** only classes were loaded, no untis teachers */

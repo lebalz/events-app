@@ -5,11 +5,12 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';
 import axios from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedRecord, ChangedState, IoEvent, RecordStoreMap, ReloadAffectingEvents } from './IoEventTypes';
+import { ChangedMembers, ChangedRecord, ChangedState, IoEvent, RecordStoreMap, ReloadAffectingEvents } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson } from '../api/untis';
 import { Event as EventProps } from '../api/event';
 import Semester from '../models/Semester';
+import EventGroup from '../models/EventGroup';
 interface Message {
     type: string;
     message: string;
@@ -123,17 +124,48 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     handleReloadAffectingEvents = () => {
         return action((data: string) => {
             const record: ReloadAffectingEvents = JSON.parse(data);
-            const current = this.root.userStore.current;
-            if (current) {
-                record.semesterIds.forEach((id) => {
-                    const sem = this.root.semesterStore.find<Semester>(id);
-                    if (sem) {
-                        this.root.userStore.loadAffectedEventIds(current, sem.id);
+            switch (record.record) {
+                case 'SEMESTER':
+                    const current = this.root.userStore.current;
+                    if (current) {
+                        record.semesterIds!.forEach((id) => {
+                            const sem = this.root.semesterStore.find<Semester>(id);
+                            if (sem) {
+                                this.root.userStore.loadAffectedEventIds(current, sem.id);
+                            }
+                        });
                     }
-                });
+                    break;
             }
         })
     };
+
+    handleChangedMemebers = () => {
+        return action((data: string) => {
+            const record: ChangedMembers = JSON.parse(data);
+            switch (record.record) {
+                case 'EVENT_GROUP':
+                    const model = this.root.eventGroupStore.find<EventGroup>(record.id!);
+                    if (model) {
+                        record.addedIds?.forEach((id) => {
+                            if (record.memberType === 'USER') {
+                                model.appendUserId(id);
+                            } else if (record.memberType === 'EVENT') {
+                                model.appendEventId(id);
+                            }
+                        });
+                        record.removedIds?.forEach((id) => {
+                            if (record.memberType === 'USER') {
+                                model.rmUserId(id);
+                            } else if (record.memberType === 'EVENT') {
+                                model.rmEventId(id);
+                            }
+                        });
+                    }
+                    break;
+            }
+        })
+    }
 
     handleReload = (type: IoEvent) => {
         return action((data: string) => {
@@ -142,8 +174,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             switch (type) {
                 case IoEvent.NEW_RECORD:
                     store.loadModel(record.id).then((model) => {
-                        if (record.record === 'USER_EVENT_GROUP') {
-                            this.root.userEventGroupStore.reloadEvents(model);
+                        if (record.record === 'EVENT_GROUP') {
+                            this.root.eventGroupStore.reloadEvents(model);
                         }
                     });
                     break;
@@ -192,6 +224,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
         this.socket.on(IoEvent.CHANGED_STATE, this.handleEventStateChange());
         this.socket.on(IoEvent.RELOAD_AFFECTING_EVENTS, this.handleReloadAffectingEvents());
+        this.socket.on(IoEvent.CHANGED_MEMBERS, this.handleChangedMemebers());
+
     }
 
     checkEvent(eventId: string, semesterId: string) {

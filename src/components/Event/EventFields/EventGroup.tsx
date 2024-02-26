@@ -11,7 +11,7 @@ interface Props extends CommonProps {
     isEditGrid?: boolean; /** true when at least one element of the grid is edited */
 }
 
-const UserGroup = observer((props: Props) => {
+const EventGroup = observer((props: Props) => {
     const { event } = props;
     return (
         <div 
@@ -19,12 +19,12 @@ const UserGroup = observer((props: Props) => {
             className={clsx(props.className, styles.userGroup)}
         >
             <div className={clsx(styles.tags)}>
-                {event.hasUserGroup && (
+                {/* {event.hasUserGroup && (
                     <Badge text={event.userGroup?.name} color="blue" />
-                )}
+                )} */}
             </div>
         </div>
     )
 });
 
-export default UserGroup;
+export default EventGroup;

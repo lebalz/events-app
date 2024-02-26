@@ -90,6 +90,10 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     return this.store.usersEvents(this);
   }
 
+  matches(search: RegExp) {
+      return search.test(this.firstName) || search.test(this.lastName) || search.test(this.shortName || '');
+  }
+
 
   @override
   get props() {

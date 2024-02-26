@@ -10,10 +10,11 @@ import EventProps from './EventProps';
 interface Props {
     event: EventModel;
     inModal?: boolean;
+    hideParent?: boolean;
 }
 
 const EventBody = observer((props: Props) => {
-    const { event } = props;
+    const { event, hideParent } = props;
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const history = useHistory();
@@ -24,7 +25,7 @@ const EventBody = observer((props: Props) => {
 
     return (
         <div className={clsx(styles.eventBody, event.hasParent && styles.splitView)}>
-            {event.hasParent && (
+            {!hideParent && event.hasParent && (
                 <EventProps event={event.publishedParent} inModal={props.inModal} showVersionHeader/>
             )}
             <EventProps {...props} showVersionHeader={event.hasParent} />

@@ -1,13 +1,9 @@
 .main {
+    --ifm-container-width-xl: 1680px;
     --ifm-tabs-padding-vertical: 0.2em;
     --ifm-tabs-padding-horizontal: 0.6em;
     .logout {
         margin-left: auto;
         margin-right: auto;
-    }
-    .groups {
-        gap: 1rem;
-        display: flex;
-        flex-direction: column;
     }
 }

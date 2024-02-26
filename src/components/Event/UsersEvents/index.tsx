@@ -14,7 +14,11 @@ import Delete from '../../shared/Button/Delete';
 import styles from './styles.module.scss';
 import EventGrid, { ColumnConfig } from '../EventGrid';
 import { translate } from '@docusaurus/Translate';
+import { toGlobalDate } from '@site/src/models/helpers/time';
+import {useWindowSize} from '@docusaurus/theme-common';
 const COLUMN_CONFIG: ColumnConfig = [
+    'updatedAt',
+    'createdAt',
     'isValid',
     ['state', { sortable: false, width: undefined }],
     'select',
@@ -39,6 +43,7 @@ interface Props {
 
 const UsersEvents = observer((props: Props) => {
     const { user } = props;
+    const windowSize = useWindowSize();
     const eventStore = useStore('eventStore');
     const jobStore = useStore('jobStore');
     const viewStore = useStore('viewStore');
@@ -61,7 +66,24 @@ const UsersEvents = observer((props: Props) => {
                     description: 'Text not published'
                 })}
             >
-                <AddButton />
+                <AddButton
+                    text={translate({
+                        message: 'Neues Event',
+                        description: 'AddButton text',
+                        id: 'event.AddButton.text'
+                    })}
+                    onAdd={() => {
+                        const now = toGlobalDate(new Date());
+                        const t1 = new Date(now);
+                        t1.setHours(t1.getHours() + 1);
+                        eventStore.create({start: now.toISOString(), end: t1.toISOString()}).then((newEvent) => {
+                            if (windowSize === 'mobile') {
+                                viewStore.setEventModalId(newEvent.id);
+                            }
+                        })
+                    }}            
+                    apiState={eventStore.apiStateFor('create')}
+                />
                 {drafts.length > 0 && (
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>

@@ -13,21 +13,33 @@ import User from '../components/User';
 import Section from '../components/shared/Section';
 import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
-import UserEventGroup from '../components/UserEventGroup';
 import { translate } from '@docusaurus/Translate';
+import Groups from '../components/EventGroup/Groups';
+import { useMsal } from '@azure/msal-react';
+import { useIsAuthenticated } from '@azure/msal-react';
+import { InteractionStatus } from '@azure/msal-browser';
+import { Loading } from '../components/shared/icons';
+import siteConfig from '@generated/docusaurus.config';
+const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 
 const UserPage = observer(() => {
-    const userEventGroupStore = useStore('userEventGroupStore');
     const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
-    const { isStudent, loggedIn } = sessionStore;
+    const isAuthenticated = useIsAuthenticated();
+    const {inProgress} = useMsal();
+    const { isStudent } = sessionStore;
     const { current } = userStore;
-    if (!loggedIn) {
+    if (!NO_AUTH && inProgress !== InteractionStatus.None) {
+        return (
+            <Loading />
+        )
+    }
+    if (!NO_AUTH &&!isAuthenticated) {
         return (
             <Redirect to={'/login'} />
         );
     }
-    if (isStudent) {
+    if (!NO_AUTH && isStudent) {
         return (
             <Redirect to={'/'} />
         );
@@ -46,7 +58,6 @@ const UserPage = observer(() => {
                                 message: 'Account',
                                 id: 'user.tab.account'
                             })}
-                            default
                         >
                             <div className={clsx(styles.tab)}>
                                 {current ? (
@@ -90,15 +101,7 @@ const UserPage = observer(() => {
                             })}
                         >
                             <div className={clsx(styles.tab)}>
-                                <div className={clsx(styles.groups)}>
-                                    {
-                                        userEventGroupStore.userEventGroups.map((group) => {
-                                            return (
-                                                <UserEventGroup group={group} key={group.id}/>
-                                            );
-                                        })
-                                    }
-                                </div>
+                                <Groups />
                             </div>
                         </TabItem>
                         <TabItem 

@@ -83,7 +83,7 @@ export const ButtonIcon = (props: Props) => {
                     <span
                         className={clsx(styles.icon)}
                     >
-                        {ApiIcon[props.apiState]({ size: props.apiIconSize ?? SIZE_S })}
+                        <ApiIcon state={props.apiState} size={props.apiIconSize ?? SIZE_S} />
                     </span>
                 )
             }

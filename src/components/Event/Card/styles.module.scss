@@ -4,5 +4,12 @@
     .badges {
         display: flex;
         align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 0.5em;
+    }
+    .footer {
+        display: flex;
+        gap: 0.5em;
+        flex-wrap: wrap;
     }
 }

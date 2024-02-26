@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState, requestState as apiRequestState, excel as apiDownloadExcel, clone as apiClone } from '../api/event';
+import { Event as EventProps, EventState, requestState as apiRequestState, excel as apiDownloadExcel, clone as apiClone, all as apiFetchEvents } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -234,5 +234,19 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     loadVersions(event: Event) {
         const proms = event.publishedVersionIds.map((id) => this.loadModel(id));
         return Promise.all(proms);
+    }
+
+    @action
+    loadEvents(ids: string[], sigId: string) {
+        return this.withAbortController(`load-events-${sigId}`, (sig) => {
+            return apiFetchEvents(ids, sig.signal)
+                .then(action(({ data }) => {
+                    if (data) {
+                        data.map((d) => {
+                            this.addToStore(d);
+                        });
+                    }
+                }));
+        });
     }
 }

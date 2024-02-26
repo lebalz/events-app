@@ -15,7 +15,7 @@ import Day from '../EventFields/Day';
 import Description from '../EventFields/Description';
 import DateTime, { EndDateTime, StartDateTime } from '../EventFields/DateTime';
 import Location from '../EventFields/Location';
-import UserGroup from '../EventFields/UserGroup';
+import EventGroup from '../EventFields/EventGroup';
 import Departments from '../EventFields/Departments';
 import Klasses from '../EventFields/Klasses';
 import DescriptionLong from '../EventFields/DescriptionLong';
@@ -23,6 +23,8 @@ import DepartmentsOrAudiencePicker from '../EventFields/DepartmentsOrAudience';
 import IsDuplicate from '../EventFields/IsDuplicate';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 import TeachingAffected from '../EventFields/TeachingAffected';
+import CreatedAt from '../EventFields/CreatedAt';
+import UpdatedAt from '../EventFields/UpdatedAt';
 
 
 interface Props {
@@ -32,6 +34,8 @@ interface Props {
 }
 
 const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>> = {
+    updatedAt: UpdatedAt,
+    createdAt: CreatedAt,
     state: State,
     isValid: IsValid,
     isDuplicate: IsDuplicate,
@@ -45,7 +49,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     start: StartDateTime,
     end: EndDateTime,
     location: Location,
-    userGroup: UserGroup,
+    userGroup: EventGroup,
     departmens: DepartmentsOrAudiencePicker,
     classes: Klasses,
     descriptionLong: DescriptionLong,

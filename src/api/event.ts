@@ -210,7 +210,6 @@ export interface PrismaEvent {
     classGroups: string[]
     audience: EventAudience
     parentId: string | null
-    userGroupId: string | null
     teachingAffected: TeachingAffected
     affectsDepartment2: boolean
     createdAt: string
@@ -248,7 +247,6 @@ export const JoiEvent = Joi.object<Event>({
     affectsDepartment2: Joi.boolean().required(),
     parentId: Joi.string().allow(null),
     publishedVersionIds: Joi.array().items(Joi.string()).required(),
-    userGroupId: Joi.string().allow(null),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
     deletedAt: Joi.date().iso().allow(null)
@@ -293,4 +291,9 @@ export function clone(eventId: string, signal: AbortSignal): AxiosPromise<Event>
         {},
         { signal}
     );
+}
+
+
+export function all<T>(ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
+    return api.get('events', { params: { ids },  signal });
 }

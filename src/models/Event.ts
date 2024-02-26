@@ -39,14 +39,33 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
         'description',
         'descriptionLong',
-        { attr: 'start', transform: (val) => toLocalDate(new Date(val)) },
-        { attr: 'end', transform: (val) => toLocalDate(new Date(val)) },
+        { 
+            attr: 'start',
+            update: action((val: string) => {
+                const date = toLocalDate(new Date(val));
+                if (date.getTime() > this.end.getTime()) {
+                    const diff = this.end.getTime() - this.start.getTime();
+                    this.end = new Date(date.getTime() + diff);
+                }
+                this.start = date;
+            })
+        },
+        { 
+            attr: 'end',
+            update: action((val: string) => {
+                const date = toLocalDate(new Date(val));
+                if (date.getTime() < this.start.getTime()) {
+                    const diff = this.end.getTime() - this.start.getTime();
+                    this.start = new Date(date.getTime() - diff);
+                }
+                this.end = date;
+            })
+        },
         'location',
         'audience',
         'classGroups',
         'classes',
         'departmentIds',
-        'userGroupId',
         'teachingAffected',
         'affectsDepartment2'
     ];
@@ -60,10 +79,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly parentId: string | null;
     readonly cloned: boolean;
     readonly publishedVersionIds: string[];
-
-    
-    @observable
-    userGroupId: string | null;
 
     @observable.ref
     updatedAt: Date;
@@ -144,7 +159,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.affectsDepartment2 = props.affectsDepartment2;
 
         this.parentId = props.parentId;
-        this.userGroupId = props.userGroupId;
 
         this.start = toLocalDate(new Date(props.start));
         this.end = toLocalDate(new Date(props.end));
@@ -903,7 +917,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             updatedAt: this.updatedAt.toISOString(),
             parentId: this.parentId,
             cloned: this.cloned,
-            userGroupId: this.userGroupId,
             teachingAffected: this.teachingAffected,
             affectsDepartment2: this.affectsDepartment2,
             start: toGlobalDate(this.start).toISOString(),
@@ -1007,7 +1020,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get _dupCompareString() {
-        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'deletedAt', 'parentId', 'cloned', 'userGroupId', 'state'];
+        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'deletedAt', 'parentId', 'cloned', 'state'];
 
         const props = (Object.keys(this.props) as (keyof EventProps)[]).filter(p => {
             return !exclude.includes(p)
@@ -1044,21 +1057,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get hasUserGroup() {
-        return !!this.userGroupId;
-    }
-
-    @computed
-    get userGroup() {
-        return this.store.root.userStore.findUserGroup(this.userGroupId);
-    }
-
-    @computed
     get fDuration() {
         if (this.store?.root?.currentLocale === 'fr') {
             return humanize(this.durationMS, { language: 'fr', units: ['w', 'd', 'h', 'm'], round: true });
         }
         return humanize(this.durationMS, { language: 'de', units: ['w', 'd', 'h', 'm'], round: true });
+    }
+
+    @computed
+    get fDurationCompact() {
+        if (this.store?.root?.currentLocale === 'fr') {
+            return humanize(this.durationMS, { language: 'fr', units: ['w', 'd', 'h', 'm'], largest: 1, round: true });
+        }
+        return humanize(this.durationMS, { language: 'de', units: ['w', 'd', 'h', 'm'], largest: 1, round: true });
     }
 
     /**
@@ -1072,6 +1083,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     get affectedSemesters() {
         return this.store.root.semesterStore.semesters.filter(s => dateBetween(this.start, s.start, s.end) || dateBetween(this.end, s.start, s.end));
+    }
+
+    @computed
+    get groups() {
+        return this.store.root.eventGroupStore.eventGroups.filter(g => g.eventIds.has(this.id));
     }
 
     @override

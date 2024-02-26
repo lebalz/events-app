@@ -1,28 +1,28 @@
-import { action, makeObservable, observable, override } from 'mobx';
+import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore, { ApiAction } from './iStore';
 import { Event as EventProps } from '../api/event';
-import { UserEventGroupCreate, UserEventGroup as UserEventGroupProps, create as apiCreate, clone as apiClone, events as fetchEvents } from '../api/user_event_group';
-import UserEventGroup from '../models/UserEventGroup';
+import { EventGroupCreate, EventGroup as EventGroupProps, create as apiCreate, clone as apiClone, events as fetchEvents } from '../api/event_group';
+import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
 
-export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction | `clone-${string}` | `fetch-${string}`> {
+export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-${string}` | `fetch-${string}`> {
 
-    readonly ApiEndpoint = new EndPoint('user_event_groups', { authorized: true });
+    readonly ApiEndpoint = new EndPoint('event_groups', { authorized: true });
 
     readonly root: RootStore;
 
-    models = observable<UserEventGroup>([]);
+    models = observable<EventGroup>([]);
     constructor(root: RootStore) {
         super();
         this.root = root;
         makeObservable(this);
     }
 
-    createModel(data: UserEventGroupProps): UserEventGroup {
-        return new UserEventGroup(data, this);
+    createModel(data: EventGroupProps): EventGroup {
+        return new EventGroup(data, this);
     }
 
     get eventStore() {
@@ -33,25 +33,30 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
         return this.root.userStore;
     }
 
-    get userEventGroups(): UserEventGroup[] {
-        return this.models as UserEventGroup[];
+    @computed
+    get eventGroups(): EventGroup[] {
+        return _.orderBy(this.models, ['_pristine.name'], ['asc']) as EventGroup[];
     }
 
     @override
-    create(model: UserEventGroupCreate) {
+    create(model: EventGroupCreate) {
         /**
          * Save the model to the api
          */
         return this.withAbortController('create', (sig) => {
             return apiCreate(model, sig.signal);
         }).then(action(({ data }) => {
-            const cloned = this.addToStore(data, 'create');
-            return this.reloadEvents(cloned).then(() => cloned);
+            const model = this.addToStore(data, 'create');
+            if (model._pristine.eventIds.length > 0) {
+                return this.reloadEvents(model).then(() => model);
+            } else {
+                return model;
+            }
         }));
     }
 
     @action
-    clone(model: UserEventGroup) {
+    clone(model: EventGroup) {
         /**
          * Clone the model to the api
          */
@@ -61,7 +66,7 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
 
         return this.withAbortController(`clone-${model.id}`, (sig) => {
             return apiClone(model.id, sig.signal);
-        }).then(({ data }: { data: UserEventGroupProps }) => {
+        }).then(({ data }: { data: EventGroupProps }) => {
             const group = this.addToStore(data);
             return this.reloadEvents(group);
         }).catch((err) => {
@@ -70,7 +75,7 @@ export class UserEventGroupStore extends iStore<UserEventGroupProps, ApiAction |
     }
 
     @action
-    reloadEvents(model: ApiModel<UserEventGroupProps, ApiAction>) {
+    reloadEvents(model: ApiModel<EventGroupProps, ApiAction>) {
         if (!model) {
             return;
         }

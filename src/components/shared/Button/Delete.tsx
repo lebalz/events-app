@@ -23,11 +23,13 @@ const Delete = (props: DeleteProps) => {
             <Popup
                 trigger={
                     <Button
-                        title={translate({
-                            message : "Löschen",
-                            id : "share.button.delete.title",
-                            description : "Text of the button delete"
-                        })}
+                        title={
+                            props.title || translate({
+                                message : "Löschen",
+                                id : "share.button.delete.title",
+                                description : "Text of the button delete"
+                            })
+                        }
                         {...extractSharedProps(props)}
                         className={clsx(props.className, styles.delete, props.flyoutSide === 'right' && styles.right, props.className)}
                         color='red'

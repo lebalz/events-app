@@ -7,10 +7,11 @@ export enum IoEvent {
     DELETED_RECORD = 'DELETED_RECORD',
     CHANGED_STATE = 'CHANGED_STATE',
     RELOAD_AFFECTING_EVENTS = 'RELOAD_AFFECTING_EVENTS',
+    CHANGED_MEMBERS = 'CHANGED_MEMBERS'
 }
 
 
-export type RecordTypes = 'EVENT' | 'USER' | 'JOB' | 'DEPARTMENT' | 'SEMESTER' | 'REGISTRATION_PERIOD' | 'USER_EVENT_GROUP' | 'RELOAD_AFFECTING_EVENTS';
+export type RecordTypes = 'EVENT' | 'USER' | 'JOB' | 'DEPARTMENT' | 'SEMESTER' | 'REGISTRATION_PERIOD' | 'EVENT_GROUP';
 
 export const RecordStoreMap: {[key in RecordTypes]: keyof typeof rootStore} = {
     EVENT: 'eventStore',
@@ -19,8 +20,7 @@ export const RecordStoreMap: {[key in RecordTypes]: keyof typeof rootStore} = {
     DEPARTMENT: 'departmentStore',
     SEMESTER: 'semesterStore',
     REGISTRATION_PERIOD: 'registrationPeriodStore',
-    USER_EVENT_GROUP: 'userEventGroupStore',
-    RELOAD_AFFECTING_EVENTS: 'userStore'
+    EVENT_GROUP: 'eventGroupStore'
 } as const;
 
 
@@ -40,5 +40,15 @@ export interface ChangedState {
 }
 
 export interface ReloadAffectingEvents {
-    semesterIds: string[];
+    record: RecordTypes;
+    semesterIds?: string[];
+    id?: string;
+}
+
+export interface ChangedMembers {
+    record: RecordTypes;
+    id: string;
+    memberType: RecordTypes;
+    addedIds: string[];
+    removedIds: string[];
 }

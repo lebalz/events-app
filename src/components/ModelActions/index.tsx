@@ -20,6 +20,9 @@ interface Props {
     onEdit?: () => void;
     leftNodes?: React.ReactNode;
     rightNodes?: React.ReactNode;
+    hideDelete?: boolean;
+    disableDelete?: boolean;
+    deleteTitle?: string;
 }
 
 const ModelActions = observer((props: Props) => {
@@ -46,7 +49,14 @@ const ModelActions = observer((props: Props) => {
                             onClick={() => model.save()}
                             apiState={model.apiStateFor(`save-${model.id}`)}
                         />
-                        <Delete onClick={() => model.destroy()} apiState={model.apiStateFor(`destroy-${model.id}`)} />
+                        {!props.hideDelete && (
+                            <Delete 
+                                onClick={() => model.destroy()}
+                                apiState={model.apiStateFor(`destroy-${model.id}`)}
+                                disabled={props.disableDelete}
+                                title={props.deleteTitle}
+                            />
+                        )}
                     </>
                 )
             }
