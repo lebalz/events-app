@@ -9,6 +9,7 @@ interface Props {
     text: string;
     onChange: (text: string) => void;
     rows?: number;
+    placeholder?: string;
 }
 
 const TextArea = (props: Props) => {
@@ -22,6 +23,7 @@ const TextArea = (props: Props) => {
                 ref={setTextAreaRef}
                 rows={props.rows || 3}
                 onChange={(e) => props.onChange(e.target.value)}
+                placeholder={props.placeholder}
             />
         </div>
     )

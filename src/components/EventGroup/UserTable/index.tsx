@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import EventGroup from '@site/src/models/EventGroup';
-import { mdiPlusCircleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js';
+import { mdiMinusCircle, mdiPlusCircleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js';
 import Button from '../../shared/Button';
 import { DeleteIcon, SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
@@ -69,6 +69,8 @@ const UserTableHeadRow = (props: HeadProps) => {
                     onClick={() => props.onColumnHeaderClick && props.onColumnHeaderClick('lastName')}
                 />
             </th>
+            <th>
+            </th>
         </tr>)
 }
 
@@ -87,8 +89,7 @@ const UserTable = observer((props: Props) => {
     const userStore = useStore('userStore');
 
     return (
-        <div>
-            <AddUserPopup group={props.group} />                
+        <div>             
             <table className={clsx(styles.userTable)}>
                 <thead>
                     <UserTableHeadRow
@@ -108,7 +109,9 @@ const UserTable = observer((props: Props) => {
                                     <td>
                                         {userStore.current.id !== member.id && (
                                             <Button
-                                                icon={<DeleteIcon size={SIZE_S} />}
+                                                icon={mdiMinusCircle}
+                                                size={SIZE_S}
+                                                title={translate({id: 'eventGroup.userTable.removeUser', message: 'Mitglied Entfernen'})}
                                                 color='red'
                                                 onClick={() => { props.group.removeUsers([member]) }}
                                             />

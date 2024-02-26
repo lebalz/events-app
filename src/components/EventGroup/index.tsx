@@ -22,6 +22,7 @@ import DefinitionList from '../shared/DefinitionList';
 import _ from 'lodash';
 import UserTable from './UserTable';
 import ShiftDatesEditor from './ShiftDatesEditor';
+import AddUserPopup from './UserTable/AddUserPopup';
 
 
 interface Props {
@@ -31,17 +32,17 @@ interface Props {
 const UserEventGroup = observer((props: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
-    const [showUsers, setShowUsers] = React.useState(false);
     const { group } = props;
     return (
-        <div className={clsx(styles.group, 'card', isOpen && styles.open, showUsers && styles.showUsers)}>
+        <div className={clsx(styles.group, 'card', (isOpen || group.isEditing) && styles.open)}>
             <div className={clsx(styles.header, 'card__header')}>
                 <div className="avatar__intro">
                     {group.isEditing
                         ? (
                             <TextInput 
                                 className={styles.textInput} 
-                                text={group.name} 
+                                text={group.name}
+                                placeholder={translate({id: 'group.name.placeholder', message: 'Name der Gruppe'})}
                                 onChange={(text) => group.update({ name: text })} 
                             />
                         ) : (
@@ -57,7 +58,8 @@ const UserEventGroup = observer((props: Props) => {
                             ? (
                                 <TextArea 
                                     text={group.description} 
-                                    onChange={(text) => group.update({ description: text })} 
+                                    onChange={(text) => group.update({ description: text })}
+                                    placeholder={translate({id: 'group.description.placeholder', message: 'Beschreibung der Gruppe'})}
                                 />
                             ) : (
                                 <small className="avatar__subtitle">
@@ -67,17 +69,26 @@ const UserEventGroup = observer((props: Props) => {
                     }
                 </div>
                 <div className={clsx(styles.badges)}>
-                    <Button
-                        icon={group.userIds.size > 1 ? mdiAccountGroup : mdiAccount}
-                        iconSide='left'
-                        size={SIZE_S}
-                        text={group.userIds.size > 1 ? `${group.userIds.size}` : undefined}
-                        color={group.userIds.size > 1 ? 'blue' : 'gray'}
-                        onClick={() => setShowUsers(!showUsers)}
-                    />
+                    {
+                        !group.isEditing && (
+                            <Button
+                                icon={group.userIds.size > 1 ? mdiAccountGroup : mdiAccount}
+                                iconSide='left'
+                                size={SIZE_S}
+                                text={group.userIds.size > 1 ? `${group.userIds.size}` : undefined}
+                                color={group.userIds.size > 1 ? 'blue' : 'gray'}
+                                onClick={() => setIsOpen(!isOpen)}
+                            />
+                        )
+                    }
                     <ModelActions 
                         model={group} 
-                        hideDelete={group.eventCount > 0}
+                        disableDelete={group.eventCount > 0}
+                        deleteTitle={
+                            group.eventCount > 0 
+                                ? translate({id: 'group.delete.title', message: 'Nur Gruppen ohne Termine können gelöscht werden'})
+                                : undefined
+                        }
                         rightNodes={
                             <>
                                 {
@@ -97,7 +108,7 @@ const UserEventGroup = observer((props: Props) => {
             </div>
             <div className={clsx(styles.body, 'card__body')}>
                 {
-                    isOpen && (
+                    (group.isEditing || isOpen) && (
                         <>
                             <DefinitionList>
                                 <dt><Translate id="group.createdAt">Erstellt Am</Translate></dt>
@@ -108,6 +119,18 @@ const UserEventGroup = observer((props: Props) => {
                                 <dd>
                                     <Translate id="group.clone.description">Gruppe inkl. Termine </Translate>
                                     <Clone onClick={group.clone} apiState={group.apiStateFor(`clone-${group.id}`)} />
+                                </dd>
+                                <dt>
+                                    <Translate id="group.users.dt">Mitglieder</Translate>
+                                </dt>
+                                <dd>
+                                    <Translate id="group.users.description">Alle Mitglieder der Gruppe sind können Termine beliebig verändern.</Translate>
+                                    <AddUserPopup group={props.group} />
+                                    {
+                                        group.userIds.size > 1 && (
+                                            <UserTable group={group} />
+                                        )
+                                    }
                                 </dd>
                                 {
                                     group.eventCount > 0 && (
@@ -159,11 +182,6 @@ const UserEventGroup = observer((props: Props) => {
                                 )
                             }
                         </>
-                    )
-                }
-                {
-                    showUsers && (
-                        <UserTable group={group} />
                     )
                 }
             </div>
