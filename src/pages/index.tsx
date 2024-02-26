@@ -149,39 +149,62 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.7 (26.02.2024)</h4>
+                                <ul>
+                                    <li>💅 Verbesserung: Wird der Start oder das Ende eines Termins verändert, so dass der "Start" nach dem "Ende" erfolgt, wird automatisch ein zulässiges Datum gesetzt.</li>
+                                    <li>🚀 Neu: Benachrichtigungen: In den <Link to="/user?user-tab=account">👉 Benutzereinstellungen</Link> kann festgelegt werden, ob man bei Terminänderungen, die einem betreffen, per Mail benachrichtigt werden möchte. Benachrichtigt wirst du, wenn:
+                                        <ul>
+                                            <li>Ein Termin der dich betrifft, gelöscht wird.</li>
+                                            <li>Ein Termin verändert wird, der dich betrifft.</li>
+                                            <li>Ein Termin hinzugefügt wird, der dich betrifft.</li>
+                                            <li>Ein Termin so verändert wird, dass er dich nun nicht mehr betrifft.</li>
+                                        </ul>
+                                    </li>
+                                    <li>🚀 Neu: Termine können zu einer Gruppe gruppiert werden:
+                                        <ul>
+                                            <li>Eigene Termine können zu Gruppen hinzugefügt werden.</li>
+                                            <li>Öffentliche Termine können zu Gruppen hinzugefügt werden.</li>
+                                            <li>Gruppen können kopiert werden.</li>
+                                            <li>Es gibt einen Editor zum verschieben aller Start- und Enddaten um eine feste Anzahl Tage/Stunden von Terminen in einer Gruppe.</li>
+                                            <li>Gruppen können mit anderen Personen geteilt werden.</li>
+                                        </ul>
+                                    </li>
+                                    <li>🐛 Fix: Klassengruppen wurden in der Terminübersicht fälschlicherweise nicht angezeigt.</li>
+                                    <li>🐛 Fix: Beim Neuladen der User-Seite wird wieder der zuvor ausgewählte Tab angezeigt.</li>
+                                </ul>
                                 <h4>Version: Beta 1.6 (11.02.2024)</h4>
                                 <ul>
-                                    <li>Neu: Beim Erfassen eines Termins werden nun Erklärungen für die Eigenschaft "Publikum: Alle/LP/KLP/SuS" angezeigt</li>
-                                    <li>Neu: Beim Laden des Profils werden automatisch nur Termine der <b>Abteilungen</b> (bspw. Gym GBSL) angezeigt, an welchen man unterrichtet.</li>
-                                    <li>Durch erneutes Klicken auf "Betroffene Lektionen laden" können diese nun auch wieder ausgeblendet werden.</li>
-                                    <li>Fix: Falls sich das Login "aufhängt" und oben Links durchgehend das "Profil" geladen wird, kann durch Klicken auf das Profil und anschliessendes "Aktualisieren" das Login neu angestossen werden.</li>
-                                    <li>Fix: Wird ein Termin auf der französischen Seite geklont, funktioniert die Weiterleitung nun korrekt.</li>
+                                    <li>🚀 Neu: Beim Erfassen eines Termins werden nun Erklärungen für die Eigenschaft "Publikum: Alle/LP/KLP/SuS" angezeigt</li>
+                                    <li>🚀 Neu: Beim Laden des Profils werden automatisch nur Termine der <b>Abteilungen</b> (bspw. Gym GBSL) angezeigt, an welchen man unterrichtet.</li>
+                                    <li>💅 Durch erneutes Klicken auf "Betroffene Lektionen laden" können diese nun auch wieder ausgeblendet werden.</li>
+                                    <li>🐛 Fix: Falls sich das Login "aufhängt" und oben Links durchgehend das "Profil" geladen wird, kann durch Klicken auf das Profil und anschliessendes "Aktualisieren" das Login neu angestossen werden.</li>
+                                    <li>🐛 Fix: Wird ein Termin auf der französischen Seite geklont, funktioniert die Weiterleitung nun korrekt.</li>
                                 </ul>
                                 <h4>Version: Beta 1.5 (6.02.2024)</h4>
                                 <ul>
-                                    <li>Fix: Firefox spielt Video ab</li>
-                                    <li>Fix: Login sollte nun auf allen Browsern funktionieren und die Account-Daten werden auch nach dem ersten Login geladen.</li>
-                                    <li>Bestätigung für das Löschen eines Events ist nun ein Popup.</li>
+                                    <li>🐛 Fix: Firefox spielt Video ab</li>
+                                    <li>🐛 Fix: Login sollte nun auf allen Browsern funktionieren und die Account-Daten werden auch nach dem ersten Login geladen.</li>
+                                    <li>🔧 Bestätigung für das Löschen eines Events ist nun ein Popup.</li>
                                 </ul>
                                 <h4>Version: Beta 1.4 (22.01.2024)</h4>
                                 <ul>
-                                    <li>Eingabe: Option für die Eingabe von ganztägigen Terminen hinzugefügt.</li>
-                                    <li>Fix: Verbesserung des UI's wenn die Mehrfaktor-Authentifizierung notwendig ist.</li>
-                                    <li>Zeitachse: Titelleiste ist beim Scrollen oben am Fenster fixiert.</li>
+                                    <li>🚀 Eingabe: Option für die Eingabe von ganztägigen Terminen hinzugefügt.</li>
+                                    <li>🐛 Fix: Verbesserung des UI's wenn die Mehrfaktor-Authentifizierung notwendig ist.</li>
+                                    <li>💅 Zeitachse: Titelleiste ist beim Scrollen oben am Fenster fixiert.</li>
                                 </ul>
                                 <h4>Version: Beta 1.3 (15.01.2024)</h4>
                                 <ul>
-                                    <li>Inkrementelles Laden: Es werden die öffentlichen Termine geladen, <b>während</b> die Benutzer:in eingeloggt wird. Sobald die Anmeldeinformationen vorhanden sind, werden auch die persönlichen Daten geladen. Führt zu einem schnelleren Laden der Seite.  <a href="https://github.com/lebalz/events-app/pull/17"></a></li>
-                                    <li>Logout Button ist nun im sichtbaren Bereich auf der <a href="/user?user-tab=account">User-Seite</a></li>
-                                    <li>Fix: Abonnierbare Kalender sind korrekt beschriftet</li>
-                                    <li>Fix: Kalenderwochen werden auch beim Jahreswechsel korrekt sortiert</li>
+                                    <li>🚀 Inkrementelles Laden: Es werden die öffentlichen Termine geladen, <b>während</b> die Benutzer:in eingeloggt wird. Sobald die Anmeldeinformationen vorhanden sind, werden auch die persönlichen Daten geladen. Führt zu einem schnelleren Laden der Seite.  <a href="https://github.com/lebalz/events-app/pull/17"></a></li>
+                                    <li>💅 Logout Button ist nun im sichtbaren Bereich auf der <a href="/user?user-tab=account">User-Seite</a></li>
+                                    <li>🐛 Fix: Abonnierbare Kalender sind korrekt beschriftet</li>
+                                    <li>🐛 Fix: Kalenderwochen werden auch beim Jahreswechsel korrekt sortiert</li>
                                 </ul>
                                 <h4>Version: Beta 1.2 (07.01.2024)</h4>
                                 <ul>
-                                    <li>Termin-Filter: Wer EF Unterrichtet, wurde bisher automatisch auch dem GBJB zugeteilt (bei EF's werden alle Gym-Klassen zugeteilt, also auch Nicht-Bilingue Klassen des GBJB, so dass bisher eine Zugehörigkeit zum GBJB abgeleitet wurde). Für das EF bzw. OC ist dieser Fehler behoben. Falls bei anderen Fächern ebenfalls Schulübergreifend Klassen zugeordnet werden, gerne melden. <a href="https://github.com/lebalz/events-api/pull/9" target="_blank">PR: Bilingue flag and relations for events</a></li>
-                                    <li>Beim Erfassen von Terminen für Bilingua-Klassen, welche nur <i>LP</i> oder <i>ALLE</i> betreffen, kann nun angegeben werden, ob Lehrpersonen der abderen Schule auch betroffen sind (bspw. bei 26Gn das GBJB oder bei 26mT das GBSL) </li>
-                                    <li>Admin-Bereich: Bilingue-Departemente können nun den zugehörigen Schulen zugewiesen werden</li>
-                                    <li>Admin-Bereich: GBJB Import von CSV Dateien <a href="https://github.com/lebalz/events-api/pull/8">PR: Create import service for gbjb csv files</a></li>
+                                    <li>🐛 Fix: Termin-Filter: Wer EF Unterrichtet, wurde bisher automatisch auch dem GBJB zugeteilt (bei EF's werden alle Gym-Klassen zugeteilt, also auch Nicht-Bilingue Klassen des GBJB, so dass bisher eine Zugehörigkeit zum GBJB abgeleitet wurde). Für das EF bzw. OC ist dieser Fehler behoben. Falls bei anderen Fächern ebenfalls Schulübergreifend Klassen zugeordnet werden, gerne melden. <a href="https://github.com/lebalz/events-api/pull/9" target="_blank">PR: Bilingue flag and relations for events</a></li>
+                                    <li>🚀 Beim Erfassen von Terminen für Bilingua-Klassen, welche nur <i>LP</i> oder <i>ALLE</i> betreffen, kann nun angegeben werden, ob Lehrpersonen der abderen Schule auch betroffen sind (bspw. bei 26Gn das GBJB oder bei 26mT das GBSL) </li>
+                                    <li>🚀 Admin-Bereich: Bilingue-Departemente können nun den zugehörigen Schulen zugewiesen werden</li>
+                                    <li>🚀 Admin-Bereich: GBJB Import von CSV Dateien <a href="https://github.com/lebalz/events-api/pull/8">PR: Create import service for gbjb csv files</a></li>
                                 </ul>
                             </div>
                         </div>
