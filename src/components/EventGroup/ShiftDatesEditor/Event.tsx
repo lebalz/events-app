@@ -11,7 +11,7 @@ import Translate from '@docusaurus/Translate';
 
 interface Props {
     event: EventModel;
-    title: string;
+    title: JSX.Element | string;
 }
 
 const Event = observer((props: Props) => {
@@ -19,11 +19,17 @@ const Event = observer((props: Props) => {
     return (
         <div className={clsx(styles.event, 'card')}>
             <div className={clsx(styles.header, 'card__header')}>
-                <h4>{props.title}</h4>
+                {
+                    (typeof props.title) === 'string' ? (
+                        <h4>{props.title}</h4>
+                    ) : (
+                        props.title
+                    )
+                }
             </div>
             <div className={clsx(styles.header, 'card__body')}>
-                <DefinitionList>
-                    <dt>
+                <DefinitionList className={clsx(styles.dl)}>
+                    <dt className={styles.highlighted}>
                         <Translate
                             id="joi.event.start"
                             description='Start of event'
@@ -31,8 +37,8 @@ const Event = observer((props: Props) => {
                             Start
                         </Translate>
                     </dt>
-                    <dd>{event.fStartDate}{' '}{event.fStartTime}</dd>
-                    <dt>
+                    <dd className={styles.highlighted}>{event.fStartDate}{' '}{event.fStartTime}</dd>
+                    <dt className={styles.highlighted}>
                         <Translate
                             id="joi.event.end"
                             description='End of event'
@@ -40,8 +46,8 @@ const Event = observer((props: Props) => {
                             Ende
                         </Translate>
                     </dt>
-                    <dd>{event.fEndDate}{' '}{event.fEndTime}</dd>                
-                    <dt>
+                    <dd className={styles.highlighted}>{event.fEndDate}{' '}{event.fEndTime}</dd>                
+                    <dt className={styles.highlighted}>
                         <Translate
                             id="event.kw"
                             description='for a single event: kw'
@@ -49,8 +55,8 @@ const Event = observer((props: Props) => {
                             KW
                         </Translate>
                     </dt>
-                    <dd>{event.kw}</dd>
-                    <dt>
+                    <dd className={styles.highlighted}>{event.kw}</dd>
+                    <dt className={styles.highlighted}>
                         <Translate
                             id="event.weekday"
                             description='for a single event: weekday'
@@ -58,7 +64,7 @@ const Event = observer((props: Props) => {
                             Wochentag
                         </Translate>
                     </dt>
-                    <dd>{event.dayFullStart}{event.fStartDate !== event.fEndDate ? ` - ${event.dayFullEnd}` : ''}</dd>
+                    <dd className={styles.highlighted}>{event.dayFullStart}{event.fStartDate !== event.fEndDate ? ` - ${event.dayFullEnd}` : ''}</dd>
                     <dt>
                         <Translate
                             id="event.description"
