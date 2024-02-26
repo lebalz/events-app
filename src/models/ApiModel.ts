@@ -8,7 +8,12 @@ type AnyExceptUndefined = string | number | boolean | symbol | object | null;
 // type TransformType<T extends { id: string }> = { attr: keyof T, transform: (value: any) => AnyExceptUndefined};
 // type UpdateType<T extends { id: string }> = { attr: keyof T, update: (value: any) => void};
 // export type UpdateableProps<T extends { id: string }> = (keyof T | ConfigType<T> | TransformType<T> | UpdateType<T>)[];
-export type UpdateableProps<T extends { id: string }> = (keyof T | { attr: keyof T, transform?: (value: any) => AnyExceptUndefined, update?: (value: any) => void});
+export type UpdateableProps<T extends { id: string }> = (
+    keyof T | { 
+        attr: keyof T,
+        transform?: (value: any) => AnyExceptUndefined,
+        update?: (value: any) => void}
+    );
 
 export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly _pristine: T;

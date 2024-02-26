@@ -39,8 +39,28 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
         'description',
         'descriptionLong',
-        { attr: 'start', transform: (val) => toLocalDate(new Date(val)) },
-        { attr: 'end', transform: (val) => toLocalDate(new Date(val)) },
+        { 
+            attr: 'start',
+            update: action((val: string) => {
+                const date = toLocalDate(new Date(val));
+                if (date.getTime() > this.end.getTime()) {
+                    const diff = this.end.getTime() - this.start.getTime();
+                    this.end = new Date(date.getTime() + diff);
+                }
+                this.start = date;
+            })
+        },
+        { 
+            attr: 'end',
+            update: action((val: string) => {
+                const date = toLocalDate(new Date(val));
+                if (date.getTime() < this.start.getTime()) {
+                    const diff = this.end.getTime() - this.start.getTime();
+                    this.start = new Date(date.getTime() - diff);
+                }
+                this.end = date;
+            })
+        },
         'location',
         'audience',
         'classGroups',

@@ -20,12 +20,14 @@ const DateTime = observer((props: Props) => {
     let date = event.start;
     let fdate = event.fStartDate;
     let ftime = event.fStartTime;
+    let datePickerId = event.end.toISOString();
     if (props.time === 'end') {
         dateColumn = 'endDate';
         timeColumn = 'endTime';
         fdate = event.fEndDate;
         ftime = event.fEndTime;
         date = event.end;
+        datePickerId = event.start.toISOString();
     }
     if (event.isEditable && event.isEditing) {
         return (
@@ -42,6 +44,7 @@ const DateTime = observer((props: Props) => {
                                 event.update({ [props.time]: d })
                             }}
                             time={props.time}
+                            id={datePickerId}
                         />
                     ) : (
                         <DateTimePicker
@@ -50,6 +53,7 @@ const DateTime = observer((props: Props) => {
                                 const d = date.toISOString();
                                 event.update({ [props.time]: d })
                             }}
+                            id={datePickerId}
                         />
                     )
                 }
