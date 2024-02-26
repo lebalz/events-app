@@ -1,11 +1,11 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
 import Button from '@site/src/components/shared/Button';
-import { mdiArrowExpandAll, mdiArrowExpandUp, mdiArrowExpandVertical, mdiShareCircle } from '@mdi/js';
+import { mdiArrowExpandAll, mdiArrowExpandUp, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiShareCircle } from '@mdi/js';
 import { Icon, SIZE_S } from '@site/src/components/shared/icons';
 import Discard from '@site/src/components/shared/Button/Discard';
 import Save from '@site/src/components/shared/Button/Save';
@@ -14,9 +14,10 @@ import Edit from '@site/src/components/shared/Button/Edit';
 import { useStore } from '@site/src/stores/hooks';
 import {useWindowSize} from '@docusaurus/theme-common';
 import { EventState } from '@site/src/api/event';
-import { useHistory } from '@docusaurus/router';
 import { action } from 'mobx';
 import { translate } from '@docusaurus/Translate';
+import Popup from '../../shared/Popup';
+import OptionsPopup from '../EventActions/OptionsPopup';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
@@ -44,12 +45,7 @@ const Actions = observer((props: Props) => {
                 />
                 {
                     event.isEditable && (event.state === EventState.Draft || (props.expandeable && event.isExpanded)) && !event.isEditing && (
-                        <Edit onClick={() => {
-                            event.setEditing(true);
-                            if (windowSize === 'mobile') {
-                                viewStore.setEventModalId(event.id)
-                            }
-                        }} />
+                        <OptionsPopup event={event} />
                     )
                 }
                 {

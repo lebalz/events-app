@@ -9,8 +9,10 @@ import Button from '../../shared/Button';
 import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
-import { mdiShareCircle } from '@mdi/js';
+import { mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiShareCircle } from '@mdi/js';
 import { translate } from '@docusaurus/Translate';
+import Popup from '../../shared/Popup';
+import OptionsPopup from './OptionsPopup';
 
 type SortableButton = 'delete' | 'discard' | 'save' | 'open';
 
@@ -134,21 +136,18 @@ const EventActions = observer((props: Props) => {
     return (
         <>
             {event?.isEditable && (
-                <Button
-                    size={size}
-                    color="orange"
-                    text={buttonsWithText >= 1 ? 
-                            translate({
-                                message: 'Bearbeiten',
-                                id: 'button.edit',
-                                description: 'Button to edit a model'
-                                })
-                            : undefined
+                <Popup
+                    trigger={
+                        <Button
+                            size={size}
+                            icon={mdiDotsHorizontalCircleOutline}
+                        />
                     }
-                    icon={<EditIcon size={size} />}
-                    iconSide='left'
-                    onClick={() => event.setEditing(true)}
-                />
+                    on="click"
+                    popupTitle="Optionen"                
+                >
+                    <OptionsPopup event={event} />
+                </Popup>
             )}
         </>
     )

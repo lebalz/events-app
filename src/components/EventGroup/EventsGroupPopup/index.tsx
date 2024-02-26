@@ -1,14 +1,11 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Popup from '../../shared/Popup';
 import Event from '@site/src/models/Event';
 import Button from '../../shared/Button';
-import { mdiGroup } from '@mdi/js';
-import { SIZE_S, SIZE_XS } from '../../shared/icons';
+import { mdiTagEditOutline } from '@mdi/js';
+import { SIZE_S } from '../../shared/icons';
 import GroupSelect from './GroupSelect';
 
 
@@ -20,7 +17,13 @@ interface Props {
 const EventsGroupPopup = observer((props: Props) => {
     return (
         <Popup
-            trigger={props.trigger || <Button icon={mdiGroup} size={SIZE_XS} />}
+            trigger={props.trigger ||( 
+                <Button 
+                    text={`${props.event.groups.length}`}
+                    icon={mdiTagEditOutline} 
+                    size={SIZE_S}
+                />
+            )}
             popupTitle='Event Group'
             on='click'
         >
