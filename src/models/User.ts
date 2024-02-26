@@ -6,7 +6,13 @@ import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 
 export default class User extends ApiModel<UserProps, ApiAction> {
-  readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = ['untisId', 'role', 'notifyOnEventUpdate'];
+  readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = [
+    'untisId',
+    'role',
+    'notifyOnEventUpdate',
+    'notifyAdminOnReviewDecision',
+    'notifyAdminOnReviewRequest'
+  ];
   readonly store: UserStore;
   readonly isUserModel = true;
   readonly _pristine: UserProps;
@@ -24,6 +30,10 @@ export default class User extends ApiModel<UserProps, ApiAction> {
   @observable
   notifyOnEventUpdate: boolean;
   @observable
+  notifyAdminOnReviewRequest: boolean;
+  @observable
+  notifyAdminOnReviewDecision: boolean;
+  @observable
   untisId?: number;
 
   constructor(props: UserProps, store: UserStore, untisStore: UntisStore) {
@@ -34,6 +44,8 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     this.id = props.id;
     this.email = props.email;
     this.notifyOnEventUpdate = props.notifyOnEventUpdate;
+    this.notifyAdminOnReviewRequest = props.notifyAdminOnReviewRequest;
+    this.notifyAdminOnReviewDecision = props.notifyAdminOnReviewDecision;
     this.role = props.role;
     this.firstName = props.firstName;
     this.lastName = props.lastName;
@@ -103,6 +115,8 @@ export default class User extends ApiModel<UserProps, ApiAction> {
       firstName: this.firstName,
       lastName: this.lastName,
       notifyOnEventUpdate: this.notifyOnEventUpdate,
+      notifyAdminOnReviewRequest: this.notifyAdminOnReviewRequest,
+      notifyAdminOnReviewDecision: this.notifyAdminOnReviewDecision,
       role: this.role,
       untisId: this.untisId,
       icsLocator: this.icalUrl,

@@ -14,6 +14,8 @@ export type User = {
     firstName: string
     lastName: string
     notifyOnEventUpdate: boolean
+    notifyAdminOnReviewRequest: boolean
+    notifyAdminOnReviewDecision: boolean
     role: Role
     icsLocator: string | null
     createdAt: string

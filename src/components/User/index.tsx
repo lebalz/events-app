@@ -85,6 +85,40 @@ const User = observer((props: Props) => {
                         }}
                     />
                 </dd>
+                {
+                    user.isAdmin && (
+                        <>
+                            <dd>
+                                <Checkbox 
+                                    checked={user.notifyAdminOnReviewRequest}
+                                    label={translate({
+                                        message: 'Benachrichtigungen für review Anfragen erhalten',
+                                        id: 'components.user.index.email.notifications.notifyAdminOnReviewRequest',
+                                        description: 'Label for the notification preference'
+                                    })}
+                                    onChange={(checked) => {
+                                        user.update({'notifyAdminOnReviewRequest': checked});
+                                        setTimeout(() => user.save(), 0);
+                                    }}
+                                />
+                            </dd>   
+                            <dd>
+                                <Checkbox 
+                                    checked={user.notifyAdminOnReviewDecision}
+                                    label={translate({
+                                        message: 'Benachrichtigungen für beantwortete Anfragen erhalten',
+                                        id: 'components.user.index.email.notifications.notifyAdminOnReviewDecision',
+                                        description: 'Label for the notification preference'
+                                    })}
+                                    onChange={(checked) => {
+                                        user.update({'notifyAdminOnReviewDecision': checked});
+                                        setTimeout(() => user.save(), 0);
+                                    }}
+                                />
+                            </dd>
+                        </>
+                    )
+                }
 
                 <dt>
                     <Badge
