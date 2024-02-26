@@ -80,7 +80,7 @@ const ClickTrigger = observer(React.forwardRef<HTMLDivElement, TriggerProps>((pr
     )
 }));
 
-const HoverTrigger = observer((props: TriggerProps) => {
+const HoverTrigger = observer(React.forwardRef<HTMLDivElement, TriggerProps>((props, ref) => {
     const [isOpen, setIsOpen] = React.useState(props.isOpen);
     React.useEffect(() => {
         if (isOpen !== props.isOpen) {
@@ -99,7 +99,8 @@ const HoverTrigger = observer((props: TriggerProps) => {
     }, [isOpen]);
 
     return (
-        <span
+        <div
+            ref={ref}
             onMouseEnter={() => {
                 setIsOpen(true);
             }}
@@ -113,9 +114,9 @@ const HoverTrigger = observer((props: TriggerProps) => {
             }}
         >
             {props.children}
-        </span>
+        </div>
     )
-});
+}));
 
 const Popup = observer((props: Props) => {
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(!!props.isOpen);

@@ -141,6 +141,9 @@ const BulkActions = observer((props: Props) => {
                                             rmGroup.removeEvents(events);
                                         }
                                         break;
+                                    case 'clear':
+                                        events.forEach(event => event.groups.forEach(g => g.removeEvents([event])));
+                                        break;
                                 }
                             }}
                             options={
