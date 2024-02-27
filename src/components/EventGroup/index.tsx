@@ -32,6 +32,11 @@ interface Props {
 const UserEventGroup = observer((props: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
+    React.useEffect(() => {
+        if (isOpen && !group.isFullyLoaded) {
+            group.loadEvents();
+        }
+    }, [isOpen, props.group, props.group.isFullyLoaded]);
     const { group } = props;
     return (
         <div className={clsx(styles.group, 'card', (isOpen || group.isEditing) && styles.open)}>
@@ -204,9 +209,6 @@ const UserEventGroup = observer((props: Props) => {
                 }
                 onOpenChange={(open) => {
                     setIsOpen(open);
-                    if (open && !group.isFullyLoaded) {
-                        group.loadEvents();
-                    }
                 }}
             >
                 <div className={clsx(styles.events, 'card__body')}>

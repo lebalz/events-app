@@ -131,10 +131,14 @@ const Popup = observer((props: Props) => {
             isOpen={isControlled ? props.isOpen : isPopoverOpen}
             onClickOutside={() => {
                 if (isControlled) {
-                    props.onClose()
+                    if (props.onClose) {
+                        props.onClose()
+                    }
                 } else {
                     setIsPopoverOpen(false)
-                    props.onClose?.();
+                    if (props.onClose) {
+                        props.onClose();
+                    }
                 }
             }}
             padding={0}
@@ -168,15 +172,21 @@ const Popup = observer((props: Props) => {
                             props.onOpen!();
                         } else {
                             setIsPopoverOpen(true);
-                            props.onOpen?.();
+                            if (props.onOpen) {
+                                props.onOpen();
+                            }
                         }
                     }}
                     onClose={() => {
                         if (isControlled) {
-                            props.onClose!();
+                            if (props.onClose) {
+                                props.onClose()
+                            }
                         } else {
                             setIsPopoverOpen(false);
-                            props.onClose?.();
+                            if (props.onClose) {
+                                props.onClose();
+                            }
                         }                    
                     }}
                 >
