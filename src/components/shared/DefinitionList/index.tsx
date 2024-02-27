@@ -9,11 +9,15 @@ import { useStore } from '@site/src/stores/hooks';
 interface Props {
     children: ReactNode;
     className?: string;
+    gridTemplateColumns?: string;
 }
 
 const DefinitionList = observer((props: Props) => {
     return (
-        <dl className={clsx(styles.definitionList, props.className)}>
+        <dl 
+            className={clsx(styles.definitionList, props.className)}
+            style={{gridTemplateColumns: props.gridTemplateColumns}}
+        >
             {props.children}
         </dl>
     )

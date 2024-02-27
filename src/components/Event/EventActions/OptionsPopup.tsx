@@ -19,14 +19,13 @@ import EventsGroupPopup from '../../EventGroup/EventsGroupPopup';
 
 interface Props {
     trigger?: JSX.Element;
-    // actions: JSX.Element[];
+    children: JSX.Element;
     event: Event;
 }
 
 interface ActionProps {
     event: Event;
     iconSize?: number;
-    showText?: boolean;
 }
 
 export const EditRowMode = observer((props: ActionProps) => {
@@ -50,7 +49,7 @@ export const Clone = observer((props: ActionProps) => {
     return (
         <Button
             icon={mdiContentDuplicate}
-            size={SIZE_S}
+            size={props.iconSize || SIZE_S}
             title={translate({
                 message: 'Duplizieren',
                 id: 'event.options.clone',
@@ -77,6 +76,7 @@ export const AddToGroup = observer((props: ActionProps) => {
 });
 
 const OptionsPopup = observer((props: Props) => {
+    const [isOpen, setOpen] = React.useState(false);
     return (
         <Popup
             trigger={
@@ -84,6 +84,7 @@ const OptionsPopup = observer((props: Props) => {
                     <Button
                         size={SIZE_S}
                         icon={mdiDotsHorizontalCircleOutline}
+                        color={isOpen ? 'blue' : 'black'}
                         title={translate({
                             message: 'Optionen Anzeigen',
                             id: 'event.options.title',
@@ -92,6 +93,8 @@ const OptionsPopup = observer((props: Props) => {
                     />
                 )
             }
+            onOpen={() => setOpen(true)}
+            onClose={() => setOpen(false)}
             on="click"
             popupTitle={translate({
                 message: 'Optionen',
@@ -100,9 +103,7 @@ const OptionsPopup = observer((props: Props) => {
             })}
         >
             <div className={clsx(styles.options)}>
-                <AddToGroup event={props.event} />
-                <Clone event={props.event} />
-                <EditRowMode event={props.event} />
+                {props.children}
             </div>
         </Popup>
     )

@@ -15,9 +15,11 @@ import { useStore } from '@site/src/stores/hooks';
 import {useWindowSize} from '@docusaurus/theme-common';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import Popup from '../../shared/Popup';
-import OptionsPopup from '../EventActions/OptionsPopup';
+import OptionsPopup, { AddToGroup, Clone, EditRowMode } from '../EventActions/OptionsPopup';
+import DefinitionList from '../../shared/DefinitionList';
+import DefaultEventActions from '../EventActions/DefaultEventActions';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
@@ -34,20 +36,9 @@ const Actions = observer((props: Props) => {
             className={clsx(props.className, styles.actions, 'grid-actions')}
         >
             <div className={clsx(styles.flex)}>
-                <Button
-                    title='Übersicht Öffnen'
-                    icon={<Icon path={mdiArrowExpandAll} color="blue" size={SIZE_S} />}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        viewStore.setEventModalId(event.id);
-                    }}
-                />
-                {
-                    event.isEditable && (event.state === EventState.Draft || (props.expandeable && event.isExpanded)) && !event.isEditing && (
-                        <OptionsPopup event={event} />
-                    )
-                }
+                <OptionsPopup event={event}>
+                    <DefaultEventActions event={event} />
+                </OptionsPopup>
                 {
                     event.isEditing && (
                         <>
@@ -95,17 +86,6 @@ const Actions = observer((props: Props) => {
                                     message: 'Auf eine Zeile reduzieren',
                                     id: 'event.reduce.title',
                                     description: 'Button Title (hover) to reduce an expanded event in the table view'
-                                })}
-                            />
-                            <Button
-                                color="blue"
-                                icon={mdiShareCircle}
-                                href={event.shareUrl}
-                                size={SIZE_S}
-                                title={translate({
-                                    message: 'Öffnen',
-                                    id: 'event.open.title',
-                                    description: 'Button Title (hover) to open an event view'
                                 })}
                             />
                         </>
