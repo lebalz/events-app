@@ -118,7 +118,10 @@ const UserEventGroup = observer((props: Props) => {
                                 <dt><Translate id="group.clone.dt">Duplizieren</Translate></dt>
                                 <dd>
                                     <Translate id="group.clone.description">Gruppe inkl. Termine </Translate>
-                                    <Clone onClick={group.clone} apiState={group.apiStateFor(`clone-${group.id}`)} />
+                                    <Clone 
+                                        onClick={() => group.clone()}
+                                        apiState={group.apiStateFor(`clone-${group.id}`)}
+                                    />
                                 </dd>
                                 <dt>
                                     <Translate id="group.users.dt">Mitglieder</Translate>
