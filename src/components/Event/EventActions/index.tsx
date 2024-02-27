@@ -140,9 +140,7 @@ const EventActions = observer((props: Props) => {
             {event?.isEditable && (
                     <OptionsPopup 
                         event={event}
-                    >
-                        <DefaultEventActions event={event} />
-                    </OptionsPopup>
+                    />
             )}
         </>
     )

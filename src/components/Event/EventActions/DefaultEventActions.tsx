@@ -16,6 +16,7 @@ import Delete from '../../shared/Button/Delete';
 
 interface Props {
     event: Event;
+    closePopup?: () => void;
 }
 
 const DefaultEventActions = observer((props: Props) => {
@@ -41,6 +42,9 @@ const DefaultEventActions = observer((props: Props) => {
                         e.preventDefault();
                         e.stopPropagation();
                         viewStore.setEventModalId(event.id);
+                        if (props.closePopup) {
+                            props.closePopup();
+                        }
                     }}
                 />
             </dd>

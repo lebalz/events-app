@@ -36,9 +36,7 @@ const Actions = observer((props: Props) => {
             className={clsx(props.className, styles.actions, 'grid-actions')}
         >
             <div className={clsx(styles.flex)}>
-                <OptionsPopup event={event}>
-                    <DefaultEventActions event={event} />
-                </OptionsPopup>
+                <OptionsPopup event={event} />
                 {
                     event.isEditing && (
                         <>

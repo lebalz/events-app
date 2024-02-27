@@ -132,7 +132,6 @@ const Popup = observer((props: Props) => {
         <Popover
             isOpen={isControlled ? props.isOpen : isPopoverOpen}
             onClickOutside={() => {
-                console.log('click outside', isControlled, props.isOpen, isPopoverOpen)
                 if (isControlled) {
                     if (props.onClose) {
                         props.onClose()

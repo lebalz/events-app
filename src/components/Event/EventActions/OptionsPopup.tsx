@@ -15,11 +15,11 @@ import {useWindowSize} from '@docusaurus/theme-common';
 import i18n from '@generated/i18n';
 import { useHistory } from '@docusaurus/router';
 import EventsGroupPopup from '../../EventGroup/EventsGroupPopup';
+import DefaultEventActions from './DefaultEventActions';
 
 
 interface Props {
     trigger?: JSX.Element;
-    children: JSX.Element;
     event: Event;
 }
 
@@ -95,6 +95,7 @@ const OptionsPopup = observer((props: Props) => {
             }
             onOpen={() => setOpen(true)}
             onClose={() => setOpen(false)}
+            isOpen={isOpen}
             on="click"
             popupTitle={translate({
                 message: 'Optionen',
@@ -102,9 +103,7 @@ const OptionsPopup = observer((props: Props) => {
                 description: 'Title of the popup with options for an event'
             })}
         >
-            <div className={clsx(styles.options)}>
-                {props.children}
-            </div>
+            <DefaultEventActions event={props.event} closePopup={() => setOpen(false)}/>
         </Popup>
     )
 });
