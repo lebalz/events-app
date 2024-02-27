@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { ArrowContainer, Popover, PopoverAlign, PopoverPosition } from 'react-tiny-popover';
+import { ArrowContainer, Popover, PopoverAlign, PopoverPosition, PopoverState } from 'react-tiny-popover';
 import { observable } from 'mobx';
 
 interface Props {
@@ -21,6 +21,9 @@ interface Props {
     maxWidth?: string;
     classNameTrigger?: string;
     classNamePopup?: string;
+    parentRef?: React.RefObject<HTMLDivElement>;
+    repositionLeftBoundary?: boolean;
+    arrowSize?: number;
 }
 
 
@@ -121,7 +124,6 @@ const HoverTrigger = observer(React.forwardRef<HTMLDivElement, TriggerProps>((pr
 const Popup = observer((props: Props) => {
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(!!props.isOpen);
     const isControlled = props.isOpen !== undefined && props.onOpen !== undefined;
-
     const Trigger = React.useMemo(() => {
         return props.on === 'hover' ? HoverTrigger : ClickTrigger
     }, [props.on]);
@@ -130,6 +132,7 @@ const Popup = observer((props: Props) => {
         <Popover
             isOpen={isControlled ? props.isOpen : isPopoverOpen}
             onClickOutside={() => {
+                console.log('click outside', isControlled, props.isOpen, isPopoverOpen)
                 if (isControlled) {
                     if (props.onClose) {
                         props.onClose()
@@ -146,22 +149,32 @@ const Popup = observer((props: Props) => {
             positions={props.positions}
             containerStyle={{zIndex: 'calc(var(--ifm-z-index-overlay) + 10)'}}
             reposition={true}
-            content={({ position, childRect, popoverRect }) => (
-                <ArrowContainer
-                    position={position}
-                    childRect={childRect}
-                    popoverRect={popoverRect}
-                    arrowColor={'var(--ifm-color-primary)'}
-                    arrowSize={8}
-                >
-                    <Card
-                        content={props.content || props.children}
-                        header={props.popupTitle}
-                        maxWidth={props.maxWidth}
-                        classNamePopup={clsx(props.classNamePopup)}
-                    />
-                </ArrowContainer>
-            )}
+            parentElement={props.parentRef?.current || undefined}
+            transform={(state: PopoverState) => {
+                if (props.repositionLeftBoundary && state.popoverRect.left < 0) {
+                    return {left: -state.popoverRect.left - 2, top: 0}
+                }
+                return {left: 0, top: 0}
+            }}
+            transformMode='relative'
+            content={({ position, childRect, popoverRect, nudgedLeft, nudgedTop }) => {
+                return (
+                    <ArrowContainer
+                        position={position}
+                        childRect={childRect}
+                        popoverRect={popoverRect}                       
+                        arrowColor={'var(--ifm-color-primary)'}
+                        arrowSize={props.arrowSize ?? 8}
+                    >
+                        <Card
+                            content={props.content || props.children}
+                            header={props.popupTitle}
+                            maxWidth={props.maxWidth}
+                            classNamePopup={clsx(props.classNamePopup)}
+                        />
+                    </ArrowContainer>
+                )
+            }}
         >
             {/* <span className={clsx(props.classNameTrigger)}> */}
                 <Trigger

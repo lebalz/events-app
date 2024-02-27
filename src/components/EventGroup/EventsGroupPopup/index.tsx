@@ -15,20 +15,35 @@ interface Props {
 }
 
 const EventsGroupPopup = observer((props: Props) => {
+    const ref = React.useRef<HTMLDivElement>(null);
+    const [show, setShow] = React.useState(false);
+    React.useEffect(() => {
+        if (ref.current) {
+            setShow(true);
+        }
+    },[ref]);
+
     return (
-        <Popup
-            trigger={props.trigger ||( 
-                <Button 
-                    text={`${props.event.groups.length}`}
-                    icon={mdiTagEditOutline} 
-                    size={SIZE_S}
-                />
-            )}
-            popupTitle='Event Group'
-            on='click'
-        >
-            <GroupSelect event={props.event} />
-        </Popup>
+        <div ref={ref}>
+            {
+                show && (
+                    <Popup
+                        trigger={props.trigger ||( 
+                            <Button 
+                                text={`${props.event.groups.length}`}
+                                icon={mdiTagEditOutline} 
+                                size={SIZE_S}
+                            />
+                        )}
+                        popupTitle='Event Group'
+                        on='click'
+                        parentRef={ref}
+                    >
+                        <GroupSelect event={props.event} />
+                    </Popup>
+                )
+            }
+        </div>
     )
 });
 
