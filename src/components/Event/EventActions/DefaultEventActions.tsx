@@ -28,13 +28,18 @@ const DefaultEventActions = observer((props: Props) => {
             <dt>
                 <Translate
                     id="event.options.open"
+                    description="Text of the button open"
                 >
                     Öffnen
                 </Translate>
             </dt>
             <dd>
                 <Button
-                    title='Übersicht Öffnen'
+                    title={translate({
+                            message: 'Übersicht Öffnen',
+                            id: 'event.options.open.overview',
+                            description: "Text of the button open overview"
+                        })}
                     icon={mdiArrowExpandAll}
                     color="blue"
                     size={SIZE_S}
@@ -71,6 +76,7 @@ const DefaultEventActions = observer((props: Props) => {
             <dt>
                 <Translate
                     id="event.options.edit"
+                    description="Text of the button edit"
                 >
                     Bearbeiten
                 </Translate>
@@ -81,6 +87,7 @@ const DefaultEventActions = observer((props: Props) => {
             <dt>
                 <Translate
                     id="event.options.clone"
+                    description="Text of the button clone"
                 >
                     Duplizieren
                 </Translate>
@@ -91,6 +98,7 @@ const DefaultEventActions = observer((props: Props) => {
             <dt>
                 <Translate
                     id="event.options.group"
+                    description="Text of the button group"
                 >
                     Gruppe
                 </Translate>
@@ -104,6 +112,7 @@ const DefaultEventActions = observer((props: Props) => {
                         <dt>
                             <Translate
                                 id="event.options.delete"
+                                description="Text of the button delete"
                             >
                                 Löschen
                             </Translate>

@@ -69,8 +69,30 @@ messages={{
 >
 ```
 
+### Traduire avec un opérateur ternaire JS :
+
+Avant:
+```tsx
+title={store.fullscreen ? "Verlasse Vollbildschirm" : "Vollbildschirm"}
+```
+Après :
+
+```tsx
+title={store.fullscreen ?
+        translate({
+            message : "Verlasse Vollbildschirm",
+            id : "shared.fullscreenbutton.exitfullscreen"
+        })
+    :
+        translate({
+            message : "Vollbildschirm",
+            id : "shared.fullscreenbutton.gofullscreen"
+        })
+    }
+```
 
 ### Traduire dans un objet JS avec variable
+
 ```tsx
 setErrorMessages([`Abteilung "${token.charAt(2)}" nicht gefunden`]);
 ```

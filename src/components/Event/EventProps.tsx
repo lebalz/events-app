@@ -355,7 +355,11 @@ const EventProps = observer((props: Props) => {
                                     <Button
                                         icon={mdiContentDuplicate}
                                         size={SIZE * 0.99}
-                                        title='Duplizieren'
+                                        title={translate({
+                                                message: 'Duplizieren',
+                                                id: 'component.event.eventprops.clone',
+                                                description: "Text of the button clone"
+                                            })}
                                         onClick={() => {
                                             eventStore.clone(event).then((newEvent) => {
                                                 if (newEvent) {

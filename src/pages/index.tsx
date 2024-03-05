@@ -210,6 +210,19 @@ const Home = observer(() => {
                         </div>
                     ) : (
                         <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
+                            <div className="card__header">
+                                <h2>
+                                    Phase test
+                                </h2>
+                            </div>
+                            <div className='card__body'>
+                                Le calendrier est encore dans sa phase test.
+                                
+                                Des retours peuvent être transmis grâce à l'application de traçage de bugs (voir Video).
+                                <h3>
+                                    Merci beaucoup pour votre aide.
+                                </h3>
+                            </div>
                             <div className='card__footer'>
                                 <video 
                                     autoPlay 
