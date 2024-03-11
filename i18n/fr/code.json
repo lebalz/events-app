@@ -20,23 +20,23 @@
     "description": "The ARIA label for the back to top button"
   },
   "theme.admonition.note": {
-    "message": "note",
+    "message": "Note",
     "description": "The default label used for the Note admonition (:::note)"
   },
   "theme.admonition.tip": {
-    "message": "tip",
+    "message": "Conseil",
     "description": "The default label used for the Tip admonition (:::tip)"
   },
   "theme.admonition.danger": {
-    "message": "danger",
+    "message": "Danger",
     "description": "The default label used for the Danger admonition (:::danger)"
   },
   "theme.admonition.info": {
-    "message": "info",
+    "message": "Info",
     "description": "The default label used for the Info admonition (:::info)"
   },
   "theme.admonition.caution": {
-    "message": "caution",
+    "message": "Attention",
     "description": "The default label used for the Caution admonition (:::caution)"
   },
   "theme.blog.archive.title": {
@@ -84,7 +84,7 @@
     "description": "The name for the light color mode"
   },
   "theme.blog.post.plurals": {
-    "message": "Un post|{count} Posts",
+    "message": "Un post|{count} posts",
     "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
   },
   "theme.blog.tagTitle": {
@@ -167,7 +167,7 @@
     "description": "The label for the navbar versions dropdown on mobile view"
   },
   "theme.tags.tagsListLabel": {
-    "message": "Les tags :",
+    "message": "Les étiquettes :",
     "description": "The label alongside a tag list"
   },
   "theme.AnnouncementBar.closeButtonAriaLabel": {
@@ -195,7 +195,7 @@
     "description": "The title attribute for toggle word wrapping button of code block lines"
   },
   "theme.NavBar.navAriaLabel": {
-    "message": "Main",
+    "message": "Principale",
     "description": "The ARIA label for the main navigation"
   },
   "theme.navbar.mobileLanguageDropdown.label": {
@@ -231,7 +231,7 @@
     "description": "The title attribute for collapse button of doc sidebar"
   },
   "theme.docs.sidebar.navAriaLabel": {
-    "message": "Docs sidebar",
+    "message": "barre latérale des documents",
     "description": "The ARIA label for the sidebar navigation"
   },
   "theme.docs.sidebar.closeSidebarButtonAriaLabel": {
@@ -243,7 +243,7 @@
     "description": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
   },
   "theme.docs.sidebar.toggleSidebarButtonAriaLabel": {
-    "message": "Toggle navigation bar",
+    "message": "Toggle barre de navigation",
     "description": "The ARIA label for hamburger menu button of mobile navigation"
   },
   "theme.docs.sidebar.expandButtonTitle": {
@@ -263,7 +263,7 @@
     "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
   },
   "theme.tags.tagsPageTitle": {
-    "message": "Tags",
+    "message": "Etiquettes",
     "description": "The title of the tag list page"
   },
   "admin.DepartmentTable.create": {
@@ -299,8 +299,8 @@
     "description": "th: actions"
   },
   "event.kw": {
-    "message": "KW",
-    "description": "for a single event: kw"
+    "message": "SA",
+    "description": "for a single event: kw (calender week)"
   },
   "event.weekday": {
     "message": "Jour de la semaine",
@@ -779,7 +779,7 @@
     "description": "toggle all departments"
   },
   "theme.admonition.warning": {
-    "message": "attention",
+    "message": "Attention",
     "description": "The default label used for the Warning admonition (:::warning)"
   },
   "theme.DocSidebarItem.expandCategoryAriaLabel": {
@@ -899,6 +899,22 @@
   "components.user.index.subjects": {
     "message": "Disciplines",
     "description": "Button subjects"
+  },
+  "components.user.index.email.notifications": {
+    "message": "Notifications par courriel",
+    "description": "Notification Preferences"
+  },
+  "components.user.index.email.notifications.notifyOnEventUpdate": {
+    "message": "Évènements modifiés",
+    "description": "Label for the notification preference"
+  },
+  "components.user.index.email.notifications.notifyAdminOnReviewRequest": {
+    "message": "Évènements en attente de révision",
+    "description": "Label for the notification preference"
+  },
+  "components.user.index.email.notifications.notifyAdminOnReviewDecision": {
+    "message": "Décision des révisions",
+    "description": "Label for the notification preference"
   },
   "components.event.usersevents.index.tabitem.notpublished": {
     "message": "Évènements non publiés",
@@ -1085,7 +1101,7 @@
     "description": "Error message department not found"
   },
   "share.audiencePicker.classSelector.errorMsg.class": {
-    "message": "Klasse \"{tok}\" nicht gefunden",
+    "message": "Classe \"{tok}\" non trouvée",
     "description": "Error message class not found"
   },
   "share.audiencePicker.classSelector.errorMsg.classOrDepartment": {
@@ -1117,27 +1133,27 @@
     "description": "Text of the button clone"
   },
   "navcard.table.text": {
-    "message": "Tabelle",
+    "message": "Vue liste",
     "description": "Button text for navigating to the table page"
   },
   "navcard.calendar.text": {
-    "message": "Kalender",
+    "message": "Vue calendrier",
     "description": "Button text for navigating to the calendar page"
   },
   "navcard.gantt.text": {
-    "message": "Zeitachse",
+    "message": "Axe du temps",
     "description": "Button text for navigating to the gantt page"
   },
   "navcard.subscribe.text": {
-    "message": "Outlook",
+    "message": "Export",
     "description": "Button text for navigating to the subscribe page"
   },
   "navcard.user.account": {
-    "message": "Account",
+    "message": "Mon compte",
     "description": "Button text for navigating to the user account page"
   },
   "navcard.user.events": {
-    "message": "Meine Events",
+    "message": "Mes évènements",
     "description": "Button text for navigating to the users events page"
   },
   "navcard.admin.text": {
@@ -1145,63 +1161,63 @@
     "description": "Button text for navigating to the admin page"
   },
   "event.teachingAffected": {
-    "message": "Unterricht Betroffen?",
+    "message": "Enseignement impacté ?",
     "description": "for a single event: teaching affected?"
   },
   "components.user.index.account": {
-    "message": "Account",
+    "message": "Mon compte",
     "description": "Label for the account"
   },
   "components.user.index.logout": {
-    "message": "Logout",
+    "message": "Se déconnecter",
     "description": "Button label to logout"
   },
   "eventField.teachingAffected.no": {
-    "message": "Nein",
+    "message": "Non",
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.partial": {
-    "message": "Teilweise",
+    "message": "Partiellement",
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.yes": {
-    "message": "Ja",
+    "message": "Oui",
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.no.title": {
-    "message": "Betrifft den Unterricht nicht",
+    "message": "N'impacte pas l'enseignement",
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.partial.title": {
-    "message": "Unterricht teilweise betroffen",
+    "message": "Enseignement partiellement impacté",
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.yes.title": {
-    "message": "Unterricht betroffen",
+    "message": "Enseignement impacté",
     "description": "Label for the Event Field"
   },
   "eventGrid.header.teachingAffected.title": {
-    "message": "Unterricht betroffen?",
+    "message": "Enseignement impacté",
     "description": "Message when hovering the icon"
   },
   "event.filter.departments": {
-    "message": "Abteilungen",
+    "message": "Filière",
     "description": "Filter: Departments"
   },
   "event.filter.classes": {
-    "message": "Klassen",
+    "message": "Classes",
     "description": "Filter: Classes"
   },
   "components.event.usersevents.index.delete": {
-    "message": "Job Löschen",
+    "message": "Supprimer",
     "description": "Text to delete a job"
   },
   "navbar.loginProfileButton.modal.header": {
-    "message": "Session abgelaufen",
+    "message": "Session expirée",
     "description": "When the login token must be recreated"
   },
   "navbar.loginProfileButton.modal.body": {
-    "message": "Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.",
+    "message": "La validation de sécurité avec Office 365 doit être renouvelée.",
     "description": "When the login token must be recreated"
   },
   "share.badge.error.title": {
@@ -1209,69 +1225,118 @@
     "description": "share.badge.error.title"
   },
   "share.badge.loading.title": {
-    "message": "Laden",
+    "message": "Charger",
     "description": "share.badge.loading.title"
   },
   "share.badge.success.title": {
-    "message": "Erfolgreich",
+    "message": "Réussi",
     "description": "share.badge.success.title"
   },
   "EventAudience.ALL.description.long": {
-    "message": "Alle",
+    "message": "Tout le monde",
     "description": "This event is for everyone, no matter wheter a lesson is affected or not"
   },
   "EventAudience.KLP.description.long": {
-    "message": "Klassenlehrpersonen",
+    "message": "Maître·sse·s de classe",
     "description": "Only relevant (and displayed) for class teachers"
   },
   "EventAudience.LP.description.long": {
-    "message": "Lehrpersonen",
+    "message": "Enseignant·e·s dont les leçons sont impactées",
     "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
   },
   "EventAudience.STUDENTS.description.long": {
-    "message": "Schüler:innen",
+    "message": "Élèves",
     "description": "Relevant for SuS only, their KLP will be informed aswell"
   },
   "EventAudience.LP.example": {
-    "message": "Exkursion",
+    "message": "Excursion",
     "description": "Students Example"
   },
   "EventAudience.KLP.example": {
-    "message": "Einsammeln unterschriebener Zeugnisse",
+    "message": "Collecte des bulletins de notes signés",
     "description": "KLP Example"
   },
   "EventAudience.ALL.example": {
-    "message": "Schulstart",
+    "message": "Rentrée des classes",
     "description": "All Example"
   },
   "EventAudience.STUDENTS.LP.description": {
-    "message": "Lehrpersonen mit betroffenen Lektionen",
+    "message": "Enseignant·e·s dont les leçons sont impactées",
     "description": "audience: students, description for LP"
   },
   "user.button.refresh": {
-    "message": "Aktualisieren"
+    "message": "Actualiser"
   },
   "job.cancel.text": {
-    "message": "Cancel",
+    "message": "Annuler",
     "description": "Text of the button to cancel a job"
   },
   "event.reduce.title": {
-    "message": "Auf eine Zeile reduzieren",
+    "message": "Réduire sur une ligne",
     "description": "Button Title (hover) to reduce an expanded event in the table view"
   },
   "EventAudience.forExample": {
-    "message": "z.B."
+    "message": "p. ex."
   },
   "share.button.delete.confirm": {
-    "message": "Wirklich Löschen?",
+    "message": "Voulez-vous vraiment supprimer ?",
     "description": "Text of the button confirm"
   },
   "share.button.delete.confirm.no": {
-    "message": "Nein",
+    "message": "Non",
     "description": "Text of the button confirm no"
   },
   "share.button.delete.confirm.yes": {
-    "message": "Ja",
+    "message": "Oui",
     "description": "Text of the button confirm yes"
+  },
+  "shared.fullscreenbutton.exitfullscreen": {
+    "message": "Quitter le mode plein écran",
+    "description": "Text of the button exit full screen"
+  },
+  "shared.fullscreenbutton.gofullscreen": {
+    "message": "Plein écran",
+    "description": "Text of the button full screen"
+  },
+  "component.event.eventprops.clone": {
+    "message": "Dupliquer",
+    "description": "Text of the button clone"
+  },
+  "event.options.title": {
+    "message": "Plus d'options",
+    "description": "Button Title (hover) to show a popup with options for an eventText of the button clone"
+  },
+  "event.options.popup.header": {
+    "message": "Options",
+    "description": "Title of the popup with options for an event"
+  },
+  "event.options.clone": {
+    "message": "Dupliquer",
+    "description": "Text of the button clone"
+  },
+  "event.options.group": {
+    "message": "Groupe",
+    "description": "Text of the button group"
+  },
+  "event.options.delete": {
+    "message": "Supprimer",
+    "description": "Text of the button delete"
+  },
+  "event.options.edit": {
+    "message": "Éditer",
+    "description": "Text of the button edit"
+  },
+  "event.options.share": {
+    "message": "Partager",
+    "description": "Text of the button share"
+  },
+  "event.options.open.overview": {
+    "message": "Ouvrir aperçu",
+    "description": "Text of the button open overview"
+  }
+  ,
+  "event.options.open": {
+    "message": "Ouvrir",
+    "description": "Text of the button open"
   }
 }

@@ -12,15 +12,15 @@
     "description": "Navbar item with label Kalender"
   },
   "item.label.Tabelle": {
-    "message": "Tableau",
+    "message": "Liste",
     "description": "Navbar item with label Tabelle"
   },
   "item.label.Zeitachse": {
-    "message": "Ligne du temps",
+    "message": "Axe du temps",
     "description": "Navbar item with label Zeitachse"
   },
   "item.label.Outlook": {
-    "message": "Outlook",
+    "message": "Export",
     "description": "Navbar item with label Outlook"
   }
 }
