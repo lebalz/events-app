@@ -30,6 +30,7 @@
     "clsx": "^1.2.1",
     "docusaurus-plugin-sass": "^0.2.5",
     "dotenv": "^16.0.3",
+    "exceljs": "^4.4.0",
     "gantt-task-react": "^0.3.9",
     "humanize-duration": "^3.28.0",
     "joi": "^17.9.2",
