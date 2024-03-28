@@ -41,6 +41,16 @@ const ImportEvents = observer((props: Props) => {
         >
             <Tabs lazy>
                 <TabItem
+                    value="v1"
+                    label={translate({
+                        id: 'import.tab.v1.label',
+                        message: 'V1 Import',
+                        description: 'import.tab.v1'
+                    })}
+                >
+                    <Upload type={ImportType.V1} />
+                </TabItem>
+                <TabItem
                     value="gbsl"
                     label={translate({
                         id: 'import.tab.gbsl.label',

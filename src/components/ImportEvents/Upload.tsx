@@ -14,17 +14,17 @@ interface Props {
     type: ImportType;
 }
 const FileEnding: {[key in ImportType]: '.xlsx' | '.csv'} = {
-    [ImportType.EVENTS_XLSX]: '.xlsx',
+    [ImportType.V1]: '.xlsx',
     [ImportType.GBJB_CSV]: '.csv',
     [ImportType.GBSL_XLSX]: '.xlsx',
 }
 const FileIcon: {[key in ImportType]: string} = {
-    [ImportType.EVENTS_XLSX]: mdiFileExcel,
+    [ImportType.V1]: mdiFileExcel,
     [ImportType.GBJB_CSV]: mdiFileDelimited,
     [ImportType.GBSL_XLSX]: mdiFileExcel
 }
 const FileIconColor: {[key in ImportType]: string} = {
-    [ImportType.EVENTS_XLSX]: 'green',
+    [ImportType.V1]: 'green',
     [ImportType.GBJB_CSV]: 'blue',
     [ImportType.GBSL_XLSX]: 'green'
 }

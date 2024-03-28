@@ -192,7 +192,7 @@ export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} 
 export enum ImportType {
     GBSL_XLSX = 'GBSL_XLSX',
     GBJB_CSV = 'GBJB_CSV',
-    EVENTS_XLSX = 'EVENTS_XLSX',
+    V1 = 'V1',
 }
 
 export interface PrismaEvent {
