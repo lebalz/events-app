@@ -25,34 +25,40 @@ const DefaultEventActions = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     return (
         <DefinitionList gridTemplateColumns='1fr 0.5fr'>
-            <dt>
-                <Translate
-                    id="event.options.open"
-                    description="Text of the button open"
-                >
-                    Öffnen
-                </Translate>
-            </dt>
-            <dd>
-                <Button
-                    title={translate({
-                            message: 'Übersicht Öffnen',
-                            id: 'event.options.open.overview',
-                            description: "Text of the button open overview"
-                        })}
-                    icon={mdiArrowExpandAll}
-                    color="blue"
-                    size={SIZE_S}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        viewStore.setEventModalId(event.id);
-                        if (props.closePopup) {
-                            props.closePopup();
-                        }
-                    }}
-                />
-            </dd>
+            {
+                viewStore.openEventModalId !== event.id && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.options.open"
+                                description="Text of the button open"
+                            >
+                                Öffnen
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <Button
+                                title={translate({
+                                        message: 'Übersicht Öffnen',
+                                        id: 'event.options.open.overview',
+                                        description: "Text of the button open overview"
+                                    })}
+                                icon={mdiArrowExpandAll}
+                                color="blue"
+                                size={SIZE_S}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    viewStore.setEventModalId(event.id);
+                                    if (props.closePopup) {
+                                        props.closePopup();
+                                    }
+                                }}
+                            />
+                        </dd>
+                    </>
+                )
+            }
             <dt>
                 <Translate
                     id="event.options.share"
