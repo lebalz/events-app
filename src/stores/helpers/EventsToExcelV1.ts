@@ -1,13 +1,19 @@
-import Excel from 'exceljs';
+import Excel, { ValueType } from 'exceljs';
 import Event from "@site/src/models/Event";
 import { translate } from '@docusaurus/Translate';
 import Department from '@site/src/models/Department';
 
 const DEP_ORDER = ['GBSL', 'GBSL/GBJB', 'GBJB', 'GBJB/GBSL', 'FMS', 'ECG', 'ECG/FMS', 'WMS', 'ESC', 'FMPäd', 'MSOP', 'Passerelle']
 
+const toDate = (date: Date) => {
+    return date.toISOString().slice(0, 10).split('-').reverse().join('.');
+};
 
 export const toExcel = async (events: Event[], departments: Department[]) => {
     const workbook = new Excel.Workbook();
+    workbook.creator = 'Events-App';
+    workbook.model.contentStatus = 'V1';
+
     const worksheet = workbook.addWorksheet(translate({id: 'xlsx.events', message: 'Termine'}));
     const _depNames = departments.map(d => d.name);
     const depNames = [...DEP_ORDER.filter(dep => _depNames.includes(dep)), ..._depNames.filter(dep => !_depNames.includes(dep)).sort()];
@@ -45,15 +51,15 @@ export const toExcel = async (events: Event[], departments: Department[]) => {
                 e.kw,
                 e.dayStart,
                 e.description,
-                e.fStartDate,
-                e.fStartTime === '0:00' ? '' : e.fStartTime.padStart(5, '0'),
-                e.fEndDate,
-                e.fEndTime === '0:00' ? '' : e.fEndTime.padStart(5, '0'),
+                toDate(e.start),
+                e.isAllDay ? '' : e.fStartTime.padStart(5, '0'),
+                toDate(e.end),
+                e.isAllDay ? '' : e.fEndTime.padStart(5, '0'),
                 e.location, 
                 e.descriptionLong,
                 ...depNames.map((dep) => e.departments.find(d => d.name === dep) ? 1 : ''),
                 e.affectsDepartment2 ? 1 : 0,
-                [...[...e.classGroups].map(g => `${g}*`), ...e._selectedClassNames].join(', '),
+                [...[...e.classGroups].map(g => `${g}*`), ...e.classes].join(', '),
                 e.audience,
                 e.teachingAffected,
                 e.deletedAt ? Event.fDate(e.deletedAt) : ''
