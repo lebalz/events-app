@@ -49,10 +49,11 @@ const DefaultEventActions = observer((props: Props) => {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    viewStore.setEventModalId(event.id);
                                     if (props.closePopup) {
+                                        console.log('close popup')
                                         props.closePopup();
                                     }
+                                    viewStore.setEventModalId(event.id);
                                 }}
                             />
                         </dd>

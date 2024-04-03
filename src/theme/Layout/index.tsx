@@ -9,7 +9,13 @@ type Props = WrapperProps<typeof LayoutType>;
 export default function LayoutWrapper(props: Props & {children?: ReactNode}): JSX.Element {
   return (
     <>
-      <Layout {...props} children={<>{props.children}<EventModal /></>}/>
+      <Layout {...props} children={
+        <>
+          {props.children}
+          <EventModal />  
+          <div id="popup-root" />
+        </>}
+      />
     </>
   );
 }

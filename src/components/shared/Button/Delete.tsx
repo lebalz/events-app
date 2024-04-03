@@ -3,9 +3,10 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { DeleteIcon, SIZE_S } from '../icons';
-import Button, { Base, extractSharedProps } from '.';
+import Button, { Base, POPUP_BUTTON_STYLE, extractSharedProps } from '.';
 import Translate, { translate } from '@docusaurus/Translate';
-import Popup from '../Popup';
+import Popup from 'reactjs-popup';
+import { getButtonColorClass } from '../Colors';
 
 interface Props {
     onClick: () => void;
@@ -21,68 +22,70 @@ const Delete = (props: DeleteProps) => {
     return (
         <span className={clsx(styles.delete, props.className)}>
             <Popup
-                trigger={
-                    <Button
-                        title={
-                            props.title || translate({
-                                message : "Löschen",
-                                id : "share.button.delete.title",
-                                description : "Text of the button delete"
-                            })
-                        }
-                        {...extractSharedProps(props)}
-                        className={clsx(props.className, styles.delete, props.flyoutSide === 'right' && styles.right, props.className)}
-                        color='red'
-                        icon={<DeleteIcon size={props.size ?? SIZE_S} />}
-                    />
-                }
-                popupTitle={
-                    translate({
-                        message : "Wirklich Löschen?",
-                        id : "share.button.delete.confirm",
-                        description : "Text of the button confirm"
-                    })
-                }
+                trigger={(open) => (
+                    <button
+                        className={clsx(
+                            POPUP_BUTTON_STYLE,
+                            getButtonColorClass('red')
+                        )}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }}
+                    >
+                        <DeleteIcon size={props.size ?? SIZE_S} />
+                    </button>
+                )}
                 on="click"
-                isOpen={isOpen}
+                open={isOpen}
                 onOpen={() => setIsOpen(true)}
                 onClose={() => setIsOpen(false)}
-                align='center'    
-                positions={['bottom']}
+                position={['bottom center', 'top center']}
             >
-                <div className={clsx('button-group', 'button-group--block')}>
-                    <Button
-                        className={clsx(styles.discard)}
-                        color='secondary'
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            setIsOpen(false);
-                        }}
-                        text={
-                            translate({
-                                message : "Nein",
-                                id : "share.button.delete.confirm.no",
-                                description : "Text of the button confirm no"
-                            })
-                        }
-                    />
-                    <Button
-                        className={clsx(styles.confirm)}
-                        color='red'
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            props.onClick();
-                        }}
-                        text={
-                            translate({
-                                message : "Ja",
-                                id : "share.button.delete.confirm.yes",
-                                description : "Text of the button confirm yes"
-                            })
-                        }
-                    />
+                <div className={clsx('card')}>
+                    <div className={clsx('card__header')}>
+                        <h4>
+                            <Translate id="share.button.delete.confirm" description="Text of the button confirm">
+                                Wirklich Löschen?
+                            </Translate>
+                        </h4>
+                    </div>
+                    <div className={clsx('card__footer')}>
+                        <div className={clsx('button-group', 'button-group--block')}>
+                            <Button
+                                className={clsx(styles.discard)}
+                                color='secondary'
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    setIsOpen(false);
+                                }}
+                                text={
+                                    translate({
+                                        message : "Nein",
+                                        id : "share.button.delete.confirm.no",
+                                        description : "Text of the button confirm no"
+                                    })
+                                }
+                            />
+                            <Button
+                                className={clsx(styles.confirm)}
+                                color='red'
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    props.onClick();
+                                }}
+                                text={
+                                    translate({
+                                        message : "Ja",
+                                        id : "share.button.delete.confirm.yes",
+                                        description : "Text of the button confirm yes"
+                                    })
+                                }
+                            />
+                        </div>
+                    </div>
                 </div>
             </Popup>
         </span>

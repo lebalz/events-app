@@ -1,49 +1,58 @@
 import React from 'react';
 
 import { observer } from 'mobx-react-lite';
-import Popup from '../../shared/Popup';
 import Event from '@site/src/models/Event';
-import Button from '../../shared/Button';
+import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
 import { mdiTagEditOutline } from '@mdi/js';
-import { SIZE_S } from '../../shared/icons';
+import { Icon, SIZE_S } from '../../shared/icons';
 import GroupSelect from './GroupSelect';
+import Popup from 'reactjs-popup';
+import clsx from 'clsx';
+import { getButtonColorClass } from '../../shared/Colors';
+import styles from './styles.module.scss';
 
 
 interface Props {
     event: Event;
-    trigger?: JSX.Element;
 }
 
 const EventsGroupPopup = observer((props: Props) => {
-    const ref = React.useRef<HTMLDivElement>(null);
-    const [show, setShow] = React.useState(false);
-    React.useEffect(() => {
-        if (ref.current) {
-            setShow(true);
-        }
-    },[ref]);
-
     return (
-        <div ref={ref}>
-            {
-                show && (
-                    <Popup
-                        trigger={props.trigger ||( 
-                            <Button 
-                                text={`${props.event.groups.length}`}
-                                icon={mdiTagEditOutline} 
-                                size={SIZE_S}
-                            />
-                        )}
-                        popupTitle='Event Group'
-                        on='click'
-                        parentRef={ref}
-                    >
-                        <GroupSelect event={props.event} />
-                    </Popup>
-                )
+        <Popup
+            trigger={
+                <button
+                    className={clsx(
+                        POPUP_BUTTON_STYLE
+                    )}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}
+                >
+                    <span className={clsx(styles.textAndIcon)}>
+                        <span className={clsx(styles.text)}>
+                            {props.event.groups.length}
+                        </span>
+                        <span className={clsx(styles.spacer, styles.borderLeft)}></span>
+                        <Icon path={mdiTagEditOutline} size={SIZE_S} />
+                    </span>
+                </button>
             }
-        </div>
+            on='click'
+            position={['bottom right', 'top right']}
+            nested
+        >
+            <div className={clsx('card')}>
+                <div className={clsx('card__header')}>
+                    <h4>
+                        Gruppen
+                    </h4>
+                </div>    
+                <div className={clsx('card__body')}>
+                    <GroupSelect event={props.event} />
+                </div>
+            </div>
+        </Popup>
     )
 });
 

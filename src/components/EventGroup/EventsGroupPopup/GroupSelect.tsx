@@ -23,7 +23,7 @@ const GroupSelect = observer((props: Props) => {
             isClearable={true}
             menuPortalTarget={document.body}
             styles={{
-                menuPortal: (base) => ({ ...base, zIndex: 'calc(var(--ifm-z-index-overlay) + 10)' })
+                menuPortal: (base) => ({ ...base, zIndex: '1000' })
             }}
             onChange={(options, meta) => {
                 console.log('options', options, meta);

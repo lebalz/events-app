@@ -18,6 +18,9 @@
     }
     &.reducedPadding {
         padding: 0 0.2rem;
+        &.popupButton {
+            height: 1.65rem;
+        }
     }
     &.soloText {
         padding: calc(0.2rem - 1px) 0.4rem;
@@ -83,9 +86,6 @@
 
 .delete {
     display: flex;
-    // .button {
-    //     --ifm-button-border-color: var(--ifm-color-danger);
-    // }
     &.expanded {
         .button {
             &:first-child {
@@ -110,4 +110,8 @@
     .button {
         margin: 0rem;
     }
+}
+
+.popupButton {
+    height: 1.65rem;
 }

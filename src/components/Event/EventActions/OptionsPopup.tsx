@@ -4,9 +4,8 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Popup from '../../shared/Popup';
-import Button from '../../shared/Button';
-import { SIZE_S } from '../../shared/icons';
+import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
+import { Icon, SIZE_S } from '../../shared/icons';
 import { mdiContentDuplicate, mdiDotsHorizontalCircleOutline } from '@mdi/js';
 import { translate } from '@docusaurus/Translate';
 import Edit from '../../shared/Button/Edit';
@@ -16,6 +15,10 @@ import i18n from '@generated/i18n';
 import { useHistory } from '@docusaurus/router';
 import EventsGroupPopup from '../../EventGroup/EventsGroupPopup';
 import DefaultEventActions from './DefaultEventActions';
+import Popup from 'reactjs-popup';
+import { PopupActions } from 'reactjs-popup/dist/types';
+import clrStyles from '../../shared/Colors/styles.module.scss';
+import { action } from 'mobx';
 
 
 interface Props {
@@ -76,34 +79,30 @@ export const AddToGroup = observer((props: ActionProps) => {
 });
 
 const OptionsPopup = observer((props: Props) => {
-    const [isOpen, setOpen] = React.useState(false);
+    const ref = React.useRef<PopupActions>();
+    
     return (
         <Popup
-            trigger={
-                props.trigger || (
-                    <Button
-                        size={SIZE_S}
-                        icon={mdiDotsHorizontalCircleOutline}
-                        color={isOpen ? 'blue' : 'black'}
-                        title={translate({
-                            message: 'Optionen Anzeigen',
-                            id: 'event.options.title',
-                            description: 'Button Title (hover) to show a popup with options for an event'
-                        })}
-                    />
-                )
-            }
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
-            isOpen={isOpen}
-            on="click"
-            popupTitle={translate({
-                message: 'Optionen',
-                id: 'event.options.popup.header',
-                description: 'Title of the popup with options for an event'
-            })}
+            ref={ref}
+            trigger={action((open) => (
+                <button
+                    className={clsx(
+                        POPUP_BUTTON_STYLE,
+                        open ? clrStyles.buttonBlue : clrStyles.buttonBlack,
+                    )}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}
+                >
+                    <Icon path={mdiDotsHorizontalCircleOutline} size={SIZE_S} />
+                </button>
+            ))}
+            position={['bottom right', 'top right']}
+            on={'click'}
+            nested
         >
-            <DefaultEventActions event={props.event} closePopup={() => setOpen(false)}/>
+            <DefaultEventActions event={props.event} closePopup={() => ref.current?.close()}  />
         </Popup>
     )
 });

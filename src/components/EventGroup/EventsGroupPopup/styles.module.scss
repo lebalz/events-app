@@ -1,0 +1,26 @@
+.groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2em;
+}
+
+.textAndIcon {
+    display: flex;
+    .text {
+        padding: 0 4px;
+    }
+    .spacer {
+        flex: 1 1 0;
+        height: 2.5ex;
+        &.borderLeft,
+        &.borderRight {
+            margin: 0 0.2rem;
+        }
+        &.borderLeft {
+            border-left: 1px solid var(--ifm-button-border-color);
+        }
+        &.borderRight {
+            border-right: 1px solid var(--ifm-button-border-color);
+        }
+    }
+}

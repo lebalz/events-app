@@ -11,7 +11,6 @@ import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
 import { mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiShareCircle } from '@mdi/js';
 import Translate, { translate } from '@docusaurus/Translate';
-import Popup from '../../shared/Popup';
 import OptionsPopup, { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
 import DefinitionList from '../../shared/DefinitionList';
 import DefaultEventActions from './DefaultEventActions';

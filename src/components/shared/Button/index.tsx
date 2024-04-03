@@ -2,12 +2,21 @@ import React, { MouseEventHandler, type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import clrStyles from '../Colors/styles.module.scss';
 import { ApiState } from '@site/src/stores/iStore';
-import { ApiIcon, Icon, SIZE, SIZE_S, SIZE_XS } from '../icons';
+import { ApiIcon, Icon, SIZE_S } from '../icons';
 import Link from '@docusaurus/Link';
-import { Color, getButtonColorClass, getColorClass } from '../Colors';
-import { mdiSortAscending } from '@mdi/js';
+import { Color, getButtonColorClass } from '../Colors';
+
+export const POPUP_BUTTON_STYLE = clsx(
+    styles.button,
+    styles.reducedPadding, 
+    styles.iconLeft,
+    styles.popupButton,
+    'button',
+    'button--outline',
+    'button--primary'
+);
 
 export interface Base {
     onClick?: MouseEventHandler<HTMLButtonElement>;

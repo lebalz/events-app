@@ -10,7 +10,6 @@ import { DeleteIcon, SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
 import Badge from '../../shared/Badge';
-import Popup from '../../shared/Popup';
 import TextInput from '../../shared/TextInput';
 import { useStore } from '@site/src/stores/hooks';
 import AddUserPopup from './AddUserPopup';

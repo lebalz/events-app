@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Popup from '../../shared/Popup';
 import Button from '../../shared/Button';
 import { mdiCheckCircle, mdiPlusCircleOutline } from '@mdi/js';
 import { Icon, SIZE_S } from '../../shared/icons';
@@ -13,6 +12,7 @@ import { translate } from '@docusaurus/Translate';
 import Badge from '../../shared/Badge';
 import EventGroup from '@site/src/models/EventGroup';
 import _ from 'lodash';
+import Popup from 'reactjs-popup';
 
 
 interface Props {
@@ -44,13 +44,8 @@ const AddUserPopup = observer((props: Props) => {
             {show && (
                 <Popup
                     trigger={<Button icon={mdiPlusCircleOutline} size={SIZE_S} />}
-                    align='center'
-                    positions={['top']}
-                    classNameTrigger={styles.trigger}
-                    classNamePopup={styles.popup}
-                    parentRef={ref}
-                    repositionLeftBoundary
-                    arrowSize={0}
+                    position={['top center', 'bottom center', 'right center', 'left center']}
+                    nested
                 >
                     <div className={clsx(styles.addContainer)}>
                         <TextInput
