@@ -6,13 +6,19 @@ export const formatTime = (date: Date) => {
     return `${hours}:${minutes}`;
 }
 
-export const formatDate = (date: Date) => {
+export const formatDateLong = (date: Date) => {
     const day = `${date.getDate()}`.padStart(2, '0');
     const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    const year = `${date.getFullYear()}`.padStart(4, '0').slice(2);
+    const year = `${date.getFullYear()}`.padStart(4, '0');
 
     return `${day}.${month}.${year}`;
 }
+
+export const formatDate = (date: Date) => {
+    const fDate = formatDateLong(date);
+    return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
+}
+
 
 export const formatDateTime = (date: Date) => {
     return `${formatDate(date)} ${formatTime(date)}`;

@@ -33,8 +33,8 @@ export const toExcel = async (events: Event[], departments: Department[]) => {
         { header: translate({id: 'xlsx.bilingueLPsAffected', message: 'Bilingue LP\'s betroffen'})},
         { header: translate({id: 'xlsx.classes', message: 'Klassen'}), key: 'classes', width: 10, outlineLevel: 1 },
         { header: translate({id: 'xlsx.affects', message: 'Betrifft'}), key: 'audience', width: 10, outlineLevel: 1 },
-        { header: translate({id: 'xlsx.teachingAffected', message: 'teachingAffected'}), key: 'teachingAffected', width: 10, outlineLevel: 1 },
-        { header: translate({id: 'xlsx.deletedAt', message: 'Gelöscht Am'}), key: 'deletedAt', width: 15, outlineLevel: 1}
+        { header: translate({id: 'xlsx.teachingAffected', message: 'Unterricht Betroffen?'}), key: 'teachingAffected', width: 10, outlineLevel: 1 },
+        { header: translate({id: 'xlsx.deletedAt', message: 'Gelöscht am'}), key: 'deletedAt', width: 15, outlineLevel: 1}
     ] satisfies typeof worksheet.columns;
     worksheet.addTable({
         name: translate({id: 'xlsx.events', message: 'Termine'}),
@@ -51,9 +51,9 @@ export const toExcel = async (events: Event[], departments: Department[]) => {
                 e.kw,
                 e.dayStart,
                 e.description,
-                toDate(e.start),
+                e.fStartDateLong,
                 e.isAllDay ? '' : e.fStartTime.padStart(5, '0'),
-                toDate(e.end),
+                e.fEndDateLong,
                 e.isAllDay ? '' : e.fEndTime.padStart(5, '0'),
                 e.location, 
                 e.descriptionLong,

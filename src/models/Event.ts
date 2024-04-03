@@ -3,7 +3,7 @@ import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, 
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday, DAYS_LONG, dateBetween } from './helpers/time';
+import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday, DAYS_LONG, dateBetween, formatDateLong } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
@@ -225,6 +225,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get isAllDay() {
+        if (this.durationMS === 0) {
+            return false;
+        }
         return this.start.getHours() === 0 && this.start.getMinutes() === 0 && this.end.getHours() === 0 && this.end.getMinutes() === 0;
     }
 
@@ -563,7 +566,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get fEndTime() {
-        if (this.end.getHours() === 0 && this.end.getMinutes() === 0) {
+        if (this.durationMS > 0 && this.end.getHours() === 0 && this.end.getMinutes() === 0) {
             return '24:00';
         }
         return formatTime(this.end);
@@ -578,18 +581,29 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.end.getHours() * 100 + this.end.getMinutes();
     }
 
+    get fStartDateLong() {
+        return formatDateLong(this.start);
+    }
+
     @computed
     get fStartDate() {
-        return formatDate(this.start);
+        const fDate = this.fStartDateLong;
+        return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
+    }
+    
+    get fEndDateLong() {
+        if (this.isAllDay) {
+            return formatDateLong(new Date(this.end.getTime() - 1));
+        }
+        return formatDateLong(this.end);
     }
 
     @computed
     get fEndDate() {
-        if (this.isAllDay) {
-            return formatDate(new Date(this.end.getTime() - 1));
-        }
-        return formatDate(this.end);
+        const fDate = this.fEndDateLong;
+        return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
     }
+
 
     @action
     setAllDay(allDay: boolean) {
