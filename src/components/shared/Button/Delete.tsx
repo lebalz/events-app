@@ -23,18 +23,15 @@ const Delete = (props: DeleteProps) => {
         <span className={clsx(styles.delete, props.className)}>
             <Popup
                 trigger={(open) => (
-                    <button
-                        className={clsx(
-                            POPUP_BUTTON_STYLE,
-                            getButtonColorClass('red')
-                        )}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                        }}
-                    >
-                        <DeleteIcon size={props.size ?? SIZE_S} />
-                    </button>
+                    <span>
+                        <Button
+                            {...extractSharedProps(props)}
+                            icon={<DeleteIcon size={props.size ?? SIZE_S} />}
+                            size={props.size ?? SIZE_S}
+                            onClick={(e) => e.preventDefault()}
+                            color='red'
+                        />
+                    </span>
                 )}
                 on="click"
                 open={isOpen}

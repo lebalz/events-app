@@ -88,7 +88,8 @@ const OptionsPopup = observer((props: Props) => {
                 <button
                     className={clsx(
                         POPUP_BUTTON_STYLE,
-                        open ? clrStyles.buttonBlue : clrStyles.buttonBlack,
+                        open ? clrStyles.butonPrimary : clrStyles.buttonBlack,
+                        styles.optionsButton
                     )}
                     onClick={(e) => {
                         e.stopPropagation();

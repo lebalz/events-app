@@ -19,7 +19,7 @@
     &.reducedPadding {
         padding: 0 0.2rem;
         &.popupButton {
-            height: 1.65rem;
+            min-height: 1.65rem;
         }
     }
     &.soloText {
@@ -113,5 +113,5 @@
 }
 
 .popupButton {
-    height: 1.65rem;
+    min-height: 1.65rem;
 }
