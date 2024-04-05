@@ -66,7 +66,7 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
         return this.withAbortController(`sync-untis-semester-${semester.id}`, (sig) => {
             return apiStartSyncJob(semester.id, sig.signal)
                 .then(({ data }) => {
-                    this.root.jobStore.addToStore(data);
+                    this.root.jobStore.addToStore(data, 'create', true);
                 })
         });
     }

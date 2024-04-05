@@ -29,14 +29,14 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         return this.root.userStore.find<User>(id);
     }
 
-    addToStore(data: JobProps): Job
+    addToStore(data: JobProps, state?: 'load' | 'create', reloadStores?: boolean): Job
     @override
-    addToStore(data: JobAndEventsProps): Job {
+    addToStore(data: JobAndEventsProps, state?: 'load' | 'create', reloadStores?: boolean): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
             if (this.initialAuthorizedLoadPerformed) {
                 this.removeFromStore(data.id);
-                if (job.type === ApiJobType.SYNC_UNTIS) {
+                if (reloadStores && job.type === ApiJobType.SYNC_UNTIS) {
                     this.root.departmentStore.reload();
                     this.root.untisStore.reload();
                 }
@@ -117,7 +117,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         return this.withAbortController(`importFile-${file.name}`, (sig) => {
             return postImportEvents(formData, type, sig.signal).then(({ data }) => {
                 if (data) {
-                    const job = this.addToStore(data);
+                    const job = this.addToStore(data, 'create', true);
                     return job;
                 }
                 return null;

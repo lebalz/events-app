@@ -107,6 +107,7 @@ export class RootStore {
     @action
     load(type: 'public' | 'authorized', semesterId?: string) {
         return Promise.all(this.loadableStores.map((store) => {
+            console.log('load', type, store.constructor.name);
             if (type === 'public') {
                 return store.loadPublic(semesterId);
             } else {

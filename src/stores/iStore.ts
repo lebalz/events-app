@@ -59,6 +59,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     withAbortController<T>(sigId: Api | ApiAction, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
         if (this.abortControllers.has(sigId)) {
+            console.log('aborting', sigId);
             this.abortControllers.get(sigId).abort();
         }
         this.abortControllers.set(sigId, sig);
@@ -179,7 +180,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                     if (err.code !== 'ERR_CANCELED') {
                         this.ApiEndpoint.setLoaded(models);
                     }
-                    console.warn(err.code);
+                    console.warn(endPoint, err.code);
                     return this.postLoad([], models === 'public', false).then(() => []).catch(() => []);
                 });
         });
