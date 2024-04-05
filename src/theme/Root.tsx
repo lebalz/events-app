@@ -9,7 +9,6 @@ import { useLocation } from "@docusaurus/router";
 import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from "@azure/msal-browser";
 import { setupAxios } from "../api/base";
 const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
-import 'reactjs-popup/dist/index.css';
 export const msalInstance = new PublicClientApplication(msalConfig);
 
 if (NO_AUTH) {

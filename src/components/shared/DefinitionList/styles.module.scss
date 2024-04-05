@@ -37,7 +37,7 @@ dl.definitionList {
 }
 
 @media screen and (max-width: 620px) {
-    dl.definitionList {    
+    dl.definitionList:not(.ignoreMediaQueries) {    
         grid-template-columns: 1fr;
         dt {
             justify-content: left;

@@ -19,11 +19,5 @@
     }
 }
 :global(.popup-content) {
-    max-width: 30em;
-}
-
-@media screen and (max-width: 768px) {
-    :global(.popup-content) {
-        width: 90%;
-    }
+    max-width: min(60em, 90vw);
 }

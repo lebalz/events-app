@@ -15,7 +15,7 @@ interface Props {
 const DefinitionList = observer((props: Props) => {
     return (
         <dl 
-            className={clsx(styles.definitionList, props.className)}
+            className={clsx(styles.definitionList, props.className, props.gridTemplateColumns && styles.ignoreMediaQueries)}
             style={{gridTemplateColumns: props.gridTemplateColumns}}
         >
             {props.children}

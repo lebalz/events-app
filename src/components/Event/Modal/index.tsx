@@ -4,16 +4,14 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Modal from '../../shared/Modal';
 import {default as EventModel} from '@site/src/models/Event';
-import Event from '..';
 import Button from '../../shared/Button';
-import { mdiClose, mdiContentDuplicate, mdiShareCircle } from '@mdi/js';
-import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons';
+import { mdiClose, mdiShareCircle } from '@mdi/js';
 import EventActions from '../EventActions';
 import EventBody from '../EventBody';
 import useResizeObserver from '../../shared/hooks/useResizeObserver';
 import { translate } from '@docusaurus/Translate';
+import Popup from 'reactjs-popup';
 
 
 interface Props {
@@ -44,10 +42,15 @@ const EventModal = observer((props: Props) => {
     const ref = useResizeObserver(onResize);
 
     return (
-        <Modal
+        <Popup
             open={!!event}
             onClose={() => viewStore.setEventModalId()}
+            modal
+            closeOnEscape
+            closeOnDocumentClick
+            nested
         >
+
             <div className={clsx(styles.card, 'card')} ref={ref}>
                 <div className={clsx(styles.header, 'card__header')}>
                     <h3>{event?.description}</h3>
@@ -109,7 +112,7 @@ const EventModal = observer((props: Props) => {
                     </div>
                 </div>
             </div>
-        </Modal>
+        </Popup>
     )
 });
 
