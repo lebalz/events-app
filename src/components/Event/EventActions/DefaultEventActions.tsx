@@ -50,7 +50,6 @@ const DefaultEventActions = observer((props: Props) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     if (props.closePopup) {
-                                        console.log('close popup')
                                         props.closePopup();
                                     }
                                     viewStore.setEventModalId(event.id);
