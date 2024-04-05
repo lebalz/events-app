@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType as ApiJobType} from '../api/job';
-import { ImportType, importEvents as postImportEvents } from '../api/event';
+import { EventState, ImportType, importEvents as postImportEvents } from '../api/event';
 import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
 import { find } from '../api/api_model';
@@ -55,13 +55,6 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     removeFromStore(id?: string) {
         if (!id) {
             return;
-        }
-        if (this.initialAuthorizedLoadPerformed) {
-            /**
-             * remove events created by this job from eventStore
-             */
-            const eventsToRemove = this.root.eventStore.events.slice().filter((e) => e.jobId === id);
-            this.root.eventStore.removeEvents(eventsToRemove);
         }
         /**
          * remove the job from the store

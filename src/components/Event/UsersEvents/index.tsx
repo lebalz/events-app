@@ -211,7 +211,7 @@ const UsersEvents = observer((props: Props) => {
                         const events = viewStore.allEvents({ jobId: job.id, orderBy: 'isValid-asc' });
                         return (
                             <LazyDetails
-                                key={idx}
+                                key={job.id}
                                 summary={
                                     <summary>
                                         {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {events.length}

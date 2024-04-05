@@ -53,8 +53,8 @@ class EventTable {
 
 
     constructor(store: ViewStore) {
-        this.store = store;
         makeObservable(this);
+        this.store = store;
     }
 
     @action

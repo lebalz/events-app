@@ -139,7 +139,7 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
             if (idx !== -1) {
                 current.splice(idx, 1);
             }
-        })
+        });
         this.models.replace(current);
     }
 

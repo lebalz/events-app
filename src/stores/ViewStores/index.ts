@@ -22,7 +22,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable
     fullscreen = false;
 
-    @observable.ref
+    // @observable.ref
     eventTable: EventTable;
 
     @observable
@@ -61,11 +61,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     expandedEventIds = observable.set<string>();
 
     constructor(store: RootStore) {
+        makeObservable(this);
         this.root = store;
         this.eventTable = new EventTable(this);
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
-        makeObservable(this);
     }
 
     usersEvents = ({
