@@ -16,7 +16,6 @@ import {useWindowSize} from '@docusaurus/theme-common';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
 import Translate, { translate } from '@docusaurus/Translate';
-import Popup from '../../shared/Popup';
 import OptionsPopup, { AddToGroup, Clone, EditRowMode } from '../EventActions/OptionsPopup';
 import DefinitionList from '../../shared/DefinitionList';
 import DefaultEventActions from '../EventActions/DefaultEventActions';
@@ -76,6 +75,7 @@ const Actions = observer((props: Props) => {
                             <Button 
                                 icon={mdiArrowExpandUp} 
                                 onClick={(e) => {
+                                    e.preventDefault();
                                     e.stopPropagation();
                                     event.setExpanded(false)
                                 }}

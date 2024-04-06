@@ -94,7 +94,16 @@ const Row = observer((props: Props) => {
                             left: config.fixed?.left,
                             right: config.fixed?.right
                         }}
-                        onClick={() => props.event.setExpanded(true)}
+                        onClick={(e) => {
+                            const target = e.target as HTMLDivElement;
+                            /**
+                             * prevent expanding the row when the data-popup was dismissed
+                             */
+                            if (target.getAttribute('data-popup') === 'tooltip') {
+                                return;
+                            }
+                            props.event.setExpanded(true);
+                        }}
                         key={index}
                     >
                         <div style={{maxWidth: maxContentWidth}}>
