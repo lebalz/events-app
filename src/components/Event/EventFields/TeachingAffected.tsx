@@ -8,6 +8,7 @@ import { mdiCircle } from '@mdi/js';
 import { Icon, SIZE_XS, SIZE_XXS } from '../../shared/icons';
 import { TeachingAffected as TeachingAffectedType } from '@site/src/api/event';
 import { translate } from '@docusaurus/Translate';
+import Tooltip from '../../shared/Tooltip';
 
 interface Props extends ReadonlyProps {
     show: 'icon' | 'text' | 'both';
@@ -69,12 +70,16 @@ const TeachingAffected = observer((props: Props) => {
             )}
             title={TitleMap[event.teachingAffected]}
         >
-            {(show === 'icon' || show === 'both') && (
-                <Icon path={mdiCircle} color={ColorMap[event.teachingAffected]} size={SIZE_XXS} />
-            )}
-            {(show === 'text' || show === 'both') && (
-                <span>{DescriptionMap[event.teachingAffected]}</span>
-            )}
+            <Tooltip title={TitleMap[event.teachingAffected]}>
+                <>
+                    {(show === 'icon' || show === 'both') && (
+                        <Icon path={mdiCircle} color={ColorMap[event.teachingAffected]} size={SIZE_XXS} />
+                    )}
+                    {(show === 'text' || show === 'both') && (
+                        <span>{DescriptionMap[event.teachingAffected]}</span>
+                    )}
+                </>
+            </Tooltip>
         </div>
     )
 });

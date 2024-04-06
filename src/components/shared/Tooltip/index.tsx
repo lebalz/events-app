@@ -25,7 +25,7 @@ const Tooltip = observer((props: Props) => {
             position={['top center', 'top right', 'top left', ]}
             arrow={false}
             offsetY={5}
-            contentStyle={{maxWidth: '50%'}}
+            contentStyle={{width: 'max-content', maxWidth: '50%'}}
         >
             <div className={clsx(styles.tooltip)}>
                 {props.title}
