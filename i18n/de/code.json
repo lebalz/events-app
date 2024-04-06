@@ -1415,7 +1415,7 @@
     "message": "Auswahl aufheben"
   },
   "event.bulk_actions.stats.total_events": {
-    "message": "Anzahl Termine"
+    "message": "{num} Termine"
   },
   "event.options.open": {
     "message": "Öffnen",
@@ -1515,5 +1515,15 @@
   "theme.docs.DocCard.categoryDescription.plurals": {
     "message": "{count} Einträge",
     "description": "The default description for a category card in the generated index about how many items this category includes"
+  },
+  "event.filter.mine.title": {
+    "message": "Nur die für mich relevanten Termine anzeigen"
+  },
+  "event.filter.future.title": {
+    "message": "Vergangene Termine ausblenden.",
+    "description": "Filter: Only current and future events"
+  },
+  "eventGrid.header.sortBy.title": {
+    "message": "Sortieren nach \"{column}\""
   }
 }

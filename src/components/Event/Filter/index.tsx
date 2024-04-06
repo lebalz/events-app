@@ -83,6 +83,10 @@ const Filter = observer((props: Props) => {
                                     id: 'event.filter.mine',
                                     description: 'Filter: Only events affecting me'
                                 })}
+                                title={translate({
+                                    message: 'Nur die für mich relevanten Termine anzeigen',
+                                    id: 'event.filter.mine.title'
+                                })}
                                 active={eventTable.onlyMine}
                                 color='blue'
                                 onClick={() => eventTable.toggleOnlyMine()}
@@ -94,6 +98,11 @@ const Filter = observer((props: Props) => {
                             text={translate({
                                 message: 'Künftige',
                                 id: 'event.filter.future',
+                                description: 'Filter: Only current and future events'
+                            })}
+                            title={translate({
+                                message: 'Vergangene Termine ausblenden.',
+                                id: 'event.filter.future.title',
                                 description: 'Filter: Only current and future events'
                             })}
                             active={eventTable.onlyCurrentWeekAndFuture}

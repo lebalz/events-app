@@ -157,11 +157,13 @@ const ColumnHeader = observer((props: Props) => {
             content = <ButtonIcon icon={content} />;
         }
         if (!title) {
-            const sortFor = translate({
-                message: `Sortieren nach`,
-                id: 'eventGrid.header.sort.title'
-            });
-            title = `${sortFor} "${HeaderTitles[props.name]}"`;
+            title = translate(
+                {
+                    message: `Sortieren nach "{column}"`,
+                    id: 'eventGrid.header.sortBy.title'
+                },
+                {column: HeaderTitles[props.name]}
+            );
         }
     }
     return (

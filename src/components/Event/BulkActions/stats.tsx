@@ -4,7 +4,6 @@ import { default as EventModel } from '@site/src/models/Event';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Badge from '../../shared/Badge';
 import { Calendar, SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
@@ -26,9 +25,9 @@ const Stats = observer((props: Props) => {
                 color='blue'
                 title={
                     translate({
-                        message: 'Anzahl Termine', 
-                        id: 'event.bulk_actions.stats.total_events'
-                    })
+                        message: '{num} Termine', 
+                        id: 'event.bulk_actions.stats.total_events',
+                    }, {num: props.events.length})
                 }
             />
             {props.actions}

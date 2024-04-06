@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 
 interface Props {
     title?: string;
-    children: React.ReactNode | React.ReactNode[];
+    children: JSX.Element;
 }
 
 const MOUSE_ENTER_DELAY_MS = 250;
@@ -21,7 +21,7 @@ const Tooltip = observer((props: Props) => {
     }
     return (
         <Popup
-            trigger={<span>{props.children}</span>}
+            trigger={props.children}
             mouseEnterDelay={MOUSE_ENTER_DELAY_MS}
             mouseLeaveDelay={MOUSE_LEAVE_DELAY_MS}
             on='hover'

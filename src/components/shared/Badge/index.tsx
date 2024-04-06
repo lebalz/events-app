@@ -108,23 +108,16 @@ const Badge = (props: Props) => {
         props.className,
         props.disabled && styles.disabled
     );
-    const BadgeComponent = (
-        <span
-            className={clsx(commonCls)}
-            style={style}
-            title={props.title}
-        >
-            <BadgeInner {...props} />
-        </span>
+    return (        
+        <Tooltip title={props.title}>
+            <span
+                className={clsx(commonCls)}
+                style={style}
+            >
+                <BadgeInner {...props} />
+            </span>
+        </Tooltip>
     );
-    if (props.title) {
-        return (
-            <Tooltip title={props.title}>
-                {BadgeComponent}
-            </Tooltip>
-        )
-    }
-    return BadgeComponent;
 };
 
 export default Badge;

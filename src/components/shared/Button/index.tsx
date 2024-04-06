@@ -122,7 +122,7 @@ const ButtonInner = (props: Props) => {
     )
 }
 
-const RawButton = (props: Props) => {
+const Button = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
     let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
@@ -147,40 +147,32 @@ const RawButton = (props: Props) => {
     );
     if (props.href) {
         /** it is a link, styled as a button */
-        return (<Link
-            to={props.disabled ? '#' : props.href}
-            target={props.target}
-            className={clsx(styles.link, commonCls)}
-            style={style}
-        >
-            <ButtonInner {...props} />
-        </Link>);
-    }
-    return (
-        <button
-            type='button'
-            className={clsx(commonCls)}
-            onClick={props.onClick}
-            style={style}
-            disabled={props.disabled}
-        >
-            <ButtonInner {...props} />
-        </button>
-    );
-};
-
-
-const Button = (props: Props) => {
-    if (props.title) {
         return (
             <Tooltip title={props.title}>
-                <RawButton {...props} />
+                <Link
+                    to={props.disabled ? '#' : props.href}
+                    target={props.target}
+                    className={clsx(styles.link, commonCls)}
+                    style={style}
+                >
+                    <ButtonInner {...props} />
+                </Link>
             </Tooltip>
         );
     }
     return (
-        <RawButton {...props} />
+        <Tooltip title={props.title}>
+            <button
+                type='button'
+                className={clsx(commonCls)}
+                onClick={props.onClick}
+                style={style}
+                disabled={props.disabled}
+            >
+                <ButtonInner {...props} />
+            </button>
+        </Tooltip>
     );
-}
+};
 
 export default Button;
