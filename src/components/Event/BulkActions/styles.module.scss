@@ -3,6 +3,11 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    flex-direction: row;
+    box-shadow: var(--ifm-global-shadow-md);
+    padding: 2px 8px;
+    margin-bottom: 0.5em;
+    height: 3em;
     .stateActions {
         display: flex;
         align-items: center;
@@ -16,5 +21,9 @@
         .blue {
             border-color: var(--ifm-color-blue);
         }
+    }
+    .badge {
+        padding-top: 0.18rem;
+        padding-bottom: 0.18rem;
     }
 }

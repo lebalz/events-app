@@ -10,33 +10,51 @@ import Delete from '../../shared/Button/Delete';
 import { action } from 'mobx';
 import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
-import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiFileCertificate, mdiTag } from '@mdi/js';
-import { Icon } from '../../shared/icons';
+import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiClose, mdiCross, mdiFileCertificate, mdiTag } from '@mdi/js';
+import { Icon, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
 import EventGroup from '@site/src/models/EventGroup';
 import { options } from 'joi';
+import Stats from './stats';
 
 interface Props {
     events: EventModel[];
+    defaultActions?: React.ReactNode | React.ReactNode[];
 }
 
 const BulkActions = observer((props: Props) => {
-    const { events } = props;
     const userStore = useStore('userStore');
     const eventStore = useStore('eventStore');
     const eventGroupStore = useStore('eventGroupStore');
     const { current } = userStore;
-    if (events.length < 1) {
-        return null;
+    const selected = props.events.slice().filter(e => e.selected);
+    if (selected.length < 1) {
+        return (<Stats events={props.events} actions={props.defaultActions} />);
     }
-    const state = events[0]?.state;
-    const sameState = events.every(event => event.state === state);
-    const allValid = events.every(event => event.isValid);
-    const onlyMine = events.every(event => event.authorId === current.id);
+    const state = selected[0]?.state;
+    const sameState = selected.every(event => event.state === state);
+    const allValid = selected.every(event => event.isValid);
+    const onlyMine = selected.every(event => event.authorId === current.id);
     return (
-        <div className={clsx(styles.bulk)}>
-            <Badge text={`${events.length}`} color='blue' />
+        <div className={clsx(styles.bulk, 'card')}>
+            <Badge 
+                text={`${selected.length}`} 
+                color='blue'
+                icon={
+                    <Button
+                        onClick={action(() => {
+                            selected.forEach(s => s.setSelected(false));
+                        })}
+                        icon={mdiClose}
+                        size={SIZE_XS}
+                        title={translate({
+                            message: 'Auswahl aufheben', 
+                            id: 'event.bulk_actions.clear_selection'
+                        })}
+                    />
+                }
+            />
             {sameState && (
                 <div className={clsx(styles.stateActions)}>
                     {state === EventState.Draft && allValid && (
@@ -51,7 +69,7 @@ const BulkActions = observer((props: Props) => {
                             className={clsx(styles.blue)}
                             iconSide='left'
                             onClick={() => {
-                                eventStore.requestState(events.map(e => e.id), EventState.Review);
+                                eventStore.requestState(selected.map(e => e.id), EventState.Review);
                             }}
                         />
                     )}
@@ -66,7 +84,7 @@ const BulkActions = observer((props: Props) => {
                                 icon={<Icon path={mdiBookmarkMinus}
                                 color='blue' />} className={clsx(styles.blue)}
                                 iconSide='left' onClick={() => {
-                                    eventStore.requestState(events.map(e => e.id), EventState.Draft);
+                                    eventStore.requestState(selected.map(e => e.id), EventState.Draft);
                                 }}
                             />
                             {
@@ -82,7 +100,7 @@ const BulkActions = observer((props: Props) => {
                                             iconSide='left'
                                             className={clsx(styles.success)}
                                             onClick={() => {
-                                                eventStore.requestState(events.map(e => e.id), EventState.Published);
+                                                eventStore.requestState(selected.map(e => e.id), EventState.Published);
                                             }}
                                         />
                                         <Button 
@@ -95,7 +113,7 @@ const BulkActions = observer((props: Props) => {
                                             iconSide='left'
                                             className={clsx(styles.revoke)} 
                                             onClick={() => {
-                                                eventStore.requestState(events.map(e => e.id), EventState.Refused);
+                                                eventStore.requestState(selected.map(e => e.id), EventState.Refused);
                                             }}
                                         />
                                     </>
@@ -113,7 +131,7 @@ const BulkActions = observer((props: Props) => {
                             icon={mdiTag}
                             iconSide='left'
                             onClick={action(() => {
-                                const ids = events.map(event => event.id);
+                                const ids = selected.map(event => event.id);
                                 eventGroupStore.create(
                                     {event_ids: ids, name: 'Neue Gruppe'},
                                 );
@@ -132,17 +150,17 @@ const BulkActions = observer((props: Props) => {
                                     case 'select-option':
                                         const group = eventGroupStore.find<EventGroup>(meta.option.value);
                                         if (group) {
-                                            group.addEvents(events);
+                                            group.addEvents(selected);
                                         }
                                         break;
                                     case 'remove-value':
                                         const rmGroup = eventGroupStore.find<EventGroup>(meta.removedValue?.value);
                                         if (rmGroup) {
-                                            rmGroup.removeEvents(events);
+                                            rmGroup.removeEvents(selected);
                                         }
                                         break;
                                     case 'clear':
-                                        events.forEach(event => event.groups.forEach(g => g.removeEvents([event])));
+                                        selected.forEach(event => event.groups.forEach(g => g.removeEvents([event])));
                                         break;
                                 }
                             }}
@@ -153,10 +171,10 @@ const BulkActions = observer((props: Props) => {
                                 }))
                             }
                             value={
-                                events.reduce((acc, event) => {
+                                selected.reduce((acc, event) => {
                                     const gIds = new Set(event.groups.map(g => g.id));
                                     return acc.filter(({id}) => gIds.has(id));
-                                }, events[0]?.groups?.map(g => ({id: g.id, name: g.name })) || []).
+                                }, selected[0]?.groups?.map(g => ({id: g.id, name: g.name })) || []).
                                 map(g => ({value: g.id, label: g.name}))
                             }
                         />
@@ -166,7 +184,7 @@ const BulkActions = observer((props: Props) => {
             {
                 onlyMine && (
                     <Delete onClick={action(() => {
-                        events.forEach(event => event.destroy());
+                        selected.forEach(event => event.destroy());
                     })} />
                 )
             }

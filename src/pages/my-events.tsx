@@ -14,6 +14,8 @@ import BulkActions from '../components/Event/BulkActions';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Translate, { translate } from '@docusaurus/Translate';
+import { toGlobalDate } from '../models/helpers/time';
+import {useWindowSize} from '@docusaurus/theme-common';
 const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     'state',
@@ -50,6 +52,7 @@ const Table = observer(() => {
     // const adminReview = userStore.current?.isAdmin ? eventStore.events.filter(e => [EventState.Review, EventState.Refused].includes(e.state)) : [];
     // const published = myEvents.filter(e => e.state === EventState.Published);
     // const deleted = myEvents.filter(e => e.isDeleted);
+    const windowSize = useWindowSize();
     
 
     return (
@@ -62,14 +65,35 @@ const Table = observer(() => {
                             id: 'my-events.tab.notpublished'})
                         }
                     >
-                        <AddButton />
                         {drafts.length > 0 && (
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.unpublished" description="text unpublished">Unveröffentlicht</Translate></h3>
-                                    <BulkActions events={drafts.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
+                                    <BulkActions 
+                                        events={drafts} 
+                                        defaultActions={
+                                            <AddButton
+                                                text={translate({
+                                                    message: 'Neues Event',
+                                                    description: 'AddButton text',
+                                                    id: 'event.AddButton.text'
+                                                })}
+                                                onAdd={() => {
+                                                    const now = toGlobalDate(new Date());
+                                                    const t1 = new Date(now);
+                                                    t1.setHours(t1.getHours() + 1);
+                                                    eventStore.create({start: now.toISOString(), end: t1.toISOString()}).then((newEvent) => {
+                                                        if (windowSize === 'mobile') {
+                                                            viewStore.setEventModalId(newEvent.id);
+                                                        }
+                                                    })
+                                                }}            
+                                                apiState={eventStore.apiStateFor('create')}
+                                            />
+                                        }
+                                    />
                                     <EventGrid events={drafts} columns={COLUMN_CONFIG} />
                                 </div>
                             </div>
@@ -84,9 +108,9 @@ const Table = observer(() => {
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.review" description="text In Review">Im Review</Translate></h3>
-                                    <BulkActions events={reviewed.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
+                                    <BulkActions events={reviewed} />
                                     <EventGrid events={reviewed} columns={COLUMN_CONFIG}  />
                                 </div>
                             </div>
@@ -101,9 +125,9 @@ const Table = observer(() => {
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.review.furadmin" description="text In Review - wait for admin">Im ReviewReview Anfragen für Admin</Translate></h3>
-                                    <BulkActions events={adminReview.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
+                                    <BulkActions events={adminReview} />
                                     <EventGrid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
                                 </div>
                             </div>
@@ -118,9 +142,9 @@ const Table = observer(() => {
                             <div className={clsx(styles.card, 'card')}>
                                 <div className={clsx('card__header')}>
                                     <h3><Translate id="my-events.published" description="published">Veröffentlicht</Translate></h3>
-                                    <BulkActions events={published.filter(e => e.selected)} />
                                 </div>
                                 <div className={clsx('card__body')}>
+                                    <BulkActions events={published} />
                                     <EventGrid events={published} columns={COLUMN_CONFIG}  />
                                 </div>
                             </div>
@@ -160,19 +184,23 @@ const Table = observer(() => {
                                         }
                                     >
                                         <div>
-                                            <Delete
-                                                onClick={() => {
-                                                    jobStore.destroy(job);
-                                                }}
-                                                text={translate({
-                                                    message : "Job Löschen",
-                                                    id:'my-events.deleted.text' ,
-                                                    description:'my-events.deleted.text'})}
-                                                flyoutSide='right'
-                                                iconSide='right'
-                                                apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                            <BulkActions 
+                                                events={events} 
+                                                defaultActions={
+                                                    <Delete
+                                                        onClick={() => {
+                                                            jobStore.destroy(job);
+                                                        }}
+                                                        text={translate({
+                                                            message : "Job Löschen",
+                                                            id:'my-events.deleted.text' ,
+                                                            description:'my-events.deleted.text'})}
+                                                        flyoutSide='right'
+                                                        iconSide='right'
+                                                        apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                                    />
+                                                }
                                             />
-                                            <BulkActions events={events.filter(e => e.selected)} />
                                             <EventGrid events={events} columns={COLUMN_CONFIG}  />
                                         </div>
                                     </LazyDetails>

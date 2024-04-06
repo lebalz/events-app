@@ -212,7 +212,7 @@ const UserEventGroup = observer((props: Props) => {
                 }}
             >
                 <div className={clsx(styles.events, 'card__body')}>
-                    <BulkActions events={group.events.filter(e => e.selected)} />
+                    <BulkActions events={group.events} />
                     <EventGrid 
                         events={group.events}
                         columns={[

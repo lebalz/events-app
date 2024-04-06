@@ -37,20 +37,24 @@ const ImportJob = observer((props: Props) => {
             }}
         >
             <div>
-                <Delete
-                    onClick={() => {
-                        jobStore.destroy(job);
-                    }}
-                    text={translate({
-                        id: 'job.delete',
-                        message: 'Job Löschen',
-                        description: 'job.delete'
-                    })}
-                    flyoutSide='right'
-                    iconSide='right'
-                    apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                <BulkActions 
+                    events={job.events}
+                    defaultActions={
+                        <Delete
+                            onClick={() => {
+                                jobStore.destroy(job);
+                            }}
+                            text={translate({
+                                id: 'job.delete',
+                                message: 'Job Löschen',
+                                description: 'job.delete'
+                            })}
+                            flyoutSide='right'
+                            iconSide='right'
+                            apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                        />
+                    }
                 />
-                <BulkActions events={job.events.filter(e => e.selected)} />
                 <EventGrid 
                     events={job.events}
                     columns={[

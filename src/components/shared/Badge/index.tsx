@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { Icon } from '../icons';
 import { Color, getColorClass } from '../Colors';
+import Tooltip from '../Tooltip';
 
 export interface Base {
     color?: Color | string;
@@ -107,7 +108,7 @@ const Badge = (props: Props) => {
         props.className,
         props.disabled && styles.disabled
     );
-    return (
+    const BadgeComponent = (
         <span
             className={clsx(commonCls)}
             style={style}
@@ -116,6 +117,14 @@ const Badge = (props: Props) => {
             <BadgeInner {...props} />
         </span>
     );
+    if (props.title) {
+        return (
+            <Tooltip title={props.title}>
+                {BadgeComponent}
+            </Tooltip>
+        )
+    }
+    return BadgeComponent;
 };
 
 export default Badge;

@@ -66,24 +66,6 @@ const UsersEvents = observer((props: Props) => {
                     description: 'Text not published'
                 })}
             >
-                <AddButton
-                    text={translate({
-                        message: 'Neues Event',
-                        description: 'AddButton text',
-                        id: 'event.AddButton.text'
-                    })}
-                    onAdd={() => {
-                        const now = toGlobalDate(new Date());
-                        const t1 = new Date(now);
-                        t1.setHours(t1.getHours() + 1);
-                        eventStore.create({start: now.toISOString(), end: t1.toISOString()}).then((newEvent) => {
-                            if (windowSize === 'mobile') {
-                                viewStore.setEventModalId(newEvent.id);
-                            }
-                        })
-                    }}            
-                    apiState={eventStore.apiStateFor('create')}
-                />
                 {drafts.length > 0 && (
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
@@ -94,9 +76,31 @@ const UsersEvents = observer((props: Props) => {
                                     description: 'Th: not published'
                                 })
                             }</h3>
-                            <BulkActions events={drafts.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
+                            <BulkActions 
+                                events={drafts}
+                                defaultActions={
+                                    <AddButton
+                                        text={translate({
+                                            message: 'Neues Event',
+                                            description: 'AddButton text',
+                                            id: 'event.AddButton.text'
+                                        })}
+                                        onAdd={() => {
+                                            const now = toGlobalDate(new Date());
+                                            const t1 = new Date(now);
+                                            t1.setHours(t1.getHours() + 1);
+                                            eventStore.create({start: now.toISOString(), end: t1.toISOString()}).then((newEvent) => {
+                                                if (windowSize === 'mobile') {
+                                                    viewStore.setEventModalId(newEvent.id);
+                                                }
+                                            })
+                                        }}            
+                                        apiState={eventStore.apiStateFor('create')}
+                                    />
+                                }
+                            />
                             <EventGrid events={drafts} columns={COLUMN_CONFIG} />
                         </div>
                     </div>
@@ -120,9 +124,9 @@ const UsersEvents = observer((props: Props) => {
                                     description: 'Events reviewed'
                                 })
                             }</h3>
-                            <BulkActions events={reviewed.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
+                            <BulkActions events={reviewed} />
                             <EventGrid events={reviewed} columns={COLUMN_CONFIG} />
                         </div>
                     </div>
@@ -146,9 +150,9 @@ const UsersEvents = observer((props: Props) => {
                                     description: 'Events admin'
                                 })}
                             </h3>
-                            <BulkActions events={adminReview.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
+                            <BulkActions events={adminReview} />
                             <EventGrid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
                         </div>
                     </div>
@@ -172,9 +176,9 @@ const UsersEvents = observer((props: Props) => {
                                     description: 'Th : Events published'
                                 })
                             }</h3>
-                            <BulkActions events={published.filter(e => e.selected)} />
                         </div>
                         <div className={clsx('card__body')}>
+                            <BulkActions events={published} />
                             <EventGrid events={published} columns={COLUMN_CONFIG} />
                         </div>
                     </div>
@@ -219,22 +223,26 @@ const UsersEvents = observer((props: Props) => {
                                 }
                             >
                                 <div>
-                                    <Delete
-                                        onClick={() => {
-                                            jobStore.destroy(job);
-                                        }}
-                                        text={
-                                            translate({
-                                                message: 'Job Löschen', 
-                                                id: 'components.event.usersevents.index.delete',
-                                                description: 'Text to delete a job'
-                                            })
+                                    <BulkActions 
+                                        events={events}
+                                        defaultActions={
+                                            <Delete
+                                                onClick={() => {
+                                                    jobStore.destroy(job);
+                                                }}
+                                                text={
+                                                    translate({
+                                                        message: 'Job Löschen', 
+                                                        id: 'components.event.usersevents.index.delete',
+                                                        description: 'Text to delete a job'
+                                                    })
+                                                }
+                                                flyoutSide='right'
+                                                iconSide='right'
+                                                apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                            />
                                         }
-                                        flyoutSide='right'
-                                        iconSide='right'
-                                        apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                                     />
-                                    <BulkActions events={events.filter(e => e.selected)} />
                                     <EventGrid events={events} columns={COLUMN_CONFIG} />
                                 </div>
                             </LazyDetails>
