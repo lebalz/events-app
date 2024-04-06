@@ -80,6 +80,10 @@ const EventActions = observer((props: Props) => {
                     : undefined
                 }
                 icon={mdiShareCircle}
+                title={translate({
+                    message: 'Terminseite Anzeigen',
+                    id: 'button.open.title'
+                })}
                 href={event.shareUrl}
             />
         ),

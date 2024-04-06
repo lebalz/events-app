@@ -1525,5 +1525,11 @@
   },
   "eventGrid.header.sortBy.title": {
     "message": "Sortieren nach \"{column}\""
+  },
+  "button.open.title": {
+    "message": "Terminseite Anzeigen"
+  },
+  "user.logout.title": {
+    "message": "{mail} abmelden"
   }
 }

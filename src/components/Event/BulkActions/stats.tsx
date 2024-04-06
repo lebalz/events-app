@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 import Badge from '../../shared/Badge';
 import { Calendar, SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
+import { mdiCalendarBlankMultiple } from '@mdi/js';
 
 
 interface Props {
@@ -20,7 +21,8 @@ const Stats = observer((props: Props) => {
             <Badge
                 text={`${props.events.length}`}
                 className={clsx(styles.badge)}
-                icon={<Calendar size={SIZE_S}/>}
+                icon={mdiCalendarBlankMultiple}
+                size={SIZE_S}
                 iconSide='left'
                 color='blue'
                 title={

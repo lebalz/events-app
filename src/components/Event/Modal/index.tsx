@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Event, {default as EventModel} from '@site/src/models/Event';
+import {default as EventModel} from '@site/src/models/Event';
 import Button from '../../shared/Button';
 import { mdiClose, mdiShareCircle } from '@mdi/js';
 import EventActions from '../EventActions';
@@ -104,6 +104,10 @@ const EventModal = observer((props: Props) => {
                                                 })
                                                 : undefined
                                         }
+                                        title={translate({
+                                            message: 'Terminseite Anzeigen',
+                                            id: 'button.open.title'
+                                        })}
                                         icon={mdiShareCircle}
                                         href={event.shareUrl}
                                     />

@@ -5,20 +5,17 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from './iEventField';
 import Button from '@site/src/components/shared/Button';
-import { mdiArrowExpandAll, mdiArrowExpandUp, mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiShareCircle } from '@mdi/js';
-import { Icon, SIZE_S } from '@site/src/components/shared/icons';
+import { mdiArrowExpandUp } from '@mdi/js';
+import { SIZE_S } from '@site/src/components/shared/icons';
 import Discard from '@site/src/components/shared/Button/Discard';
 import Save from '@site/src/components/shared/Button/Save';
 import Delete from '@site/src/components/shared/Button/Delete';
-import Edit from '@site/src/components/shared/Button/Edit';
 import { useStore } from '@site/src/stores/hooks';
 import {useWindowSize} from '@docusaurus/theme-common';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
-import Translate, { translate } from '@docusaurus/Translate';
-import OptionsPopup, { AddToGroup, Clone, EditRowMode } from '../EventActions/OptionsPopup';
-import DefinitionList from '../../shared/DefinitionList';
-import DefaultEventActions from '../EventActions/DefaultEventActions';
+import { translate } from '@docusaurus/Translate';
+import OptionsPopup, {  } from '../EventActions/OptionsPopup';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;

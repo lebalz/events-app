@@ -153,6 +153,15 @@ const User = observer((props: Props) => {
                             id: 'components.user.index.logout',
                             description: 'Button label to logout'
                         })}
+                        title={translate(
+                            {
+                                message: '{mail} abmelden',
+                                id: 'user.logout.title'
+                            },
+                            {
+                                mail: current.email
+                            }
+                        )}
                         color='red'
                         icon={mdiLogout}
                         iconSide='left'

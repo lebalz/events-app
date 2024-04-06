@@ -149,14 +149,16 @@ const Button = (props: Props) => {
         /** it is a link, styled as a button */
         return (
             <Tooltip title={props.title}>
-                <Link
-                    to={props.disabled ? '#' : props.href}
-                    target={props.target}
-                    className={clsx(styles.link, commonCls)}
-                    style={style}
-                >
-                    <ButtonInner {...props} />
-                </Link>
+                <span>
+                    <Link
+                        to={props.disabled ? '#' : props.href}
+                        target={props.target}
+                        className={clsx(styles.link, commonCls)}
+                        style={style}
+                    >
+                        <ButtonInner {...props} />
+                    </Link>
+                </span>
             </Tooltip>
         );
     }

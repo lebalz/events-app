@@ -73,9 +73,8 @@ const DefaultEventActions = observer((props: Props) => {
                     href={event.shareUrl}
                     size={SIZE_S}
                     title={translate({
-                        message: 'Öffnen',
-                        id: 'event.open.title',
-                        description: 'Button Title (hover) to open an event view'
+                        message: 'Terminseite Anzeigen',
+                        id: 'button.open.title'
                     })}
                 />
             </dd>
