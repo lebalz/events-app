@@ -893,7 +893,7 @@
     "description": "Label for the Event Field"
   },
   "eventGrid.header.teachingAffected.title": {
-    "message": "Unterricht betroffen?",
+    "message": "Sortieren nach \"Unterricht betroffen?\"",
     "description": "Message when hovering the icon"
   },
   "untis.lesson.ef": {
@@ -1297,5 +1297,223 @@
   "admin.userTable.th.notifyOnEventUpdate": {
     "message": "Mail bei Event-Update",
     "description": "th: notifyOnEventUpdate"
+  },
+  "component.event.eventprops.clone": {
+    "message": "Duplizieren",
+    "description": "Text of the button clone"
+  },
+  "group.name.placeholder": {
+    "message": "Name der Gruppe"
+  },
+  "group.description.placeholder": {
+    "message": "Beschreibung der Gruppe"
+  },
+  "group.delete.title": {
+    "message": "Nur Gruppen ohne Termine können gelöscht werden"
+  },
+  "group.createdAt": {
+    "message": "Erstellt Am"
+  },
+  "group.updatedAt": {
+    "message": "Geändert Am"
+  },
+  "group.clone.dt": {
+    "message": "Duplizieren"
+  },
+  "group.clone.description": {
+    "message": "Gruppe inkl. Termine"
+  },
+  "group.users.dt": {
+    "message": "Mitglieder"
+  },
+  "group.users.description": {
+    "message": "Alle Mitglieder der Gruppe sind können Termine beliebig verändern."
+  },
+  "group.shiftDates.dt": {
+    "message": "Datum Verschieben"
+  },
+  "group.shiftDates.description": {
+    "message": "Alle unveröffentlichten Termine um eine bestimmte Anzahl Tage verschieben"
+  },
+  "group.shiftDates.closeShiftEditor": {
+    "message": "Editor schliessen"
+  },
+  "group.shiftDates.openShiftEditor": {
+    "message": "Editor öffnen"
+  },
+  "group.groupActions": {
+    "message": "Aktionen"
+  },
+  "group.actions.saveAll": {
+    "message": "Alle Speichern"
+  },
+  "group.actions.discardAll": {
+    "message": "Alle Verwerfen"
+  },
+  "import.tab.v1.label": {
+    "message": "V1 Import",
+    "description": "import.tab.v1"
+  },
+  "components.user.index.email.notifications.notifyAdminOnReviewRequest": {
+    "message": "Benachrichtigungen für review Anfragen erhalten",
+    "description": "Label for the notification preference"
+  },
+  "components.user.index.email.notifications.notifyAdminOnReviewDecision": {
+    "message": "Benachrichtigungen für beantwortete Anfragen erhalten",
+    "description": "Label for the notification preference"
+  },
+  "xlsx.events": {
+    "message": "Termine"
+  },
+  "kw": {
+    "message": "KW",
+    "description": "Calendar week"
+  },
+  "xlsx.kw": {
+    "message": "KW"
+  },
+  "xlsx.weekday": {
+    "message": "Wochentag"
+  },
+  "xlsx.description": {
+    "message": "Titel"
+  },
+  "xlsx.dateStart": {
+    "message": "Datum Beginn"
+  },
+  "xlsx.timeStart": {
+    "message": "Zeit Beginn"
+  },
+  "xlsx.dateEnd": {
+    "message": "Datum Ende"
+  },
+  "xlsx.timeEnd": {
+    "message": "Zeit Ende"
+  },
+  "xlsx.location": {
+    "message": "Ort"
+  },
+  "xlsx.descriptionLong": {
+    "message": "Beschreibung"
+  },
+  "xlsx.bilingueLPsAffected": {
+    "message": "Bilingue LP's betroffen"
+  },
+  "xlsx.classes": {
+    "message": "Klassen"
+  },
+  "xlsx.affects": {
+    "message": "Betrifft"
+  },
+  "xlsx.teachingAffected": {
+    "message": "Unterricht Betroffen?"
+  },
+  "xlsx.deletedAt": {
+    "message": "Gelöscht am"
+  },
+  "event.bulk_actions.clear_selection": {
+    "message": "Auswahl aufheben"
+  },
+  "event.bulk_actions.stats.total_events": {
+    "message": "Anzahl Termine"
+  },
+  "event.options.open": {
+    "message": "Öffnen",
+    "description": "Text of the button open"
+  },
+  "event.options.open.overview": {
+    "message": "Übersicht Öffnen",
+    "description": "Text of the button open overview"
+  },
+  "event.options.share": {
+    "message": "Teilen"
+  },
+  "event.options.edit": {
+    "message": "Bearbeiten",
+    "description": "Text of the button edit"
+  },
+  "event.options.clone": {
+    "message": "Duplizieren",
+    "description": "Button Title (hover) to clone an event"
+  },
+  "event.options.group": {
+    "message": "Gruppe",
+    "description": "Text of the button group"
+  },
+  "event.options.delete": {
+    "message": "Löschen",
+    "description": "Text of the button delete"
+  },
+  "eventGrid.header.createdAt": {
+    "message": "Erstellt am",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.updatedAt": {
+    "message": "Geändert am",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.actions.title": {
+    "message": "Aktionen"
+  },
+  "eventGrid.header.sort.title": {
+    "message": "Sortieren nach"
+  },
+  "event.AddButton.title": {
+    "message": "Erstellt einen neuen, unveröffentlichten Termin"
+  },
+  "user.button.add-group": {
+    "message": "Gruppe hinzufügen"
+  },
+  "shiftDatesEditor.title": {
+    "message": "Verschiebung von Terminen"
+  },
+  "shiftDatesEditor.eventSelection.current": {
+    "message": "Aktueller Termin"
+  },
+  "shiftDatesEditor.shift": {
+    "message": "Verschiebung"
+  },
+  "shiftedDatesEditor.dates": {
+    "message": "Tage"
+  },
+  "shiftDatesEditor.hours": {
+    "message": "Stunden"
+  },
+  "shiftDatesEditor.apply": {
+    "message": "Anwenden (Vorschau)"
+  },
+  "shiftDatesEditor.eventSelection.new": {
+    "message": "Neu (Vorschau)"
+  },
+  "eventGroup.userTable.search": {
+    "message": "Suche",
+    "description": "search"
+  },
+  "eventGroup.userTable.th.shortName": {
+    "message": "Kürzel",
+    "description": "th: shortName"
+  },
+  "eventGroup.userTable.th.firstName": {
+    "message": "Vorname",
+    "description": "th: firstName"
+  },
+  "eventGroup.userTable.th.lastName": {
+    "message": "Nachname",
+    "description": "th: lastName"
+  },
+  "eventGroup.userTable.removeUser": {
+    "message": "Mitglied Entfernen"
+  },
+  "shared.fullscreenbutton.exitfullscreen": {
+    "message": "Verlasse Vollbildschirm",
+    "description": "Text of the button exit full screen"
+  },
+  "shared.fullscreenbutton.gofullscreen": {
+    "message": "Vollbildschirm",
+    "description": "Text of the button full screen"
+  },
+  "theme.docs.DocCard.categoryDescription.plurals": {
+    "message": "{count} Einträge",
+    "description": "The default description for a category card in the generated index about how many items this category includes"
   }
 }

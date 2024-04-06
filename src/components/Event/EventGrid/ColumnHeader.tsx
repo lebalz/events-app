@@ -9,6 +9,7 @@ import { mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSchool, mdiSortAscending,
 import Checkbox from '../../shared/Checkbox';
 import Button, { ButtonIcon } from '../../shared/Button';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
+import Tooltip from '../../shared/Tooltip';
 
 
 interface Props extends Partial<ConfigOptionsSortable> {
@@ -114,12 +115,24 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
 
 const ColumnHeader = observer((props: Props) => {
     let content: JSX.Element | string = HeaderTitles[props.name];
+    let title: string | undefined = undefined;
     switch (props.name) {
         case 'actions':
             content = <Icon path={mdiTools} size={SIZE_S} />;
+            title = translate({
+                message: 'Aktionen',
+                id: 'eventGrid.header.actions.title'
+            });
             break;
         case 'select':
-            content = <div style={{paddingLeft: '0.2em'}}><Checkbox checked={props.active as boolean} onChange={props.onClick} /></div>;
+            content = (
+                <div style={{paddingLeft: '0.2em'}}>
+                    <Checkbox 
+                        checked={props.active as boolean} 
+                        onChange={props.onClick} 
+                    />
+                </div>
+            );
             break;
         case 'state':
             content = <Icon path={mdiCheckDecagramOutline} size={SIZE_S} />;
@@ -131,16 +144,25 @@ const ColumnHeader = observer((props: Props) => {
             content = <Icon
                 path={mdiSchool}
                 size={SIZE_S}
-                title={translate({
-                    message: 'Unterricht betroffen?',
-                    id: 'eventGrid.header.teachingAffected.title',
-                    description: 'Message when hovering the icon'
-                })}
             />;
+            title = translate({
+                message: 'Sortieren nach "Unterricht betroffen?"',
+                id: 'eventGrid.header.teachingAffected.title',
+                description: 'Message when hovering the icon'
+            });
             break;
     }
-    if (props.sortable && typeof content !== 'string') {
-        content = <ButtonIcon icon={content} />
+    if (props.sortable) {
+        if (typeof content !== 'string') {
+            content = <ButtonIcon icon={content} />;
+        }
+        if (!title) {
+            const sortFor = translate({
+                message: `Sortieren nach`,
+                id: 'eventGrid.header.sort.title'
+            });
+            title = `${sortFor} "${HeaderTitles[props.name]}"`;
+        }
     }
     return (
         <div
@@ -154,7 +176,6 @@ const ColumnHeader = observer((props: Props) => {
                 left: props.fixed?.left,
                 right: props.fixed?.right
             }}
-            title={HeaderTitles[props.name]}
         >
             {
                 props.sortable ? (
@@ -165,13 +186,16 @@ const ColumnHeader = observer((props: Props) => {
                         disabled={!props.sortable}
                         icon={props.active ? props.active === 'asc' ? mdiSortAscending : mdiSortDescending : undefined}
                         onClick={props.sortable ? props.onClick : undefined}
+                        title={title}
                     >
                         {content}
                     </Button>
                 ) : (
-                    <span className={clsx(styles.content, styles[props.name])}>
-                        {content}
-                    </span>
+                    <Tooltip title={title}>
+                        <span className={clsx(styles.content, styles[props.name])}>
+                            {content}
+                        </span>
+                    </Tooltip>
                 )
             }
         </div>

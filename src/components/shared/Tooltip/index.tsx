@@ -8,7 +8,7 @@ import Popup from 'reactjs-popup';
 
 
 interface Props {
-    title: string;
+    title?: string;
     children: React.ReactNode | React.ReactNode[];
 }
 
@@ -16,6 +16,9 @@ const MOUSE_ENTER_DELAY_MS = 250;
 const MOUSE_LEAVE_DELAY_MS = 200;
 
 const Tooltip = observer((props: Props) => {
+    if (!props.title) {
+        return props.children;
+    }
     return (
         <Popup
             trigger={<span>{props.children}</span>}
