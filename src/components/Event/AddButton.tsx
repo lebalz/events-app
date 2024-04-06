@@ -15,6 +15,7 @@ interface Props {
     color?: string;
     apiState?: ApiState;
     size?: number;
+    title?: string;
 }
 
 const AddButton = observer((props: Props) => {
@@ -26,6 +27,7 @@ const AddButton = observer((props: Props) => {
             color={props.color || 'primary'}
             apiState={props.apiState}
             onClick={props.onAdd}
+            title={props.title}
         />
     )
 });

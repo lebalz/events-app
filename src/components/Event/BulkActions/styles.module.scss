@@ -7,7 +7,7 @@
     box-shadow: var(--ifm-global-shadow-md);
     padding: 2px 8px;
     margin-bottom: 0.5em;
-    height: 3em;
+    min-height: 3em;
     .stateActions {
         display: flex;
         align-items: center;

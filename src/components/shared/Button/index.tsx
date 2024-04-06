@@ -7,6 +7,7 @@ import { ApiState } from '@site/src/stores/iStore';
 import { ApiIcon, Icon, SIZE_S } from '../icons';
 import Link from '@docusaurus/Link';
 import { Color, getButtonColorClass } from '../Colors';
+import Tooltip from '../Tooltip';
 
 export const POPUP_BUTTON_STYLE = clsx(
     styles.button,
@@ -121,7 +122,7 @@ const ButtonInner = (props: Props) => {
     )
 }
 
-const Button = (props: Props) => {
+const RawButton = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
     let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
@@ -150,7 +151,6 @@ const Button = (props: Props) => {
             to={props.disabled ? '#' : props.href}
             target={props.target}
             className={clsx(styles.link, commonCls)}
-            title={props.title}
             style={style}
         >
             <ButtonInner {...props} />
@@ -160,7 +160,6 @@ const Button = (props: Props) => {
         <button
             type='button'
             className={clsx(commonCls)}
-            title={props.title}
             onClick={props.onClick}
             style={style}
             disabled={props.disabled}
@@ -169,5 +168,19 @@ const Button = (props: Props) => {
         </button>
     );
 };
+
+
+const Button = (props: Props) => {
+    if (props.title) {
+        return (
+            <Tooltip title={props.title}>
+                <RawButton {...props} />
+            </Tooltip>
+        );
+    }
+    return (
+        <RawButton {...props} />
+    );
+}
 
 export default Button;

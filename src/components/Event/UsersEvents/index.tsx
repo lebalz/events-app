@@ -98,6 +98,10 @@ const UsersEvents = observer((props: Props) => {
                                             })
                                         }}            
                                         apiState={eventStore.apiStateFor('create')}
+                                        title={translate({
+                                            message: 'Erstellt einen neuen, unveröffentlichten Termin',
+                                            id: 'event.AddButton.title'
+                                        })}
                                     />
                                 }
                             />
