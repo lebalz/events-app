@@ -111,8 +111,8 @@
     }
 
     .group {
-        color: var(--ifm-navbar-link-hover-color);
-        background: var(--ifm-navbar-background-color);
+        background: var(--ifm-navbar-link-hover-color);
+        color: var(--ifm-navbar-background-color);
         cursor: pointer;
         display: flex;
         font-size: calc(.875rem * var(--ifm-button-size-multiplier));
@@ -120,7 +120,7 @@
         gap: 1em;
         line-height: 1;
         margin: 0;
-        padding: 0 1em;
+        padding: 2px 1em;
         position: sticky;
         top: 32px;
         z-index: 1;
