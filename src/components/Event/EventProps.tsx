@@ -29,6 +29,8 @@ import { EventState, EventStateActions, EventStateButton, EventStateColor } from
 import TeachingAffected from './EventFields/TeachingAffected';
 import Version from './EventFields/Version';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import CreatedAt from './EventFields/CreatedAt';
+import UpdatedAt from './EventFields/UpdatedAt';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -118,6 +120,34 @@ const EventProps = observer((props: Props) => {
             <dd>
                 <Version {...commonProps} />
             </dd>
+            <dt>
+                <Translate
+                    id="event.createdAt"
+                    description='for a single event: date of event creation'
+                >
+                    Erstellt am
+                </Translate>
+            </dt>
+            <dd>
+                <CreatedAt showTime {...commonProps} />
+            </dd>
+            {
+                event.updatedAt.getTime() !== event.createdAt.getTime() && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.updatedAt"
+                                description='for a single event: date of update'
+                            >
+                                Aktualisiert am
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <UpdatedAt showTime {...commonProps} />
+                        </dd>
+                    </>
+                )
+            }
             <dt>
                 <Translate
                     id="event.state"

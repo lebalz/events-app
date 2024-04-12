@@ -17,11 +17,11 @@ import { translate } from '@docusaurus/Translate';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import {useWindowSize} from '@docusaurus/theme-common';
 const COLUMN_CONFIG: ColumnConfig = [
-    'updatedAt',
-    'createdAt',
     'isValid',
     ['state', { sortable: false, width: undefined }],
     'select',
+    'createdAt',
+    'updatedAt',
     ['teachingAffected', { componentProps: { show: 'icon' } }],
     'kw',
     'day',

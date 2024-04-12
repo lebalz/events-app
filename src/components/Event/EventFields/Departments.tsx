@@ -31,7 +31,8 @@ const Departments = observer((props: Props) => {
                                 key={idx} 
                                 text={d.shortName}
                                 title={d.description}
-                                color={d.color} 
+                                color={d.color}
+                                className={clsx(styles.badge)}
                             />
                         );
                     })

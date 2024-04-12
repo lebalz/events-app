@@ -4,9 +4,11 @@ import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
 import { Props as DefaultProps } from './iEventField';
-import { formatDateTime } from '@site/src/models/helpers/time';
+import { formatDate, formatDateTime, formatTime } from '@site/src/models/helpers/time';
 
 interface Props extends DefaultProps {
+    showAlways?: boolean;
+    showTime?: boolean;
 }
 
 const UpdatedAt = observer((props: Props) => {
@@ -17,9 +19,22 @@ const UpdatedAt = observer((props: Props) => {
         >
             <div
                 style={{ gridColumn: 'updatedAt' }}
-                className={clsx(styles.date, styles.createdAt, event.isOnOneDay && styles.onOneDay, `grid-updatedAt`)}
+                className={clsx(
+                    styles.date, 
+                    styles.updatedAt, 
+                    event.isOnOneDay && styles.onOneDay,
+                    !props.showTime && styles.dateOnly, 
+                    'grid-updatedAt'
+                )}
             >
-                {formatDateTime(event.updatedAt)}
+                {
+                    (props.showAlways || event.updatedAt.getTime() !== event.createdAt.getTime()) && (
+                        <>
+                            <span>{formatDate(event.updatedAt)}</span>
+                            {props.showTime && <span>{formatTime(event.updatedAt)}</span>}
+                        </>
+                    )
+                }
             </div>
         </div>
     )
