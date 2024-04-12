@@ -56,6 +56,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
 };
 
 const Row = observer((props: Props) => {
+    const viewStore = useStore('viewStore');
     return (
         <>
             {props.columns.map((column, index) => {
@@ -102,7 +103,11 @@ const Row = observer((props: Props) => {
                             if (target.getAttribute('data-popup') === 'tooltip') {
                                 return;
                             }
-                            props.event.setExpanded(true);
+                            if (e.ctrlKey) {
+                                viewStore.setEventModalId(props.event.id);
+                            } else {
+                                props.event.setExpanded(true);
+                            }
                         }}
                         key={index}
                     >

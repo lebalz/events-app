@@ -27,10 +27,14 @@ const Day = observer((props: Props) => {
             </div>
             {props.expandeable && props.showUnexpandButton && event.isExpanded && (
                 <div className={clsx(styles.expand)}>
-                    <Button icon={mdiArrowExpandUp} onClick={(e) => {
-                        e.stopPropagation();
-                        event.setExpanded(false);
-                    }} size={SIZE_S} />
+                    <Button 
+                        icon={mdiArrowExpandUp} 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            event.setExpanded(false);
+                        }} 
+                        size={SIZE_S} 
+                    />
                 </div>
             )}
         </div>
