@@ -18,6 +18,7 @@ import Upload from '../components/ImportEvents/Upload';
 import Job from '../components/Job';
 import Translate, { translate } from '@docusaurus/Translate';
 import ImportEvents from '../components/ImportEvents';
+import RegistrationPeriods from '../components/Admin/RegistrationPeriods';
 
 const AdminView = observer(() => {
     const userStore = useStore('userStore');
@@ -95,7 +96,7 @@ const AdminView = observer(() => {
                     <ImportEvents />
                 </TabItem>
                 <TabItem value="reg-periods" label={translate({message: 'Registrierungs Perioden', id: 'admin.tab.reg-periods'})}>
-                    🚧 Under construction... 🏗️
+                    <RegistrationPeriods />
                 </TabItem>
             </Tabs>
 

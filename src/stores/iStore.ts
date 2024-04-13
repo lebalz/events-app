@@ -179,7 +179,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                     if (err.code !== 'ERR_CANCELED') {
                         this.ApiEndpoint.setLoaded(models);
                     }
-                    console.warn(endPoint, err.code);
+                    console.warn(endPoint, err.code, err);
                     return this.postLoad([], models === 'public', false).then(() => []).catch(() => []);
                 });
         });

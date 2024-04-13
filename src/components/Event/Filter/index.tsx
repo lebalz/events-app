@@ -20,7 +20,7 @@ interface Props {
     showCurrentAndFuture?: boolean;
 }
 
-const selectStyleConfig = {
+export const selectStyleConfig = {
     option: (styles, { data, isFocused }) => ({
         ...styles,
         color: (data as unknown as { color: string })?.color,
@@ -42,14 +42,14 @@ const selectStyleConfig = {
     menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
 };
 
-const selectClassNamesConfig = {
+export const selectClassNamesConfig = {
     indicatorsContainer: () => styles.indicatorsContainer,
     multiValue: () => styles.multiValue,
     control: () => styles.control,
     menu: () => styles.control
 };
 
-const selectThemeConfig = (theme: Theme) => ({
+export const selectThemeConfig = (theme: Theme) => ({
     ...theme,
     colors: {
         ...theme.colors,
