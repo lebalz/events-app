@@ -12,6 +12,7 @@
 @media screen and (max-width: 996px) {
     .section {
         padding: 2rem 0.2rem;
+        margin: 2rem var(--ifm-navbar-padding-horizontal);
     }
 }
 @media screen and (max-width: 768px) {

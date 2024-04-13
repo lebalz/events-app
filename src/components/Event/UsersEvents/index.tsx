@@ -77,7 +77,7 @@ const UsersEvents = observer((props: Props) => {
                                 })
                             }</h3>
                         </div>
-                        <div className={clsx('card__body')}>
+                        <div className={clsx('card__body', styles.bulk)}>
                             <BulkActions 
                                 events={drafts}
                                 defaultActions={
@@ -105,8 +105,8 @@ const UsersEvents = observer((props: Props) => {
                                     />
                                 }
                             />
-                            <EventGrid events={drafts} columns={COLUMN_CONFIG} />
                         </div>
+                        <EventGrid events={drafts} columns={COLUMN_CONFIG} />
                     </div>
                 )}
             </TabItem>
@@ -131,8 +131,8 @@ const UsersEvents = observer((props: Props) => {
                         </div>
                         <div className={clsx('card__body')}>
                             <BulkActions events={reviewed} />
-                            <EventGrid events={reviewed} columns={COLUMN_CONFIG} />
                         </div>
+                        <EventGrid events={reviewed} columns={COLUMN_CONFIG} />
                     </div>
                 </TabItem>
             )}
@@ -157,8 +157,8 @@ const UsersEvents = observer((props: Props) => {
                         </div>
                         <div className={clsx('card__body')}>
                             <BulkActions events={adminReview} />
-                            <EventGrid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
                         </div>
+                        <EventGrid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
                     </div>
                 </TabItem>
             )}
@@ -183,8 +183,8 @@ const UsersEvents = observer((props: Props) => {
                         </div>
                         <div className={clsx('card__body')}>
                             <BulkActions events={published} />
-                            <EventGrid events={published} columns={COLUMN_CONFIG} />
                         </div>
+                        <EventGrid events={published} columns={COLUMN_CONFIG} />
                     </div>
                 </TabItem>
             )}
@@ -207,51 +207,55 @@ const UsersEvents = observer((props: Props) => {
                                 })
                             }</h3>
                         </div>
-                        <div className={clsx('card__body')}>
-                            <EventGrid events={deleted} columns={COLUMN_CONFIG} />
-                        </div>
+                        <EventGrid events={deleted} columns={COLUMN_CONFIG} />
                     </div>
                 </TabItem>
             )}
             {jobStore.importJobs.length > 0 && (
                 <TabItem value='import' label='Import'>
-                    {jobStore.importJobs.map((job, idx) => {
-                        const events = viewStore.allEvents({ jobId: job.id, orderBy: 'isValid-asc' });
-                        return (
-                            <LazyDetails
-                                key={job.id}
-                                summary={
-                                    <summary>
-                                        {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {events.length}
-                                    </summary>
-                                }
-                            >
-                                <div>
-                                    <BulkActions 
-                                        events={events}
-                                        defaultActions={
-                                            <Delete
-                                                onClick={() => {
-                                                    jobStore.destroy(job);
-                                                }}
-                                                text={
-                                                    translate({
-                                                        message: 'Job Löschen', 
-                                                        id: 'components.event.usersevents.index.delete',
-                                                        description: 'Text to delete a job'
-                                                    })
-                                                }
-                                                flyoutSide='right'
-                                                iconSide='right'
-                                                apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
-                                            />
-                                        }
-                                    />
-                                    <EventGrid events={events} columns={COLUMN_CONFIG} />
-                                </div>
-                            </LazyDetails>
-                        )
-                    })}
+                    <div className={clsx(styles.imports)}>
+                        {jobStore.importJobs.map((job, idx) => {
+                            const events = viewStore.allEvents({ jobId: job.id, orderBy: 'isValid-asc' });
+                            return (
+                                <LazyDetails
+                                    key={job.id}
+                                    summary={
+                                        <summary>
+                                            {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {events.length}
+                                        </summary>
+                                    }
+                                >
+                                    <div className={clsx(styles.imported)}>
+                                        <BulkActions 
+                                            events={events}
+                                            defaultActions={
+                                                <Delete
+                                                    onClick={() => {
+                                                        jobStore.destroy(job);
+                                                    }}
+                                                    text={
+                                                        translate({
+                                                            message: 'Job Löschen', 
+                                                            id: 'components.event.usersevents.index.delete',
+                                                            description: 'Text to delete a job'
+                                                        })
+                                                    }
+                                                    flyoutSide='right'
+                                                    iconSide='right'
+                                                    apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                                />
+                                            }
+                                        />
+                                        <EventGrid 
+                                            events={events} 
+                                            columns={COLUMN_CONFIG} 
+                                            className={styles.noMarginScrollContainer}
+                                        />
+                                    </div>
+                                </LazyDetails>
+                            )
+                        })}
+                    </div>
                 </TabItem>
             )}
         </Tabs>

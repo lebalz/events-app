@@ -37,7 +37,7 @@ const BulkActions = observer((props: Props) => {
     const allValid = selected.every(event => event.isValid);
     const onlyMine = selected.every(event => event.authorId === current.id);
     return (
-        <div className={clsx(styles.bulk, 'card')}>
+        <div className={clsx(styles.bulk)}>
             <Badge 
                 text={`${selected.length}`} 
                 color='blue'

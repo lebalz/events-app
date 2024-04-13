@@ -1,7 +1,47 @@
 .card {
     box-shadow: var(--ifm-global-shadow-md);
     margin-bottom: 1rem;
+    .bulk {
+        margin-bottom: 0.5rem;
+    }
+    margin-left: 0rem;
+    margin-right: 0rem;
 }
 :global(.event-grid) {
     border-radius: var(--ifm-global-radius);
+}
+.imports {
+    margin-left: 0rem;
+    margin-right: 0rem;
+    .imported {
+        .noMarginScrollContainer {
+            margin-left: -1rem;
+            margin-right: -1rem;
+            max-width: calc(100% + 2rem)
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .imports,
+    .card {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+    }
+}
+
+@media screen and (max-width: 996px) {
+    .imports,
+    .card {
+        margin-left: -0.8rem;
+        margin-right: -0.8rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .imports,
+    .card {
+        margin-left: -0.8rem;
+        margin-right: -0.8rem;
+    }
 }
