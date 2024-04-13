@@ -101,7 +101,13 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     }
 
     getDepartments(ids: string[]): Department[] {
-        return ids.map((id) => this.root.departmentStore.departments.find((d) => d.id === id)).filter((d) => !!d);
+        const { locale } = this.root.sessionStore;
+        return _.sortBy(
+            ids.map((id) => this.root.departmentStore.departments.find((d) => d.id === id)).filter((d) => !!d),
+            (d) => {
+                return `${(d.lang === locale ? '0' : '1')}${d.department2_Id ? '1' : '0'}${(/GBSL|GBJB/i.test(d.name) ? '0' : '1')}${d.name}`;
+            }
+        );
     }
 
     @computed

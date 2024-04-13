@@ -85,7 +85,10 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
      */
     @computed
     get shortName() {
-        return this.name?.split(/-|\//)[0] || '-';
+        if (this.department2_Id) {
+            return `${this.name?.split(/-|\//)[0]}+`;
+        }
+        return this.name || '-';
     }
 
     @computed
