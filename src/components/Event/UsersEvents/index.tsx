@@ -129,7 +129,7 @@ const UsersEvents = observer((props: Props) => {
                                 })
                             }</h3>
                         </div>
-                        <div className={clsx('card__body')}>
+                        <div className={clsx('card__body', styles.bulk)}>
                             <BulkActions events={reviewed} />
                         </div>
                         <EventGrid events={reviewed} columns={COLUMN_CONFIG} />
@@ -155,7 +155,7 @@ const UsersEvents = observer((props: Props) => {
                                 })}
                             </h3>
                         </div>
-                        <div className={clsx('card__body')}>
+                        <div className={clsx('card__body', styles.bulk)}>
                             <BulkActions events={adminReview} />
                         </div>
                         <EventGrid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
@@ -181,7 +181,7 @@ const UsersEvents = observer((props: Props) => {
                                 })
                             }</h3>
                         </div>
-                        <div className={clsx('card__body')}>
+                        <div className={clsx('card__body', styles.bulk)}>
                             <BulkActions events={published} />
                         </div>
                         <EventGrid events={published} columns={COLUMN_CONFIG} />
