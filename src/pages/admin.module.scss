@@ -1,8 +1,14 @@
 .layout {
     // align-items: center;
+    margin: 4px 1rem;
     overflow-x: auto;
     .tabs {
         --ifm-tabs-padding-vertical: 0.5em;
         --ifm-tabs-padding-horizontal: 0.5em;
+    }
+}
+@media screen and (max-width: 996px) {
+    .layout {
+        margin: 4px 2px;
     }
 }
