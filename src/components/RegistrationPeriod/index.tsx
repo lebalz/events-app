@@ -19,10 +19,24 @@ import _ from 'lodash';
 import Save from '../shared/Button/Save';
 import Discard from '../shared/Button/Discard';
 import Delete from '../shared/Button/Delete';
+import Checkbox from '../shared/Checkbox';
+import { Icon } from '../shared/icons';
+import { mdiCheckboxBlank, mdiCheckboxBlankBadge, mdiCheckboxBlankBadgeOutline, mdiCheckboxBlankOffOutline, mdiCheckboxMarked } from '@mdi/js';
 
 
 interface Props {
     period: RegistrationPeriodModel;
+}
+
+const IS_OPEN_CB_LABEL = {
+    enabled: translate({
+        message: 'Termineingaben (ausserhalb des Eingabefensters) erlauben?',
+        id: 'RegistrationPeriod.isOpen.enabled'
+    }),
+    disabled: translate({
+        message: 'Eingabefenster bereits offen',
+        id: 'RegistrationPeriod.isOpen.disabled'
+    })
 }
 
 const RegistrationPeriod = observer((props: Props) => {
@@ -31,17 +45,24 @@ const RegistrationPeriod = observer((props: Props) => {
     if (period.isEditing) {
         return (
             <div className={clsx('card', styles.regPeriod)}>
-                <div className={clsx('card__header')}>
+                <div className={clsx('card__header', styles.header)}>
                     <h4>{period.name}</h4>
+                    <div className={clsx(styles.actions)}>
+                        {period.isDirty
+                            ? (
+                                <>
+                                    <Save onClick={() => period.save()} apiState={period.apiStateFor(`save-${period.id}`)} />
+                                    <Discard onClick={() => period.reset()} />
+                                    <Delete onClick={() => period.destroy()} apiState={period.apiStateFor(`destroy-${period.id}`)}/>
+                                </>
+                            )
+                            : (
+                                <Discard onClick={() => period.setEditing(false)} title={translate({message: 'Bearbeitungsmodus schliessen', id: 'RegistrationPeriod.action.edit.discard'})} />
+                            )
+                        }
+                    </div>
                 </div>
                 <div className={clsx('card__body')}>
-                    {period.isDirty && (
-                        <div>
-                            <Save onClick={() => period.save()} apiState={period.apiStateFor(`save-${period.id}`)} />
-                            <Discard onClick={() => period.reset()} />
-                            <Delete onClick={() => period.destroy()} apiState={period.apiStateFor(`destroy-${period.id}`)}/>
-                        </div>
-                    )}
                     <DefinitionList>
                         <dt>
                             <Translate id="RegistrationPeriod.Name">
@@ -150,6 +171,25 @@ const RegistrationPeriod = observer((props: Props) => {
                                 theme={selectThemeConfig}
                             />
                         </dd>
+                        <dd>
+                            <DateTimePicker
+                                date={period.end}
+                                onChange={(date) => period.update({eventRangeEnd: date.toISOString()})}
+                            />
+                        </dd>
+                        <dt>
+                            <Translate id="RegistrationPeriod.isOpen">
+                                Eingabe Fenster offen?
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <Checkbox
+                                checked={period.isPeriodOpen}
+                                disabled={period.isWithinOpenPeriod}
+                                onChange={(checked) => period.update({isOpen: checked})}
+                                label={IS_OPEN_CB_LABEL[period.isWithinOpenPeriod ? 'disabled' : 'enabled']}
+                            />
+                        </dd>
                     </DefinitionList>
                 </div>
     
@@ -158,11 +198,11 @@ const RegistrationPeriod = observer((props: Props) => {
     }
     return (
         <div className={clsx('card', styles.regPeriod)}>
-            <div className={clsx('card__header')}>
+            <div className={clsx(styles.header, 'card__header')}>
                 <h4>{period.name}</h4>
+                <Edit onClick={() => period.setEditing(true)}/>
             </div>
             <div className={clsx('card__body')}>
-                <Edit onClick={() => period.setEditing(true)}/>
                 <small className={clsx('avatar__subtitle', styles.description)}>
                         {period.description}
                 </small>
@@ -195,7 +235,20 @@ const RegistrationPeriod = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        {period.departments.map(d => (<Badge text={d.shortName} color={d.color} title={d.name} key={d.id}/>))}
+                        <div className={styles.badges}>
+                            {period.departments.map(d => (<Badge text={d.shortName} color={d.color} title={d.name} key={d.id}/>))}
+                        </div>
+                    </dd>
+                    <dt>
+                        <Translate id="RegistrationPeriod.isOpen">
+                            Eingabe Fenster offen?
+                        </Translate>
+                    </dt>
+                    <dd>
+                        {period.isPeriodOpen 
+                            ? <Icon path={mdiCheckboxMarked} color="green" />
+                            : <Icon path={mdiCheckboxBlankOffOutline} color="red" />
+                        }
                     </dd>
                 </DefinitionList>
             </div>

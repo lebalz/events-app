@@ -153,4 +153,15 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
     get departments() {
         return rmUndefined([...this.departmentIds].map((dId) => this.store.root.departmentStore.find<Department>(dId)));
     }
+
+    @computed
+    get isWithinOpenPeriod() {
+        const now = new Date();
+        return  now >= this.start && now <= this.end;
+    }
+
+    @computed
+    get isPeriodOpen() {
+        return this.isOpen || this.isWithinOpenPeriod;
+    }
 }

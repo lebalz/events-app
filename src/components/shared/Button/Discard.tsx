@@ -16,7 +16,7 @@ type DiscardProps = Props & Base;
 const Discard = (props: DiscardProps) => {
     return (
         <Button 
-            title={translate({
+            title={props.title ?? translate({
                 message : "Änderungen verwerfen",
                 id : "share.button.discard.title",
                 description : "Text of the button discard"

@@ -1,0 +1,19 @@
+.regPeriod {
+    max-width: 30em;
+    margin: 0.5em;
+    .badges {
+        display: flex;
+        gap: 0.25em;
+        flex-wrap: wrap;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .actions {
+        display: flex;
+        gap: 0.15em;
+        justify-content: flex-end;
+    } 
+}

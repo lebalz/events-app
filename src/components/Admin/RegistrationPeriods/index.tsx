@@ -37,11 +37,13 @@ const RegistrationPeriods = observer((props: Props) => {
                 apiState={regPeriodStore.apiStateFor('create')}
                 color='primary'
             />
-            {regPeriodStore.registrationPeriods.map((period) => {
-                return (
-                    <RegistrationPeriod period={period} key={period.id} />
-                );
-            })}
+            <div className={clsx(styles.regPeriods)}>
+                {regPeriodStore.registrationPeriods.map((period) => {
+                    return (
+                        <RegistrationPeriod period={period} key={period.id} />
+                    );
+                })}
+            </div>
         </div>
     )
 });
