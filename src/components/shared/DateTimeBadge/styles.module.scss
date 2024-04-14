@@ -1,0 +1,23 @@
+.badge {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    .date {
+        width: 8ex;
+        text-align: end;
+    }
+    .time {
+        width: 6ex;
+        text-align: end;
+    }
+    
+    &.compact {
+        gap: 0.25em;
+        .date {
+            width: auto;
+        }
+        .time {
+            width: auto;
+        }
+    }
+}

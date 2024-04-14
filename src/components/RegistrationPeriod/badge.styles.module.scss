@@ -1,0 +1,18 @@
+.badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    .departments {
+        display: flex;
+        gap: 0.1rem;
+        flex-wrap: wrap;
+        cursor: pointer;
+    }
+    .dateRange {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 0.25em;
+        cursor: pointer;
+    }
+}

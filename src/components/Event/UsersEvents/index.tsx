@@ -13,9 +13,11 @@ import LazyDetails from '../../shared/Details';
 import Delete from '../../shared/Button/Delete';
 import styles from './styles.module.scss';
 import EventGrid, { ColumnConfig } from '../EventGrid';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import {useWindowSize} from '@docusaurus/theme-common';
+import Badge from '../../shared/Badge';
+import RegPeriodBadge from '../../RegistrationPeriod/RegPeriodBadge';
 const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     ['state', { sortable: false, width: undefined }],
@@ -47,6 +49,7 @@ const UsersEvents = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     const jobStore = useStore('jobStore');
     const viewStore = useStore('viewStore');
+    const regPeriodStore = useStore('registrationPeriodStore');
     if (!user) {
         return null;
     }
@@ -78,6 +81,20 @@ const UsersEvents = observer((props: Props) => {
                             }</h3>
                         </div>
                         <div className={clsx('card__body', styles.bulk)}>
+                            <div className={clsx(styles.alert, 'alert', 'alert--secondary')} role="alert">
+                                <h4>
+                                    <Translate id="userEvents.regPeriod.alert.title">
+                                        Eingabefenster
+                                    </Translate>
+                                </h4>
+                                {
+                                    regPeriodStore.registrationPeriods.map((regPeriod) => {
+                                        return (
+                                            <RegPeriodBadge key={regPeriod.id} period={regPeriod} />
+                                        )
+                                    })
+                                }
+                            </div>
                             <BulkActions 
                                 events={drafts}
                                 defaultActions={

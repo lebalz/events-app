@@ -3,6 +3,12 @@
     margin-bottom: 1rem;
     .bulk {
         margin-bottom: 0.5rem;
+        .alert {
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
     }
     margin-left: 0rem;
     margin-right: 0rem;

@@ -1,9 +1,13 @@
 import { translate } from "@docusaurus/Translate";
 
-export const formatTime = (date: Date) => {
+export const formatTime = (date: Date, trimLeadingZeros: boolean = false) => {
     const hours = `${date.getHours()}`;
     const minutes = `${date.getMinutes()}`.padStart(2, '0');
-    return `${hours}:${minutes}`;
+    const fTime = `${hours}:${minutes}`;
+    if (trimLeadingZeros) {
+        return fTime.replace(/^0+/, '');
+    }
+    return fTime;
 }
 
 export const formatDateLong = (date: Date) => {
@@ -14,9 +18,13 @@ export const formatDateLong = (date: Date) => {
     return `${day}.${month}.${year}`;
 }
 
-export const formatDate = (date: Date) => {
+export const formatDate = (date: Date, trimLeadingZeros: boolean = false) => {
     const fDate = formatDateLong(date);
-    return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
+    const fStr = `${fDate.slice(0, 6)}${fDate.slice(8)}`;
+    if (trimLeadingZeros) {
+        return fStr.replace(/^0+/, '');
+    }
+    return fStr;
 }
 
 

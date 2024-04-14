@@ -111,7 +111,7 @@ const Badge = (props: Props) => {
     return (        
         <Tooltip title={props.title}>
             <span
-                className={clsx(commonCls)}
+                className={clsx(commonCls, styles.tooltiped)}
                 style={style}
             >
                 <BadgeInner {...props} />
