@@ -101,11 +101,11 @@
 }
 
 .popup-overlay {
-  background: rgba(0, 0, 0, .5)
+  background: transparent;
 }
 
 [data-popup=tooltip].popup-overlay {
-  background: transparent
+  background: transparent;
 }
 
 .popup-arrow {

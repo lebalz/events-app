@@ -50,6 +50,7 @@ const EventModal = observer((props: Props) => {
             closeOnDocumentClick
             lockScroll
             nested
+            overlayStyle={{background: 'rgba(0, 0, 0, 0.2)'}}
         >
             <div className={clsx(styles.card, 'card')} ref={ref}>
             {event && (

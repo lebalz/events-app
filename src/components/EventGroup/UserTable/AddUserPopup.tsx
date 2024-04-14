@@ -39,6 +39,7 @@ const AddUserPopup = observer((props: Props) => {
                 </span>
             }
             modal
+            overlayStyle={{ background: 'rgba(0, 0, 0, 0.2)' }}
             position={['top center', 'bottom center', 'right center', 'left center', 'bottom right', 'top right', 'center center']}
             nested
         >
