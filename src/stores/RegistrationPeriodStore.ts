@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
@@ -21,7 +21,8 @@ export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
         return new RegistrationPeriod(data, this);
     }
 
+    @computed
     get registrationPeriods() {
-        return this.models;
+        return _.sortBy(this.models, ['_pristine.start', '_pristine.eventRangeStart'], ['desc', 'desc']);
     }
 }
