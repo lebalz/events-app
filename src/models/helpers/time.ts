@@ -36,6 +36,10 @@ export const toLocalDate = (date: Date) => {
     return new Date(date.getTime() + date.getTimezoneOffset() * MINUTE_2_MS)
 }
 
+export const isValidDate = (date: Date) => {
+    return date instanceof Date && !isNaN(date.getTime()) && date.getTime() > (new Date('2020-01-01').getTime());
+}
+
 export const toGlobalDate = (date: Date) => {
     return new Date(date.getTime() - date.getTimezoneOffset() * MINUTE_2_MS)
 }

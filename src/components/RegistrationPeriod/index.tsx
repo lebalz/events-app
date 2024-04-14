@@ -12,7 +12,7 @@ import Edit from '../shared/Button/Edit';
 import TextArea from '../shared/TextArea';
 import TextInput from '../shared/TextInput';
 import DateTimePicker from '../shared/DateTimePicker';
-import Select, { Theme, ThemeConfig } from 'react-select';
+import Select, {  } from 'react-select';
 import { selectClassNamesConfig, selectStyleConfig, selectThemeConfig } from '../Event/Filter';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
@@ -21,7 +21,7 @@ import Discard from '../shared/Button/Discard';
 import Delete from '../shared/Button/Delete';
 import Checkbox from '../shared/Checkbox';
 import { Icon } from '../shared/icons';
-import { mdiCheckboxBlank, mdiCheckboxBlankBadge, mdiCheckboxBlankBadgeOutline, mdiCheckboxBlankOffOutline, mdiCheckboxMarked, mdiDebugStepOver } from '@mdi/js';
+import { mdiCheckboxBlankOffOutline, mdiCheckboxMarked, mdiDebugStepOver } from '@mdi/js';
 import Popup from 'reactjs-popup';
 import Button from '../shared/Button';
 import { PopupActions } from 'reactjs-popup/dist/types';
@@ -105,7 +105,7 @@ const EditRegPeriod = observer((props: Props) => {
                         <DateTimePicker
                             date={period.start}
                             onChange={(date) => period.update({start: date.toISOString()})}
-                            id={period.start.toISOString()}
+                            id={period.start.toISOString().slice(0, 16)}
                         />
                     </dd>
                     <dt>
@@ -117,7 +117,7 @@ const EditRegPeriod = observer((props: Props) => {
                         <DateTimePicker
                             date={period.end}
                             onChange={(date) => period.update({end: date.toISOString()})}
-                            id={period.end.toISOString()}
+                            id={period.end.toISOString().slice(0, 16)}
                         />
                     </dd>
                     <dt>
@@ -179,7 +179,7 @@ const EditRegPeriod = observer((props: Props) => {
                         <DateTimePicker
                             date={period.eventRangeStart}
                             onChange={(date) => period.update({eventRangeStart: date.toISOString()})}
-                            id={period.eventRangeStart.toISOString()}
+                            id={period.eventRangeStart.toISOString().slice(0, 16)}
                         />
                     </dd>
                     <dt>
@@ -191,7 +191,7 @@ const EditRegPeriod = observer((props: Props) => {
                         <DateTimePicker
                             date={period.eventRangeEnd}
                             onChange={(date) => period.update({eventRangeEnd: date.toISOString()})}
-                            id={period.eventRangeEnd.toISOString()}
+                            id={period.eventRangeEnd.toISOString().slice(0, 16)}
                         />
                     </dd>
                     <dt>
