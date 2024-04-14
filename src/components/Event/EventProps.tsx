@@ -53,13 +53,7 @@ const EventProps = observer((props: Props) => {
     const commonEditProps = { ...commonProps, isEditable: true };
     const [showOptions, setShowOptions] = React.useState(false);
 
-    const options = new Set<string>();
-    if (!props.inModal && !event.isEditing) {
-        options.add('clone');
-    }
-    if (!props.inModal && event.isEditable) {
-        options.add('actions');
-    }
+    const showActions = !props.inModal && event.isEditable;
     if (!event) {
         return null;
     }
@@ -361,47 +355,18 @@ const EventProps = observer((props: Props) => {
                 )
             }
             {
-                options.size > 0 && (
+                showActions && (
                     <>
                         <dt>
-                            <Button
-                                icon={mdiDotsHorizontalCircleOutline}
-                                onClick={() => setShowOptions(!showOptions)}
-                                disabled={!viewStore.user}
-                                className={clsx(styles.optionsBtn, (showOptions || (!props.inModal && event.isEditing)) && styles.showOptions)}
-                            />
                         </dt>
                         <dd>
-                            <div className={clsx(styles.options)}>
-                                {options.has('actions') && (showOptions || event.isEditing) && (
-                                    <EventActions
-                                        event={event}
-                                        size={SIZE * 0.99}
-                                        buttonOrder={['discard', 'save']}
-                                        exclude={props.inModal ? [] : ['open']}
-                                    />
-                                )}
-                                {options.has('clone') && showOptions && (
-                                    <Button
-                                        icon={mdiContentDuplicate}
-                                        size={SIZE * 0.99}
-                                        title={translate({
-                                                message: 'Duplizieren',
-                                                id: 'component.event.eventprops.clone',
-                                                description: "Text of the button clone"
-                                            })}
-                                        onClick={() => {
-                                            eventStore.clone(event).then((newEvent) => {
-                                                if (newEvent) {
-                                                    const id = (newEvent as { id: string }).id;
-                                                    history.push(`${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events`);
-                                                    eventStore.find(id)?.setEditing(true);
-                                                }
-                                            });
-
-                                        }}
-                                    />
-                                )}
+                            <div className={clsx(styles.actions)}>
+                                <EventActions
+                                    event={event}
+                                    size={SIZE * 0.99}
+                                    buttonOrder={['discard', 'save']}
+                                    exclude={props.inModal ? [] : ['open']}
+                                />
                             </div>
                         </dd>
                     </>
