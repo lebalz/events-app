@@ -1,4 +1,7 @@
 .input {
     min-width: 11.5em;
     width: 100%;
+    &:invalid {
+        border-color: var(--ifm-color-danger);
+    }
 }

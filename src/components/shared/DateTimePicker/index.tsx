@@ -3,7 +3,7 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
+import { isValidDate, toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
 import { action } from 'mobx';
 
 
@@ -45,10 +45,12 @@ const DateTimePicker = (props: Props) => {
                 className={clsx(styles.input)}
                 type={'datetime-local'} 
                 value={date}
-                max="2099-12-31T00:01"
-                min="2020-01-01T23:59"
+                max="2050-12-31T12:00"
+                min="2023-01-01T12:00"
                 onChange={(e) => {
-                    setDate(e.currentTarget.value);
+                    if (isValidDate(new Date(e.currentTarget.value))) {
+                        setDate(e.currentTarget.value);
+                    }
                 }}
             />
         </div>

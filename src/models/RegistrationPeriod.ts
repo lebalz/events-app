@@ -3,7 +3,7 @@ import { RegistrationPeriod as RegPeriodProps } from "../api/registration_period
 import { ApiAction } from "../stores/iStore";
 import { RegistrationPeriodStore } from "../stores/RegistrationPeriodStore";
 import ApiModel, { UpdateableProps } from "./ApiModel";
-import { formatDateTime, isValidDate, toGlobalDate, toLocalDate } from "./helpers/time";
+import { formatDateTime, toGlobalDate, toLocalDate } from "./helpers/time";
 import { rmUndefined } from "./helpers/filterHelpers";
 import Department from "./Department";
 
@@ -15,9 +15,6 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
             attr: 'start',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
-                if (!isValidDate(date)) {
-                    return;
-                }
                 if (date.getTime() > this.end.getTime()) {
                     const diff = this.end.getTime() - this.start.getTime();
                     this.end = new Date(date.getTime() + diff);
@@ -29,9 +26,6 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
             attr: 'end',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
-                if (!isValidDate(date)) {
-                    return;
-                }
                 if (date.getTime() < this.start.getTime()) {
                     const diff = this.end.getTime() - this.start.getTime();
                     this.start = new Date(date.getTime() - diff);
@@ -43,9 +37,6 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
             attr: 'eventRangeStart',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
-                if (!isValidDate(date)) {
-                    return;
-                }
                 if (date.getTime() > this.eventRangeEnd.getTime()) {
                     const diff = this.eventRangeEnd.getTime() - this.eventRangeStart.getTime();
                     this.eventRangeEnd = new Date(date.getTime() + diff);
@@ -57,9 +48,6 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
             attr: 'eventRangeEnd',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
-                if (!isValidDate(date)) {
-                    return;
-                }
                 if (date.getTime() < this.eventRangeStart.getTime()) {
                     const diff = this.eventRangeEnd.getTime() - this.eventRangeStart.getTime();
                     this.eventRangeStart = new Date(date.getTime() - diff);
