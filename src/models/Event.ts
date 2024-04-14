@@ -195,6 +195,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         );
         if (result.error) {
             this._errors = result.error;
+            console.log(result.error);
         } else {
             this._errors = undefined;
         }

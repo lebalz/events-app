@@ -53,6 +53,7 @@ const AudiencePicker = observer((props: Props) => {
 
     const departments = departmentStore.groupedByLetter;
     const { event } = props;
+    const error = event.errorFor('audience');
     const {
         someDepartments,
         allDepartments,
@@ -147,100 +148,107 @@ const AudiencePicker = observer((props: Props) => {
                 }
 
             </div>
-            <h4>
-                <Translate
-                    id="shared.header.school_departement"
-                    description="The title in the window for the event."
-                >
-                    Schulen/Klassen
-                </Translate>
-            </h4>
-            <div className={clsx(styles.flex)}>
-                <Button
-                    text={translate({
-                        message: 'Alle Schulen',
-                        description: 'Button text to toggle all schools on/off',
-                        id: 'shared.AudiencePicker'
+            <div className={clsx(error && styles.error)}>
+                <h4>
+                    <Translate
+                        id="shared.header.school_departement"
+                        description="The title in the window for the event."
+                    >
+                        Schulen/Klassen
+                    </Translate>
+                </h4>
+                <div className={clsx(styles.flex)}>
+                    <Button
+                        text={translate({
+                            message: 'Alle Schulen',
+                            description: 'Button text to toggle all schools on/off',
+                            id: 'shared.AudiencePicker'
+                        })}
+                        active={allDepartments}
+                        color={someDepartments ? 'primary' : 'secondary'}
+                        onClick={() => {
+                            if (!allDepartments) {
+                                departmentStore.departments.forEach(d => event.setDepartment(d, true));
+                            } else {
+                                departmentStore.departments.forEach(d => event.setDepartment(d, false));
+                            }
+                        }}
+                    />
+                    <Button
+                        text={'GBSL'}
+                        active={allDepartmentsDe}
+                        color={someDepartmentsDe ? 'primary' : 'secondary'}
+                        onClick={() => {
+                            if (!allDepartmentsDe) {
+                                departmentStore.departmentsDe.forEach(d => event.setDepartment(d, true));
+                            } else {
+                                departmentStore.departmentsDe.forEach(d => event.setDepartment(d, false));
+                            }
+                        }}
+                    />
+                    <Button
+                        text={'GBJB'}
+                        active={allDepartmentsFr}
+                        color={someDepartmentsFr ? 'primary' : 'secondary'}
+                        onClick={() => {
+                            if (!allDepartmentsFr) {
+                                departmentStore.departmentsFr.forEach(d => event.setDepartment(d, true));
+                            } else {
+                                departmentStore.departmentsFr.forEach(d => event.setDepartment(d, false));
+                            }
+                        }}
+                    />
+                </div>
+                <Tabs className={clsx(styles.tabs)} lazy>
+                    {Object.keys(departments).sort().map((letter, idx) => {
+                        const color = (departments[letter] as DepartmentModel[])[0].color
+                        const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
+                        return (
+                            <TabItem 
+                                value={letter}
+                                label={departmentStore.letterToName(letter)}
+                                key={letter} 
+                                attributes={{ 
+                                    className: clsx(touched && styles.touched), 
+                                    style: { color: color } 
+                                }}
+                            >
+                                <Department departments={departments[letter]} event={event} />
+                            </TabItem>
+                        )
                     })}
-                    active={allDepartments}
-                    color={someDepartments ? 'primary' : 'secondary'}
-                    onClick={() => {
-                        if (!allDepartments) {
-                            departmentStore.departments.forEach(d => event.setDepartment(d, true));
-                        } else {
-                            departmentStore.departments.forEach(d => event.setDepartment(d, false));
-                        }
-                    }}
-                />
-                <Button
-                    text={'GBSL'}
-                    active={allDepartmentsDe}
-                    color={someDepartmentsDe ? 'primary' : 'secondary'}
-                    onClick={() => {
-                        if (!allDepartmentsDe) {
-                            departmentStore.departmentsDe.forEach(d => event.setDepartment(d, true));
-                        } else {
-                            departmentStore.departmentsDe.forEach(d => event.setDepartment(d, false));
-                        }
-                    }}
-                />
-                <Button
-                    text={'GBJB'}
-                    active={allDepartmentsFr}
-                    color={someDepartmentsFr ? 'primary' : 'secondary'}
-                    onClick={() => {
-                        if (!allDepartmentsFr) {
-                            departmentStore.departmentsFr.forEach(d => event.setDepartment(d, true));
-                        } else {
-                            departmentStore.departmentsFr.forEach(d => event.setDepartment(d, false));
-                        }
-                    }}
-                />
-            </div>
-            <Tabs className={clsx(styles.tabs)} lazy>
-                {Object.keys(departments).sort().map((letter, idx) => {
-                    const color = (departments[letter] as DepartmentModel[])[0].color
-                    const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
-                    return (
-                        <TabItem 
-                            value={letter}
-                            label={departmentStore.letterToName(letter)}
-                            key={letter} 
-                            attributes={{ 
-                                className: clsx(touched && styles.touched), 
-                                style: { color: color } 
-                            }}
-                        >
-                            <Department departments={departments[letter]} event={event} />
-                        </TabItem>
-                    )
-                })}
-            </Tabs>
-            <div className={clsx(styles.options)}>
-                <Button
-                    icon={mdiDotsHorizontalCircleOutline}
-                    title={translate({
-                        message: 'Erweitert',
-                        id: 'shared.button.title.expand',
-                        description: 'Text appearing on the expand button'
-                    })}
-                    onClick={() => setShowOptions(!showOptions)}
-                    className={clsx(styles.optionsBtn, (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions)}
-                />
-                {
-                    (showOptions || event.unknownClassIdentifiers.length > 0) && (
-                        <div>
-                            <h4>
-                                <Translate
-                                    id="shared.audiencePicker.title.futureClasses"
-                                >
-                                    Künftige Klassen
-                                </Translate>
-                            </h4>
-                            <ClassSelector event={event} />
-                        </div>
-                    )
-                }
+                </Tabs>
+                <div className={clsx(styles.options)}>
+                    <Button
+                        icon={mdiDotsHorizontalCircleOutline}
+                        title={translate({
+                            message: 'Erweitert',
+                            id: 'shared.button.title.expand',
+                            description: 'Text appearing on the expand button'
+                        })}
+                        onClick={() => setShowOptions(!showOptions)}
+                        className={clsx(styles.optionsBtn, (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions)}
+                    />
+                    {
+                        (showOptions || event.unknownClassIdentifiers.length > 0) && (
+                            <div>
+                                <h4>
+                                    <Translate
+                                        id="shared.audiencePicker.title.futureClasses"
+                                    >
+                                        Künftige Klassen
+                                    </Translate>
+                                </h4>
+                                <ClassSelector event={event} />
+                            </div>
+                        )
+                    }
+                </div>
+                {error && (
+                    <div className={styles.errorMessage}>
+                        {error.message}
+                    </div>
+                )}
             </div>
         </div>
     )

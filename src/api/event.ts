@@ -1,7 +1,7 @@
 import { AxiosPromise } from 'axios';
 import api from './base';
 import { Job } from './job';
-import Joi from 'joi';
+import Joi, { CustomHelpers } from 'joi';
 import { KlassName } from '../models/helpers/klassNames';
 import { translate } from '@docusaurus/Translate';
 import { Color } from '../components/shared/Colors';
@@ -234,7 +234,13 @@ export const JoiEvent = Joi.object<Event>({
     location: Joi.string().required().allow(''),
     description: Joi.string().required()
                     .label(translate({message: 'Stichworte', id: 'joi.event.description', description: 'Description of event'}))
-                    .messages({'string.empty': translate({message: 'Stichworte dürfen nicht leer sein', id: 'joi.event.description.empty', description: 'Description of event must not be empty'})}),
+                    .messages({
+                        'string.empty': translate({
+                            message: 'Stichworte dürfen nicht leer sein', 
+                            id: 'joi.event.description.empty',
+                            description: 'Description of event must not be empty'
+                        })
+                    }),
     descriptionLong: Joi.string().required().allow(''),
     departmentIds: Joi.array().items(Joi.string()).required(),
     classes: Joi.array().items(Joi.string()).required(),
@@ -250,7 +256,30 @@ export const JoiEvent = Joi.object<Event>({
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
     deletedAt: Joi.date().iso().allow(null)
-});
+}).custom(
+    (value: Event, helpers: CustomHelpers<Event>) => {
+        if (value.classes.length + value.classGroups.length + value.departmentIds.length === 0) {
+            return helpers.error(
+                'custom.event.emptyAudience',
+                {
+                    key: 'audience',
+                    value: [],
+                    label: translate({ message: 'Leere Zielgruppe', id: 'joi.event.emptyAudience', description: 'Joi validation error for empty audience'})
+                }
+            );
+        }
+        return value;
+    },
+    'custom event validation'
+)
+// .messages({
+//     'custom.event.emptyAudience': translate({
+//         message: 'Es muss mindestens eine Klasse, Klassegruppe oder Abteilung ausgewählt werden', 
+//         id: 'joi.event.emptyAudience', 
+//         description: 'Joi validation error for empty audience'
+//     })
+// })
+;
 
 /**
  * @see https://github.com/hapijs/joi/blob/master/lib/types/date.js for default messages
@@ -262,6 +291,11 @@ export const JoiMessages: Joi.LanguageMessages = {
     'any.required': translate({message: '{{#label}} Darf nicht leer sein', id: 'joi.any.required',description: 'Joi validation error for required value'}),
     'date.base': translate({message: '{{#label}} ist kein gültiges Datum', id: 'joi.date.base',description: 'Joi validation error for date base'}),
     'date.min': translate({message: '{{#label}} muss grösser oder gleich {{:#limit}} sein', id: 'joi.date.base',description: 'Joi validation error for date min'}),
+    'custom.event.emptyAudience': translate({
+        message: 'Es muss mindestens eine Klasse, Klassegruppe oder Abteilung ausgewählt werden', 
+        id: 'joi.event.emptyAudience', 
+        description: 'Joi validation error for empty audience'
+    })
 };
 
 export function importEvents(formData: FormData, type: ImportType, signal: AbortSignal): AxiosPromise<Job> {

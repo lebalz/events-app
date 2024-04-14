@@ -71,3 +71,16 @@
     //     font-weight: bold;
     // }
 }   
+
+
+
+.error {
+    border: 1px dashed red;
+    border-radius: var(--ifm-global-radius);
+}
+.errorMessage {
+    color: red;
+    font-size: 0.75em;
+    margin: 0;
+    padding: 0;
+}
