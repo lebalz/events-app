@@ -56,6 +56,12 @@ dd {
         height: calc(var(--ifm-line-height-base) * 1em);
         align-items: center;
     }
+    .teachingAffectedBtn {
+        border-width: 0;
+        span[class^="icon"] {
+            transform: translateY(0);
+        }
+    }
 }
 .startDate {
     text-align: end;

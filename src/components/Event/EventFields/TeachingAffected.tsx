@@ -9,10 +9,12 @@ import { Icon, SIZE_XS, SIZE_XXS } from '../../shared/icons';
 import { TeachingAffected as TeachingAffectedType } from '@site/src/api/event';
 import { translate } from '@docusaurus/Translate';
 import Tooltip from '../../shared/Tooltip';
+import Button from '../../shared/Button';
 
 interface Props extends ReadonlyProps {
     show: 'icon' | 'text' | 'both';
     align?: 'left' | 'center' | 'right';
+    toggleExpanded?: boolean;
 }
 
 const ColorMap: {[key in TeachingAffectedType]: string} = {
@@ -60,27 +62,49 @@ const TitleMap: {[key in TeachingAffectedType]: string} = {
 const TeachingAffected = observer((props: Props) => {
     const { event, show } = props;
     return (
-        <div 
-            style={{gridColumn: 'teachingAffected'}}
-            className={clsx(
-                styles.teachingAffected,
-                show === 'icon' && styles.iconOnly,
-                props.className,
-                styles[props.align ?? 'center']
-            )}
-            title={TitleMap[event.teachingAffected]}
-        >
-            <Tooltip title={TitleMap[event.teachingAffected]}>
+        <Tooltip title={TitleMap[event.teachingAffected]}>
+            <div 
+                style={{gridColumn: 'teachingAffected'}}
+                className={clsx(
+                    styles.teachingAffected,
+                    show === 'icon' && styles.iconOnly,
+                    props.className,
+                    styles[props.align ?? 'center']
+                )}
+            >
                 <>
                     {(show === 'icon' || show === 'both') && (
-                        <Icon path={mdiCircle} color={ColorMap[event.teachingAffected]} size={SIZE_XXS} />
+                        <>
+                            {
+                                props.toggleExpanded ? (
+                                    <Button
+                                        onClick={() => event.isExpanded && event.setExpanded(false)}
+                                        icon={<Icon path={mdiCircle} color={ColorMap[event.teachingAffected]} size={SIZE_XXS} />}
+                                        size={SIZE_XXS}
+                                    />                                    
+                                ) : (
+                                    <Button
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            event.setExpanded(!event.isExpanded)
+                                        }}
+                                        icon={mdiCircle}
+                                        size={SIZE_XXS}
+                                        color={ColorMap[event.teachingAffected]}
+                                        className={clsx(styles.teachingAffectedBtn)}
+                                    />         
+                                    // <Icon path={mdiCircle} color={ColorMap[event.teachingAffected]} size={SIZE_XXS} />
+                                )
+                            }
+                        </>
                     )}
                     {(show === 'text' || show === 'both') && (
                         <span>{DescriptionMap[event.teachingAffected]}</span>
                     )}
                 </>
-            </Tooltip>
-        </div>
+            </div>
+        </Tooltip>
     )
 });
 

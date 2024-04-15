@@ -38,7 +38,7 @@ export const DefaultConfig: {[key: string]: ConfigOptions} = {
     isDuplicate: { sortable: true },
     select: { width: '2.3em', componentProps: {onSelect: () => undefined} },
     kw: { width: '2.8em', sortable: '3.3em', minWidthWhenActive: '4.5em' },
-    teachingAffected: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
+    teachingAffected: { width: '2.1em', sortable: true, minWidthWhenActive: '4em', componentProps: {toggleExpanded: true} },
     author: { width: '5em', sortable: true, minWidthWhenActive: '6em' },
     day: { width: '2.8em' },
     description: { width: '16em' },
