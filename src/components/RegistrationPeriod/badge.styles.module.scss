@@ -5,7 +5,7 @@
     .departments {
         display: flex;
         gap: 0.1rem;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         cursor: pointer;
     }
     .dateRange {
