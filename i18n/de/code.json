@@ -1531,5 +1531,89 @@
   },
   "user.logout.title": {
     "message": "{mail} abmelden"
+  },
+  "joi.event.emptyAudience": {
+    "message": "Es muss mindestens eine Klasse, Klassengruppe oder Abteilung ausgewählt werden",
+    "description": "Joi validation error for empty audience"
+  },
+  "event.createdAt": {
+    "message": "Erstellt am",
+    "description": "for a single event: date of event creation"
+  },
+  "event.updatedAt": {
+    "message": "Aktualisiert am",
+    "description": "for a single event: date of update"
+  },
+  "registrationPeriod.open": {
+    "message": "Offen"
+  },
+  "registrationPeriod.closed": {
+    "message": "Geschlossen"
+  },
+  "registrationPeriod.name.tooltip": {
+    "message": "Eingabefenster {open}: {description}"
+  },
+  "registrationPeriod.registrationWindow.tooltip": {
+    "message": "Eingabefenster: Einreichen von Terminen"
+  },
+  "registrationPeriod.eventWindow.tooltip": {
+    "message": "Zeitraum, in dem die Termine stattfinden."
+  },
+  "registrationPeriod.departments.tooltip": {
+    "message": "Termineingabe für diese Abteilungen (inkl. Bilingue)"
+  },
+  "RegistrationPeriod.isOpen.enabled": {
+    "message": "Termineingaben (ausserhalb des Eingabefensters) erlauben?"
+  },
+  "RegistrationPeriod.isOpen.disabled": {
+    "message": "Eingabefenster bereits offen"
+  },
+  "RegistrationPeriod.action.edit.discard": {
+    "message": "Bearbeitungsmodus schliessen"
+  },
+  "RegistrationPeriod.Name": {
+    "message": "Name"
+  },
+  "RegistrationPeriod.Description": {
+    "message": "Beschreibung"
+  },
+  "RegistrationPeriod.Description.Placeholder": {
+    "message": "Beschreibung"
+  },
+  "RegistrationPeriod.inputWindow": {
+    "message": "Eingabefenster"
+  },
+  "RegistrationPeriod.inputWindow.Start": {
+    "message": "Start"
+  },
+  "RegistrationPeriod.inputWindow.End": {
+    "message": "Ende"
+  },
+  "RegistrationPeriod.datePeriod": {
+    "message": "Termin-Periode"
+  },
+  "RegistrationPeriod.datePeriod.FromSemester": {
+    "message": "Von Semester übernehmen"
+  },
+  "RegistrationPeriod.datePeriod.FromSemester.Title": {
+    "message": "Start- und Enddaten von einem Semester übernehmen"
+  },
+  "RegistrationPeriod.eventPeriod.Start": {
+    "message": "Start"
+  },
+  "RegistrationPeriod.eventPeriod.End": {
+    "message": "Ende"
+  },
+  "RegistrationPeriod.departments": {
+    "message": "Abteilungen"
+  },
+  "RegistrationPeriod.isOpen": {
+    "message": "Eingabe Fenster offen?"
+  },
+  "RegistrationPeriod.addButton.text": {
+    "message": "Eingabefenster hinzufügen"
+  },
+  "userEvents.regPeriod.alert.title": {
+    "message": "Eingabefenster"
   }
 }

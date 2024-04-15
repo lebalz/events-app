@@ -292,7 +292,7 @@ export const JoiMessages: Joi.LanguageMessages = {
     'date.base': translate({message: '{{#label}} ist kein gültiges Datum', id: 'joi.date.base',description: 'Joi validation error for date base'}),
     'date.min': translate({message: '{{#label}} muss grösser oder gleich {{:#limit}} sein', id: 'joi.date.base',description: 'Joi validation error for date min'}),
     'custom.event.emptyAudience': translate({
-        message: 'Es muss mindestens eine Klasse, Klassegruppe oder Abteilung ausgewählt werden', 
+        message: 'Es muss mindestens eine Klasse, Klassengruppe oder Abteilung ausgewählt werden', 
         id: 'joi.event.emptyAudience', 
         description: 'Joi validation error for empty audience'
     })
