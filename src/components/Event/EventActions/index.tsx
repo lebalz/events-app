@@ -64,20 +64,20 @@ const EventActions = observer((props: Props) => {
             <React.Fragment key={key}>
                 {(event?.isDirty || event?.isEditing) && (
                     <Button
-                        text={showText ? event.isDirty ?
-                                translate({
-                                    message : 'Verwerfen',
-                                    id : "components.event.actions.discard",
-                                    description : "Text of the button discard"
-                                })
-                            :
-                                translate({
-                                    message : 'Abbrechen',
-                                    id : "components.event.actions.cancel",
-                                    description : "Text of the button cancel"
-                                })
-                            :
-                                undefined}
+                        text={showText 
+                                ? event.isDirty 
+                                    ? translate({
+                                         message : 'Verwerfen',
+                                         id : "components.event.actions.discard",
+                                         description : "Text of the button discard"
+                                      })
+                                    : translate({
+                                         message : 'Abbrechen',
+                                         id : "components.event.actions.cancel",
+                                         description : "Text of the button cancel"
+                                      })
+                                : undefined
+                        }
                         color="black"
                         size={size}
                         title={translate({
@@ -102,12 +102,12 @@ const EventActions = observer((props: Props) => {
             <Button
                 key={`open-${key}`}
                 color="blue"
-                text={showText ?
-                    translate({
+                text={showText
+                        ? translate({
                             message: 'Öffnen',
                             id: 'button.open'
-                        })
-                    : undefined
+                          })
+                        : undefined
                 }
                 icon={mdiShareCircle}
                 title={translate({
@@ -121,12 +121,12 @@ const EventActions = observer((props: Props) => {
             <Button
                 key={key}
                 color="green"
-                text={showText ?
-                        translate({
+                text={showText
+                        ? translate({
                                 message: 'Speichern',
                                 id: 'button.save',
                                 description: 'Button to save changes'
-                            })
+                          })
                         : undefined
                 }
                 size={size}
