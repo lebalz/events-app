@@ -33,7 +33,11 @@ const RegistrationPeriods = observer((props: Props) => {
                         name: nextSemester ? nextSemester.name : `Eingabefenster ${start.getFullYear()}`
                     });
                 }}
-                text={translate({message: 'Eingabefenster hinzufügen', id: 'RegistrationPeriod.addButton.text'})}
+                text={translate({
+                    message: 'Eingabefenster hinzufügen',
+                    id: 'RegistrationPeriod.addButton.text',
+                    description: 'Text of button to add RegistrationPeriod'
+                    })}
                 apiState={regPeriodStore.apiStateFor('create')}
                 color='primary'
             />

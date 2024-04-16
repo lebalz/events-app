@@ -917,7 +917,7 @@
     "description": "Label for the notification preference"
   },
   "components.event.usersevents.index.tabitem.notpublished": {
-    "message": "Évènements non publiés",
+    "message": "Brouillons",
     "description": "Text not published"
   },
   "components.event.usersevents.index.header.notpublished": {
@@ -925,7 +925,7 @@
     "description": "Th: not published"
   },
   "components.event.usersevents.index.tabitem.reviewed": {
-    "message": "Évènements en révision",
+    "message": "En attente ",
     "description": "Events reviewed"
   },
   "components.event.usersevents.index.header.reviewed": {
@@ -941,7 +941,7 @@
     "description": "Events admin"
   },
   "components.event.usersevents.index.tabitem.published": {
-    "message": "Évènements publiés",
+    "message": "Publiés",
     "description": "Events published"
   },
   "components.event.usersevents.index.header.published": {
@@ -949,7 +949,7 @@
     "description": "Th : Events published"
   },
   "components.event.usersevents.index.tabitem.deleted": {
-    "message": "Évènements supprimés",
+    "message": "Supprimés",
     "description": "Events deleted"
   },
   "components.event.usersevents.index.header.deleted": {
@@ -969,7 +969,7 @@
     "description": "Edit Event"
   },
   "event.bulk_actions.request_review": {
-    "message": "Évènements en révision",
+    "message": "Évènements à réviser",
     "description": "Request Review"
   },
   "event.bulk_actions.publish": {
@@ -1333,10 +1333,169 @@
   "event.options.open.overview": {
     "message": "Ouvrir aperçu",
     "description": "Text of the button open overview"
-  }
-  ,
+  },
   "event.options.open": {
     "message": "Ouvrir",
     "description": "Text of the button open"
+  },
+  "eventGrid.header.createdAt": {
+    "message": "Crée le",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.updatedAt": {
+    "message": "Actualisé le",
+    "description": "Label for the Event Grid Columns"
+  },
+  "components.events.datetime.allday": {
+    "message": "Journée entière",
+    "description": "Label of the checkbox all day"
+  },
+  "components.event.actions.discard": {
+    "message": "Annuler",
+    "description": "Text of the button discard"
+  },
+  "components.event.actions.cancel": {
+    "message": "Annuler",
+    "description": "Text of the button cancel"
+  },
+  "components.event.actions.confirm": {
+    "message": "Vraiment supprimer?",
+    "description": "Text of the button confirm delete"
+  },
+  "components.event.actions.delete": {
+    "message": "Supprimer",
+    "description": "Text of the button delete"
+  },
+  "components.event.actions.cancel.title": {
+    "message": "Annuler les modifications",
+    "description": "Title of the button cancel"
+  },
+  "admin.userTable.th.notifyOnEventUpdate": {
+    "message": "Notifications par courriel",
+    "description": "th: notifyOnEventUpdate"
+  },
+  "components.semestre.list.name": {
+    "message": "Nom",
+    "description": "The name of the column for the semester name"
+  },
+  "components.semestre.list.edit": {
+    "message": "Editer",
+    "description": "The name of the column for edit semester"
+  }
+  ,
+  "components.semestre.list.syncdate": {
+    "message": "Synchronisé le ",
+    "description": "The name of the column for the date of sync semester"
+  }
+  ,
+  "components.semestre.list.enddate": {
+    "message": "Fin",
+    "description": "The name of the column for the end date of the semester"
+  }
+  ,
+  "components.semestre.list.startdate": {
+    "message": "Début",
+    "description": "The name of the column for the start date of the semester"
+  },
+  "components.admin.filiere.class.letters": {
+    "message": "Sigle des classes",
+    "description":"the text of the column for the class letters"
+  },
+  "registrationPeriod.open": {
+    "message": "Ouvert",
+    "description": "registrationPeriod.open"
+  },
+  "registrationPeriod.closed": {
+    "message": "Fermé",
+    "description": "registrationPeriod.closed"
+  },
+  "registrationPeriod.name.tooltip": {
+    "message": "Fenêtre d'entrée {open}: {description}",
+    "description": "registrationPeriod.name.tooltip"
+  },
+  "registrationPeriod.registrationWindow.tooltip": {
+    "message": "Fenêtre d'entrée: Einreichen von Terminen",
+    "description": "registrationPeriod.registrationWindow.tooltip"
+  },
+  "registrationPeriod.eventWindow.tooltip": {
+    "message": "Période durant laquelle les évènements ont lieu.",
+    "description": "registrationPeriod.eventWindow.tooltip"
+  },
+  "registrationPeriod.departments.tooltip": {
+    "message": "Saisie des évènements pour ces filières (incl. bilingue)",
+    "description": "registrationPeriod.departments.tooltip"
+  },
+  "RegistrationPeriod.isOpen.enabled": {
+    "message": "Saisie des évènements (en dehors de la fenêtre de saisie) autorisée ?",
+    "description": "RegistrationPeriod.isOpen.enable"
+
+  },
+  "RegistrationPeriod.isOpen.disabled": {
+    "message": "Fenêtre de saisie déjà ouverte",
+    "description": "RegistrationPeriod.isOpen.disabled"
+  },
+  "RegistrationPeriod.action.edit.discard": {
+    "message": "Fermer le mode d'édition",
+    "description": "RegistrationPeriod.action.edit.discard"
+  },
+  "RegistrationPeriod.Name": {
+    "message": "Nom",
+    "description": "Name of the registration period"
+  },
+  "RegistrationPeriod.Description": {
+    "message": "Description",
+    "description": "RegistrationPeriod.Description"
+  },
+  "RegistrationPeriod.Description.Placeholder": {
+    "message": "Description",
+    "description": "RegistrationPeriod.Description"
+  },
+  "RegistrationPeriod.inputWindow": {
+    "message": "Fenêtre de saisie",
+    "description": "RegistrationPeriod.inputWindow"
+  },
+  "RegistrationPeriod.inputWindow.Start": {
+    "message": "Début",
+    "description": "RegistrationPeriod.inputWindow.Start"
+  },
+  "RegistrationPeriod.inputWindow.End": {
+    "message": "Fin",
+    "description": "RegistrationPeriod.inputWindow.End"
+  },
+  "RegistrationPeriod.datePeriod": {
+    "message": "Période d'enregistrement",
+    "description": "RegistrationPeriod.datePeriod"
+  },
+  "RegistrationPeriod.datePeriod.FromSemester": {
+    "message": "Reprendre du semestre",
+    "description": "RegistrationPeriod.datePeriod.FromSemester"
+  },
+  "RegistrationPeriod.datePeriod.FromSemester.Title": {
+    "message": "Reprendre les dates de début et de fin d'un semestre",
+    "description": "RegistrationPeriod.datePeriod.FromSemester.Title"
+  },
+  "RegistrationPeriod.eventPeriod.Start": {
+    "message": "Début",
+    "description": "RegistrationPeriod.eventPeriod.Start"
+  },
+  "RegistrationPeriod.eventPeriod.End": {
+    "message": "Fin",
+    "description": "RegistrationPeriod.eventPeriod.End"
+  },
+  "RegistrationPeriod.departments": {
+    "message": "Filières",
+    "description": "RegistrationPeriod.departments"
+  },
+  "RegistrationPeriod.isOpen": {
+    "message": "Fenêtre de saisie ouverte ?",
+    "description": "RegistrationPeriod.isOpen"
+  },
+  "RegistrationPeriod.addButton.text": {
+    "message": "Ajouter fenêtre de saisie",
+    "description" : "Text of button to add RegistrationPeriod"
+  },
+  "userEvents.regPeriod.alert.title": {
+    "message": "Fenêtre de saisie",
+    "description": "userEvents.regPeriod.alert.title"
   }
 }

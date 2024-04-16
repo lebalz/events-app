@@ -144,6 +144,7 @@ git checkout main
 git pull
 # Supprimer l'ancienne branche
 git branch -d nom-ancienne-branche
+# Supprimer la branche fusionnée également sur GitHub
 # Créer une nouvelle branche pour un nouveau développement
 git checkout -b "nom-de-la-nouvelle-branche"
 ```

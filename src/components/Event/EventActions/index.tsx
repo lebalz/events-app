@@ -38,7 +38,20 @@ const EventActions = observer((props: Props) => {
             color="red"
             iconSide='left'
             size={size}
-            text={showText ? deleteRequested ? 'Wirklich?' : 'Löschen' : undefined}
+            text={showText ? deleteRequested ?
+                    translate({
+                        message : "Wirklich?",
+                        id : "components.event.actions.confirm",
+                        description : "Text of the button confirm delete"
+                    })
+                :
+                    translate({
+                        message : "Löschen",
+                        id : "components.event.actions.delete",
+                        description : "Text of the button delete"
+                    })
+                :
+                    undefined}
             icon={<DeleteIcon size={size} />}
             apiState={event.apiStateFor(`destroy-${event.id}`)}
             onClick={() => setDeleteRequested(!deleteRequested)}
@@ -51,10 +64,27 @@ const EventActions = observer((props: Props) => {
             <React.Fragment key={key}>
                 {(event?.isDirty || event?.isEditing) && (
                     <Button
-                        text={showText ? event.isDirty ? 'Verwerfen' : 'Abbrechen' : undefined}
+                        text={showText ? event.isDirty ?
+                                translate({
+                                    message : 'Verwerfen',
+                                    id : "components.event.actions.discard",
+                                    description : "Text of the button discard"
+                                })
+                            :
+                                translate({
+                                    message : 'Abbrechen',
+                                    id : "components.event.actions.cancel",
+                                    description : "Text of the button cancel"
+                                })
+                            :
+                                undefined}
                         color="black"
                         size={size}
-                        title="Änderungen verwerfen"
+                        title={translate({
+                                message : "Änderungen verwerfen",
+                                id : "components.event.actions.cancel.title",
+                                description : "Title of the button cancel"
+                            })}
                         icon={<DiscardIcon size={size} />}
                         iconSide='left'
                         onClick={() => {

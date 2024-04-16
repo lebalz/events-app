@@ -7,6 +7,7 @@ import { Props as DefaultProps } from './iEventField';
 import DateTimePicker from '@site/src/components/shared/DateTimePicker';
 import Checkbox from '../../shared/Checkbox';
 import DatePicker from '../../shared/DatePicker';
+import { translate } from '@docusaurus/Translate';
 
 interface Props extends DefaultProps {
     time: 'start' | 'end'
@@ -63,7 +64,11 @@ const DateTime = observer((props: Props) => {
                         onChange={(checked) => {
                             event.setAllDay(checked);
                         }}
-                        label='Ganztägig'
+                        label={translate({
+                                message : "Ganztägig",
+                                id:'components.events.datetime.allday',
+                                description:'Label of the checkbox all day'
+                            })}
                     />
                 )}
                 {error && (
