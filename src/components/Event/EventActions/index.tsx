@@ -38,20 +38,19 @@ const EventActions = observer((props: Props) => {
             color="red"
             iconSide='left'
             size={size}
-            text={showText ? deleteRequested ?
-                    translate({
-                        message : "Wirklich?",
-                        id : "components.event.actions.confirm",
-                        description : "Text of the button confirm delete"
-                    })
-                :
-                    translate({
+            text={showText
+                ? deleteRequested
+                    ? translate({
+                            message : "Wirklich?",
+                            id : "components.event.actions.confirm",
+                            description : "Text of the button confirm delete"
+                        })
+                    : translate({
                         message : "Löschen",
                         id : "components.event.actions.delete",
                         description : "Text of the button delete"
                     })
-                :
-                    undefined}
+                : undefined}
             icon={<DeleteIcon size={size} />}
             apiState={event.apiStateFor(`destroy-${event.id}`)}
             onClick={() => setDeleteRequested(!deleteRequested)}
