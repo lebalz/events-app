@@ -171,6 +171,7 @@ const config: Config = {
         logo: {
           alt: 'Events App',
           src: 'img/logo.svg',
+          srcDark: 'img/logo-dark.svg',
         },
         hideOnScroll: false,
         items: [
