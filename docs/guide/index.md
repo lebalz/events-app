@@ -91,6 +91,25 @@ title={store.fullscreen ?
     }
 ```
 
+Autre exemple avec plusieurs imbrications :
+
+```tsx
+text={showText 
+        ? event.isDirty 
+            ? translate({
+                    message : 'Verwerfen',
+                    id : "components.event.actions.discard",
+                    description : "Text of the button discard"
+                })
+            : translate({
+                    message : 'Abbrechen',
+                    id : "components.event.actions.cancel",
+                    description : "Text of the button cancel"
+                })
+        : undefined
+}
+```
+
 ### Traduire dans un objet JS avec variable
 
 ```tsx
@@ -144,6 +163,7 @@ git checkout main
 git pull
 # Supprimer l'ancienne branche
 git branch -d nom-ancienne-branche
+# Supprimer la branche fusionnée également sur GitHub
 # Créer une nouvelle branche pour un nouveau développement
 git checkout -b "nom-de-la-nouvelle-branche"
 ```

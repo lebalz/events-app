@@ -85,7 +85,14 @@ const DepartmentTable = observer((props: Props) => {
                                 onClick={() => adminDepartmentTable.setSortColumn('color')}
                             />
                         </th>
-                        <th>Klassen-Buchstaben</th>
+                        <th>
+                            <Translate
+                                id="components.admin.filiere.class.letters"
+                                description="the text of the column for the class letters"
+                            >
+                                Klassen-Buchstaben
+                            </Translate>
+                        </th>
                         <th>
                             <Button
                                 size={SIZE_S}
