@@ -46,6 +46,16 @@ const Calendar = observer(() => {
             };
         };
     }, []);
+    const { defaultDate, formats } = React.useMemo(
+      () => ({
+        defaultDate: new Date(viewStore.calendarViewDate),
+        formats: {
+          dayFormat: (date, culture, localizer) =>
+            localizer.format(date, 'dd D.M', culture),
+        },
+      }),
+      [viewStore.calendarViewDate]
+    )
     return (
         <Layout>
             <div>
@@ -53,7 +63,8 @@ const Calendar = observer(() => {
                 {tasks.length > 0 && (
                     <BigCalendar
                         defaultView='week'
-                        defaultDate={new Date(viewStore.calendarViewDate)}
+                        defaultDate={defaultDate}
+                        formats={formats}
                         localizer={localizer}
                         events={tasks}
                         scrollToTime={new Date(`${viewStore.calendarViewDate}T07:30:00`)}
