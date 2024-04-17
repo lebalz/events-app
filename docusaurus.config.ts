@@ -9,7 +9,7 @@ const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 import ConfigLocalized from './docusaurus.config.localized.json';
 
-const VERSION = 'beta-1.7';
+const VERSION = 'beta-1.8';
 
 const defaultLocale = 'de';
 
@@ -171,6 +171,7 @@ const config: Config = {
         logo: {
           alt: 'Events App',
           src: 'img/logo.svg',
+          srcDark: 'img/logo-dark.svg',
         },
         hideOnScroll: false,
         items: [

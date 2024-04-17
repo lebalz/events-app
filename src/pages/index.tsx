@@ -149,6 +149,24 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.8 (17.04.2024)</h4>
+                                <ul>
+                                    <li>💅 Layoutverbesserungen
+                                        <ul>
+                                            <li>Farben im Dark-Mode angepasst für besseren Kontrast.</li>
+                                            <li>Kalender-Ansicht: Zeige Wochentag, Tag und Monat (neu: Mo. 15.4, alt: 15 Mo)</li>
+                                            <li>Tabellen-Ansicht: Die Wochen-Balken sind nun stärker hervorgehoben (+2pt und mit Farbe ausgefüllt)</li>
+                                            <li>Herkömmliche Datumsdarstellung wo sinnvoll (6.4.24 statt 06.04.2024)</li>
+                                        </ul>
+                                    </li>
+                                    <li>🚀 Neu: Erklärende Popups über den Knöpfen und Elementen in der Tabelle.</li>
+                                    <li>💅 Ist eine Zeile in der Tabellensicht erweitert, kann sie auch durch Klicken auf "Lektionen Betroffen Knopf" 🔴🟡🟢 wieder reduziert werden.</li>
+                                    <li>💅 Mit <kbd>ctrl + Klick</kbd> kann die Terminübersicht geöffnet werden.</li>
+                                    <li>🚀 Neu: Eingabefenster für Termine hinzugefügt.</li>
+                                    <li>🐛 Fix: Bei der Termineingabe muss nun mindestens eine Zielgruppe ausgewählt werden (Klasse, Stufe oder Abteilung)</li>
+                                    <li>🚀 Neu: Download-Format des Excel-Exports.</li>
+                                    <li>🐛 Fix: Der Excel-Export fügt nur die angezeigten Termine ins Excel ein.</li>
+                                </ul>
                                 <h4>Version: Beta 1.7 (26.02.2024)</h4>
                                 <ul>
                                     <li>💅 Verbesserung: Wird der Start oder das Ende eines Termins verändert, so dass der "Start" nach dem "Ende" erfolgt, wird automatisch ein zulässiges Datum gesetzt.</li>

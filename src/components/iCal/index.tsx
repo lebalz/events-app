@@ -6,14 +6,15 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button, { ButtonIcon } from '../shared/Button';
-import { mdiCalendar, mdiDownload, mdiDownloadOutline, mdiMicrosoftOutlook, mdiSync } from '@mdi/js';
-import { SIZE_S } from '../shared/icons';
+import { mdiCalendar, mdiClipboard, mdiClipboardEdit, mdiClipboardFile, mdiClipboardText, mdiDownload, mdiDownloadOutline, mdiMicrosoftOutlook, mdiSync } from '@mdi/js';
+import { SIZE_S, SIZE_XS } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import { EVENTS_API } from '@site/src/authConfig';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import _ from 'lodash';
 import Link from '@docusaurus/Link';
 import TextInput from '../shared/TextInput';
+import Copy from '../shared/Button/Copy';
 
 
 interface Props {
@@ -75,6 +76,16 @@ const ICal = observer((props: Props) => {
                                     />
                                 </div>
                                 <div className={clsx(styles.ical)}>
+                                    <Copy
+                                        value={`${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}`}
+                                        size={SIZE_XS}
+                                        icon={mdiClipboardText}
+                                        title={translate({
+                                            message: 'Kopiere den Link zum persönlichen Kalender.',
+                                            id: 'user.ical.personal-calendar.copy-button.title',
+                                        })}
+                                        className={clsx(styles.copyButton)}
+                                    />
                                     {user.icalUrl && `${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}`}
                                 </div>
                             </>
@@ -146,6 +157,16 @@ const ICal = observer((props: Props) => {
                                     />
                                 </div>
                                 <div className={clsx(styles.ical)}>
+                                    <Copy
+                                        value={`${EVENTS_API}/ical/${currentLocale}/${c.name.replaceAll('/', '_')}.ics`}
+                                        size={SIZE_XS}
+                                        icon={mdiClipboardText}
+                                        title={translate({
+                                            message: 'Kopiere den Link zum Kalender {name}.',
+                                            id: 'user.ical.copy-button.title',
+                                        }, { name: c.name })}
+                                        className={clsx(styles.copyButton)}
+                                    />
                                     {`${EVENTS_API}/ical/${currentLocale}/${c.name}.ics`}
                                 </div>
                             </div>
@@ -201,6 +222,16 @@ const ICal = observer((props: Props) => {
                                     />
                                 </div>
                                 <div className={clsx(styles.ical)}>
+                                    <Copy
+                                        value={`${EVENTS_API}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics`}
+                                        size={SIZE_XS}
+                                        icon={mdiClipboardText}
+                                        title={translate({
+                                            message: 'Kopiere den Link zum Kalender {name}.',
+                                            id: 'user.ical.copy-button.title',
+                                        }, { name: d.name })}
+                                        className={clsx(styles.copyButton)}
+                                    />
                                     {`${EVENTS_API}/ical/${currentLocale}/${d.name.replaceAll('/', '_')}.ics`}
                                 </div>
                             </div>
