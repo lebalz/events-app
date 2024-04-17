@@ -27,7 +27,7 @@
     "@mdi/react": "^1.6.1",
     "@mdx-js/react": "^3.0.0",
     "axios": "^1.6.1",
-    "clsx": "^1.2.1",
+    "clsx": "^2.1.0",
     "docusaurus-plugin-sass": "^0.2.5",
     "dotenv": "^16.0.3",
     "exceljs": "^4.4.0",
