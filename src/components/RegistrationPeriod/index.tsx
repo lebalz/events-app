@@ -35,12 +35,10 @@ const IS_OPEN_CB_LABEL = {
     enabled: translate({
         message: 'Termineingaben (ausserhalb des Eingabefensters) erlauben?',
         id: 'RegistrationPeriod.isOpen.enabled',
-        description :'RegistrationPeriod.isOpen.enable'
     }),
     disabled: translate({
         message: 'Eingabefenster bereits offen',
         id: 'RegistrationPeriod.isOpen.disabled',
-        description :'RegistrationPeriod.isOpen.disabled'
     })
 }
 
@@ -87,7 +85,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.Description"
-                            description="RegistrationPeriod.Description"
                         >
                             Beschreibung
                         </Translate>
@@ -102,7 +99,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.inputWindow"
-                            description="RegistrationPeriod.inputWindow"
                         >
                             Eingabefenster
                         </Translate>
@@ -110,7 +106,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.inputWindow.Start"
-                            description="RegistrationPeriod.inputWindow.Start"
                         >
                             Start
                         </Translate>
@@ -125,7 +120,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.inputWindow.End"
-                            description="RegistrationPeriod.inputWindow.End"
                         >
                             Ende
                         </Translate>
@@ -140,7 +134,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.datePeriod"
-                            description="RegistrationPeriod.datePeriod"
                         >
                             Termin-Periode
                         </Translate>
@@ -166,7 +159,6 @@ const EditRegPeriod = observer((props: Props) => {
                                     <h4>
                                         <Translate
                                             id="RegistrationPeriod.datePeriod.FromSemester"
-                                            description="RegistrationPeriod.datePeriod.FromSemester"
                                         >
                                             Von Semester übernehmen
                                         </Translate>
@@ -196,7 +188,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.eventPeriod.Start"
-                            description="RegistrationPeriod.eventPeriod.Start"
                         >
                             Start
                         </Translate>
@@ -211,7 +202,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.eventPeriod.End"
-                            description="RegistrationPeriod.eventPeriod.End"
                         >
                             Ende
                         </Translate>
@@ -226,7 +216,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.departments"
-                            description="RegistrationPeriod.departments"
                         >
                             Abteilungen
                         </Translate>
@@ -259,7 +248,6 @@ const EditRegPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.isOpen"
-                            description="RegistrationPeriod.isOpen"
                         >
                             Eingabe Fenster offen?
                         </Translate>
@@ -298,7 +286,6 @@ const RegistrationPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.inputWindow"
-                            description="RegistrationPeriod.inputWindow"
                         >
                             Eingabefenster
                         </Translate>
@@ -312,7 +299,6 @@ const RegistrationPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.datePeriod"
-                            description="RegistrationPeriod.datePeriod"
                         >
                             Termin-Periode
                         </Translate>
@@ -326,7 +312,6 @@ const RegistrationPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.departments"
-                            description="RegistrationPeriod.departments"
                         >
                             Abteilungen
                         </Translate>
@@ -339,7 +324,6 @@ const RegistrationPeriod = observer((props: Props) => {
                     <dt>
                         <Translate
                             id="RegistrationPeriod.isOpen"
-                            description="RegistrationPeriod.isOpen"
                         >
                             Eingabe Fenster offen?
                         </Translate>
