@@ -7812,10 +7812,10 @@ rc@1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-big-calendar@^1.11.2:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/react-big-calendar/-/react-big-calendar-1.11.2.tgz#d2f9f9b10804c6f980282b6a9a7bb73ed6d07531"
-  integrity sha512-OxuNUgMc2jA+SDL4nwJSwKcbtzuNa9wfLGAnDITDyAONUao29Vca6y9l+Pl581/+3/VjDJec1vJCz06MSB+PzQ==
+react-big-calendar@^1.11.6:
+  version "1.11.6"
+  resolved "https://registry.yarnpkg.com/react-big-calendar/-/react-big-calendar-1.11.6.tgz#b768f81430ee0c2d3c3f38648de6f1b81e1cfaa0"
+  integrity sha512-F8TpYul2pVc6a1TmFGFufwCpRlY55YJgx+JCDjhHnZwD2lwpKiAaDlnOjBPsm3OiijVQBHWUKrZwbli3V4lVyw==
   dependencies:
     "@babel/runtime" "^7.20.7"
     clsx "^1.2.1"
