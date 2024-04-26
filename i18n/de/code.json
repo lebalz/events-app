@@ -1249,8 +1249,8 @@
     "description": "Relevant for SuS only, their KLP will be informed aswell"
   },
   "EventAudience.LP.example": {
-    "message": "Exkursion",
-    "description": "Students Example"
+    "message": "Noteneingabe in Evento",
+    "description": "Teachers Example"
   },
   "EventAudience.KLP.example": {
     "message": "Einsammeln unterschriebener Zeugnisse",
@@ -1572,7 +1572,8 @@
     "message": "Bearbeitungsmodus schliessen"
   },
   "RegistrationPeriod.Name": {
-    "message": "Name"
+    "message": "Name",
+    "description": "Name of the registration period"
   },
   "RegistrationPeriod.Description": {
     "message": "Beschreibung"
@@ -1611,9 +1612,72 @@
     "message": "Eingabe Fenster offen?"
   },
   "RegistrationPeriod.addButton.text": {
-    "message": "Eingabefenster hinzufügen"
+    "message": "Eingabefenster hinzufügen",
+    "description": "Text of button to add RegistrationPeriod"
   },
   "userEvents.regPeriod.alert.title": {
     "message": "Eingabefenster"
+  },
+  "EventAudience.STUDENTS.example": {
+    "message": "Exkursion",
+    "description": "Students Example"
+  },
+  "user.ical.personal-calendar.copy-button.title": {
+    "message": "Kopiere den Link zum persönlichen Kalender."
+  },
+  "user.ical.copy-button.title": {
+    "message": "Kopiere den Link zum Kalender {name}."
+  },
+  "components.admin.filiere.class.letters": {
+    "message": "Klassen-Buchstaben",
+    "description": "the text of the column for the class letters"
+  },
+  "components.event.actions.confirm": {
+    "message": "Wirklich?",
+    "description": "Text of the button confirm delete"
+  },
+  "components.event.actions.delete": {
+    "message": "Löschen",
+    "description": "Text of the button delete"
+  },
+  "components.event.actions.discard": {
+    "message": "Verwerfen",
+    "description": "Text of the button discard"
+  },
+  "components.event.actions.cancel": {
+    "message": "Abbrechen",
+    "description": "Text of the button cancel"
+  },
+  "components.event.actions.cancel.title": {
+    "message": "Änderungen verwerfen",
+    "description": "Title of the button cancel"
+  },
+  "components.events.datetime.allday": {
+    "message": "Ganztägig",
+    "description": "Label of the checkbox all day"
+  },
+  "components.semestre.list.name": {
+    "message": "Name",
+    "description": "The name of the column for the semester name"
+  },
+  "components.semestre.list.startdate": {
+    "message": "Start Date",
+    "description": "The name of the column for the start date of the semester"
+  },
+  "components.semestre.list.enddate": {
+    "message": "End Date",
+    "description": "The name of the column for the end date of the semester"
+  },
+  "components.semestre.list.syncdate": {
+    "message": "Sync Date",
+    "description": "The name of the column for the date of sync semester"
+  },
+  "components.semestre.list.edit": {
+    "message": "Edit",
+    "description": "The name of the column for edit semester"
+  },
+  "EventAudience.STUDENTS.KLP.description": {
+    "message": "Klassenlehrpersonen der betroffenen Klassen",
+    "description": "audience: students, description for KLP"
   }
 }

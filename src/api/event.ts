@@ -120,7 +120,7 @@ interface AudienceConfig {
 
 interface AffectedAudienceConfig {
     [EventAudience.LP]: AudienceConfig
-    [EventAudience.KLP]: AudienceConfig
+    [EventAudience.KLP]?: AudienceConfig
     [EventAudience.STUDENTS]: AudienceConfig
     example: string
 }
@@ -131,15 +131,15 @@ export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} 
             icon: mdiCalendarCheck,
             color: 'green',
         },
-        [EventAudience.KLP]: {
-            icon: mdiCalendarRemove,
-            color: 'red',
-        },
         [EventAudience.STUDENTS]: {
             icon: mdiCalendarRemove,
             color: 'red',
         },
-        example: translate({message: 'Noteneingabe in Evento', id: 'EventAudience.LP.example', description: 'Teachers Example'})
+        example: translate({
+            message: 'Noteneingabe in Evento',
+            id: 'EventAudience.LP.example', 
+            description: 'Teachers Example'
+        })
     },
     [EventAudience.KLP]: {
         [EventAudience.LP]: {
@@ -154,7 +154,11 @@ export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} 
             icon: mdiCalendarRemove,
             color: 'red',
         },
-        example: translate({message: 'Einsammeln unterschriebener Zeugnisse', id: 'EventAudience.KLP.example', description: 'KLP Example'})
+        example: translate({
+            message: 'Einsammeln unterschriebener Zeugnisse', 
+            id: 'EventAudience.KLP.example', 
+            description: 'KLP Example'
+        })
     },
     [EventAudience.ALL]: {
         [EventAudience.LP]: {
@@ -169,23 +173,41 @@ export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} 
             icon: mdiCalendarCheck,
             color: 'green',
         },
-        example: translate({message: 'Schulstart', id: 'EventAudience.ALL.example', description: 'All Example'})
+        example: translate({
+            message: 'Schulstart', 
+            id: 'EventAudience.ALL.example', 
+            description: 'All Example'
+        })
     },
     [EventAudience.STUDENTS]: {
         [EventAudience.LP]: {
             icon: CalendarCheckPartial,
             color: 'orange',
-            description: translate({message: 'Lehrpersonen mit betroffenen Lektionen', id: 'EventAudience.STUDENTS.LP.description', description: 'audience: students, description for LP'}), 
+            description: translate({
+                message: 'Lehrpersonen mit betroffenen Lektionen', 
+                id: 'EventAudience.STUDENTS.LP.description', 
+                description: 'audience: students, description for LP'
+            }), 
         },
         [EventAudience.KLP]: {
             icon: mdiCalendarCheck,
             color: 'green',
+            description: translate({
+                message: 'Klassenlehrpersonen der betroffenen Klassen', 
+                id: 'EventAudience.STUDENTS.KLP.description', 
+                description: 'audience: students, description for KLP'
+            
+            })
         },
         [EventAudience.STUDENTS]: {
             icon: mdiCalendarCheck,
             color: 'green',
         },
-        example: translate({message: 'Exkursion', id: 'EventAudience.LP.example', description: 'Students Example'})
+        example: translate({
+            message: 'Exkursion', 
+            id: 'EventAudience.STUDENTS.example', 
+            description: 'Students Example'
+        })
     }
 }
 

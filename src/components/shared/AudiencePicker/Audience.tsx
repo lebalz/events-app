@@ -20,18 +20,28 @@ const Audience = observer((props: Props) => {
     return (
         <div className={clsx(styles.info)}>
             {[EventAudience.LP, EventAudience.KLP, EventAudience.STUDENTS].map(audience => {
+                if (!(audience in AffectedAudience[event.audience])) {
+                    return null;
+                }
                 return (
                     <div className={clsx(styles.audience)} key={audience} style={{marginLeft: props.marginLeft}}>
                         <div className={clsx(styles.audienceIcon)}>
                             <Icon path={EventAudienceIcons[audience]} size={SIZE_S} />
                         </div>
                         <div className={clsx(styles.audienceDescription)}>
-                            <Icon path={AffectedAudience[event.audience][audience].icon} color={AffectedAudience[event.audience][audience].color} size={SIZE_S} />
+                            <Icon 
+                                path={AffectedAudience[event.audience][audience].icon} 
+                                color={AffectedAudience[event.audience][audience].color} 
+                                size={SIZE_S} 
+                            />
                             {AffectedAudience[event.audience][audience].description || EventAudienceTranslationLong[audience]}
                             {props.showExample && audience === event.audience && (
                                 <>
                                     <br />
-                                    {`${translate({message: 'z.B.', id: 'EventAudience.forExample'})} ${AffectedAudience[event.audience].example}`}
+                                    {`${translate({
+                                        message: 'z.B.', 
+                                        id: 'EventAudience.forExample'
+                                    })} ${AffectedAudience[event.audience].example}`}
                                 </>
                             )}
                         </div>
