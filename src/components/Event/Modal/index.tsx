@@ -12,6 +12,7 @@ import EventBody from '../EventBody';
 import useResizeObserver from '../../shared/hooks/useResizeObserver';
 import { translate } from '@docusaurus/Translate';
 import Popup from 'reactjs-popup';
+import { useHistory } from '@docusaurus/router';
 
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 const EventModal = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
+    const history = useHistory();
     const [expandedButtons, setExpandedButtons] = React.useState(4);
     const { openEventModalId } = viewStore;
     const event = eventStore.find<EventModel>(openEventModalId);
@@ -110,6 +112,10 @@ const EventModal = observer((props: Props) => {
                                             id: 'button.open.title'
                                         })}
                                         icon={mdiShareCircle}
+                                        onClick={() => {
+                                            viewStore.setEventModalId()
+                                            history.push(event.shareUrl);
+                                        }}
                                         href={event.shareUrl}
                                     />
                                 </>

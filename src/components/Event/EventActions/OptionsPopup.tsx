@@ -24,6 +24,7 @@ import { action } from 'mobx';
 interface Props {
     trigger?: JSX.Element;
     event: Event;
+    hideEdit?: boolean;	
 }
 
 interface ActionProps {
@@ -36,12 +37,14 @@ export const EditRowMode = observer((props: ActionProps) => {
     const viewStore = useStore('viewStore');
     const { event } = props;
     return (
-        <Edit onClick={() => {
-            event.setEditing(true);
-            if (windowSize === 'mobile') {
-                viewStore.setEventModalId(event.id)
-            }
-        }} />
+        <Edit 
+            onClick={() => {
+                event.setEditing(true);
+                if (windowSize === 'mobile') {
+                    viewStore.setEventModalId(event.id)
+                }
+            }}
+        />
     )
 });
 
@@ -103,7 +106,7 @@ const OptionsPopup = observer((props: Props) => {
             on={'click'}
             nested
         >
-            <DefaultEventActions event={props.event} closePopup={() => ref.current?.close()}  />
+            <DefaultEventActions event={props.event} hideEdit={props.hideEdit} closePopup={() => ref.current?.close()}  />
         </Popup>
     )
 });

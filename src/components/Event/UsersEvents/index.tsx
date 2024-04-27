@@ -75,8 +75,6 @@ const AddEventButton = observer(() => {
 
 const UsersEvents = observer((props: Props) => {
     const { user } = props;
-    const windowSize = useWindowSize();
-    const eventStore = useStore('eventStore');
     const jobStore = useStore('jobStore');
     const viewStore = useStore('viewStore');
     const regPeriodStore = useStore('registrationPeriodStore');

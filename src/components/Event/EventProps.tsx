@@ -31,6 +31,7 @@ import Version from './EventFields/Version';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import CreatedAt from './EventFields/CreatedAt';
 import UpdatedAt from './EventFields/UpdatedAt';
+import Edit from '../shared/Button/Edit';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -350,6 +351,21 @@ const EventProps = observer((props: Props) => {
                                     )
                                 })
                             }
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.isDraft && !event.isEditing && (
+                    <>
+                        <dd style={{marginTop: '0.3em'}}>
+                            <Edit 
+                                onClick={() => {
+                                    event.setEditing(true);
+                                }}
+                                text={translate({id: "event.options.edit", description: "Text of the button edit"})}
+                                iconSide='left'
+                            />
                         </dd>
                     </>
                 )

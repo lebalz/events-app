@@ -15,7 +15,8 @@ import {useWindowSize} from '@docusaurus/theme-common';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
 import { translate } from '@docusaurus/Translate';
-import OptionsPopup, {  } from '../EventActions/OptionsPopup';
+import OptionsPopup, { EditRowMode } from '../EventActions/OptionsPopup';
+import Edit from '../../shared/Button/Edit';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;
@@ -32,7 +33,12 @@ const Actions = observer((props: Props) => {
             className={clsx(props.className, styles.actions, 'grid-actions')}
         >
             <div className={clsx(styles.flex)}>
-                <OptionsPopup event={event} />
+                {
+                    event.isDraft && !event.isEditing && (
+                        <EditRowMode event={event} />
+                    )
+                }
+                <OptionsPopup event={event} hideEdit={event.isDraft || event.isEditing} />
                 {
                     event.isEditing && (
                         <>
