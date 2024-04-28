@@ -95,6 +95,13 @@ const Row = observer((props: Props) => {
                             left: config.fixed?.left,
                             right: config.fixed?.right
                         }}
+                        onContextMenu={(e) => {
+                            if (window.getSelection()?.toString() !== '') {
+                                return;
+                            }
+                            e.preventDefault();
+                            viewStore.setEventModalId(props.event.id);
+                        }}
                         onClick={(e) => {
                             const target = e.target as HTMLDivElement;
                             /**
@@ -106,7 +113,14 @@ const Row = observer((props: Props) => {
                             if (e.ctrlKey) {
                                 viewStore.setEventModalId(props.event.id);
                             } else {
-                                props.event.setExpanded(true);
+                                if (props.event.isExpanded) {
+                                    if (window.getSelection()?.toString() !== '') {
+                                        return;
+                                    }
+                                    props.event.setExpanded(false);
+                                } else {
+                                    props.event.setExpanded(true);
+                                }
                             }
                         }}
                         key={index}
