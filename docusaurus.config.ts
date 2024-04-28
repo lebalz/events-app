@@ -9,6 +9,8 @@ const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 import ConfigLocalized from './docusaurus.config.localized.json';
 import strongPlugin from './src/plugins/remark-strong/plugin';
+import deflistPlugin from './src/plugins/remark-deflist/plugin';
+import mdiPlugin from './src/plugins/remark-mdi/plugin';
 
 const VERSION = 'beta-1.9';
 
@@ -140,6 +142,28 @@ const config: Config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
             remarkPlugins: [        
               [strongPlugin, { className: 'boxed'}],
+              [
+                  deflistPlugin,
+                  {
+                      tagNames: {
+                          dl: 'Dl',
+                      },
+                  }
+              ],
+              [
+                  mdiPlugin,
+                  {
+                      colorMapping: {
+                          green: 'var(--ifm-color-success)',
+                          red: 'var(--ifm-color-danger)',
+                          orange: 'var(--ifm-color-warning)',
+                          yellow: '#edcb5a',
+                          blue: '#3578e5',
+                          cyan: '#01f0bc'
+                      },
+                      defaultSize: '1.25em'
+                  }
+              ],
             ]
         },
         blog: {

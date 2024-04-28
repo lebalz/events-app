@@ -30,6 +30,14 @@
         border-top: 2px solid #fdcf04;
     } 
 }
+:global(.markdown) {
+    .badge {
+        display: inline-flex;
+        transform: translateY(0.4em);
+    }
+}
+
+
 html[data-theme='dark'] {
     .left {
         color: white;
