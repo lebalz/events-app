@@ -1029,6 +1029,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get unpublishedChildren() {
+        return this.children.filter(c => c.isDraft || c.isReview);
+    }
+
+    @computed
     get hasChildren() {
         return this.children.length > 0;
     }
