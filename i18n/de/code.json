@@ -395,7 +395,8 @@
     "description": "End of event must be after start"
   },
   "joi.event.description": {
-    "message": "Suche"
+    "message": "Stichworte",
+    "description": "Description of event"
   },
   "joi.event.description.empty": {
     "message": "Stichworte dürfen nicht leer sein",
@@ -1679,5 +1680,23 @@
   "EventAudience.STUDENTS.KLP.description": {
     "message": "Klassenlehrpersonen der betroffenen Klassen",
     "description": "audience: students, description for KLP"
+  },
+  "event.bulk_actions.hide_select": {
+    "message": "Terminauswahl verbergen"
+  },
+  "event.bulkActions.show_select": {
+    "message": "Terminauswahl anzeigen"
+  },
+  "event.bulk_actions.share": {
+    "message": "Übersicht Öffnen"
+  },
+  "event.filter.search": {
+    "message": "Suche"
+  },
+  "event.filter.show_select": {
+    "message": "Termine auswählen"
+  },
+  "event.group.add": {
+    "message": "Gruppen hinzufügen"
   }
 }

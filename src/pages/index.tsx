@@ -149,6 +149,15 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.9 (28.04.2024)</h4>
+                                <ul>
+                                    <li>💅 Neue Zeilen werden bei den Beschreibungen korrekt angezeigt.</li>
+                                    <li>💅 Rechts-Klick oder langes drücken auf Tablets öffnet die Termin-Übersicht.</li>
+                                    <li>💅 Ist in der Tabelle bei einem Termin kein Text ausgewählt, kann eine Zeile auch durch erneutes Klicken reduziert werden.</li>
+                                    <li>💅 Zeige den "Edit" Knopf bei unveröffentlichten Terminen an.</li>
+                                    <li>🚀 Neu: Termine in der Übersicht können ausgewählt, geteilt und zu einer Gruppe hinzugefügt werden.</li>
+                                    <li>🐛 Fix: Der "Termin Hinzufügen" Knopf wurde nicht angezeigt, wenn noch keine Termine vorhanden waren.</li>
+                                </ul>
                                 <h4>Version: Beta 1.8 (17.04.2024)</h4>
                                 <ul>
                                     <li>💅 Layoutverbesserungen
