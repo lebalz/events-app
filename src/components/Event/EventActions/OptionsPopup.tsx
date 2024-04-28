@@ -29,6 +29,7 @@ interface Props {
 
 interface ActionProps {
     event: Event;
+    onEdit?: () => void;
     iconSize?: number;
 }
 
@@ -42,6 +43,9 @@ export const EditRowMode = observer((props: ActionProps) => {
                 event.setEditing(true);
                 if (windowSize === 'mobile') {
                     viewStore.setEventModalId(event.id)
+                }
+                if (props.onEdit) {
+                    props.onEdit();
                 }
             }}
         />

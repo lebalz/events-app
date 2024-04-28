@@ -90,7 +90,7 @@ const DefaultEventActions = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <EditRowMode event={event} />
+                        <EditRowMode event={event} onEdit={props.closePopup} />
                     </dd>
                 </>
             )}

@@ -42,7 +42,13 @@ const Actions = observer((props: Props) => {
                 {
                     event.isEditing && (
                         <>
-                            <Discard onClick={() => event.reset()} />
+                            <Discard 
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    event.reset()
+                                }} 
+                            />
                             <Save
                                 disabled={!event.isDirty || !event.isValid}
                                 title={event.isValid 
@@ -51,7 +57,9 @@ const Actions = observer((props: Props) => {
                                         : 'Als neue Version speichern (kann als Änderungsvorschlag eingereicht werden)'
                                     : 'Fehler beheben vor dem Speichern'
                                 }
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     if (event.state !== EventState.Draft) {
                                         event.save().then(action((model) => {
                                             const current = eventStore.find(event.id);
@@ -66,7 +74,10 @@ const Actions = observer((props: Props) => {
                                 }}
                                 apiState={event.apiStateFor(`save-${event.id}`)}
                             />
-                            <Delete onClick={() => event.destroy()} apiState={event.apiStateFor(`destroy-${event.id}`)} />
+                            <Delete 
+                                onClick={() => event.destroy()} 
+                                apiState={event.apiStateFor(`destroy-${event.id}`)} 
+                            />
                         </>
                     )
                 }

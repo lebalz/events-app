@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React, { type MouseEventHandler, type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
@@ -7,7 +7,7 @@ import Button, { Base, extractSharedProps } from '.';
 import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {
-    onClick: () => void;
+    onClick: MouseEventHandler<HTMLButtonElement>;
     size?: number;
 }
 
