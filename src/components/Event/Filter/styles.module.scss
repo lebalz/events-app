@@ -7,8 +7,15 @@
     flex-wrap: wrap;
     .basic {
         display: flex;
+        justify-content: space-between;
+        width: 100%;
         gap: 0.4rem;
         flex-wrap: wrap;
+        .spacer {
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 0;
+        }
         .audience {
             display: flex;
         }

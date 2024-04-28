@@ -10,7 +10,7 @@ import Delete from '../../shared/Button/Delete';
 import { action } from 'mobx';
 import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
-import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiClose, mdiCross, mdiFileCertificate, mdiTag } from '@mdi/js';
+import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiClose, mdiCross, mdiFileCertificate, mdiShareAll, mdiTag } from '@mdi/js';
 import { Icon, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
@@ -21,6 +21,9 @@ import Stats from './stats';
 interface Props {
     events: EventModel[];
     defaultActions?: React.ReactNode | React.ReactNode[];
+    actionsSide?: 'left' | 'right';
+    className?: string;
+    showShare?: boolean;
 }
 
 const BulkActions = observer((props: Props) => {
@@ -30,14 +33,21 @@ const BulkActions = observer((props: Props) => {
     const { current } = userStore;
     const selected = props.events.slice().filter(e => e.selected);
     if (selected.length < 1) {
-        return (<Stats events={props.events} actions={props.defaultActions} />);
+        return (
+            <Stats
+                events={props.events}
+                postActions={props.actionsSide === 'left' ? undefined : props.defaultActions}
+                preActions={props.actionsSide === 'left' ? props.defaultActions : undefined}
+                className={clsx(props.className)}
+            />
+        );
     }
     const state = selected[0]?.state;
     const sameState = selected.every(event => event.state === state);
     const allValid = selected.every(event => event.isValid);
     const onlyMine = selected.every(event => event.authorId === current.id);
     return (
-        <div className={clsx(styles.bulk)}>
+        <div className={clsx(styles.bulk, 'card', props.className)}>
             <Badge 
                 text={`${selected.length}`} 
                 color='blue'
@@ -48,6 +58,9 @@ const BulkActions = observer((props: Props) => {
                         })}
                         icon={mdiClose}
                         size={SIZE_XS}
+                        color='blue'
+                        className={clsx(styles.close)}
+                        noOutline
                         title={translate({
                             message: 'Auswahl aufheben', 
                             id: 'event.bulk_actions.clear_selection'
@@ -123,64 +136,70 @@ const BulkActions = observer((props: Props) => {
                     )}
                 </div>
             )}
-            {
-                onlyMine && (
-                    <>
-                        <Button
-                            text='Neue Gruppe'
-                            icon={mdiTag}
-                            iconSide='left'
-                            onClick={action(() => {
-                                const ids = selected.map(event => event.id);
-                                eventGroupStore.create(
-                                    {event_ids: ids, name: 'Neue Gruppe'},
-                                );
-                            })}
-                        />
-                        <Select
-                            isMulti={true}
-                            isSearchable={true}
-                            isClearable={true}
-                            menuPortalTarget={document.body}
-                            styles={{ 
-                                menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
-                            }}
-                            onChange={(options, meta) => {
-                                switch (meta.action) {
-                                    case 'select-option':
-                                        const group = eventGroupStore.find<EventGroup>(meta.option.value);
-                                        if (group) {
-                                            group.addEvents(selected);
-                                        }
-                                        break;
-                                    case 'remove-value':
-                                        const rmGroup = eventGroupStore.find<EventGroup>(meta.removedValue?.value);
-                                        if (rmGroup) {
-                                            rmGroup.removeEvents(selected);
-                                        }
-                                        break;
-                                    case 'clear':
-                                        selected.forEach(event => event.groups.forEach(g => g.removeEvents([event])));
-                                        break;
-                                }
-                            }}
-                            options={
-                                eventGroupStore.eventGroups.map(group => ({
-                                    value: group.id,
-                                    label: group.name,
-                                }))
+            <Button
+                text={translate({
+                    id: 'event.bulk_actions.share',
+                    message: 'Übersicht Öffnen',
+                })}
+                icon={mdiShareAll}
+                size={SIZE_XS}
+                iconSide='left'
+                color="blue"
+                href={`/event?${selected.map(e => e.queryParam).join('&')}`}
+            />
+            <Button
+                text='Neue Gruppe'
+                icon={mdiTag}
+                size={SIZE_XS}
+                iconSide='left'
+                onClick={action(() => {
+                    const ids = selected.map(event => event.id);
+                    eventGroupStore.create(
+                        {event_ids: ids, name: 'Neue Gruppe'},
+                    );
+                })}
+            />
+            <Select
+                isMulti={true}
+                isSearchable={true}
+                isClearable={true}
+                menuPortalTarget={document.body}
+                styles={{ 
+                    menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
+                }}
+                onChange={(options, meta) => {
+                    switch (meta.action) {
+                        case 'select-option':
+                            const group = eventGroupStore.find<EventGroup>(meta.option.value);
+                            if (group) {
+                                group.addEvents(selected);
                             }
-                            value={
-                                selected.reduce((acc, event) => {
-                                    const gIds = new Set(event.groups.map(g => g.id));
-                                    return acc.filter(({id}) => gIds.has(id));
-                                }, selected[0]?.groups?.map(g => ({id: g.id, name: g.name })) || []).
-                                map(g => ({value: g.id, label: g.name}))
+                            break;
+                        case 'remove-value':
+                            const rmGroup = eventGroupStore.find<EventGroup>(meta.removedValue?.value);
+                            if (rmGroup) {
+                                rmGroup.removeEvents(selected);
                             }
-                        />
-                    </>
-                )
-            }
+                            break;
+                        case 'clear':
+                            selected.forEach(event => event.groups.forEach(g => g.removeEvents([event])));
+                            break;
+                    }
+                }}
+                options={
+                    eventGroupStore.eventGroups.map(group => ({
+                        value: group.id,
+                        label: group.name,
+                    }))
+                }
+                value={
+                    selected.reduce((acc, event) => {
+                        const gIds = new Set(event.groups.map(g => g.id));
+                        return acc.filter(({id}) => gIds.has(id));
+                    }, selected[0]?.groups?.map(g => ({id: g.id, name: g.name })) || []).
+                    map(g => ({value: g.id, label: g.name}))
+                }
+            />
             {
                 onlyMine && (
                     <Delete onClick={action(() => {

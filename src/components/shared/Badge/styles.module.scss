@@ -20,7 +20,7 @@
         }
         .border {
             padding-right: 0.4rem;
-            border-right: 1px solid var(--ifm-color-primary);
+            border-right: 1px solid var(--button-separator-color);
         }
     }
     .icon {    
@@ -34,7 +34,7 @@
         }
         .border {
             padding-left: 0.3rem;
-            border-left: 1px solid var(--ifm-color-primary);
+            border-left: 1px solid var(--button-separator-color);
         }
     }
     &.disabled {

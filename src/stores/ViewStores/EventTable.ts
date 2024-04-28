@@ -51,6 +51,9 @@ class EventTable {
     @observable
     hideDeleted = true;
 
+    @observable
+    showSelect = false;
+
 
     constructor(store: ViewStore) {
         makeObservable(this);
@@ -60,6 +63,11 @@ class EventTable {
     @action
     toggleHideDeleted() {
         this.setHideDeleted(!this.hideDeleted);
+    }
+
+    @action
+    toggleShowSelect() {
+        this.showSelect = !this.showSelect;
     }
 
     @action

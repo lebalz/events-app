@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ForwardedRef } from 'react';
 import clsx from 'clsx';
 import { CURRENT_YYYY_KW, default as EventModel } from '@site/src/models/Event';
 import styles from './styles.module.scss';
@@ -103,17 +103,17 @@ const createGroupEvents = createTransformer<{events: EventModel[], groupBy?: 'ye
     return _.chunk(transformed, BATCH_SIZE);
 });
 
-const EventGrid = observer((props: Props) => {
-    const ref = React.useRef<HTMLDivElement>(null);
+const EventGrid = observer(React.forwardRef((props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     const [sortBy, setSortBy] = React.useState<keyof typeof DefaultConfig>('start');
     const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('asc');
     const groupEvents = React.useMemo(() => {
-        return createGroupEvents({
+        const grouped = createGroupEvents({
             events: props.events,
             groupBy: props.groupBy,
             orderBy: sortBy,
             direction: sortDirection
         });
+        return grouped
     }, [props.events, sortBy, sortDirection]);
     const [columns, setColumns] = React.useState<[keyof typeof DefaultConfig, ConfigOptions][]>([]);
     React.useEffect(() => {
@@ -143,11 +143,10 @@ const EventGrid = observer((props: Props) => {
 
     const gridTemplateColumns = `repeat(${props.columns.length}, max-content)`;
     return (
-        <div className={clsx(styles.scroll, props.className)}>
+        <div className={clsx(styles.scroll, props.className)} ref={ref}>
             <div
                 className={clsx(styles.grid)}
                 style={{ gridTemplateColumns }}
-                ref={ref}
             >
                 {
                     columns.map((col, idx) => {
@@ -167,14 +166,16 @@ const EventGrid = observer((props: Props) => {
                                 props.events.forEach(e => e.setSelected(!isActive));
                             }
                         }
-                        return (<ColumnHeader
-                            key={idx}
-                            name={name}
-                            gridColumn={idx + 1}
-                            active={isActive}
-                            onClick={onClick}
-                            {...config}
-                        />);
+                        return (
+                            <ColumnHeader
+                                key={idx}
+                                name={name}
+                                gridColumn={idx + 1}
+                                active={isActive}
+                                onClick={onClick}
+                                {...config}
+                            />
+                        );
                     })
                 }
                 {
@@ -185,13 +186,23 @@ const EventGrid = observer((props: Props) => {
                             tableCssSelector={styles.grid}
                         >
                             {
-                                events.map(item => {
+                                events.map((item) => {
                                     if (item.type === 'group') {
-                                        return (<Group key={item.group} {...item} />);
+                                        return (
+                                            <Group 
+                                                key={item.group}
+                                                {...item}
+                                            />
+                                        );
                                     }
                                     const event = item.model;
                                     return (
-                                        <Row key={event.id} event={event} columns={columns} index={item.index} />
+                                        <Row 
+                                            key={event.id} 
+                                            event={event} 
+                                            columns={columns} 
+                                            index={item.index} 
+                                        />
                                     )
                                 })
                             }
@@ -201,6 +212,6 @@ const EventGrid = observer((props: Props) => {
             </div>
         </div>
     )
-});
+}));
 
 export default EventGrid;
