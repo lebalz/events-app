@@ -66,14 +66,6 @@ const AudiencePicker = observer((props: Props) => {
     return (
         <div className={clsx(styles.audience)}>
             <div className={clsx(styles.affects)}>
-                <h4>
-                    <Translate
-                        id="shared.header.concerns"
-                        description="The title in the window used to select the participants involved in the event"
-                    >
-                        Publikum
-                    </Translate>
-                </h4>
                 <div className={styles.toggle}>
                     <span className={styles.label}>
                         <Translate
