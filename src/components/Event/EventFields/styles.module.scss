@@ -162,6 +162,14 @@ dd {
 }
 .descriptionLong {
     max-width: min(28em, 80vw);
+    .line {
+        line-height: 1.2em;
+        min-height: 1em;
+    }
+    &.multiline {
+        margin-top: 0.2em;
+        margin-bottom: 1em;
+    }
 }
 .actions {
     display: flex;

@@ -7,7 +7,7 @@ import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import {default as ShowAffectedAudience} from '../shared/AudiencePicker/Audience';
 import Badge from '../shared/Badge';
-import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
+import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
 import { Icon, SIZE, SIZE_XS } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
@@ -21,14 +21,12 @@ import { EndDateTime, StartDateTime } from './EventFields/DateTime';
 import Location from './EventFields/Location';
 import Audience from './EventFields/Audience';
 import State from './EventFields/State';
-import { useHistory } from "@docusaurus/router";
 import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
 import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import TeachingAffected from './EventFields/TeachingAffected';
 import Version from './EventFields/Version';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import CreatedAt from './EventFields/CreatedAt';
 import UpdatedAt from './EventFields/UpdatedAt';
 import Edit from '../shared/Button/Edit';
@@ -40,19 +38,15 @@ interface Props {
 
 const EventProps = observer((props: Props) => {
     const { event } = props;
-    const { i18n } = useDocusaurusContext();
     const [showAllAffectedLessons, setShowAllAffectedLessons] = React.useState(false);
-    const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
     const semesterStore = useStore('semesterStore');
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
 
-    const history = useHistory();
     const commonClasses = clsx(event?.isDeleted && styles.deleted);
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
-    const [showOptions, setShowOptions] = React.useState(false);
 
     const showActions = !props.inModal && event.isEditable;
     if (!event) {
@@ -103,7 +97,7 @@ const EventProps = observer((props: Props) => {
                     Beschreibung
                 </Translate>
             </dt>
-            <dd><DescriptionLong {...commonEditProps} /></dd>
+            <dd><DescriptionLong {...commonEditProps} displayMultiLine/></dd>
             <dt>
                 <Translate
                     id="event.versionNumber"
