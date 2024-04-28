@@ -8,14 +8,15 @@ import Button from '../../shared/Button';
 import { mdiCheckboxBlankBadge, mdiCheckboxBlankBadgeOutline, mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline, mdiStar, mdiStarCircle, mdiStarOutline } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
-import { SIZE_S, FilterSvgPath, SIZE_XS } from '../../shared/icons';
+import { SIZE_S, FilterSvgPath, SIZE_XS, SIZE, SIZE_XXS } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import Select, { Theme, ThemeConfig } from 'react-select';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
 import Icon, { Stack } from '@mdi/react';
 import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
+import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
 
 interface Props {
     showCurrentAndFuture?: boolean;
@@ -208,6 +209,28 @@ const Filter = observer((props: Props) => {
                                 }}
                                 theme={selectThemeConfig}
                             />
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <Translate
+                                id='event.filter.advanced.filterAudience'
+                            >
+                                Nach Zielgruppe filtern
+                            </Translate>
+                        </div>
+                        <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
+                            {Object.keys(EventAudience).map(audience => {
+                                return (
+                                    <Button
+                                        text={EventAudienceTranslationShort[audience]}
+                                        active={eventTable.audienceFilter.has(audience as EventAudience)}
+                                        key={audience}
+                                        color="blue"
+                                        onClick={() => eventTable.setAudienceFilter(audience as EventAudience)}
+                                    />
+                                )
+                            })}
                         </div>
                     </div>
                     <div>
