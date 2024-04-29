@@ -649,7 +649,7 @@
     "description": "Button text for open button"
   },
   "button.save": {
-    "message": "Speichern",
+    "message": "Änderungen Speichern",
     "description": "Button to save changes"
   },
   "button.edit": {
@@ -1760,5 +1760,9 @@
   },
   "event.showUnpublishedVersions.title": {
     "message": "Zeige {count} {updates}"
+  },
+  "navcard.docs.text": {
+    "message": "Dokumentation",
+    "description": "Button text for navigating to the documentation page"
   }
 }

@@ -22,5 +22,9 @@
   "sidebar.tutorialSidebar.category.API Reference": {
     "message": "API Reference",
     "description": "The label for category API Reference in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Termine": {
+    "message": "Termine",
+    "description": "The label for category Termine in sidebar tutorialSidebar"
   }
 }

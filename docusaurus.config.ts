@@ -16,14 +16,18 @@ const VERSION = 'beta-1.9';
 
 const defaultLocale = 'de';
 
-function getLocalizedConfigValue(key: string) {
-  const currentLocale = (process.env.DOCUSAURUS_CURRENT_LOCALE && process.env.DOCUSAURUS_CURRENT_LOCALE !== 'undefined') ? 
+function getLocale() {
+  return (process.env.DOCUSAURUS_CURRENT_LOCALE && process.env.DOCUSAURUS_CURRENT_LOCALE !== 'undefined') ? 
                           process.env.DOCUSAURUS_CURRENT_LOCALE :
                           defaultLocale;
+}
+
+function getLocalizedConfigValue(key: string) {
   const values = ConfigLocalized[key];
   if (!values) {
     throw new Error(`Localized config key=${key} not found`);
   }
+  const currentLocale = getLocale();
   const value = values[currentLocale] ?? values[defaultLocale];
   if (!value) {
     throw new Error(
@@ -33,9 +37,17 @@ function getLocalizedConfigValue(key: string) {
   return value;
 }
 
+function getTranslator() {
+  const currentLocale = getLocale();
+  if (currentLocale === 'fr') {
+    `${getLocalizedConfigValue('translated_by')} G. Andonie<br />`
+  }
+  return ''
+}
+
 function getLocalizedCopyright() {
   return `Copyright © ${new Date().getFullYear()} B. Hofer <br />
-          ${getLocalizedConfigValue('translated_by')} G. Andonie<br/>
+          ${getTranslator()}
           <a class="badge badge--primary" href="https://github.com/lebalz/events-app/commit/${GIT_COMMIT_SHA}">
             ᚶ ${GIT_COMMIT_SHA.substring(0, 7)}
           </a>

@@ -300,7 +300,7 @@
   },
   "event.kw": {
     "message": "SA",
-    "description": "for a single event: kw (calender week)"
+    "description": "for a single event: kw"
   },
   "event.weekday": {
     "message": "Jour de la semaine",
@@ -403,7 +403,8 @@
     "description": "End of event must be after start"
   },
   "joi.event.description": {
-    "message": "Mots-clés"
+    "message": "Mots-clés",
+    "description": "Description of event"
   },
   "joi.event.description.empty": {
     "message": "Le champ \"mots-clés\" ne doit pas être vide",
@@ -1250,7 +1251,7 @@
   },
   "EventAudience.LP.example": {
     "message": "Excursion",
-    "description": "Students Example"
+    "description": "Teachers Example"
   },
   "EventAudience.KLP.example": {
     "message": "Collecte des bulletins de notes signés",
@@ -1312,7 +1313,7 @@
   },
   "event.options.clone": {
     "message": "Dupliquer",
-    "description": "Text of the button clone"
+    "description": "Button Title (hover) to clone an event"
   },
   "event.options.group": {
     "message": "Groupe",
@@ -1327,8 +1328,7 @@
     "description": "Text of the button edit"
   },
   "event.options.share": {
-    "message": "Partager",
-    "description": "Text of the button share"
+    "message": "Partager"
   },
   "event.options.open.overview": {
     "message": "Ouvrir aperçu",
@@ -1381,121 +1381,371 @@
   "components.semestre.list.edit": {
     "message": "Editer",
     "description": "The name of the column for edit semester"
-  }
-  ,
+  },
   "components.semestre.list.syncdate": {
     "message": "Synchronisé le ",
     "description": "The name of the column for the date of sync semester"
-  }
-  ,
+  },
   "components.semestre.list.enddate": {
     "message": "Fin",
     "description": "The name of the column for the end date of the semester"
-  }
-  ,
+  },
   "components.semestre.list.startdate": {
     "message": "Début",
     "description": "The name of the column for the start date of the semester"
   },
   "components.admin.filiere.class.letters": {
     "message": "Sigle des classes",
-    "description":"the text of the column for the class letters"
+    "description": "the text of the column for the class letters"
   },
   "registrationPeriod.open": {
-    "message": "Ouvert",
-    "description": "registrationPeriod.open"
+    "message": "Ouvert"
   },
   "registrationPeriod.closed": {
-    "message": "Fermé",
-    "description": "registrationPeriod.closed"
+    "message": "Fermé"
   },
   "registrationPeriod.name.tooltip": {
-    "message": "Fenêtre d'entrée {open}: {description}",
-    "description": "registrationPeriod.name.tooltip"
+    "message": "Fenêtre d'entrée {open}: {description}"
   },
   "registrationPeriod.registrationWindow.tooltip": {
-    "message": "Fenêtre d'entrée: Einreichen von Terminen",
-    "description": "registrationPeriod.registrationWindow.tooltip"
+    "message": "Fenêtre d'entrée: Einreichen von Terminen"
   },
   "registrationPeriod.eventWindow.tooltip": {
-    "message": "Période durant laquelle les évènements ont lieu.",
-    "description": "registrationPeriod.eventWindow.tooltip"
+    "message": "Période durant laquelle les évènements ont lieu."
   },
   "registrationPeriod.departments.tooltip": {
-    "message": "Saisie des évènements pour ces filières (incl. bilingue)",
-    "description": "registrationPeriod.departments.tooltip"
+    "message": "Saisie des évènements pour ces filières (incl. bilingue)"
   },
   "RegistrationPeriod.isOpen.enabled": {
-    "message": "Saisie des évènements (en dehors de la fenêtre de saisie) autorisée ?",
-    "description": "RegistrationPeriod.isOpen.enable"
-
+    "message": "Saisie des évènements (en dehors de la fenêtre de saisie) autorisée ?"
   },
   "RegistrationPeriod.isOpen.disabled": {
-    "message": "Fenêtre de saisie déjà ouverte",
-    "description": "RegistrationPeriod.isOpen.disabled"
+    "message": "Fenêtre de saisie déjà ouverte"
   },
   "RegistrationPeriod.action.edit.discard": {
-    "message": "Fermer le mode d'édition",
-    "description": "RegistrationPeriod.action.edit.discard"
+    "message": "Fermer le mode d'édition"
   },
   "RegistrationPeriod.Name": {
     "message": "Nom",
     "description": "Name of the registration period"
   },
   "RegistrationPeriod.Description": {
-    "message": "Description",
-    "description": "RegistrationPeriod.Description"
+    "message": "Description"
   },
   "RegistrationPeriod.Description.Placeholder": {
-    "message": "Description",
-    "description": "RegistrationPeriod.Description"
+    "message": "Description"
   },
   "RegistrationPeriod.inputWindow": {
-    "message": "Fenêtre de saisie",
-    "description": "RegistrationPeriod.inputWindow"
+    "message": "Fenêtre de saisie"
   },
   "RegistrationPeriod.inputWindow.Start": {
-    "message": "Début",
-    "description": "RegistrationPeriod.inputWindow.Start"
+    "message": "Début"
   },
   "RegistrationPeriod.inputWindow.End": {
-    "message": "Fin",
-    "description": "RegistrationPeriod.inputWindow.End"
+    "message": "Fin"
   },
   "RegistrationPeriod.datePeriod": {
-    "message": "Période d'enregistrement",
-    "description": "RegistrationPeriod.datePeriod"
+    "message": "Période d'enregistrement"
   },
   "RegistrationPeriod.datePeriod.FromSemester": {
-    "message": "Reprendre du semestre",
-    "description": "RegistrationPeriod.datePeriod.FromSemester"
+    "message": "Reprendre du semestre"
   },
   "RegistrationPeriod.datePeriod.FromSemester.Title": {
-    "message": "Reprendre les dates de début et de fin d'un semestre",
-    "description": "RegistrationPeriod.datePeriod.FromSemester.Title"
+    "message": "Reprendre les dates de début et de fin d'un semestre"
   },
   "RegistrationPeriod.eventPeriod.Start": {
-    "message": "Début",
-    "description": "RegistrationPeriod.eventPeriod.Start"
+    "message": "Début"
   },
   "RegistrationPeriod.eventPeriod.End": {
-    "message": "Fin",
-    "description": "RegistrationPeriod.eventPeriod.End"
+    "message": "Fin"
   },
   "RegistrationPeriod.departments": {
-    "message": "Filières",
-    "description": "RegistrationPeriod.departments"
+    "message": "Filières"
   },
   "RegistrationPeriod.isOpen": {
-    "message": "Fenêtre de saisie ouverte ?",
-    "description": "RegistrationPeriod.isOpen"
+    "message": "Fenêtre de saisie ouverte ?"
   },
   "RegistrationPeriod.addButton.text": {
     "message": "Ajouter fenêtre de saisie",
-    "description" : "Text of button to add RegistrationPeriod"
+    "description": "Text of button to add RegistrationPeriod"
   },
   "userEvents.regPeriod.alert.title": {
-    "message": "Fenêtre de saisie",
-    "description": "userEvents.regPeriod.alert.title"
+    "message": "Fenêtre de saisie"
+  },
+  "EventAudience.STUDENTS.KLP.description": {
+    "message": "Klassenlehrpersonen der betroffenen Klassen",
+    "description": "audience: students, description for KLP"
+  },
+  "EventAudience.STUDENTS.example": {
+    "message": "Exkursion",
+    "description": "Students Example"
+  },
+  "joi.event.emptyAudience": {
+    "message": "Au moins une classe, un groupe de classes ou une section doit être sélectionné(e).",
+    "description": "Joi validation error for empty audience"
+  },
+  "event.title": {
+    "message": "Termine",
+    "description": "[plural] Title of the event overview"
+  },
+  "event.versions.unpublished.title": {
+    "message": "Unveröffentlichte Versionen"
+  },
+  "navcard.docs.text": {
+    "message": "Documentation",
+    "description": "Button text for navigating to the documentation page"
+  },
+  "event.bulk_actions.hide_select": {
+    "message": "Terminauswahl verbergen"
+  },
+  "event.version.current.short": {
+    "message": "Aktuell"
+  },
+  "event.createdAt": {
+    "message": "Erstellt am",
+    "description": "for a single event: date of event creation"
+  },
+  "event.updatedAt": {
+    "message": "Aktualisiert am",
+    "description": "for a single event: date of update"
+  },
+  "event.actions": {
+    "message": "Aktionen",
+    "description": "Actions for a single event"
+  },
+  "event.version.current.long": {
+    "message": "Aktuelle Version"
+  },
+  "group.name.placeholder": {
+    "message": "Name der Gruppe"
+  },
+  "group.description.placeholder": {
+    "message": "Beschreibung der Gruppe"
+  },
+  "group.delete.title": {
+    "message": "Nur Gruppen ohne Termine können gelöscht werden"
+  },
+  "group.createdAt": {
+    "message": "Erstellt Am"
+  },
+  "group.updatedAt": {
+    "message": "Geändert Am"
+  },
+  "group.clone.dt": {
+    "message": "Duplizieren"
+  },
+  "group.clone.description": {
+    "message": "Gruppe inkl. Termine"
+  },
+  "group.users.dt": {
+    "message": "Mitglieder"
+  },
+  "group.users.description": {
+    "message": "Alle Mitglieder der Gruppe sind können Termine beliebig verändern."
+  },
+  "group.shiftDates.dt": {
+    "message": "Datum Verschieben"
+  },
+  "group.shiftDates.description": {
+    "message": "Alle unveröffentlichten Termine um eine bestimmte Anzahl Tage verschieben"
+  },
+  "group.shiftDates.closeShiftEditor": {
+    "message": "Editor schliessen"
+  },
+  "group.shiftDates.openShiftEditor": {
+    "message": "Editor öffnen"
+  },
+  "group.groupActions": {
+    "message": "Aktionen"
+  },
+  "group.actions.saveAll": {
+    "message": "Alle Speichern"
+  },
+  "group.actions.discardAll": {
+    "message": "Alle Verwerfen"
+  },
+  "import.tab.v1.label": {
+    "message": "V1 Import",
+    "description": "import.tab.v1"
+  },
+  "user.logout.title": {
+    "message": "{mail} abmelden"
+  },
+  "user.ical.personal-calendar.copy-button.title": {
+    "message": "Kopiere den Link zum persönlichen Kalender."
+  },
+  "user.ical.copy-button.title": {
+    "message": "Kopiere den Link zum Kalender {name}."
+  },
+  "xlsx.events": {
+    "message": "Termine"
+  },
+  "kw": {
+    "message": "KW",
+    "description": "Calendar week"
+  },
+  "xlsx.kw": {
+    "message": "KW"
+  },
+  "xlsx.weekday": {
+    "message": "Wochentag"
+  },
+  "xlsx.description": {
+    "message": "Titel"
+  },
+  "xlsx.dateStart": {
+    "message": "Datum Beginn"
+  },
+  "xlsx.timeStart": {
+    "message": "Zeit Beginn"
+  },
+  "xlsx.dateEnd": {
+    "message": "Datum Ende"
+  },
+  "xlsx.timeEnd": {
+    "message": "Zeit Ende"
+  },
+  "xlsx.location": {
+    "message": "Ort"
+  },
+  "xlsx.descriptionLong": {
+    "message": "Beschreibung"
+  },
+  "xlsx.bilingueLPsAffected": {
+    "message": "Bilingue LP's betroffen"
+  },
+  "xlsx.classes": {
+    "message": "Klassen"
+  },
+  "xlsx.affects": {
+    "message": "Betrifft"
+  },
+  "xlsx.teachingAffected": {
+    "message": "Unterricht Betroffen?"
+  },
+  "xlsx.deletedAt": {
+    "message": "Gelöscht am"
+  },
+  "event.bulkActions.show_select": {
+    "message": "Terminauswahl anzeigen"
+  },
+  "event.bulk_actions.clear_selection": {
+    "message": "Auswahl aufheben"
+  },
+  "event.bulk_actions.share": {
+    "message": "Übersicht Öffnen"
+  },
+  "event.bulk_actions.stats.total_events": {
+    "message": "{num} Termine"
+  },
+  "button.open.title": {
+    "message": "Terminseite Anzeigen"
+  },
+  "components.event.actions.close-edit.title": {
+    "message": "Editiermodus beenden"
+  },
+  "button.save.new-version": {
+    "message": "Neue, unveröffentlichte Version Speichern"
+  },
+  "button.save.error": {
+    "message": "Fehler beheben vor dem Speichern",
+    "description": "Button to save changes with error"
+  },
+  "event.showUnpublishedVersions.singular.text": {
+    "message": "Entwurf",
+    "description": "singular"
+  },
+  "event.showUnpublishedVersions.text": {
+    "message": "Entwürfe",
+    "description": "plural"
+  },
+  "event.showUnpublishedVersions.title": {
+    "message": "Zeige {count} {updates}"
+  },
+  "eventGrid.header.actions.title": {
+    "message": "Aktionen"
+  },
+  "eventGrid.header.sortBy.title": {
+    "message": "Sortieren nach \"{column}\""
+  },
+  "event.filter.mine.title": {
+    "message": "Nur die für mich relevanten Termine anzeigen"
+  },
+  "event.filter.future.title": {
+    "message": "Vergangene Termine ausblenden.",
+    "description": "Filter: Only current and future events"
+  },
+  "event.filter.search": {
+    "message": "Suche"
+  },
+  "event.filter.advanced.filterAudience": {
+    "message": "Nach Zielgruppe filtern"
+  },
+  "event.filter.show_select": {
+    "message": "Termine auswählen"
+  },
+  "event.AddButton.title": {
+    "message": "Erstellt einen neuen, unveröffentlichten Termin"
+  },
+  "event.button.versions": {
+    "message": "Versionen",
+    "description": "for a single event: button to show version history"
+  },
+  "versions.history.modal.title": {
+    "message": "Versionen"
+  },
+  "event.group.add": {
+    "message": "Gruppen hinzufügen"
+  },
+  "user.button.add-group": {
+    "message": "Gruppe hinzufügen"
+  },
+  "shiftDatesEditor.title": {
+    "message": "Verschiebung von Terminen"
+  },
+  "shiftDatesEditor.eventSelection.current": {
+    "message": "Aktueller Termin"
+  },
+  "shiftDatesEditor.shift": {
+    "message": "Verschiebung"
+  },
+  "shiftedDatesEditor.dates": {
+    "message": "Tage"
+  },
+  "shiftDatesEditor.hours": {
+    "message": "Stunden"
+  },
+  "shiftDatesEditor.apply": {
+    "message": "Anwenden (Vorschau)"
+  },
+  "shiftDatesEditor.eventSelection.new": {
+    "message": "Neu (Vorschau)"
+  },
+  "eventGroup.userTable.search": {
+    "message": "Suche",
+    "description": "search"
+  },
+  "eventGroup.userTable.th.shortName": {
+    "message": "Kürzel",
+    "description": "th: shortName"
+  },
+  "eventGroup.userTable.th.firstName": {
+    "message": "Vorname",
+    "description": "th: firstName"
+  },
+  "eventGroup.userTable.th.lastName": {
+    "message": "Nachname",
+    "description": "th: lastName"
+  },
+  "eventGroup.userTable.removeUser": {
+    "message": "Mitglied Entfernen"
+  },
+  "share.button.edit.versioned.title": {
+    "message": "Bearbeiten (Es wird eine neue Version erstellt)",
+    "description": "Text of the button edit"
+  },
+  "theme.docs.DocCard.categoryDescription.plurals": {
+    "message": "{count} éléments",
+    "description": "The default description for a category card in the generated index about how many items this category includes"
   }
 }
