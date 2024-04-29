@@ -2,13 +2,14 @@ import React, { type MouseEventHandler, type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { SaveIcon, SIZE_S } from '../icons';
+import { SaveIcon, SaveVersionIcon, SIZE_S } from '../icons';
 import Button, { Base, extractSharedProps } from '.';
 import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {
     onClick: MouseEventHandler<HTMLButtonElement>;
     size?: number;
+    newVersion?: boolean;
 }
 
 type SaveProps = Props & Base;
@@ -25,7 +26,11 @@ const Save = (props: SaveProps) => {
             className={clsx(styles.save, props.className)}
             color='green'
             onClick={props.onClick}
-            icon={<SaveIcon size={props.size ?? SIZE_S} />}
+            icon={
+                props.newVersion
+                    ? <SaveVersionIcon size={props.size ?? SIZE_S} />
+                    : <SaveIcon size={props.size ?? SIZE_S} />
+            }
         />
     )
 };

@@ -52,7 +52,15 @@ const EventView = observer((props: Props) => {
         <Layout>
             <Section title={title} containerClassName={clsx(styles.events)}>
                 {events.map((event, idx) => {
-                    return (<EventModelView event={event} key={idx} className={styles.event} hideParent={allSameParent} hideShowVersionsButton={allUnpublishedVersions}/>);
+                    return (
+                        <EventModelView
+                            key={idx}
+                            event={event}
+                            className={styles.event}
+                            hideParent={allSameParent}
+                            hideShowVersionsButton={allUnpublishedVersions}
+                        />
+                    );
                 })}
                 {allSameParent && (
                     <ParentDetails event={events[0]} className={clsx(styles.event, styles.parent)} />

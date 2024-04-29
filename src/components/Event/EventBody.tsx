@@ -19,7 +19,11 @@ const EventBody = observer((props: Props) => {
 
     return (
         <div className={clsx(styles.eventBody, event.hasParent, isOpen && styles.flex, event.hasParent && styles.splitView)}>
-            <EventProps {...props} showVersionHeader={event.hasParent} hideShowVersionsButton={props.hideShowVersionsButton} />
+            <EventProps 
+                {...props}
+                showVersionHeader={event.hasParent}
+                hideShowVersionsButton={props.hideShowVersionsButton}
+            />
             {!hideParent && event.hasParent && (
                 <ParentDetails event={event} inModal={props.inModal} onOpenChange={setOpen} />
             )}
