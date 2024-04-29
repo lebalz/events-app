@@ -155,6 +155,13 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.10 (29.04.2024)</h4>
+                                <ul>
+                                    <li>🚀 Neu: Dokumentation und Gebrauchsanweisungen Verlinkt</li>
+                                    <li>🚀 Neu: Aktualisierte, aber noch nicht veröffentlichte Termine können in einer Übersicht dargestellt werden.</li>
+                                    <li>💅 Aktionen für Termine werden übersichtlicher dargestellt.</li>
+                                    <li>💅 Icons und Tooltips zeigen an, ob ein Termin direkt aktualisiert wird, oder eine neue Version erzeugt wird.</li>
+                                </ul>
                                 <h4>Version: Beta 1.9 (28.04.2024)</h4>
                                 <ul>
                                     <li>💅 Neue Zeilen werden bei den Beschreibungen korrekt angezeigt.</li>
