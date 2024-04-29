@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import Badge from '@site/src/components/shared/Badge';
 import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 
-# Termin
+# Termine
 
 Ein Termin ist ein Ereignis, das zu einem bestimmten Zeitpunkt stattfindet und hat folgende Attribute:
 

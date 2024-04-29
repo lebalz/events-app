@@ -9,7 +9,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Section from '../components/shared/Section';
 import { translate } from '@docusaurus/Translate';
 import Icon from '@mdi/react';
-import { mdiAccountCircleOutline, mdiCalendarAccount, mdiCalendarMonth, mdiChartTimeline, mdiMicrosoftOutlook, mdiSecurity, mdiViewList } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiBookOpenVariantOutline, mdiCalendarAccount, mdiCalendarMonth, mdiChartTimeline, mdiMicrosoftOutlook, mdiSecurity, mdiViewList } from '@mdi/js';
 import Link from '@docusaurus/Link';
 import { useStore } from '../stores/hooks';
 
@@ -92,6 +92,12 @@ const Home = observer(() => {
                             icon={mdiMicrosoftOutlook}
                             to={useBaseUrl('/subscribe')}
                             label={translate({ message: 'Outlook', id: 'navcard.subscribe.text', description: 'Button text for navigating to the subscribe page' })}
+                            displayFor='public'
+                        />
+                        <NavCard
+                            icon={mdiBookOpenVariantOutline}
+                            to={useBaseUrl('/docs')}
+                            label={translate({ message: 'Dokumentation', id: 'navcard.docs.text', description: 'Button text for navigating to the documentation page' })}
                             displayFor='public'
                         />
                         <NavCard
