@@ -10,6 +10,7 @@ interface Props {
     subtitle?: string | ReactNode;
     children?: ReactNode;
     className?: string;
+    containerClassName?: string;
 }
 
 const Section = observer((props: Props) => {
@@ -22,7 +23,7 @@ const Section = observer((props: Props) => {
                 {props.subtitle && (
                     <p className={clsx('hero__subtitle')}>{props.subtitle}</p>
                 )}
-                <div>
+                <div className={clsx(props.containerClassName)}>
                     {props.children}
                 </div>
             </div>

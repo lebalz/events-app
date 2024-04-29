@@ -81,13 +81,13 @@ const EventModal = observer((props: Props) => {
                                             description: 'Button title to close a modal'
                                         })}
                                         text={
-                                            expandedButtons > 2 ? 
-                                                translate({message:
-                                                    'Schliessen',
-                                                    id: 'button.close',
-                                                    description: 'Button text to close a modal'
-                                                })
-                                                : undefined
+                                            expandedButtons > 2 
+                                                ?   translate({
+                                                        message: 'Schliessen',
+                                                        id: 'button.close',
+                                                        description: 'Button text to close a modal'
+                                                    })
+                                                :   undefined
                                         } 
                                         icon={mdiClose} 
                                         iconSide='left' 

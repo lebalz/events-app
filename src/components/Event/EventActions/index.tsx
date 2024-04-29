@@ -1,19 +1,15 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import Button from '../../shared/Button';
-import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons';
+import { DeleteIcon, DiscardIcon, SaveIcon } from '../../shared/icons';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
-import { mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiShareCircle } from '@mdi/js';
-import Translate, { translate } from '@docusaurus/Translate';
-import OptionsPopup, { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
-import DefinitionList from '../../shared/DefinitionList';
-import DefaultEventActions from './DefaultEventActions';
+import { mdiShareCircle } from '@mdi/js';
+import { translate } from '@docusaurus/Translate';
+import OptionsPopup, {  } from './OptionsPopup';
 
 type SortableButton = 'delete' | 'discard' | 'save' | 'open';
 
@@ -161,7 +157,8 @@ const EventActions = observer((props: Props) => {
         return (
             <>
                 {
-                    buttonOrder.filter(b => !(props.exclude || []).includes(b))
+                    buttonOrder
+                        .filter(b => !(props.exclude || []).includes(b))
                         .map((btn: SortableButton) => buttons[btn]({ key: btn, showText: buttonsWithText >= buttonOrder.length }))
                 }
             </>

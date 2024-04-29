@@ -14,5 +14,13 @@
   "sidebar.tutorialSidebar.category.ics": {
     "message": "ics",
     "description": "The label for category ics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Termin": {
+    "message": "Termin",
+    "description": "The label for category Termin in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.API Reference": {
+    "message": "API Reference",
+    "description": "The label for category API Reference in sidebar tutorialSidebar"
   }
 }

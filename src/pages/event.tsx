@@ -1,7 +1,7 @@
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-// import styles from './styles.module.scss';
+import styles from './event.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Layout from '@theme/Layout';
@@ -37,9 +37,9 @@ const EventView = observer((props: Props) => {
 
     return (
         <Layout>
-            <Section title={title}>
+            <Section title={title} containerClassName={clsx(styles.events)}>
                 {events.map((event, idx) => {
-                    return (<EventModelView event={event} key={idx}/>);
+                    return (<EventModelView event={event} key={idx} className={styles.event}/>);
                 })}
             </Section>
         </Layout>

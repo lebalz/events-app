@@ -1,6 +1,6 @@
 import React from 'react';
 import { default as ReactIcon} from '@mdi/react';
-import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle, mdiSyncCircle, mdiCheckCircle, mdiLoading, mdiCircle, mdiContentCopy, mdiClockTimeTwelveOutline, mdiClockTimeOneOutline, mdiClockTimeTwoOutline, mdiClockTimeThreeOutline, mdiClockTimeFourOutline, mdiClockTimeFiveOutline, mdiClockTimeSixOutline, mdiClockTimeSevenOutline, mdiClockTimeEightOutline, mdiClockTimeNineOutline, mdiClockTimeTenOutline, mdiClockTimeElevenOutline } from '@mdi/js';
+import { mdiCalendarMonth, mdiCircleEditOutline, mdiTrashCan, mdiContentSave, mdiCloseCircle, mdiArrowRightCircle, mdiArrowLeftCircle, mdiSyncCircle, mdiCheckCircle, mdiLoading, mdiCircle, mdiContentCopy, mdiClockTimeTwelveOutline, mdiClockTimeOneOutline, mdiClockTimeTwoOutline, mdiClockTimeThreeOutline, mdiClockTimeFourOutline, mdiClockTimeFiveOutline, mdiClockTimeSixOutline, mdiClockTimeSevenOutline, mdiClockTimeEightOutline, mdiClockTimeNineOutline, mdiClockTimeTenOutline, mdiClockTimeElevenOutline, mdiContentSavePlus, mdiCalendarEditOutline } from '@mdi/js';
 import { IconProps } from '@mdi/react/dist/IconProps';
 import { ApiState } from '@site/src/stores/iStore';
 
@@ -56,9 +56,9 @@ export const Icon = (props: IcoProps) => {
     );
 };
 
-export const EditIcon = (props: Props) => {
+export const EditIcon = (props: Props & { newVersion?: boolean }) => {
     return (
-        <Icon path={mdiCircleEditOutline} {...props} />
+        <Icon path={props.newVersion ? mdiCalendarEditOutline : mdiCircleEditOutline} {...props} />
     );
 }; 
 
@@ -74,9 +74,9 @@ export const DeleteIcon = (props: Props) => {
     );
 }; 
 
-export const SaveIcon = (props: Props) => {
+export const SaveIcon = (props: Props & {newVersion?: boolean}) => {
     return (
-        <Icon path={mdiContentSave} {...props} />
+        <Icon path={props.newVersion ? mdiContentSavePlus : mdiContentSave} {...props} />
     );
 }; 
 

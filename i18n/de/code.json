@@ -1698,5 +1698,32 @@
   },
   "event.group.add": {
     "message": "Gruppen hinzufügen"
+  },
+  "event.actions": {
+    "message": "Aktionen",
+    "description": "Actions for a single event"
+  },
+  "button.save.new-version": {
+    "message": "Neue, unveröffentlichte Version Speichern"
+  },
+  "button.save.error": {
+    "message": "Fehler beheben vor dem Speichern",
+    "description": "Button to save changes with error"
+  },
+  "event.show-unpublished-versions": {
+    "message": "Aktualisierungen"
+  },
+  "event.show-unpublished-versions-title": {
+    "message": "Zeige {count} Aktualisierung{plural}"
+  },
+  "event.filter.advanced.filterAudience": {
+    "message": "Nach Zielgruppe filtern"
+  },
+  "event.button.versions": {
+    "message": "Versionen",
+    "description": "for a single event: button to show version history"
+  },
+  "versions.history.modal.title": {
+    "message": "Versionen"
   }
 }

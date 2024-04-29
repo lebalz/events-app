@@ -8,7 +8,7 @@ import DefinitionList from '../shared/DefinitionList';
 import {default as ShowAffectedAudience} from '../shared/AudiencePicker/Audience';
 import Badge from '../shared/Badge';
 import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
-import { Icon, SIZE, SIZE_XS } from '../shared/icons';
+import { Icon, SIZE_XS } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -21,7 +21,6 @@ import { EndDateTime, StartDateTime } from './EventFields/DateTime';
 import Location from './EventFields/Location';
 import Audience from './EventFields/Audience';
 import State from './EventFields/State';
-import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
 import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
@@ -29,7 +28,8 @@ import TeachingAffected from './EventFields/TeachingAffected';
 import Version from './EventFields/Version';
 import CreatedAt from './EventFields/CreatedAt';
 import UpdatedAt from './EventFields/UpdatedAt';
-import Edit from '../shared/Button/Edit';
+import HistoryPopup from './VersionHistory/HistoryPopup';
+import DefaultEventActionsButtons from './EventActions/DefaultEventActionButtons';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -47,6 +47,7 @@ const EventProps = observer((props: Props) => {
     const commonClasses = clsx(event?.isDeleted && styles.deleted);
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
+    const showVersions = event.publishedVersionIds.length > 1 || event.hasParent;
 
     const showActions = !props.inModal && event.isEditable;
     if (!event) {
@@ -350,34 +351,30 @@ const EventProps = observer((props: Props) => {
                 )
             }
             {
-                event.isDraft && !event.isEditing && (
+                showActions && (
                     <>
-                        <dd style={{marginTop: '0.3em'}}>
-                            <Edit 
-                                onClick={() => {
-                                    event.setEditing(true);
-                                }}
-                                text={translate({id: "event.options.edit", description: "Text of the button edit"})}
-                                iconSide='left'
-                            />
+                        <dt>
+                            <Translate
+                                id="event.actions"
+                                description='Actions for a single event'
+                            >
+                                Aktionen
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <DefaultEventActionsButtons event={event} />
                         </dd>
                     </>
                 )
             }
             {
-                showActions && (
+                showVersions && (
                     <>
                         <dt>
+                            Versionen Anzeigen
                         </dt>
                         <dd>
-                            <div className={clsx(styles.actions)}>
-                                <EventActions
-                                    event={event}
-                                    size={SIZE * 0.99}
-                                    buttonOrder={['discard', 'save']}
-                                    exclude={props.inModal ? [] : ['open']}
-                                />
-                            </div>
+                            <HistoryPopup event={event} />
                         </dd>
                     </>
                 )

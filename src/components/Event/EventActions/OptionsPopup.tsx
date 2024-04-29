@@ -48,6 +48,7 @@ export const EditRowMode = observer((props: ActionProps) => {
                     props.onEdit();
                 }
             }}
+            newVersion={!event.isDraft}
         />
     )
 });
