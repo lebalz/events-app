@@ -17,9 +17,9 @@ const VERSION = 'beta-1.10';
 const defaultLocale = 'de';
 
 function getLocale() {
-  return (process.env.DOCUSAURUS_CURRENT_LOCALE && process.env.DOCUSAURUS_CURRENT_LOCALE !== 'undefined') ? 
-                          process.env.DOCUSAURUS_CURRENT_LOCALE :
-                          defaultLocale;
+  return (process.env.DOCUSAURUS_CURRENT_LOCALE && process.env.DOCUSAURUS_CURRENT_LOCALE !== 'undefined')
+           ? process.env.DOCUSAURUS_CURRENT_LOCALE 
+           : defaultLocale;
 }
 
 function getLocalizedConfigValue(key: string) {
@@ -39,7 +39,7 @@ function getLocalizedConfigValue(key: string) {
 
 function getTranslator() {
   const currentLocale = getLocale();
-  `<span class="translator-${currentLocale}">${getLocalizedConfigValue('translated_by')} G. Andonie</span><br />`
+  return `<span class="translator-${currentLocale}">${getLocalizedConfigValue('translated_by')} G. Andonie</span><br />`
 }
 
 function getLocalizedCopyright() {
