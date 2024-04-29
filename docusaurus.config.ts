@@ -39,10 +39,7 @@ function getLocalizedConfigValue(key: string) {
 
 function getTranslator() {
   const currentLocale = getLocale();
-  if (currentLocale === 'fr') {
-    `${getLocalizedConfigValue('translated_by')} G. Andonie<br />`
-  }
-  return ''
+  `<span class="translator-${currentLocale}">${getLocalizedConfigValue('translated_by')} G. Andonie</span><br />`
 }
 
 function getLocalizedCopyright() {
