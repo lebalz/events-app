@@ -221,7 +221,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
 
     @action
     reload() {
-        if (this.root.sessionStore.loggedIn) {
+        if (this.root.sessionStore.isLoggedIn) {
             this.resetUserData();
             this.loadAuthorized();
         }

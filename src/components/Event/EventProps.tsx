@@ -29,7 +29,7 @@ import Version from './EventFields/Version';
 import CreatedAt from './EventFields/CreatedAt';
 import UpdatedAt from './EventFields/UpdatedAt';
 import HistoryPopup from './VersionHistory/HistoryPopup';
-import DefaultEventActionsButtons from './EventActions/DefaultEventActionButtons';
+import DefaultActions from './EventActions';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -359,7 +359,7 @@ const EventProps = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <DefaultEventActionsButtons event={event} hideOpen={props.inModal} />
+                <DefaultActions event={event} hideOpen={props.inModal} />
             </dd>
             {
                 showVersions && (

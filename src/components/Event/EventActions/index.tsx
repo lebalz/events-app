@@ -24,10 +24,12 @@ interface Props {
     hideOpen?: boolean;
 }
 
-const DefaultEventActionsButtons = observer((props: Props) => {
+const DefaultActions = observer((props: Props) => {
     const { event } = props;
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
+    const sessionStore = useStore('sessionStore');
+    const { isLoggedIn } = sessionStore;
     return (
         <div className={clsx(styles.defaultButtons, props.className)}>
             {!props.hideOpen && viewStore.openEventModalId !== event.id && (
@@ -60,12 +62,16 @@ const DefaultEventActionsButtons = observer((props: Props) => {
                     id: 'button.open.title'
                 })}
             />
-            {(props.hideEdit || !event.isEditing) && (
+            {isLoggedIn && (props.hideEdit || !event.isEditing) && (
                 <EditRowMode event={event} onEdit={props.closePopup} />
             )}
-            <Clone event={event} />
-            <AddToGroup event={event} />
-            {event.isEditing && (
+            {isLoggedIn && (
+                <>
+                    <Clone event={event} />
+                    <AddToGroup event={event} />
+                </>
+            )}
+            {isLoggedIn && event.isEditing && (
                 <>
                     <Button
                         title={
@@ -144,4 +150,4 @@ const DefaultEventActionsButtons = observer((props: Props) => {
     )
 });
 
-export default DefaultEventActionsButtons;
+export default DefaultActions;

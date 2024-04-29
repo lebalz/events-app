@@ -49,7 +49,7 @@ export class SessionStore {
     }
 
     @computed
-    get loggedIn(): boolean {
+    get isLoggedIn(): boolean {
         return !!this.state.account;
     }
 }

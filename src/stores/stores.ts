@@ -130,7 +130,7 @@ export class RootStore {
         this.semesterizedStores.forEach((store) => {
             store.loadPublic(semesterId);
         });
-        if (this.sessionStore.loggedIn && this.semesterStore.currentSemester && this.semesterStore.currentSemester.id !== semesterId) {
+        if (this.sessionStore.isLoggedIn && this.semesterStore.currentSemester && this.semesterStore.currentSemester.id !== semesterId) {
             this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
             this.semesterizedStores.forEach((store) => {            
                 store.loadAuthorized(semesterId);
