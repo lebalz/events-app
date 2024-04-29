@@ -48,7 +48,7 @@ const EventProps = observer((props: Props) => {
     const commonClasses = clsx(event?.isDeleted && styles.deleted);
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
-    const showVersions = event.publishedVersionIds.length > 1 || event.hasParent;
+    const showVersions = event.publishedVersionIds.length > 0 || event.hasParent;
 
     if (!event) {
         return null;
