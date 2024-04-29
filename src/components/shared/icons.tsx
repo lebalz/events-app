@@ -56,9 +56,15 @@ export const Icon = (props: IcoProps) => {
     );
 };
 
-export const EditIcon = (props: Props & { newVersion?: boolean }) => {
+export const EditVersionIcon = (props: Props) => {
     return (
-        <Icon path={props.newVersion ? mdiCalendarEditOutline : mdiCircleEditOutline} {...props} />
+        <Icon path={mdiCalendarEditOutline} {...props} />
+    );
+}; 
+
+export const EditIcon = (props: Props) => {
+    return (
+        <Icon path={mdiCircleEditOutline} {...props} />
     );
 }; 
 
@@ -74,9 +80,16 @@ export const DeleteIcon = (props: Props) => {
     );
 }; 
 
-export const SaveIcon = (props: Props & {newVersion?: boolean}) => {
+mdiContentSavePlus
+export const SaveVersionIcon = (props: Props) => {
     return (
-        <Icon path={props.newVersion ? mdiContentSavePlus : mdiContentSave} {...props} />
+        <Icon path={mdiContentSavePlus} {...props} />
+    );
+}; 
+
+export const SaveIcon = (props: Props) => {
+    return (
+        <Icon path={mdiContentSave} {...props} />
     );
 }; 
 

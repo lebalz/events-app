@@ -1714,7 +1714,7 @@
     "message": "Aktualisierungen"
   },
   "event.show-unpublished-versions-title": {
-    "message": "Zeige {count} Aktualisierung{plural}"
+    "message": "Zeige {count} {updates}"
   },
   "event.filter.advanced.filterAudience": {
     "message": "Nach Zielgruppe filtern"
@@ -1725,5 +1725,40 @@
   },
   "versions.history.modal.title": {
     "message": "Versionen"
+  },
+  "event.version.current.long": {
+    "message": "Aktuelle Version"
+  },
+  "event.version.current.short": {
+    "message": "Aktuell"
+  },
+  "components.event.actions.close-edit.title": {
+    "message": "Editiermodus beenden"
+  },
+  "event.showUnpublishedVersion.text": {
+    "message": "Aktualisierung",
+    "description": "singular"
+  },
+  "event.showUnpublishedVersions.text": {
+    "message": "Entwürfe",
+    "description": "plural"
+  },
+  "share.button.edit.versioned.title": {
+    "message": "Bearbeiten (Es wird eine neue Version erstellt)",
+    "description": "Text of the button edit"
+  },
+  "event.title": {
+    "message": "Termine",
+    "description": "[plural] Title of the event overview"
+  },
+  "event.versions.unpublished.title": {
+    "message": "Unveröffentlichte Versionen"
+  },
+  "event.showUnpublishedVersions.singular.text": {
+    "message": "Entwurf",
+    "description": "singular"
+  },
+  "event.showUnpublishedVersions.title": {
+    "message": "Zeige {count} {updates}"
   }
 }

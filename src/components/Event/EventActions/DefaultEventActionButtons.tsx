@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
 import { translate } from '@docusaurus/Translate';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
-import { DiscardIcon, SIZE_S, SaveIcon } from '../../shared/icons';
+import { DiscardIcon, SIZE_S, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
 import Event from '@site/src/models/Event';
 import Delete from '../../shared/Button/Delete';
@@ -21,6 +21,7 @@ interface Props {
     className?: string;
     hideDelete?: boolean;
     hideEdit?: boolean;
+    hideOpen?: boolean;
 }
 
 const DefaultEventActionsButtons = observer((props: Props) => {
@@ -29,24 +30,26 @@ const DefaultEventActionsButtons = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     return (
         <div className={clsx(styles.defaultButtons, props.className)}>
-            <Button
-                title={translate({
-                    message: 'Übersicht Öffnen',
-                    id: 'event.options.open.overview',
-                    description: "Text of the button open overview"
-                })}
-                icon={mdiArrowExpandAll}
-                color="blue"
-                size={SIZE_S}
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (props.closePopup) {
-                        props.closePopup();
-                    }
-                    viewStore.setEventModalId(event.id);
-                }}
-            />
+            {!props.hideOpen && viewStore.openEventModalId !== event.id && (
+                <Button
+                    title={translate({
+                        message: 'Übersicht Öffnen',
+                        id: 'event.options.open.overview',
+                        description: "Text of the button open overview"
+                    })}
+                    icon={mdiArrowExpandAll}
+                    color="blue"
+                    size={SIZE_S}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (props.closePopup) {
+                            props.closePopup();
+                        }
+                        viewStore.setEventModalId(event.id);
+                    }}
+                />
+            )}
             <Button
                 color="blue"
                 icon={mdiShareCircle}
@@ -111,7 +114,10 @@ const DefaultEventActionsButtons = observer((props: Props) => {
                         }
                         size={SIZE_S}
                         disabled={!event.isDirty || !event.isValid}
-                        icon={<SaveIcon size={SIZE_S} newVersion={!event.isDraft} />}
+                        icon={event.isDraft 
+                            ? <SaveIcon size={SIZE_S} />
+                            : <SaveVersionIcon size={SIZE_S} />
+                        }
                         iconSide='left'
                         onClick={() => {
                             if (event.state !== EventState.Draft) {

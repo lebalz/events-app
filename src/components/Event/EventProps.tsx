@@ -34,6 +34,7 @@ interface Props {
     event: EventModel;
     inModal?: boolean;
     showVersionHeader?: boolean;
+    hideShowVersionsButton?: boolean;
 }
 
 const EventProps = observer((props: Props) => {
@@ -49,7 +50,6 @@ const EventProps = observer((props: Props) => {
     const commonEditProps = { ...commonProps, isEditable: true };
     const showVersions = event.publishedVersionIds.length > 1 || event.hasParent;
 
-    const showActions = !props.inModal && event.isEditable;
     if (!event) {
         return null;
     }
@@ -77,7 +77,7 @@ const EventProps = observer((props: Props) => {
             {props.showVersionHeader && !event.hasParent && event.hasChildren && (
                 <>
                     <dt><Icon path={mdiRecordCircleOutline} color="green" /></dt>
-                    <dd><Badge text="Aktuell" /></dd>
+                    <dd><Badge text={translate({message: 'Aktuell', id: 'event.version.current.short'})} /></dd>
                     <dt className='line'></dt>
                 </>
             )}
@@ -108,7 +108,7 @@ const EventProps = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <Version {...commonProps} />
+                <Version {...commonProps} hideVersion={props.hideShowVersionsButton} />
             </dd>
             <dt>
                 <Translate
@@ -350,23 +350,17 @@ const EventProps = observer((props: Props) => {
                     </>
                 )
             }
-            {
-                showActions && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.actions"
-                                description='Actions for a single event'
-                            >
-                                Aktionen
-                            </Translate>
-                        </dt>
-                        <dd>
-                            <DefaultEventActionsButtons event={event} />
-                        </dd>
-                    </>
-                )
-            }
+            <dt>
+                <Translate
+                    id="event.actions"
+                    description='Actions for a single event'
+                >
+                    Aktionen
+                </Translate>
+            </dt>
+            <dd>
+                <DefaultEventActionsButtons event={event} hideOpen={props.inModal} />
+            </dd>
             {
                 showVersions && (
                     <>

@@ -4,19 +4,17 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
-import { useStore } from '@site/src/stores/hooks';
 import EventBody from './EventBody';
 interface Props {
     event: EventModel;
     inModal?: boolean;
-    hideVersions?: boolean;
+    hideShowVersionsButton?: boolean;
     hideParent?: boolean;
     className?: string;
 }
 
 const Event = observer((props: Props) => {
-    const { event, hideVersions } = props;
-    const eventStore = useStore('eventStore');
+    const { event } = props;
     return (
         <div className={clsx(styles.eventCard, 'card', props.className)}>
             {!props.inModal && (

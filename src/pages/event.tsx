@@ -10,8 +10,15 @@ import { useLocation } from '@docusaurus/router';
 import queryString from 'query-string';
 import {default as EventModelView} from '@site/src/components/Event';
 import Section from '../components/shared/Section';
+import ParentDetails from '../components/Event/ParentDetails';
+import { translate } from '@docusaurus/Translate';
 
 interface Props {
+}
+
+const EventTitleTranslation = {
+    singular: translate({message: 'Termin', id: 'event.title', description: '[singular] Title of the event overview'}),
+    plural: translate({message: 'Termine', id: 'event.title', description: '[plural] Title of the event overview'})
 }
 
 const EventView = observer((props: Props) => {
@@ -33,14 +40,23 @@ const EventView = observer((props: Props) => {
     }, [location.search, eventStore.initialPublicLoadPerformed]);
 
     const events = eventStore.byIds(ids);
-    const title = events.length > 1 ? 'Termine' : 'Termin';
+    const allSameParent = events.length > 1 && events[0].hasParent && events.every(event => event.parentId === events[0]?.parentId);
+    const allUnpublishedVersions = allSameParent && events[0].unpublishedVersions.length === events.length;
+    const title = allUnpublishedVersions
+                    ? translate({message: 'Unveröffentlichte Versionen', id: 'event.versions.unpublished.title'})
+                    : events.length > 1
+                        ? EventTitleTranslation.plural
+                        : EventTitleTranslation.singular;
 
     return (
         <Layout>
             <Section title={title} containerClassName={clsx(styles.events)}>
                 {events.map((event, idx) => {
-                    return (<EventModelView event={event} key={idx} className={styles.event}/>);
+                    return (<EventModelView event={event} key={idx} className={styles.event} hideParent={allSameParent} hideShowVersionsButton={allUnpublishedVersions}/>);
                 })}
+                {allSameParent && (
+                    <ParentDetails event={events[0]} className={clsx(styles.event, styles.parent)} />
+                )}                
             </Section>
         </Layout>
     )

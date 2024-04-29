@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { EditIcon, SIZE_S } from '../icons';
+import { EditIcon, EditVersionIcon, SIZE_S } from '../icons';
 import Button, { Base, extractSharedProps } from '.';
 import { translate } from '@docusaurus/Translate';
 
@@ -35,7 +35,11 @@ const Edit = (props: EditProps) => {
             className={clsx(styles.edit, props.className)}
             color='orange'
             onClick={props.onClick}
-            icon={<EditIcon size={props.size ?? SIZE_S} newVersion={props.newVersion} />}
+            icon={
+                props.newVersion
+                ? <EditVersionIcon size={props.size ?? SIZE_S}/>
+                : <EditIcon size={props.size ?? SIZE_S}/>
+            }
         />
     )
 };

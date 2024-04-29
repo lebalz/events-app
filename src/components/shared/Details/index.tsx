@@ -59,8 +59,8 @@ function isInSummary(node: HTMLElement | null): boolean {
         open={open}
         data-collapsed={collapsed}
         className={clsx(
-            'alert', 
-            'alert--info',
+            'alert',
+            !/alert--/.test(props.className || '') && 'alert--info',
             styles.details,
             isBrowser && styles.isBrowser,
             props.className,

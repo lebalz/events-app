@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import {default as EventModel} from '@site/src/models/Event';
 import Button from '../../shared/Button';
 import { mdiClose, mdiShareCircle } from '@mdi/js';
-import EventActions from '../EventActions';
+import ModalFooterEventActions from '../EventActions/ModalFooterEventActions';
 import EventBody from '../EventBody';
 import useResizeObserver from '../../shared/hooks/useResizeObserver';
 import { translate } from '@docusaurus/Translate';
@@ -61,12 +61,12 @@ const EventModal = observer((props: Props) => {
                         <h3>{event.description}</h3>
                     </div>
                     <div className={clsx(styles.body, 'card__body')}>
-                        <EventBody event={event} inModal/>
+                        <EventBody event={event}/>
                     </div>
                     <div className={clsx(styles.footer, 'card__footer')}>
                         <div className={clsx('button-group button-group--block')}>
                             {event.isEditing ? (
-                                <EventActions 
+                                <ModalFooterEventActions 
                                     event={event}
                                     onDiscard={() => viewStore.setEventModalId()}
                                     expandedButtons={expandedButtons}
@@ -95,7 +95,6 @@ const EventModal = observer((props: Props) => {
                                             viewStore.setEventModalId()
                                         }} 
                                     />
-                                    <EventActions event={event} expandedButtons={expandedButtons - 2} />
                                     <Button 
                                         color="blue"
                                         text={
