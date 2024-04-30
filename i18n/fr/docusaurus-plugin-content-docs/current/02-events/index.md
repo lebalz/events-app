@@ -3,9 +3,9 @@ import styles from './styles.module.scss';
 import Badge from '@site/src/components/shared/Badge';
 import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 
-# Evénements
+# Évènements
 
-Un évènement est un événement qui a lieu à un moment précis et possède les attributs suivants:
+Un évènement est un évènement qui a lieu à un moment précis et possède les attributs suivants:
 
 Titre
 : Brève description de l'évènement, généralement moins de 80 caractères.
@@ -63,7 +63,7 @@ Le tableau suivant donne un aperçu du moment où un évènement est affiché po
 <table className={styles.audience}>
 	<tbody>
 		<tr>
-			<td rowspan="2" className={styles.left}><b>L'événement...</b></td>
+			<td rowspan="2" className={styles.left}><b>L'évènement...</b></td>
 			<td colspan="4">Est-ce que l'évènement pour ... est affiché ?</td>
 		</tr>
 		<tr>
