@@ -7,7 +7,8 @@ import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import { useLocation } from "@docusaurus/router";
 import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from "@azure/msal-browser";
-import { setupAxios } from "../api/base";
+import { setupMsalAxios, setupDefaultAxios } from "../api/base";
+import { useStore } from "../stores/hooks";
 const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 export const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -33,12 +34,34 @@ if (NO_AUTH) {
 }
 
 const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
+    const sessionStore = useStore('sessionStore');
     React.useEffect(() => {
+        /**
+         * DEV MODE
+         * - no auth
+         */
         if (NO_AUTH) {
             rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
-            rootStore.load('authorized');
             return;
         }
+
+        if (!sessionStore?.initialized) {
+            return;
+        }
+        /**
+         * PROD MODE
+         * - auth over cookie
+         */
+        if (sessionStore.authMethod === 'session') {
+            return;
+        }
+
+
+
+        /**
+         * PROD MODE
+         * - auth over msal
+         */
         msalInstance.initialize().then(() => {
             if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0) {
                 // Account selection logic is app dependent. Adjust as needed for different use cases.
@@ -56,7 +79,7 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
             });
 
         })
-    }, [msalInstance]);
+    }, [msalInstance, sessionStore?.initialized]);
 
     if (NO_AUTH) {
         return children;
@@ -74,8 +97,15 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
 const MsalAccount = observer(() => {
     const {accounts, inProgress, instance} = useMsal();
     const isAuthenticated = useIsAuthenticated();
+    const sessionStore = useStore('sessionStore');
 
     React.useEffect(() => {
+        if (!sessionStore?.initialized) {
+            return;
+        }
+        if (sessionStore.authMethod === 'session') {
+            return;
+        }
         if (isAuthenticated && inProgress === InteractionStatus.None) {
             const active = instance.getActiveAccount();
             if (active) {
@@ -85,7 +115,7 @@ const MsalAccount = observer(() => {
                  * 2. set the msal instance and account to the session store
                  * 3. load authorized entities
                  */
-                setupAxios();
+                setupMsalAxios();
                 setTimeout(() => {
                     rootStore.sessionStore.setAccount(active);
                     rootStore.load('authorized');
@@ -94,7 +124,7 @@ const MsalAccount = observer(() => {
             }
         }
 
-    }, [accounts, inProgress, instance, isAuthenticated]);
+    }, [sessionStore.initialized, accounts, inProgress, instance, isAuthenticated]);
     return (
         <div data--isauthenticated={isAuthenticated} data--account={instance.getActiveAccount()?.username}></div>
     )

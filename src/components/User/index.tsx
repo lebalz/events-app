@@ -14,9 +14,9 @@ import Lesson from '@site/src/models/Untis/Lesson';
 import { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
 import ICal from '../iCal';
-import { useMsal } from '@azure/msal-react';
 import Checkbox from '../shared/Checkbox';
 import { ApiState } from '@site/src/stores/iStore';
+import { useStore } from '@site/src/stores/hooks';
 
 
 interface Props {
@@ -26,9 +26,9 @@ interface Props {
 
 const User = observer((props: Props) => {
     const { user } = props;
-    const { instance } = useMsal();
     const current = user;
     const iconSide = 'right';
+    const sessionStore = useStore('sessionStore');
 
     const classes = React.useMemo(() => {
         const klGroups = Lesson.GroupedClassesByYear(user.untisTeacher?.lessons || [], 10);
@@ -147,7 +147,7 @@ const User = observer((props: Props) => {
                 </dt>
                 <dd>
                     <Button
-                        onClick={() => instance.logoutRedirect()}
+                        onClick={() => sessionStore.logout()}
                         text={translate({
                             message: "Logout",
                             id: 'components.user.index.logout',

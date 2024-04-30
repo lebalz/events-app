@@ -20,7 +20,7 @@ import { useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
 import { Loading } from '../components/shared/icons';
 import siteConfig from '@generated/docusaurus.config';
-const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
+const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 
 const UserPage = observer(() => {
     const sessionStore = useStore('sessionStore');
@@ -29,12 +29,12 @@ const UserPage = observer(() => {
     const {inProgress} = useMsal();
     const { isStudent } = sessionStore;
     const { current } = userStore;
-    if (!NO_AUTH && inProgress !== InteractionStatus.None) {
+    if (!NO_AUTH && ((sessionStore.currentUserId && !sessionStore.isLoggedIn) || inProgress !== InteractionStatus.None)) {
         return (
             <Loading />
         )
     }
-    if (!NO_AUTH &&!isAuthenticated) {
+    if (!NO_AUTH && !(sessionStore.isLoggedIn || isAuthenticated)) {
         return (
             <Redirect to={'/login'} />
         );

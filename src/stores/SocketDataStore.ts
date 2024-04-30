@@ -236,7 +236,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     checkLogin() {
-        if (this.root.sessionStore.account) {
+        if (this.root.sessionStore.isLoggedIn) {
             return this.withAbortController('ping', (sig) => {
                 return pingApi(sig.signal)
                     .then(({ status }) => {
