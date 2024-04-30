@@ -4,9 +4,9 @@ sidebar_position: 1
 import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Evénements
+# Évènements
 
-Documentation, instructions et aide pour l'utilisation du Calendrier des événements.
+Documentation, instructions et aide pour l'utilisation du Calendrier des évènements.
 
 <ThemedImage
   alt="Logo Calendrier des événements"
