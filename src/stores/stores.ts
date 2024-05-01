@@ -42,13 +42,14 @@ export class RootStore {
     viewStore: ViewStore;
     constructor() {
         makeObservable(this);
-        this.sessionStore = new SessionStore(this);
         
         this.semesterStore = new SemesterStore(this);
         this.subscribeTo(this.semesterStore, ['load', 'reset']);
 
         this.userStore = new UserStore(this);
         this.subscribeTo(this.userStore, ['load', 'reset']);
+
+        this.sessionStore = new SessionStore(this);
 
         this.untisStore = new UntisStore(this);
         this.subscribeTo(this.untisStore, ['load', 'reset']);
@@ -83,7 +84,13 @@ export class RootStore {
                 }
             }
         );
-        this.load('public');
+        setTimeout(() => {
+            this.load('public');
+            console.log('Auth Method:', this.sessionStore.authMethod);
+            if (this.sessionStore.authMethod === 'apiKey' && this.sessionStore.currentUserId) {
+                this.load('authorized');
+            }
+        }, 0);
     }
 
     subscribeTo(store: ResettableStore, events: ['reset'])

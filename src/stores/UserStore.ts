@@ -34,7 +34,10 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     @computed
     get current(): User | undefined {
-        return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username?.toLowerCase());
+        if (this.root.sessionStore?.authMethod === 'msal') {
+            return this.models.find((u) => u.id === this.root.sessionStore.account?.localAccountId);
+        }
+        return this.models.find((u) => u.id === this.root.sessionStore?.currentUserId);
     }
 
     @computed
