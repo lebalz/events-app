@@ -6,7 +6,6 @@ import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
 import { Role, User } from '../api/user';
 import Storage from './utils/Storage';
-import Cookies from 'js-cookie';
 
 class State {    
     @observable.ref
@@ -48,7 +47,6 @@ export class SessionStore {
         makeObservable(this);
         // attempt to load the previous state of this store from localstorage
         const data: PersistedData = Storage.get(SessionStore.NAME) || {};
-        console.log('init', Cookies.get())
 
         this.rehydrate(data);
 
