@@ -20,8 +20,6 @@ prismjs/prism.js:
    *)
 */
 
-/*! js-cookie v3.0.5 | MIT */
-
 /**
  * @license
  * Lodash <https://lodash.com/>
