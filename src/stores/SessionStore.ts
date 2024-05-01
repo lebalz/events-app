@@ -39,6 +39,10 @@ export class SessionStore {
 
     @observable
     initialized = false;
+
+    @observable
+    storageSyncInitialized = false;
+
     constructor(store: RootStore) {
         this.root = store;
         makeObservable(this);
@@ -60,6 +64,14 @@ export class SessionStore {
     
         // listen to the localstorage value changing in other tabs to react to
         // signin/signout events in other tabs and follow suite.
+        this.initialized = true;
+    }
+
+    @action
+    setupStorageSync() {
+        if (this.storageSyncInitialized) {
+            return;
+        }
         window.addEventListener('storage', (event) => {
             if (event.key === SessionStore.NAME && event.newValue) {
                 const newData: PersistedData | null = JSON.parse(event.newValue);
@@ -80,7 +92,7 @@ export class SessionStore {
                 }
             }
         });
-        this.initialized = true;
+        this.storageSyncInitialized = true;
     }
 
     @action

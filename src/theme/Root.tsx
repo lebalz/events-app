@@ -131,11 +131,15 @@ const MsalAccount = observer(() => {
 function Root({ children }) {
     const location = useLocation();
     React.useEffect(() => {
+        if (!rootStore) {
+            return;
+        }
+        rootStore.sessionStore.setupStorageSync();
         if (window) {
             (window as any).store = rootStore;
         }
         return () => {
-            rootStore.cleanup();
+            rootStore?.cleanup();
         }
     }, [rootStore]);
 
