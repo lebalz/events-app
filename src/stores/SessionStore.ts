@@ -4,7 +4,7 @@ import {
 } from '@azure/msal-browser';
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
-import { Role, User } from '../api/user';
+import { Role, User, logout } from '../api/user';
 import Storage from './utils/Storage';
 
 class State {    
@@ -95,7 +95,15 @@ export class SessionStore {
 
     @action
     logout() {
-        this.root.cleanup();
+        const sig = new AbortController();
+        logout(sig.signal).then(() => {
+            this.root.cleanup();
+            Storage.remove(SessionStore.NAME);
+            localStorage.clear();
+            window.location.reload();
+        }).catch((err) => {
+            console.error('Failed to logout', err);
+        });
     }
 
     @action
