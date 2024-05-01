@@ -5,7 +5,7 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';
 import axios from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedMembers, ChangedRecord, ChangedState, IoEvent, RecordStoreMap, ReloadAffectingEvents } from './IoEventTypes';
+import { ChangedMembers, ChangedRecord, ChangedState, ClientToServerEvents, DeletedRecord, IoEvent, IoEvents, NewRecord, NotificationMessage, RecordStoreMap, ReloadAffectingEvents, ServerToClientEvents } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson } from '../api/untis';
 import { Event as EventProps } from '../api/event';
@@ -20,7 +20,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
     abortControllers = new Map<string, AbortController>();
     @observable.ref
-    socket?: Socket;
+    socket?: Socket<ServerToClientEvents, ClientToServerEvents>;
 
     messages = observable<Message>([]);
 
@@ -113,22 +113,20 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
 
     handleEventStateChange = () => {
-        return action((data: string) => {
-            const record: ChangedState = JSON.parse(data);
+        return action((data: ChangedState) => {
             const store = this.root.eventStore;
-            record.ids.forEach((id) => {
+            data.ids.forEach((id) => {
                 store.loadModel(id);
             });
         })
     };
     handleReloadAffectingEvents = () => {
-        return action((data: string) => {
-            const record: ReloadAffectingEvents = JSON.parse(data);
-            switch (record.record) {
+        return action((data: ReloadAffectingEvents) => {
+            switch (data.record) {
                 case 'SEMESTER':
                     const current = this.root.userStore.current;
                     if (current) {
-                        record.semesterIds!.forEach((id) => {
+                        data.semesterIds!.forEach((id) => {
                             const sem = this.root.semesterStore.find<Semester>(id);
                             if (sem) {
                                 this.root.userStore.loadAffectedEventIds(current, sem.id);
@@ -141,23 +139,22 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     };
 
     handleChangedMemebers = () => {
-        return action((data: string) => {
-            const record: ChangedMembers = JSON.parse(data);
-            switch (record.record) {
+        return action((data: ChangedMembers) => {
+            switch (data.record) {
                 case 'EVENT_GROUP':
-                    const model = this.root.eventGroupStore.find<EventGroup>(record.id!);
+                    const model = this.root.eventGroupStore.find<EventGroup>(data.id!);
                     if (model) {
-                        record.addedIds?.forEach((id) => {
-                            if (record.memberType === 'USER') {
+                        data.addedIds?.forEach((id) => {
+                            if (data.memberType === 'USER') {
                                 model.appendUserId(id);
-                            } else if (record.memberType === 'EVENT') {
+                            } else if (data.memberType === 'EVENT') {
                                 model.appendEventId(id);
                             }
                         });
-                        record.removedIds?.forEach((id) => {
-                            if (record.memberType === 'USER') {
+                        data.removedIds?.forEach((id) => {
+                            if (data.memberType === 'USER') {
                                 model.rmUserId(id);
-                            } else if (record.memberType === 'EVENT') {
+                            } else if (data.memberType === 'EVENT') {
                                 model.rmEventId(id);
                             }
                         });
@@ -168,23 +165,22 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     handleReload = (type: IoEvent) => {
-        return action((data: string) => {
-            const record: ChangedRecord = JSON.parse(data);
-            const store = this.root[RecordStoreMap[record.record]] as iStore<any>;
+        return action((data: NewRecord | ChangedRecord | DeletedRecord) => {
+            const store = this.root[RecordStoreMap[data.record]] as iStore<any>;
             switch (type) {
                 case IoEvent.NEW_RECORD:
-                    store.loadModel(record.id).then((model) => {
-                        if (record.record === 'EVENT_GROUP') {
+                    store.loadModel(data.id).then((model) => {
+                        if (data.record === 'EVENT_GROUP') {
                             this.root.eventGroupStore.reloadEvents(model);
                         }
                     });
                     break;
                 case IoEvent.CHANGED_RECORD:
-                    store.loadModel(record.id);
+                    store.loadModel(data.id);
                     break;
                 case IoEvent.DELETED_RECORD:
                     // store.removeFromStore(record.id);
-                    store.loadModel(record.id);
+                    store.loadModel(data.id);
                     break;
             }
         })
@@ -212,13 +208,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 }
             })
         });
-        this.socket.on('checkEvent', (data: { state: 'success' | 'error', result: CheckedUntisLesson[]}) => {
-            if (data.state === 'success') {
-                this.root.untisStore.addLessons(data.result);
-            } else {
-                console.log('checkEvent', data);
-            }
-        });
+        this.socket.on(IoEvent.NEW_RECORD, (data) => {})
         this.socket.on(IoEvent.NEW_RECORD, (this.handleReload(IoEvent.NEW_RECORD)));
         this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));
         this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
@@ -229,10 +219,32 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     checkEvent(eventId: string, semesterId: string) {
-        this.socket?.emit('checkEvent', {event_id: eventId, semester_id: semesterId});
+        this.socket?.emit(
+            IoEvents.AffectedLessons, 
+            eventId,
+            semesterId, 
+            (data) => {
+                if (data.state === 'success') {
+                    this.root.untisStore.addLessons(data.lessons);
+                } else {
+                    console.log('checkEvent', data);
+                }
+            }
+        );
     }
     checkUnpersistedEvent(event: EventProps, semesterId: string) {
-        this.socket?.emit('checkUnpersistedEvent', {event: event, semester_id: semesterId});
+        this.socket?.emit(
+            IoEvents.AffectedLessonsTmp,
+            event,
+            semesterId,
+            (data) => {
+                if (data.state === 'success') {
+                    this.root.untisStore.addLessons(data.lessons);
+                } else {
+                    console.log('checkEvent', data);
+                }
+            }
+        );
     }
 
     checkLogin() {
@@ -251,11 +263,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             });
         }
         return Promise.resolve(false);
-    }
-
-    @action
-    echo() {
-        this.socket?.emit('echo', 'Hello');
     }
 
     @action

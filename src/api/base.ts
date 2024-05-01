@@ -53,7 +53,6 @@ export const setupMsalAxios = () => {
                         account: activeAccount
                     });
                     const accessToken = accessTokenResponse.accessToken;
-                    console.log('using msal', accessToken)
                     if (config.headers && accessToken) {
                         config.headers['Authorization'] = 'Bearer ' + accessToken;
                     }
