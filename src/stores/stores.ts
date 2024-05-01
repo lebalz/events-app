@@ -86,11 +86,11 @@ export class RootStore {
         );
         setTimeout(() => {
             this.load('public');
-            console.log('root store initialized', this.sessionStore.authMethod, this.sessionStore.currentUserId, this.sessionStore.isLoggedIn)
-            if (this.sessionStore.authMethod === 'session' && this.sessionStore.currentUserId) {
+            console.log('Auth Method:', this.sessionStore.authMethod);
+            if (this.sessionStore.authMethod === 'apiKey' && this.sessionStore.currentUserId) {
                 this.load('authorized');
             }
-        }, 1);
+        }, 0);
     }
 
     subscribeTo(store: ResettableStore, events: ['reset'])

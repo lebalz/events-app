@@ -52,7 +52,7 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
          * PROD MODE
          * - auth over cookie
          */
-        if (sessionStore.authMethod === 'session') {
+        if (sessionStore.authMethod === 'apiKey') {
             return;
         }
 
@@ -79,7 +79,7 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
             });
 
         })
-    }, [msalInstance, sessionStore?.initialized]);
+    }, [msalInstance, sessionStore?.authMethod]);
 
     if (NO_AUTH) {
         return children;
@@ -100,10 +100,7 @@ const MsalAccount = observer(() => {
     const sessionStore = useStore('sessionStore');
 
     React.useEffect(() => {
-        if (!sessionStore?.initialized) {
-            return;
-        }
-        if (sessionStore.authMethod === 'session') {
+        if (sessionStore.authMethod === 'apiKey') {
             return;
         }
         if (isAuthenticated && inProgress === InteractionStatus.None) {
@@ -124,7 +121,7 @@ const MsalAccount = observer(() => {
             }
         }
 
-    }, [sessionStore.initialized, accounts, inProgress, instance, isAuthenticated]);
+    }, [sessionStore?.authMethod, accounts, inProgress, instance, isAuthenticated]);
     return (
         <div data--isauthenticated={isAuthenticated} data--account={instance.getActiveAccount()?.username}></div>
     )

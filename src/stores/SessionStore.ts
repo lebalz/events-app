@@ -32,7 +32,7 @@ export class SessionStore {
     private state: State = new State();
 
     @observable
-    authMethod: 'session' | 'msal';
+    authMethod: 'apiKey' | 'msal';
 
     @observable
     currentUserId?: string;
@@ -44,7 +44,7 @@ export class SessionStore {
         makeObservable(this);
         // attempt to load the previous state of this store from localstorage
         const data: PersistedData = Storage.get(SessionStore.NAME) || {};
-        console.log('init', SessionStore.NAME, data)
+        console.log('init', Cookies.get())
 
         this.rehydrate(data);
 
@@ -88,10 +88,16 @@ export class SessionStore {
         this.root.cleanup();
     }
 
+    @action
+    setMsalStrategy() {
+        Storage.remove(SessionStore.NAME);
+        this.authMethod = 'msal';
+    }
+
 
     @action
     rehydrate(data: PersistedData) {
-        this.authMethod = !!data?.user ? 'session' : 'msal';
+        this.authMethod = !!data?.user ? 'apiKey' : 'msal';
         if (!data?.user) {
             return
         }
@@ -122,7 +128,7 @@ export class SessionStore {
 
     @computed
     get isLoggedIn(): boolean {
-        return this.authMethod === 'session'
+        return this.authMethod === 'apiKey'
             ? !!this.currentUserId
             : !!this.state.account;
     }
