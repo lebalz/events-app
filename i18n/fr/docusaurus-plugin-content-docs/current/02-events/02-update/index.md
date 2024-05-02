@@ -4,7 +4,7 @@ Les évènements publiés peuvent être actualisés à tout moment par l'auteur.
 
 Les évènements publiés peuvent également être mis à jour. Les modifications ne seront toutefois visibles qu'après un nouveau contrôle par les administrat·eurs·rices.
 
-<video controls="true" width="100%" allowFullScreen="true" autoPlay loop>
+<video controls width="100%" allowFullScreen autoPlay loop>
     <source src={require('./images/versions.mp4').default} type="video/mp4" />
 </video>
 

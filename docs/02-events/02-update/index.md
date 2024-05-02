@@ -4,7 +4,7 @@ Unveröffentlichte Termine können jederzeit durch die Author\:in aktualisiert w
 
 Auch veröffentlichte Termine können aktualisiert werden. Die Änderungen werden jedoch erst nach einer erneuten Prüfung durch die Administrator\:innen sichtbar.
 
-<video controls="true" width="100%" allowFullScreen="true" autoPlay loop>
+<video controls width="100%" allowFullScreen autoPlay loop>
     <source src={require('./images/versions.mp4').default} type="video/mp4" />
 </video>
 
