@@ -41,8 +41,8 @@ export default class Lesson implements iEvent {
         this.weekDay = props.weekDay;
         this.startHHMM = props.startHHMM;
         this.endHHMM = props.endHHMM;
-        this.teacherIds = props.teachers.map(t => t.id);
-        this.classIds = props.classes.map(t => t.id);
+        this.teacherIds = props.teacherIds;
+        this.classIds = props.classIds;
 
         this.store = store;
         makeObservable(this);

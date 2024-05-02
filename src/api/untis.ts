@@ -13,6 +13,7 @@ export interface UntisTeacher {
     longName: string
     title: string
     active: boolean
+    hasUser: boolean
 }
 
 /**
@@ -33,8 +34,8 @@ export interface UntisLesson {
   }
 
 export interface UntisLessonWithTeacher extends UntisLesson {
-    teachers: { id: number }[]
-    classes: { id: number }[]
+    teacherIds: number[]
+    classIds: number[]
 }
 
 export interface CheckedUntisLesson extends UntisLesson {
@@ -63,8 +64,8 @@ export interface UntisClass {
     departmentId: string | null
 }
 export interface UntisClassWithTeacher extends UntisClass {
-    teachers: { id: number }[]
-    lessons: { id: number }[]
+    teacherIds: number[]
+    lessonIds: number[]
 }
 
 export interface UntisTeacherComplete extends UntisTeacher {
