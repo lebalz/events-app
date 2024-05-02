@@ -6,6 +6,7 @@ import _ from 'lodash';
 import iStore from './iStore';
 import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
+import Storage, { PersistedData } from './utils/Storage';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
@@ -21,7 +22,22 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     constructor(root: RootStore) {
         super();
         this.root = root;
+        this.rehydrate();
         makeObservable(this);
+    }
+
+    
+    @action
+    rehydrate(_data?: PersistedData) {
+        const data = _data || Storage.get('SessionStore') || {};
+        if (data.user) {
+            try {
+                this.addToStore(data.user);
+            } catch (e) {
+                console.error(e);
+                Storage.remove('SessionStore');
+            }
+        }
     }
 
     createModel(data: UserProps): User {

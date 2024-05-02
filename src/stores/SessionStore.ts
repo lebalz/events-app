@@ -5,7 +5,8 @@ import {
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
 import { Role, User, logout } from '../api/user';
-import Storage from './utils/Storage';
+import Storage, { PersistedData } from './utils/Storage';
+import { UntisTeacher } from '../api/untis';
 
 class State {    
     @observable.ref
@@ -18,10 +19,6 @@ class State {
         makeObservable(this);
     }
 }
-
-type PersistedData = {
-    user?: User;
-};
 
 
 export class SessionStore {
@@ -46,16 +43,22 @@ export class SessionStore {
         this.root = store;
         makeObservable(this);
         // attempt to load the previous state of this store from localstorage
-        const data: PersistedData = Storage.get(SessionStore.NAME) || {};
+        const data = Storage.get(SessionStore.NAME) || {};
 
         this.rehydrate(data);
 
         reaction(
-            () => this.root?.userStore?.current?.id,
-            (userId) => {
-                if (userId) {
+            () => this.root.userStore?.current?.shortName ?? this.root.userStore?.current?.email,
+            (name) => {
+                if (name) {
                     const user = this.root.userStore.current;
-                    Storage.set(SessionStore.NAME, {user: {...user.props, role: Role.USER}});
+                    Storage.set(
+                        SessionStore.NAME,
+                        {
+                            user: {...user.props, role: Role.USER}, 
+                            teacher: {...user.untisTeacher?.props}
+                        }
+                    );
                 }
             }
         )
@@ -63,6 +66,15 @@ export class SessionStore {
         // listen to the localstorage value changing in other tabs to react to
         // signin/signout events in other tabs and follow suite.
         this.initialized = true;
+    }
+
+    @action
+    rehydrate(data: PersistedData) {
+        this.authMethod = !!data?.user ? 'apiKey' : 'msal';
+        if (!data.user) {
+            return
+        }
+        this.currentUserId = data.user?.id;
     }
 
     @action
@@ -87,6 +99,8 @@ export class SessionStore {
                     }
                 } else {
                     this.rehydrate(newData);
+                    this.root.userStore.rehydrate(newData);
+                    this.root.untisStore.rehydrate(newData);
                 }
             }
         });
@@ -112,18 +126,6 @@ export class SessionStore {
         this.authMethod = 'msal';
     }
 
-
-    @action
-    rehydrate(data: PersistedData) {
-        this.authMethod = !!data?.user ? 'apiKey' : 'msal';
-        if (!data?.user) {
-            return
-        }
-        if (data.user) {
-            this.root.userStore.addToStore(data.user);
-        }
-        this.currentUserId = data.user?.id;
-    }
 
     get locale() {
         return this.root.currentLocale;

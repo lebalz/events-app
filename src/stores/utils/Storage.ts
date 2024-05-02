@@ -1,4 +1,12 @@
+import { UntisTeacher } from "@site/src/api/untis";
+import { User } from "@site/src/api/user";
 import { Primitive } from "utility-types";
+
+
+export type PersistedData = {
+  user?: User;
+  teacher?: UntisTeacher;
+};
 
 /**
  * @see https://github.com/outline/outline/blob/main/shared/utils/Storage.ts
@@ -44,7 +52,7 @@ class Storage {
    * @param fallback The fallback value if the key doesn't exist.
    * @returns The value or undefined if it doesn't exist.
    */
-  public get(key: string, fallback?: Primitive) {
+  public get<T extends PersistedData>(key: 'SessionStore', fallback?: T): T {
     try {
       const value = this.interface.getItem(key);
       if (typeof value === "string") {

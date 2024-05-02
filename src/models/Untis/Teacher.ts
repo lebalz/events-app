@@ -36,6 +36,17 @@ export default class Teacher {
         makeObservable(this);
     }
 
+    get props(): UntisTeacher {
+        return {
+            id: this.id,
+            name: this.name,
+            longName: this.longName,
+            title: this.title,
+            active: this.active,
+            hasUser: this.hasUser
+        };
+    }
+
     @computed
     get shortName() {
         return this.name;

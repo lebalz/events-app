@@ -13,6 +13,7 @@ import { replaceOrAdd } from './helpers/replaceOrAdd';
 import Department from '../models/Department';
 import Subject from '../models/Untis/Subjet';
 import Semester from '../models/Semester';
+import Storage, { PersistedData } from './utils/Storage';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
@@ -36,6 +37,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     initialized = false;
     constructor(root: RootStore) {
         this.root = root;
+        this.rehydrate();
         makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,
@@ -49,7 +51,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             () => this.root.userStore.current?.untisTeacher?.lessons,
             (lessons) => {
                 if (lessons?.length > 0) {
-                    const teacher = this.root.userStore.current?.untisTeacher;
+                    const teacher = this.root.userStore?.current?.untisTeacher;
                     if (teacher) {
                         /** 
                          * configure the filter for this user 
@@ -59,6 +61,19 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 }
             }
         );
+    }
+
+    @action
+    rehydrate(_data?: PersistedData) {
+        const data = _data || Storage.get('SessionStore') || {};
+        if (data.teacher && !this.teachers.find((t) => t.id === data.teacher.id)){
+            try {
+                    this.teachers.push(new Teacher(data.teacher, this));
+            } catch (e) {
+                console.error(e);
+                Storage.remove('SessionStore');
+            }
+        }
     }
 
     @computed
