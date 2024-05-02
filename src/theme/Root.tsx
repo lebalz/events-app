@@ -9,6 +9,7 @@ import { useLocation } from "@docusaurus/router";
 import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from "@azure/msal-browser";
 import { setupMsalAxios, setupDefaultAxios } from "../api/base";
 import { useStore } from "../stores/hooks";
+import { action, runInAction } from "mobx";
 const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 export const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -40,8 +41,12 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
          * DEV MODE
          * - no auth
          */
-        if (NO_AUTH) {
+        if (NO_AUTH && !sessionStore?.isLoggedIn) {
+            runInAction(() => {
+                sessionStore.authMethod = 'msal';
+            })
             rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
+            rootStore.load('authorized');
             return;
         }
 
@@ -100,7 +105,7 @@ const MsalAccount = observer(() => {
     const sessionStore = useStore('sessionStore');
 
     React.useEffect(() => {
-        if (sessionStore.authMethod === 'apiKey') {
+        if (sessionStore.authMethod === 'apiKey' && !NO_AUTH) {
             return;
         }
         if (isAuthenticated && inProgress === InteractionStatus.None) {

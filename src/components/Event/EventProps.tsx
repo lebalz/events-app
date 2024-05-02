@@ -7,8 +7,8 @@ import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import {default as ShowAffectedAudience} from '../shared/AudiencePicker/Audience';
 import Badge from '../shared/Badge';
-import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
-import { Icon, SIZE_XS } from '../shared/icons';
+import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiCalendarImport, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
+import { Icon, SIZE, SIZE_S, SIZE_XS } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -40,6 +40,7 @@ interface Props {
 const EventProps = observer((props: Props) => {
     const { event } = props;
     const [showAllAffectedLessons, setShowAllAffectedLessons] = React.useState(false);
+    const userStore = useStore('userStore');
     const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
     const semesterStore = useStore('semesterStore');
@@ -134,6 +135,41 @@ const EventProps = observer((props: Props) => {
                         </dt>
                         <dd>
                             <UpdatedAt showTime {...commonProps} />
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.author && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.author"
+                                description='for a single event: author'
+                            >
+                                Autor
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <div className={clsx(styles.author)}>
+                                <Badge
+                                    text={event.author.displayName}
+                                    title={event.author.email}
+                                />
+                                {event.jobId && (
+                                    <Badge
+                                        text={translate({message: 'Terminimport', id: 'event.author.importJob'})}
+                                        title={
+                                            translate({
+                                                message: 'Termin wurde aus einem Datenimport erstellt.',
+                                                id: 'event.author.importJob.title',
+                                            })
+                                        }
+                                        icon={mdiCalendarImport}
+                                        iconSide='left'
+                                    />
+                                )}
+                            </div>
                         </dd>
                     </>
                 )
@@ -336,7 +372,7 @@ const EventProps = observer((props: Props) => {
                                             text={EventStateActions[state]}
                                             icon={EventStateButton[state]}
                                             color={EventStateColor[state]}
-                                            size={SIZE_XS}
+                                            size={SIZE}
                                             iconSide='left'
                                             onClick={() => {
                                                 event.requestState(state);

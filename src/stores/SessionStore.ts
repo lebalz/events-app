@@ -7,6 +7,8 @@ import { RootStore } from './stores';
 import { Role, User, logout } from '../api/user';
 import Storage, { PersistedData } from './utils/Storage';
 import { UntisTeacher } from '../api/untis';
+import siteConfig from '@generated/docusaurus.config';
+const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 
 class State {    
     @observable.ref
