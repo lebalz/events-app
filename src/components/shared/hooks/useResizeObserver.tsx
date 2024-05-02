@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
  * 
@@ -9,7 +9,10 @@ const useResizeObserver = <T extends HTMLElement>(
 ) => {
   const ref = useRef<T>(null)
 
-  useLayoutEffect(() => {
+  /**
+   * in the blog post, a useLayoutEffect is proposed. However, this causes a warning hydration mismatch warning when building
+   */
+  useEffect(() => {
     const element = ref?.current;
 
     if (!element) {

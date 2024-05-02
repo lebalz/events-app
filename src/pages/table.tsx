@@ -35,7 +35,7 @@ const Table = observer(() => {
                         viewStore.eventTable.showSelect && (
                             <BulkActions 
                                 events={viewStore.eventTable.events}
-                                className={styles.bulkActions}
+                                className={clsx(styles.bulkActions)}
                                 defaultActions={[
                                     <Button
                                         icon={mdiCheckboxBlankBadge}

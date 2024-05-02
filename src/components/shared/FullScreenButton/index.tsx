@@ -16,7 +16,7 @@ const FullScreenButton = observer(() => {
         return null;
     }
     return (
-        <div className={styles.bla}>
+        <div className={clsx(styles.bla)}>
             <Button
                 icon={<Icon path={store.fullscreen ? mdiFullscreenExit : mdiFullscreen} size={SIZE_S} />}
                 onClick={() => store.setFullscreen(!store.fullscreen)}

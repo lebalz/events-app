@@ -45,7 +45,7 @@ const UserEventGroup = observer((props: Props) => {
                     {group.isEditing
                         ? (
                             <TextInput 
-                                className={styles.textInput} 
+                                className={clsx(styles.textInput)} 
                                 text={group.name}
                                 placeholder={translate({id: 'group.name.placeholder', message: 'Name der Gruppe'})}
                                 onChange={(text) => group.update({ name: text })} 

@@ -56,7 +56,7 @@ const EventView = observer((props: Props) => {
                         <EventModelView
                             key={idx}
                             event={event}
-                            className={styles.event}
+                            className={clsx(styles.event)}
                             hideParent={allSameParent}
                             hideShowVersionsButton={allUnpublishedVersions}
                         />

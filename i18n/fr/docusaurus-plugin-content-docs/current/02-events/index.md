@@ -63,13 +63,13 @@ Le tableau suivant donne un aperçu du moment où un évènement est affiché po
 <table className={styles.audience}>
 	<tbody>
 		<tr>
-			<td rowspan="2" className={styles.left}><b>L'évènement...</b></td>
-			<td colspan="4">Est-ce que l'évènement pour ... est affiché ?</td>
+			<td rowSpan="2" className={styles.left}><b>L'évènement...</b></td>
+			<td colSpan="4">Est-ce que l'évènement pour ... est affiché ?</td>
 		</tr>
 		<tr>
-			<td colspan="2">Enseignant(e)</td>
-			<td rowspan="2">MC de la<br />classe <br />concernée</td>
-			<td rowspan="2">Élèves</td>
+			<td colSpan="2">Enseignant(e)</td>
+			<td rowSpan="2">MC de la<br />classe <br />concernée</td>
+			<td rowSpan="2">Élèves</td>
 		</tr>
 		<tr>
             <td className={styles.left}>...tombe pendant la leçon?\*</td>

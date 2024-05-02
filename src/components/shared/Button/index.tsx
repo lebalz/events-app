@@ -106,7 +106,7 @@ const ButtonInner = (props: Props) => {
     const iconSide = textAndIcon ? props.iconSide ?? 'right' : 'center';
     return (
         <>
-            {props.icon && iconSide === 'left' && <ButtonIcon {...props} className={undefined} />}
+            {props.icon && iconSide === 'left' && <ButtonIcon {...props} className={clsx(undefined)} />}
             <span className={clsx(styles.spacer, textAndIcon && iconSide === 'left' && styles.borderLeft)}></span>
             {
                 props.text && <span>{props.text}</span>
@@ -114,9 +114,9 @@ const ButtonInner = (props: Props) => {
             {
                 props.children && props.children
             }
-            {props.icon && iconSide === 'center' && <ButtonIcon {...props} className={undefined} />}
+            {props.icon && iconSide === 'center' && <ButtonIcon {...props} className={clsx(undefined)} />}
             <span className={clsx(styles.spacer, textAndIcon && iconSide === 'right' && styles.borderRight)}></span>
-            {props.icon && iconSide === 'right' && <ButtonIcon {...props}  className={undefined}/>}
+            {props.icon && iconSide === 'right' && <ButtonIcon {...props}  className={clsx(undefined)}/>}
 
         </>
     )

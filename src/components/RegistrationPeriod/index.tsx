@@ -317,7 +317,7 @@ const RegistrationPeriod = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <div className={styles.badges}>
+                        <div className={clsx(styles.badges)}>
                             {period.departments.map(d => (<Badge text={d.shortName} color={d.color} title={d.name} key={d.id}/>))}
                         </div>
                     </dd>

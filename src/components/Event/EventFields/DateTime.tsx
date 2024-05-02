@@ -72,7 +72,7 @@ const DateTime = observer((props: Props) => {
                     />
                 )}
                 {error && (
-                    <div className={styles.errorMessage}>
+                    <div className={clsx(styles.errorMessage)}>
                         {error.message}
                     </div>
                 )}

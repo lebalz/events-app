@@ -9,6 +9,7 @@ import Button from '../../shared/Button';
 import { mdiAccountCircleOutline } from '@mdi/js';
 import siteConfig from '@generated/docusaurus.config';
 import { ApiState } from '@site/src/stores/iStore';
+import { translate } from '@docusaurus/Translate';
 const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean};
 
 
@@ -24,13 +25,16 @@ const LoginProfileButton = observer(() => {
                 apiState={userStore.current ? ApiState.IDLE : ApiState.LOADING}
                 color='primary'
                 href='/user?user-tab=account'
-                title='Persönlicher Bereich'
+                title={translate({
+                    id: 'user.navbar.profile.title',
+                    message: 'Persönlicher Bereich',
+                })}
             />
         )
     }
     return (
         <>
-            <div className={clsx(styles.login)}>
+            <div>
                 <Link to={'/login'}>Login 🔑</Link>
             </div>
         </>

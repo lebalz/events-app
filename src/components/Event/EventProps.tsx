@@ -45,7 +45,7 @@ const EventProps = observer((props: Props) => {
     const semesterStore = useStore('semesterStore');
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
 
-    const commonClasses = clsx(event?.isDeleted && styles.deleted);
+    const commonClasses = clsx(event?.isDeleted && styles.deleted) || '';
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
     const showVersions = event.publishedVersionIds.length > 0 || event.hasParent;

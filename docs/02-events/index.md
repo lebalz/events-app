@@ -63,13 +63,13 @@ In der folgenden Tabelle ist eine Übersicht, wann ein Termin für die verschied
 <table className={styles.audience}>
 	<tbody>
 		<tr>
-			<td rowspan="2" className={styles.left}><b>Der Termin...</b></td>
-			<td colspan="4">Wird der Termin für ... Angezeigt?</td>
+			<td rowSpan="2" className={styles.left}><b>Der Termin...</b></td>
+			<td colSpan="4">Wird der Termin für ... Angezeigt?</td>
 		</tr>
 		<tr>
-			<td colspan="2">Lehrperson</td>
-			<td rowspan="2">KLP der <br />betroffenen <br />Klasse</td>
-			<td rowspan="2">Schüler\:in</td>
+			<td colSpan="2">Lehrperson</td>
+			<td rowSpan="2">KLP der <br />betroffenen <br />Klasse</td>
+			<td rowSpan="2">Schüler\:in</td>
 		</tr>
 		<tr>
             <td className={styles.left}>...ist während der Lektion?\*</td>
