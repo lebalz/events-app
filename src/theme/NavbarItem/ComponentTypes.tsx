@@ -11,9 +11,9 @@ import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdown
 import type {ComponentTypesObject} from '@theme/NavbarItem/ComponentTypes';
 import {default as LoginProfileButton} from '@site/src/components/User/Navbar/LoginProfileButton';
 import {default as MyEventsLink} from '@site/src/components/User/Navbar/MyEventsLink';
-import FullScreenButton from '@site/src/components/shared/FullScreenButton';
 import SemesterSelector from '@site/src/components/shared/SemesterSelector';
 import AdminLink from '@site/src/components/User/Navbar/AdminLink';
+import NavColorPicker from '@site/src/components/ColorGenerator/NavColorPicker';
 
 const ComponentTypes: ComponentTypesObject = {
   default: DefaultNavbarItem,
@@ -25,11 +25,11 @@ const ComponentTypes: ComponentTypesObject = {
   docSidebar: DocSidebarNavbarItem,
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
-  ['custom-fullScreenButton']: FullScreenButton,
   ['custom-semesterSelector']: SemesterSelector,
   ['custom-userBadge']: LoginProfileButton,
   ['custom-myEventsLink']: MyEventsLink,
   ['custom-adminLink']: AdminLink,
+  ['custom-colorPicker']: NavColorPicker
 };
 
 export default ComponentTypes;
