@@ -12,6 +12,7 @@ import AdminDepartmentTable from './AdminDepartmentTable';
 import { EventState } from '@site/src/api/event';
 import Klass from '@site/src/models/Untis/Klass';
 import Department from '@site/src/models/Department';
+import Colors from './Colors';
 
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
@@ -35,6 +36,8 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     adminUserTable: AdminUserTable;
     @observable.ref
     adminDepartmentTable: AdminDepartmentTable;
+    @observable.ref
+    colors: Colors;
     @observable
     openEventModalId?: string;
 
@@ -64,6 +67,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         makeObservable(this);
         this.root = store;
         this.eventTable = new EventTable(this);
+        this.colors = new Colors(this);
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
     }

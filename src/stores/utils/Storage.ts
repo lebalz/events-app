@@ -8,6 +8,11 @@ export type PersistedData = {
   teacher?: UntisTeacher;
 };
 
+export enum StorageKey {
+  SessionStore = "SessionStore",
+  ColorPrefs = "ColorPrefs",
+}
+
 /**
  * @see https://github.com/outline/outline/blob/main/shared/utils/Storage.ts
  * Storage is a wrapper class for localStorage that allow safe usage when
@@ -52,7 +57,7 @@ class Storage {
    * @param fallback The fallback value if the key doesn't exist.
    * @returns The value or undefined if it doesn't exist.
    */
-  public get<T extends PersistedData>(key: 'SessionStore', fallback?: T): T {
+  public get<T>(key: StorageKey, fallback?: T): T {
     try {
       const value = this.interface.getItem(key);
       if (typeof value === "string") {

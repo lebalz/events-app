@@ -9,12 +9,18 @@ import ColorGenerator from '.';
 import { POPUP_BUTTON_STYLE } from '../shared/Button';
 import { Icon, SIZE_S } from '../shared/icons';
 import { mdiPalette, mdiPaletteAdvanced } from '@mdi/js';
+import {useColorMode} from '@docusaurus/theme-common';
 
 
 interface Props {
 }
 
-const NavColorPicker = observer((props: Props) => {
+const NavColorPicker = observer((props: Props) => {       
+    const viewStore = useStore('viewStore');
+    const {colorMode, setColorMode} = useColorMode();
+    React.useEffect(() => {
+        viewStore.colors.updateDom(colorMode)
+    }, [colorMode])
     return (
         <div className={clsx(styles.colorPicker)}>
             <Popup
@@ -35,11 +41,13 @@ const NavColorPicker = observer((props: Props) => {
                         />
                     </button>                        
                 )}
-                position="bottom center"
                 on="click"
                 closeOnDocumentClick
+                modal
             >
-                <ColorGenerator />
+                <div className={clsx(styles.wrapper)}>
+                    <ColorGenerator />
+                </div>
             </Popup>
         </div>
     )

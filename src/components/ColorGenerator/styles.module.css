@@ -35,3 +35,9 @@
   .colorTable {
     font-size: small;
   }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
