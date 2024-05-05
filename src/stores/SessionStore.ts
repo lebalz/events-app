@@ -48,7 +48,7 @@ export class SessionStore {
             // attempt to load the previous state of this store from localstorage
             const data = Storage.get<PersistedData>(StorageKey.SessionStore) || {};
             this.rehydrate(data);
-        }, 5);
+        }, 1);
 
         reaction(
             () => this.root.userStore?.current?.shortName ?? this.root.userStore?.current?.email,

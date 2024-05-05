@@ -41,7 +41,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         setTimeout(() => {
             // attempt to load the previous state of this store from localstorage
             this.rehydrate();
-        }, 5);
+        }, 1);
         makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,

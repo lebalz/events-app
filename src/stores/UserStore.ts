@@ -26,7 +26,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         setTimeout(() => {
             // attempt to load the previous state of this store from localstorage
             this.rehydrate();
-        }, 5);
+        }, 1);
         makeObservable(this);
     }
 
