@@ -81,7 +81,7 @@ const UserEventGroup = observer((props: Props) => {
                                 iconSide='left'
                                 size={SIZE_S}
                                 text={group.userIds.size > 1 ? `${group.userIds.size}` : undefined}
-                                color={group.userIds.size > 1 ? 'blue' : 'gray'}
+                                color={group.userIds.size > 1 ? 'primary' : 'gray'}
                                 onClick={() => setIsOpen(!isOpen)}
                             />
                         )
@@ -202,7 +202,7 @@ const UserEventGroup = observer((props: Props) => {
                             Events
                             <div className={clsx(styles.badges)}>
                                 {group.apiState !== ApiState.IDLE && (<ApiIcon state={group.apiState} />)}
-                                <Badge text={`${group.eventCount}`} color='blue' />
+                                <Badge text={`${group.eventCount}`} color='primary' />
                             </div>
                         </div>
                     </summary>

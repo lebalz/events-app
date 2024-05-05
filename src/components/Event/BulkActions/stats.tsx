@@ -27,7 +27,7 @@ const Stats = observer((props: Props) => {
                 icon={mdiCalendarBlankMultiple}
                 size={SIZE_S}
                 iconSide='left'
-                color='blue'
+                color='primary'
                 title={
                     translate({
                         message: '{num} Termine', 

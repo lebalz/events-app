@@ -212,7 +212,7 @@ const config: Config = {
             logo: {
                 alt: 'Events App',
                 src: 'img/logo.svg',
-                srcDark: 'img/logo-dark.svg',
+                className: 'logo',
             },
             hideOnScroll: false,
             items: [
@@ -237,7 +237,7 @@ const config: Config = {
                     position: 'right'
                 },
                 {
-                    type: 'custom-fullScreenButton',
+                    type: 'custom-colorPicker',
                     position: 'right'
                 },
                 {

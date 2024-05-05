@@ -50,7 +50,7 @@ const BulkActions = observer((props: Props) => {
         <div className={clsx(styles.bulk, 'card', props.className)}>
             <Badge 
                 text={`${selected.length}`} 
-                color='blue'
+                color='primary'
                 icon={
                     <Button
                         onClick={action(() => {
@@ -58,7 +58,7 @@ const BulkActions = observer((props: Props) => {
                         })}
                         icon={mdiClose}
                         size={SIZE_XS}
-                        color='blue'
+                        color='primary'
                         className={clsx(styles.close)}
                         noOutline
                         title={translate({
@@ -94,8 +94,13 @@ const BulkActions = observer((props: Props) => {
                                     id: 'event.bulk_actions.editing',
                                     description: 'Edit Event'
                                 })}
-                                icon={<Icon path={mdiBookmarkMinus}
-                                color='blue' />} className={clsx(styles.blue)}
+                                icon={
+                                    <Icon 
+                                        path={mdiBookmarkMinus}
+                                        color='blue' 
+                                    />
+                                }
+                                className={clsx(styles.blue)}
                                 iconSide='left' onClick={() => {
                                     eventStore.requestState(selected.map(e => e.id), EventState.Draft);
                                 }}
@@ -144,7 +149,7 @@ const BulkActions = observer((props: Props) => {
                 icon={mdiShareAll}
                 size={SIZE_XS}
                 iconSide='left'
-                color="blue"
+                color="primary"
                 href={`/event?${selected.map(e => e.queryParam).join('&')}`}
             />
             <Button

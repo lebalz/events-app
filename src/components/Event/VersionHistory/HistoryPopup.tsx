@@ -34,7 +34,7 @@ const HistoryPopup = observer((props: Props) => {
                         })}
                         icon={mdiHistory}
                         size={SIZE_S}
-                        color='blue'
+                        color='primary'
                     />
                 </span>
             }

@@ -5,7 +5,7 @@ import {
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
 import { Role, User, logout } from '../api/user';
-import Storage, { PersistedData } from './utils/Storage';
+import Storage, { PersistedData, StorageKey } from './utils/Storage';
 import { UntisTeacher } from '../api/untis';
 import siteConfig from '@generated/docusaurus.config';
 const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
@@ -45,7 +45,7 @@ export class SessionStore {
         this.root = store;
         makeObservable(this);
         // attempt to load the previous state of this store from localstorage
-        const data = Storage.get(SessionStore.NAME) || {};
+        const data = Storage.get<PersistedData>(StorageKey.SessionStore) || {};
 
         this.rehydrate(data);
 
@@ -55,7 +55,7 @@ export class SessionStore {
                 if (name) {
                     const user = this.root.userStore.current;
                     Storage.set(
-                        SessionStore.NAME,
+                        StorageKey.SessionStore,
                         {
                             user: {...user.props, role: Role.USER}, 
                             teacher: {...user.untisTeacher?.props}

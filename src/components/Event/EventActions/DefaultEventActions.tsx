@@ -45,7 +45,7 @@ const DefaultEventActions = observer((props: Props) => {
                                         description: "Text of the button open overview"
                                     })}
                                 icon={mdiArrowExpandAll}
-                                color="blue"
+                                color="primary"
                                 size={SIZE_S}
                                 onClick={(e) => {
                                     e.preventDefault();

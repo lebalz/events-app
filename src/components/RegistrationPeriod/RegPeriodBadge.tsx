@@ -39,7 +39,7 @@ const RegPeriodBadge = observer((props: Props) => {
                             description: period.description
                         }
                     )} 
-                color={period.isPeriodOpen ? 'blue' : 'secondary'}
+                color={period.isPeriodOpen ? 'primary' : 'secondary'}
             />
             <Tooltip title={translate({message: 'Eingabefenster: Einreichen von Terminen', id: 'registrationPeriod.registrationWindow.tooltip'})}>
                 <div className={clsx(styles.dateRange, 'badge')}>

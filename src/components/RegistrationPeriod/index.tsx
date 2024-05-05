@@ -148,7 +148,7 @@ const EditRegPeriod = observer((props: Props) => {
                                         icon={mdiDebugStepOver}
                                         title={translate({message: 'Start- und Enddaten von einem Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester.Title', description:''})}
                                         onClick={(e) => e.preventDefault()}
-                                        color='blue'
+                                        color='primary'
                                     />
                                 </span>
                             )}

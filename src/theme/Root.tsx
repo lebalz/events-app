@@ -86,6 +86,17 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
         })
     }, [msalInstance, sessionStore?.authMethod]);
 
+    React.useEffect(() => {
+        if (NO_AUTH) {
+            if (!rootStore._isLoadingPublic) {
+                rootStore.load('public');
+            }
+            if (!rootStore._isLoadingPrivate) {
+                rootStore.load('authorized');
+            }
+        }
+    }, [NO_AUTH, rootStore])
+
     if (NO_AUTH) {
         return children;
     }
