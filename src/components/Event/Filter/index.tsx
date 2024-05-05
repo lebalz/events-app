@@ -97,7 +97,7 @@ const Filter = observer((props: Props) => {
                                     id: 'event.filter.mine.title'
                                 })}
                                 active={eventTable.onlyMine}
-                                color='blue'
+                                color='primary'
                                 onClick={() => eventTable.toggleOnlyMine()}
                             />
                         )
@@ -115,7 +115,7 @@ const Filter = observer((props: Props) => {
                                 description: 'Filter: Only current and future events'
                             })}
                             active={eventTable.onlyCurrentWeekAndFuture}
-                            color='blue'
+                            color='primary'
                             onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
                         />
                     )}
@@ -136,7 +136,7 @@ const Filter = observer((props: Props) => {
                         size={SIZE_S}
                         active={eventTable.showAdvancedFilter}
                         className={clsx(styles.showAdvancedFilter)}
-                        color={eventTable.hasAdvancedFilters ? 'blue' : undefined}
+                        color={eventTable.hasAdvancedFilters ? 'primary' : undefined}
                         onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
                     />
                     {eventTable.hasAdvancedFilters && (
@@ -146,7 +146,7 @@ const Filter = observer((props: Props) => {
                                 <Icon
                                     path={mdiStar}
                                     size={0.9*SIZE_XS}
-                                    color="var(--ifm-color-blue)"
+                                    color="var(--ifm-color-primary)"
                                 />
                             </Stack>
                         </span>
@@ -226,7 +226,7 @@ const Filter = observer((props: Props) => {
                                         text={EventAudienceTranslationShort[audience]}
                                         active={eventTable.audienceFilter.has(audience as EventAudience)}
                                         key={audience}
-                                        color="blue"
+                                        color="primary"
                                         onClick={() => eventTable.setAudienceFilter(audience as EventAudience)}
                                     />
                                 )

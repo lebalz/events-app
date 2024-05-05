@@ -28,16 +28,20 @@
     border-radius: var(--ifm-global-radius);
     border-style: solid;
     border-width: var(--ifm-global-border-width);
-    height: 2.25rem;
-    top: 7px;
+    height: 2rem;
+    top: -1px;
   }
   
   .colorTable {
     font-size: small;
   }
+  .spacer {
+    flex: 1 1 0px;
+  }
 
   .actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: flex-end;
+    margin-bottom: 1em;
   }

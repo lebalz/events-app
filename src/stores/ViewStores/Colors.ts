@@ -1,7 +1,6 @@
 
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { ViewStore } from '.';
-import Department from '@site/src/models/Department';
 import Color from 'color';
 import _ from 'lodash';
 import Storage, { StorageKey } from '../utils/Storage';
@@ -64,24 +63,38 @@ export const COLOR_SHADES: Shades = {
         adjustmentInput: '-30',
         displayOrder: 0,
         codeOrder: 6,
-    },
+    }
 };
 
 export const LIGHT_PRIMARY_COLOR = '#7b2e85';
 export const DARK_PRIMARY_COLOR = '#ed67fe';
 export const LIGHT_BACKGROUND_COLOR = '#ffffff';
 export const DARK_BACKGROUND_COLOR = '#181920';
+export const LIGHT_NAV_BAR_BACKGROUND = '#ffffff';
+export const DARK_NAV_BAR_BACKGROUND = '#242526';
+
+const DEAFULT_COLORS = {
+    light: {
+        primary: LIGHT_PRIMARY_COLOR,
+        background: LIGHT_BACKGROUND_COLOR,
+        navBarBackground: LIGHT_NAV_BAR_BACKGROUND,
+    },
+    dark: {
+        primary: DARK_PRIMARY_COLOR,
+        background: DARK_BACKGROUND_COLOR,
+        navBarBackground: DARK_NAV_BAR_BACKGROUND,
+    }
+};
 
 interface ColorProps {
+    version: 'v1',
     dark: {
-        primary: string;
-        background: string;
         shades: typeof COLOR_SHADES;
+        colors: typeof DEAFULT_COLORS.dark;
     }
     light: {
-        primary: string;
-        background: string;
         shades: typeof COLOR_SHADES;
+        colors: typeof DEAFULT_COLORS.light;
     }
 }
 
@@ -90,27 +103,21 @@ class Colors {
 
     @observable.deep
     data: ColorProps = {
+        version: 'v1',
         dark: {
-            primary: DARK_PRIMARY_COLOR,
-            background: DARK_BACKGROUND_COLOR,
-            shades: JSON.parse(JSON.stringify(COLOR_SHADES)),
+            colors: _.cloneDeep(DEAFULT_COLORS.dark),
+            shades: _.cloneDeep(COLOR_SHADES),
         },
         light: {
-            primary: LIGHT_PRIMARY_COLOR,
-            background: LIGHT_BACKGROUND_COLOR,
-            shades: JSON.parse(JSON.stringify(COLOR_SHADES)),
+            colors: _.cloneDeep(DEAFULT_COLORS.light),
+            shades: _.cloneDeep(COLOR_SHADES),
         }
     };
 
     @observable.deep
-    inputColor = {
-        light: LIGHT_PRIMARY_COLOR,
-        dark: DARK_PRIMARY_COLOR,
-    };
-    @observable.deep
-    inputBackgroundColor = {
-        light: LIGHT_BACKGROUND_COLOR,
-        dark: DARK_BACKGROUND_COLOR,
+    inputColors = {
+        light: _.cloneDeep(DEAFULT_COLORS.dark),
+        dark: _.cloneDeep(DEAFULT_COLORS.dark),
     };
 
     constructor(store: ViewStore) {
@@ -134,37 +141,22 @@ class Colors {
         const data = Storage.get<ColorProps>(StorageKey.ColorPrefs);
         if (data) {
             this.data = data;
-            this.inputColor.light = data.light.primary;
-            this.inputColor.dark = data.dark.primary;
-            this.inputBackgroundColor.light = data.light.background;
-            this.inputBackgroundColor.dark = data.dark.background;
+            this.inputColors = {
+                light: JSON.parse(JSON.stringify(data.light.colors)),
+                dark: JSON.parse(JSON.stringify(data.light.colors)),
+            };
         }
     }
 
     @action
-    setPrimaryColor(color: string, mode: 'dark' | 'light') {
-        this.inputColor[mode] = color;
+    setColor(color: keyof typeof DEAFULT_COLORS.dark, value: string, mode: 'dark' | 'light') {
+        this.inputColors[mode][color] = value;
         // Only prepend # when there isn't one.
         // e.g. ccc -> #ccc, #ccc -> #ccc, ##ccc -> ##ccc,
-        const colorValue = color.replace(/^(?=[^#])/, '#');
+        const colorValue = value.replace(/^(?=[^#])/, '#');
         try {
             const validColor = Color(colorValue).hex();
-            this.data[mode].primary = validColor;
-            this.updateDom(mode);
-        } catch (e) {
-            // Don't update the color if it's invalid
-        }
-    }
-
-    @action
-    setBackgroundColor(color: string, mode: 'dark' | 'light') {
-        this.inputBackgroundColor[mode] = color;
-        // Only prepend # when there isn't one.
-        // e.g. ccc -> #ccc, #ccc -> #ccc, ##ccc -> ##ccc,
-        const colorValue = color.replace(/^(?=[^#])/, '#');
-        try {
-            const validColor = Color(colorValue).hex();
-            this.data[mode].background = validColor;
+            this.data[mode].colors[color] = validColor;
             this.updateDom(mode);
         } catch (e) {
             // Don't update the color if it's invalid
@@ -179,21 +171,31 @@ class Colors {
 
     @action
     reset(mode: 'dark' | 'light') {
-        this.data.dark.background = DARK_BACKGROUND_COLOR;
-        this.data.dark.primary = DARK_PRIMARY_COLOR;
-        this.data.dark.shades = JSON.parse(JSON.stringify(COLOR_SHADES));
-        this.data.light.background = LIGHT_BACKGROUND_COLOR;
-        this.data.light.primary = LIGHT_PRIMARY_COLOR;
-        this.data.light.shades = JSON.parse(JSON.stringify(COLOR_SHADES));
+        this.data = {
+            version: 'v1',
+            dark: {
+                colors: _.cloneDeep(DEAFULT_COLORS.dark),
+                shades: _.cloneDeep(COLOR_SHADES),
+            },
+            light: {
+                colors: _.cloneDeep(DEAFULT_COLORS.light),
+                shades: _.cloneDeep(COLOR_SHADES),
+            }
+        };
+        this.inputColors = {
+            light: _.cloneDeep(DEAFULT_COLORS.dark),
+            dark: _.cloneDeep(DEAFULT_COLORS.dark),
+        }
         this.updateDom(mode);
     }
 
     updateDom(colorMode: 'dark' | 'light') {
         updateDOMColors(
             {
-                background: this.data[colorMode].background,
+                background: this.data[colorMode].colors.background,
+                navBarBackground: this.data[colorMode].colors.navBarBackground,
                 shades: this.data[colorMode].shades,
-                baseColor: this.data[colorMode].primary,
+                baseColor: this.data[colorMode].colors.primary,
             },
             colorMode === 'dark'
         )

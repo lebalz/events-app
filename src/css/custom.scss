@@ -27,12 +27,18 @@
   --ifm-color-disabled: #6e6e6e;
   /*default badge background*/
   --ifm-badge-background-color: var(--ifm-color-secondary);
+  // var(--ifm-card-background-color)
+  // var(--ifm-hero-background-color)
 
   
   --color-current-week-odd-background: #7732820c;
   --color-current-week-even-background: #7732821e;
   --color-today-even-background: #85ff7c20;
   --color-today-odd-background: #85ff7c3d;
+
+  --color-week-group-background: var(--ifm-navbar-link-hover-color);
+  --color-week-group: var(--ifm-navbar-background-color);
+
   --popup-tooltip-min-width: 200px;
 
   --button-separator-color: var(--ifm-color-primary);

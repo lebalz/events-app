@@ -99,7 +99,12 @@ class EventTable {
 
     @computed
     get hasAdvancedFilters(): boolean {
-        return this.departmentIds.size > 0 || this.textFilter.size > 0 || !!this.start || !!this.end;
+        return this.departmentIds.size > 0
+                || this.textFilter.size > 0
+                || !!this.start
+                || !!this.end
+                || this.classNames.size > 0
+                || this.audienceFilter.size > 0 && this.audienceFilter.size < 4;
     }
 
     @computed

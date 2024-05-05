@@ -44,6 +44,7 @@ const NavColorPicker = observer((props: Props) => {
                 on="click"
                 closeOnDocumentClick
                 modal
+                overlayStyle={{ background: 'rgba(0, 0, 0, 0.2)' }}
             >
                 <div className={clsx(styles.wrapper)}>
                     <ColorGenerator />

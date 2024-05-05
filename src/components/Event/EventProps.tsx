@@ -61,7 +61,7 @@ const EventProps = observer((props: Props) => {
                     {
                         [EventState.Draft, EventState.Review].includes(event.state) ? (
                             <>
-                                <dt><Icon path={mdiArrowRightBoldCircleOutline} color='blue' /></dt>
+                                <dt><Icon path={mdiArrowRightBoldCircleOutline} color='primary' /></dt>
                                 <dd><Badge color='green' text="Neue Version" /></dd>
                                 <dt className='line'></dt>
                             </>

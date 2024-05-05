@@ -5,31 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {} from 'react';
 import clsx from 'clsx';
 import Color from 'color';
-import Link from '@docusaurus/Link';
 import Translate, { translate } from '@docusaurus/Translate';
 import {useColorMode} from '@docusaurus/theme-common';
 import CodeBlock from '@theme/CodeBlock';
-import Admonition from '@theme/Admonition';
 import Details from '@theme/Details';
 
 import {
-  type ColorState,
-  COLOR_SHADES,
-  LIGHT_PRIMARY_COLOR,
-  DARK_PRIMARY_COLOR,
-  LIGHT_BACKGROUND_COLOR,
-  DARK_BACKGROUND_COLOR,
   getAdjustedColors,
-  lightStorage,
-  darkStorage,
-  updateDOMColors,
 } from './colorUtils';
 import styles from './styles.module.css';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
+import Button from '../shared/Button';
+import { mdiMoonWaningCrescent, mdiRestore, mdiWhiteBalanceSunny } from '@mdi/js';
 
 function wcagContrast(foreground: string, background: string) {
   const contrast = Color(foreground).contrast(Color(background));
@@ -58,40 +49,39 @@ const ColorGenerator = observer(() => {
           className={styles.colorInput}
           // value has to always be a valid color, so baseColor instead of
           // inputColor
-          value={colors.data[colorMode].primary}
-          onChange={(e) => colors.setPrimaryColor(e.target.value, colorMode)}
+          value={colors.data[colorMode].colors.primary}
+          onChange={(e) => colors.setColor('primary', e.target.value, colorMode)}
         />
-        <button
-          type="button"
-          className="clean-btn button button--primary margin-left--md"
-          onClick={() => setColorMode(colorMode === 'dark' ? 'light' : 'dark')}>
-          <Translate
-            id="colorGenerator.inputs.modeToggle.label"
-            values={{
-              colorMode: colorMode === 'dark' ? (
-                <Translate id="colorGenerator.inputs.modeToggle.label.colorMode.light">
-                  heller
-                </Translate>
-              ) : (
-                <Translate id="colorGenerator.inputs.modeToggle.label.colorMode.dark">
-                  dunkler
-                </Translate>
-              ),
-            }}>
-            {'{colorMode} Modus'}
-          </Translate>
-        </button>
-        <button
-          type="button"
-          className="clean-btn button button--secondary margin-left--md"
-          onClick={() => colors.reset(colorMode)}>
-          <Translate id="colorGenerator.inputs.resetButton.label">
-            Reset
-          </Translate>
-        </button>
+        <div className={styles.spacer} />
+        <Button
+          icon={colorMode === 'dark' ? mdiMoonWaningCrescent : mdiWhiteBalanceSunny}
+          iconSide='left'
+          onClick={() => setColorMode(colorMode === 'dark' ? 'light' : 'dark')}
+          text={
+            translate({
+              id: 'colorGenerator.inputs.modeToggle.label',
+              message: '{colorMode} Modus',
+              description: 'The label for the button that toggles color mode',
+            }, {
+              colorMode: colorMode === 'dark'
+                ? translate({id: 'colorGenerator.inputs.modeToggle.label.colorMode.light', message: 'heller'})
+                : translate({id: 'colorGenerator.inputs.modeToggle.label.colorMode.dark', message: 'dunkler'})
+            })
+          }
+        />
+        <Button
+          icon={mdiRestore}
+          iconSide='left'
+          onClick={() => colors.reset(colorMode)}
+          text={
+            translate({
+              id: 'colorGenerator.inputs.resetButton.label',
+              message: 'Reset',
+            })
+          }
+        />
       </div>
-      <p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      {/* <p>
         <label htmlFor="background_color">
           <strong className="margin-right--sm">
             <Translate id="colorGenerator.inputs.background.label">
@@ -103,10 +93,27 @@ const ColorGenerator = observer(() => {
           id="background_color"
           type="color"
           className={clsx(styles.colorInput, 'margin-right--sm')}
-          value={colors.data[colorMode].background}
-          onChange={(e) => colors.setBackgroundColor(e.target.value, colorMode)}
+          value={colors.data[colorMode].colors.background}
+          onChange={(e) => colors.setColor('background' ,e.target.value, colorMode)}
         />
       </p>
+      <p>
+        <label htmlFor="background_surface_color">
+          <strong className="margin-right--sm">
+            <Translate id="colorGenerator.inputs.navBarBackground.label">
+              Navigationsleiste:
+            </Translate>
+          </strong>
+        </label>
+        <input
+          id="background_surface_color"
+          type="color"
+          className={clsx(styles.colorInput, 'margin-right--sm')}
+          value={colors.data[colorMode].colors.navBarBackground}
+          onChange={(e) => colors.setColor('navBarBackground' ,e.target.value, colorMode)}
+        />
+      </p>
+      */}
       <div>
         <table className={styles.colorTable}>
           <thead>
@@ -135,7 +142,7 @@ const ColorGenerator = observer(() => {
             </tr>
           </thead>
           <tbody>
-            {getAdjustedColors(colors.data[colorMode].shades, colors.data[colorMode].primary)
+            {getAdjustedColors(colors.data[colorMode].shades, colors.data[colorMode].colors.primary)
               .sort((a, b) => a.displayOrder - b.displayOrder)
               .map((value) => {
                 const {variableName, adjustment, adjustmentInput, hex} = value;
@@ -180,10 +187,10 @@ const ColorGenerator = observer(() => {
                     <td
                       style={{
                         fontSize: 'medium',
-                        backgroundColor: colors.data[colorMode].background,
+                        backgroundColor: colors.data[colorMode].colors.background,
                         color: hex,
                       }}>
-                      <b>{wcagContrast(hex, colors.data[colorMode].background)}</b>
+                      <b>{wcagContrast(hex, colors.data[colorMode].colors.background)}</b>
                     </td>
                   </tr>
                 );
@@ -195,13 +202,14 @@ const ColorGenerator = observer(() => {
         summary={translate({id: 'colorGenerator.codeBlock.summary', message: 'Farben-Code anzeigen'})}
         style={{maxWidth: '100%'}}
       >
-          <CodeBlock className="language-css" title="/src/css/custom.css">
-            {`${colorMode === 'dark' ? "[data-theme='dark']" : ':root'} {
-    ${getAdjustedColors(colors.data[colorMode].shades, colors.data[colorMode].primary)
+          <Translate id="colorGenerator.codeBlock.Description">
+            Farbvorschläge für die Hauptfarben, zum Senden an den Entwickler...
+          </Translate>
+          <CodeBlock className="language-css">
+            {`${colorMode === 'dark' ? "[data-theme='dark']" : ':root'} {\n${getAdjustedColors(colors.data[colorMode].shades, colors.data[colorMode].colors.primary)
       .sort((a, b) => a.codeOrder - b.codeOrder)
-      .map((value) => `  ${value.variableName}: ${value.hex.toLowerCase()};`)
-      .join('\n')}${`\n  --ifm-background-color: ${colors.data[colorMode].background};`}
-    }`}
+      .map((value) => `    ${value.variableName}: ${value.hex.toLowerCase()};`)
+      .join('\n')}\n}`}
           </CodeBlock>
       </Details>
     </div>

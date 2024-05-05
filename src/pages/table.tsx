@@ -85,7 +85,7 @@ const Table = observer(() => {
                             document.body.removeChild(a);
                         })
                     }}
-                    color='blue'
+                    color='primary'
                     iconSide='left'
                     icon={mdiDownloadCircleOutline}
                     text="Download"

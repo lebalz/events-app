@@ -25,11 +25,11 @@ const VersionHistory = observer((props: Props) => {
                         <div className={clsx(styles.badge, styles.versionItem, (idx % 2) === 0 ? styles.right : styles.left)}>
                             <Badge
                                 text={version.createdAt.toISOString().slice(0, 16).replace('T', ' ')}
-                                color='blue'
+                                color='primary'
                             />
                         </div>
                         <div className={clsx(styles.versionItem, styles.dot, isLast && styles.last)}>
-                            <Icon path={mdiRecordCircleOutline} color="blue" />
+                            <Icon path={mdiRecordCircleOutline} color="primary" />
                             <div className={clsx(styles.line)} />
                         </div>
                         <div className={clsx(styles.versionItem, styles.versionCard, 'card', (idx % 2) === 0 ? styles.left : styles.right)}>

@@ -38,8 +38,13 @@ export class RootStore {
     registrationPeriodStore: RegistrationPeriodStore;
     eventGroupStore: EventGroupStore;
 
-
     viewStore: ViewStore;
+
+    @observable
+    _isLoadingPublic = false;
+    @observable
+    _isLoadingPrivate = false;
+
     constructor() {
         makeObservable(this);
         
@@ -113,12 +118,23 @@ export class RootStore {
 
     @action
     load(type: 'public' | 'authorized', semesterId?: string) {
-        return Promise.all(this.loadableStores.map((store) => {
+        if (type === 'public') {
+            this._isLoadingPublic = true;
+        } else {
+            this._isLoadingPrivate = true;
+        }
+        const a = Promise.all(this.loadableStores.map((store) => {
             console.log('load', type, store.constructor.name);
             if (type === 'public') {
                 return store.loadPublic(semesterId);
             } else {
                 return store.loadAuthorized(semesterId);
+            }
+        })).finally(action(() => {
+            if (type === 'public') {
+                this._isLoadingPublic = false;
+            } else {
+                this._isLoadingPrivate = false;
             }
         }));
     }

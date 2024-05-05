@@ -41,7 +41,7 @@ const Version = observer((props: Props) => {
             {isCurrent && <Icon path={mdiRecordCircleOutline} color="green" />}
             {isCurrent && <Badge
                 text={event.updatedAt.toISOString().slice(0, 16).replace('T', ' ')}
-                color='blue'
+                color='primary'
                 />}
             {!props.hideVersion && nVersions > (event.isPublished ? 0 : 1) && (
                 <Button 
@@ -52,7 +52,7 @@ const Version = observer((props: Props) => {
                         message: 'Zeige {count} {updates}',
                     }, {count: nVersions, updates: nVersions > 1 ? UpdateTranslation.plural : UpdateTranslation.singular})}
                     icon={nVersions === 1 ? mdiShareOutline : mdiShareAllOutline}
-                    color='blue'
+                    color='primary'
                     href={`/event?${event.unpublishedVersions.map(e => e.queryParam).join('&')}`}
                 />
             )}
