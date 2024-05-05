@@ -33,6 +33,9 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     
     @action
     rehydrate(_data?: PersistedData) {
+        if (this.models.length > 0) {
+            return;
+        }
         const data = _data || Storage.get(StorageKey.SessionStore) || {};
         if (data.user) {
             try {

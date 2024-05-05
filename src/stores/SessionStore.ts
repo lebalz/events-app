@@ -74,7 +74,7 @@ export class SessionStore {
     @action
     rehydrate(data: PersistedData) {
         this.authMethod = !!data?.user ? 'apiKey' : 'msal';
-        if (!data.user) {
+        if (!data.user || this.currentUserId) {
             return
         }
         this.currentUserId = data.user?.id;

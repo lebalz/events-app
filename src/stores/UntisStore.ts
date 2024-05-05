@@ -69,6 +69,9 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
 
     @action
     rehydrate(_data?: PersistedData) {
+        if (this.teachers.length > 0) {
+            return;
+        }
         const data = _data || Storage.get(StorageKey.SessionStore) || {};
         if (data.teacher && !this.teachers.find((t) => t.id === data.teacher.id)){
             try {
