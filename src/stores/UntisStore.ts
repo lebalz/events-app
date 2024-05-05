@@ -13,7 +13,7 @@ import { replaceOrAdd } from './helpers/replaceOrAdd';
 import Department from '../models/Department';
 import Subject from '../models/Untis/Subjet';
 import Semester from '../models/Semester';
-import Storage, { PersistedData } from './utils/Storage';
+import Storage, { PersistedData, StorageKey } from './utils/Storage';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
@@ -37,7 +37,11 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     initialized = false;
     constructor(root: RootStore) {
         this.root = root;
-        this.rehydrate();
+        
+        setTimeout(() => {
+            // attempt to load the previous state of this store from localstorage
+            this.rehydrate();
+        }, 5);
         makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,
@@ -65,13 +69,13 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
 
     @action
     rehydrate(_data?: PersistedData) {
-        const data = _data || Storage.get('SessionStore') || {};
+        const data = _data || Storage.get(StorageKey.SessionStore) || {};
         if (data.teacher && !this.teachers.find((t) => t.id === data.teacher.id)){
             try {
                     this.teachers.push(new Teacher(data.teacher, this));
             } catch (e) {
                 console.error(e);
-                Storage.remove('SessionStore');
+                Storage.remove(StorageKey.SessionStore);
             }
         }
     }

@@ -19,7 +19,7 @@ const NavColorPicker = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const {colorMode, setColorMode} = useColorMode();
     React.useEffect(() => {
-        viewStore.colors.updateDom(colorMode)
+        viewStore.colors.setDom(colorMode)
     }, [colorMode])
     return (
         <div className={clsx(styles.colorPicker)}>

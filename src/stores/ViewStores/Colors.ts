@@ -98,6 +98,25 @@ interface ColorProps {
     }
 }
 
+const updateDom = _.debounce((colorMode: 'dark' | 'light', data: ColorState) => {
+    updateDOMColors(
+        data,
+        colorMode === 'dark'
+    );
+}, 100, {leading: false, trailing: true});
+
+const setLocalStorage = _.debounce((data: ColorProps) => {
+    Storage.set(
+        StorageKey.ColorPrefs,
+        data
+    );
+    try {
+        (window as any).umami.track('set-primary-color', { light: data.light.colors.primary, dark: data.dark.colors.primary });
+    } catch (e) {
+        // Ignore errors
+    }
+}, 1000, {leading: false, trailing: true});
+
 class Colors {
     private readonly store: ViewStore;
 
@@ -127,11 +146,7 @@ class Colors {
         reaction(
             () => JSON.stringify(this.data),
             () => {
-                // console.log(this.data.light.primary)
-                Storage.set(
-                    StorageKey.ColorPrefs,
-                    this.data
-                );
+                setLocalStorage(this.data);
             }
         )
     }
@@ -157,7 +172,7 @@ class Colors {
         try {
             const validColor = Color(colorValue).hex();
             this.data[mode].colors[color] = validColor;
-            this.updateDom(mode);
+            this.setDom(mode);
         } catch (e) {
             // Don't update the color if it's invalid
         }
@@ -166,7 +181,7 @@ class Colors {
     @action
     setShades(shades: Shades, mode: 'dark' | 'light') {
         this.data[mode].shades = shades;
-        this.updateDom(mode);
+        this.setDom(mode);
     }
 
     @action
@@ -186,19 +201,17 @@ class Colors {
             light: _.cloneDeep(DEAFULT_COLORS.dark),
             dark: _.cloneDeep(DEAFULT_COLORS.dark),
         }
-        this.updateDom(mode);
+        this.setDom(mode);
     }
 
-    updateDom(colorMode: 'dark' | 'light') {
-        updateDOMColors(
+    setDom(colorMode: 'dark' | 'light') {
+        updateDom(colorMode, 
             {
                 background: this.data[colorMode].colors.background,
-                navBarBackground: this.data[colorMode].colors.navBarBackground,
                 shades: this.data[colorMode].shades,
                 baseColor: this.data[colorMode].colors.primary,
-            },
-            colorMode === 'dark'
-        )
+            }
+        );
     }
 }
 

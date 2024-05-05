@@ -16,7 +16,6 @@ import {createStorageSlot} from '@docusaurus/theme-common';
 export type ColorState = {
   baseColor: string;
   background: string;
-  navBarBackground: string;
   shades: Shades;
 };
 
@@ -98,7 +97,7 @@ export function getAdjustedColors(
 }
 
 export function updateDOMColors(
-  {shades, baseColor, background, navBarBackground}: ColorState,
+  {shades, baseColor, background}: ColorState,
   isDarkTheme: boolean,
 ): void {
   const styleSheet = Array.from(document.styleSheets).find((item) =>
@@ -123,7 +122,6 @@ export function updateDOMColors(
     .map((value) => `  ${value.variableName}: ${value.hex};`)
     .join('\n')}
   --ifm-background-color: ${background};
-  --ifm-navbar-background-color: ${navBarBackground};
 }`;
   styleSheet.insertRule(overrideStyle, styleSheet.cssRules.length - 1);
 }
