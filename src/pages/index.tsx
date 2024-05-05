@@ -9,9 +9,10 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Section from '../components/shared/Section';
 import { translate } from '@docusaurus/Translate';
 import Icon from '@mdi/react';
-import { mdiAccountCircleOutline, mdiBookOpenVariantOutline, mdiCalendarAccount, mdiCalendarMonth, mdiChartTimeline, mdiMicrosoftOutlook, mdiSecurity, mdiViewList } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiBookOpenVariantOutline, mdiCalendarAccount, mdiCalendarMonth, mdiChartTimeline, mdiMicrosoftOutlook, mdiPalette, mdiSecurity, mdiViewList } from '@mdi/js';
 import Link from '@docusaurus/Link';
 import { useStore } from '../stores/hooks';
+import Badge from '../components/shared/Badge';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -155,6 +156,10 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.11 (05.05.2024)</h4>
+                                <ul>
+                                    <li>🚀💅 Neu: Benutzende können selber die Hauptfarbe einstellen. In der Navigationsliste auf <Badge icon={mdiPalette} color="primary" className={styles.inline} size={0.6} /> klicken und die Farbe einstellen.</li>
+                                </ul>
                                 <h4>Version: Beta 1.10 (29.04.2024)</h4>
                                 <ul>
                                     <li>🚀 Neu: Dokumentation und Gebrauchsanweisungen Verlinkt</li>
