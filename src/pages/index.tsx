@@ -92,7 +92,7 @@ const Home = observer(() => {
                         <NavCard
                             icon={mdiMicrosoftOutlook}
                             to={useBaseUrl('/subscribe')}
-                            label={translate({ message: 'Outlook', id: 'navcard.subscribe.text', description: 'Button text for navigating to the subscribe page' })}
+                            label={translate({ message: 'Abonnieren', id: 'navcard.subscribe.text', description: 'Button text for navigating to the subscribe page' })}
                             displayFor='public'
                         />
                         <NavCard
