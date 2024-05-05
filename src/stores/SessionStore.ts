@@ -103,7 +103,6 @@ export class SessionStore {
                 } else {
                     this.rehydrate(newData);
                     this.root.userStore.rehydrate(newData);
-                    this.root.untisStore.rehydrate(newData);
                 }
             }
         });

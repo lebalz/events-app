@@ -38,10 +38,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     constructor(root: RootStore) {
         this.root = root;
         
-        setTimeout(() => {
-            // attempt to load the previous state of this store from localstorage
-            this.rehydrate();
-        }, 1);
         makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,
@@ -65,22 +61,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 }
             }
         );
-    }
-
-    @action
-    rehydrate(_data?: PersistedData) {
-        if (this.teachers.length > 0) {
-            return;
-        }
-        const data = _data || Storage.get(StorageKey.SessionStore) || {};
-        if (data.teacher && !this.teachers.find((t) => t.id === data.teacher.id)){
-            try {
-                    this.teachers.push(new Teacher(data.teacher, this));
-            } catch (e) {
-                console.error(e);
-                Storage.remove(StorageKey.SessionStore);
-            }
-        }
     }
 
     @computed
