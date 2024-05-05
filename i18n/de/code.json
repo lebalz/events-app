@@ -1042,7 +1042,7 @@
     "description": "Placeholder text for the filter input"
   },
   "navcard.subscribe.text": {
-    "message": "Outlook",
+    "message": "Abonnieren",
     "description": "Button text for navigating to the subscribe page"
   },
   "navcard.table.text": {
@@ -1764,5 +1764,64 @@
   "navcard.docs.text": {
     "message": "Dokumentation",
     "description": "Button text for navigating to the documentation page"
+  },
+  "subscribe.instructions.p1": {
+    "message": "In allen gängigen Kalender-Programmen können Kalender von einer Internetseite abonniert werden, indem die URL zu einer .ics-Datei angegeben wird."
+  },
+  "subscribe.instructions.p2": {
+    "message": "Unten sind die entsprechenden links aufgeführt und können in den Kalender-Programmen eingefügt werden. Für das Abonnieren mit Outlook kann auf einem Laptop direkt auf den \"Abonnieren in Outlook\" Knopf geklickt werden oder wie in den verlinkten Anleitungen beschrieben vorgegangen werden."
+  },
+  "subscribe.instructions.microsoft": {
+    "message": "Anleitung für Outlook"
+  },
+  "subscribe.instructions.apple": {
+    "message": "Anleitung für Apple Kalender"
+  },
+  "colorGenerator.inputs.primary.label": {
+    "message": "Hauptfarbe"
+  },
+  "colorGenerator.inputs.modeToggle.label": {
+    "message": "{colorMode} Modus",
+    "description": "The label for the button that toggles color mode"
+  },
+  "colorGenerator.inputs.modeToggle.label.colorMode.light": {
+    "message": "heller"
+  },
+  "colorGenerator.inputs.modeToggle.label.colorMode.dark": {
+    "message": "dunkler"
+  },
+  "colorGenerator.inputs.resetButton.label": {
+    "message": "Reset"
+  },
+  "colorGenerator.table.heading2": {
+    "message": "Farbe",
+    "description": "This column is the color's representation in hex"
+  },
+  "colorGenerator.table.heading3": {
+    "message": "Justierung",
+    "description": "This column is the adjusted shades' adjustment values relative to the primary color"
+  },
+  "colorGenerator.table.heading4": {
+    "message": "Kontrast Bewertung",
+    "description": "This column is WCAG contrast rating: AAA, AA, Fail"
+  },
+  "colorGenerator.codeBlock.summary": {
+    "message": "Farben-Code anzeigen"
+  },
+  "colorGenerator.codeBlock.Description": {
+    "message": "Farbvorschläge für die Hauptfarben, zum Senden an den Entwickler..."
+  },
+  "event.author": {
+    "message": "Autor",
+    "description": "for a single event: author"
+  },
+  "event.author.importJob": {
+    "message": "Terminimport"
+  },
+  "event.author.importJob.title": {
+    "message": "Termin wurde aus einem Datenimport erstellt."
+  },
+  "user.navbar.profile.title": {
+    "message": "Persönlicher Bereich"
   }
 }

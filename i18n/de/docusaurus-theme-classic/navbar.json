@@ -22,5 +22,9 @@
   "item.label.Outlook": {
     "message": "Outlook",
     "description": "Navbar item with label Outlook"
+  },
+  "item.label.Abonnieren": {
+    "message": "Abonnieren",
+    "description": "Navbar item with label Abonnieren"
   }
 }
