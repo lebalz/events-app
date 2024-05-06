@@ -225,6 +225,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get firstAuthor() {
+        if (this.publishedVersions.length > 0) {
+            return this.publishedVersions[0].author;
+        }
+        return this.author;
+    }
+
+    @computed
     get isAllDay() {
         if (this.durationMS === 0) {
             return false;
@@ -942,49 +950,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get versionNumber() {
-        if (this.hasParent) {
-            let version = 0;
-            let subversion = 0;
-            this.versions.every(e => {
-                if (e.state === EventState.Published) {
-                    version++;
-                    subversion = 0;
-                } else {
-                    subversion++;
-                }
-                return e.id !== this.id;
-            });
-            if (subversion > 0) {
-                return `${version}.${subversion}`;
-            }
-            return `${version}`;
-        }
-        return `${this.publishedVersionIds.length + 1}`;
-    }
-
-    @action
-    loadVersions() {
-        this.store.loadVersions(this).then(action((versions) => {
-            this.versionsLoaded = true;
-        }));
-    }
-
-    @computed
-    get publishedVersions() {
-        const all = this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e);
-        return _.orderBy(all, ['createdAt'], ['asc']);
-    }
-
-    @computed
-    get versions() {
-        if (!this.store.root.userStore.current?.isAdmin) {
-            return this.publishedVersions;
-        }
-        return this.allVersions;
-    }
-
-    @computed
     get hasParent() {
         return !!this.parentId;
     }
@@ -1010,6 +975,53 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
         return [this.parent, ...this.parent.parents];
     }
+
+    @computed
+    get publishedVersions() {
+        const all = this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e);
+        return _.orderBy(all, ['createdAt'], ['asc']);
+    }
+
+    @computed
+    get versionNumber() {
+        if (this.hasParent) {
+            let version = 0;
+            let subversion = 0;
+            this.versions.every(e => {
+                if (e.state === EventState.Published) {
+                    version++;
+                    subversion = 0;
+                } else {
+                    subversion++;
+                }
+                return e.id !== this.id;
+            });
+            if (subversion > 0) {
+                return version + subversion / 10;
+            }
+            return version;
+        }
+        return this.publishedVersionIds.length + 1;
+    }
+
+    @action
+    loadVersions(force?: boolean) {
+        if (this.versionsLoaded && !force) {
+            return;
+        }
+        this.store.loadVersions(this).then(action((versions) => {
+            this.versionsLoaded = true;
+        }));
+    }
+
+    @computed
+    get versions() {
+        if (this.store.root.userStore.current?.isAdmin) {
+            return this.allVersions;
+        }
+        return this.publishedVersions;
+    }
+
 
     @computed
     get allVersions() {

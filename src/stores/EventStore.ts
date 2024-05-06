@@ -238,7 +238,9 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
 
     @action
     loadVersions(event: Event) {
-        const proms = event.publishedVersionIds.map((id) => this.loadModel(id));
+        const proms = event.publishedVersionIds
+                        .filter((id) => !this.find(id))
+                        .map((id) => this.loadModel(id));
         return Promise.all(proms);
     }
 

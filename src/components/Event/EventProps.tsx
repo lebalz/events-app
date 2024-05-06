@@ -8,7 +8,7 @@ import DefinitionList from '../shared/DefinitionList';
 import {default as ShowAffectedAudience} from '../shared/AudiencePicker/Audience';
 import Badge from '../shared/Badge';
 import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiCalendarImport, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
-import { Icon, SIZE, SIZE_S, SIZE_XS } from '../shared/icons';
+import { Icon, SIZE } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -30,6 +30,7 @@ import CreatedAt from './EventFields/CreatedAt';
 import UpdatedAt from './EventFields/UpdatedAt';
 import HistoryPopup from './VersionHistory/HistoryPopup';
 import DefaultActions from './EventActions';
+
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -44,6 +45,9 @@ const EventProps = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
     const semesterStore = useStore('semesterStore');
+    React.useEffect(() => {
+        event?.loadVersions();
+    }, [event]);
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
 
     const commonClasses = clsx(event?.isDeleted && styles.deleted) || '';
@@ -54,6 +58,7 @@ const EventProps = observer((props: Props) => {
     if (!event) {
         return null;
     }
+
     return (
         <DefinitionList className={clsx(styles.eventProps)}>
             {props.showVersionHeader && event.hasParent && (
@@ -140,35 +145,50 @@ const EventProps = observer((props: Props) => {
                 )
             }
             {
-                event.author && (
+                event.firstAuthor && (
                     <>
                         <dt>
                             <Translate
-                                id="event.author"
-                                description='for a single event: author'
+                                id="event.firstAuthor"
+                                description='for a single event: author of the first version'
                             >
-                                Autor
+                                Erstautor:in
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <div className={clsx(styles.author)}>
+                                <Badge
+                                    text={event.firstAuthor.displayName}
+                                    title={
+                                        event.jobId
+                                            ? translate({id: 'event.firstAuthor.title', message: 'Dieser Termin wurde ursprünglich von {author} erstellt.'}, {author: event.firstAuthor.displayName})
+                                            : translate({id: 'event.firstAuthor.importedTitle', message: 'Dieser Termin wurde von {author} importiert.'}, {author: event.firstAuthor.displayName})
+                                    }
+                                    icon={event.jobId && mdiCalendarImport}
+                                    iconSide='left'
+                                />
+                            </div>
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.author && event.firstAuthor?.displayName !== event.author.displayName && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.modifier"
+                                description='for a single event: author of the first version'
+                            >
+                                Geändert von
                             </Translate>
                         </dt>
                         <dd>
                             <div className={clsx(styles.author)}>
                                 <Badge
                                     text={event.author.displayName}
-                                    title={event.author.email}
+                                    title={translate({id: 'event.modifier.title', message: 'Dieser Termin wurde von {author} aktualisiert.'}, {author: event.author.displayName})}
                                 />
-                                {event.jobId && (
-                                    <Badge
-                                        text={translate({message: 'Terminimport', id: 'event.author.importJob'})}
-                                        title={
-                                            translate({
-                                                message: 'Termin wurde aus einem Datenimport erstellt.',
-                                                id: 'event.author.importJob.title',
-                                            })
-                                        }
-                                        icon={mdiCalendarImport}
-                                        iconSide='left'
-                                    />
-                                )}
                             </div>
                         </dd>
                     </>
