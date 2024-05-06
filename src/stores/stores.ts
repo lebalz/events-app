@@ -90,13 +90,12 @@ export class RootStore {
             }
         );
         setTimeout(() => {
-            this.load('public');
-            console.log('Auth Method:', this.sessionStore.authMethod);
-            if (this.sessionStore.authMethod === 'apiKey' && this.sessionStore.currentUserId) {
-                setTimeout(() => {
+            this.load('public').then((res) => {
+                console.log('Auth Method:', this.sessionStore.authMethod);
+                if (this.sessionStore.authMethod === 'apiKey' && this.sessionStore.currentUserId) {
                     this.load('authorized');
-                }, 200);
-            }
+                }
+            });
         }, 0);
     }
 
@@ -125,7 +124,7 @@ export class RootStore {
         } else {
             this._isLoadingPrivate = true;
         }
-        const a = Promise.all(this.loadableStores.map((store) => {
+        return Promise.all(this.loadableStores.map((store) => {
             console.log('load', type, store.constructor.name);
             if (type === 'public') {
                 return store.loadPublic(semesterId);
