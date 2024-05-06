@@ -1,6 +1,6 @@
 dl.definitionList {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(8em, 1fr) minmax(10em, 2fr);
     grid-auto-flow: row;
     margin-bottom: 1rem;
     dt {

@@ -301,7 +301,7 @@ const EventProps = observer((props: Props) => {
                                 </Translate>
                             </dt>
                             <dd>
-                                <Departments {...commonProps} />
+                                <Departments {...commonProps} flexWrap/>
                             </dd>
                         </>
                     )}
