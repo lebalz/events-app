@@ -93,7 +93,9 @@ export class RootStore {
             this.load('public');
             console.log('Auth Method:', this.sessionStore.authMethod);
             if (this.sessionStore.authMethod === 'apiKey' && this.sessionStore.currentUserId) {
-                this.load('authorized');
+                setTimeout(() => {
+                    this.load('authorized');
+                }, 200);
             }
         }, 0);
     }

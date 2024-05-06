@@ -6,10 +6,11 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Popup from 'reactjs-popup';
 import ColorGenerator from '.';
-import { POPUP_BUTTON_STYLE } from '../shared/Button';
+import Button, { POPUP_BUTTON_STYLE } from '../shared/Button';
 import { Icon, SIZE_S } from '../shared/icons';
 import { mdiPalette, mdiPaletteAdvanced } from '@mdi/js';
 import {useColorMode} from '@docusaurus/theme-common';
+import { translate } from '@docusaurus/Translate';
 
 
 interface Props {
@@ -25,21 +26,16 @@ const NavColorPicker = observer((props: Props) => {
         <div className={clsx(styles.colorPicker)}>
             <Popup
                 trigger={(
-                    <button
-                        className={clsx(
-                            POPUP_BUTTON_STYLE
-                        )}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                        }}
-                    >
-                        <Icon 
-                            path={mdiPalette} 
-                            size={SIZE_S}
-                            color={'primary'}
+                    <span>
+                        <Button
+                            onClick={(e) => {
+                                e.preventDefault();
+                            }}
+                            icon={mdiPalette}
+                            title={translate({ id: 'colorPicker.title', message: 'Hauptfarbe Auswählen' })}
+                            color="primary"
                         />
-                    </button>                        
+                    </span>
                 )}
                 on="click"
                 closeOnDocumentClick
