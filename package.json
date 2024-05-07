@@ -65,7 +65,7 @@
     "@types/humanize-duration": "^3.27.1",
     "@types/lodash": "^4.14.185",
     "@types/lodash.debounce": "^4.0.7",
-    "@types/node": "^18.7.20",
+    "@types/node": "^20.12.10",
     "@types/react": "^18.2.29",
     "@types/react-big-calendar": "^1.8.0",
     "@types/uuid": "^9.0.0",
