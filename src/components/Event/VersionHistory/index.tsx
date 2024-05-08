@@ -34,7 +34,7 @@ const VersionHistory = observer((props: Props) => {
                         </div>
                         <div className={clsx(styles.versionItem, styles.versionCard, 'card', (idx % 2) === 0 ? styles.left : styles.right)}>
                             <div className={clsx('card__body')}>
-                                <EventProps event={version} />
+                                <EventProps event={version} hideLoadVersionsButton />
                             </div>
                         </div>
                     </React.Fragment>

@@ -32,6 +32,10 @@ const HistoryPopup = observer((props: Props) => {
                             id: 'event.button.versions',
                             description: 'for a single event: button to show version history'
                         })}
+                        title={translate({
+                            message: "Versionen laden und anzeigen",
+                            id: 'event.button.versions.title',
+                        })}
                         icon={mdiHistory}
                         size={SIZE_S}
                         color='primary'

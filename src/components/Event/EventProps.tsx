@@ -35,6 +35,7 @@ interface Props {
     event: EventModel;
     inModal?: boolean;
     showVersionHeader?: boolean;
+    hideLoadVersionsButton?: boolean;
     hideShowVersionsButton?: boolean;
 }
 
@@ -53,7 +54,7 @@ const EventProps = observer((props: Props) => {
     const commonClasses = clsx(event?.isDeleted && styles.deleted) || '';
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
-    const showVersions = event.publishedVersionIds.length > 0 || event.hasParent;
+    const showVersions = !props.hideLoadVersionsButton && (event.publishedVersionIds.length > 0 || event.hasParent);
 
     if (!event) {
         return null;
@@ -115,7 +116,14 @@ const EventProps = observer((props: Props) => {
             </dt>
             <dd>
                 <Version {...commonProps} hideVersion={props.hideShowVersionsButton} />
-            </dd>
+            </dd>            
+            {
+                showVersions && (
+                    <dd>
+                        <HistoryPopup event={event} />
+                    </dd>
+                )
+            }
             <dt>
                 <Translate
                     id="event.createdAt"
@@ -417,18 +425,6 @@ const EventProps = observer((props: Props) => {
             <dd>
                 <DefaultActions event={event} hideOpen={props.inModal} />
             </dd>
-            {
-                showVersions && (
-                    <>
-                        <dt>
-                            Versionen Anzeigen
-                        </dt>
-                        <dd>
-                            <HistoryPopup event={event} />
-                        </dd>
-                    </>
-                )
-            }
         </DefinitionList>
     )
 });

@@ -1,6 +1,13 @@
 .wrapper {
-    max-height: 80vh;
-    max-width: 80vw;
+    max-height: 90vh;
+    max-width: 95vw;
     padding: 1em;
     overflow: auto;
+    --ifm-global-shadow-lw: var(--ifm-global-shadow-tl);
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 0;
+    }
 }
