@@ -19,17 +19,18 @@ import KW from './EventFields/Kw';
 import Day from './EventFields/Day';
 import { EndDateTime, StartDateTime } from './EventFields/DateTime';
 import Location from './EventFields/Location';
-import Audience from './EventFields/Audience';
+import {default as AudiencePicker} from './EventFields/Audience';
 import State from './EventFields/State';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
-import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
+import { EventAudienceOverviewTranslation, EventAudienceTranslationLong, EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import TeachingAffected from './EventFields/TeachingAffected';
 import Version from './EventFields/Version';
 import CreatedAt from './EventFields/CreatedAt';
 import UpdatedAt from './EventFields/UpdatedAt';
 import HistoryPopup from './VersionHistory/HistoryPopup';
 import DefaultActions from './EventActions';
+import Popup from 'reactjs-popup';
 
 interface Props {
     event: EventModel;
@@ -279,7 +280,7 @@ const EventProps = observer((props: Props) => {
                             Publikum
                         </Translate>
                     </dt>
-                    <dd><Audience {...commonEditProps} /></dd>
+                    <dd><AudiencePicker {...commonEditProps} /></dd>
                 </>
             ) : (
                 <>
@@ -322,7 +323,19 @@ const EventProps = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <ShowAffectedAudience event={event} />
+                        <Popup
+                            trigger={(
+                                <span style={{display: 'inline-block'}}>
+                                    <Badge text={EventAudienceOverviewTranslation[event.audience]} />
+                                </span>
+                            )}
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <ShowAffectedAudience event={event} />
+                        </Popup>
                     </dd>
                 </>
             )}
@@ -334,7 +347,11 @@ const EventProps = observer((props: Props) => {
                     Unterricht Betroffen?
                 </Translate>
             </dt>
-            <dd><TeachingAffected event={event} show='both' align='left' /></dd>
+            <dd>
+                <span style={{display: 'inline-block'}}>
+                    <TeachingAffected event={event} show='both' align='left' className={clsx(styles.teachingAffected)} />
+                </span>
+            </dd>
             <dt>
                 <Translate
                     id="event.affectedLessons"

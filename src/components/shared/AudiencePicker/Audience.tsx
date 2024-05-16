@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import styles from './audience.module.scss';
 import { observer } from 'mobx-react-lite';
-import { AffectedAudience, EventAudience, EventAudienceIcons, EventAudienceTranslationLong } from '@site/src/api/event';
+import { AffectedAudience, EventAudience, EventAudienceIcons, EventAudienceTranslationLong, EventAudienceTranslationShort } from '@site/src/api/event';
 import { Icon, SIZE_S } from '../icons';
 import Event from '@site/src/models/Event';
 import { translate } from '@docusaurus/Translate';

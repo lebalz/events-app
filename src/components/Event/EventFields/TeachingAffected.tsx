@@ -63,7 +63,7 @@ const TeachingAffected = observer((props: Props) => {
     const { event, show } = props;
     return (
         <Tooltip title={TitleMap[event.teachingAffected]}>
-            <div 
+            <div
                 style={{gridColumn: 'teachingAffected'}}
                 className={clsx(
                     styles.teachingAffected,
@@ -100,7 +100,7 @@ const TeachingAffected = observer((props: Props) => {
                         </>
                     )}
                     {(show === 'text' || show === 'both') && (
-                        <span>{DescriptionMap[event.teachingAffected]}</span>
+                        <span style={{display: 'inline-block'}}>{DescriptionMap[event.teachingAffected]}</span>
                     )}
                 </>
             </div>

@@ -111,6 +111,15 @@ export const EventAudienceTranslationLong: { [key in EventAudience]: string } = 
     })
 }
 
+export const EventAudienceOverviewTranslation: { [key in EventAudience]: string } = {
+    ...EventAudienceTranslationLong,
+    [EventAudience.STUDENTS]: translate({
+        message: 'SuS, betroffene LP*',
+        description: 'Relevant for SuS only, their KLP will be informed aswell',
+        id: 'EventAudience.STUDENTS.description.overview'
+    })
+}
+
 interface AudienceConfig {
     icon?: string
     color?: Color
