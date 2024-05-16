@@ -13,6 +13,7 @@ import { translate } from '@docusaurus/Translate';
 
 interface Props {
     event: Event;
+    iconSize?: number;
 }
 
 const EventsGroupPopup = observer((props: Props) => {
@@ -22,7 +23,7 @@ const EventsGroupPopup = observer((props: Props) => {
                 <span>
                     <Button
                         icon={mdiTagEditOutline}
-                        size={SIZE_S}
+                        size={props.iconSize || SIZE_S}
                         title={
                             props.event.groups.length > 0
                                 ? props.event.groups.map((g) => g.name).join(', ')

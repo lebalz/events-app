@@ -48,6 +48,7 @@ export const EditRowMode = observer((props: ActionProps) => {
                     props.onEdit();
                 }
             }}
+            size={props.iconSize || SIZE_S}
             newVersion={!event.isDraft}
         />
     )
@@ -80,9 +81,9 @@ export const Clone = observer((props: ActionProps) => {
     )
 });
 export const AddToGroup = observer((props: ActionProps) => {
-    const { event } = props;
+    const { event, iconSize } = props;
     return (
-        <EventsGroupPopup event={event} />
+        <EventsGroupPopup event={event} iconSize={iconSize}/>
     )
 });
 

@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
 import { translate } from '@docusaurus/Translate';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
-import { DiscardIcon, SIZE_S, SaveIcon, SaveVersionIcon } from '../../shared/icons';
+import { DiscardIcon, SIZE, SIZE_S, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
 import Event from '@site/src/models/Event';
 import Delete from '../../shared/Button/Delete';
@@ -23,6 +23,8 @@ interface Props {
     hideEdit?: boolean;
     hideOpen?: boolean;
 }
+
+const BTN_SIZE = SIZE;
 
 const DefaultActions = observer((props: Props) => {
     const { event } = props;
@@ -41,7 +43,7 @@ const DefaultActions = observer((props: Props) => {
                     })}
                     icon={mdiArrowExpandAll}
                     color="primary"
-                    size={SIZE_S}
+                    size={BTN_SIZE}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -56,19 +58,19 @@ const DefaultActions = observer((props: Props) => {
                 color="blue"
                 icon={mdiShareCircle}
                 href={event.shareUrl}
-                size={SIZE_S}
+                size={BTN_SIZE}
                 title={translate({
                     message: 'Terminseite Anzeigen',
                     id: 'button.open.title'
                 })}
             />
             {isLoggedIn && (props.hideEdit || !event.isEditing) && (
-                <EditRowMode event={event} onEdit={props.closePopup} />
+                <EditRowMode event={event} onEdit={props.closePopup} iconSize={BTN_SIZE} />
             )}
             {isLoggedIn && (
                 <>
-                    <Clone event={event} />
-                    <AddToGroup event={event} />
+                    <Clone event={event} iconSize={BTN_SIZE} />
+                    <AddToGroup event={event} iconSize={BTN_SIZE} />
                 </>
             )}
             {isLoggedIn && event.isEditing && (
@@ -88,8 +90,8 @@ const DefaultActions = observer((props: Props) => {
                                 })
                         }
                         color="black"
-                        size={SIZE_S}
-                        icon={<DiscardIcon size={SIZE_S} />}
+                        size={BTN_SIZE}
+                        icon={<DiscardIcon size={BTN_SIZE} />}
                         onClick={() => {
                             if (event.isDirty) {
                                 event.reset(false);
@@ -118,11 +120,11 @@ const DefaultActions = observer((props: Props) => {
                                     description: 'Button to save changes with error'
                                 })
                         }
-                        size={SIZE_S}
+                        size={BTN_SIZE}
                         disabled={!event.isDirty || !event.isValid}
                         icon={event.isDraft 
-                            ? <SaveIcon size={SIZE_S} />
-                            : <SaveVersionIcon size={SIZE_S} />
+                            ? <SaveIcon size={BTN_SIZE} />
+                            : <SaveVersionIcon size={BTN_SIZE} />
                         }
                         iconSide='left'
                         onClick={() => {
