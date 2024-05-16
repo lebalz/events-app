@@ -352,7 +352,7 @@ const EventProps = observer((props: Props) => {
                     <TeachingAffected event={event} show='both' align='left' className={clsx(styles.teachingAffected)} />
                 </span>
             </dd>
-            {event.meta && (
+            {(event.meta && !event.isPublished && userStore.current.isAdmin ) && (
                 <>
                     <dt>
                         <Translate
