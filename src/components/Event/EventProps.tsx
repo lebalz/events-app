@@ -127,84 +127,6 @@ const EventProps = observer((props: Props) => {
             }
             <dt>
                 <Translate
-                    id="event.createdAt"
-                    description='for a single event: date of event creation'
-                >
-                    Erstellt am
-                </Translate>
-            </dt>
-            <dd>
-                <CreatedAt showTime {...commonProps} />
-            </dd>
-            {
-                event.updatedAt.getTime() !== event.createdAt.getTime() && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.updatedAt"
-                                description='for a single event: date of update'
-                            >
-                                Aktualisiert am
-                            </Translate>
-                        </dt>
-                        <dd>
-                            <UpdatedAt showTime {...commonProps} />
-                        </dd>
-                    </>
-                )
-            }
-            {
-                event.firstAuthor && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.firstAuthor"
-                                description='for a single event: author of the first version'
-                            >
-                                Erstautor:in
-                            </Translate>
-                        </dt>
-                        <dd>
-                            <div className={clsx(styles.author)}>
-                                <Badge
-                                    text={event.firstAuthor.displayName}
-                                    title={
-                                        event.jobId
-                                            ? translate({id: 'event.firstAuthor.title', message: 'Dieser Termin wurde ursprünglich von {author} erstellt.'}, {author: event.firstAuthor.displayName})
-                                            : translate({id: 'event.firstAuthor.importedTitle', message: 'Dieser Termin wurde von {author} importiert.'}, {author: event.firstAuthor.displayName})
-                                    }
-                                    icon={event.jobId && mdiCalendarImport}
-                                    iconSide='left'
-                                />
-                            </div>
-                        </dd>
-                    </>
-                )
-            }
-            {
-                event.author && event.firstAuthor?.displayName !== event.author.displayName && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.modifier"
-                                description='for a single event: author of the first version'
-                            >
-                                Geändert von
-                            </Translate>
-                        </dt>
-                        <dd>
-                            <div className={clsx(styles.author)}>
-                                <Badge
-                                    text={event.author.displayName}
-                                    title={translate({id: 'event.modifier.title', message: 'Dieser Termin wurde von {author} aktualisiert.'}, {author: event.author.displayName})}
-                                />
-                            </div>
-                        </dd>
-                    </>
-                )
-            }
-            <dt>
-                <Translate
                     id="event.state"
                     description='for a single event: state'
                 >
@@ -352,70 +274,84 @@ const EventProps = observer((props: Props) => {
                     <TeachingAffected event={event} show='both' align='left' className={clsx(styles.teachingAffected)} />
                 </span>
             </dd>
-            {(event.meta && !event.isPublished && userStore.current.isAdmin ) && (
-                <>
-                    <dt>
-                        <Translate
-                            id="event.meta"
-                            description='for a single event: audience long'
-                        >
-                            Metadaten
-                        </Translate>
-                    </dt>
-                    <dd>
-                        <pre>
-                            <code>
-                                {JSON.stringify(event.meta, null, 2)}
-                            </code>
-                        </pre>
-                    </dd>
-                </>
-            )}
             <dt>
                 <Translate
-                    id="event.affectedLessons"
-                    description='for a single event: affected lessons'
+                    id="event.createdAt"
+                    description='for a single event: date of event creation'
                 >
-                    Betroffene Lektionen
+                    Erstellt am
                 </Translate>
             </dt>
             <dd>
-                <Button
-                    text={translate({
-                        message: "Alle laden",
-                        id: 'event.button.showAllLessons',
-                        description: 'for a single event: button to show all affected lessons'
-                    })}
-                    icon={mdiText}
-                    onClick={() => {
-                        const showAll = !showAllAffectedLessons;
-                        setShowAllAffectedLessons(showAll);
-                        if (!showAll) {
-                            return;
-                        }
-                        if (event.isDirty) {
-                            socketStore.checkUnpersistedEvent(event.props, semester?.id);
-                        } else {
-                            socketStore.checkEvent(event.id, semester?.id);
-                        }
-                    }}
-                />
+                <CreatedAt showTime {...commonProps} />
             </dd>
-            {(showAllAffectedLessons ? event.affectedLessonsGroupedByClass : event.usersAffectedLessonsGroupedByClass).map((kl, idx) => {
-                if (kl.lessons.length === 0) {
-                    return null;
-                }
-                return (<React.Fragment key={`kl-${idx}`}>
-                    <dt className={commonClasses}>{kl.class}</dt>
-                    <dd className={clsx(styles.lessons)}>
-                        <div className={clsx(commonClasses)}>
-                            {kl.lessons.map((l, idx) => (
-                                <Lesson lesson={l} key={l.id} className={commonClasses} />
-                            ))}
-                        </div>
-                    </dd>
-                </React.Fragment>)
-            })}
+            {
+                event.updatedAt.getTime() !== event.createdAt.getTime() && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.updatedAt"
+                                description='for a single event: date of update'
+                            >
+                                Aktualisiert am
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <UpdatedAt showTime {...commonProps} />
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.firstAuthor && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.firstAuthor"
+                                description='for a single event: author of the first version'
+                            >
+                                Erstautor:in
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <div className={clsx(styles.author)}>
+                                <Badge
+                                    text={event.firstAuthor.displayName}
+                                    title={
+                                        event.jobId
+                                            ? translate({id: 'event.firstAuthor.title', message: 'Dieser Termin wurde ursprünglich von {author} erstellt.'}, {author: event.firstAuthor.displayName})
+                                            : translate({id: 'event.firstAuthor.importedTitle', message: 'Dieser Termin wurde von {author} importiert.'}, {author: event.firstAuthor.displayName})
+                                    }
+                                    icon={event.jobId && mdiCalendarImport}
+                                    iconSide='left'
+                                />
+                            </div>
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.author && event.firstAuthor?.displayName !== event.author.displayName && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.modifier"
+                                description='for a single event: author of the first version'
+                            >
+                                Geändert von
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <div className={clsx(styles.author)}>
+                                <Badge
+                                    text={event.author.displayName}
+                                    title={translate({id: 'event.modifier.title', message: 'Dieser Termin wurde von {author} aktualisiert.'}, {author: event.author.displayName})}
+                                />
+                            </div>
+                        </dd>
+                    </>
+                )
+            }
             {
                 event.canChangeState && (
                     <>
@@ -461,6 +397,70 @@ const EventProps = observer((props: Props) => {
             <dd>
                 <DefaultActions event={event} hideOpen={props.inModal} />
             </dd>
+            <dt>
+                <Translate
+                    id="event.affectedLessons"
+                    description='for a single event: affected lessons'
+                >
+                    Betroffene Lektionen
+                </Translate>
+            </dt>
+            <dd>
+                <Button
+                    text={translate({
+                        message: "Alle laden",
+                        id: 'event.button.showAllLessons',
+                        description: 'for a single event: button to show all affected lessons'
+                    })}
+                    icon={mdiText}
+                    onClick={() => {
+                        const showAll = !showAllAffectedLessons;
+                        setShowAllAffectedLessons(showAll);
+                        if (!showAll) {
+                            return;
+                        }
+                        if (event.isDirty) {
+                            socketStore.checkUnpersistedEvent(event.props, semester?.id);
+                        } else {
+                            socketStore.checkEvent(event.id, semester?.id);
+                        }
+                    }}
+                />
+            </dd>
+            {(showAllAffectedLessons ? event.affectedLessonsGroupedByClass : event.usersAffectedLessonsGroupedByClass).map((kl, idx) => {
+                if (kl.lessons.length === 0) {
+                    return null;
+                }
+                return (<React.Fragment key={`kl-${idx}`}>
+                    <dt className={commonClasses}>{kl.class}</dt>
+                    <dd className={clsx(styles.lessons)}>
+                        <div className={clsx(commonClasses)}>
+                            {kl.lessons.map((l, idx) => (
+                                <Lesson lesson={l} key={l.id} className={commonClasses} />
+                            ))}
+                        </div>
+                    </dd>
+                </React.Fragment>)
+            })}
+            {(event.meta && !event.isPublished && userStore.current.isAdmin ) && (
+                <>
+                    <dt>
+                        <Translate
+                            id="event.meta"
+                            description='for a single event: audience long'
+                        >
+                            Metadaten
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <pre>
+                            <code>
+                                {JSON.stringify(event.meta, null, 2)}
+                            </code>
+                        </pre>
+                    </dd>
+                </>
+            )}
         </DefinitionList>
     )
 });
