@@ -16,6 +16,17 @@ interface Message {
     message: string;
 }
 
+const withParsedMessage = <T>(fn: (data: T) => void) => {
+    return (data: T) => {
+        try {
+            const parsed = JSON.parse(data as string);
+            return fn(parsed as T);
+        } catch {
+            return null;
+        }
+    }
+}
+
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
     abortControllers = new Map<string, AbortController>();
@@ -167,6 +178,9 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     handleReload = (type: IoEvent) => {
         return action((data: NewRecord | ChangedRecord | DeletedRecord) => {
             const store = this.root[RecordStoreMap[data.record]] as iStore<any>;
+            if (!store) {
+                return;
+            }
             switch (type) {
                 case IoEvent.NEW_RECORD:
                     store.loadModel(data.id).then((model) => {
@@ -209,12 +223,12 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             })
         });
         this.socket.on(IoEvent.NEW_RECORD, (data) => {})
-        this.socket.on(IoEvent.NEW_RECORD, (this.handleReload(IoEvent.NEW_RECORD)));
-        this.socket.on(IoEvent.CHANGED_RECORD, this.handleReload(IoEvent.CHANGED_RECORD));
-        this.socket.on(IoEvent.DELETED_RECORD, this.handleReload(IoEvent.DELETED_RECORD));
-        this.socket.on(IoEvent.CHANGED_STATE, this.handleEventStateChange());
-        this.socket.on(IoEvent.RELOAD_AFFECTING_EVENTS, this.handleReloadAffectingEvents());
-        this.socket.on(IoEvent.CHANGED_MEMBERS, this.handleChangedMemebers());
+        this.socket.on(IoEvent.NEW_RECORD, withParsedMessage(this.handleReload(IoEvent.NEW_RECORD)));
+        this.socket.on(IoEvent.CHANGED_RECORD, withParsedMessage(this.handleReload(IoEvent.CHANGED_RECORD)));
+        this.socket.on(IoEvent.DELETED_RECORD, withParsedMessage(this.handleReload(IoEvent.DELETED_RECORD)));
+        this.socket.on(IoEvent.CHANGED_STATE, withParsedMessage(this.handleEventStateChange()));
+        this.socket.on(IoEvent.RELOAD_AFFECTING_EVENTS, withParsedMessage(this.handleReloadAffectingEvents()));
+        this.socket.on(IoEvent.CHANGED_MEMBERS, withParsedMessage(this.handleChangedMemebers()));
 
     }
 
