@@ -25,6 +25,7 @@ import { ConfigOptionsSortable, DefaultConfig } from '.';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import CreatedAt from '../EventFields/CreatedAt';
 import UpdatedAt from '../EventFields/UpdatedAt';
+import Nr from '../EventFields/Nr';
 
 
 interface Props {
@@ -40,6 +41,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     isValid: IsValid,
     isDuplicate: IsDuplicate,
     select: Select,
+    nr: Nr,
     kw: KW,
     teachingAffected: TeachingAffected,
     actions: Actions,

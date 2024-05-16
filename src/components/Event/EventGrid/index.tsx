@@ -34,6 +34,7 @@ export const DefaultConfig: {[key: string]: ConfigOptions} = {
     updatedAt: { width: '7em', sortable: true, minWidthWhenActive: '7em' },
     createdAt: { width: '7em', sortable: true, minWidthWhenActive: '7em' },
     state: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
+    nr: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
     isValid: { width: '2.1em', sortable: true, minWidthWhenActive: '4em' },
     isDuplicate: { sortable: true },
     select: { width: '2.3em', componentProps: {onSelect: () => undefined} },
@@ -58,6 +59,7 @@ export type ColumnConfig = (keyof typeof DefaultConfig | [keyof typeof DefaultCo
 interface Props {
     events: EventModel[];
     columns: ColumnConfig;
+    defaultSortBy?: keyof typeof DefaultConfig;
     className?: string;
     groupBy?: 'yearsKw';
 }
@@ -104,7 +106,7 @@ const createGroupEvents = createTransformer<{events: EventModel[], groupBy?: 'ye
 });
 
 const EventGrid = observer(React.forwardRef((props: Props, ref: ForwardedRef<HTMLDivElement>) => {
-    const [sortBy, setSortBy] = React.useState<keyof typeof DefaultConfig>('start');
+    const [sortBy, setSortBy] = React.useState<keyof typeof DefaultConfig>(props.defaultSortBy || 'start');
     const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('asc');
     const groupEvents = React.useMemo(() => {
         const grouped = createGroupEvents({

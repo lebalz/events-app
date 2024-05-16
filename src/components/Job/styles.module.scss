@@ -31,3 +31,19 @@
         white-space: nowrap;
     }
 }
+.job {
+    margin: 0 -1em;
+    margin-bottom: -0.6em;
+    &[open] {
+        padding: 0;
+        summary {
+            padding: 1em;
+            padding-left: 2em;
+            padding-bottom: 0em;
+            &::before {
+                top: 1.45em;
+                left: 1em;
+            }
+        }
+    }
+}

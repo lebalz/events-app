@@ -7,8 +7,8 @@ import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import {default as ShowAffectedAudience} from '../shared/AudiencePicker/Audience';
 import Badge from '../shared/Badge';
-import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiCalendarImport, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
-import { Icon, SIZE } from '../shared/icons';
+import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiCalendarImport, mdiClose, mdiEqual, mdiRecordCircleOutline, mdiText, mdiTextLong } from '@mdi/js';
+import { Icon, SIZE, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -31,6 +31,11 @@ import UpdatedAt from './EventFields/UpdatedAt';
 import HistoryPopup from './VersionHistory/HistoryPopup';
 import DefaultActions from './EventActions';
 import Popup from 'reactjs-popup';
+import CodeBlock from '@theme/CodeBlock';
+import LazyDetails from '../shared/Details';
+import { PopupActions } from 'reactjs-popup/dist/types';
+import Admonition from '@theme/Admonition';
+
 
 interface Props {
     event: EventModel;
@@ -51,6 +56,7 @@ const EventProps = observer((props: Props) => {
         event?.loadVersions();
     }, [event]);
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
+    const metaRef = React.useRef<PopupActions>();  
 
     const commonClasses = clsx(event?.isDeleted && styles.deleted) || '';
     const commonProps = { event, styles, className: commonClasses };
@@ -453,11 +459,65 @@ const EventProps = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <pre>
-                            <code>
-                                {JSON.stringify(event.meta, null, 2)}
-                            </code>
-                        </pre>
+                        {event.importWarnings.length > 0 && (
+                            <div className={clsx(styles.metaAlert, 'alert', 'alert--warning')} role="alert">
+                                <button aria-label="Close" className="clean-btn close" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {
+                                    event.importWarnings.length === 1 ? (
+                                        event.importWarnings[0]
+                                    ) : (
+                                        <ul className={clsx(styles.warning)}>
+                                            {event.meta.warnings.map((warning, idx) => (
+                                                <li key={idx}>{warning}</li>
+                                            ))}
+                                        </ul>
+                                    )
+                                }
+                            </div>
+                        )}
+                        <Popup
+                            trigger={(
+                                <span>
+                                    <Button
+                                        text={translate({id: 'event.button.showImportLog', message: 'Rohdaten anzeigen'})}
+                                        icon={mdiTextLong}
+                                        size={SIZE_S}
+                                    />
+                                </span>
+                            )}
+                            on="click"
+                            ref={metaRef}
+                            modal
+                        >
+                            <div className={clsx(styles.metaCard, 'card')}>
+                                <div className={clsx('card__header', styles.header)}>
+                                    <Button
+                                        color="red"
+                                        title={
+                                            translate({
+                                                message: 'Schliessen',
+                                                id: 'button.close',
+                                                description: 'Button text to close a modal'
+                                            })
+                                        }
+                                        size={SIZE_S}
+                                        icon={mdiClose}
+                                        iconSide='left' 
+                                        onClick={() => metaRef.current.close()}
+                                    />
+                                </div>
+                                <CodeBlock
+                                    language="json"
+                                    title="import.json"
+                                    showLineNumbers
+                                    className={clsx(styles.codeblock)}
+                                >
+                                    {JSON.stringify(event.meta, null, 2)}
+                                </CodeBlock>                                
+                            </div>
+                        </Popup>
                     </dd>
                 </>
             )}

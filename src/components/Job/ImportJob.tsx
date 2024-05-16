@@ -35,6 +35,7 @@ const ImportJob = observer((props: Props) => {
                     job.loadEvents();
                 }
             }}
+            className={clsx(styles.job)}
         >
             <div>
                 <BulkActions 
@@ -57,7 +58,9 @@ const ImportJob = observer((props: Props) => {
                 />
                 <EventGrid 
                     events={job.events}
+                    defaultSortBy='nr'
                     columns={[
+                        'nr',
                         'isValid',
                         'isDuplicate',
                         'select',

@@ -229,8 +229,9 @@ export enum ImportType {
 interface ImportMeta {
     type: 'import',
     version: 'gbsl_xlsx',
-    row: number,
+    rowNr: number,
     warnings: string[],
+    warningsReviewed: boolean,
     raw: any
 }
 export type Meta = ImportMeta | null;

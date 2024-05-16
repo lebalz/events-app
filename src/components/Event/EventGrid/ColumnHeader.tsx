@@ -50,6 +50,11 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
         id: 'eventGrid.header.kw',
         description: 'Label for the Event Grid Columns'
     }),
+    nr: translate({
+        message: 'Nr',
+        id: 'eventGrid.header.nr',
+        description: 'Label for the Event Grid Row Number'
+    }),
     actions: translate({
         message: 'Aktionen',
         id: 'eventGrid.header.actions',

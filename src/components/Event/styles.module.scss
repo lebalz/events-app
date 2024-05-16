@@ -77,3 +77,23 @@
     display: flex;
     gap: 0.5em;
 }
+
+.metaAlert {
+    margin: 0.25em;
+}
+.metaCard {
+    max-height: 90vh;
+    max-width: 95vw;
+    padding: 0;
+    overflow: auto;
+    --ifm-global-shadow-lw: var(--ifm-global-shadow-tl);
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: baseline;
+        padding: 0.25em;
+    }
+    .codeblock {
+        margin-bottom: 0;
+    }
+}

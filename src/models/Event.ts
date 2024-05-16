@@ -186,6 +186,22 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         );
     }
 
+    @computed
+    get importWarnings() {
+        if (!this.meta || this.meta.warningsReviewed) {
+            return [];
+        }
+        return this.meta.warnings;
+    }
+
+    /**
+     * Available only for imported events
+     * @returns the row number of the event in the import file
+     */
+    get nr(): number | undefined {
+        return this.meta?.rowNr;
+    }
+
     @action
     validate() {
         const result = JoiEvent.validate(

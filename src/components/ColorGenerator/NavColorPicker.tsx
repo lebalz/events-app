@@ -52,20 +52,20 @@ const NavColorPicker = observer((props: Props) => {
                                     Hauptfarbe Wählen
                                 </Translate>                 
                             </h3>
-                                <Button
-                                    color="red"
-                                    title={
-                                        translate({
-                                            message: 'Schliessen',
-                                            id: 'button.close',
-                                            description: 'Button text to close a modal'
-                                        })
-                                    }
-                                    size={SIZE_S}
-                                    icon={mdiClose}
-                                    iconSide='left' 
-                                    onClick={() => ref.current.close()}
-                                />
+                            <Button
+                                color="red"
+                                title={
+                                    translate({
+                                        message: 'Schliessen',
+                                        id: 'button.close',
+                                        description: 'Button text to close a modal'
+                                    })
+                                }
+                                size={SIZE_S}
+                                icon={mdiClose}
+                                iconSide='left' 
+                                onClick={() => ref.current.close()}
+                            />
                     </div>
                     <ColorGenerator />
                 </div>

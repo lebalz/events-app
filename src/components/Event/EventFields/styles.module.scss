@@ -23,6 +23,12 @@
 .kw {
     text-align: end;
 }
+.nr {
+    font-family: monospace;
+    text-align: end;
+    padding-right: 4px;
+    line-height: 1.5em;
+}
 dd {
     .kw {
         text-align: start;
