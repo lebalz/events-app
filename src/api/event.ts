@@ -226,6 +226,15 @@ export enum ImportType {
     V1 = 'V1',
 }
 
+interface ImportMeta {
+    type: 'import',
+    version: 'gbsl_xlsx',
+    row: number,
+    warnings: string[],
+    raw: any
+}
+export type Meta = ImportMeta | null;
+
 export interface PrismaEvent {
     id: string
     authorId: string
@@ -247,6 +256,7 @@ export interface PrismaEvent {
     updatedAt: string
     deletedAt?: string
     publishedVersionIds: string[]
+    meta?: Meta
 }
 
 export interface Event extends PrismaEvent {
@@ -286,7 +296,8 @@ export const JoiEvent = Joi.object<Event>({
     publishedVersionIds: Joi.array().items(Joi.string()).required(),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
-    deletedAt: Joi.date().iso().allow(null)
+    deletedAt: Joi.date().iso().allow(null),
+    meta: Joi.object().allow(null)
 }).custom(
     (value: Event, helpers: CustomHelpers<Event>) => {
         if (value.classes.length + value.classGroups.length + value.departmentIds.length === 0) {

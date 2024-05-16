@@ -81,7 +81,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     /**
-     * Example: GBSL/GBJB -> GBSL+
+     * Example: GYMD/GYMF -> GYMD+
      */
     @computed
     get shortName() {

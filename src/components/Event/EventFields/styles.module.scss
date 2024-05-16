@@ -9,6 +9,9 @@
     justify-content: center;
     display: flex;
 }
+.errors {
+    color: var(--ifm-color-danger)
+}
 .state {
     .flex,
     &.flex {

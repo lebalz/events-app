@@ -3,7 +3,7 @@ import Event from "@site/src/models/Event";
 import { translate } from '@docusaurus/Translate';
 import Department from '@site/src/models/Department';
 
-const DEP_ORDER = ['GBSL', 'GBSL/GBJB', 'GBJB', 'GBJB/GBSL', 'FMS', 'ECG', 'ECG/FMS', 'WMS', 'ESC', 'FMPäd', 'MSOP', 'Passerelle']
+const DEP_ORDER = ['GYMD', 'GYMD/GYMF', 'GYMF', 'GYMF/GYMD', 'FMS', 'ECG', 'ECG/FMS', 'WMS', 'ESC', 'FMPäd', 'MSOP', 'Passerelle']
 
 const toDate = (date: Date) => {
     return date.toISOString().slice(0, 10).split('-').reverse().join('.');

@@ -1,5 +1,5 @@
 import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
-import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, TeachingAffected } from '../api/event';
+import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, Meta, TeachingAffected } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
@@ -79,6 +79,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly parentId: string | null;
     readonly cloned: boolean;
     readonly publishedVersionIds: string[];
+    readonly meta: Meta;
 
     @observable.ref
     updatedAt: Date;
@@ -171,6 +172,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         this.showAsAllDay = this.isAllDay;
+        this.meta = props.meta;
 
         makeObservable(this);
         if (this.state !== EventState.Published && !this.deletedAt) {
@@ -945,7 +947,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
-            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null
+            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null,
+            meta: this.meta
         }
     }
 

@@ -352,6 +352,25 @@ const EventProps = observer((props: Props) => {
                     <TeachingAffected event={event} show='both' align='left' className={clsx(styles.teachingAffected)} />
                 </span>
             </dd>
+            {event.meta && (
+                <>
+                    <dt>
+                        <Translate
+                            id="event.meta"
+                            description='for a single event: audience long'
+                        >
+                            Metadaten
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <pre>
+                            <code>
+                                {JSON.stringify(event.meta, null, 2)}
+                            </code>
+                        </pre>
+                    </dd>
+                </>
+            )}
             <dt>
                 <Translate
                     id="event.affectedLessons"

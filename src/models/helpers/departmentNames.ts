@@ -38,16 +38,16 @@ type Letter = GYMD_Letter | GYMDBilingual_Letter | FMS_Letter | FMSBilingual_Let
 export const Departments = {
     WMS: 'WMS',
     ESC: 'ESC',
-    FMPaed: 'FMPaed',
+    FMPaed: 'FMPäd',
     MSOP: 'MSOP',
     FMS: 'FMS',
     FMSBilingual: 'FMS/ECG',
     ECG: 'ECG',
     ECGBilingual: 'ECG/FMS',
-    GYMF: 'GBJB',
-    GYMFBilingual: 'GBJB/GBSL',
-    GYMD: 'GBSL',
-    GYMDBilingual: 'GBSL/GBJB',
+    GYMF: 'GYMF',
+    GYMFBilingual: 'GYMF/GYMD',
+    GYMD: 'GYMD',
+    GYMDBilingual: 'GBSL/GYMF',
     PASSERELLE: 'Passerelle',
 }
 
