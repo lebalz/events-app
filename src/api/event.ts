@@ -374,3 +374,8 @@ export function clone(eventId: string, signal: AbortSignal): AxiosPromise<Event>
 export function all<T>(ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
     return api.get('events', { params: { ids },  signal });
 }
+
+
+export function updateMeta<T>(id: string, meta: any, signal: AbortSignal): AxiosPromise<Event> {
+    return api.put(`events/${id}/meta`, { data: meta },  { signal });
+}

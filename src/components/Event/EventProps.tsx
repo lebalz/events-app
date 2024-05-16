@@ -35,6 +35,7 @@ import CodeBlock from '@theme/CodeBlock';
 import LazyDetails from '../shared/Details';
 import { PopupActions } from 'reactjs-popup/dist/types';
 import Admonition from '@theme/Admonition';
+import MetaWarningAlert from './MetaWarningAlert';
 
 
 interface Props {
@@ -431,6 +432,7 @@ const EventProps = observer((props: Props) => {
                             socketStore.checkEvent(event.id, semester?.id);
                         }
                     }}
+                    size={SIZE_S}
                 />
             </dd>
             {(showAllAffectedLessons ? event.affectedLessonsGroupedByClass : event.usersAffectedLessonsGroupedByClass).map((kl, idx) => {
@@ -460,22 +462,7 @@ const EventProps = observer((props: Props) => {
                     </dt>
                     <dd>
                         {event.importWarnings.length > 0 && (
-                            <div className={clsx(styles.metaAlert, 'alert', 'alert--warning')} role="alert">
-                                <button aria-label="Close" className="clean-btn close" type="button">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                {
-                                    event.importWarnings.length === 1 ? (
-                                        event.importWarnings[0]
-                                    ) : (
-                                        <ul className={clsx(styles.warning)}>
-                                            {event.meta.warnings.map((warning, idx) => (
-                                                <li key={idx}>{warning}</li>
-                                            ))}
-                                        </ul>
-                                    )
-                                }
-                            </div>
+                            <MetaWarningAlert event={event} />
                         )}
                         <Popup
                             trigger={(
@@ -493,6 +480,17 @@ const EventProps = observer((props: Props) => {
                         >
                             <div className={clsx(styles.metaCard, 'card')}>
                                 <div className={clsx('card__header', styles.header)}>
+                                    {
+                                        event.meta?.warningsReviewed && (
+                                            <>
+                                                <Button
+                                                    onClick={() => event.setWarningsReviewed(false)}
+                                                    text={translate({id: 'event.meta.warningsReviewed', message: 'Warnung wieder anzeigen'})}
+                                                />
+                                                <span className={styles.spacer}></span>
+                                            </>
+                                        )
+                                    } 
                                     <Button
                                         color="red"
                                         title={
@@ -508,6 +506,7 @@ const EventProps = observer((props: Props) => {
                                         onClick={() => metaRef.current.close()}
                                     />
                                 </div>
+                                <MetaWarningAlert event={event} />
                                 <CodeBlock
                                     language="json"
                                     title="import.json"

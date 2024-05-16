@@ -194,6 +194,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.meta.warnings;
     }
 
+    @action
+    setWarningsReviewed(reviewed: boolean = true) {
+        if (this.meta && this.meta.warningsReviewed !== reviewed) {
+            this.store.updateMeta(this, { warningsReviewed: reviewed });
+        }
+    }
+
     /**
      * Available only for imported events
      * @returns the row number of the event in the import file

@@ -78,9 +78,6 @@
     gap: 0.5em;
 }
 
-.metaAlert {
-    margin: 0.25em;
-}
 .metaCard {
     max-height: 90vh;
     max-width: 95vw;
@@ -92,6 +89,12 @@
         justify-content: flex-end;
         align-items: baseline;
         padding: 0.25em;
+        max-width: unset;
+        .spacer {
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 0;
+        }
     }
     .codeblock {
         margin-bottom: 0;
