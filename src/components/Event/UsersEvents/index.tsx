@@ -270,7 +270,7 @@ const UsersEvents = observer((props: Props) => {
                                         />
                                         <EventGrid 
                                             events={events} 
-                                            columns={COLUMN_CONFIG} 
+                                            columns={['nr', ...COLUMN_CONFIG]} 
                                             className={clsx(styles.noMarginScrollContainer)}
                                         />
                                     </div>
