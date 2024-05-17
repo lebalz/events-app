@@ -12,6 +12,7 @@ import {default as EventModelView} from '@site/src/components/Event';
 import Section from '../components/shared/Section';
 import ParentDetails from '../components/Event/ParentDetails';
 import { translate } from '@docusaurus/Translate';
+import Head from '@docusaurus/Head';
 
 interface Props {
 }
@@ -50,6 +51,38 @@ const EventView = observer((props: Props) => {
 
     return (
         <Layout>
+            {
+                events.length > 1 && (
+                    <Head>
+                        {events.length === 1
+                            ? (
+                                <>
+                                    <meta
+                                        property='og:title'
+                                        content={`${events[0].description.slice(0, 57)}${events[0].description.length > 57 ? '...' : ''}`}
+                                    />
+                                    <meta
+                                        property='og:description'
+                                        content={`${events[0].fStartDate} ${events[0].fStartTime} - ${events[0].fEndDate} ${events[0].fEndTime} @ ${events[0].location}`.slice(0, 160)}
+                                    />
+                                </>
+                            )
+                            : (
+                                <>
+                                    <meta
+                                        property='og:title'
+                                        content={`${events.length} ${EventTitleTranslation.plural}`}
+                                    />
+                                    <meta
+                                        property='og:description'
+                                        content={events.map(event => `${event.description}: ${event.fStartDate} ${event.fStartTime}`).join(', ').slice(0, 160)}
+                                    />
+                                </>                                    
+                            )
+                        }
+                    </Head>
+                )
+            }
             <Section title={title} containerClassName={clsx(styles.events)}>
                 {events.map((event, idx) => {
                     return (

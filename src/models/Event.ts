@@ -615,16 +615,25 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.end.getHours() * 100 + this.end.getMinutes();
     }
 
+    /**
+     * @example 17.05.2024
+     */
     get fStartDateLong() {
         return formatDateLong(this.start);
     }
 
+    /**
+     * @example 17.05.24
+     */
     @computed
     get fStartDate() {
         const fDate = this.fStartDateLong;
         return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
     }
     
+    /**
+     * @example 17.05.2024
+     */
     get fEndDateLong() {
         if (this.isAllDay) {
             return formatDateLong(new Date(this.end.getTime() - 1));
@@ -632,6 +641,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return formatDateLong(this.end);
     }
 
+    /**
+     * @example 17.05.24
+     */
     @computed
     get fEndDate() {
         const fDate = this.fEndDateLong;
