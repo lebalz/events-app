@@ -86,8 +86,10 @@ const DEAFULT_COLORS = {
     }
 };
 
+const COLOR_VERSION = 'v1.1' as const;
+
 interface ColorProps {
-    version: 'v1',
+    version: typeof COLOR_VERSION,
     dark: {
         shades: typeof COLOR_SHADES;
         colors: typeof DEAFULT_COLORS.dark;
@@ -122,7 +124,7 @@ class Colors {
 
     @observable.deep
     data: ColorProps = {
-        version: 'v1',
+        version: COLOR_VERSION,
         dark: {
             colors: _.cloneDeep(DEAFULT_COLORS.dark),
             shades: _.cloneDeep(COLOR_SHADES),
@@ -155,6 +157,9 @@ class Colors {
     rehydrate() {
         const data = Storage.get<ColorProps>(StorageKey.ColorPrefs);
         if (data) {
+            if (data.version !== COLOR_VERSION) {
+                return setLocalStorage(this.data);
+            }
             this.data = data;
             this.inputColors = {
                 light: JSON.parse(JSON.stringify(data.light.colors)),
@@ -187,7 +192,7 @@ class Colors {
     @action
     reset(mode: 'dark' | 'light') {
         this.data = {
-            version: 'v1',
+            version: COLOR_VERSION,
             dark: {
                 colors: _.cloneDeep(DEAFULT_COLORS.dark),
                 shades: _.cloneDeep(COLOR_SHADES),
