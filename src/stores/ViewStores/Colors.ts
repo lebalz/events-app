@@ -66,7 +66,7 @@ export const COLOR_SHADES: Shades = {
     }
 };
 
-export const LIGHT_PRIMARY_COLOR = '#7b2e85';
+export const LIGHT_PRIMARY_COLOR = '#232a40';
 export const DARK_PRIMARY_COLOR = '#ed67fe';
 export const LIGHT_BACKGROUND_COLOR = '#ffffff';
 export const DARK_BACKGROUND_COLOR = '#181920';
