@@ -173,7 +173,7 @@ function Root({ children }) {
                 <meta property="og:description" content={siteConfig.tagline} />
                 <meta
                     property="og:image"
-                    content={`${siteConfig.customFields.DOMAIN}/img/og-preview.png`}
+                    content={`${siteConfig.customFields.DOMAIN}/img/og-preview.jpeg`}
                 />
             </Head>
             <StoresProvider value={rootStore}>
