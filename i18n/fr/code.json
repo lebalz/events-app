@@ -752,7 +752,7 @@
     "description": "Only a part of the class will be present"
   },
   "EventAudience.ALL.description": {
-    "message": "Tout",
+    "message": "Tout le monde",
     "description": "This event is for everyone, no matter wheter a lesson is affected or not"
   },
   "EventAudience.KLP.description": {
@@ -1497,5 +1497,200 @@
   "userEvents.regPeriod.alert.title": {
     "message": "Fenêtre de saisie",
     "description": "userEvents.regPeriod.alert.title"
-  }
+  },
+  "group.name.placeholder": {
+    "message": "Nom du groupe"
+  },
+  "group.description.placeholder": {
+    "message": "Description du groupe"
+  },
+  "group.delete.title": {
+    "message": "Seuls les groupes sans évènement peuvent être supprimés."
+  },
+  "group.createdAt": {
+    "message": "Créé le"
+  },
+  "group.updatedAt": {
+    "message": "Modifié le"
+  },
+  "group.clone.dt": {
+    "message": "Dupliquer"
+  },
+  "group.clone.description": {
+    "message": "Groupe avec évènements"
+  },
+  "group.users.dt": {
+    "message": "Membres"
+  },
+  "group.users.description": {
+    "message": "Tous les membres du groupe peuvent modifier les dates."
+  },
+  "group.shiftDates.dt": {
+    "message": "Déplacer la date"
+  },
+  "group.shiftDates.description": {
+    "message": "Décaler toutes les dates non publiées d'un certain nombre de jours"
+  },
+  "group.shiftDates.closeShiftEditor": {
+    "message": "Fermer l'éditeur"
+  },
+  "group.shiftDates.openShiftEditor": {
+    "message": "Ouvrir l'éditeur"
+  },
+  "group.groupActions": {
+    "message": "Actions"
+  },
+  "group.actions.saveAll": {
+    "message": "Tout enregistrer"
+  },
+  "group.actions.discardAll": {
+    "message": "Tout annuler"
+  },
+  "import.tab.v1.label": {
+    "message": "Importer V1",
+    "description": "import.tab.v1"
+  },
+  "xlsx.events": {
+    "message": "Évènement"
+  },
+  "kw": {
+    "message": "SC",
+    "description": "Calendar week"
+  },
+  "xlsx.kw": {
+    "message": "SC"
+  },
+  "xlsx.weekday": {
+    "message": "Jour de la semaine"
+  },
+  "xlsx.description": {
+    "message": "Titre"
+  },
+  "xlsx.dateStart": {
+    "message": "Date début"
+  },
+  "xlsx.timeStart": {
+    "message": "heure début"
+  },
+  "xlsx.dateEnd": {
+    "message": "Date fin"
+  },
+  "xlsx.timeEnd": {
+    "message": "Heure fin"
+  },
+  "xlsx.location": {
+    "message": "Lieu"
+  },
+  "xlsx.descriptionLong": {
+    "message": "Description"
+  },
+  "xlsx.bilingueLPsAffected": {
+    "message": "Concerne profs des classes bilingues"
+  },
+  "xlsx.classes": {
+    "message": "Classes"
+  },
+  "xlsx.affects": {
+    "message": "Concerne"
+  },
+  "xlsx.teachingAffected": {
+    "message": "Leçons impactées?"
+  },
+  "xlsx.deletedAt": {
+    "message": "Supprimer le"
+  },
+  "event.bulk_actions.clear_selection": {
+    "message": "Annuler la sélection"
+  },
+  "event.bulk_actions.stats.total_events": {
+    "message": "{num} Évènements"
+  },
+  "eventGrid.header.actions.title": {
+    "message": "Actions"
+  },
+  "eventGrid.header.sort.title": {
+    "message": "Trié par"
+  },
+  "event.AddButton.title": {
+    "message": "Crée un nouvel évènement (non publié)"
+  },
+  "user.button.add-group": {
+    "message": "Ajouter un groupe"
+  },
+  "shiftDatesEditor.title": {
+    "message": "Déplacement d'évènements"
+  },
+  "shiftDatesEditor.eventSelection.current": {
+    "message": "Évènement actuel"
+  },
+  "shiftDatesEditor.shift": {
+    "message": "Déplacement"
+  },
+  "shiftedDatesEditor.dates": {
+    "message": "Jours"
+  },
+  "shiftDatesEditor.hours": {
+    "message": "Heures"
+  },
+  "shiftDatesEditor.apply": {
+    "message": "Appliquer (aperçu)"
+  },
+  "shiftDatesEditor.eventSelection.new": {
+    "message": "Nouveau (aperçu)"
+  },
+  "eventGroup.userTable.search": {
+    "message": "Chercher",
+    "description": "search"
+  },
+  "eventGroup.userTable.th.shortName": {
+    "message": "Sigle",
+    "description": "th: shortName"
+  },
+  "eventGroup.userTable.th.firstName": {
+    "message": "Prénom",
+    "description": "th: firstName"
+  },
+  "eventGroup.userTable.th.lastName": {
+    "message": "Nom",
+    "description": "th: lastName"
+  },
+  "eventGroup.userTable.removeUser": {
+    "message": "Supprimer l'utilisateur"
+  },
+  "theme.docs.DocCard.categoryDescription.plurals": {
+    "message": "{count} entrées",
+    "description": "The default description for a category card in the generated index about how many items this category includes"
+  },
+  "event.filter.mine.title": {
+    "message": "Afficher uniquement les dates qui me concernent"
+  },
+  "event.filter.future.title": {
+    "message": "Cacher les rendez-vous passés.",
+    "description": "Filter: Only current and future events"
+  },
+  "eventGrid.header.sortBy.title": {
+    "message": "Trier par \"{column}\""
+  },
+  "button.open.title": {
+    "message": "Ouvrir la page de l'énvènement"
+  },
+  "user.logout.title": {
+    "message": "Désinscrire {mail}"
+  },
+  "joi.event.emptyAudience": {
+    "message": "Au moins une classe, un groupe de classes ou une filière doit être sélectionné(e).",
+    "description": "Joi validation error for empty audience"
+  },
+  "event.createdAt": {
+    "message": "Crée le",
+    "description": "for a single event: date of event creation"
+  },
+  "event.updatedAt": {
+    "message": "Actualisé le",
+    "description": "for a single event: date of update"
+  },
+  "event.filter.deleted": {
+    "message": "Cacher les évènements supprimés",
+    "description": "Filter: deleted"
+  },
 }
