@@ -63,7 +63,7 @@
     "@docusaurus/tsconfig": "^3.3.2",
     "@docusaurus/types": "^3.3.2",
     "@types/humanize-duration": "^3.27.1",
-    "@types/lodash": "^4.14.185",
+    "@types/lodash": "^4.17.5",
     "@types/lodash.debounce": "^4.0.7",
     "@types/node": "^18.7.20",
     "@types/react": "^18.2.29",
