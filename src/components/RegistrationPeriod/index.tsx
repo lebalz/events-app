@@ -144,9 +144,9 @@ const EditRegPeriod = observer((props: Props) => {
                             trigger={(
                                 <span>
                                     <Button
-                                        text={translate({message: 'Von Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester', description:''})}
+                                        text={translate({message: 'Von Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester'})}
                                         icon={mdiDebugStepOver}
-                                        title={translate({message: 'Start- und Enddaten von einem Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester.Title', description:''})}
+                                        title={translate({message: 'Start- und Enddaten von einem Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester.Title'})}
                                         onClick={(e) => e.preventDefault()}
                                         color='blue'
                                     />

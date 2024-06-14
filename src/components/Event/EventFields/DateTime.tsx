@@ -65,10 +65,10 @@ const DateTime = observer((props: Props) => {
                             event.setAllDay(checked);
                         }}
                         label={translate({
-                                message : "Ganztägig",
-                                id:'components.events.datetime.allday',
-                                description:'Label of the checkbox all day'
-                            })}
+                            message : "Ganztägig",
+                            id:'components.events.datetime.allday',
+                            description:'Label of the checkbox all day'
+                        })}
                     />
                 )}
                 {error && (

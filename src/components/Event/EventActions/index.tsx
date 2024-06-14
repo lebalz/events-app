@@ -80,10 +80,10 @@ const EventActions = observer((props: Props) => {
                         color="black"
                         size={size}
                         title={translate({
-                                message : "Änderungen verwerfen",
-                                id : "components.event.actions.cancel.title",
-                                description : "Title of the button cancel"
-                            })}
+                            message : "Änderungen verwerfen",
+                            id : "components.event.actions.cancel.title",
+                            description : "Title of the button cancel"
+                        })}
                         icon={<DiscardIcon size={size} />}
                         iconSide='left'
                         onClick={() => {
