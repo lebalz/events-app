@@ -18,7 +18,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     constructor(root: RootStore) {
         super();
         this.root = root;
-        ;
+
     }
 
     createModel(data: JobProps): SyncJob | ImportJob {

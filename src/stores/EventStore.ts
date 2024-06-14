@@ -20,7 +20,7 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     constructor(root: RootStore) {
         super()
         this.root = root;
-        ;
+
     }
 
     canEdit(event: Event) {

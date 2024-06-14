@@ -14,7 +14,7 @@ export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
     constructor(root: RootStore) {
         super();
         this.root = root;
-        ;
+
     }
 
     createModel(data: RegPeriodProps): RegistrationPeriod {

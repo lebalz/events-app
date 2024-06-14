@@ -17,7 +17,7 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
     constructor(root: RootStore) {
         super();
         this.root = root;
-        ;
+
     }
 
     createModel(data: SemesterProps): Semester {

@@ -16,7 +16,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     readonly root: RootStore;
     models = observable<User>([]);
 
-    @observable accessor.ref
     affectedEventIds = observable.set<string>([]);
 
     constructor(root: RootStore) {
@@ -27,7 +26,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             // attempt to load the previous state of this store from localstorage
             this.rehydrate();
         }, 1);
-        ;
+
     }
 
     

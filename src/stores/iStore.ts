@@ -48,7 +48,6 @@ const API_STATE_RESET_TIMEOUT = 1500;
 abstract class iStore<Model extends { id: string }, Api = ''> extends ResettableStore implements LoadeableStore<any> {
     abstract readonly root: RootStore;
 
-    @observable accessor.ref
     abstract readonly ApiEndpoint: EndPoint;
 
     abstract models: IObservableArray<ApiModel<Model, Api | ApiAction>>;

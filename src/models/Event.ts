@@ -81,8 +81,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
 
-    @observable accessor.ref
-    updatedAt: Date;
+    @observable.ref accessor updatedAt: Date;
 
     /**
      * These are **only** the departments, which are added as a whole.
@@ -93,47 +92,33 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     classes = observable.set<KlassName>([]);
     classGroups = observable.set<string>([]);
 
-    @observable accessor
-    description: string;
+    @observable accessor description: string;
 
-    @observable accessor
-    descriptionLong: string;
+    @observable accessor descriptionLong: string;
 
-    @observable accessor
-    location: string;
+    @observable accessor location: string;
 
-    @observable accessor
-    end: Date;
+    @observable accessor end: Date;
 
-    @observable accessor
-    deletedAt?: Date;
+    @observable accessor deletedAt?: Date;
 
-    @observable accessor
-    start: Date;
+    @observable accessor start: Date;
 
-    @observable accessor
-    allLPs: boolean;
+    @observable accessor allLPs: boolean;
 
-    @observable accessor
-    audience: EventAudience;
+    @observable accessor audience: EventAudience;
 
-    @observable accessor
-    showAsAllDay: boolean;
+    @observable accessor showAsAllDay: boolean;
 
-    @observable accessor
-    teachingAffected: TeachingAffected;
+    @observable accessor teachingAffected: TeachingAffected;
 
-    @observable accessor
-    versionsLoaded: boolean = false;
+    @observable accessor versionsLoaded: boolean = false;
 
-    @observable accessor
-    selected: boolean = false;
+    @observable accessor selected: boolean = false;
 
-    @observable accessor.ref
-    _errors?: Joi.ValidationError
+    @observable.ref accessor _errors: Joi.ValidationError | undefined = undefined
 
-    @observable accessor
-    affectsDepartment2: boolean;
+    @observable accessor affectsDepartment2: boolean;
 
     validationDisposer: IReactionDisposer;
 
@@ -174,7 +159,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.showAsAllDay = this.isAllDay;
         this.meta = props.meta;
 
-        ;
+
         if (this.state !== EventState.Published && !this.deletedAt) {
             this.validate();
         }

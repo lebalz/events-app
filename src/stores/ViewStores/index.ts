@@ -18,31 +18,21 @@ import Colors from './Colors';
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
 
-    @observable accessor
-    showFullscreenButton = false;
-    @observable accessor
-    fullscreen = false;
+    @observable accessor showFullscreenButton = false;
+    @observable accessor fullscreen = false;
 
-    // @observable accessor.ref
-    eventTable: EventTable;
+    @observable.ref accessor eventTable: EventTable;
 
-    @observable accessor
-    _semesterId = '';
+    @observable accessor _semesterId = '';
 
-    @observable accessor
-    _userId: string | null = null;
+    @observable accessor _userId: string | null = null;
 
-    @observable accessor.ref
-    adminUserTable: AdminUserTable;
-    @observable accessor.ref
-    adminDepartmentTable: AdminDepartmentTable;
-    @observable accessor.ref
-    colors: Colors;
-    @observable accessor
-    openEventModalId?: string;
+    @observable.ref accessor adminUserTable: AdminUserTable;
+    @observable.ref accessor adminDepartmentTable: AdminDepartmentTable;
+    @observable.ref accessor colors: Colors;
+    @observable accessor openEventModalId: string | undefined = undefined;
 
-    @observable accessor
-    initialAuthorizedLoadPerformed = false;
+    @observable accessor initialAuthorizedLoadPerformed = false;
 
     get initialPublicLoadPerformed() {
         return this.initialAuthorizedLoadPerformed;
@@ -52,19 +42,16 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
     }
 
-    @observable accessor
-    icalListDepartmentsFilter = '';
+    @observable accessor icalListDepartmentsFilter = '';
 
-    @observable accessor
-    icalListClassFilter = '';
+    @observable accessor icalListClassFilter = '';
 
-    @observable accessor
-    calendarViewDate = (new Date()).toISOString().split('T')[0];
+    @observable accessor calendarViewDate = (new Date()).toISOString().split('T')[0];
 
     expandedEventIds = observable.set<string>();
 
     constructor(store: RootStore) {
-        ;
+
         this.root = store;
         this.eventTable = new EventTable(this);
         this.colors = new Colors(this);

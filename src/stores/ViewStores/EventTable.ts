@@ -26,39 +26,30 @@ class EventTable {
     /** filter props */
     textFilter = observable.set<string>();
 
-    @observable accessor
-    klassFilter = '';
+    @observable accessor klassFilter = '';
 
     audienceFilter = observable.set<EventAudience>();
 
-    @observable accessor
-    start: Date | null = null;
-    @observable accessor
-    end: Date | null = null;
+    @observable accessor start: Date | null = null;
+    @observable accessor end: Date | null = null;
     departmentIds = observable.set<string>();
     classNames = observable.set<string>();
 
-    @observable accessor
-    onlyMine: boolean = false;
+    @observable accessor onlyMine: boolean = false;
 
-    @observable accessor
-    _onlyCurrentWeekAndFuture: boolean = true;
+    @observable accessor _onlyCurrentWeekAndFuture: boolean = true;
 
-    @observable accessor
-    activeGroup: string | null = null;
+    @observable accessor activeGroup: string | null = null;
 
-    @observable accessor
-    showAdvancedFilter = false;
+    @observable accessor showAdvancedFilter = false;
 
-    @observable accessor
-    hideDeleted = true;
+    @observable accessor hideDeleted = true;
 
-    @observable accessor
-    showSelect = false;
+    @observable accessor showSelect = false;
 
 
     constructor(store: ViewStore) {
-        ;
+
         this.store = store;
     }
 

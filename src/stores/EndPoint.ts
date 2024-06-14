@@ -5,17 +5,15 @@ export class EndPoint {
     readonly PublicRoute: string;
     readonly AuthorizedRoute: string;
 
-    @observable accessor
-    publicRouteLoaded = false;
+    @observable accessor publicRouteLoaded = false;
 
-    @observable accessor
-    authorizedRouteLoaded = false;
+    @observable accessor authorizedRouteLoaded = false;
 
     constructor(Base: string, config: {public?: boolean | string, authorized?: boolean | string} = {}) {
         this.Base = Base;
         this.PublicRoute = config.public && (typeof config.public === 'string') ? config.public : config.public ? Base : '';
         this.AuthorizedRoute = config.authorized && (typeof config.authorized === 'string') ? config.authorized : config.authorized ? Base : '';
-        ;
+
     }
 
     get hasPublicRoute() {

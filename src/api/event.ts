@@ -322,7 +322,7 @@ export const JoiEvent = Joi.object<Event>({
 //         description: 'Joi validation error for empty audience'
 //     })
 // })
-;
+
 
 /**
  * @see https://github.com/hapijs/joi/blob/master/lib/types/date.js for default messages

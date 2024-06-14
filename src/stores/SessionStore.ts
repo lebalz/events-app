@@ -11,14 +11,14 @@ import siteConfig from '@generated/docusaurus.config';
 const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 
 class State {    
-    @observable accessor.ref
+    @observable.ref accessor
     account?: AccountInfo | null = undefined;
 
-    @observable accessor.ref
+    @observable.ref accessor
     _msalInstance?: IPublicClientApplication;
 
     constructor() {
-        ;
+
     }
 }
 
@@ -26,24 +26,20 @@ class State {
 export class SessionStore {
     private readonly root: RootStore;
     private static readonly NAME = 'SessionStore' as const;
-    @observable accessor.ref
+    @observable.ref accessor
     private state: State = new State();
 
-    @observable accessor
-    authMethod: 'apiKey' | 'msal';
+    @observable accessor authMethod: 'apiKey' | 'msal';
 
-    @observable accessor
-    currentUserId?: string;
+    @observable accessor currentUserId?: string;
 
-    @observable accessor
-    initialized = false;
+    @observable accessor initialized = false;
 
-    @observable accessor
-    storageSyncInitialized = false;
+    @observable accessor storageSyncInitialized = false;
 
     constructor(store: RootStore) {
         this.root = store;
-        ;
+
         const data = Storage.get<PersistedData>(StorageKey.SessionStore) || {};
         this.rehydrate(data);
         // setTimeout(() => {

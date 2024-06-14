@@ -63,31 +63,23 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
     readonly id: string;
     readonly createdAt: Date;
 
-    @observable accessor
-    name: string;
+    @observable accessor name: string;
 
-    @observable accessor
-    description: string;
+    @observable accessor description: string;
     
-    @observable accessor.ref
-    start: Date;
+    @observable.ref accessor start: Date;
     
-    @observable accessor.ref
-    end: Date;
+    @observable.ref accessor end: Date;
 
-    @observable accessor.ref
-    eventRangeStart: Date;
+    @observable.ref accessor eventRangeStart: Date;
 
-    @observable accessor.ref
-    eventRangeEnd: Date;
+    @observable.ref accessor eventRangeEnd: Date;
 
-    @observable accessor.ref
-    isOpen: boolean
+    @observable.ref accessor isOpen: boolean
 
     departmentIds = observable.set<string>([]);
 
-    @observable accessor.ref
-    updatedAt: Date;
+    @observable.ref accessor updatedAt: Date;
 
     constructor(props: RegPeriodProps, store: RegistrationPeriodStore) {
         super();
@@ -107,7 +99,7 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
 
-        ;
+
     }
 
     @override
