@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
 import { translate } from '@docusaurus/Translate';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
-import { DiscardIcon, SIZE, SIZE_S, SaveIcon, SaveVersionIcon } from '../../shared/icons';
+import { DiscardIcon, SIZE, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
 import Event from '@site/src/models/Event';
 import Delete from '../../shared/Button/Delete';

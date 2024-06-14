@@ -37,7 +37,7 @@ const RegistrationPeriods = observer((props: Props) => {
                     message: 'Eingabefenster hinzufügen',
                     id: 'RegistrationPeriod.addButton.text',
                     description: 'Text of button to add RegistrationPeriod'
-                    })}
+                })}
                 apiState={regPeriodStore.apiStateFor('create')}
                 color='primary'
             />
