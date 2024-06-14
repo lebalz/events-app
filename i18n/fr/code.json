@@ -753,7 +753,7 @@
     "description": "Only a part of the class will be present"
   },
   "EventAudience.ALL.description": {
-    "message": "Tout",
+    "message": "Tout le monde",
     "description": "This event is for everyone, no matter wheter a lesson is affected or not"
   },
   "EventAudience.KLP.description": {
@@ -919,6 +919,7 @@
   },
   "components.event.usersevents.index.tabitem.notpublished": {
     "message": "Brouillons",
+    "message": "Brouillons",
     "description": "Text not published"
   },
   "components.event.usersevents.index.header.notpublished": {
@@ -926,7 +927,7 @@
     "description": "Th: not published"
   },
   "components.event.usersevents.index.tabitem.reviewed": {
-    "message": "En attente ",
+    "message": "En attente",
     "description": "Events reviewed"
   },
   "components.event.usersevents.index.header.reviewed": {
