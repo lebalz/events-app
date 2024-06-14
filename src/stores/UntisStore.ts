@@ -22,7 +22,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     lessons = observable<Lesson>([]);
     teachers = observable<Teacher>([]);
     subjects = observable<Subject>([]);
-    @observable
+    @observable accessor
     initialPublicLoadPerformed = false;
 
     get initialAuthorizedLoadPerformed() {
@@ -33,12 +33,12 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
     }
 
-    @observable
+    @observable accessor
     initialized = false;
     constructor(root: RootStore) {
         this.root = root;
         
-        makeObservable(this);
+        ;
         reaction(
             () => this.root.userStore.current?.untisId,
             (id) => {

@@ -122,7 +122,7 @@ const setLocalStorage = _.debounce((data: ColorProps) => {
 class Colors {
     private readonly store: ViewStore;
 
-    @observable.deep
+    @observable accessor.deep
     data: ColorProps = {
         version: COLOR_VERSION,
         dark: {
@@ -135,7 +135,7 @@ class Colors {
         }
     };
 
-    @observable.deep
+    @observable accessor.deep
     inputColors = {
         light: _.cloneDeep(DEAFULT_COLORS.dark),
         dark: _.cloneDeep(DEAFULT_COLORS.dark),
@@ -144,7 +144,7 @@ class Colors {
     constructor(store: ViewStore) {
         this.store = store;
         this.rehydrate();
-        makeObservable(this);
+        ;
         reaction(
             () => JSON.stringify(this.data),
             () => {

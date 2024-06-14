@@ -33,7 +33,7 @@ export default class Teacher {
         this.store = store;
         this.hasUser = props.hasUser;
 
-        makeObservable(this);
+        ;
     }
 
     get props(): UntisTeacher {

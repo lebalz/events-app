@@ -31,7 +31,7 @@ export default class Klass {
         this.teacherIds = props.teacherIds;
         this.lessonIds = props.lessonIds;
 
-        makeObservable(this);
+        ;
     }
 
     static ClassNamesGroupedByYear(classes: Klass[], threshold: number = 3): {[name: string]: string} {        

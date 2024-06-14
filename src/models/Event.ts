@@ -81,7 +81,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
 
-    @observable.ref
+    @observable accessor.ref
     updatedAt: Date;
 
     /**
@@ -93,46 +93,46 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     classes = observable.set<KlassName>([]);
     classGroups = observable.set<string>([]);
 
-    @observable
+    @observable accessor
     description: string;
 
-    @observable
+    @observable accessor
     descriptionLong: string;
 
-    @observable
+    @observable accessor
     location: string;
 
-    @observable
+    @observable accessor
     end: Date;
 
-    @observable
+    @observable accessor
     deletedAt?: Date;
 
-    @observable
+    @observable accessor
     start: Date;
 
-    @observable
+    @observable accessor
     allLPs: boolean;
 
-    @observable
+    @observable accessor
     audience: EventAudience;
 
-    @observable
+    @observable accessor
     showAsAllDay: boolean;
 
-    @observable
+    @observable accessor
     teachingAffected: TeachingAffected;
 
-    @observable
+    @observable accessor
     versionsLoaded: boolean = false;
 
-    @observable
+    @observable accessor
     selected: boolean = false;
 
-    @observable.ref
+    @observable accessor.ref
     _errors?: Joi.ValidationError
 
-    @observable
+    @observable accessor
     affectsDepartment2: boolean;
 
     validationDisposer: IReactionDisposer;
@@ -174,7 +174,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.showAsAllDay = this.isAllDay;
         this.meta = props.meta;
 
-        makeObservable(this);
+        ;
         if (this.state !== EventState.Published && !this.deletedAt) {
             this.validate();
         }

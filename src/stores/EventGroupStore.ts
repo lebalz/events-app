@@ -18,7 +18,7 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
+        ;
     }
 
     createModel(data: EventGroupProps): EventGroup {

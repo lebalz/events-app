@@ -41,25 +41,25 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     readonly id: string;
     readonly createdAt: Date;
     readonly isUserModel = false;
-    @observable
+    @observable accessor
     name: string;
-    @observable.ref
+    @observable accessor.ref
     updatedAt: Date;
 
-    @observable
+    @observable accessor
     color: string;
 
-    @observable
+    @observable accessor
     department1_Id: string | null | undefined;
-    @observable
+    @observable accessor
     department2_Id: string | null | undefined;
     
-    @observable
+    @observable accessor
     letter: string;
     
     classLetters = observable.set<string>([]);
 
-    @observable
+    @observable accessor
     description: string;
 
     constructor(props: DepartmentProps, store: DepartmentStore) {
@@ -76,7 +76,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.department2_Id = props.department2_Id;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-        makeObservable(this);
+        ;
 
     }
 

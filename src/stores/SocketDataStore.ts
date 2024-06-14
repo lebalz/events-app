@@ -30,12 +30,12 @@ const withParsedMessage = <T>(fn: (data: T) => void) => {
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
     abortControllers = new Map<string, AbortController>();
-    @observable.ref
+    @observable accessor.ref
     socket?: Socket<ServerToClientEvents, ClientToServerEvents>;
 
     messages = observable<Message>([]);
 
-    @observable
+    @observable accessor
     initialAuthorizedLoadPerformed = false;
 
     get initialPublicLoadPerformed() {
@@ -46,12 +46,12 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
     }
 
-    @observable
+    @observable accessor
     isLive: boolean = false;
 
     constructor(root: RootStore) {
         this.root = root;
-        makeObservable(this);
+        ;
 
         api.interceptors.response.use(
             res => res,

@@ -27,13 +27,13 @@ export default class User extends ApiModel<UserProps, ApiAction> {
   readonly updatedAt: Date;
   readonly icalUrl: string | null;
 
-  @observable
+  @observable accessor
   notifyOnEventUpdate: boolean;
-  @observable
+  @observable accessor
   notifyAdminOnReviewRequest: boolean;
-  @observable
+  @observable accessor
   notifyAdminOnReviewDecision: boolean;
-  @observable
+  @observable accessor
   untisId?: number;
 
   constructor(props: UserProps, store: UserStore, untisStore: UntisStore) {
@@ -54,7 +54,7 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     this.createdAt = new Date(props.createdAt);
     this.updatedAt = new Date(props.updatedAt);
 
-    makeObservable(this);
+    ;
   }
 
   @computed

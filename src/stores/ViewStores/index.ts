@@ -18,30 +18,30 @@ import Colors from './Colors';
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
 
-    @observable
+    @observable accessor
     showFullscreenButton = false;
-    @observable
+    @observable accessor
     fullscreen = false;
 
-    // @observable.ref
+    // @observable accessor.ref
     eventTable: EventTable;
 
-    @observable
+    @observable accessor
     _semesterId = '';
 
-    @observable
+    @observable accessor
     _userId: string | null = null;
 
-    @observable.ref
+    @observable accessor.ref
     adminUserTable: AdminUserTable;
-    @observable.ref
+    @observable accessor.ref
     adminDepartmentTable: AdminDepartmentTable;
-    @observable.ref
+    @observable accessor.ref
     colors: Colors;
-    @observable
+    @observable accessor
     openEventModalId?: string;
 
-    @observable
+    @observable accessor
     initialAuthorizedLoadPerformed = false;
 
     get initialPublicLoadPerformed() {
@@ -52,19 +52,19 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
     }
 
-    @observable
+    @observable accessor
     icalListDepartmentsFilter = '';
 
-    @observable
+    @observable accessor
     icalListClassFilter = '';
 
-    @observable
+    @observable accessor
     calendarViewDate = (new Date()).toISOString().split('T')[0];
 
     expandedEventIds = observable.set<string>();
 
     constructor(store: RootStore) {
-        makeObservable(this);
+        ;
         this.root = store;
         this.eventTable = new EventTable(this);
         this.colors = new Colors(this);
