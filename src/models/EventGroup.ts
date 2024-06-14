@@ -181,4 +181,14 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     clone() {
         this.store.clone(this);
     }
+
+    @computed
+    get queryParam() {
+        return `id=${this.id}`;
+    }
+
+    @computed
+    get shareUrl() {
+        return `/group?${this.queryParam}`;
+    }
 }

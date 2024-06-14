@@ -13,33 +13,37 @@ import Clone from '../shared/Button/Clone';
 import BulkActions from '../Event/BulkActions';
 import EventGrid from '../Event/EventGrid';
 import LazyDetails from '../shared/Details';
-import { ApiIcon, DiscardIcon, SIZE_S, SaveIcon } from '../shared/icons';
+import { ApiIcon, DiscardIcon, SIZE, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import Translate, { translate } from '@docusaurus/Translate';
-import { mdiAccount, mdiAccountGroup } from '@mdi/js';
+import { mdiAccount, mdiAccountGroup, mdiShareCircle } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
 import _ from 'lodash';
 import UserTable from './UserTable';
 import ShiftDatesEditor from './ShiftDatesEditor';
 import AddUserPopup from './UserTable/AddUserPopup';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 
 interface Props {
     group: EventGroupModel
+    standalone?: boolean
+
 }
+const BTN_SIZE = SIZE_S;
 
 const UserEventGroup = observer((props: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
     React.useEffect(() => {
-        if (isOpen && !group.isFullyLoaded) {
+        if ((isOpen || props.standalone) && !group.isFullyLoaded) {
             group.loadEvents();
         }
-    }, [isOpen, props.group, props.group.isFullyLoaded]);
+    }, [isOpen, props.group, props.group.isFullyLoaded, props.standalone]);
     const { group } = props;
     return (
-        <div className={clsx(styles.group, 'card', (isOpen || group.isEditing) && styles.open)}>
+        <div className={clsx(styles.group, 'card', (props.standalone || isOpen || group.isEditing) && styles.open)}>
             <div className={clsx(styles.header, 'card__header')}>
                 <div className="avatar__intro">
                     {group.isEditing
@@ -48,7 +52,7 @@ const UserEventGroup = observer((props: Props) => {
                                 className={clsx(styles.textInput)} 
                                 text={group.name}
                                 placeholder={translate({id: 'group.name.placeholder', message: 'Name der Gruppe'})}
-                                onChange={(text) => group.update({ name: text })} 
+                                onChange={(text) => group.update({ name: text })}
                             />
                         ) : (
                             <div
@@ -75,11 +79,25 @@ const UserEventGroup = observer((props: Props) => {
                 </div>
                 <div className={clsx(styles.badges)}>
                     {
+                        !props.standalone && (
+                            <Button
+                                icon={mdiShareCircle}
+                                color='blue'
+                                href={useBaseUrl(group.shareUrl)}
+                                size={BTN_SIZE}
+                                title={translate({
+                                    message: 'Gruppenseite anzeigen',
+                                    id: 'button.group.open.title'
+                                })}
+                            />
+                        )
+                    }
+                    {
                         !group.isEditing && (
                             <Button
                                 icon={group.userIds.size > 1 ? mdiAccountGroup : mdiAccount}
                                 iconSide='left'
-                                size={SIZE_S}
+                                size={BTN_SIZE}
                                 text={group.userIds.size > 1 ? `${group.userIds.size}` : undefined}
                                 color={group.userIds.size > 1 ? 'primary' : 'gray'}
                                 onClick={() => setIsOpen(!isOpen)}
@@ -113,7 +131,7 @@ const UserEventGroup = observer((props: Props) => {
             </div>
             <div className={clsx(styles.body, 'card__body')}>
                 {
-                    (group.isEditing || isOpen) && (
+                    (group.isEditing || isOpen || props.standalone) && (
                         <>
                             <DefinitionList>
                                 <dt><Translate id="group.createdAt">Erstellt Am</Translate></dt>
@@ -196,6 +214,7 @@ const UserEventGroup = observer((props: Props) => {
             <div className={clsx(styles.spacer)}></div>
             <LazyDetails
                 className={clsx(styles.eventDetails, 'card__footer')}
+                open={props.standalone}
                 summary={
                     <summary>
                         <div className={clsx(styles.summary)}>
@@ -207,7 +226,7 @@ const UserEventGroup = observer((props: Props) => {
                         </div>
                     </summary>
                 }
-                onOpenChange={(open) => {
+                onOpenChange={props.standalone ? undefined : (open) => {
                     setIsOpen(open);
                 }}
             >

@@ -89,4 +89,14 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
             console.log(err);
         });
     }
+
+    byIds(ids?: string | string[]): EventGroup[] {
+        if (!ids) {
+            return [];
+        }
+        if (!Array.isArray(ids)) {
+            ids = [ids];
+        }
+        return ids.map((id) => this.find<EventGroup>(id)).filter((e) => !!e);
+    }
 }

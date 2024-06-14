@@ -13,6 +13,7 @@ import Event from '@site/src/models/Event';
 import Delete from '../../shared/Button/Delete';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 
 interface Props {
@@ -57,7 +58,7 @@ const DefaultActions = observer((props: Props) => {
             <Button
                 color="blue"
                 icon={mdiShareCircle}
-                href={event.shareUrl}
+                href={useBaseUrl(event.shareUrl)}
                 size={BTN_SIZE}
                 title={translate({
                     message: 'Terminseite Anzeigen',
