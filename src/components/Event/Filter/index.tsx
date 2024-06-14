@@ -235,7 +235,11 @@ const Filter = observer((props: Props) => {
                     </div>
                     <div>
                         <Checkbox
-                            label='Gelöschte Verstecken?'
+                            label={translate({
+                                message: 'Gelöschte Verstecken?',
+                                id: 'event.filter.deleted',
+                                description: 'Filter: deleted'
+                            })}
                             checked={eventTable.hideDeleted}
                             onChange={(checked) => eventTable.setHideDeleted(checked)}
                             labelSide='left'
