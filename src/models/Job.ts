@@ -107,6 +107,7 @@ export class SyncJob extends Job {
         return this.semester?.fUntisSyncDate === this.fSyncDate;
     }
 
+    // @ts-ignore
     @override
     get props(): UntisSyncJob {
         return {

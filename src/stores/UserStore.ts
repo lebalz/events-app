@@ -67,6 +67,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         return this.root.eventStore.byUser(this.current?.id);;
     }
 
+    // @ts-ignore
     @override
     postLoad(models: User[], publicModels: boolean, success?: boolean): Promise<any> {
         if (!publicModels && success && this.current) {

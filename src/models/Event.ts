@@ -100,7 +100,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable accessor end: Date;
 
-    @observable accessor deletedAt?: Date;
+    @observable accessor deletedAt: Date | null;
 
     @observable accessor start: Date;
 
@@ -211,6 +211,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
+    // @ts-ignore
     @override
     get isValid() {
         return this._errors === undefined || this._errors.details.length === 0;
@@ -543,6 +544,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.selected = selected;
     }
 
+    // @ts-ignore
     @override
     get isEditable() {
         return !this.isDeleted && this.store.canEdit(this);
@@ -944,6 +946,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     }
 
+    // @ts-ignore
     @override
     get props(): EventProps {
         return {
@@ -1145,6 +1148,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.root.eventGroupStore.eventGroups.filter(g => g.eventIds.has(this.id));
     }
 
+    // @ts-ignore
     @override
     cleanup() {
         this.validationDisposer();

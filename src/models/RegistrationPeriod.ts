@@ -102,6 +102,7 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
 
     }
 
+    // @ts-ignore
     @override
     get props(): RegPeriodProps {
         return {

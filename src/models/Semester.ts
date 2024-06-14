@@ -46,6 +46,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
 
     }
 
+    // @ts-ignore
     @override
     get props(): SemesterProps {
         return {

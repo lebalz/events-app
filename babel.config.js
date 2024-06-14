@@ -6,6 +6,7 @@ module.exports = {
     [require("@babel/plugin-proposal-decorators").default, { "version": "2023-05" }],
     [require("@babel/plugin-proposal-class-properties").default, { "loose": false }], 
     [require("@babel/plugin-proposal-private-methods").default, { "loose": false }],
+    [require("@babel/plugin-transform-class-static-block").default, { "loose": false }],
     [require("@babel/plugin-proposal-private-property-in-object").default, { "loose": false }]
   ],
   assumptions: {

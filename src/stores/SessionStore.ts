@@ -11,11 +11,9 @@ import siteConfig from '@generated/docusaurus.config';
 const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 
 class State {    
-    @observable.ref accessor
-    account?: AccountInfo | null = undefined;
+    @observable.ref accessor account: AccountInfo | null | undefined = undefined;
 
-    @observable.ref accessor
-    _msalInstance?: IPublicClientApplication;
+    @observable.ref accessor _msalInstance: IPublicClientApplication | undefined = undefined;
 
     constructor() {
 
@@ -31,7 +29,7 @@ export class SessionStore {
 
     @observable accessor authMethod: 'apiKey' | 'msal';
 
-    @observable accessor currentUserId?: string;
+    @observable accessor currentUserId: string | undefined = undefined;
 
     @observable accessor initialized = false;
 

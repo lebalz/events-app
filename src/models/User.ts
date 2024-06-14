@@ -30,7 +30,7 @@ export default class User extends ApiModel<UserProps, ApiAction> {
   @observable accessor notifyOnEventUpdate: boolean;
   @observable accessor notifyAdminOnReviewRequest: boolean;
   @observable accessor notifyAdminOnReviewDecision: boolean;
-  @observable accessor untisId?: number;
+  @observable accessor untisId: number | undefined;
 
   constructor(props: UserProps, store: UserStore, untisStore: UntisStore) {
     super();
@@ -108,6 +108,7 @@ export default class User extends ApiModel<UserProps, ApiAction> {
   }
 
 
+  // @ts-ignore
   @override
   get props() {
     return {

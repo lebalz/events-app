@@ -38,6 +38,7 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
         return _.orderBy(this.models, ['_pristine.name'], ['asc']) as EventGroup[];
     }
 
+    // @ts-ignore
     @override
     create(model: EventGroupCreate) {
         /**

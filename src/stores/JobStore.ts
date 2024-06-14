@@ -29,6 +29,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         return this.root.userStore.find<User>(id);
     }
 
+    // @ts-ignore
     addToStore(data: JobProps, state?: 'load' | 'create', reloadStores?: boolean): Job
     @override
     addToStore(data: JobAndEventsProps, state?: 'load' | 'create', reloadStores?: boolean): Job {
@@ -51,6 +52,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         return job;
     }
 
+    // @ts-ignore
     @override
     removeFromStore(id?: string) {
         if (!id) {

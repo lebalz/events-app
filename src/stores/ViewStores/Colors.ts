@@ -122,8 +122,7 @@ const setLocalStorage = _.debounce((data: ColorProps) => {
 class Colors {
     private readonly store: ViewStore;
 
-    @observable accessor.deep
-    data: ColorProps = {
+    @observable.deep accessor data: ColorProps = {
         version: COLOR_VERSION,
         dark: {
             colors: _.cloneDeep(DEAFULT_COLORS.dark),
@@ -135,8 +134,7 @@ class Colors {
         }
     };
 
-    @observable accessor.deep
-    inputColors = {
+    @observable.deep accessor inputColors = {
         light: _.cloneDeep(DEAFULT_COLORS.dark),
         dark: _.cloneDeep(DEAFULT_COLORS.dark),
     };
