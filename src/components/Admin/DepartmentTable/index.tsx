@@ -87,7 +87,7 @@ const DepartmentTable = observer((props: Props) => {
                         </th>
                         <th>
                             <Translate
-                                id="components.admin.filiere.class.letters"
+                                id="components.admin.department.class.letters"
                                 description="the text of the column for the class letters"
                             >
                                 Klassen-Buchstaben
