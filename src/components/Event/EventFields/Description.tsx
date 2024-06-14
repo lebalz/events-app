@@ -21,7 +21,7 @@ const Description = observer((props: Props) => {
                     onChange={(text) => event.update({description: text})}
                 />
                 {error && (
-                    <div className={styles.errorMessage}>
+                    <div className={clsx(styles.errorMessage)}>
                         {error.message}
                     </div>
                 )}

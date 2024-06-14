@@ -19,7 +19,23 @@ const api = axios.create({
     headers: {}
 });
 
-export const setupAxios = () => {
+export const setupDefaultAxios = () => {
+    /** clear all current interceptors and set them up... */
+    api.interceptors.request.clear();
+    api.interceptors.request.use(
+        async (config: InternalAxiosRequestConfig) => {
+            if (config.headers['Authorization']) {
+                delete config.headers['Authorization'];
+            }
+            return config;
+        },
+        (error) => {
+            Promise.reject(error);
+        }
+    );
+}
+
+export const setupMsalAxios = () => {
     /** clear all current interceptors and set them up... */
     api.interceptors.request.clear();
     api.interceptors.request.use(

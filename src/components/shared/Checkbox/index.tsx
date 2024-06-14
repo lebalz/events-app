@@ -22,7 +22,7 @@ const Checkbox = observer((props: Props) => {
             <label className={clsx(styles.label, props.disabled && styles.disabled)}>
                 {props.labelSide === 'left' && props.label}
                 <input
-                    className={styles.checkbox}
+                    className={clsx(styles.checkbox)}
                     type='checkbox' 
                     disabled={props.disabled}
                     onChange={action((e) => {

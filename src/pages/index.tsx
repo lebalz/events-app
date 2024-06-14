@@ -9,9 +9,10 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Section from '../components/shared/Section';
 import { translate } from '@docusaurus/Translate';
 import Icon from '@mdi/react';
-import { mdiAccountCircleOutline, mdiCalendarAccount, mdiCalendarMonth, mdiChartTimeline, mdiMicrosoftOutlook, mdiSecurity, mdiViewList } from '@mdi/js';
+import { mdiAccountCircleOutline, mdiBookOpenVariantOutline, mdiCalendarAccount, mdiCalendarMonth, mdiCalendarSync, mdiChartTimeline, mdiMicrosoftOutlook, mdiPalette, mdiSecurity, mdiViewList } from '@mdi/js';
 import Link from '@docusaurus/Link';
 import { useStore } from '../stores/hooks';
+import Badge from '../components/shared/Badge';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -89,9 +90,15 @@ const Home = observer(() => {
                             displayFor='public'
                         />
                         <NavCard
-                            icon={mdiMicrosoftOutlook}
+                            icon={mdiCalendarSync}
                             to={useBaseUrl('/subscribe')}
-                            label={translate({ message: 'Outlook', id: 'navcard.subscribe.text', description: 'Button text for navigating to the subscribe page' })}
+                            label={translate({ message: 'Abonnieren', id: 'navcard.subscribe.text', description: 'Button text for navigating to the subscribe page' })}
+                            displayFor='public'
+                        />
+                        <NavCard
+                            icon={mdiBookOpenVariantOutline}
+                            to={useBaseUrl('/docs')}
+                            label={translate({ message: 'Dokumentation', id: 'navcard.docs.text', description: 'Button text for navigating to the documentation page' })}
                             displayFor='public'
                         />
                         <NavCard
@@ -149,6 +156,44 @@ const Home = observer(() => {
                             </div>
                             <div className='card__body'>
                                 <h3>Changelog</h3>
+                                <h4>Version: Beta 1.11 (05.05.2024)</h4>
+                                <ul>
+                                    <li>🚀💅 Neu: Benutzende können selber die Hauptfarbe einstellen. In der Navigationsliste auf <Badge icon={mdiPalette} color="primary" className={styles.inline} size={0.6} /> klicken und die Farbe einstellen.</li>
+                                </ul>
+                                <h4>Version: Beta 1.10 (29.04.2024)</h4>
+                                <ul>
+                                    <li>🚀 Neu: Dokumentation und Gebrauchsanweisungen Verlinkt</li>
+                                    <li>🚀 Neu: Aktualisierte, aber noch nicht veröffentlichte Termine können in einer Übersicht dargestellt werden.</li>
+                                    <li>💅 Aktionen für Termine werden übersichtlicher dargestellt.</li>
+                                    <li>💅 Icons und Tooltips zeigen an, ob ein Termin direkt aktualisiert wird, oder eine neue Version erzeugt wird.</li>
+                                </ul>
+                                <h4>Version: Beta 1.9 (28.04.2024)</h4>
+                                <ul>
+                                    <li>💅 Neue Zeilen werden bei den Beschreibungen korrekt angezeigt.</li>
+                                    <li>💅 Rechts-Klick oder langes drücken auf Tablets öffnet die Termin-Übersicht.</li>
+                                    <li>💅 Ist in der Tabelle bei einem Termin kein Text ausgewählt, kann eine Zeile auch durch erneutes Klicken reduziert werden.</li>
+                                    <li>💅 Zeige den "Edit" Knopf bei unveröffentlichten Terminen an.</li>
+                                    <li>🚀 Neu: Termine in der Übersicht können ausgewählt, geteilt und zu einer Gruppe hinzugefügt werden.</li>
+                                    <li>🐛 Fix: Der "Termin Hinzufügen" Knopf wurde nicht angezeigt, wenn noch keine Termine vorhanden waren.</li>
+                                </ul>
+                                <h4>Version: Beta 1.8 (17.04.2024)</h4>
+                                <ul>
+                                    <li>💅 Layoutverbesserungen
+                                        <ul>
+                                            <li>Farben im Dark-Mode angepasst für besseren Kontrast.</li>
+                                            <li>Kalender-Ansicht: Zeige Wochentag, Tag und Monat (neu: Mo. 15.4, alt: 15 Mo)</li>
+                                            <li>Tabellen-Ansicht: Die Wochen-Balken sind nun stärker hervorgehoben (+2pt und mit Farbe ausgefüllt)</li>
+                                            <li>Herkömmliche Datumsdarstellung wo sinnvoll (6.4.24 statt 06.04.2024)</li>
+                                        </ul>
+                                    </li>
+                                    <li>🚀 Neu: Erklärende Popups über den Knöpfen und Elementen in der Tabelle.</li>
+                                    <li>💅 Ist eine Zeile in der Tabellensicht erweitert, kann sie auch durch Klicken auf "Lektionen Betroffen Knopf" 🔴🟡🟢 wieder reduziert werden.</li>
+                                    <li>💅 Mit <kbd>ctrl + Klick</kbd> kann die Terminübersicht geöffnet werden.</li>
+                                    <li>🚀 Neu: Eingabefenster für Termine hinzugefügt.</li>
+                                    <li>🐛 Fix: Bei der Termineingabe muss nun mindestens eine Zielgruppe ausgewählt werden (Klasse, Stufe oder Abteilung)</li>
+                                    <li>🚀 Neu: Download-Format des Excel-Exports.</li>
+                                    <li>🐛 Fix: Der Excel-Export fügt nur die angezeigten Termine ins Excel ein.</li>
+                                </ul>
                                 <h4>Version: Beta 1.7 (26.02.2024)</h4>
                                 <ul>
                                     <li>💅 Verbesserung: Wird der Start oder das Ende eines Termins verändert, so dass der "Start" nach dem "Ende" erfolgt, wird automatisch ein zulässiges Datum gesetzt.</li>

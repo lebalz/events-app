@@ -17,6 +17,7 @@ const Location = observer((props: Props) => {
                 <TextArea
                     text={event.location}
                     onChange={(loc) => event.update({location: loc})}
+                    rows={2}
                 />
             </div>
         )

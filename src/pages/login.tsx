@@ -10,6 +10,7 @@ import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
 import { tokenRequest } from '../authConfig';
 import siteConfig from '@generated/docusaurus.config';
+import { useStore } from '../stores/hooks';
 const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean};
 
 
@@ -27,9 +28,11 @@ function HomepageHeader() {
 
 
 const Login = observer(() => {
-    const isAuthenticated = useIsAuthenticated();
+    const sessionStore = useStore('sessionStore');
     const { instance } = useMsal();
+    const isAuthenticated = sessionStore.isLoggedIn || useIsAuthenticated();
     if (isAuthenticated || NO_AUTH) {
+        console.log('redirect')
         return (
             <Redirect to={'/user?user-tab=account'} />
         );
@@ -38,7 +41,7 @@ const Login = observer(() => {
         <Layout>
             <HomepageHeader />
             <main>
-                <div className={styles.loginPage}>
+                <div className={clsx(styles.loginPage)}>
                     <Link 
                         to="/" 
                         onClick={() => instance.acquireTokenRedirect(tokenRequest)} 

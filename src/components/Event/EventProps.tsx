@@ -7,8 +7,8 @@ import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../shared/DefinitionList';
 import {default as ShowAffectedAudience} from '../shared/AudiencePicker/Audience';
 import Badge from '../shared/Badge';
-import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiContentDuplicate, mdiDotsHorizontalCircleOutline, mdiEqual, mdiRecordCircleOutline, mdiText } from '@mdi/js';
-import { Icon, SIZE, SIZE_XS } from '../shared/icons';
+import { mdiArrowLeftBoldCircleOutline, mdiArrowRightBoldCircleOutline, mdiArrowRightBottom, mdiCalendarImport, mdiClose, mdiEqual, mdiRecordCircleOutline, mdiText, mdiTextLong } from '@mdi/js';
+import { Icon, SIZE, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
 import Lesson from '../Lesson';
@@ -19,44 +19,55 @@ import KW from './EventFields/Kw';
 import Day from './EventFields/Day';
 import { EndDateTime, StartDateTime } from './EventFields/DateTime';
 import Location from './EventFields/Location';
-import Audience from './EventFields/Audience';
+import {default as AudiencePicker} from './EventFields/Audience';
 import State from './EventFields/State';
-import { useHistory } from "@docusaurus/router";
-import EventActions from './EventActions';
 import Departments from './EventFields/Departments';
 import Klasses from './EventFields/Klasses';
-import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
+import { EventAudienceOverviewTranslation, EventAudienceTranslationLong, EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import TeachingAffected from './EventFields/TeachingAffected';
 import Version from './EventFields/Version';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import CreatedAt from './EventFields/CreatedAt';
 import UpdatedAt from './EventFields/UpdatedAt';
+import HistoryPopup from './VersionHistory/HistoryPopup';
+import DefaultActions from './EventActions';
+import Popup from 'reactjs-popup';
+import CodeBlock from '@theme/CodeBlock';
+import LazyDetails from '../shared/Details';
+import { PopupActions } from 'reactjs-popup/dist/types';
+import Admonition from '@theme/Admonition';
+import MetaWarningAlert from './MetaWarningAlert';
+
+
 interface Props {
     event: EventModel;
     inModal?: boolean;
     showVersionHeader?: boolean;
+    hideLoadVersionsButton?: boolean;
+    hideShowVersionsButton?: boolean;
 }
 
 const EventProps = observer((props: Props) => {
     const { event } = props;
-    const { i18n } = useDocusaurusContext();
     const [showAllAffectedLessons, setShowAllAffectedLessons] = React.useState(false);
-    const viewStore = useStore('viewStore');
+    const userStore = useStore('userStore');
     const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
     const semesterStore = useStore('semesterStore');
+    React.useEffect(() => {
+        event?.loadVersions();
+    }, [event]);
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
+    const metaRef = React.useRef<PopupActions>();  
 
-    const history = useHistory();
-    const commonClasses = clsx(event?.isDeleted && styles.deleted);
+    const commonClasses = clsx(event?.isDeleted && styles.deleted) || '';
     const commonProps = { event, styles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
-    const [showOptions, setShowOptions] = React.useState(false);
+    const showVersions = !props.hideLoadVersionsButton && (event.publishedVersionIds.length > 0 || event.hasParent);
 
-    const showActions = !props.inModal && event.isEditable;
     if (!event) {
         return null;
     }
+
     return (
         <DefinitionList className={clsx(styles.eventProps)}>
             {props.showVersionHeader && event.hasParent && (
@@ -64,7 +75,7 @@ const EventProps = observer((props: Props) => {
                     {
                         [EventState.Draft, EventState.Review].includes(event.state) ? (
                             <>
-                                <dt><Icon path={mdiArrowRightBoldCircleOutline} color='blue' /></dt>
+                                <dt><Icon path={mdiArrowRightBoldCircleOutline} color='primary' /></dt>
                                 <dd><Badge color='green' text="Neue Version" /></dd>
                                 <dt className='line'></dt>
                             </>
@@ -81,7 +92,7 @@ const EventProps = observer((props: Props) => {
             {props.showVersionHeader && !event.hasParent && event.hasChildren && (
                 <>
                     <dt><Icon path={mdiRecordCircleOutline} color="green" /></dt>
-                    <dd><Badge text="Aktuell" /></dd>
+                    <dd><Badge text={translate({message: 'Aktuell', id: 'event.version.current.short'})} /></dd>
                     <dt className='line'></dt>
                 </>
             )}
@@ -102,7 +113,7 @@ const EventProps = observer((props: Props) => {
                     Beschreibung
                 </Translate>
             </dt>
-            <dd><DescriptionLong {...commonEditProps} /></dd>
+            <dd><DescriptionLong {...commonEditProps} displayMultiLine/></dd>
             <dt>
                 <Translate
                     id="event.versionNumber"
@@ -112,34 +123,13 @@ const EventProps = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <Version {...commonProps} />
-            </dd>
-            <dt>
-                <Translate
-                    id="event.createdAt"
-                    description='for a single event: date of event creation'
-                >
-                    Erstellt am
-                </Translate>
-            </dt>
-            <dd>
-                <CreatedAt showTime {...commonProps} />
-            </dd>
+                <Version {...commonProps} hideVersion={props.hideShowVersionsButton} />
+            </dd>            
             {
-                event.updatedAt.getTime() !== event.createdAt.getTime() && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.updatedAt"
-                                description='for a single event: date of update'
-                            >
-                                Aktualisiert am
-                            </Translate>
-                        </dt>
-                        <dd>
-                            <UpdatedAt showTime {...commonProps} />
-                        </dd>
-                    </>
+                showVersions && (
+                    <dd>
+                        <HistoryPopup event={event} />
+                    </dd>
                 )
             }
             <dt>
@@ -219,7 +209,7 @@ const EventProps = observer((props: Props) => {
                             Publikum
                         </Translate>
                     </dt>
-                    <dd><Audience {...commonEditProps} /></dd>
+                    <dd><AudiencePicker {...commonEditProps} /></dd>
                 </>
             ) : (
                 <>
@@ -249,7 +239,7 @@ const EventProps = observer((props: Props) => {
                                 </Translate>
                             </dt>
                             <dd>
-                                <Departments {...commonProps} />
+                                <Departments {...commonProps} flexWrap/>
                             </dd>
                         </>
                     )}
@@ -262,7 +252,19 @@ const EventProps = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <ShowAffectedAudience event={event} />
+                        <Popup
+                            trigger={(
+                                <span style={{display: 'inline-block'}}>
+                                    <Badge text={EventAudienceOverviewTranslation[event.audience]} />
+                                </span>
+                            )}
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <ShowAffectedAudience event={event} />
+                        </Popup>
                     </dd>
                 </>
             )}
@@ -274,7 +276,134 @@ const EventProps = observer((props: Props) => {
                     Unterricht Betroffen?
                 </Translate>
             </dt>
-            <dd><TeachingAffected event={event} show='both' align='left' /></dd>
+            <dd>
+                <span style={{display: 'inline-block'}}>
+                    <TeachingAffected event={event} show='both' align='left' className={clsx(styles.teachingAffected)} />
+                </span>
+            </dd>
+            <dt>
+                <Translate
+                    id="event.createdAt"
+                    description='for a single event: date of event creation'
+                >
+                    Erstellt am
+                </Translate>
+            </dt>
+            <dd>
+                <CreatedAt showTime {...commonProps} />
+            </dd>
+            {
+                event.updatedAt.getTime() !== event.createdAt.getTime() && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.updatedAt"
+                                description='for a single event: date of update'
+                            >
+                                Aktualisiert am
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <UpdatedAt showTime {...commonProps} />
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.firstAuthor && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.firstAuthor"
+                                description='for a single event: author of the first version'
+                            >
+                                Erstautor:in
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <div className={clsx(styles.author)}>
+                                <Badge
+                                    text={event.firstAuthor.displayName}
+                                    title={
+                                        event.jobId
+                                            ? translate({id: 'event.firstAuthor.title', message: 'Dieser Termin wurde ursprünglich von {author} erstellt.'}, {author: event.firstAuthor.displayName})
+                                            : translate({id: 'event.firstAuthor.importedTitle', message: 'Dieser Termin wurde von {author} importiert.'}, {author: event.firstAuthor.displayName})
+                                    }
+                                    icon={event.jobId && mdiCalendarImport}
+                                    iconSide='left'
+                                />
+                            </div>
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.author && event.firstAuthor?.displayName !== event.author.displayName && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.modifier"
+                                description='for a single event: author of the first version'
+                            >
+                                Geändert von
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <div className={clsx(styles.author)}>
+                                <Badge
+                                    text={event.author.displayName}
+                                    title={translate({id: 'event.modifier.title', message: 'Dieser Termin wurde von {author} aktualisiert.'}, {author: event.author.displayName})}
+                                />
+                            </div>
+                        </dd>
+                    </>
+                )
+            }
+            {
+                event.canChangeState && (
+                    <>
+                        <dt>
+                            <Translate
+                                id="event.requestState"
+                                description='Requesting the next state, eg. Draft -> Review'
+                            >
+                                Status Ändern
+                            </Translate>
+                        </dt>
+                        <dd>
+                            {
+                                event.possibleStates.map((state, idx) => {
+                                    return (
+                                        <Button
+                                            key={state}
+                                            text={EventStateActions[state]}
+                                            icon={EventStateButton[state]}
+                                            color={EventStateColor[state]}
+                                            size={SIZE}
+                                            iconSide='left'
+                                            onClick={() => {
+                                                event.requestState(state);
+                                            }}
+                                            apiState={eventStore.apiStateFor(`save-state-${state}-${event.id}`)}
+                                        />
+                                    )
+                                })
+                            }
+                        </dd>
+                    </>
+                )
+            }
+            <dt>
+                <Translate
+                    id="event.actions"
+                    description='Actions for a single event'
+                >
+                    Aktionen
+                </Translate>
+            </dt>
+            <dd>
+                <DefaultActions event={event} hideOpen={props.inModal} />
+            </dd>
             <dt>
                 <Translate
                     id="event.affectedLessons"
@@ -303,6 +432,7 @@ const EventProps = observer((props: Props) => {
                             socketStore.checkEvent(event.id, semester?.id);
                         }
                     }}
+                    size={SIZE_S}
                 />
             </dd>
             {(showAllAffectedLessons ? event.affectedLessonsGroupedByClass : event.usersAffectedLessonsGroupedByClass).map((kl, idx) => {
@@ -320,58 +450,76 @@ const EventProps = observer((props: Props) => {
                     </dd>
                 </React.Fragment>)
             })}
-            {
-                event.canChangeState && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.requestState"
-                                description='Requesting the next state, eg. Draft -> Review'
-                            >
-                                Status Ändern
-                            </Translate>
-                        </dt>
-                        <dd>
-                            {
-                                event.possibleStates.map((state, idx) => {
-                                    return (
-                                        <Button
-                                            key={state}
-                                            text={EventStateActions[state]}
-                                            icon={EventStateButton[state]}
-                                            color={EventStateColor[state]}
-                                            size={SIZE_XS}
-                                            iconSide='left'
-                                            onClick={() => {
-                                                event.requestState(state);
-                                            }}
-                                            apiState={eventStore.apiStateFor(`save-state-${state}-${event.id}`)}
-                                        />
-                                    )
-                                })
-                            }
-                        </dd>
-                    </>
-                )
-            }
-            {
-                showActions && (
-                    <>
-                        <dt>
-                        </dt>
-                        <dd>
-                            <div className={clsx(styles.actions)}>
-                                <EventActions
-                                    event={event}
-                                    size={SIZE * 0.99}
-                                    buttonOrder={['discard', 'save']}
-                                    exclude={props.inModal ? [] : ['open']}
-                                />
+            {(event.meta && !event.isPublished && userStore.current.isAdmin ) && (
+                <>
+                    <dt>
+                        <Translate
+                            id="event.meta"
+                            description='for a single event: audience long'
+                        >
+                            Metadaten
+                        </Translate>
+                    </dt>
+                    <dd>
+                        {event.importWarnings.length > 0 && (
+                            <MetaWarningAlert event={event} />
+                        )}
+                        <Popup
+                            trigger={(
+                                <span>
+                                    <Button
+                                        text={translate({id: 'event.button.showImportLog', message: 'Rohdaten anzeigen'})}
+                                        icon={mdiTextLong}
+                                        size={SIZE_S}
+                                    />
+                                </span>
+                            )}
+                            on="click"
+                            ref={metaRef}
+                            modal
+                        >
+                            <div className={clsx(styles.metaCard, 'card')}>
+                                <div className={clsx('card__header', styles.header)}>
+                                    {
+                                        event.meta?.warningsReviewed && (
+                                            <>
+                                                <Button
+                                                    onClick={() => event.setWarningsReviewed(false)}
+                                                    text={translate({id: 'event.meta.warningsReviewed', message: 'Warnung wieder anzeigen'})}
+                                                />
+                                                <span className={styles.spacer}></span>
+                                            </>
+                                        )
+                                    } 
+                                    <Button
+                                        color="red"
+                                        title={
+                                            translate({
+                                                message: 'Schliessen',
+                                                id: 'button.close',
+                                                description: 'Button text to close a modal'
+                                            })
+                                        }
+                                        size={SIZE_S}
+                                        icon={mdiClose}
+                                        iconSide='left' 
+                                        onClick={() => metaRef.current.close()}
+                                    />
+                                </div>
+                                <MetaWarningAlert event={event} />
+                                <CodeBlock
+                                    language="json"
+                                    title="import.json"
+                                    showLineNumbers
+                                    className={clsx(styles.codeblock)}
+                                >
+                                    {JSON.stringify(event.meta, null, 2)}
+                                </CodeBlock>                                
                             </div>
-                        </dd>
-                    </>
-                )
-            }
+                        </Popup>
+                    </dd>
+                </>
+            )}
         </DefinitionList>
     )
 });

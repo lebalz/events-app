@@ -26,6 +26,10 @@ export function currentUser(signal: AbortSignal): AxiosPromise<User> {
     return api.get('/user', { signal });
 }
 
+export function logout(signal: AbortSignal): AxiosPromise<void> {
+    return api.post('/logout', {}, { signal });
+}
+
 
 export function linkToUntis(userId: string, untisId: number, signal: AbortSignal): AxiosPromise<User> {
     return api.put(

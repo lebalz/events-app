@@ -176,6 +176,11 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                             });
                     })
                 ).catch((err) => {
+                    if (err.code === 'ERR_BAD_REQUEST' && err.response?.status === 401 && err.response?.data?.error === 'Unauthorized') {
+                        console.log('using msal strategy')
+                        this.root.sessionStore.setMsalStrategy();
+                        return;
+                    }
                     if (err.code !== 'ERR_CANCELED') {
                         this.ApiEndpoint.setLoaded(models);
                     }

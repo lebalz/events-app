@@ -111,6 +111,15 @@ export const EventAudienceTranslationLong: { [key in EventAudience]: string } = 
     })
 }
 
+export const EventAudienceOverviewTranslation: { [key in EventAudience]: string } = {
+    ...EventAudienceTranslationLong,
+    [EventAudience.STUDENTS]: translate({
+        message: 'SuS, betroffene LP*',
+        description: 'Relevant for SuS only, their KLP will be informed aswell',
+        id: 'EventAudience.STUDENTS.description.overview'
+    })
+}
+
 interface AudienceConfig {
     icon?: string
     color?: Color
@@ -120,7 +129,7 @@ interface AudienceConfig {
 
 interface AffectedAudienceConfig {
     [EventAudience.LP]: AudienceConfig
-    [EventAudience.KLP]: AudienceConfig
+    [EventAudience.KLP]?: AudienceConfig
     [EventAudience.STUDENTS]: AudienceConfig
     example: string
 }
@@ -131,15 +140,15 @@ export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} 
             icon: mdiCalendarCheck,
             color: 'green',
         },
-        [EventAudience.KLP]: {
-            icon: mdiCalendarRemove,
-            color: 'red',
-        },
         [EventAudience.STUDENTS]: {
             icon: mdiCalendarRemove,
             color: 'red',
         },
-        example: translate({message: 'Noteneingabe in Evento', id: 'EventAudience.LP.example', description: 'Teachers Example'})
+        example: translate({
+            message: 'Noteneingabe in Evento',
+            id: 'EventAudience.LP.example', 
+            description: 'Teachers Example'
+        })
     },
     [EventAudience.KLP]: {
         [EventAudience.LP]: {
@@ -154,7 +163,11 @@ export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} 
             icon: mdiCalendarRemove,
             color: 'red',
         },
-        example: translate({message: 'Einsammeln unterschriebener Zeugnisse', id: 'EventAudience.KLP.example', description: 'KLP Example'})
+        example: translate({
+            message: 'Einsammeln unterschriebener Zeugnisse', 
+            id: 'EventAudience.KLP.example', 
+            description: 'KLP Example'
+        })
     },
     [EventAudience.ALL]: {
         [EventAudience.LP]: {
@@ -169,23 +182,41 @@ export const AffectedAudience: {[key in EventAudience]: AffectedAudienceConfig} 
             icon: mdiCalendarCheck,
             color: 'green',
         },
-        example: translate({message: 'Schulstart', id: 'EventAudience.ALL.example', description: 'All Example'})
+        example: translate({
+            message: 'Schulstart', 
+            id: 'EventAudience.ALL.example', 
+            description: 'All Example'
+        })
     },
     [EventAudience.STUDENTS]: {
         [EventAudience.LP]: {
             icon: CalendarCheckPartial,
             color: 'orange',
-            description: translate({message: 'Lehrpersonen mit betroffenen Lektionen', id: 'EventAudience.STUDENTS.LP.description', description: 'audience: students, description for LP'}), 
+            description: translate({
+                message: 'Lehrpersonen mit betroffenen Lektionen', 
+                id: 'EventAudience.STUDENTS.LP.description', 
+                description: 'audience: students, description for LP'
+            }), 
         },
         [EventAudience.KLP]: {
             icon: mdiCalendarCheck,
             color: 'green',
+            description: translate({
+                message: 'Klassenlehrpersonen der betroffenen Klassen', 
+                id: 'EventAudience.STUDENTS.KLP.description', 
+                description: 'audience: students, description for KLP'
+            
+            })
         },
         [EventAudience.STUDENTS]: {
             icon: mdiCalendarCheck,
             color: 'green',
         },
-        example: translate({message: 'Exkursion', id: 'EventAudience.LP.example', description: 'Students Example'})
+        example: translate({
+            message: 'Exkursion', 
+            id: 'EventAudience.STUDENTS.example', 
+            description: 'Students Example'
+        })
     }
 }
 
@@ -194,6 +225,16 @@ export enum ImportType {
     GBJB_CSV = 'GBJB_CSV',
     V1 = 'V1',
 }
+
+interface ImportMeta {
+    type: 'import',
+    version: 'gbsl_xlsx',
+    rowNr: number,
+    warnings: string[],
+    warningsReviewed: boolean,
+    raw: any
+}
+export type Meta = ImportMeta | null;
 
 export interface PrismaEvent {
     id: string
@@ -216,6 +257,7 @@ export interface PrismaEvent {
     updatedAt: string
     deletedAt?: string
     publishedVersionIds: string[]
+    meta?: Meta
 }
 
 export interface Event extends PrismaEvent {
@@ -255,7 +297,8 @@ export const JoiEvent = Joi.object<Event>({
     publishedVersionIds: Joi.array().items(Joi.string()).required(),
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
-    deletedAt: Joi.date().iso().allow(null)
+    deletedAt: Joi.date().iso().allow(null),
+    meta: Joi.object().allow(null)
 }).custom(
     (value: Event, helpers: CustomHelpers<Event>) => {
         if (value.classes.length + value.classGroups.length + value.departmentIds.length === 0) {
@@ -330,4 +373,9 @@ export function clone(eventId: string, signal: AbortSignal): AxiosPromise<Event>
 
 export function all<T>(ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
     return api.get('events', { params: { ids },  signal });
+}
+
+
+export function updateMeta<T>(id: string, meta: any, signal: AbortSignal): AxiosPromise<Event> {
+    return api.put(`events/${id}/meta`, { data: meta },  { signal });
 }

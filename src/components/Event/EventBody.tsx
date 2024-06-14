@@ -5,21 +5,28 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import EventProps from './EventProps';
+import ParentDetails from './ParentDetails';
 interface Props {
     event: EventModel;
     inModal?: boolean;
     hideParent?: boolean;
+    hideShowVersionsButton?: boolean;
 }
 
 const EventBody = observer((props: Props) => {
+    const [isOpen, setOpen] = React.useState(false);
     const { event, hideParent } = props;
 
     return (
-        <div className={clsx(styles.eventBody, event.hasParent && styles.splitView)}>
+        <div className={clsx(styles.eventBody, event.hasParent, isOpen && styles.flex, event.hasParent && styles.splitView)}>
+            <EventProps 
+                {...props}
+                showVersionHeader={event.hasParent}
+                hideShowVersionsButton={props.hideShowVersionsButton}
+            />
             {!hideParent && event.hasParent && (
-                <EventProps event={event.publishedParent} inModal={props.inModal} showVersionHeader/>
+                <ParentDetails event={event} inModal={props.inModal} onOpenChange={setOpen} />
             )}
-            <EventProps {...props} showVersionHeader={event.hasParent} />
         </div>
     )
 });

@@ -144,11 +144,11 @@ const EditRegPeriod = observer((props: Props) => {
                             trigger={(
                                 <span>
                                     <Button
-                                        text={translate({message: 'Von Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester'})}
+                                        text={translate({message: 'Von Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester', description:''})}
                                         icon={mdiDebugStepOver}
-                                        title={translate({message: 'Start- und Enddaten von einem Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester.Title'})}
+                                        title={translate({message: 'Start- und Enddaten von einem Semester übernehmen', id: 'RegistrationPeriod.datePeriod.FromSemester.Title', description:''})}
                                         onClick={(e) => e.preventDefault()}
-                                        color='blue'
+                                        color='primary'
                                     />
                                 </span>
                             )}
@@ -317,7 +317,7 @@ const RegistrationPeriod = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <div className={styles.badges}>
+                        <div className={clsx(styles.badges)}>
                             {period.departments.map(d => (<Badge text={d.shortName} color={d.color} title={d.name} key={d.id}/>))}
                         </div>
                     </dd>

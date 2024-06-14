@@ -24,10 +24,12 @@ import { action } from 'mobx';
 interface Props {
     trigger?: JSX.Element;
     event: Event;
+    hideEdit?: boolean;	
 }
 
 interface ActionProps {
     event: Event;
+    onEdit?: () => void;
     iconSize?: number;
 }
 
@@ -36,12 +38,19 @@ export const EditRowMode = observer((props: ActionProps) => {
     const viewStore = useStore('viewStore');
     const { event } = props;
     return (
-        <Edit onClick={() => {
-            event.setEditing(true);
-            if (windowSize === 'mobile') {
-                viewStore.setEventModalId(event.id)
-            }
-        }} />
+        <Edit 
+            onClick={() => {
+                event.setEditing(true);
+                if (windowSize === 'mobile') {
+                    viewStore.setEventModalId(event.id)
+                }
+                if (props.onEdit) {
+                    props.onEdit();
+                }
+            }}
+            size={props.iconSize || SIZE_S}
+            newVersion={!event.isDraft}
+        />
     )
 });
 
@@ -72,9 +81,9 @@ export const Clone = observer((props: ActionProps) => {
     )
 });
 export const AddToGroup = observer((props: ActionProps) => {
-    const { event } = props;
+    const { event, iconSize } = props;
     return (
-        <EventsGroupPopup event={event} />
+        <EventsGroupPopup event={event} iconSize={iconSize}/>
     )
 });
 
@@ -103,7 +112,7 @@ const OptionsPopup = observer((props: Props) => {
             on={'click'}
             nested
         >
-            <DefaultEventActions event={props.event} closePopup={() => ref.current?.close()}  />
+            <DefaultEventActions event={props.event} hideEdit={props.hideEdit} closePopup={() => ref.current?.close()}  />
         </Popup>
     )
 });

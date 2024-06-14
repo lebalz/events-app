@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState, requestState as apiRequestState, excel as apiDownloadExcel, clone as apiClone, all as apiFetchEvents } from '../api/event';
+import { Event as EventProps, EventState, requestState as apiRequestState, excel as apiDownloadExcel, clone as apiClone, all as apiFetchEvents, updateMeta, Meta } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -10,7 +10,7 @@ import { HOUR_2_MS } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
 
-export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `load-versions-${string}`> {
+export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `update-meta-${string}` | `load-versions-${string}`> {
     readonly root: RootStore;
     
     readonly ApiEndpoint = new EndPoint('events', {authorized: 'user/events', public: true});
@@ -238,7 +238,9 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
 
     @action
     loadVersions(event: Event) {
-        const proms = event.publishedVersionIds.map((id) => this.loadModel(id));
+        const proms = event.publishedVersionIds
+                        .filter((id) => !this.find(id))
+                        .map((id) => this.loadModel(id));
         return Promise.all(proms);
     }
 
@@ -253,6 +255,18 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
                         });
                     }
                 }));
+        });
+    }
+
+    @action
+    updateMeta(event: Event, meta: Partial<Meta>) {
+        return this.withAbortController(`update-meta-${event.id}`, (sig) => {
+            return updateMeta(event.id, meta, sig.signal).then(({ data }) => {
+                if (data) {
+                    this.addToStore(data);
+                }
+                return data;
+            });
         });
     }
 }

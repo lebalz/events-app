@@ -13,17 +13,27 @@
 }
 .eventBody {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     gap: 0.5rem;
-    flex-wrap: wrap;
     flex-basis: 350px;
+    flex-wrap: nowrap;
     &.splitView {
         .eventProps {
             box-shadow: var(--ifm-global-shadow-md);
             padding: 8px;
             border-radius: 8px;
         }
+    }
+    &.flex {
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+    }
+    .parentEventDetails {
+        align-self: flex-end;
     }
 }
 .optionsBtn {
@@ -58,80 +68,35 @@
     display: flex;
     gap: 0.5em;
 }
-// }
 
 .actions {
     display: flex;
 }
 
-.versions {
-    display: grid;
-    grid-template-columns: 1fr 2em 1fr ;
-    grid-auto-flow: row dense;
-    row-gap: 1em;
-    .versionItem {
-        display: flex;
-        align-items: flex-start;
-        &.versionCard {
-            box-shadow: var(--ifm-global-shadow-md);
-        }
-        &.left {
-            grid-column: 1 / 1;
-            justify-content: flex-end;
-        }
-        &.right {
-            grid-column: 3 / 3;
-            justify-content: flex-start;
-        }
-        &.dot {
-            grid-column: 2 / 2;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            position: relative;
-            .line {
-                position: absolute;
-                top: 1.25em;
-                bottom: -1.1em;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 2px;
-                background: var(--ifm-color-blue);
-            }
-            &.last {
-                .line {
-                    bottom: 0;
-                }
-            }
-        }
-    }
+.author {
+    display: flex;
+    gap: 0.5em;
 }
 
-
-@media screen and (max-width: 768px) {
-    .versions {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-auto-flow: row dense;
-        row-gap: 0em;
-        .versionItem {
-            display: flex;
-            align-items: flex-start;
-            &.versionCard {
-                box-shadow: var(--ifm-global-shadow-md);
-                margin-bottom: 1em;
-            }
-            &.left {
-                grid-column: 1 / 1;
-                justify-content: center;
-            }
-            &.right {
-                grid-column: 1 / 1;
-                justify-content: center;
-            }
-            &.dot {
-                display: none;
-            }
+.metaCard {
+    max-height: 90vh;
+    max-width: 95vw;
+    padding: 0;
+    overflow: auto;
+    --ifm-global-shadow-lw: var(--ifm-global-shadow-tl);
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: baseline;
+        padding: 0.25em;
+        max-width: unset;
+        .spacer {
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 0;
         }
+    }
+    .codeblock {
+        margin-bottom: 0;
     }
 }

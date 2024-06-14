@@ -1,9 +1,6 @@
-import React, { type ReactNode } from 'react';
-import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Job, { ImportJob as ImportJobModel, SyncJob } from '@site/src/models/Job';
 import DefinitionList from '../shared/DefinitionList';
 import { JobType } from '@site/src/api/job';

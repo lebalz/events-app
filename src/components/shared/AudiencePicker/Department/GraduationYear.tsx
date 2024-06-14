@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { default as EventModel } from '@site/src/models/Event';
 import Klass from '@site/src/models/Untis/Klass';
 import Button from '../../Button';
@@ -23,11 +22,11 @@ const GraduationYear = observer((props: Props) => {
     const { groupName, year, departmentLetter } = klasses[0];
     const some = klasses.some(c => event.affectsClass(c));
     const all = event.classGroups.has(groupName) || (some && klasses.every(c => event.affectsClass(c)));
-
+    const newFormat = year > 2026 || (year === 2026 && (['m', 's', 'F'].includes(departmentLetter))) || (departmentLetter === 'p');
     return (
         <div className={clsx(styles.year)} key={year}>
             <Button
-                text={`${year % 100}${departmentLetter}`}
+                text={`${year % 100}${newFormat ? departmentLetter : ''}`}
                 active={all}
                 color={some ? 'primary' : 'secondary'}
                 onClick={() => {
@@ -40,7 +39,7 @@ const GraduationYear = observer((props: Props) => {
                     color={kl.department?.color}
                     active={event.affectsClass(kl)}
                     text={kl.letter}
-                    title={`${kl.displayName} (${kl.name}) ${kl.department?.name}`}
+                    title={kl.displayName === kl.name ? `${kl.displayName}: ${kl.departmentName}` : `${kl.displayName} (${kl.name}): ${kl.departmentName}`}
                     onClick={() => {
                         event.toggleClass(kl.name);
                     }}

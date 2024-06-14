@@ -13,6 +13,7 @@ import { replaceOrAdd } from './helpers/replaceOrAdd';
 import Department from '../models/Department';
 import Subject from '../models/Untis/Subjet';
 import Semester from '../models/Semester';
+import Storage, { PersistedData, StorageKey } from './utils/Storage';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
@@ -36,6 +37,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     initialized = false;
     constructor(root: RootStore) {
         this.root = root;
+        
         makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,
@@ -49,7 +51,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             () => this.root.userStore.current?.untisTeacher?.lessons,
             (lessons) => {
                 if (lessons?.length > 0) {
-                    const teacher = this.root.userStore.current?.untisTeacher;
+                    const teacher = this.root.userStore?.current?.untisTeacher;
                     if (teacher) {
                         /** 
                          * configure the filter for this user 
@@ -221,7 +223,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
 
     @action
     reload() {
-        if (this.root.sessionStore.loggedIn) {
+        if (this.root.sessionStore.isLoggedIn) {
             this.resetUserData();
             this.loadAuthorized();
         }
@@ -307,13 +309,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @action
     addLessons(lessons: CheckedUntisLesson[]) {
         const models = lessons.map((l) => {
-            const teacherIds = l.teacherIds.map(tid => ({ id: tid }));
-            const klassIds = l.classIds.map(cid => ({ id: cid }));
-            return new Lesson({
-                ...l,
-                classes: klassIds,
-                teachers: teacherIds
-            }, this);
+            return new Lesson(l, this);
         });
         const current = this.lessons.slice();
         models.forEach((m) => {

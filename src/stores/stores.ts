@@ -38,17 +38,23 @@ export class RootStore {
     registrationPeriodStore: RegistrationPeriodStore;
     eventGroupStore: EventGroupStore;
 
-
     viewStore: ViewStore;
+
+    @observable
+    _isLoadingPublic = false;
+    @observable
+    _isLoadingPrivate = false;
+
     constructor() {
         makeObservable(this);
-        this.sessionStore = new SessionStore(this);
         
         this.semesterStore = new SemesterStore(this);
         this.subscribeTo(this.semesterStore, ['load', 'reset']);
 
         this.userStore = new UserStore(this);
         this.subscribeTo(this.userStore, ['load', 'reset']);
+
+        this.sessionStore = new SessionStore(this);
 
         this.untisStore = new UntisStore(this);
         this.subscribeTo(this.untisStore, ['load', 'reset']);
@@ -83,7 +89,14 @@ export class RootStore {
                 }
             }
         );
-        this.load('public');
+        setTimeout(() => {
+            this.load('public').then((res) => {
+                console.log('Auth Method:', this.sessionStore.authMethod);
+                if (this.sessionStore.authMethod === 'apiKey' && this.sessionStore.currentUserId) {
+                    this.load('authorized');
+                }
+            });
+        }, 0);
     }
 
     subscribeTo(store: ResettableStore, events: ['reset'])
@@ -106,12 +119,23 @@ export class RootStore {
 
     @action
     load(type: 'public' | 'authorized', semesterId?: string) {
+        if (type === 'public') {
+            this._isLoadingPublic = true;
+        } else {
+            this._isLoadingPrivate = true;
+        }
         return Promise.all(this.loadableStores.map((store) => {
             console.log('load', type, store.constructor.name);
             if (type === 'public') {
                 return store.loadPublic(semesterId);
             } else {
                 return store.loadAuthorized(semesterId);
+            }
+        })).finally(action(() => {
+            if (type === 'public') {
+                this._isLoadingPublic = false;
+            } else {
+                this._isLoadingPrivate = false;
             }
         }));
     }
@@ -130,7 +154,7 @@ export class RootStore {
         this.semesterizedStores.forEach((store) => {
             store.loadPublic(semesterId);
         });
-        if (this.sessionStore.loggedIn && this.semesterStore.currentSemester && this.semesterStore.currentSemester.id !== semesterId) {
+        if (this.sessionStore.isLoggedIn && this.semesterStore.currentSemester && this.semesterStore.currentSemester.id !== semesterId) {
             this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
             this.semesterizedStores.forEach((store) => {            
                 store.loadAuthorized(semesterId);

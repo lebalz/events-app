@@ -395,7 +395,8 @@
     "description": "End of event must be after start"
   },
   "joi.event.description": {
-    "message": "Suche"
+    "message": "Stichworte",
+    "description": "Description of event"
   },
   "joi.event.description.empty": {
     "message": "Stichworte dürfen nicht leer sein",
@@ -648,7 +649,7 @@
     "description": "Button text for open button"
   },
   "button.save": {
-    "message": "Speichern",
+    "message": "Änderungen Speichern",
     "description": "Button to save changes"
   },
   "button.edit": {
@@ -1041,7 +1042,7 @@
     "description": "Placeholder text for the filter input"
   },
   "navcard.subscribe.text": {
-    "message": "Outlook",
+    "message": "Abonnieren",
     "description": "Button text for navigating to the subscribe page"
   },
   "navcard.table.text": {
@@ -1249,8 +1250,8 @@
     "description": "Relevant for SuS only, their KLP will be informed aswell"
   },
   "EventAudience.LP.example": {
-    "message": "Exkursion",
-    "description": "Students Example"
+    "message": "Noteneingabe in Evento",
+    "description": "Teachers Example"
   },
   "EventAudience.KLP.example": {
     "message": "Einsammeln unterschriebener Zeugnisse",
@@ -1572,7 +1573,8 @@
     "message": "Bearbeitungsmodus schliessen"
   },
   "RegistrationPeriod.Name": {
-    "message": "Name"
+    "message": "Name",
+    "description": "Name of the registration period"
   },
   "RegistrationPeriod.Description": {
     "message": "Beschreibung"
@@ -1611,9 +1613,215 @@
     "message": "Eingabe Fenster offen?"
   },
   "RegistrationPeriod.addButton.text": {
-    "message": "Eingabefenster hinzufügen"
+    "message": "Eingabefenster hinzufügen",
+    "description": "Text of button to add RegistrationPeriod"
   },
   "userEvents.regPeriod.alert.title": {
     "message": "Eingabefenster"
+  },
+  "EventAudience.STUDENTS.example": {
+    "message": "Exkursion",
+    "description": "Students Example"
+  },
+  "user.ical.personal-calendar.copy-button.title": {
+    "message": "Kopiere den Link zum persönlichen Kalender."
+  },
+  "user.ical.copy-button.title": {
+    "message": "Kopiere den Link zum Kalender {name}."
+  },
+  "components.admin.filiere.class.letters": {
+    "message": "Klassen-Buchstaben",
+    "description": "the text of the column for the class letters"
+  },
+  "components.event.actions.confirm": {
+    "message": "Wirklich?",
+    "description": "Text of the button confirm delete"
+  },
+  "components.event.actions.delete": {
+    "message": "Löschen",
+    "description": "Text of the button delete"
+  },
+  "components.event.actions.discard": {
+    "message": "Verwerfen",
+    "description": "Text of the button discard"
+  },
+  "components.event.actions.cancel": {
+    "message": "Abbrechen",
+    "description": "Text of the button cancel"
+  },
+  "components.event.actions.cancel.title": {
+    "message": "Änderungen verwerfen",
+    "description": "Title of the button cancel"
+  },
+  "components.events.datetime.allday": {
+    "message": "Ganztägig",
+    "description": "Label of the checkbox all day"
+  },
+  "components.semestre.list.name": {
+    "message": "Name",
+    "description": "The name of the column for the semester name"
+  },
+  "components.semestre.list.startdate": {
+    "message": "Start Date",
+    "description": "The name of the column for the start date of the semester"
+  },
+  "components.semestre.list.enddate": {
+    "message": "End Date",
+    "description": "The name of the column for the end date of the semester"
+  },
+  "components.semestre.list.syncdate": {
+    "message": "Sync Date",
+    "description": "The name of the column for the date of sync semester"
+  },
+  "components.semestre.list.edit": {
+    "message": "Edit",
+    "description": "The name of the column for edit semester"
+  },
+  "EventAudience.STUDENTS.KLP.description": {
+    "message": "Klassenlehrpersonen der betroffenen Klassen",
+    "description": "audience: students, description for KLP"
+  },
+  "event.bulk_actions.hide_select": {
+    "message": "Terminauswahl verbergen"
+  },
+  "event.bulkActions.show_select": {
+    "message": "Terminauswahl anzeigen"
+  },
+  "event.bulk_actions.share": {
+    "message": "Übersicht Öffnen"
+  },
+  "event.filter.search": {
+    "message": "Suche"
+  },
+  "event.filter.show_select": {
+    "message": "Termine auswählen"
+  },
+  "event.group.add": {
+    "message": "Gruppen hinzufügen"
+  },
+  "event.actions": {
+    "message": "Aktionen",
+    "description": "Actions for a single event"
+  },
+  "button.save.new-version": {
+    "message": "Neue, unveröffentlichte Version Speichern"
+  },
+  "button.save.error": {
+    "message": "Fehler beheben vor dem Speichern",
+    "description": "Button to save changes with error"
+  },
+  "event.show-unpublished-versions": {
+    "message": "Aktualisierungen"
+  },
+  "event.show-unpublished-versions-title": {
+    "message": "Zeige {count} {updates}"
+  },
+  "event.filter.advanced.filterAudience": {
+    "message": "Nach Zielgruppe filtern"
+  },
+  "event.button.versions": {
+    "message": "Versionen",
+    "description": "for a single event: button to show version history"
+  },
+  "versions.history.modal.title": {
+    "message": "Versionen"
+  },
+  "event.version.current.long": {
+    "message": "Aktuelle Version"
+  },
+  "event.version.current.short": {
+    "message": "Aktuell"
+  },
+  "components.event.actions.close-edit.title": {
+    "message": "Editiermodus beenden"
+  },
+  "event.showUnpublishedVersion.text": {
+    "message": "Aktualisierung",
+    "description": "singular"
+  },
+  "event.showUnpublishedVersions.text": {
+    "message": "Entwürfe",
+    "description": "plural"
+  },
+  "share.button.edit.versioned.title": {
+    "message": "Bearbeiten (Es wird eine neue Version erstellt)",
+    "description": "Text of the button edit"
+  },
+  "event.title": {
+    "message": "Termine",
+    "description": "[plural] Title of the event overview"
+  },
+  "event.versions.unpublished.title": {
+    "message": "Unveröffentlichte Versionen"
+  },
+  "event.showUnpublishedVersions.singular.text": {
+    "message": "Entwurf",
+    "description": "singular"
+  },
+  "event.showUnpublishedVersions.title": {
+    "message": "Zeige {count} {updates}"
+  },
+  "navcard.docs.text": {
+    "message": "Dokumentation",
+    "description": "Button text for navigating to the documentation page"
+  },
+  "subscribe.instructions.p1": {
+    "message": "In allen gängigen Kalender-Programmen können Kalender von einer Internetseite abonniert werden, indem die URL zu einer .ics-Datei angegeben wird."
+  },
+  "subscribe.instructions.p2": {
+    "message": "Unten sind die entsprechenden links aufgeführt und können in den Kalender-Programmen eingefügt werden. Für das Abonnieren mit Outlook kann auf einem Laptop direkt auf den \"Abonnieren in Outlook\" Knopf geklickt werden oder wie in den verlinkten Anleitungen beschrieben vorgegangen werden."
+  },
+  "subscribe.instructions.microsoft": {
+    "message": "Anleitung für Outlook"
+  },
+  "subscribe.instructions.apple": {
+    "message": "Anleitung für Apple Kalender"
+  },
+  "colorGenerator.inputs.primary.label": {
+    "message": "Hauptfarbe"
+  },
+  "colorGenerator.inputs.modeToggle.label": {
+    "message": "{colorMode} Modus",
+    "description": "The label for the button that toggles color mode"
+  },
+  "colorGenerator.inputs.modeToggle.label.colorMode.light": {
+    "message": "heller"
+  },
+  "colorGenerator.inputs.modeToggle.label.colorMode.dark": {
+    "message": "dunkler"
+  },
+  "colorGenerator.inputs.resetButton.label": {
+    "message": "Reset"
+  },
+  "colorGenerator.table.heading2": {
+    "message": "Farbe",
+    "description": "This column is the color's representation in hex"
+  },
+  "colorGenerator.table.heading3": {
+    "message": "Justierung",
+    "description": "This column is the adjusted shades' adjustment values relative to the primary color"
+  },
+  "colorGenerator.table.heading4": {
+    "message": "Kontrast Bewertung",
+    "description": "This column is WCAG contrast rating: AAA, AA, Fail"
+  },
+  "colorGenerator.codeBlock.summary": {
+    "message": "Farben-Code anzeigen"
+  },
+  "colorGenerator.codeBlock.Description": {
+    "message": "Farbvorschläge für die Hauptfarben, zum Senden an den Entwickler..."
+  },
+  "event.author": {
+    "message": "Autor",
+    "description": "for a single event: author"
+  },
+  "event.author.importJob": {
+    "message": "Terminimport"
+  },
+  "event.author.importJob.title": {
+    "message": "Termin wurde aus einem Datenimport erstellt."
+  },
+  "user.navbar.profile.title": {
+    "message": "Persönlicher Bereich"
   }
 }

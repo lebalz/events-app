@@ -25,6 +25,7 @@ import { ConfigOptionsSortable, DefaultConfig } from '.';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import CreatedAt from '../EventFields/CreatedAt';
 import UpdatedAt from '../EventFields/UpdatedAt';
+import Nr from '../EventFields/Nr';
 
 
 interface Props {
@@ -40,6 +41,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     isValid: IsValid,
     isDuplicate: IsDuplicate,
     select: Select,
+    nr: Nr,
     kw: KW,
     teachingAffected: TeachingAffected,
     actions: Actions,
@@ -95,6 +97,13 @@ const Row = observer((props: Props) => {
                             left: config.fixed?.left,
                             right: config.fixed?.right
                         }}
+                        onContextMenu={(e) => {
+                            if (window.getSelection()?.toString() !== '') {
+                                return;
+                            }
+                            e.preventDefault();
+                            viewStore.setEventModalId(props.event.id);
+                        }}
                         onClick={(e) => {
                             const target = e.target as HTMLDivElement;
                             /**
@@ -106,7 +115,14 @@ const Row = observer((props: Props) => {
                             if (e.ctrlKey) {
                                 viewStore.setEventModalId(props.event.id);
                             } else {
-                                props.event.setExpanded(true);
+                                if (props.event.isExpanded) {
+                                    if (window.getSelection()?.toString() !== '') {
+                                        return;
+                                    }
+                                    props.event.setExpanded(false);
+                                } else {
+                                    props.event.setExpanded(true);
+                                }
                             }
                         }}
                         key={index}

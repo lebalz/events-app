@@ -12,19 +12,22 @@ import { mdiCalendarBlankMultiple } from '@mdi/js';
 
 interface Props {
     events: EventModel[];
-    actions?: React.ReactNode | React.ReactNode[];
+    preActions?: React.ReactNode | React.ReactNode[];
+    postActions?: React.ReactNode | React.ReactNode[];
+    className?: string;
 }
 
 const Stats = observer((props: Props) => {
     return (
-        <div className={clsx(styles.bulk, 'card')}>
+        <div className={clsx(styles.bulk, 'card', props.className)}>
+            {props.preActions}
             <Badge
                 text={`${props.events.length}`}
                 className={clsx(styles.badge)}
                 icon={mdiCalendarBlankMultiple}
                 size={SIZE_S}
                 iconSide='left'
-                color='blue'
+                color='primary'
                 title={
                     translate({
                         message: '{num} Termine', 
@@ -32,7 +35,7 @@ const Stats = observer((props: Props) => {
                     }, {num: props.events.length})
                 }
             />
-            {props.actions}
+            {props.postActions}
         </div>
     )
 });

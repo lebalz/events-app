@@ -15,6 +15,11 @@
         width: min-content;
         padding-top: 0.02rem;
         padding-bottom: 0.02rem;
+        .buttonInner {            
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
     }
     &.reducedPadding {
         padding: 0 0.2rem;

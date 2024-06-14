@@ -43,10 +43,38 @@ interface Props {
     user: User;
 }
 
+const AddEventButton = observer(() => {
+    const eventStore = useStore('eventStore');
+    const windowSize = useWindowSize();
+    const viewStore = useStore('viewStore');
+    return (        
+        <AddButton
+            text={translate({
+                message: 'Neues Event',
+                description: 'AddButton text',
+                id: 'event.AddButton.text'
+            })}
+            onAdd={() => {
+                const now = toGlobalDate(new Date());
+                const t1 = new Date(now);
+                t1.setHours(t1.getHours() + 1);
+                eventStore.create({start: now.toISOString(), end: t1.toISOString()}).then((newEvent) => {
+                    if (windowSize === 'mobile') {
+                        viewStore.setEventModalId(newEvent.id);
+                    }
+                })
+            }}            
+            apiState={eventStore.apiStateFor('create')}
+            title={translate({
+                message: 'Erstellt einen neuen, unveröffentlichten Termin',
+                id: 'event.AddButton.title'
+            })}
+        />
+    )
+})
+
 const UsersEvents = observer((props: Props) => {
     const { user } = props;
-    const windowSize = useWindowSize();
-    const eventStore = useStore('eventStore');
     const jobStore = useStore('jobStore');
     const viewStore = useStore('viewStore');
     const regPeriodStore = useStore('registrationPeriodStore');
@@ -69,63 +97,40 @@ const UsersEvents = observer((props: Props) => {
                     description: 'Text not published'
                 })}
             >
-                {drafts.length > 0 && (
-                    <div className={clsx(styles.card, 'card')}>
-                        <div className={clsx('card__header')}>
-                            <h3>{
-                                translate({
-                                    message: 'Unveröffentlicht',
-                                    id: 'components.event.usersevents.index.header.notpublished',
-                                    description: 'Th: not published'
-                                })
-                            }</h3>
-                        </div>
-                        <div className={clsx('card__body', styles.bulk)}>
-                            <div className={clsx(styles.alert, 'alert', 'alert--secondary')} role="alert">
-                                <h4>
-                                    <Translate id="userEvents.regPeriod.alert.title">
-                                        Eingabefenster
-                                    </Translate>
-                                </h4>
-                                {
-                                    regPeriodStore.registrationPeriods.map((regPeriod) => {
-                                        return (
-                                            <RegPeriodBadge key={regPeriod.id} period={regPeriod} />
-                                        )
-                                    })
-                                }
-                            </div>
-                            <BulkActions 
-                                events={drafts}
-                                defaultActions={
-                                    <AddButton
-                                        text={translate({
-                                            message: 'Neues Event',
-                                            description: 'AddButton text',
-                                            id: 'event.AddButton.text'
-                                        })}
-                                        onAdd={() => {
-                                            const now = toGlobalDate(new Date());
-                                            const t1 = new Date(now);
-                                            t1.setHours(t1.getHours() + 1);
-                                            eventStore.create({start: now.toISOString(), end: t1.toISOString()}).then((newEvent) => {
-                                                if (windowSize === 'mobile') {
-                                                    viewStore.setEventModalId(newEvent.id);
-                                                }
-                                            })
-                                        }}            
-                                        apiState={eventStore.apiStateFor('create')}
-                                        title={translate({
-                                            message: 'Erstellt einen neuen, unveröffentlichten Termin',
-                                            id: 'event.AddButton.title'
-                                        })}
-                                    />
-                                }
-                            />
-                        </div>
-                        <EventGrid events={drafts} columns={COLUMN_CONFIG} />
+                <div className={clsx(styles.card, 'card')}>
+                    <div className={clsx('card__header')}>
+                        <h3>{
+                            translate({
+                                message: 'Unveröffentlicht',
+                                id: 'components.event.usersevents.index.header.notpublished',
+                                description: 'Th: not published'
+                            })
+                        }</h3>
                     </div>
-                )}
+                    <div className={clsx('card__body', styles.bulk)}>
+                        <div className={clsx(styles.alert, 'alert', 'alert--secondary')} role="alert">
+                            <h4>
+                                <Translate id="userEvents.regPeriod.alert.title">
+                                    Eingabefenster
+                                </Translate>
+                            </h4>
+                            {
+                                regPeriodStore.registrationPeriods.map((regPeriod) => {
+                                    return (
+                                        <RegPeriodBadge key={regPeriod.id} period={regPeriod} />
+                                    )
+                                })
+                            }
+                        </div>
+                        <BulkActions 
+                            events={drafts}
+                            defaultActions={<AddEventButton />}
+                        />
+                    </div>
+                    {drafts.length > 0 && (
+                        <EventGrid events={drafts} columns={COLUMN_CONFIG} />
+                    )}
+                </div>
             </TabItem>
             {reviewed.length > 0 && (
                 <TabItem
@@ -265,8 +270,8 @@ const UsersEvents = observer((props: Props) => {
                                         />
                                         <EventGrid 
                                             events={events} 
-                                            columns={COLUMN_CONFIG} 
-                                            className={styles.noMarginScrollContainer}
+                                            columns={['nr', ...COLUMN_CONFIG]} 
+                                            className={clsx(styles.noMarginScrollContainer)}
                                         />
                                     </div>
                                 </LazyDetails>

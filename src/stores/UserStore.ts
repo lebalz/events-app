@@ -6,6 +6,7 @@ import _ from 'lodash';
 import iStore from './iStore';
 import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
+import Storage, { PersistedData, StorageKey } from './utils/Storage';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
@@ -21,7 +22,29 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     constructor(root: RootStore) {
         super();
         this.root = root;
+        
+        setTimeout(() => {
+            // attempt to load the previous state of this store from localstorage
+            this.rehydrate();
+        }, 1);
         makeObservable(this);
+    }
+
+    
+    @action
+    rehydrate(_data?: PersistedData) {
+        if (this.models.length > 0) {
+            return;
+        }
+        const data = _data || Storage.get(StorageKey.SessionStore) || {};
+        if (data.user) {
+            try {
+                this.addToStore(data.user);
+            } catch (e) {
+                console.error(e);
+                Storage.remove(StorageKey.SessionStore);
+            }
+        }
     }
 
     createModel(data: UserProps): User {
@@ -34,7 +57,10 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     @computed
     get current(): User | undefined {
-        return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore.account?.username?.toLowerCase());
+        if (this.root.sessionStore?.authMethod === 'msal') {
+            return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore?.account?.username?.toLowerCase());
+        }
+        return this.models.find((u) => u.id === this.root.sessionStore?.currentUserId);
     }
 
     @computed

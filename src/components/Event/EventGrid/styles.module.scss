@@ -111,8 +111,8 @@
     }
 
     .group {
-        background: var(--ifm-navbar-link-hover-color);
-        color: var(--ifm-navbar-background-color);
+        background: var(--color-week-group-background);
+        color: var(--color-week-group);
         cursor: pointer;
         display: flex;
         font-size: calc(.875rem * var(--ifm-button-size-multiplier));

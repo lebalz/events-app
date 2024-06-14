@@ -8,6 +8,7 @@ import Badge from '@site/src/components/shared/Badge';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean; /** true when at least one element of the grid is edited */
+    flexWrap?: boolean;
 }
 
 const Departments = observer((props: Props) => {
@@ -20,7 +21,7 @@ const Departments = observer((props: Props) => {
                 styles.departments,
                 'grid-departments',
                 props.isEditGrid && styles.editGrid,
-                event.isExpanded && styles.expanded
+                (event.isExpanded || props.flexWrap) && styles.expanded
             )}
         >
             <div className={clsx(styles.tags)}>

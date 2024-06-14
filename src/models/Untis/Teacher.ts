@@ -21,6 +21,7 @@ export default class Teacher {
     readonly longName: string;
     readonly title: string;
     readonly active: boolean;
+    readonly hasUser: boolean;
     private readonly store: UntisStore;
 
     constructor(props: UntisTeacher, store: UntisStore) {
@@ -30,8 +31,20 @@ export default class Teacher {
         this.title = props.title;
         this.active = props.active;
         this.store = store;
+        this.hasUser = props.hasUser;
 
         makeObservable(this);
+    }
+
+    get props(): UntisTeacher {
+        return {
+            id: this.id,
+            name: this.name,
+            longName: this.longName,
+            title: this.title,
+            active: this.active,
+            hasUser: this.hasUser
+        };
     }
 
     @computed
@@ -59,5 +72,10 @@ export default class Teacher {
     @computed
     get lessons() {
       return this.store.findLessonsByTeacher(this.id);
+    }
+
+    @computed
+    get user() {
+        return this.store;
     }
 }

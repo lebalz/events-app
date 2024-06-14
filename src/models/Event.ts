@@ -1,5 +1,5 @@
 import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
-import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, TeachingAffected } from '../api/event';
+import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, Meta, TeachingAffected } from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
@@ -79,6 +79,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly parentId: string | null;
     readonly cloned: boolean;
     readonly publishedVersionIds: string[];
+    readonly meta: Meta;
 
     @observable.ref
     updatedAt: Date;
@@ -171,6 +172,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         this.showAsAllDay = this.isAllDay;
+        this.meta = props.meta;
 
         makeObservable(this);
         if (this.state !== EventState.Published && !this.deletedAt) {
@@ -182,6 +184,29 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                 this.validate();
             }
         );
+    }
+
+    @computed
+    get importWarnings() {
+        if (!this.meta || this.meta.warningsReviewed) {
+            return [];
+        }
+        return this.meta.warnings;
+    }
+
+    @action
+    setWarningsReviewed(reviewed: boolean = true) {
+        if (this.meta && this.meta.warningsReviewed !== reviewed) {
+            this.store.updateMeta(this, { warningsReviewed: reviewed });
+        }
+    }
+
+    /**
+     * Available only for imported events
+     * @returns the row number of the event in the import file
+     */
+    get nr(): number | undefined {
+        return this.meta?.rowNr;
     }
 
     @action
@@ -222,6 +247,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get author() {
         return this.store.root.userStore.find<User>(this.authorId);
+    }
+
+    @computed
+    get firstAuthor() {
+        if (this.publishedVersions.length > 0) {
+            return this.publishedVersions[0].author;
+        }
+        return this.author;
     }
 
     @computed
@@ -582,16 +615,25 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.end.getHours() * 100 + this.end.getMinutes();
     }
 
+    /**
+     * @example 17.05.2024
+     */
     get fStartDateLong() {
         return formatDateLong(this.start);
     }
 
+    /**
+     * @example 17.05.24
+     */
     @computed
     get fStartDate() {
         const fDate = this.fStartDateLong;
         return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
     }
     
+    /**
+     * @example 17.05.2024
+     */
     get fEndDateLong() {
         if (this.isAllDay) {
             return formatDateLong(new Date(this.end.getTime() - 1));
@@ -599,6 +641,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return formatDateLong(this.end);
     }
 
+    /**
+     * @example 17.05.24
+     */
     @computed
     get fEndDate() {
         const fDate = this.fEndDateLong;
@@ -937,51 +982,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
-            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null
+            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null,
+            meta: this.meta
         }
-    }
-
-    @computed
-    get versionNumber() {
-        if (this.hasParent) {
-            let version = 0;
-            let subversion = 0;
-            this.versions.every(e => {
-                if (e.state === EventState.Published) {
-                    version++;
-                    subversion = 0;
-                } else {
-                    subversion++;
-                }
-                return e.id !== this.id;
-            });
-            if (subversion > 0) {
-                return `${version}.${subversion}`;
-            }
-            return `${version}`;
-        }
-        return `${this.publishedVersionIds.length + 1}`;
-    }
-
-    @action
-    loadVersions() {
-        this.store.loadVersions(this).then(action((versions) => {
-            this.versionsLoaded = true;
-        }));
-    }
-
-    @computed
-    get publishedVersions() {
-        const all = this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e);
-        return _.orderBy(all, ['createdAt'], ['asc']);
-    }
-
-    @computed
-    get versions() {
-        if (!this.store.root.userStore.current?.isAdmin) {
-            return this.publishedVersions;
-        }
-        return this.allVersions;
     }
 
     @computed
@@ -1012,6 +1015,53 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get publishedVersions() {
+        const all = this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e);
+        return _.orderBy(all, ['createdAt'], ['asc']);
+    }
+
+    @computed
+    get versionNumber() {
+        if (this.hasParent) {
+            let version = 0;
+            let subversion = 0;
+            this.versions.every(e => {
+                if (e.state === EventState.Published) {
+                    version++;
+                    subversion = 0;
+                } else {
+                    subversion++;
+                }
+                return e.id !== this.id;
+            });
+            if (subversion > 0) {
+                return version + subversion / 10;
+            }
+            return version;
+        }
+        return this.publishedVersionIds.length + 1;
+    }
+
+    @action
+    loadVersions(force?: boolean) {
+        if (this.versionsLoaded && !force) {
+            return;
+        }
+        this.store.loadVersions(this).then(action((versions) => {
+            this.versionsLoaded = true;
+        }));
+    }
+
+    @computed
+    get versions() {
+        if (this.store.root.userStore.current?.isAdmin) {
+            return this.allVersions;
+        }
+        return this.publishedVersions;
+    }
+
+
+    @computed
     get allVersions() {
         const root: Event = this.publishedParent || this;
         const all = [root, ...root.descendants];
@@ -1026,6 +1076,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get children() {
         return this.store.findChildren(this.id);
+    }
+
+    @computed
+    get unpublishedVersions() {
+        return this.allVersions.filter(c => !c.isPublished);
     }
 
     @computed

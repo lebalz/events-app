@@ -3,27 +3,63 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
 import Button from '../components/shared/Button';
-import { mdiDownloadCircleOutline, mdiTools } from '@mdi/js';
+import { mdiCheckboxBlankBadge, mdiDownloadCircleOutline, mdiTools } from '@mdi/js';
 import {useWindowSize} from '@docusaurus/theme-common';
 import Filter from '../components/Event/Filter';
 import clsx from 'clsx';
 import styles from './table.module.scss';
 import EventGrid from '../components/Event/EventGrid';
 import { toExcel } from '../stores/helpers/EventsToExcelV1';
+import { rmUndefined } from '../models/helpers/filterHelpers';
+import BulkActions from '../components/Event/BulkActions';
+import useResizeObserver from '../components/shared/hooks/useResizeObserver';
+import { SIZE_S } from '../components/shared/icons';
+import { translate } from '@docusaurus/Translate';
 
 const Table = observer(() => {
+    const [width, setWidth] = React.useState<number | undefined>(undefined);
     const viewStore = useStore('viewStore');
-    const eventStore = useStore('eventStore');
     const departmentStore = useStore('departmentStore');
-    const windowSize = useWindowSize();
+    const onResize = React.useCallback((target: HTMLDivElement) => {
+        const currentWidth = target.getBoundingClientRect().width;
+        setWidth(currentWidth);
+    }, []);
+    
+    const ref = useResizeObserver(onResize);
     return (
         <Layout>
             <div className={clsx(styles.table)}>
-                <Filter showCurrentAndFuture/>
+                <div style={{width: `${width}px` || 'min(95vw, 800px)'}}>
+                    <Filter showCurrentAndFuture showSelects showSelectLocation={width > 410 ? 'quick' : 'advanced'}/>
+                    {
+                        viewStore.eventTable.showSelect && (
+                            <BulkActions 
+                                events={viewStore.eventTable.events}
+                                className={clsx(styles.bulkActions)}
+                                defaultActions={[
+                                    <Button
+                                        icon={mdiCheckboxBlankBadge}
+                                        key={'show_select'}
+                                        size={SIZE_S}
+                                        color={'red'}
+                                        title={translate({
+                                            id: 'event.bulk_actions.hide_select',
+                                            message: 'Terminauswahl verbergen'
+                                        })}
+                                        onClick={() => viewStore.eventTable.toggleShowSelect()}
+                                    />
+                                ]}
+                                actionsSide='left'
+                            />
+                        )
+                    }
+                </div>
                 <EventGrid
                     events={viewStore.eventTable.events}
+                    ref={ref}
                     groupBy='yearsKw'
-                    columns={[
+                    columns={rmUndefined([
+                       viewStore.eventTable.showSelect ? 'select' : undefined,
                       ['teachingAffected', {componentProps: { show: 'icon' }}],
                       'day',
                       'description', 
@@ -34,7 +70,7 @@ const Table = observer(() => {
                       'classes',
                       'descriptionLong',
                       ['actions', {fixed: {right: 0}}]
-                    ]}
+                    ])}
                 />
                 <Button
                     onClick={() => {
@@ -49,7 +85,7 @@ const Table = observer(() => {
                             document.body.removeChild(a);
                         })
                     }}
-                    color='blue'
+                    color='primary'
                     iconSide='left'
                     icon={mdiDownloadCircleOutline}
                     text="Download"

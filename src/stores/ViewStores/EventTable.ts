@@ -1,7 +1,7 @@
 
 import { action, computed, makeObservable, observable } from 'mobx';
 import User from '../../models/User';
-import { EventState } from '../../api/event';
+import { EventAudience, EventState } from '../../api/event';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import { getLastMonday } from '@site/src/models/helpers/time';
@@ -29,6 +29,8 @@ class EventTable {
     @observable
     klassFilter = '';
 
+    audienceFilter = observable.set<EventAudience>();
+
     @observable
     start: Date | null = null;
     @observable
@@ -51,6 +53,9 @@ class EventTable {
     @observable
     hideDeleted = true;
 
+    @observable
+    showSelect = false;
+
 
     constructor(store: ViewStore) {
         makeObservable(this);
@@ -60,6 +65,11 @@ class EventTable {
     @action
     toggleHideDeleted() {
         this.setHideDeleted(!this.hideDeleted);
+    }
+
+    @action
+    toggleShowSelect() {
+        this.showSelect = !this.showSelect;
     }
 
     @action
@@ -89,7 +99,12 @@ class EventTable {
 
     @computed
     get hasAdvancedFilters(): boolean {
-        return this.departmentIds.size > 0 || this.textFilter.size > 0 || !!this.start || !!this.end;
+        return this.departmentIds.size > 0
+                || this.textFilter.size > 0
+                || !!this.start
+                || !!this.end
+                || this.classNames.size > 0
+                || this.audienceFilter.size > 0 && this.audienceFilter.size < 4;
     }
 
     @computed
@@ -112,6 +127,15 @@ class EventTable {
         this.activeGroup = kw;
     }
 
+    @action
+    setAudienceFilter(audience: EventAudience): void {
+        if (this.audienceFilter.has(audience)) {
+            this.audienceFilter.delete(audience);
+        } else {
+            this.audienceFilter.add(audience);
+        }
+    }
+
     @computed
     get events() {
         const { semester } = this.store;
@@ -130,6 +154,9 @@ class EventTable {
             let keep = true;
             if (this.onlyMine && !event.isAffectedByUser) {
                 keep = false;
+            }
+            if (keep && this.audienceFilter) {
+                keep = this.audienceFilter.size === 0 || this.audienceFilter.has(event.audience);
             }
             if (keep && this.hideDeleted && event.isDeleted) {
                 keep = false;

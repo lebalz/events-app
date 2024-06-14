@@ -2,18 +2,18 @@ import React from 'react';
 
 import { observer } from 'mobx-react-lite';
 import Event from '@site/src/models/Event';
-import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
+import Button from '../../shared/Button';
 import { mdiTagEditOutline } from '@mdi/js';
-import { Icon, SIZE_S } from '../../shared/icons';
+import { SIZE_S } from '../../shared/icons';
 import GroupSelect from './GroupSelect';
 import Popup from 'reactjs-popup';
 import clsx from 'clsx';
-import { getButtonColorClass } from '../../shared/Colors';
-import styles from './styles.module.scss';
+import { translate } from '@docusaurus/Translate';
 
 
 interface Props {
     event: Event;
+    iconSize?: number;
 }
 
 const EventsGroupPopup = observer((props: Props) => {
@@ -23,8 +23,12 @@ const EventsGroupPopup = observer((props: Props) => {
                 <span>
                     <Button
                         icon={mdiTagEditOutline}
-                        size={SIZE_S}
-                        title='Gruppen'
+                        size={props.iconSize || SIZE_S}
+                        title={
+                            props.event.groups.length > 0
+                                ? props.event.groups.map((g) => g.name).join(', ')
+                                : translate({message: 'Gruppen hinzufügen', id: 'event.group.add'})
+                        }
                         color={'primary'}
                         text={`${props.event.groups.length}`}
                         onClick={(e) => e.preventDefault()}

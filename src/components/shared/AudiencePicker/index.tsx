@@ -66,16 +66,8 @@ const AudiencePicker = observer((props: Props) => {
     return (
         <div className={clsx(styles.audience)}>
             <div className={clsx(styles.affects)}>
-                <h4>
-                    <Translate
-                        id="shared.header.concerns"
-                        description="The title in the window used to select the participants involved in the event"
-                    >
-                        Publikum
-                    </Translate>
-                </h4>
-                <div className={styles.toggle}>
-                    <span className={styles.label}>
+                <div className={clsx(styles.toggle)}>
+                    <span className={clsx(styles.label)}>
                         <Translate
                             id="shared.text.people.concerned"
                             description="The text in the window used to select the participants involved in the event asking which people is concerned by an event"
@@ -95,8 +87,8 @@ const AudiencePicker = observer((props: Props) => {
                     </div>
                     <Audience event={event} showExample marginLeft='2em' />
                 </div>
-                <div className={styles.toggle}>
-                    <span className={styles.label}>
+                <div className={clsx(styles.toggle)}>
+                    <span className={clsx(styles.label)}>
                         <Translate
                             id="shared.text.lesson.concerned"
                             description="The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
@@ -117,8 +109,8 @@ const AudiencePicker = observer((props: Props) => {
                 </div>
                 {
                     [EventAudience.ALL, EventAudience.LP].includes(event.audience) && event.affectedDepartments.some(d => d.isSubDepartment && !!d.department2_Id) && (
-                        <div className={styles.toggle}>
-                            <span className={styles.label}>
+                        <div className={clsx(styles.toggle)}>
+                            <span className={clsx(styles.label)}>
                                 <Translate id="shared.text.bilingual.people.concerned" description="The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event">
                                     Bilingue Lehrpersonen betroffen?
                                 </Translate>
@@ -245,7 +237,7 @@ const AudiencePicker = observer((props: Props) => {
                     }
                 </div>
                 {error && (
-                    <div className={styles.errorMessage}>
+                    <div className={clsx(styles.errorMessage)}>
                         {error.message}
                     </div>
                 )}

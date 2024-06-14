@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Select from 'react-select';
 import {default as UserModel} from '@site/src/models/User';
+import _ from 'lodash';
 
 interface Props {
     user: UserModel;
@@ -29,9 +30,10 @@ const UntisLinker = observer((props: Props) => {
                 classNamePrefix="select"
                 value={{value: user.untisId, label: user.untisTeacher ? `${user.shortName} - ${user.untisTeacher?.longName}` : '-'}}
                 options={
-                    untisStore.teachers.slice().map((t) => ({
+                    _.orderBy(untisStore.teachers.slice(), ['hasUser', 'name'], ['asc', 'asc']).map((t) => ({
                         value: t.id,
-                        label: `${t.shortName} - ${t.longName}`
+                        label: `${t.shortName} - ${t.longName}${t.hasUser ? ' 🔗' : ''}`,
+                        isDisabled: t.hasUser
                     }))
                 }
                 onChange={(opt) => {

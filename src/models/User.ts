@@ -87,6 +87,11 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     return this.untisTeacher?.shortName;
   }
 
+  @computed
+  get displayName() {
+    return this.untisTeacher?.shortName || `${this.firstName.charAt(0)}. ${this.lastName}`;
+  }
+
   @action
   setUntisId(untisId: number | undefined) {
     this.untisId = untisId;

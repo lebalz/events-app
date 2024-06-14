@@ -7,7 +7,9 @@ import Head from "@docusaurus/Head";
 import siteConfig from '@generated/docusaurus.config';
 import { useLocation } from "@docusaurus/router";
 import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from "@azure/msal-browser";
-import { setupAxios } from "../api/base";
+import { setupMsalAxios, setupDefaultAxios } from "../api/base";
+import { useStore } from "../stores/hooks";
+import { action, runInAction } from "mobx";
 const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
 export const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -33,12 +35,38 @@ if (NO_AUTH) {
 }
 
 const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
+    const sessionStore = useStore('sessionStore');
     React.useEffect(() => {
-        if (NO_AUTH) {
+        /**
+         * DEV MODE
+         * - no auth
+         */
+        if (NO_AUTH && !sessionStore?.isLoggedIn) {
+            runInAction(() => {
+                sessionStore.authMethod = 'msal';
+            })
             rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
             rootStore.load('authorized');
             return;
         }
+
+        if (!sessionStore?.initialized) {
+            return;
+        }
+        /**
+         * PROD MODE
+         * - auth over cookie
+         */
+        if (sessionStore.authMethod === 'apiKey') {
+            return;
+        }
+
+
+
+        /**
+         * PROD MODE
+         * - auth over msal
+         */
         msalInstance.initialize().then(() => {
             if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0) {
                 // Account selection logic is app dependent. Adjust as needed for different use cases.
@@ -56,7 +84,18 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
             });
 
         })
-    }, [msalInstance]);
+    }, [msalInstance, sessionStore?.authMethod]);
+
+    React.useEffect(() => {
+        if (NO_AUTH) {
+            if (!rootStore._isLoadingPublic) {
+                rootStore.load('public');
+            }
+            if (!rootStore._isLoadingPrivate) {
+                rootStore.load('authorized');
+            }
+        }
+    }, [NO_AUTH, rootStore])
 
     if (NO_AUTH) {
         return children;
@@ -74,8 +113,12 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
 const MsalAccount = observer(() => {
     const {accounts, inProgress, instance} = useMsal();
     const isAuthenticated = useIsAuthenticated();
+    const sessionStore = useStore('sessionStore');
 
     React.useEffect(() => {
+        if (sessionStore.authMethod === 'apiKey' && !NO_AUTH) {
+            return;
+        }
         if (isAuthenticated && inProgress === InteractionStatus.None) {
             const active = instance.getActiveAccount();
             if (active) {
@@ -85,7 +128,7 @@ const MsalAccount = observer(() => {
                  * 2. set the msal instance and account to the session store
                  * 3. load authorized entities
                  */
-                setupAxios();
+                setupMsalAxios();
                 setTimeout(() => {
                     rootStore.sessionStore.setAccount(active);
                     rootStore.load('authorized');
@@ -94,7 +137,7 @@ const MsalAccount = observer(() => {
             }
         }
 
-    }, [accounts, inProgress, instance, isAuthenticated]);
+    }, [sessionStore?.authMethod, accounts, inProgress, instance, isAuthenticated]);
     return (
         <div data--isauthenticated={isAuthenticated} data--account={instance.getActiveAccount()?.username}></div>
     )
@@ -104,11 +147,15 @@ const MsalAccount = observer(() => {
 function Root({ children }) {
     const location = useLocation();
     React.useEffect(() => {
+        if (!rootStore) {
+            return;
+        }
+        rootStore.sessionStore.setupStorageSync();
         if (window) {
             (window as any).store = rootStore;
         }
         return () => {
-            rootStore.cleanup();
+            rootStore?.cleanup();
         }
     }, [rootStore]);
 
@@ -126,7 +173,7 @@ function Root({ children }) {
                 <meta property="og:description" content={siteConfig.tagline} />
                 <meta
                     property="og:image"
-                    content={`${siteConfig.customFields.DOMAIN}/img/og-preview.png`}
+                    content={`${siteConfig.customFields.DOMAIN}/img/og-preview.jpeg`}
                 />
             </Head>
             <StoresProvider value={rootStore}>

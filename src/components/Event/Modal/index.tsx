@@ -7,11 +7,12 @@ import { useStore } from '@site/src/stores/hooks';
 import {default as EventModel} from '@site/src/models/Event';
 import Button from '../../shared/Button';
 import { mdiClose, mdiShareCircle } from '@mdi/js';
-import EventActions from '../EventActions';
+import ModalFooterEventActions from '../EventActions/ModalFooterEventActions';
 import EventBody from '../EventBody';
 import useResizeObserver from '../../shared/hooks/useResizeObserver';
 import { translate } from '@docusaurus/Translate';
 import Popup from 'reactjs-popup';
+import { useHistory } from '@docusaurus/router';
 
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 const EventModal = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
+    const history = useHistory();
     const [expandedButtons, setExpandedButtons] = React.useState(4);
     const { openEventModalId } = viewStore;
     const event = eventStore.find<EventModel>(openEventModalId);
@@ -59,12 +61,12 @@ const EventModal = observer((props: Props) => {
                         <h3>{event.description}</h3>
                     </div>
                     <div className={clsx(styles.body, 'card__body')}>
-                        <EventBody event={event} inModal/>
+                        <EventBody event={event}/>
                     </div>
                     <div className={clsx(styles.footer, 'card__footer')}>
                         <div className={clsx('button-group button-group--block')}>
                             {event.isEditing ? (
-                                <EventActions 
+                                <ModalFooterEventActions 
                                     event={event}
                                     onDiscard={() => viewStore.setEventModalId()}
                                     expandedButtons={expandedButtons}
@@ -79,13 +81,13 @@ const EventModal = observer((props: Props) => {
                                             description: 'Button title to close a modal'
                                         })}
                                         text={
-                                            expandedButtons > 2 ? 
-                                                translate({message:
-                                                    'Schliessen',
-                                                    id: 'button.close',
-                                                    description: 'Button text to close a modal'
-                                                })
-                                                : undefined
+                                            expandedButtons > 2 
+                                                ?   translate({
+                                                        message: 'Schliessen',
+                                                        id: 'button.close',
+                                                        description: 'Button text to close a modal'
+                                                    })
+                                                :   undefined
                                         } 
                                         icon={mdiClose} 
                                         iconSide='left' 
@@ -93,7 +95,6 @@ const EventModal = observer((props: Props) => {
                                             viewStore.setEventModalId()
                                         }} 
                                     />
-                                    <EventActions event={event} expandedButtons={expandedButtons - 2} />
                                     <Button 
                                         color="blue"
                                         text={
@@ -110,6 +111,10 @@ const EventModal = observer((props: Props) => {
                                             id: 'button.open.title'
                                         })}
                                         icon={mdiShareCircle}
+                                        onClick={() => {
+                                            viewStore.setEventModalId()
+                                            history.push(event.shareUrl);
+                                        }}
                                         href={event.shareUrl}
                                     />
                                 </>

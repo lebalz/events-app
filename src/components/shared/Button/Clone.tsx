@@ -27,7 +27,7 @@ const Clone = (props: EditProps) => {
             {...extractSharedProps(props)}
             className={clsx( props.className)}
             size={props.size ?? SIZE_S}
-            color='blue'
+            color='primary'
             onClick={() => {
                 props.onClick();
             }}

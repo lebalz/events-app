@@ -17,6 +17,7 @@ import Delete from '../../shared/Button/Delete';
 interface Props {
     event: Event;
     closePopup?: () => void;
+    hideEdit?: boolean;
 }
 
 const DefaultEventActions = observer((props: Props) => {
@@ -44,7 +45,7 @@ const DefaultEventActions = observer((props: Props) => {
                                         description: "Text of the button open overview"
                                     })}
                                 icon={mdiArrowExpandAll}
-                                color="blue"
+                                color="primary"
                                 size={SIZE_S}
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -78,17 +79,21 @@ const DefaultEventActions = observer((props: Props) => {
                     })}
                 />
             </dd>
-            <dt>
-                <Translate
-                    id="event.options.edit"
-                    description="Text of the button edit"
-                >
-                    Bearbeiten
-                </Translate>
-            </dt>
-            <dd>
-                <EditRowMode event={event} />
-            </dd>
+            {!props.hideEdit && (
+                <>
+                    <dt>
+                        <Translate
+                            id="event.options.edit"
+                            description="Text of the button edit"
+                        >
+                            Bearbeiten
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <EditRowMode event={event} onEdit={props.closePopup} />
+                    </dd>
+                </>
+            )}
             <dt>
                 <Translate
                     id="event.options.clone"

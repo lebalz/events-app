@@ -26,7 +26,7 @@ const FileIcon: {[key in ImportType]: string} = {
 const FileIconColor: {[key in ImportType]: string} = {
     [ImportType.V1]: 'green',
     [ImportType.GBJB_CSV]: 'blue',
-    [ImportType.GBSL_XLSX]: 'green'
+    [ImportType.GBSL_XLSX]: 'teal'
 }
 
 const Upload = observer((props: Props) => {

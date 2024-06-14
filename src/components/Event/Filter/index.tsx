@@ -5,19 +5,23 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
-import { mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline, mdiStar, mdiStarCircle, mdiStarOutline } from '@mdi/js';
+import { mdiCheckboxBlankBadge, mdiCheckboxBlankBadgeOutline, mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline, mdiStar, mdiStarCircle, mdiStarOutline } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
-import { SIZE_S, FilterSvgPath, SIZE_XS } from '../../shared/icons';
+import { SIZE_S, FilterSvgPath, SIZE_XS, SIZE, SIZE_XXS } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import Select, { Theme, ThemeConfig } from 'react-select';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
 import Icon, { Stack } from '@mdi/react';
+import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
+import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
 
 interface Props {
     showCurrentAndFuture?: boolean;
+    showSelects?: boolean;
+    showSelectLocation?: 'quick' | 'advanced';
 }
 
 export const selectStyleConfig = {
@@ -71,9 +75,14 @@ const Filter = observer((props: Props) => {
             return () => eventTable.setOnlyCurrentWeekAndFuture(true);
         }
     }, [props.showCurrentAndFuture]);
+    const showSelectLocation = props.showSelectLocation || 'quick';
     return (
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.basic)}>
+                {(props.showSelects && !eventTable.showSelect && showSelectLocation === 'quick') && (
+                    <ShowSelectCheckBoxes />
+                )}
+                <div className={clsx(styles.spacer)}></div>
                 <div className={clsx(styles.audience, 'button-group', 'button-group--block')}>
                     {
                         !!viewStore.user && (
@@ -88,7 +97,7 @@ const Filter = observer((props: Props) => {
                                     id: 'event.filter.mine.title'
                                 })}
                                 active={eventTable.onlyMine}
-                                color='blue'
+                                color='primary'
                                 onClick={() => eventTable.toggleOnlyMine()}
                             />
                         )
@@ -106,7 +115,7 @@ const Filter = observer((props: Props) => {
                                 description: 'Filter: Only current and future events'
                             })}
                             active={eventTable.onlyCurrentWeekAndFuture}
-                            color='blue'
+                            color='primary'
                             onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
                         />
                     )}
@@ -115,7 +124,7 @@ const Filter = observer((props: Props) => {
                     <TextInput
                         placeholder={translate({
                             message: 'Suche',
-                            id: 'joi.event.description'
+                            id: 'event.filter.search',
                         })}
                         onChange={(txt) => eventTable.setTextFilter(txt)}
                         text={eventTable.klassFilter}
@@ -127,7 +136,7 @@ const Filter = observer((props: Props) => {
                         size={SIZE_S}
                         active={eventTable.showAdvancedFilter}
                         className={clsx(styles.showAdvancedFilter)}
-                        color={eventTable.hasAdvancedFilters ? 'blue' : undefined}
+                        color={eventTable.hasAdvancedFilters ? 'primary' : undefined}
                         onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
                     />
                     {eventTable.hasAdvancedFilters && (
@@ -137,12 +146,13 @@ const Filter = observer((props: Props) => {
                                 <Icon
                                     path={mdiStar}
                                     size={0.9*SIZE_XS}
-                                    color="var(--ifm-color-blue)"
+                                    color="var(--ifm-color-primary)"
                                 />
                             </Stack>
                         </span>
                     )}
                 </div>
+                <div className={clsx(styles.spacer)}></div>
             </div>
             {eventTable.showAdvancedFilter && (
                 <div className={clsx(styles.advanced)}>
@@ -202,6 +212,28 @@ const Filter = observer((props: Props) => {
                         </div>
                     </div>
                     <div>
+                        <div>
+                            <Translate
+                                id='event.filter.advanced.filterAudience'
+                            >
+                                Nach Zielgruppe filtern
+                            </Translate>
+                        </div>
+                        <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
+                            {Object.keys(EventAudience).map(audience => {
+                                return (
+                                    <Button
+                                        text={EventAudienceTranslationShort[audience]}
+                                        active={eventTable.audienceFilter.has(audience as EventAudience)}
+                                        key={audience}
+                                        color="primary"
+                                        onClick={() => eventTable.setAudienceFilter(audience as EventAudience)}
+                                    />
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <div>
                         <Checkbox
                             label={translate({
                                 message: 'Gelöschte Verstecken?',
@@ -213,6 +245,16 @@ const Filter = observer((props: Props) => {
                             labelSide='left'
                         />
                     </div>
+                    {(props.showSelects && !eventTable.showSelect && showSelectLocation === 'advanced') && (
+                    <div>
+                        <ShowSelectCheckBoxes 
+                            label={translate({
+                                id: 'event.filter.show_select',
+                                message: 'Termine auswählen'
+                            })}
+                        />
+                    </div>
+                    )}
                     <div className={clsx(styles.dates)}>
                         <div className={clsx(styles.date, styles.start)}>
                             {!!eventTable.start ? (

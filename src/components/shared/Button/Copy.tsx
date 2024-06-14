@@ -41,7 +41,7 @@ const Copy = (props: EditProps) => {
     }
     return (
         <Button
-            title={translate({
+            title={props.title ?? translate({
                 message : "Kopieren",
                 id : "share.button.copy.title",
                 description : "Text of the button copy"

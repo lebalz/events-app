@@ -4,88 +4,94 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Event from '@site/src/models/Event';
 import Button from '../../shared/Button';
-import { DeleteIcon, DiscardIcon, EditIcon, SaveIcon } from '../../shared/icons';
+import { translate } from '@docusaurus/Translate';
+import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
+import { DiscardIcon, SIZE, SaveIcon, SaveVersionIcon } from '../../shared/icons';
+import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
+import Event from '@site/src/models/Event';
+import Delete from '../../shared/Button/Delete';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
-import { mdiDotsHorizontalCircleOutline, mdiDotsVerticalCircleOutline, mdiShareCircle } from '@mdi/js';
-import Translate, { translate } from '@docusaurus/Translate';
-import OptionsPopup, { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
-import DefinitionList from '../../shared/DefinitionList';
-import DefaultEventActions from './DefaultEventActions';
 
-type SortableButton = 'delete' | 'discard' | 'save' | 'open';
 
 interface Props {
     event: Event;
-    size?: number;
-    expandedButtons?: number;
-    onDiscard?: () => void;
-    buttonOrder?: SortableButton[];
-    exclude?: SortableButton[];
+    closePopup?: () => void;
+    className?: string;
+    hideDelete?: boolean;
+    hideEdit?: boolean;
+    hideOpen?: boolean;
 }
 
+const BTN_SIZE = SIZE;
 
-
-const EventActions = observer((props: Props) => {
-    const [deleteRequested, setDeleteRequested] = React.useState(false);
-    const { event, size } = props;
-    const eventStore = useStore('eventStore');
+const DefaultActions = observer((props: Props) => {
+    const { event } = props;
     const viewStore = useStore('viewStore');
-    const buttons: { [key in SortableButton]: (props: { key: any, showText?: boolean }) => React.ReactNode } = {
-        delete: ({ key, showText }) => (<React.Fragment key={key}><Button
-            color="red"
-            iconSide='left'
-            size={size}
-            text={showText
-                ? deleteRequested
-                    ? translate({
-                            message : "Wirklich?",
-                            id : "components.event.actions.confirm",
-                            description : "Text of the button confirm delete"
-                        })
-                    : translate({
-                        message : "Löschen",
-                        id : "components.event.actions.delete",
-                        description : "Text of the button delete"
-                    })
-                : undefined}
-            icon={<DeleteIcon size={size} />}
-            apiState={event.apiStateFor(`destroy-${event.id}`)}
-            onClick={() => setDeleteRequested(!deleteRequested)}
-        />
-            {deleteRequested && (
-                <Button color="red" text="Ja" size={size} onClick={() => event.destroy()} />
+    const eventStore = useStore('eventStore');
+    const sessionStore = useStore('sessionStore');
+    const { isLoggedIn } = sessionStore;
+    return (
+        <div className={clsx(styles.defaultButtons, props.className)}>
+            {!props.hideOpen && viewStore.openEventModalId !== event.id && (
+                <Button
+                    title={translate({
+                        message: 'Übersicht Öffnen',
+                        id: 'event.options.open.overview',
+                        description: "Text of the button open overview"
+                    })}
+                    icon={mdiArrowExpandAll}
+                    color="primary"
+                    size={BTN_SIZE}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (props.closePopup) {
+                            props.closePopup();
+                        }
+                        viewStore.setEventModalId(event.id);
+                    }}
+                />
             )}
-        </React.Fragment>),
-        discard: ({ key, showText }) => (
-            <React.Fragment key={key}>
-                {(event?.isDirty || event?.isEditing) && (
+            <Button
+                color="blue"
+                icon={mdiShareCircle}
+                href={event.shareUrl}
+                size={BTN_SIZE}
+                title={translate({
+                    message: 'Terminseite Anzeigen',
+                    id: 'button.open.title'
+                })}
+            />
+            {isLoggedIn && (props.hideEdit || !event.isEditing) && (
+                <EditRowMode event={event} onEdit={props.closePopup} iconSize={BTN_SIZE} />
+            )}
+            {isLoggedIn && (
+                <>
+                    <Clone event={event} iconSize={BTN_SIZE} />
+                    <AddToGroup event={event} iconSize={BTN_SIZE} />
+                </>
+            )}
+            {isLoggedIn && event.isEditing && (
+                <>
                     <Button
-                        text={showText 
-                                ? event.isDirty 
-                                    ? translate({
-                                         message : 'Verwerfen',
-                                         id : "components.event.actions.discard",
-                                         description : "Text of the button discard"
-                                      })
-                                    : translate({
-                                         message : 'Abbrechen',
-                                         id : "components.event.actions.cancel",
-                                         description : "Text of the button cancel"
-                                      })
-                                : undefined
+                        title={
+                            event.isDirty 
+                            ? translate({
+                                    message : 'Verwerfen',
+                                    id : "components.event.actions.discard",
+                                    description : "Text of the button discard"
+                                })
+                            : translate({
+                                    message : 'Abbrechen',
+                                    id : "components.event.actions.cancel",
+                                    description : "Text of the button cancel"
+                                })
                         }
                         color="black"
-                        size={size}
-                        title={translate({
-                            message : "Änderungen verwerfen",
-                            id : "components.event.actions.cancel.title",
-                            description : "Title of the button cancel"
-                        })}
-                        icon={<DiscardIcon size={size} />}
-                        iconSide='left'
+                        size={BTN_SIZE}
+                        icon={<DiscardIcon size={BTN_SIZE} />}
                         onClick={() => {
                             if (event.isDirty) {
                                 event.reset(false);
@@ -94,88 +100,56 @@ const EventActions = observer((props: Props) => {
                             }
                         }}
                     />
-                )}
-            </React.Fragment>
-        ),
-        open: ({ key, showText }) => (
-            <Button
-                key={`open-${key}`}
-                color="blue"
-                text={showText
-                        ? translate({
-                            message: 'Öffnen',
-                            id: 'button.open'
-                          })
-                        : undefined
-                }
-                icon={mdiShareCircle}
-                title={translate({
-                    message: 'Terminseite Anzeigen',
-                    id: 'button.open.title'
-                })}
-                href={event.shareUrl}
-            />
-        ),
-        save: ({ key, showText }) => (
-            <Button
-                key={key}
-                color="green"
-                text={showText
-                        ? translate({
-                                message: 'Speichern',
-                                id: 'button.save',
-                                description: 'Button to save changes'
-                          })
-                        : undefined
-                }
-                size={size}
-                disabled={!event.isDirty || !event.isValid}
-                title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
-                icon={<SaveIcon size={size} />}
-                iconSide='left'
-                onClick={() => {
-                    if (event.state !== EventState.Draft) {
-                        event.save().then(action((model) => {
-                            const current = eventStore.find(event.id);
-                            current?.reset();
-                            if (model) {
-                                viewStore.setEventModalId(model.id)
+                    <Button
+                        color="green"
+                        title={
+                            event.isValid
+                                ? event.isDraft
+                                    ? translate({
+                                        message: 'Änderungen Speichern',
+                                        id: 'button.save',
+                                        description: 'Button to save changes'
+                                    })
+                                    : translate({
+                                        message: 'Neue, unveröffentlichte Version Speichern',
+                                        id: 'button.save.new-version'
+                                    })
+                                : translate({
+                                    message: 'Fehler beheben vor dem Speichern',
+                                    id: 'button.save.error',
+                                    description: 'Button to save changes with error'
+                                })
+                        }
+                        size={BTN_SIZE}
+                        disabled={!event.isDirty || !event.isValid}
+                        icon={event.isDraft 
+                            ? <SaveIcon size={BTN_SIZE} />
+                            : <SaveVersionIcon size={BTN_SIZE} />
+                        }
+                        iconSide='left'
+                        onClick={() => {
+                            if (event.state !== EventState.Draft) {
+                                event.save().then(action((model) => {
+                                    const current = eventStore.find(event.id);
+                                    current?.reset();
+                                    if (model) {
+                                        viewStore.setEventModalId(model.id)
+                                    }
+                                }))
+                            } else {
+                                event.save();
                             }
-                        }))
-                    } else {
-                        event.save();
-                    }
-                }}
-                apiState={event.apiStateFor(`save-${event.id}`)}
-            />
-        )
-    }
-    const buttonOrder = [...(props.buttonOrder ?? [])];
-    ['delete', 'save', 'discard', 'open'].forEach((btn: SortableButton) => {
-        if (!buttonOrder.includes(btn)) {
-            buttonOrder.push(btn);
-        }
-    });
-    const buttonsWithText = props.expandedButtons ?? buttonOrder.length;
-    if (event.isEditing) {
-        return (
-            <>
-                {
-                    buttonOrder.filter(b => !(props.exclude || []).includes(b))
-                        .map((btn: SortableButton) => buttons[btn]({ key: btn, showText: buttonsWithText >= buttonOrder.length }))
-                }
-            </>
-        )
-    }
-    return (
-        <>
-            {event?.isEditable && (
-                    <OptionsPopup 
-                        event={event}
+                        }}
+                        apiState={event.apiStateFor(`save-${event.id}`)}
                     />
+                    <Delete
+                        onClick={() => event.destroy()}
+                        apiState={event.apiStateFor(`destroy-${event.id}`)}
+                    />
+                </>
             )}
-        </>
+        </div>
     )
 });
 
-export default EventActions;
+export default DefaultActions;

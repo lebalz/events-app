@@ -1,0 +1,14 @@
+.events {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 2em;
+    .event {
+        margin-bottom: 0;
+        flex-basis: 600px;
+        flex-grow: 1;
+        &.parent {
+            align-self: flex-start;
+        }
+    }
+}
