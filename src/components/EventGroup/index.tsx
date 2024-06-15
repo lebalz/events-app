@@ -24,6 +24,7 @@ import UserTable from './UserTable';
 import ShiftDatesEditor from './ShiftDatesEditor';
 import AddUserPopup from './UserTable/AddUserPopup';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import EventsViewer, { View } from '../EventsViewer';
 
 
 interface Props {
@@ -231,26 +232,29 @@ const UserEventGroup = observer((props: Props) => {
                 }}
             >
                 <div className={clsx(styles.events, 'card__body')}>
-                    <BulkActions events={group.events} className={clsx(styles.bulkActions)} />
-                    <Grid 
+                    <EventsViewer
+                        bulkActionConfig={{className: styles.bulkActions}}
                         events={group.events}
-                        columns={[
-                            'isValid',
-                            'select',
-                            ['state', {sortable: false, width: undefined}],
-                            ['teachingAffected', {componentProps: {show: 'icon'}}],
-                            'kw',
-                            'day',
-                            'description', 
-                            'start',
-                            'end',
-                            ['userGroup', {sortable: false}],
-                            'location',
-                            'departmens',
-                            'classes',
-                            'descriptionLong',
-                            ['actions', {fixed: {right: 0}}]
-                        ]}
+                        type={View.Grid}
+                        gridConfig={{
+                            columns: [
+                                'isValid',
+                                'select',
+                                ['state', {sortable: false, width: undefined}],
+                                ['teachingAffected', {componentProps: {show: 'icon'}}],
+                                'kw',
+                                'day',
+                                'description', 
+                                'start',
+                                'end',
+                                ['userGroup', {sortable: false}],
+                                'location',
+                                'departmens',
+                                'classes',
+                                'descriptionLong',
+                                ['actions', {fixed: {right: 0}}]
+                            ]
+                        }}
                     />
                 </div>
             </LazyDetails>

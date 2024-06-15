@@ -18,7 +18,7 @@ import EventGroup from '@site/src/models/EventGroup';
 import { options } from 'joi';
 import Stats from './stats';
 
-interface Props {
+export interface Props {
     events: EventModel[];
     defaultActions?: React.ReactNode | React.ReactNode[];
     actionsSide?: 'left' | 'right';
