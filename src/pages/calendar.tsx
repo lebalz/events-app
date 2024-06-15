@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
-import { default as CalendarComponent } from '../components/Calendar';
+import { default as CalendarComponent } from '../components/Event/Views/Calendar';
 
 import Layout from '@theme/Layout';
 import Filter from '../components/Event/Filter';

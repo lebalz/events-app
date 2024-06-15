@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
@@ -33,13 +32,6 @@ const createTasks = createTransformer((events: Event[]) => {
         }
     });
 });
-
-const Toolbar = observer((props: ToolbarProps) => {
-    console.log(props);
-    return (
-        <div>Blaaa</div>
-    )
-})
 
 const Calendar = observer((props: Props) => {
     const tasks = createTasks(props.events);
