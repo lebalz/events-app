@@ -27,6 +27,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import EventsViewer, { View, ViewIcons } from '../EventsViewer';
 import Popup from 'reactjs-popup';
 import ChangeViewAction from '../EventsViewer/ChangeViewAction';
+import { useStore } from '@site/src/stores/hooks';
 
 
 interface Props {
@@ -37,14 +38,16 @@ interface Props {
 const BTN_SIZE = SIZE_S;
 
 const UserEventGroup = observer((props: Props) => {
+    const store = useStore('sessionStore');
     const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
+
     React.useEffect(() => {
-        if ((isOpen || props.standalone) && !group.isFullyLoaded) {
+        if ((isOpen || props.standalone) && !group.isFullyLoaded && store.isLoggedIn) {
             group.loadEvents();
         }
-    }, [isOpen, props.group, props.group.isFullyLoaded, props.standalone]);
+    }, [isOpen, props.group, props.group.isFullyLoaded, props.standalone, store.isLoggedIn]);
     const { group } = props;
     return (
         <div className={clsx(styles.group, 'card', (props.standalone || isOpen || group.isEditing) && styles.open)}>

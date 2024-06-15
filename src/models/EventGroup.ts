@@ -6,6 +6,7 @@ import { EventGroupStore } from "../stores/EventGroupStore";
 import Event from "./Event";
 import User from "./User";
 import { toGlobalDate } from "./helpers/time";
+import _ from "lodash";
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
     readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = [
@@ -69,7 +70,8 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     loadEvents() {
         if (!this.isFullyLoaded) {
             const missingIds = [...this.eventIds].filter(id => !this.store.eventStore.find(id));
-            return this.store.eventStore.loadEvents(missingIds, this.id);
+            const batches = _.chunk(missingIds, 50);
+            return Promise.all(batches.map((ids, idx) => this.store.eventStore.loadEvents(ids, idx === 0 ? this.id : `${this.id}-${idx}`)));
         }
     }
 
