@@ -13,6 +13,7 @@ import Section from '../components/shared/Section';
 import ParentDetails from '../components/Event/ParentDetails';
 import { translate } from '@docusaurus/Translate';
 import Head from '@docusaurus/Head';
+import List from '../components/Event/Views/List';
 
 interface Props {
 }
@@ -83,18 +84,8 @@ const EventView = observer((props: Props) => {
                     </Head>
                 )
             }
-            <Section title={title} containerClassName={clsx(styles.events)}>
-                {events.map((event, idx) => {
-                    return (
-                        <EventModelView
-                            key={idx}
-                            event={event}
-                            className={clsx(styles.event)}
-                            hideParent={allSameParent}
-                            hideShowVersionsButton={allUnpublishedVersions}
-                        />
-                    );
-                })}
+            <Section title={title}>
+                <List events={events} />
                 {allSameParent && (
                     <ParentDetails event={events[0]} className={clsx(styles.event, styles.parent)} />
                 )}                
