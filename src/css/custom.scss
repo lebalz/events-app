@@ -23,6 +23,9 @@
   --ifm-color-primary-light: #272e46;
   --ifm-color-primary-lighter: #28304a;
   --ifm-color-primary-lightest: #2e3753;
+  div.navbar__items {
+    --ifm-navbar-link-hover-color: #2554a0;
+  }
 
   // --ifm-color-primary: #7b2e85;
   // --ifm-color-primary-dark: #6f2978;
@@ -64,6 +67,9 @@
   --ifm-color-primary-light: #f18afe;
   --ifm-color-primary-lighter: #f39cfe;
   --ifm-color-primary-lightest: #fad1ff;
+  div.navbar__items {
+    --ifm-navbar-link-hover-color: var(--ifm-color-primary);
+  }
   
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --ifm-color-disabled: #6e6e6e;

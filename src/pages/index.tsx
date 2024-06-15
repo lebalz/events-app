@@ -13,6 +13,7 @@ import { mdiAccountCircleOutline, mdiBookOpenVariantOutline, mdiCalendarAccount,
 import Link from '@docusaurus/Link';
 import { useStore } from '../stores/hooks';
 import Badge from '../components/shared/Badge';
+import { Timeline } from '../components/shared/icons';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -84,7 +85,7 @@ const Home = observer(() => {
                             displayFor='public'
                         />
                         <NavCard
-                            icon={'M 2 2 H 4 V 20 H 22 V 22 H 2 V 2 M 7 10 H 17 V 13 H 7 V 10 M 11 15 H 21 V 18 H 11 V 15 M 6 5 H 21 V 8 H 6 Z'}
+                            icon={Timeline}
                             to={useBaseUrl('/gantt')}
                             label={translate({ message: 'Zeitachse', id: 'navcard.gantt.text', description: 'Button text for navigating to the gantt page' })}
                             displayFor='public'

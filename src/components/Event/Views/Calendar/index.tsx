@@ -9,6 +9,7 @@ import { Calendar as BigCalendar, ToolbarProps, momentLocalizer } from 'react-bi
 import moment from 'moment'
 import siteConfig from '@generated/docusaurus.config';
 import { translate } from '@docusaurus/Translate';
+import clsx from 'clsx';
 
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 moment.locale(`${CURRENT_LOCALE}-CH`);
@@ -17,6 +18,8 @@ const localizer = momentLocalizer(moment)
 
 interface Props {
     events: Event[],
+    defaultDate?: Date,
+    className?: string;
 }
 
 const createTasks = createTransformer((events: Event[]) => {
@@ -49,7 +52,7 @@ const Calendar = observer((props: Props) => {
     }, []);
     const { defaultDate, formats, components } = React.useMemo(
       () => ({
-        defaultDate: new Date(viewStore.calendarViewDate),
+        defaultDate: props.defaultDate ? props.defaultDate : new Date(viewStore.calendarViewDate),
         components: {},
         formats: {
           dayFormat: (date, culture, localizer) =>
@@ -59,7 +62,7 @@ const Calendar = observer((props: Props) => {
       [viewStore.calendarViewDate]
     )
     return (
-        <div>
+        <div className={clsx(props.className)}>
             <BigCalendar
                 defaultView='week'
                 defaultDate={defaultDate}

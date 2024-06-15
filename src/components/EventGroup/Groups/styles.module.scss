@@ -2,5 +2,8 @@
     gap: 1rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+}
+.addGroup {
+    margin-bottom: 0.5rem;
 }

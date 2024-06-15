@@ -3,19 +3,35 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import BulkActions, { Props as BulkActionProps} from '../Event/BulkActions';
-import Grid, { ColumnConfig, Props as GridProps } from '../Event/Views/Grid';
+import Grid, { Props as GridProps } from '../Event/Views/Grid';
 import List from '../Event/Views/List';
 import Calendar from '../Event/Views/Calendar';
 import Timeline from '../Event/Views/Timeline';
+import { Timeline as TimelineIcon } from '@site/src/components/shared/icons';
+import _ from 'lodash';
+import { mdiCalendarMonth, mdiCardTextOutline, mdiViewList } from '@mdi/js';
+import { translate } from '@docusaurus/Translate';
 
 export enum View {
     Grid = 'grid',
     List = 'list',
     Calendar = 'calendar',
-    Timeline = 'gantt',
+    Timeline = 'timeline',
+}
+
+export const ViewIcons: {[key in View]: string} = {
+    [View.Grid]: mdiViewList,
+    [View.List]: mdiCardTextOutline,
+    [View.Calendar]: mdiCalendarMonth,
+    [View.Timeline]: TimelineIcon,
+}
+export const ViewTranslations: {[key in View]: string} = {
+    [View.Grid]: translate({ message: 'Tabelle', id: 'navcard.table.text', description: 'Button text for navigating to the table page' }),
+    [View.List]: translate({ message: 'Liste', id: 'navcard.list.text', description: 'View text for the event list' }),
+    [View.Calendar]: translate({ message: 'Kalender', id: 'navcard.calendar.text', description: 'Button text for navigating to the calendar page' }),
+    [View.Timeline]: translate({ message: 'Zeitachse', id: 'navcard.gantt.text', description: 'Button text for navigating to the gantt page' }),
 }
 
 interface Props {
@@ -36,7 +52,11 @@ const EventsViewer = observer((props: Props) => {
                 <List events={props.events} />
             )}
             {props.type === View.Calendar && (
-                <Calendar events={props.events} />
+                <Calendar 
+                    events={props.events}
+                    defaultDate={_.minBy(props.events, (e) => e.startTimeMs)?.start}
+                    className={clsx(styles.calendar)}
+                />
             )}
             {props.type === View.Timeline && (
                 <Timeline events={props.events} />

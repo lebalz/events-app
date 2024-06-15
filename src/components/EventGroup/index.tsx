@@ -24,7 +24,9 @@ import UserTable from './UserTable';
 import ShiftDatesEditor from './ShiftDatesEditor';
 import AddUserPopup from './UserTable/AddUserPopup';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import EventsViewer, { View } from '../EventsViewer';
+import EventsViewer, { View, ViewIcons } from '../EventsViewer';
+import Popup from 'reactjs-popup';
+import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 
 
 interface Props {
@@ -37,6 +39,7 @@ const BTN_SIZE = SIZE_S;
 const UserEventGroup = observer((props: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
+    const [viewType, setViewType] = React.useState<View>(View.Grid);
     React.useEffect(() => {
         if ((isOpen || props.standalone) && !group.isFullyLoaded) {
             group.loadEvents();
@@ -233,9 +236,14 @@ const UserEventGroup = observer((props: Props) => {
             >
                 <div className={clsx(styles.events, 'card__body')}>
                     <EventsViewer
-                        bulkActionConfig={{className: styles.bulkActions}}
+                        bulkActionConfig={{
+                            className: styles.bulkActions,
+                            defaultActions: [
+                                <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                            ]
+                        }}
                         events={group.events}
-                        type={View.Grid}
+                        type={viewType}
                         gridConfig={{
                             columns: [
                                 'isValid',

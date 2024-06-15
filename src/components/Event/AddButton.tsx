@@ -1,13 +1,10 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import { toGlobalDate } from '@site/src/models/helpers/time';
 import Button from '../shared/Button';
 import { mdiPlusCircleOutline } from '@mdi/js';
 import { Icon, SIZE } from '../shared/icons';
-import { translate } from '@docusaurus/Translate';
 import { ApiState } from '@site/src/stores/iStore';
 interface Props {
     text: string;
@@ -16,6 +13,7 @@ interface Props {
     apiState?: ApiState;
     size?: number;
     title?: string;
+    className?: string;
 }
 
 const AddButton = observer((props: Props) => {
@@ -28,6 +26,7 @@ const AddButton = observer((props: Props) => {
             apiState={props.apiState}
             onClick={props.onAdd}
             title={props.title}
+            className={clsx(props.className)}
         />
     )
 });

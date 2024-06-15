@@ -27,6 +27,7 @@ const Groups = observer((props: Props) => {
                     });
                 }}
                 apiState={eventGroupStore.apiStateFor('create')}
+                className={clsx(styles.addGroup)}
             />
             <div className={clsx(styles.groups)}>
                 {
