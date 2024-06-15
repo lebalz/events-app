@@ -18,6 +18,8 @@ import { toGlobalDate } from '@site/src/models/helpers/time';
 import {useWindowSize} from '@docusaurus/theme-common';
 import Badge from '../../shared/Badge';
 import RegPeriodBadge from '../../RegistrationPeriod/RegPeriodBadge';
+import EventsViewer, { View } from '../../EventsViewer';
+import ChangeViewAction from '../../EventsViewer/ChangeViewAction';
 const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     ['state', { sortable: false, width: undefined }],
@@ -75,6 +77,7 @@ const AddEventButton = observer(() => {
 
 const UsersEvents = observer((props: Props) => {
     const { user } = props;
+    const [viewType, setViewType] = React.useState<View>(View.Grid);
     const jobStore = useStore('jobStore');
     const viewStore = useStore('viewStore');
     const regPeriodStore = useStore('registrationPeriodStore');
@@ -123,14 +126,21 @@ const UsersEvents = observer((props: Props) => {
                                     })
                                 }
                             </div>
-                            <BulkActions 
-                                events={drafts}
-                                defaultActions={<AddEventButton />}
-                            />
                         </div>
-                        {drafts.length > 0 && (
-                            <Grid events={drafts} columns={COLUMN_CONFIG} />
-                        )}
+                        <EventsViewer
+                            events={drafts}
+                            gridConfig={{ columns: COLUMN_CONFIG }}
+                            bulkActionConfig={{ 
+                                className: styles.indent,
+                                defaultActions: [
+                                    <AddEventButton />,
+                                    <ChangeViewAction
+                                        viewType={viewType}
+                                        setViewType={setViewType}
+                                    />
+                                ]}}
+                            type={viewType}
+                        />
                     </div>
                 </TabItem>
                 {reviewed.length > 0 && (
@@ -152,10 +162,18 @@ const UsersEvents = observer((props: Props) => {
                                     })
                                 }</h3>
                             </div>
-                            <div className={clsx('card__body', styles.bulk)}>
-                                <BulkActions events={reviewed} />
-                            </div>
-                            <Grid events={reviewed} columns={COLUMN_CONFIG} />
+                            <EventsViewer
+                                events={reviewed}
+                                gridConfig={{ columns: COLUMN_CONFIG }}
+                                bulkActionConfig={{ 
+                                    className: styles.indent,
+                                    defaultActions: [<ChangeViewAction
+                                        viewType={viewType}
+                                        setViewType={setViewType}
+                                    />
+                                ]}}
+                                type={viewType}
+                            />
                         </div>
                     </TabItem>
                 )}
@@ -178,10 +196,18 @@ const UsersEvents = observer((props: Props) => {
                                     })}
                                 </h3>
                             </div>
-                            <div className={clsx('card__body', styles.bulk)}>
-                                <BulkActions events={adminReview} />
-                            </div>
-                            <Grid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
+                            <EventsViewer
+                                events={adminReview}
+                                gridConfig={{ columns: COLUMN_CONFIG }}
+                                bulkActionConfig={{ 
+                                    className: styles.indent,
+                                    defaultActions: [<ChangeViewAction
+                                        viewType={viewType}
+                                        setViewType={setViewType}
+                                    />
+                                ]}}
+                                type={viewType}
+                            />
                         </div>
                     </TabItem>
                 )}
@@ -204,10 +230,18 @@ const UsersEvents = observer((props: Props) => {
                                     })
                                 }</h3>
                             </div>
-                            <div className={clsx('card__body', styles.bulk)}>
-                                <BulkActions events={published} />
-                            </div>
-                            <Grid events={published} columns={COLUMN_CONFIG} />
+                            <EventsViewer
+                                events={published}
+                                gridConfig={{ columns: COLUMN_CONFIG }}
+                                bulkActionConfig={{ 
+                                    className: styles.indent,
+                                    defaultActions: [<ChangeViewAction
+                                        viewType={viewType}
+                                        setViewType={setViewType}
+                                    />
+                                ]}}
+                                type={viewType}
+                            />
                         </div>
                     </TabItem>
                 )}
@@ -230,7 +264,18 @@ const UsersEvents = observer((props: Props) => {
                                     })
                                 }</h3>
                             </div>
-                            <Grid events={deleted} columns={COLUMN_CONFIG} />
+                            <EventsViewer
+                                events={deleted}
+                                gridConfig={{ columns: COLUMN_CONFIG }}
+                                bulkActionConfig={{ 
+                                    className: styles.indent,
+                                    defaultActions: [<ChangeViewAction
+                                        viewType={viewType}
+                                        setViewType={setViewType}
+                                    />
+                                ]}}
+                                type={viewType}
+                            />
                         </div>
                     </TabItem>
                 )}
@@ -249,30 +294,36 @@ const UsersEvents = observer((props: Props) => {
                                         }
                                     >
                                         <div className={clsx(styles.imported)}>
-                                            <BulkActions 
+                                            <EventsViewer
                                                 events={events}
-                                                defaultActions={
-                                                    <Delete
-                                                        onClick={() => {
-                                                            jobStore.destroy(job);
-                                                        }}
-                                                        text={
-                                                            translate({
-                                                                message: 'Job Löschen', 
-                                                                id: 'components.event.usersevents.index.delete',
-                                                                description: 'Text to delete a job'
-                                                            })
-                                                        }
-                                                        flyoutSide='right'
-                                                        iconSide='right'
-                                                        apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
-                                                    />
-                                                }
-                                            />
-                                            <Grid 
-                                                events={events} 
-                                                columns={['nr', ...COLUMN_CONFIG]} 
-                                                className={clsx(styles.noMarginScrollContainer)}
+                                                gridConfig={{ 
+                                                    columns: ['nr', ...COLUMN_CONFIG],
+                                                    className: clsx(styles.noMarginScrollContainer)
+                                                }}
+                                                bulkActionConfig={{ 
+                                                    className: styles.indent,
+                                                    defaultActions: [
+                                                        <Delete
+                                                            onClick={() => {
+                                                                jobStore.destroy(job);
+                                                            }}
+                                                            text={
+                                                                translate({
+                                                                    message: 'Job Löschen', 
+                                                                    id: 'components.event.usersevents.index.delete',
+                                                                    description: 'Text to delete a job'
+                                                                })
+                                                            }
+                                                            flyoutSide='right'
+                                                            iconSide='right'
+                                                            apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                                        />,
+                                                        <ChangeViewAction
+                                                            viewType={viewType}
+                                                            setViewType={setViewType}
+                                                        />
+                                                    ]}}
+                                                type={viewType}
                                             />
                                         </div>
                                     </LazyDetails>

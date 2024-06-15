@@ -12,6 +12,8 @@ import Grid from '../Event/Views/Grid';
 import { ImportJob as ImportJobModel } from '@site/src/models/Job';
 import Translate, { translate } from '@docusaurus/Translate';
 import { Loading } from '../shared/icons';
+import EventsViewer, { View } from '../EventsViewer';
+import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 
 
 interface Props {
@@ -20,6 +22,7 @@ interface Props {
 }
 
 const ImportJob = observer((props: Props) => {
+    const [viewType, setViewType] = React.useState<View>(View.Grid);
     const jobStore = useStore('jobStore');
     const { job } = props;
     return (
@@ -38,46 +41,53 @@ const ImportJob = observer((props: Props) => {
             className={clsx(styles.job)}
         >
             <div>
-                <BulkActions 
+                <EventsViewer
+                    bulkActionConfig={{
+                        className: clsx(styles.bulkActions),
+                        defaultActions: [
+                            <Delete
+                                onClick={() => {
+                                    jobStore.destroy(job);
+                                }}
+                                text={translate({
+                                    id: 'job.delete',
+                                    message: 'Job Löschen',
+                                    description: 'job.delete'
+                                })}
+                                flyoutSide='right'
+                                iconSide='right'
+                                apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                            />,
+                            <ChangeViewAction
+                                viewType={viewType}
+                                setViewType={setViewType}
+                            />
+                        ]
+                    }}
                     events={job.events}
-                    defaultActions={
-                        <Delete
-                            onClick={() => {
-                                jobStore.destroy(job);
-                            }}
-                            text={translate({
-                                id: 'job.delete',
-                                message: 'Job Löschen',
-                                description: 'job.delete'
-                            })}
-                            flyoutSide='right'
-                            iconSide='right'
-                            apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
-                        />
-                    }
-                />
-                <Grid 
-                    events={job.events}
-                    defaultSortBy='nr'
-                    columns={[
-                        'nr',
-                        'isValid',
-                        'isDuplicate',
-                        'select',
-                        ['state', {sortable: false, width: undefined}],
-                        ['teachingAffected', {componentProps: {show: 'icon'}}],
-                        'kw',
-                        'day',
-                        'description', 
-                        'start',
-                        'end',
-                        ['userGroup', {sortable: false}],
-                        'location',
-                        'departmens',
-                        'classes',
-                        'descriptionLong',
-                        ['actions', {fixed: {right: 0}}]
-                    ]}
+                    type={viewType}
+                    gridConfig={{
+                        defaultSortBy: 'nr',
+                        columns: [
+                            'nr',
+                            'isValid',
+                            'isDuplicate',
+                            'select',
+                            ['state', { sortable: false, width: undefined }],
+                            ['teachingAffected', { componentProps: { show: 'icon' } }],
+                            'kw',
+                            'day',
+                            'description',
+                            'start',
+                            'end',
+                            ['userGroup', { sortable: false }],
+                            'location',
+                            'departmens',
+                            'classes',
+                            'descriptionLong',
+                            ['actions', { fixed: { right: 0 } }]
+                        ]
+                    }}
                 />
             </div>
         </LazyDetails>
