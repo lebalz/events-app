@@ -14,6 +14,7 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        padding: 0;
     }
     .textInput {
         width: 100%;
@@ -23,7 +24,7 @@
             var(--ifm-font-family-base);
         }
     }
-    .summary {
+    .summaryContent {
         display: flex;
         gap: 1rem;
         justify-content: space-between;
@@ -47,8 +48,22 @@
         border-left-width: 0;
         border-right-width: 0;
         border-radius: 0;
+        /* remove padding, and add it to the child components */
+        padding: var(--ifm-card-vertical-spacing) 0; 
+        .bulkActions,
+        .summary {
+            margin: 0 var(--ifm-card-horizontal-spacing);
+        }
     }
     .actions {
         display: flex;
+    }
+}
+
+
+
+@media screen and (max-width: 41em) {
+    .group {    
+        flex-basis: 100%;
     }
 }

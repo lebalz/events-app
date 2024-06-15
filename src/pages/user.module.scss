@@ -7,17 +7,3 @@
         margin-right: auto;
     }
 }
-.tabItem {
-    border: 1px solid red;
-}
-.tabs {
-    margin-left: var(--section-margin-left);
-}
-.tab {
-    >:global(.tabs-container) {
-        margin-left: var(--section-table-margin-left);
-        >:global(.tabs) {
-            margin-left: calc(var(--section-margin-left) - var(--section-table-margin-left));
-        }
-    }
-}

@@ -216,8 +216,8 @@ const UserEventGroup = observer((props: Props) => {
                 className={clsx(styles.eventDetails, 'card__footer')}
                 open={props.standalone}
                 summary={
-                    <summary>
-                        <div className={clsx(styles.summary)}>
+                    <summary className={clsx(styles.summary)}>
+                        <div className={clsx(styles.summaryContent)}>
                             Events
                             <div className={clsx(styles.badges)}>
                                 {group.apiState !== ApiState.IDLE && (<ApiIcon state={group.apiState} />)}
@@ -231,7 +231,7 @@ const UserEventGroup = observer((props: Props) => {
                 }}
             >
                 <div className={clsx(styles.events, 'card__body')}>
-                    <BulkActions events={group.events} />
+                    <BulkActions events={group.events} className={clsx(styles.bulkActions)} />
                     <EventGrid 
                         events={group.events}
                         columns={[

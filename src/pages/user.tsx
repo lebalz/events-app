@@ -20,13 +20,13 @@ import { useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
 import { Loading } from '../components/shared/icons';
 import siteConfig from '@generated/docusaurus.config';
-const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
+const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean };
 
 const UserPage = observer(() => {
     const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
     const isAuthenticated = useIsAuthenticated();
-    const {inProgress} = useMsal();
+    const { inProgress } = useMsal();
     const { isStudent } = sessionStore;
     const { current } = userStore;
     if (!NO_AUTH && ((sessionStore.currentUserId && !sessionStore.isLoggedIn) || inProgress !== InteractionStatus.None)) {
@@ -48,72 +48,71 @@ const UserPage = observer(() => {
         <Layout>
             <main className={clsx(styles.main)}>
                 <Section title={translate({
-                    message : "Persönlicher Bereich",
-                    id:'user.section.title.personal-area' ,
-                    description:'user.section.title.personal-area'})}>
-                    <Tabs className={clsx(styles.tabs)} queryString groupId='user-tab' defaultValue='account' lazy>
-                        <TabItem 
-                            value="account" 
+                    message: "Persönlicher Bereich",
+                    id: 'user.section.title.personal-area',
+                    description: 'user.section.title.personal-area'
+                })}>
+                    <Tabs 
+                        queryString 
+                        groupId='user-tab' 
+                        defaultValue='account'
+                        lazy
+                    >
+                        <TabItem
+                            value="account"
                             label={translate({
                                 message: 'Account',
                                 id: 'user.tab.account'
                             })}
                         >
-                            <div className={clsx(styles.tab)}>
-                                {current ? (
-                                    <User user={current} />
-                                ) : (
-                                    <div>
-                                        <Button
-                                            text={translate({
-                                                message: 'Aktualisieren',
-                                                id: 'user.button.refresh'
-                                            })}
-                                            icon={mdiRefresh}
-                                            iconSide='left'
-                                            onClick={() => {
-                                                localStorage.clear();
-                                                window.location.reload();
-                                            }}
-                                            color='orange'
-                                            noOutline
-                                        />
-                                    </div>
-                                )}
-                            </div>
+                            {current ? (
+                                <User user={current} />
+                            ) : (
+                                <div>
+                                    <Button
+                                        text={translate({
+                                            message: 'Aktualisieren',
+                                            id: 'user.button.refresh'
+                                        })}
+                                        icon={mdiRefresh}
+                                        iconSide='left'
+                                        onClick={() => {
+                                            localStorage.clear();
+                                            window.location.reload();
+                                        }}
+                                        color='orange'
+                                        noOutline
+                                    />
+                                </div>
+                            )}
                         </TabItem>
-                        <TabItem 
-                            value="events" 
+                        <TabItem
+                            value="events"
                             label={translate({
                                 message: 'Events',
                                 id: 'user.tab.events'
                             })}
                         >
-                            <div className={clsx(styles.tab)}>
-                                <UsersEvents user={current} />
-                            </div>
+                            <UsersEvents user={current} />
                         </TabItem>
-                        <TabItem 
-                            value="groups" 
+                        <TabItem
+                            value="groups"
                             label={translate({
                                 message: 'Gruppen',
                                 id: 'user.tab.groups'
                             })}
+                            className="full-width"
                         >
-                            <div className={clsx(styles.tab)}>
-                                <Groups />
-                            </div>
+                            <Groups />
                         </TabItem>
-                        <TabItem 
-                            value="time-table" 
+                        <TabItem
+                            value="time-table"
                             label={translate({
                                 message: 'Stundenplan',
                                 id: 'user.tab.time-table'
                             })}
                         >
-                            <div className={clsx(styles.tab)}>
-                                <TimeTable />
-                            </div>
+                            <TimeTable />
                         </TabItem>
                     </Tabs>
                 </Section>

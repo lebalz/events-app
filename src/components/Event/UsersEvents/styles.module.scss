@@ -28,27 +28,3 @@
         }
     }
 }
-
-@media screen and (max-width: 1200px) {
-    .imports,
-    .card {
-        margin-left: -1.5rem;
-        margin-right: -1.5rem;
-    }
-}
-
-@media screen and (max-width: 996px) {
-    .imports,
-    .card {
-        margin-left: -0.8rem;
-        margin-right: -0.8rem;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .imports,
-    .card {
-        margin-left: -0.8rem;
-        margin-right: -0.8rem;
-    }
-}
