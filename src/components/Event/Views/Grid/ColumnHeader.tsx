@@ -4,12 +4,12 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import {translate} from '@docusaurus/Translate';
-import { Icon, SIZE_S } from '../../shared/icons';
+import { Icon, SIZE_S } from '../../../shared/icons';
 import { mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSchool, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
-import Checkbox from '../../shared/Checkbox';
-import Button, { ButtonIcon } from '../../shared/Button';
+import Checkbox from '../../../shared/Checkbox';
+import Button, { ButtonIcon } from '../../../shared/Button';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
-import Tooltip from '../../shared/Tooltip';
+import Tooltip from '../../../shared/Tooltip';
 
 
 interface Props extends Partial<ConfigOptionsSortable> {

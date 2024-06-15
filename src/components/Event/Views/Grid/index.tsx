@@ -56,7 +56,7 @@ export const DefaultConfig: {[key: string]: ConfigOptions} = {
 export const BATCH_SIZE = 15 as const;
 export type ColumnConfig = (keyof typeof DefaultConfig | [keyof typeof DefaultConfig, ConfigOptions])[];
 
-interface Props {
+export interface Props {
     events: EventModel[];
     columns: ColumnConfig;
     defaultSortBy?: keyof typeof DefaultConfig;
@@ -105,7 +105,7 @@ const createGroupEvents = createTransformer<{events: EventModel[], groupBy?: 'ye
     return _.chunk(transformed, BATCH_SIZE);
 });
 
-const EventGrid = observer(React.forwardRef((props: Props, ref: ForwardedRef<HTMLDivElement>) => {
+const Grid = observer(React.forwardRef((props: Props, ref: ForwardedRef<HTMLDivElement>) => {
     const [sortBy, setSortBy] = React.useState<keyof typeof DefaultConfig>(props.defaultSortBy || 'start');
     const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('asc');
     const groupEvents = React.useMemo(() => {
@@ -216,4 +216,4 @@ const EventGrid = observer(React.forwardRef((props: Props, ref: ForwardedRef<HTM
     )
 }));
 
-export default EventGrid;
+export default Grid;

@@ -11,7 +11,7 @@ import TextArea from '../shared/TextArea';
 import ModelActions from '../ModelActions';
 import Clone from '../shared/Button/Clone';
 import BulkActions from '../Event/BulkActions';
-import EventGrid from '../Event/EventGrid';
+import Grid from '../Event/Views/Grid';
 import LazyDetails from '../shared/Details';
 import { ApiIcon, DiscardIcon, SIZE, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
@@ -232,7 +232,7 @@ const UserEventGroup = observer((props: Props) => {
             >
                 <div className={clsx(styles.events, 'card__body')}>
                     <BulkActions events={group.events} className={clsx(styles.bulkActions)} />
-                    <EventGrid 
+                    <Grid 
                         events={group.events}
                         columns={[
                             'isValid',

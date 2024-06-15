@@ -12,7 +12,7 @@ import BulkActions from '../BulkActions';
 import LazyDetails from '../../shared/Details';
 import Delete from '../../shared/Button/Delete';
 import styles from './styles.module.scss';
-import EventGrid, { ColumnConfig } from '../EventGrid';
+import Grid, { ColumnConfig } from '../Views/Grid';
 import Translate, { translate } from '@docusaurus/Translate';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import {useWindowSize} from '@docusaurus/theme-common';
@@ -129,7 +129,7 @@ const UsersEvents = observer((props: Props) => {
                             />
                         </div>
                         {drafts.length > 0 && (
-                            <EventGrid events={drafts} columns={COLUMN_CONFIG} />
+                            <Grid events={drafts} columns={COLUMN_CONFIG} />
                         )}
                     </div>
                 </TabItem>
@@ -155,7 +155,7 @@ const UsersEvents = observer((props: Props) => {
                             <div className={clsx('card__body', styles.bulk)}>
                                 <BulkActions events={reviewed} />
                             </div>
-                            <EventGrid events={reviewed} columns={COLUMN_CONFIG} />
+                            <Grid events={reviewed} columns={COLUMN_CONFIG} />
                         </div>
                     </TabItem>
                 )}
@@ -181,7 +181,7 @@ const UsersEvents = observer((props: Props) => {
                             <div className={clsx('card__body', styles.bulk)}>
                                 <BulkActions events={adminReview} />
                             </div>
-                            <EventGrid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
+                            <Grid events={adminReview} columns={COLUMN_CONFIG_ADMIN} />
                         </div>
                     </TabItem>
                 )}
@@ -207,7 +207,7 @@ const UsersEvents = observer((props: Props) => {
                             <div className={clsx('card__body', styles.bulk)}>
                                 <BulkActions events={published} />
                             </div>
-                            <EventGrid events={published} columns={COLUMN_CONFIG} />
+                            <Grid events={published} columns={COLUMN_CONFIG} />
                         </div>
                     </TabItem>
                 )}
@@ -230,7 +230,7 @@ const UsersEvents = observer((props: Props) => {
                                     })
                                 }</h3>
                             </div>
-                            <EventGrid events={deleted} columns={COLUMN_CONFIG} />
+                            <Grid events={deleted} columns={COLUMN_CONFIG} />
                         </div>
                     </TabItem>
                 )}
@@ -269,7 +269,7 @@ const UsersEvents = observer((props: Props) => {
                                                     />
                                                 }
                                             />
-                                            <EventGrid 
+                                            <Grid 
                                                 events={events} 
                                                 columns={['nr', ...COLUMN_CONFIG]} 
                                                 className={clsx(styles.noMarginScrollContainer)}

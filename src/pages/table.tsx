@@ -8,7 +8,7 @@ import {useWindowSize} from '@docusaurus/theme-common';
 import Filter from '../components/Event/Filter';
 import clsx from 'clsx';
 import styles from './table.module.scss';
-import EventGrid from '../components/Event/EventGrid';
+import Grid from '../components/Event/Views/Grid';
 import { toExcel } from '../stores/helpers/EventsToExcelV1';
 import { rmUndefined } from '../models/helpers/filterHelpers';
 import BulkActions from '../components/Event/BulkActions';
@@ -54,7 +54,7 @@ const Table = observer(() => {
                         )
                     }
                 </div>
-                <EventGrid
+                <Grid
                     events={viewStore.eventTable.events}
                     ref={ref}
                     groupBy='yearsKw'

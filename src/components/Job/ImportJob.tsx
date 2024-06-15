@@ -8,7 +8,7 @@ import LazyDetails from '../shared/Details';
 import User from '@site/src/models/User';
 import Delete from '../shared/Button/Delete';
 import BulkActions from '../Event/BulkActions';
-import EventGrid from '../Event/EventGrid';
+import Grid from '../Event/Views/Grid';
 import { ImportJob as ImportJobModel } from '@site/src/models/Job';
 import Translate, { translate } from '@docusaurus/Translate';
 import { Loading } from '../shared/icons';
@@ -56,7 +56,7 @@ const ImportJob = observer((props: Props) => {
                         />
                     }
                 />
-                <EventGrid 
+                <Grid 
                     events={job.events}
                     defaultSortBy='nr'
                     columns={[
