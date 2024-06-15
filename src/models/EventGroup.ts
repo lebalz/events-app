@@ -70,8 +70,10 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     loadEvents() {
         if (!this.isFullyLoaded) {
             const missingIds = [...this.eventIds].filter(id => !this.store.eventStore.find(id));
-            const batches = _.chunk(missingIds, 50);
-            return Promise.all(batches.map((ids, idx) => this.store.eventStore.loadEvents(ids, idx === 0 ? this.id : `${this.id}-${idx}`)));
+            if (missingIds.length === this.eventIds.size || missingIds.length > 50) {
+                return this.store.reloadEvents(this);
+            }
+            return this.store.eventStore.loadEvents(missingIds, this.id);
         }
     }
 
