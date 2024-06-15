@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-import { Gantt as GanttComponent, Task, ViewMode } from 'gantt-task-react';
+import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 import { observer } from 'mobx-react-lite';
 import { createTransformer } from 'mobx-utils';
@@ -41,7 +41,7 @@ interface Props {
     events: Event[];
 }
 
-const Gantt = observer((props: Props) => {
+const Timeline = observer((props: Props) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [timer, setTimer] = React.useState<number>(0);
     const tasks = createTasks(props.events);
@@ -106,7 +106,7 @@ const Gantt = observer((props: Props) => {
         >
             <div className={clsx(styles.gantt)} ref={ref}>
                 {tasks.length > 0 && (
-                    <GanttComponent
+                    <Gantt
                         tasks={tasks}
                         viewMode={ViewMode.Day}
                         listCellWidth={''}
@@ -123,4 +123,4 @@ const Gantt = observer((props: Props) => {
     )
 });
 
-export default Gantt;
+export default Timeline;
