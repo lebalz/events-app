@@ -25,7 +25,8 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
 
     canEdit(event: Event) {
         if (event.state === EventState.Draft) {
-            return event.authorId === this.root.userStore.current?.id;
+            const isAuthor = event.authorId === this.root.userStore.current?.id;
+            return isAuthor || event.groups.some((g) => g.userIds.has(this.root.userStore.current?.id));
         }
         return !!this.root.userStore.current;
     }
