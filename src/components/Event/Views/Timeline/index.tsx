@@ -8,6 +8,7 @@ import { createTransformer } from 'mobx-utils';
 import siteConfig from '@generated/docusaurus.config';
 import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
+import _ from 'lodash';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 const ISO_639_CODES = {
@@ -16,7 +17,7 @@ const ISO_639_CODES = {
 }
 
 const createTasks = createTransformer<Event[], Task[]>((events: Event[]) => {
-    return events.map((e, idx) => {
+    return _.orderBy(events, ['startTimeMs'], ['asc']).map((e, idx) => {
         const styles = { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' } as any;
         if (e.isDeleted) {
             styles.progressColor = '#ff0000';
