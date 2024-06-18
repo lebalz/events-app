@@ -67,7 +67,7 @@ export const COLOR_SHADES: Shades = {
 };
 
 export const LIGHT_PRIMARY_COLOR = '#232a40';
-export const DARK_PRIMARY_COLOR = '#ed67fe';
+export const DARK_PRIMARY_COLOR = '#41b4ad';
 export const LIGHT_BACKGROUND_COLOR = '#ffffff';
 export const DARK_BACKGROUND_COLOR = '#181920';
 export const LIGHT_NAV_BAR_BACKGROUND = '#ffffff';
@@ -86,7 +86,7 @@ const DEAFULT_COLORS = {
     }
 };
 
-const COLOR_VERSION = 'v1.1' as const;
+const COLOR_VERSION = 'v1.2' as const;
 
 interface ColorProps {
     version: typeof COLOR_VERSION,
