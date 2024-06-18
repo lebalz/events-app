@@ -1823,5 +1823,14 @@
   },
   "user.navbar.profile.title": {
     "message": "Persönlicher Bereich"
+  },"event.firstAuthor": {
+    "message": "Erstautor:in",
+    "description": "for a single event: author of the first version"
+  },"EventAudience.STUDENTS.description.overview": {
+    "message": "SuS, betroffene LP*",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },"event.filter.deleted": {
+    "message": "Gelöschte Verstecken?",
+    "description": "Filter: deleted"
   }
 }
