@@ -64,6 +64,22 @@ TEST_USERNAME="Reto.Holz@gbsl.ch" yarn run start
 
 and make sure, that the user `Reto.Holz@gbsl.ch` exists on your local api.
 
+#### Format Codebase
+
+Prettier is used to format the codebase. To format the codebase run:
+
+```bash
+yarn run format
+```
+
+This will format all files in the `src` folder and the files in the root folder, which are not excluded in the `.prettierignore` file.
+
+To check if all files are formatted correctly, run:
+
+```bash
+yarn run format:check
+```
+
 ## Translations
 
 The translations can be found in the `i18n` folder. The `de` folder contains the german (default) translations. The `fr` folder contains the french translations.
