@@ -15,7 +15,9 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "crowdin": "crowdin",
-    "crowdin:sync": "docusaurus write-translations && crowdin upload && crowdin download"
+    "crowdin:sync": "docusaurus write-translations && crowdin upload && crowdin download",
+    "format": "prettier --write .",
+    "format:diff": "prettier --list-different ."
   },
   "dependencies": {
     "@azure/msal-browser": "^3.17.0",
@@ -68,6 +70,7 @@
     "@types/react": "^18.2.29",
     "@types/react-big-calendar": "^1.8.0",
     "@types/uuid": "^9.0.0",
+    "prettier": "^3.3.2",
     "typescript": "^5.2.2",
     "webpack-cli": "^4.10.0"
   },
