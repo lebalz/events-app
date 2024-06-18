@@ -690,7 +690,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fClasses(): { text: string; classes: Klass[] }[] {
         const kls: { [year: string]: Klass[] } = {};
+        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
         [...this.affectedKnownClasses]
+            .filter((c) => c.year >= refYear)
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach((c) => {
                 const year = c.legacyName ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
@@ -866,7 +868,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get _selectedClasses(): Klass[] {
         const wildcard = new Set(this._wildcardClasses.map((c) => c.id));
-        return this.untisClasses.filter((c) => !wildcard.has(c.id));
+        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
+        return this.untisClasses.filter((c) => !wildcard.has(c.id)).filter((k) => k.year >= refYear);
     }
 
     @computed

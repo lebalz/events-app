@@ -18,7 +18,13 @@ interface Props {
 const Department = observer((props: Props) => {
     const { event } = props;
     const departments = props.departments.filter((d) => d.classes.length > 0);
-    const allKlasses = departments.map((d) => d.classes).flat();
+    const refYear =
+        event.start.getFullYear() +
+        (event.start.getMonth() > 6 ? 1 : 0); /** getMonth() starts at 0 -> January, 11 -> December */
+    const allKlasses = departments
+        .map((d) => d.classes)
+        .flat()
+        .filter((k) => k.year >= refYear);
     const klasses = _.groupBy(allKlasses, (c) => c.year);
     const someDepartments = departments.some((d) => event.departmentIds.has(d.id));
     const allDepartments = someDepartments && departments.every((d) => event.departmentIds.has(d.id));
