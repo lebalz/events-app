@@ -9,7 +9,6 @@ import ImportJob from './ImportJob';
 import Button from '../shared/Button';
 import Badge from '../shared/Badge';
 
-
 interface Props {
     job: Job;
 }
@@ -29,11 +28,20 @@ const Details = observer((props: Props) => {
                             <dt>Filename</dt>
                             <dd>{(job as ImportJobModel).filename}</dd>
                             <dt>Events</dt>
-                            <dd>{
-                                (job as ImportJobModel).fullyLoaded ? 
-                                    <Badge text={`${(job as ImportJobModel).events.length}`} color='primary'/>
-                                    : (<Button text='Laden' onClick={() => (job as ImportJobModel).loadEvents()} color='primary'/>)
-                            }</dd>
+                            <dd>
+                                {(job as ImportJobModel).fullyLoaded ? (
+                                    <Badge
+                                        text={`${(job as ImportJobModel).events.length}`}
+                                        color="primary"
+                                    />
+                                ) : (
+                                    <Button
+                                        text="Laden"
+                                        onClick={() => (job as ImportJobModel).loadEvents()}
+                                        color="primary"
+                                    />
+                                )}
+                            </dd>
                         </>
                     )}
                     {job.type === JobType.SYNC_UNTIS && (
@@ -49,7 +57,7 @@ const Details = observer((props: Props) => {
                 </DefinitionList>
             </div>
             {job.fLog.length > 0 && (
-                <CodeBlock language='json' title='log.json'>
+                <CodeBlock language="json" title="log.json">
                     {job.fLog}
                 </CodeBlock>
             )}
@@ -57,7 +65,7 @@ const Details = observer((props: Props) => {
                 <ImportJob job={job as ImportJobModel} />
             )}
         </div>
-    )
-})
+    );
+});
 
 export default Details;

@@ -1,13 +1,13 @@
 {
     "title": {
-      "en": "Events",
-      "de": "Events",
-      "fr": "Evénements"
+        "en": "Events",
+        "de": "Events",
+        "fr": "Evénements"
     },
     "tagline": {
-      "en": "Appointment calendar",
-      "de": "Terminkalender",
-      "fr": "Calendrier des événements"
+        "en": "Appointment calendar",
+        "de": "Terminkalender",
+        "fr": "Calendrier des événements"
     },
     "translated_by": {
         "en": "Translated by",

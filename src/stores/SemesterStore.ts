@@ -43,7 +43,7 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
 
     @computed
     get currentSemester(): Semester | undefined {
-        return this.semesters.find(s => s.isCurrent);
+        return this.semesters.find((s) => s.isCurrent);
     }
 
     @override
@@ -53,7 +53,7 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
     }
 
     nextSemester(currentId: string, offset: number) {
-        const currentIdx = this.semesters.findIndex(s => s.id === currentId);
+        const currentIdx = this.semesters.findIndex((s) => s.id === currentId);
         if (currentIdx === -1) {
             return;
         }
@@ -64,10 +64,9 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
     @action
     syncUntis(semester: Semester) {
         return this.withAbortController(`sync-untis-semester-${semester.id}`, (sig) => {
-            return apiStartSyncJob(semester.id, sig.signal)
-                .then(({ data }) => {
-                    this.root.jobStore.addToStore(data, 'create', true);
-                })
+            return apiStartSyncJob(semester.id, sig.signal).then(({ data }) => {
+                this.root.jobStore.addToStore(data, 'create', true);
+            });
         });
     }
 }

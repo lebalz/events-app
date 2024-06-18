@@ -10,7 +10,16 @@ import Delete from '../../shared/Button/Delete';
 import { action } from 'mobx';
 import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
-import { mdiBookCancel, mdiBookmarkCheck, mdiBookmarkMinus, mdiClose, mdiCross, mdiFileCertificate, mdiShareAll, mdiTag } from '@mdi/js';
+import {
+    mdiBookCancel,
+    mdiBookmarkCheck,
+    mdiBookmarkMinus,
+    mdiClose,
+    mdiCross,
+    mdiFileCertificate,
+    mdiShareAll,
+    mdiTag
+} from '@mdi/js';
 import { Icon, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
@@ -31,7 +40,7 @@ const BulkActions = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     const eventGroupStore = useStore('eventGroupStore');
     const { current } = userStore;
-    const selected = props.events.slice().filter(e => e.selected);
+    const selected = props.events.slice().filter((e) => e.selected);
     if (selected.length < 1) {
         return (
             <Stats
@@ -43,26 +52,26 @@ const BulkActions = observer((props: Props) => {
         );
     }
     const state = selected[0]?.state;
-    const sameState = selected.every(event => event.state === state);
-    const allValid = selected.every(event => event.isValid);
-    const onlyMine = selected.every(event => event.authorId === current.id);
+    const sameState = selected.every((event) => event.state === state);
+    const allValid = selected.every((event) => event.isValid);
+    const onlyMine = selected.every((event) => event.authorId === current.id);
     return (
         <div className={clsx(styles.bulk, 'card', props.className)}>
-            <Badge 
-                text={`${selected.length}`} 
-                color='primary'
+            <Badge
+                text={`${selected.length}`}
+                color="primary"
                 icon={
                     <Button
                         onClick={action(() => {
-                            selected.forEach(s => s.setSelected(false));
+                            selected.forEach((s) => s.setSelected(false));
                         })}
                         icon={mdiClose}
                         size={SIZE_XS}
-                        color='primary'
+                        color="primary"
                         className={clsx(styles.close)}
                         noOutline
                         title={translate({
-                            message: 'Auswahl aufheben', 
+                            message: 'Auswahl aufheben',
                             id: 'event.bulk_actions.clear_selection'
                         })}
                     />
@@ -77,12 +86,14 @@ const BulkActions = observer((props: Props) => {
                                 id: 'event.bulk_actions.request_review',
                                 description: 'Request Review'
                             })}
-                            icon={<Icon path={mdiBookmarkCheck}
-                            color='blue' />}
+                            icon={<Icon path={mdiBookmarkCheck} color="blue" />}
                             className={clsx(styles.blue)}
-                            iconSide='left'
+                            iconSide="left"
                             onClick={() => {
-                                eventStore.requestState(selected.map(e => e.id), EventState.Review);
+                                eventStore.requestState(
+                                    selected.map((e) => e.id),
+                                    EventState.Review
+                                );
                             }}
                         />
                     )}
@@ -94,49 +105,52 @@ const BulkActions = observer((props: Props) => {
                                     id: 'event.bulk_actions.editing',
                                     description: 'Edit Event'
                                 })}
-                                icon={
-                                    <Icon 
-                                        path={mdiBookmarkMinus}
-                                        color='blue' 
-                                    />
-                                }
+                                icon={<Icon path={mdiBookmarkMinus} color="blue" />}
                                 className={clsx(styles.blue)}
-                                iconSide='left' onClick={() => {
-                                    eventStore.requestState(selected.map(e => e.id), EventState.Draft);
+                                iconSide="left"
+                                onClick={() => {
+                                    eventStore.requestState(
+                                        selected.map((e) => e.id),
+                                        EventState.Draft
+                                    );
                                 }}
                             />
-                            {
-                                userStore.current?.isAdmin && (
-                                    <>
-                                        <Button 
-                                            text={translate({
-                                                message: 'Veröffentlichen',
-                                                id: 'event.bulk_actions.publish',
-                                                description: 'Publish Event'
-                                            })}
-                                            icon={<Icon path={mdiFileCertificate} color='green' />}
-                                            iconSide='left'
-                                            className={clsx(styles.success)}
-                                            onClick={() => {
-                                                eventStore.requestState(selected.map(e => e.id), EventState.Published);
-                                            }}
-                                        />
-                                        <Button 
-                                            text={translate({
-                                                message: 'Zurückweisen',
-                                                id: 'event.bulk_actions.refuse',
-                                                description: 'Refuse Event review'
-                                            })}
-                                            icon={<Icon path={mdiBookCancel} color='orange' />}
-                                            iconSide='left'
-                                            className={clsx(styles.revoke)} 
-                                            onClick={() => {
-                                                eventStore.requestState(selected.map(e => e.id), EventState.Refused);
-                                            }}
-                                        />
-                                    </>
-                                )
-                            }
+                            {userStore.current?.isAdmin && (
+                                <>
+                                    <Button
+                                        text={translate({
+                                            message: 'Veröffentlichen',
+                                            id: 'event.bulk_actions.publish',
+                                            description: 'Publish Event'
+                                        })}
+                                        icon={<Icon path={mdiFileCertificate} color="green" />}
+                                        iconSide="left"
+                                        className={clsx(styles.success)}
+                                        onClick={() => {
+                                            eventStore.requestState(
+                                                selected.map((e) => e.id),
+                                                EventState.Published
+                                            );
+                                        }}
+                                    />
+                                    <Button
+                                        text={translate({
+                                            message: 'Zurückweisen',
+                                            id: 'event.bulk_actions.refuse',
+                                            description: 'Refuse Event review'
+                                        })}
+                                        icon={<Icon path={mdiBookCancel} color="orange" />}
+                                        iconSide="left"
+                                        className={clsx(styles.revoke)}
+                                        onClick={() => {
+                                            eventStore.requestState(
+                                                selected.map((e) => e.id),
+                                                EventState.Refused
+                                            );
+                                        }}
+                                    />
+                                </>
+                            )}
                         </>
                     )}
                 </div>
@@ -144,24 +158,22 @@ const BulkActions = observer((props: Props) => {
             <Button
                 text={translate({
                     id: 'event.bulk_actions.share',
-                    message: 'Übersicht Öffnen',
+                    message: 'Übersicht Öffnen'
                 })}
                 icon={mdiShareAll}
                 size={SIZE_XS}
-                iconSide='left'
+                iconSide="left"
                 color="primary"
-                href={`/event?${selected.map(e => e.queryParam).join('&')}`}
+                href={`/event?${selected.map((e) => e.queryParam).join('&')}`}
             />
             <Button
-                text='Neue Gruppe'
+                text="Neue Gruppe"
                 icon={mdiTag}
                 size={SIZE_XS}
-                iconSide='left'
+                iconSide="left"
                 onClick={action(() => {
-                    const ids = selected.map(event => event.id);
-                    eventGroupStore.create(
-                        {event_ids: ids, name: 'Neue Gruppe'},
-                    );
+                    const ids = selected.map((event) => event.id);
+                    eventGroupStore.create({ event_ids: ids, name: 'Neue Gruppe' });
                 })}
             />
             <Select
@@ -169,7 +181,7 @@ const BulkActions = observer((props: Props) => {
                 isSearchable={true}
                 isClearable={true}
                 menuPortalTarget={document.body}
-                styles={{ 
+                styles={{
                     menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
                 }}
                 onChange={(options, meta) => {
@@ -187,33 +199,33 @@ const BulkActions = observer((props: Props) => {
                             }
                             break;
                         case 'clear':
-                            selected.forEach(event => event.groups.forEach(g => g.removeEvents([event])));
+                            selected.forEach((event) => event.groups.forEach((g) => g.removeEvents([event])));
                             break;
                     }
                 }}
-                options={
-                    eventGroupStore.eventGroups.map(group => ({
-                        value: group.id,
-                        label: group.name,
-                    }))
-                }
-                value={
-                    selected.reduce((acc, event) => {
-                        const gIds = new Set(event.groups.map(g => g.id));
-                        return acc.filter(({id}) => gIds.has(id));
-                    }, selected[0]?.groups?.map(g => ({id: g.id, name: g.name })) || []).
-                    map(g => ({value: g.id, label: g.name}))
-                }
+                options={eventGroupStore.eventGroups.map((group) => ({
+                    value: group.id,
+                    label: group.name
+                }))}
+                value={selected
+                    .reduce(
+                        (acc, event) => {
+                            const gIds = new Set(event.groups.map((g) => g.id));
+                            return acc.filter(({ id }) => gIds.has(id));
+                        },
+                        selected[0]?.groups?.map((g) => ({ id: g.id, name: g.name })) || []
+                    )
+                    .map((g) => ({ value: g.id, label: g.name }))}
             />
-            {
-                onlyMine && (
-                    <Delete onClick={action(() => {
-                        selected.forEach(event => event.destroy());
-                    })} />
-                )
-            }
+            {onlyMine && (
+                <Delete
+                    onClick={action(() => {
+                        selected.forEach((event) => event.destroy());
+                    })}
+                />
+            )}
         </div>
-    )
+    );
 });
 
 export default BulkActions;

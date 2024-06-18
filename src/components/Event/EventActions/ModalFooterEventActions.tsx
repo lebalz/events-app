@@ -20,49 +20,47 @@ interface Props {
     exclude?: SortableButton[];
 }
 
-
-
 const ModalFooterEventActions = observer((props: Props) => {
     const { event, size } = props;
     const eventStore = useStore('eventStore');
     const viewStore = useStore('viewStore');
-    
+
     const buttonsWithText = props.expandedButtons ?? 2;
     const showText = buttonsWithText >= 2;
     return (
         <>
             <Button
                 text={
-                    showText 
-                    ? event.isDirty 
-                        ? translate({
-                                message : 'Verwerfen',
-                                id : "components.event.actions.discard",
-                                description : "Text of the button discard"
-                            })
-                        : translate({
-                                message : 'Abbrechen',
-                                id : "components.event.actions.cancel",
-                                description : "Text of the button cancel"
-                            })
-                    : undefined
+                    showText
+                        ? event.isDirty
+                            ? translate({
+                                  message: 'Verwerfen',
+                                  id: 'components.event.actions.discard',
+                                  description: 'Text of the button discard'
+                              })
+                            : translate({
+                                  message: 'Abbrechen',
+                                  id: 'components.event.actions.cancel',
+                                  description: 'Text of the button cancel'
+                              })
+                        : undefined
                 }
                 color="black"
                 size={size}
                 title={
                     event.isDirty
-                    ? translate({
-                        message : "Änderungen verwerfen",
-                        id : "components.event.actions.cancel.title",
-                        description : "Title of the button cancel"
-                    })
-                    : translate({
-                        id: 'components.event.actions.close-edit.title',
-                        message: 'Editiermodus beenden',
-                    })
+                        ? translate({
+                              message: 'Änderungen verwerfen',
+                              id: 'components.event.actions.cancel.title',
+                              description: 'Title of the button cancel'
+                          })
+                        : translate({
+                              id: 'components.event.actions.close-edit.title',
+                              message: 'Editiermodus beenden'
+                          })
                 }
                 icon={<DiscardIcon size={size} />}
-                iconSide='left'
+                iconSide="left"
                 onClick={() => {
                     if (event.isDirty) {
                         event.reset(false);
@@ -73,28 +71,31 @@ const ModalFooterEventActions = observer((props: Props) => {
             />
             <Button
                 color="green"
-                text={showText
+                text={
+                    showText
                         ? translate({
-                                message: 'Speichern',
-                                id: 'button.save',
-                                description: 'Button to save changes'
-                            })
+                              message: 'Speichern',
+                              id: 'button.save',
+                              description: 'Button to save changes'
+                          })
                         : undefined
                 }
                 size={size}
                 disabled={!event.isDirty || !event.isValid}
                 title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
                 icon={<SaveIcon size={size} />}
-                iconSide='left'
+                iconSide="left"
                 onClick={() => {
                     if (event.state !== EventState.Draft) {
-                        event.save().then(action((model) => {
-                            const current = eventStore.find(event.id);
-                            current?.reset();
-                            if (model) {
-                                viewStore.setEventModalId(model.id)
-                            }
-                        }))
+                        event.save().then(
+                            action((model) => {
+                                const current = eventStore.find(event.id);
+                                current?.reset();
+                                if (model) {
+                                    viewStore.setEventModalId(model.id);
+                                }
+                            })
+                        );
                     } else {
                         event.save();
                     }
@@ -102,7 +103,7 @@ const ModalFooterEventActions = observer((props: Props) => {
                 apiState={event.apiStateFor(`save-${event.id}`)}
             />
         </>
-    )
+    );
 });
 
 export default ModalFooterEventActions;

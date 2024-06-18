@@ -11,29 +11,29 @@ const plugin: Plugin = function plugin(
     }
 ): Transformer {
     const TAG_NAME = optionsInput?.tagName || 'strong';
-    const CLASS_NAME = optionsInput?.className ? { type: 'mdxJsxAttribute', name: 'className', value: optionsInput.className } : undefined;
+    const CLASS_NAME = optionsInput?.className
+        ? { type: 'mdxJsxAttribute', name: 'className', value: optionsInput.className }
+        : undefined;
     return async (ast, vfile) => {
         const mdSource = vfile.value as string;
         visit(ast, 'strong', (node, idx, parent: Parent) => {
-            const strong = node as Strong
+            const strong = node as Strong;
             const startOg = strong.position.start.offset;
             const endOg = strong.position.end.offset;
 
             const strToOperateOn = mdSource.substring(startOg, endOg);
             const wasUnderscored = strToOperateOn.startsWith('__') && strToOperateOn.endsWith('__');
             if (wasUnderscored) {
-                parent.children.splice(idx, 1,
-                    {
-                        type: 'mdxJsxTextElement',
-                        name: TAG_NAME,
-                        attributes: CLASS_NAME ? [CLASS_NAME] : [],
-                        children: strong.children,
-                        data: { '_mdxExplicitJsx': true }
-                    } as MdxJsxTextElement
-                );
+                parent.children.splice(idx, 1, {
+                    type: 'mdxJsxTextElement',
+                    name: TAG_NAME,
+                    attributes: CLASS_NAME ? [CLASS_NAME] : [],
+                    children: strong.children,
+                    data: { _mdxExplicitJsx: true }
+                } as MdxJsxTextElement);
             }
         });
-    }
-}
+    };
+};
 
 export default plugin;

@@ -1,18 +1,14 @@
-import {remark} from 'remark';
-import remarkMdx  from 'remark-mdx';
+import { remark } from 'remark';
+import remarkMdx from 'remark-mdx';
 import remarkDirective from 'remark-directive';
 import { describe, expect, it } from 'vitest';
 
 const process = async (content: string) => {
-    const {default: plugin} = await import('../plugin') as any;
-    const result = await remark()
-        .use(remarkMdx)
-        .use(remarkDirective)
-        .use(plugin)
-        .process(content);
+    const { default: plugin } = (await import('../plugin')) as any;
+    const result = await remark().use(remarkMdx).use(remarkDirective).use(plugin).process(content);
 
     return result.value;
-}
+};
 
 describe('#mdi', () => {
     it("does nothing if there's no mdi", async () => {
@@ -23,7 +19,7 @@ Some content
         const result = await process(input);
         expect(result).toBe(input);
     });
-    it("can convert mdi", async () => {
+    it('can convert mdi', async () => {
         const input = `# Details element example
         Hello :mdi[robot] world!
         `;
@@ -39,7 +35,7 @@ Some content
         "`);
     });
 
-    it("can convert mdi with props", async () => {
+    it('can convert mdi with props', async () => {
         const input = `# Details element example
         Hello :mdi[robot]{color=teal size=20em} world!
         `;
@@ -55,8 +51,7 @@ Some content
         "`);
     });
 
-
-    it("does not reimport modules", async () => {
+    it('does not reimport modules', async () => {
         const input = `import { mdiRobot } from '@mdi/js';\nimport Icon from '@mdi/react';
 
         # Details element example
@@ -73,7 +68,7 @@ Some content
         "`);
     });
 
-    it("handels numbers correct", async () => {
+    it('handels numbers correct', async () => {
         const input = `
         # Details element example
         Hello :mdi[numeric-1-box] world!
@@ -90,7 +85,7 @@ Some content
           "
         `);
     });
-    it("handels icons in link texts", async () => {
+    it('handels icons in link texts', async () => {
         const input = `
         # Details element example
         Hello [:mdi[robot] robo](https://srf.ch) world!
@@ -108,4 +103,3 @@ Some content
         `);
     });
 });
-

@@ -9,7 +9,6 @@ import { Calendar, SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import { mdiCalendarBlankMultiple } from '@mdi/js';
 
-
 interface Props {
     events: EventModel[];
     preActions?: React.ReactNode | React.ReactNode[];
@@ -26,18 +25,19 @@ const Stats = observer((props: Props) => {
                 className={clsx(styles.badge)}
                 icon={mdiCalendarBlankMultiple}
                 size={SIZE_S}
-                iconSide='left'
-                color='primary'
-                title={
-                    translate({
-                        message: '{num} Termine', 
-                        id: 'event.bulk_actions.stats.total_events',
-                    }, {num: props.events.length})
-                }
+                iconSide="left"
+                color="primary"
+                title={translate(
+                    {
+                        message: '{num} Termine',
+                        id: 'event.bulk_actions.stats.total_events'
+                    },
+                    { num: props.events.length }
+                )}
             />
             {props.postActions}
         </div>
-    )
+    );
 });
 
 export default Stats;

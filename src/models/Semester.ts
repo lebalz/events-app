@@ -1,16 +1,16 @@
-import { action, computed, makeObservable, observable, override } from "mobx";
-import { Semester as SemesterProps } from "../api/semester";
-import { ApiAction } from "../stores/iStore";
-import { SemesterStore } from "../stores/SemesterStore";
-import ApiModel, { UpdateableProps } from "./ApiModel";
-import { formatDate, formatTime, toGlobalDate, toLocalDate } from "./helpers/time";
-import Lesson from "./Untis/Lesson";
+import { action, computed, makeObservable, observable, override } from 'mobx';
+import { Semester as SemesterProps } from '../api/semester';
+import { ApiAction } from '../stores/iStore';
+import { SemesterStore } from '../stores/SemesterStore';
+import ApiModel, { UpdateableProps } from './ApiModel';
+import { formatDate, formatTime, toGlobalDate, toLocalDate } from './helpers/time';
+import Lesson from './Untis/Lesson';
 
 export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SemesterProps>[] = [
-        { attr: 'start', transform: (val) => toLocalDate(new Date(val)) }, 
+        { attr: 'start', transform: (val) => toLocalDate(new Date(val)) },
         { attr: 'end', transform: (val) => toLocalDate(new Date(val)) },
-        { attr: 'untisSyncDate', transform: (val) => toLocalDate(new Date(val)) }, 
+        { attr: 'untisSyncDate', transform: (val) => toLocalDate(new Date(val)) },
         'name'
     ];
     readonly isUserModel = false;
@@ -61,7 +61,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
             end: toGlobalDate(this.end).toISOString(),
             untisSyncDate: toGlobalDate(this.untisSyncDate).toISOString(),
             createdAt: this.createdAt.toISOString(),
-            updatedAt: this.updatedAt.toISOString(),
+            updatedAt: this.updatedAt.toISOString()
         };
     }
 
@@ -137,7 +137,7 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
 
     @computed
     get semesterName(): `${number}HS` | `${number}FS` {
-        const suffix = ["HS", "FS"][this.semester - 1] as 'HS' | 'FS';
+        const suffix = ['HS', 'FS'][this.semester - 1] as 'HS' | 'FS';
         return `${this.year}${suffix}`;
     }
 }

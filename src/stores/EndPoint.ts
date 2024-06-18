@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from 'mobx';
 
 export class EndPoint {
     readonly Base: string;
@@ -11,10 +11,16 @@ export class EndPoint {
     @observable
     authorizedRouteLoaded = false;
 
-    constructor(Base: string, config: {public?: boolean | string, authorized?: boolean | string} = {}) {
+    constructor(Base: string, config: { public?: boolean | string; authorized?: boolean | string } = {}) {
         this.Base = Base;
-        this.PublicRoute = config.public && (typeof config.public === 'string') ? config.public : config.public ? Base : '';
-        this.AuthorizedRoute = config.authorized && (typeof config.authorized === 'string') ? config.authorized : config.authorized ? Base : '';
+        this.PublicRoute =
+            config.public && typeof config.public === 'string' ? config.public : config.public ? Base : '';
+        this.AuthorizedRoute =
+            config.authorized && typeof config.authorized === 'string'
+                ? config.authorized
+                : config.authorized
+                  ? Base
+                  : '';
         makeObservable(this);
     }
 

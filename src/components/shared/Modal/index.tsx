@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 
-
 interface Props {
     children: React.ReactNode;
     className?: string;
@@ -19,7 +18,7 @@ const Modal = observer((props: Props) => {
         if (props.onClose) {
             props.onClose();
         }
-    }
+    };
 
     React.useEffect(() => {
         const onEsc = (e: KeyboardEvent) => {
@@ -28,11 +27,11 @@ const Modal = observer((props: Props) => {
                     props.onClose();
                 }
             }
-        }
+        };
         document.addEventListener('keydown', onEsc);
         return () => {
             document.removeEventListener('keydown', onEsc);
-        }
+        };
     }, [props.onClose]);
 
     return (
@@ -41,10 +40,7 @@ const Modal = observer((props: Props) => {
             onClick={props.open ? onClose : undefined}
         >
             {props.open && (
-                <div
-                    className={clsx(styles.content)} 
-                    onClick={(e) => e.stopPropagation()}
-                >
+                <div className={clsx(styles.content)} onClick={(e) => e.stopPropagation()}>
                     {props.children}
                 </div>
             )}

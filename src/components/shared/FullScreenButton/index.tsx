@@ -9,7 +9,6 @@ import { Icon, SIZE, SIZE_S, SIZE_XS } from '../icons';
 import Button from '../Button';
 import Translate, { translate } from '@docusaurus/Translate';
 
-
 const FullScreenButton = observer(() => {
     const store = useStore('viewStore');
     if (!store.showFullscreenButton) {
@@ -20,19 +19,19 @@ const FullScreenButton = observer(() => {
             <Button
                 icon={<Icon path={store.fullscreen ? mdiFullscreenExit : mdiFullscreen} size={SIZE_S} />}
                 onClick={() => store.setFullscreen(!store.fullscreen)}
-                title={store.fullscreen ?
-                        translate({
-                            message : "Verlasse Vollbildschirm",
-                            id : "shared.fullscreenbutton.exitfullscreen",
-                            description : "Text of the button exit full screen"
-                        })
-                    :
-                        translate({
-                            message : "Vollbildschirm",
-                            id : "shared.fullscreenbutton.gofullscreen",
-                            description : "Text of the button full screen"
-                        })
-                    }
+                title={
+                    store.fullscreen
+                        ? translate({
+                              message: 'Verlasse Vollbildschirm',
+                              id: 'shared.fullscreenbutton.exitfullscreen',
+                              description: 'Text of the button exit full screen'
+                          })
+                        : translate({
+                              message: 'Vollbildschirm',
+                              id: 'shared.fullscreenbutton.gofullscreen',
+                              description: 'Text of the button full screen'
+                          })
+                }
                 className={clsx(styles.button)}
             />
         </div>

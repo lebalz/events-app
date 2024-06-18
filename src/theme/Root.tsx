@@ -1,40 +1,43 @@
-import React from "react";
-import { MsalProvider, useIsAuthenticated, useMsal } from "@azure/msal-react";
-import { StoresProvider, rootStore } from "../stores/stores";
-import { observer } from "mobx-react-lite";
-import { TENANT_ID, msalConfig } from "../authConfig";
-import Head from "@docusaurus/Head";
+import React from 'react';
+import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
+import { StoresProvider, rootStore } from '../stores/stores';
+import { observer } from 'mobx-react-lite';
+import { TENANT_ID, msalConfig } from '../authConfig';
+import Head from '@docusaurus/Head';
 import siteConfig from '@generated/docusaurus.config';
-import { useLocation } from "@docusaurus/router";
-import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from "@azure/msal-browser";
-import { setupMsalAxios, setupDefaultAxios } from "../api/base";
-import { useStore } from "../stores/hooks";
-import { action, runInAction } from "mobx";
-const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
+import { useLocation } from '@docusaurus/router';
+import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
+import { setupMsalAxios, setupDefaultAxios } from '../api/base';
+import { useStore } from '../stores/hooks';
+import { action, runInAction } from 'mobx';
+const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
 export const msalInstance = new PublicClientApplication(msalConfig);
 
 if (NO_AUTH) {
     const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
-    console.log(['',
-        "┌──────────────────────────────────────────────────────────┐",
-        '│                                                          │',
-        "│   _   _                       _   _                      │",
-        "│  | \\ | |           /\\        | | | |                     │",
-        "│  |  \\| | ___      /  \\  _   _| |_| |__                   │",
-        "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
-        "│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │",
-        "│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │",
-        '│                                                          │',
-        '│                                                          │',
-        `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
-        '│                                                          │',
-        '│   --> enable authentication by removing "TEST_USERNAME"  │',
-        '│       from the environment (or the .env file)            │',
-        "└──────────────────────────────────────────────────────────┘",
-    ].join('\n'))
+    console.log(
+        [
+            '',
+            '┌──────────────────────────────────────────────────────────┐',
+            '│                                                          │',
+            '│   _   _                       _   _                      │',
+            '│  | \\ | |           /\\        | | | |                     │',
+            '│  |  \\| | ___      /  \\  _   _| |_| |__                   │',
+            "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
+            '│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │',
+            '│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │',
+            '│                                                          │',
+            '│                                                          │',
+            `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
+            '│                                                          │',
+            '│   --> enable authentication by removing "TEST_USERNAME"  │',
+            '│       from the environment (or the .env file)            │',
+            '└──────────────────────────────────────────────────────────┘'
+        ].join('\n')
+    );
 }
 
-const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
+const MsalWrapper = observer(({ children }: { children: React.ReactNode }) => {
     const sessionStore = useStore('sessionStore');
     React.useEffect(() => {
         /**
@@ -44,8 +47,8 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
         if (NO_AUTH && !sessionStore?.isLoggedIn) {
             runInAction(() => {
                 sessionStore.authMethod = 'msal';
-            })
-            rootStore.sessionStore.setAccount({username: TEST_USERNAME} as any);
+            });
+            rootStore.sessionStore.setAccount({ username: TEST_USERNAME } as any);
             rootStore.load('authorized');
             return;
         }
@@ -61,8 +64,6 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
             return;
         }
 
-
-
         /**
          * PROD MODE
          * - auth over msal
@@ -70,20 +71,25 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
         msalInstance.initialize().then(() => {
             if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0) {
                 // Account selection logic is app dependent. Adjust as needed for different use cases.
-                const account = msalInstance.getAllAccounts().filter((a) => a.tenantId === TENANT_ID).find((a) => /@(edu\.)?(gbsl|gbjb)\.ch/.test(a.username));
+                const account = msalInstance
+                    .getAllAccounts()
+                    .filter((a) => a.tenantId === TENANT_ID)
+                    .find((a) => /@(edu\.)?(gbsl|gbjb)\.ch/.test(a.username));
                 if (account) {
                     msalInstance.setActiveAccount(account);
                 }
             }
             msalInstance.enableAccountStorageEvents();
             msalInstance.addEventCallback((event) => {
-                if (event.eventType === EventType.LOGIN_SUCCESS && (event.payload as {account: AccountInfo}).account) {
-                    const account = (event.payload  as {account: AccountInfo}).account;
+                if (
+                    event.eventType === EventType.LOGIN_SUCCESS &&
+                    (event.payload as { account: AccountInfo }).account
+                ) {
+                    const account = (event.payload as { account: AccountInfo }).account;
                     msalInstance.setActiveAccount(account);
                 }
             });
-
-        })
+        });
     }, [msalInstance, sessionStore?.authMethod]);
 
     React.useEffect(() => {
@@ -95,15 +101,13 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
                 rootStore.load('authorized');
             }
         }
-    }, [NO_AUTH, rootStore])
+    }, [NO_AUTH, rootStore]);
 
     if (NO_AUTH) {
         return children;
     }
     return (
-        <MsalProvider 
-            instance={msalInstance}
-        >
+        <MsalProvider instance={msalInstance}>
             <MsalAccount />
             {children}
         </MsalProvider>
@@ -111,7 +115,7 @@ const MsalWrapper = observer(({ children }: {children: React.ReactNode}) => {
 });
 
 const MsalAccount = observer(() => {
-    const {accounts, inProgress, instance} = useMsal();
+    const { accounts, inProgress, instance } = useMsal();
     const isAuthenticated = useIsAuthenticated();
     const sessionStore = useStore('sessionStore');
 
@@ -133,14 +137,15 @@ const MsalAccount = observer(() => {
                     rootStore.sessionStore.setAccount(active);
                     rootStore.load('authorized');
                 }, 0);
-                    
             }
         }
-
     }, [sessionStore?.authMethod, accounts, inProgress, instance, isAuthenticated]);
     return (
-        <div data--isauthenticated={isAuthenticated} data--account={instance.getActiveAccount()?.username}></div>
-    )
+        <div
+            data--isauthenticated={isAuthenticated}
+            data--account={instance.getActiveAccount()?.username}
+        ></div>
+    );
 });
 
 // Default implementation, that you can customize
@@ -156,7 +161,7 @@ function Root({ children }) {
         }
         return () => {
             rootStore?.cleanup();
-        }
+        };
     }, [rootStore]);
 
     React.useEffect(() => {
@@ -171,15 +176,10 @@ function Root({ children }) {
         <>
             <Head>
                 <meta property="og:description" content={siteConfig.tagline} />
-                <meta
-                    property="og:image"
-                    content={`${siteConfig.customFields.DOMAIN}/img/og-preview.jpeg`}
-                />
+                <meta property="og:image" content={`${siteConfig.customFields.DOMAIN}/img/og-preview.jpeg`} />
             </Head>
             <StoresProvider value={rootStore}>
-                <MsalWrapper>
-                    {children}
-                </MsalWrapper>
+                <MsalWrapper>{children}</MsalWrapper>
             </StoresProvider>
         </>
     );

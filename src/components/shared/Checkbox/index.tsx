@@ -5,7 +5,6 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { action } from 'mobx';
 
-
 interface Props {
     label?: string;
     checked: boolean;
@@ -18,22 +17,29 @@ interface Props {
 
 const Checkbox = observer((props: Props) => {
     return (
-        <div className={clsx(styles.checkbox, props.checked && styles.checked, props.partialChecked && styles.partialChecked, props.className)}>
+        <div
+            className={clsx(
+                styles.checkbox,
+                props.checked && styles.checked,
+                props.partialChecked && styles.partialChecked,
+                props.className
+            )}
+        >
             <label className={clsx(styles.label, props.disabled && styles.disabled)}>
                 {props.labelSide === 'left' && props.label}
                 <input
                     className={clsx(styles.checkbox)}
-                    type='checkbox' 
+                    type="checkbox"
                     disabled={props.disabled}
                     onChange={action((e) => {
                         props.onChange(!props.checked, (e.nativeEvent as any).shiftKey);
-                    })} 
+                    })}
                     checked={!!props.checked}
                 />
                 {props.labelSide !== 'left' && props.label}
             </label>
         </div>
-    )
+    );
 });
 
 export default Checkbox;

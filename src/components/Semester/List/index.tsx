@@ -8,9 +8,7 @@ import EditTr from './editRow';
 import Tr from './row';
 import Translate from '@docusaurus/Translate';
 
-
-interface Props {
-}
+interface Props {}
 
 const SemesterList = observer((props: Props) => {
     const store = useStore('semesterStore');
@@ -62,18 +60,16 @@ const SemesterList = observer((props: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        store.semesters.map((semester, idx) => {
-                            if (semester.isEditing) {
-                                return <EditTr semester={semester} key={semester.id} />
-                            }
-                            return <Tr semester={semester} key={semester.id} />
-                        })
-                    }
+                    {store.semesters.map((semester, idx) => {
+                        if (semester.isEditing) {
+                            return <EditTr semester={semester} key={semester.id} />;
+                        }
+                        return <Tr semester={semester} key={semester.id} />;
+                    })}
                 </tbody>
             </table>
         </div>
-    )
+    );
 });
 
 export default SemesterList;

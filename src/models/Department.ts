@@ -1,38 +1,41 @@
-import { action, computed, makeObservable, observable, override } from "mobx";
-import { DepartmentLetter, Department as DepartmentProps } from "../api/department";
-import { DepartmentStore } from "../stores/DepartmentStore";
+import { action, computed, makeObservable, observable, override } from 'mobx';
+import { DepartmentLetter, Department as DepartmentProps } from '../api/department';
+import { DepartmentStore } from '../stores/DepartmentStore';
 import Event from '../models/Event';
-import ApiModel, { UpdateableProps } from "./ApiModel";
-import _ from "lodash";
-import { ApiAction } from "../stores/iStore";
-import Klass from "./Untis/Klass";
+import ApiModel, { UpdateableProps } from './ApiModel';
+import _ from 'lodash';
+import { ApiAction } from '../stores/iStore';
+import Klass from './Untis/Klass';
 
 export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
 
-
 export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = [
-        'name', 
-        'description', 
-        'color', 
+        'name',
+        'description',
+        'color',
         'department1_Id',
         'department2_Id',
         {
-            attr: 'letter', 
+            attr: 'letter',
             transform: (val) => {
                 const isCapital = val.toUpperCase() === val;
                 if (val !== this.letter && this.isCapitalLetter !== isCapital) {
                     /** sid-effect: flip the class letters too */
-                    this.update({classLetters: [...this.classLetters].map((l) => isCapital ? l.toLowerCase() : l.toUpperCase())});
+                    this.update({
+                        classLetters: [...this.classLetters].map((l) =>
+                            isCapital ? l.toLowerCase() : l.toUpperCase()
+                        )
+                    });
                 }
-                return val
+                return val;
             }
         },
         {
-            attr: 'classLetters', 
+            attr: 'classLetters',
             update: action((val: string[]) => {
-                this.classLetters.replace([...val].sort())
+                this.classLetters.replace([...val].sort());
             })
         }
     ];
@@ -53,10 +56,10 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     department1_Id: string | null | undefined;
     @observable
     department2_Id: string | null | undefined;
-    
+
     @observable
     letter: string;
-    
+
     classLetters = observable.set<string>([]);
 
     @observable
@@ -77,7 +80,6 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
         makeObservable(this);
-
     }
 
     /**
@@ -118,7 +120,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
 
     @computed
     get subDepartments(): Department[] {
-        return this.store.departments.filter(d => d.department1_Id === this.id)
+        return this.store.departments.filter((d) => d.department1_Id === this.id);
     }
 
     @computed
@@ -128,7 +130,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
 
     @computed
     get classGroups(): Set<string> {
-        return new Set<string>(this.classes.map(c => c.name.slice(0, 3)));
+        return new Set<string>(this.classes.map((c) => c.name.slice(0, 3)));
     }
 
     @computed
@@ -175,7 +177,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             classLetters: [...this.classLetters],
             description: this.description,
             createdAt: this.createdAt.toISOString(),
-            updatedAt: this.updatedAt.toISOString(),
+            updatedAt: this.updatedAt.toISOString()
         };
     }
 }

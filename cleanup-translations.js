@@ -1,5 +1,5 @@
-const fs = require('fs')
-fs.readdirSync('./i18n').forEach(locale => {
+const fs = require('fs');
+fs.readdirSync('./i18n').forEach((locale) => {
     const dir = `./i18n/${locale}`;
     if (fs.lstatSync(dir).isDirectory()) {
         const fFooter = `${dir}/docusaurus-theme-classic/footer.json`;

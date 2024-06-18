@@ -5,7 +5,16 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
-import { mdiCheckboxBlankBadge, mdiCheckboxBlankBadgeOutline, mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline, mdiStar, mdiStarCircle, mdiStarOutline } from '@mdi/js';
+import {
+    mdiCheckboxBlankBadge,
+    mdiCheckboxBlankBadgeOutline,
+    mdiCircle,
+    mdiMinusCircleOutline,
+    mdiPlusCircleOutline,
+    mdiStar,
+    mdiStarCircle,
+    mdiStarOutline
+} from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
 import { SIZE_S, FilterSvgPath, SIZE_XS, SIZE, SIZE_XXS } from '../../shared/icons';
@@ -32,11 +41,11 @@ export const selectStyleConfig = {
     }),
     multiValue: (styles, { data }) => ({
         ...styles,
-        color: (data as unknown as { color: string })?.color,
+        color: (data as unknown as { color: string })?.color
     }),
     multiValueLabel: (styles, { data }) => ({
         ...styles,
-        color: (data as unknown as { color: string })?.color,
+        color: (data as unknown as { color: string })?.color
     }),
     valueContainer: (styles) => ({
         ...styles,
@@ -60,8 +69,8 @@ export const selectThemeConfig = (theme: Theme) => ({
         primary25: 'var(--ifm-color-primary-lightest)',
         primary50: 'var(--ifm-color-primary-lighter)',
         primary75: 'var(--ifm-color-primary-light)',
-        primary: 'var(--ifm-color-primary)',
-    },
+        primary: 'var(--ifm-color-primary)'
+    }
 });
 
 const Filter = observer((props: Props) => {
@@ -79,29 +88,27 @@ const Filter = observer((props: Props) => {
     return (
         <div className={clsx(styles.filter)}>
             <div className={clsx(styles.basic)}>
-                {(props.showSelects && !eventTable.showSelect && showSelectLocation === 'quick') && (
+                {props.showSelects && !eventTable.showSelect && showSelectLocation === 'quick' && (
                     <ShowSelectCheckBoxes />
                 )}
                 <div className={clsx(styles.spacer)}></div>
                 <div className={clsx(styles.audience, 'button-group', 'button-group--block')}>
-                    {
-                        !!viewStore.user && (
-                            <Button
-                                text={translate({
-                                    message: 'Meine',
-                                    id: 'event.filter.mine',
-                                    description: 'Filter: Only events affecting me'
-                                })}
-                                title={translate({
-                                    message: 'Nur die für mich relevanten Termine anzeigen',
-                                    id: 'event.filter.mine.title'
-                                })}
-                                active={eventTable.onlyMine}
-                                color='primary'
-                                onClick={() => eventTable.toggleOnlyMine()}
-                            />
-                        )
-                    }
+                    {!!viewStore.user && (
+                        <Button
+                            text={translate({
+                                message: 'Meine',
+                                id: 'event.filter.mine',
+                                description: 'Filter: Only events affecting me'
+                            })}
+                            title={translate({
+                                message: 'Nur die für mich relevanten Termine anzeigen',
+                                id: 'event.filter.mine.title'
+                            })}
+                            active={eventTable.onlyMine}
+                            color="primary"
+                            onClick={() => eventTable.toggleOnlyMine()}
+                        />
+                    )}
                     {eventTable.showCurrentAndFutureFilter && props.showCurrentAndFuture && (
                         <Button
                             text={translate({
@@ -115,8 +122,10 @@ const Filter = observer((props: Props) => {
                                 description: 'Filter: Only current and future events'
                             })}
                             active={eventTable.onlyCurrentWeekAndFuture}
-                            color='primary'
-                            onClick={() => eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)}
+                            color="primary"
+                            onClick={() =>
+                                eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)
+                            }
                         />
                     )}
                 </div>
@@ -124,7 +133,7 @@ const Filter = observer((props: Props) => {
                     <TextInput
                         placeholder={translate({
                             message: 'Suche',
-                            id: 'event.filter.search',
+                            id: 'event.filter.search'
                         })}
                         onChange={(txt) => eventTable.setTextFilter(txt)}
                         text={eventTable.klassFilter}
@@ -142,12 +151,12 @@ const Filter = observer((props: Props) => {
                     {eventTable.hasAdvancedFilters && (
                         <span className={clsx(styles.dirty)}>
                             <Stack size={SIZE_XS}>
-                                <Icon path={mdiCircle} size={SIZE_XS} color="var(--ifm-background-surface-color)"/>
                                 <Icon
-                                    path={mdiStar}
-                                    size={0.9*SIZE_XS}
-                                    color="var(--ifm-color-primary)"
+                                    path={mdiCircle}
+                                    size={SIZE_XS}
+                                    color="var(--ifm-background-surface-color)"
                                 />
+                                <Icon path={mdiStar} size={0.9 * SIZE_XS} color="var(--ifm-color-primary)" />
                             </Stack>
                         </span>
                     )}
@@ -168,16 +177,24 @@ const Filter = observer((props: Props) => {
                                 })}
                                 name="departments-filter"
                                 menuPortalTarget={document.body}
-                                options={_.orderBy(departmentStore.usedDepartments, ['name']).map(d => ({ value: d.id, label: d.name, color: d?.color }))}
+                                options={_.orderBy(departmentStore.usedDepartments, ['name']).map((d) => ({
+                                    value: d.id,
+                                    label: d.name,
+                                    color: d?.color
+                                }))}
                                 styles={selectStyleConfig}
                                 className={clsx(styles.select)}
                                 classNames={selectClassNamesConfig}
-                                value={[...eventTable.departmentIds].map(id => {
+                                value={[...eventTable.departmentIds].map((id) => {
                                     const department = departmentStore.find<Department>(id);
-                                    return { value: id, label: department?.name || '', color: department?.color || '#ccc' }
+                                    return {
+                                        value: id,
+                                        label: department?.name || '',
+                                        color: department?.color || '#ccc'
+                                    };
                                 })}
                                 onChange={(opt) => {
-                                    const ids = opt.map(o => o.value);
+                                    const ids = opt.map((o) => o.value);
                                     eventTable.setDepartmentIds(ids);
                                 }}
                                 theme={selectThemeConfig}
@@ -195,16 +212,24 @@ const Filter = observer((props: Props) => {
                                 })}
                                 name="class-filter"
                                 menuPortalTarget={document.body}
-                                options={_.orderBy(untisStore.classes, ['name']).map(c => ({ value: c.name, label: c.displayName, color: c.department?.color }))}
+                                options={_.orderBy(untisStore.classes, ['name']).map((c) => ({
+                                    value: c.name,
+                                    label: c.displayName,
+                                    color: c.department?.color
+                                }))}
                                 styles={selectStyleConfig}
                                 className={clsx(styles.select)}
                                 classNames={selectClassNamesConfig}
-                                value={[...eventTable.classNames].map(id => {
+                                value={[...eventTable.classNames].map((id) => {
                                     const klass = untisStore.findClassByName(id);
-                                    return { value: id, label: klass?.displayName || '', color: klass?.department?.color || '#ccc' }
+                                    return {
+                                        value: id,
+                                        label: klass?.displayName || '',
+                                        color: klass?.department?.color || '#ccc'
+                                    };
                                 })}
                                 onChange={(opt) => {
-                                    const cNames = opt.map(o => o.value);
+                                    const cNames = opt.map((o) => o.value);
                                     eventTable.setClassNames(cNames);
                                 }}
                                 theme={selectThemeConfig}
@@ -213,23 +238,23 @@ const Filter = observer((props: Props) => {
                     </div>
                     <div>
                         <div>
-                            <Translate
-                                id='event.filter.advanced.filterAudience'
-                            >
+                            <Translate id="event.filter.advanced.filterAudience">
                                 Nach Zielgruppe filtern
                             </Translate>
                         </div>
                         <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                            {Object.keys(EventAudience).map(audience => {
+                            {Object.keys(EventAudience).map((audience) => {
                                 return (
                                     <Button
                                         text={EventAudienceTranslationShort[audience]}
                                         active={eventTable.audienceFilter.has(audience as EventAudience)}
                                         key={audience}
                                         color="primary"
-                                        onClick={() => eventTable.setAudienceFilter(audience as EventAudience)}
+                                        onClick={() =>
+                                            eventTable.setAudienceFilter(audience as EventAudience)
+                                        }
                                     />
-                                )
+                                );
                             })}
                         </div>
                     </div>
@@ -242,40 +267,40 @@ const Filter = observer((props: Props) => {
                             })}
                             checked={eventTable.hideDeleted}
                             onChange={(checked) => eventTable.setHideDeleted(checked)}
-                            labelSide='left'
+                            labelSide="left"
                         />
                     </div>
-                    {(props.showSelects && !eventTable.showSelect && showSelectLocation === 'advanced') && (
-                    <div>
-                        <ShowSelectCheckBoxes 
-                            label={translate({
-                                id: 'event.filter.show_select',
-                                message: 'Termine auswählen'
-                            })}
-                        />
-                    </div>
+                    {props.showSelects && !eventTable.showSelect && showSelectLocation === 'advanced' && (
+                        <div>
+                            <ShowSelectCheckBoxes
+                                label={translate({
+                                    id: 'event.filter.show_select',
+                                    message: 'Termine auswählen'
+                                })}
+                            />
+                        </div>
                     )}
                     <div className={clsx(styles.dates)}>
                         <div className={clsx(styles.date, styles.start)}>
                             {!!eventTable.start ? (
                                 <>
-                                    <DatePicker 
-                                        date={eventTable.start || new Date()} 
+                                    <DatePicker
+                                        date={eventTable.start || new Date()}
                                         onChange={(date) => eventTable.setStartFilter(date)}
                                         time="start"
                                     />
-                                    <Button 
-                                        icon={mdiMinusCircleOutline} 
-                                        iconSide='left'
-                                        text='Start'
+                                    <Button
+                                        icon={mdiMinusCircleOutline}
+                                        iconSide="left"
+                                        text="Start"
                                         onClick={() => eventTable.setStartFilter(null)}
                                     />
                                 </>
                             ) : (
-                                <Button 
-                                    icon={mdiPlusCircleOutline} 
-                                    iconSide='left' 
-                                    text='Start'
+                                <Button
+                                    icon={mdiPlusCircleOutline}
+                                    iconSide="left"
+                                    text="Start"
                                     onClick={() => eventTable.setStartFilter(new Date())}
                                 />
                             )}
@@ -283,23 +308,23 @@ const Filter = observer((props: Props) => {
                         <div className={clsx(styles.date, styles.end)}>
                             {!!eventTable.end ? (
                                 <>
-                                    <DatePicker 
-                                        date={eventTable.end || new Date()} 
+                                    <DatePicker
+                                        date={eventTable.end || new Date()}
                                         onChange={(date) => eventTable.setEndFilter(date)}
                                         time="end"
                                     />
-                                    <Button 
-                                        icon={mdiMinusCircleOutline} 
-                                        iconSide='left' 
-                                        text='Ende' 
-                                        onClick={() => eventTable.setEndFilter(null)} 
+                                    <Button
+                                        icon={mdiMinusCircleOutline}
+                                        iconSide="left"
+                                        text="Ende"
+                                        onClick={() => eventTable.setEndFilter(null)}
                                     />
                                 </>
                             ) : (
-                                <Button 
-                                    icon={mdiPlusCircleOutline} 
-                                    iconSide='left' 
-                                    text='Ende'
+                                <Button
+                                    icon={mdiPlusCircleOutline}
+                                    iconSide="left"
+                                    text="Ende"
                                     onClick={() => eventTable.setEndFilter(new Date())}
                                 />
                             )}
@@ -308,7 +333,7 @@ const Filter = observer((props: Props) => {
                 </div>
             )}
         </div>
-    )
+    );
 });
 
 export default Filter;

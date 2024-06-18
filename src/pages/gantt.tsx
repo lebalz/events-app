@@ -1,5 +1,5 @@
 import React from 'react';
-import "gantt-task-react/dist/index.css";
+import 'gantt-task-react/dist/index.css';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/hooks';
 import Layout from '@theme/Layout';
@@ -14,7 +14,7 @@ const GanttView = observer(() => {
             <Filter showCurrentAndFuture />
             <Timeline events={eventTable.events} />
         </Layout>
-    )
+    );
 });
 
 export default GanttView;

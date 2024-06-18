@@ -1,6 +1,15 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { Event as EventProps, EventState, requestState as apiRequestState, excel as apiDownloadExcel, clone as apiClone, all as apiFetchEvents, updateMeta, Meta } from '../api/event';
+import {
+    Event as EventProps,
+    EventState,
+    requestState as apiRequestState,
+    excel as apiDownloadExcel,
+    clone as apiClone,
+    all as apiFetchEvents,
+    updateMeta,
+    Meta
+} from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
@@ -10,15 +19,18 @@ import { HOUR_2_MS } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
 
-export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${string}` | `update-meta-${string}` | `load-versions-${string}`> {
+export class EventStore extends iStore<
+    EventProps,
+    'download-excel' | `clone-${string}` | `update-meta-${string}` | `load-versions-${string}`
+> {
     readonly root: RootStore;
-    
-    readonly ApiEndpoint = new EndPoint('events', {authorized: 'user/events', public: true});
+
+    readonly ApiEndpoint = new EndPoint('events', { authorized: 'user/events', public: true });
 
     models = observable<Event>([]);
-    
+
     constructor(root: RootStore) {
-        super()
+        super();
         this.root = root;
         makeObservable(this);
     }
@@ -85,7 +97,6 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
         return ids.map((id) => this.find<Event>(id)).filter((e) => !!e);
     }
 
-    
     byDateRange = computedFn(
         function (this: EventStore, start: Date, end: Date): Event[] {
             return this.events.filter((e) => e._pristine_start >= start && e._pristine_start <= end);
@@ -104,9 +115,11 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     getDepartments(ids: string[]): Department[] {
         const { locale } = this.root.sessionStore;
         return _.sortBy(
-            ids.map((id) => this.root.departmentStore.departments.find((d) => d.id === id)).filter((d) => !!d),
+            ids
+                .map((id) => this.root.departmentStore.departments.find((d) => d.id === id))
+                .filter((d) => !!d),
             (d) => {
-                return `${(d.lang === locale ? '0' : '1')}${d.department2_Id ? '1' : '0'}${(/GBSL|GBJB/i.test(d.name) ? '0' : '1')}${d.name}`;
+                return `${d.lang === locale ? '0' : '1'}${d.department2_Id ? '1' : '0'}${/GBSL|GBJB/i.test(d.name) ? '0' : '1'}${d.name}`;
             }
         );
     }
@@ -129,10 +142,9 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
         return last.end.getTime();
     }
 
-
     @computed
     get eventRangeMS() {
-        return [this.eventRangeStartMS, this.eventRangeEndMS];   
+        return [this.eventRangeStartMS, this.eventRangeEndMS];
     }
 
     @action
@@ -161,26 +173,28 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
             if (idx !== -1) {
                 current.splice(idx, 1);
             }
-        })
+        });
         const newEvents = events.map((e) => new Event(e, this));
         this.models.replace([...current, ...newEvents].sort((a, b) => a.compare(b)));
     }
 
-    affectedLessons = computedFn(
-        function (this: EventStore, eventId: string): Lesson[] {
-            const event = this.find<Event>(eventId);
-            if (!event) {
-                return [];
-            }
-            return this.root.untisStore.lessons.filter((l) => {
-                const unaffected =  event.weekOffsetMS_end < l.weekOffsetMS_start ||
-                                    event.weekOffsetMS_start > l.weekOffsetMS_end;
-                return !unaffected;
-            })
-    })
+    affectedLessons = computedFn(function (this: EventStore, eventId: string): Lesson[] {
+        const event = this.find<Event>(eventId);
+        if (!event) {
+            return [];
+        }
+        return this.root.untisStore.lessons.filter((l) => {
+            const unaffected =
+                event.weekOffsetMS_end < l.weekOffsetMS_start ||
+                event.weekOffsetMS_start > l.weekOffsetMS_end;
+            return !unaffected;
+        });
+    });
 
     getUntisClasses(event: Event) {
-        const klasses = [...event.classes].map(c => this.root.untisStore.findClassByName(c)).filter(c => !!c);
+        const klasses = [...event.classes]
+            .map((c) => this.root.untisStore.findClassByName(c))
+            .filter((c) => !!c);
         const wildcard = this.getWildcardUntisClasses(event);
         return _.uniqBy([...klasses, ...wildcard], 'id');
     }
@@ -190,46 +204,45 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     }
 
     getWildcardUntisClasses(event: Event) {
-        const klassGroups = [...event.classGroups].map(c => this.root.untisStore.findClassesByGroupName(c)).flat();
-        const departmentKlasses = this.getDepartments([...event.departmentIds]).map(d => d.classes).flat();
+        const klassGroups = [...event.classGroups]
+            .map((c) => this.root.untisStore.findClassesByGroupName(c))
+            .flat();
+        const departmentKlasses = this.getDepartments([...event.departmentIds])
+            .map((d) => d.classes)
+            .flat();
         return _.uniqBy([...klassGroups, ...departmentKlasses], 'id');
     }
-
-
 
     @action
     requestState(eventIds: string[], state: EventState) {
         return this.withAbortController(`save-state-${state}-${eventIds.join(':')}`, (sig) => {
-            return apiRequestState(state, eventIds, sig.signal)
-                .then(
-                    action(({ data }) => {
-                        if (data) {
-                            data.map((d) => {
-                                this.addToStore(d);
-                            });
-                        }
-                        return this.models;
-                    })
-                );
+            return apiRequestState(state, eventIds, sig.signal).then(
+                action(({ data }) => {
+                    if (data) {
+                        data.map((d) => {
+                            this.addToStore(d);
+                        });
+                    }
+                    return this.models;
+                })
+            );
         });
     }
 
     @action
     clone(event: Event) {
         return this.withAbortController(`clone-${event.id}`, (sig) => {
-            return apiClone(event.id, sig.signal)
-                .then(
-                    action(({ data }) => {
-                        if (data) {
-                            this.addToStore(data);
-                        }
-                        return data;
-                    })
-                );
+            return apiClone(event.id, sig.signal).then(
+                action(({ data }) => {
+                    if (data) {
+                        this.addToStore(data);
+                    }
+                    return data;
+                })
+            );
         });
     }
 
-    
     @action
     downloadExcel() {
         return this.withAbortController(`download-excel`, (sig) => {
@@ -240,22 +253,23 @@ export class EventStore extends iStore<EventProps, 'download-excel' | `clone-${s
     @action
     loadVersions(event: Event) {
         const proms = event.publishedVersionIds
-                        .filter((id) => !this.find(id))
-                        .map((id) => this.loadModel(id));
+            .filter((id) => !this.find(id))
+            .map((id) => this.loadModel(id));
         return Promise.all(proms);
     }
 
     @action
     loadEvents(ids: string[], sigId: string) {
         return this.withAbortController(`load-events-${sigId}`, (sig) => {
-            return apiFetchEvents(ids, sig.signal)
-                .then(action(({ data }) => {
+            return apiFetchEvents(ids, sig.signal).then(
+                action(({ data }) => {
                     if (data) {
                         data.map((d) => {
                             this.addToStore(d);
                         });
                     }
-                }));
+                })
+            );
         });
     }
 

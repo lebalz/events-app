@@ -8,9 +8,7 @@ import AddButton from '../../Event/AddButton';
 import { translate } from '@docusaurus/Translate';
 import UserEventGroup from '..';
 
-
-interface Props {
-}
+interface Props {}
 
 const Groups = observer((props: Props) => {
     const eventGroupStore = useStore('eventGroupStore');
@@ -30,16 +28,12 @@ const Groups = observer((props: Props) => {
                 className={clsx(styles.addGroup)}
             />
             <div className={clsx(styles.groups)}>
-                {
-                    eventGroupStore.eventGroups.map((group) => {
-                        return (
-                            <UserEventGroup group={group} key={group.id} />
-                        );
-                    })
-                }
+                {eventGroupStore.eventGroups.map((group) => {
+                    return <UserEventGroup group={group} key={group.id} />;
+                })}
             </div>
         </div>
-    )
+    );
 });
 
 export default Groups;

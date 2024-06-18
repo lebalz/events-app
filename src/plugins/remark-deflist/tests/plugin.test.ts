@@ -1,23 +1,21 @@
-import {remark} from 'remark';
-import remarkMdx  from 'remark-mdx';
+import { remark } from 'remark';
+import remarkMdx from 'remark-mdx';
 import remarkDirective from 'remark-directive';
 import { describe, expect, it } from 'vitest';
 
-
 const alignLeft = (content: string) => {
-  return content.split('\n').map((line) => line.trimStart()).join('\n');
-}
+    return content
+        .split('\n')
+        .map((line) => line.trimStart())
+        .join('\n');
+};
 
 const process = async (content: string) => {
-    const {default: plugin} = await import('../plugin') as any;
-    const result = await remark()
-        .use(remarkMdx)
-        .use(remarkDirective)
-        .use(plugin)
-        .process(alignLeft(content));
+    const { default: plugin } = (await import('../plugin')) as any;
+    const result = await remark().use(remarkMdx).use(remarkDirective).use(plugin).process(alignLeft(content));
 
     return result.value;
-}
+};
 
 describe('#deflist', () => {
     it("does nothing if there's no deflist", async () => {
@@ -28,7 +26,7 @@ Some content
         const result = await process(input);
         expect(result).toBe(input);
     });
-    it("can convert simple text deflist", async () => {
+    it('can convert simple text deflist', async () => {
         const input = `# Details element example
         Hello World
         : The simplest example
@@ -59,16 +57,16 @@ Some content
           "
         `);
     });
-    it("can convert simple deflist with multiple dd", async () => {
-      const input = `# Details element example
+    it('can convert simple deflist with multiple dd', async () => {
+        const input = `# Details element example
       Hello World
       : The simplest example
       : with double dd
       World
       : Our planet
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -96,15 +94,15 @@ Some content
       `);
     });
 
-    it("can convert simple deflist links in dl", async () => {
-      const input = `# Details element example
+    it('can convert simple deflist links in dl', async () => {
+        const input = `# Details element example
       Hello [World](https://world.com)
       : The simplest example
       World
       : Our planet
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -127,15 +125,15 @@ Some content
         "
       `);
     });
-    it("can convert simple deflist links in dd", async () => {
-      const input = `# Details element example
+    it('can convert simple deflist links in dd', async () => {
+        const input = `# Details element example
       Hello World
       : The simplest [example](https://example.com)
       World
       : Our planet
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -158,15 +156,15 @@ Some content
         "
       `);
     });
-    it("can convert deflist starting dt with a link", async () => {
-      const input = `# Details element example
+    it('can convert deflist starting dt with a link', async () => {
+        const input = `# Details element example
       [Hello](https://example.com) my [World](https://example.com)
       : [The](https://example.com) simplest
       World
       : Our planet
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -190,14 +188,14 @@ Some content
       `);
     });
 
-    it("ignores text directives", async () => {
-      const input = `# Details element example
+    it('ignores text directives', async () => {
+        const input = `# Details element example
       [Hello](https://example.com) my [World](https://example.com)
       : [The](https://example.com) simplest
       :directive[Foo] Bar
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -215,14 +213,14 @@ Some content
       `);
     });
 
-    it("can have html elements within dd", async () => {
-      const input = `# Details element example
+    it('can have html elements within dd', async () => {
+        const input = `# Details element example
       [Hello](https://example.com) my [World](https://example.com)
       : <span>hello
             bla
       </span> world`;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -240,16 +238,16 @@ Some content
       `);
     });
 
-    it("can split inlined deflists", async () => {
-      const input = `# Details element example
+    it('can split inlined deflists', async () => {
+        const input = `# Details element example
       Einige Vorteile:
       Definition Eins
       : Bli Bla Blu
       : und so weiter
 
 `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         Einige Vorteile:
@@ -271,14 +269,14 @@ Some content
       `);
     });
 
-    it("can handle false-positives", async () => {
-      const input = `# Details element example
+    it('can handle false-positives', async () => {
+        const input = `# Details element example
       : Bli Bla Blu
       : und so weiter
       `;
-      
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -294,8 +292,8 @@ Some content
       `);
     });
 
-    it("can handle false-positives", async () => {
-      const input = `# Details element example
+    it('can handle false-positives', async () => {
+        const input = `# Details element example
       Lirum Larum
 
       And so on
@@ -311,9 +309,9 @@ Some content
       Dolor Sit
       : And another correct def
       `;
-      
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         Lirum Larum
@@ -353,8 +351,8 @@ Some content
       `);
     });
 
-    it("converts complex deflist", async () => {
-      const input = `# Details element example
+    it('converts complex deflist', async () => {
+        const input = `# Details element example
       :mdi[icon]
       : An [MDI](https://mdi.com) icon with markup \`:mdi[icon]\`
       : :mdi[icon]
@@ -370,8 +368,8 @@ Some content
       : in block
       :::
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         <dl>
@@ -419,17 +417,17 @@ Some content
         :::
         "
       `);
-    });    
+    });
 
-    it("does not transform inline :", async () => {
-      const input = `# Details element example
+    it('does not transform inline :', async () => {
+        const input = `# Details element example
       - a: simple
       - b: list
       - c: with
       - d: colons
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         * a: simple
@@ -440,13 +438,13 @@ Some content
       `);
     });
 
-    it("does not : after an inline element", async () => {
-      const input = `# Details element example
+    it('does not : after an inline element', async () => {
+        const input = `# Details element example
       - \`a\`: bla
       - \`b\`: list
       `;
-      const result = await process(input);
-      expect(result).toMatchInlineSnapshot(`
+        const result = await process(input);
+        expect(result).toMatchInlineSnapshot(`
         "# Details element example
 
         * \`a\`: bla

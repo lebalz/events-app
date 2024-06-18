@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import useAutosizeTextArea from '../hooks/useAutoSizeTextArea';
 
-
 interface Props {
     text: string;
     onChange: (text: string) => void;
@@ -26,7 +25,7 @@ const TextArea = (props: Props) => {
                 placeholder={props.placeholder}
             />
         </div>
-    )
+    );
 };
 
 export default TextArea;

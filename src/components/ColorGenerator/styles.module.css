@@ -5,24 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
- .color {
+.color {
     border-radius: 0.5rem;
     display: inline-block;
     vertical-align: middle;
     width: 2rem;
     height: 2rem;
-  }
-  
-  .input {
+}
+
+.input {
     border-color: var(--ifm-color-content-secondary);
     border-radius: var(--ifm-global-radius);
     border-style: solid;
     border-width: var(--ifm-global-border-width);
     font-size: var(--ifm-font-size-base);
     padding: 0.5rem;
-  }
-  
-  .colorInput {
+}
+
+.colorInput {
     position: relative;
     border-color: var(--ifm-color-content-secondary);
     border-radius: var(--ifm-global-radius);
@@ -30,18 +30,18 @@
     border-width: var(--ifm-global-border-width);
     height: 2rem;
     top: -1px;
-  }
-  
-  .colorTable {
-    font-size: small;
-  }
-  .spacer {
-    flex: 1 1 0px;
-  }
+}
 
-  .actions {
+.colorTable {
+    font-size: small;
+}
+.spacer {
+    flex: 1 1 0px;
+}
+
+.actions {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
     margin-bottom: 1em;
-  }
+}

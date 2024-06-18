@@ -1,18 +1,15 @@
-import { action, computed, makeObservable, observable, override } from "mobx";
-import { EventGroup as EventGroupProps } from "../api/event_group";
-import { ApiAction } from "../stores/iStore";
-import ApiModel, { UpdateableProps } from "./ApiModel";
-import { EventGroupStore } from "../stores/EventGroupStore";
-import Event from "./Event";
-import User from "./User";
-import { toGlobalDate } from "./helpers/time";
-import _ from "lodash";
+import { action, computed, makeObservable, observable, override } from 'mobx';
+import { EventGroup as EventGroupProps } from '../api/event_group';
+import { ApiAction } from '../stores/iStore';
+import ApiModel, { UpdateableProps } from './ApiModel';
+import { EventGroupStore } from '../stores/EventGroupStore';
+import Event from './Event';
+import User from './User';
+import { toGlobalDate } from './helpers/time';
+import _ from 'lodash';
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
-    readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = [
-        "name",
-        'description'
-    ];
+    readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = ['name', 'description'];
     readonly _pristine: EventGroupProps;
     readonly isUserModel = true;
     readonly store: EventGroupStore;
@@ -21,7 +18,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     userIds = observable.set<string>([]);
     eventIds = observable.set<string>([]);
-    
+
     @observable
     name: string;
 
@@ -48,12 +45,12 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @computed
     get events() {
-        return this.store.eventStore.models.filter(event => this.eventIds.has(event.id));
+        return this.store.eventStore.models.filter((event) => this.eventIds.has(event.id));
     }
 
     @computed
     get users() {
-        return this.store.userStore.models.filter(user => this.userIds.has(user.id));
+        return this.store.userStore.models.filter((user) => this.userIds.has(user.id));
     }
 
     @computed
@@ -69,7 +66,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     @action
     loadEvents() {
         if (!this.isFullyLoaded) {
-            const missingIds = [...this.eventIds].filter(id => !this.store.eventStore.find(id));
+            const missingIds = [...this.eventIds].filter((id) => !this.store.eventStore.find(id));
             if (missingIds.length === this.eventIds.size || missingIds.length > 50) {
                 return this.store.reloadEvents(this);
             }
@@ -88,7 +85,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     addEvents(events: Event[]) {
-        events.forEach(event => this.eventIds.add(event.id));
+        events.forEach((event) => this.eventIds.add(event.id));
         if (this.isDirty) {
             this.save();
         }
@@ -96,29 +93,31 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     shiftEvents(shiftMs: number) {
-        this.events.filter(e => e.isDraft).forEach(event => {
-            const start = new Date(event.start.getTime() + shiftMs);
-            const end = new Date(event.end.getTime() + shiftMs);
-            event.update({ 
-                start: toGlobalDate(start).toISOString(), 
-                end: toGlobalDate(end).toISOString()
+        this.events
+            .filter((e) => e.isDraft)
+            .forEach((event) => {
+                const start = new Date(event.start.getTime() + shiftMs);
+                const end = new Date(event.end.getTime() + shiftMs);
+                event.update({
+                    start: toGlobalDate(start).toISOString(),
+                    end: toGlobalDate(end).toISOString()
+                });
             });
-        });
     }
 
     @action
     saveAll() {
-        this.events.filter(e => e.isDirty).forEach(event => event.save());
+        this.events.filter((e) => e.isDirty).forEach((event) => event.save());
     }
 
     @action
     discardAll() {
-        this.events.filter(e => e.isDirty).forEach(event => event.reset());        
+        this.events.filter((e) => e.isDirty).forEach((event) => event.reset());
     }
 
     @action
     removeEvents(events: Event[]) {
-        events.forEach(event => this.eventIds.delete(event.id));
+        events.forEach((event) => this.eventIds.delete(event.id));
         if (this.isDirty) {
             this.save();
         }
@@ -126,7 +125,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     addUsers(users: User[]) {
-        users.forEach(user => this.userIds.add(user.id));
+        users.forEach((user) => this.userIds.add(user.id));
         if (this.isDirty) {
             this.save();
         }
@@ -134,7 +133,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     removeUsers(users: User[]) {
-        users.forEach(user => this.userIds.delete(user.id));
+        users.forEach((user) => this.userIds.delete(user.id));
         if (this.isDirty) {
             this.save();
         }
@@ -149,7 +148,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
             userIds: [...this.userIds].sort(),
             eventIds: [...this.eventIds].sort(),
             createdAt: this.createdAt.toISOString(),
-            updatedAt: this.updatedAt.toISOString(),
+            updatedAt: this.updatedAt.toISOString()
         };
     }
 
@@ -166,7 +165,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     }
     @action
     rmUserId(id: string) {
-        const idx = this._pristine.userIds.findIndex(v => v === id);
+        const idx = this._pristine.userIds.findIndex((v) => v === id);
         if (idx >= 0) {
             this._pristine.userIds.splice(idx, 1);
         }
@@ -174,7 +173,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     }
     @action
     rmEventId(id: string) {
-        const idx = this._pristine.eventIds.findIndex(v => v === id);
+        const idx = this._pristine.eventIds.findIndex((v) => v === id);
         if (idx >= 0) {
             this._pristine.eventIds.splice(idx, 1);
         }

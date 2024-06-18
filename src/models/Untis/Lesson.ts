@@ -13,20 +13,19 @@ const LESSON_DURATION_MS = 45 * MINUTE_2_MS;
 const SUCCESSIVE_LESSON_THRESHOLD_MS = LESSON_DURATION_MS / 2;
 
 export default class Lesson implements iEvent {
-    readonly id: number
-    readonly room: string
-    readonly subject: string
-    readonly description: string
-    readonly semesterNr: number
-    readonly year: number
+    readonly id: number;
+    readonly room: string;
+    readonly subject: string;
+    readonly description: string;
+    readonly semesterNr: number;
+    readonly year: number;
     /** Sonntag: 0, Montag: 1, Dienstag: 2, ... */
-    readonly weekDay: number
-    readonly startHHMM: number
-    readonly endHHMM: number
-    readonly teacherIds: number[]
-    readonly classIds: number[]
+    readonly weekDay: number;
+    readonly startHHMM: number;
+    readonly endHHMM: number;
+    readonly teacherIds: number[];
+    readonly classIds: number[];
     readonly semesterId: string;
-
 
     private readonly store: UntisStore;
 
@@ -48,20 +47,39 @@ export default class Lesson implements iEvent {
         makeObservable(this);
     }
 
-    static GroupedClassesByYear(lessons: Lesson[], threshold: number = 3): {[name: string]: string} {
-        const efs = _.uniqBy(lessons.filter(l => l.isEF).map(l => l.classes).flat(), c => c?.id);
-        const nonEfs = _.uniqBy(lessons.filter(l => !l.isEF).map(l => l.classes).flat(), c => c?.id);
-        const klGroupsRaw = _.groupBy(_.uniqBy(nonEfs, l => l.id), c => c?.year);
-        const klGroup: {[key: string]: string} = {};
+    static GroupedClassesByYear(lessons: Lesson[], threshold: number = 3): { [name: string]: string } {
+        const efs = _.uniqBy(
+            lessons
+                .filter((l) => l.isEF)
+                .map((l) => l.classes)
+                .flat(),
+            (c) => c?.id
+        );
+        const nonEfs = _.uniqBy(
+            lessons
+                .filter((l) => !l.isEF)
+                .map((l) => l.classes)
+                .flat(),
+            (c) => c?.id
+        );
+        const klGroupsRaw = _.groupBy(
+            _.uniqBy(nonEfs, (l) => l.id),
+            (c) => c?.year
+        );
+        const klGroup: { [key: string]: string } = {};
         Object.keys(klGroupsRaw).forEach((year) => {
             if (klGroupsRaw[year].length > threshold) {
                 klGroup[year] = `${year.slice(2)}`;
             } else {
-                klGroup[year] = klGroupsRaw[year].map(c => c?.displayName).join(', ');
+                klGroup[year] = klGroupsRaw[year].map((c) => c?.displayName).join(', ');
             }
         });
-        const efYears = _.uniqBy(efs, c => c?.year).map(c => c?.year);
-        const efAbbrev = translate({message: 'EF', description: 'Abbreviation of the Ergänzungsfach', id: 'untis.lesson.ef'})
+        const efYears = _.uniqBy(efs, (c) => c?.year).map((c) => c?.year);
+        const efAbbrev = translate({
+            message: 'EF',
+            description: 'Abbreviation of the Ergänzungsfach',
+            id: 'untis.lesson.ef'
+        });
         efYears.forEach((year) => {
             klGroup[year] = `${efAbbrev}[${year % 100}]`;
         });
@@ -75,13 +93,13 @@ export default class Lesson implements iEvent {
                 return false;
             }
             return (
-                lesson.subject === this.subject
-                && lesson.room === this.room
-                && lesson.weekOffsetMS_end < this.weekOffsetMS_start 
-                && (lesson.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS) >= this.weekOffsetMS_start
-                && _.isEqual(lesson.teacherIds, this.teacherIds)
-                && _.isEqual(lesson.classIds, this.classIds)
-            )
+                lesson.subject === this.subject &&
+                lesson.room === this.room &&
+                lesson.weekOffsetMS_end < this.weekOffsetMS_start &&
+                lesson.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS >= this.weekOffsetMS_start &&
+                _.isEqual(lesson.teacherIds, this.teacherIds) &&
+                _.isEqual(lesson.classIds, this.classIds)
+            );
         });
         return first?.firstSuccessiveLesson ?? first;
     }
@@ -93,13 +111,13 @@ export default class Lesson implements iEvent {
                 return false;
             }
             return (
-                lesson.subject === this.subject
-                && lesson.room === this.room
-                && lesson.weekOffsetMS_start > this.weekOffsetMS_end 
-                && lesson.weekOffsetMS_start <= this.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS
-                && _.isEqual(lesson.teacherIds, this.teacherIds)
-                && _.isEqual(lesson.classIds, this.classIds)
-            )
+                lesson.subject === this.subject &&
+                lesson.room === this.room &&
+                lesson.weekOffsetMS_start > this.weekOffsetMS_end &&
+                lesson.weekOffsetMS_start <= this.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS &&
+                _.isEqual(lesson.teacherIds, this.teacherIds) &&
+                _.isEqual(lesson.classIds, this.classIds)
+            );
         });
         return last?.lastSuccessiveLesson ?? last;
     }
@@ -109,10 +127,9 @@ export default class Lesson implements iEvent {
         return !this.firstSuccessiveLesson;
     }
 
-
     @computed
     get isEF() {
-        return EF_ABBREVS.some(ef => this.subject.startsWith(ef));
+        return EF_ABBREVS.some((ef) => this.subject.startsWith(ef));
     }
 
     @computed
@@ -150,12 +167,12 @@ export default class Lesson implements iEvent {
 
     @computed
     get teachers() {
-        return this.teacherIds.map(t => this.store.findTeacher(t)).filter(t => t);
+        return this.teacherIds.map((t) => this.store.findTeacher(t)).filter((t) => t);
     }
 
     @computed
     get classes() {
-        return this.classIds.map(t => this.store.findClass(t)).filter(t => t);
+        return this.classIds.map((t) => this.store.findClass(t)).filter((t) => t);
     }
 
     @computed
@@ -196,7 +213,7 @@ export default class Lesson implements iEvent {
             classIds: this.classIds.slice(),
             s: this.weekOffsetMS_start,
             e: this.weekOffsetMS_end,
-            eo: this.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS,
-        }
+            eo: this.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS
+        };
     }
 }

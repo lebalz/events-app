@@ -9,7 +9,7 @@ import Departments from './Departments';
 import Klasses from './Klasses';
 
 interface Props extends CommonProps {
-    isEditGrid?: boolean; /** true when at least one element of the grid is edited */
+    isEditGrid?: boolean /** true when at least one element of the grid is edited */;
 }
 
 const Audience = observer((props: Props) => {
@@ -22,14 +22,14 @@ const Audience = observer((props: Props) => {
             >
                 <AudiencePicker event={event} />
             </div>
-        )
+        );
     }
     return (
         <React.Fragment>
             <Departments {...props} />
             <Klasses {...props} />
         </React.Fragment>
-    )
+    );
 });
 
 export default Audience;

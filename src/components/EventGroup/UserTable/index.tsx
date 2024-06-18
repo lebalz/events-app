@@ -14,7 +14,6 @@ import TextInput from '../../shared/TextInput';
 import { useStore } from '@site/src/stores/hooks';
 import AddUserPopup from './AddUserPopup';
 
-
 interface Props {
     group: EventGroup;
 }
@@ -32,10 +31,10 @@ const UserTableHeadRow = (props: HeadProps) => {
             <th>
                 <Button
                     size={SIZE_S}
-                    iconSide='left'
+                    iconSide="left"
                     icon={props.sortColumn === 'shortName' && icon}
                     text={translate({
-                        message: "Kürzel",
+                        message: 'Kürzel',
                         id: 'eventGroup.userTable.th.shortName',
                         description: 'th: shortName'
                     })}
@@ -45,10 +44,10 @@ const UserTableHeadRow = (props: HeadProps) => {
             <th>
                 <Button
                     size={SIZE_S}
-                    iconSide='left'
+                    iconSide="left"
                     icon={props.sortColumn === 'firstName' && icon}
                     text={translate({
-                        message: "Vorname",
+                        message: 'Vorname',
                         id: 'eventGroup.userTable.th.firstName',
                         description: 'th: firstName'
                     })}
@@ -58,20 +57,20 @@ const UserTableHeadRow = (props: HeadProps) => {
             <th>
                 <Button
                     size={SIZE_S}
-                    iconSide='left'
+                    iconSide="left"
                     icon={props.sortColumn === 'lastName' && icon}
                     text={translate({
-                        message: "Nachname",
+                        message: 'Nachname',
                         id: 'eventGroup.userTable.th.lastName',
                         description: 'th: lastName'
                     })}
                     onClick={() => props.onColumnHeaderClick && props.onColumnHeaderClick('lastName')}
                 />
             </th>
-            <th>
-            </th>
-        </tr>)
-}
+            <th></th>
+        </tr>
+    );
+};
 
 const UserTable = observer((props: Props) => {
     const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('asc');
@@ -83,48 +82,52 @@ const UserTable = observer((props: Props) => {
         } else {
             setSortColumn(column);
         }
-    }
+    };
 
     const userStore = useStore('userStore');
 
     return (
-        <div>             
+        <div>
             <table className={clsx(styles.userTable)}>
                 <thead>
                     <UserTableHeadRow
                         onColumnHeaderClick={onColumnHeaderClick}
                         sortColumn={sortColumn}
-                        sortDirection={sortDirection} 
+                        sortDirection={sortDirection}
                     />
                 </thead>
                 <tbody>
-                    {
-                        _.orderBy(props.group.users, [sortColumn], [sortDirection]).map((member) => {
-                            return (
-                                <tr key={member.id}>
-                                    <td><Badge text={member.shortName || '-'} /></td>
-                                    <td>{member.firstName}</td>
-                                    <td>{member.lastName}</td>
-                                    <td>
-                                        {userStore.current.id !== member.id && (
-                                            <Button
-                                                icon={mdiMinusCircle}
-                                                size={SIZE_S}
-                                                title={translate({id: 'eventGroup.userTable.removeUser', message: 'Mitglied Entfernen'})}
-                                                color='red'
-                                                onClick={() => { props.group.removeUsers([member]) }}
-                                            />
-                                        )}
-                                    </td>
-                                </tr>
-                            )
-
-                        })
-                    }
+                    {_.orderBy(props.group.users, [sortColumn], [sortDirection]).map((member) => {
+                        return (
+                            <tr key={member.id}>
+                                <td>
+                                    <Badge text={member.shortName || '-'} />
+                                </td>
+                                <td>{member.firstName}</td>
+                                <td>{member.lastName}</td>
+                                <td>
+                                    {userStore.current.id !== member.id && (
+                                        <Button
+                                            icon={mdiMinusCircle}
+                                            size={SIZE_S}
+                                            title={translate({
+                                                id: 'eventGroup.userTable.removeUser',
+                                                message: 'Mitglied Entfernen'
+                                            })}
+                                            color="red"
+                                            onClick={() => {
+                                                props.group.removeUsers([member]);
+                                            }}
+                                        />
+                                    )}
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </div>
-    )
+    );
 });
 
 export default UserTable;

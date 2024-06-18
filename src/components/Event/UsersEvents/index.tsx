@@ -15,7 +15,7 @@ import styles from './styles.module.scss';
 import Grid, { ColumnConfig } from '../Views/Grid';
 import Translate, { translate } from '@docusaurus/Translate';
 import { toGlobalDate } from '@site/src/models/helpers/time';
-import {useWindowSize} from '@docusaurus/theme-common';
+import { useWindowSize } from '@docusaurus/theme-common';
 import Badge from '../../shared/Badge';
 import RegPeriodBadge from '../../RegistrationPeriod/RegPeriodBadge';
 import EventsViewer, { View } from '../../EventsViewer';
@@ -39,7 +39,7 @@ const COLUMN_CONFIG: ColumnConfig = [
     'descriptionLong',
     ['actions', { fixed: { right: 0 } }]
 ];
-const COLUMN_CONFIG_ADMIN: ColumnConfig = [...COLUMN_CONFIG.slice(0, 3), 'author', ...COLUMN_CONFIG.slice(3)]
+const COLUMN_CONFIG_ADMIN: ColumnConfig = [...COLUMN_CONFIG.slice(0, 3), 'author', ...COLUMN_CONFIG.slice(3)];
 
 interface Props {
     user: User;
@@ -49,7 +49,7 @@ const AddEventButton = observer(() => {
     const eventStore = useStore('eventStore');
     const windowSize = useWindowSize();
     const viewStore = useStore('viewStore');
-    return (        
+    return (
         <AddButton
             text={translate({
                 message: 'Neues Event',
@@ -60,20 +60,20 @@ const AddEventButton = observer(() => {
                 const now = toGlobalDate(new Date());
                 const t1 = new Date(now);
                 t1.setHours(t1.getHours() + 1);
-                eventStore.create({start: now.toISOString(), end: t1.toISOString()}).then((newEvent) => {
+                eventStore.create({ start: now.toISOString(), end: t1.toISOString() }).then((newEvent) => {
                     if (windowSize === 'mobile') {
                         viewStore.setEventModalId(newEvent.id);
                     }
-                })
-            }}            
+                });
+            }}
             apiState={eventStore.apiStateFor('create')}
             title={translate({
                 message: 'Erstellt einen neuen, unveröffentlichten Termin',
                 id: 'event.AddButton.title'
             })}
         />
-    )
-})
+    );
+});
 
 const UsersEvents = observer((props: Props) => {
     const { user } = props;
@@ -84,8 +84,16 @@ const UsersEvents = observer((props: Props) => {
     if (!user) {
         return null;
     }
-    const drafts = viewStore.usersEvents({ ignoreImported: true, ignoreDeleted: true, states: [EventState.Draft] });
-    const reviewed = viewStore.usersEvents({ ignoreImported: true, ignoreDeleted: true, states: [EventState.Review, EventState.Refused] });
+    const drafts = viewStore.usersEvents({
+        ignoreImported: true,
+        ignoreDeleted: true,
+        states: [EventState.Draft]
+    });
+    const reviewed = viewStore.usersEvents({
+        ignoreImported: true,
+        ignoreDeleted: true,
+        states: [EventState.Review, EventState.Refused]
+    });
     const adminReview = user?.isAdmin ? viewStore.allEvents({ states: [EventState.Review] }) : [];
     const published = viewStore.usersEvents({ ignoreImported: true, states: [EventState.Published] });
     const deleted = viewStore.usersEvents({ onlyDeleted: true });
@@ -94,7 +102,7 @@ const UsersEvents = observer((props: Props) => {
         <div className="full-width">
             <Tabs lazy>
                 <TabItem
-                    value='my-events'
+                    value="my-events"
                     label={translate({
                         message: 'Unveröffentlicht',
                         id: 'components.event.usersevents.index.tabitem.notpublished',
@@ -103,13 +111,13 @@ const UsersEvents = observer((props: Props) => {
                 >
                     <div className={clsx(styles.card, 'card')}>
                         <div className={clsx('card__header')}>
-                            <h3>{
-                                translate({
+                            <h3>
+                                {translate({
                                     message: 'Unveröffentlicht',
                                     id: 'components.event.usersevents.index.header.notpublished',
                                     description: 'Th: not published'
-                                })
-                            }</h3>
+                                })}
+                            </h3>
                         </div>
                         <div className={clsx('card__body', styles.bulk)}>
                             <div className={clsx(styles.alert, 'alert', 'alert--secondary')} role="alert">
@@ -118,34 +126,28 @@ const UsersEvents = observer((props: Props) => {
                                         Eingabefenster
                                     </Translate>
                                 </h4>
-                                {
-                                    regPeriodStore.registrationPeriods.map((regPeriod) => {
-                                        return (
-                                            <RegPeriodBadge key={regPeriod.id} period={regPeriod} />
-                                        )
-                                    })
-                                }
+                                {regPeriodStore.registrationPeriods.map((regPeriod) => {
+                                    return <RegPeriodBadge key={regPeriod.id} period={regPeriod} />;
+                                })}
                             </div>
                         </div>
                         <EventsViewer
                             events={drafts}
                             gridConfig={{ columns: COLUMN_CONFIG }}
-                            bulkActionConfig={{ 
+                            bulkActionConfig={{
                                 className: styles.indent,
                                 defaultActions: [
                                     <AddEventButton />,
-                                    <ChangeViewAction
-                                        viewType={viewType}
-                                        setViewType={setViewType}
-                                    />
-                                ]}}
+                                    <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                ]
+                            }}
                             type={viewType}
                         />
                     </div>
                 </TabItem>
                 {reviewed.length > 0 && (
                     <TabItem
-                        value='reviewed'
+                        value="reviewed"
                         label={translate({
                             message: 'Review',
                             id: 'components.event.usersevents.index.tabitem.reviewed',
@@ -154,24 +156,23 @@ const UsersEvents = observer((props: Props) => {
                     >
                         <div className={clsx(styles.card, 'card')}>
                             <div className={clsx('card__header')}>
-                                <h3>{
-                                    translate({
+                                <h3>
+                                    {translate({
                                         message: 'Im Review',
                                         id: 'components.event.usersevents.index.header.reviewed',
                                         description: 'Events reviewed'
-                                    })
-                                }</h3>
+                                    })}
+                                </h3>
                             </div>
                             <EventsViewer
                                 events={reviewed}
                                 gridConfig={{ columns: COLUMN_CONFIG }}
-                                bulkActionConfig={{ 
+                                bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [<ChangeViewAction
-                                        viewType={viewType}
-                                        setViewType={setViewType}
-                                    />
-                                ]}}
+                                    defaultActions: [
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                    ]
+                                }}
                                 type={viewType}
                             />
                         </div>
@@ -179,7 +180,7 @@ const UsersEvents = observer((props: Props) => {
                 )}
                 {adminReview.length > 0 && (
                     <TabItem
-                        value='admin-review'
+                        value="admin-review"
                         label={translate({
                             message: 'Admin',
                             id: 'components.event.usersevents.index.tabitem.admin',
@@ -188,8 +189,8 @@ const UsersEvents = observer((props: Props) => {
                     >
                         <div className={clsx(styles.card, 'card')}>
                             <div className={clsx('card__header')}>
-                                <h3>{
-                                    translate({
+                                <h3>
+                                    {translate({
                                         message: 'Review Anfragen für Admin',
                                         id: 'components.event.usersevents.index.header.admin',
                                         description: 'Events admin'
@@ -199,13 +200,12 @@ const UsersEvents = observer((props: Props) => {
                             <EventsViewer
                                 events={adminReview}
                                 gridConfig={{ columns: COLUMN_CONFIG }}
-                                bulkActionConfig={{ 
+                                bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [<ChangeViewAction
-                                        viewType={viewType}
-                                        setViewType={setViewType}
-                                    />
-                                ]}}
+                                    defaultActions: [
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                    ]
+                                }}
                                 type={viewType}
                             />
                         </div>
@@ -213,7 +213,7 @@ const UsersEvents = observer((props: Props) => {
                 )}
                 {published.length > 0 && (
                     <TabItem
-                        value='published'
+                        value="published"
                         label={translate({
                             message: 'Veröffentlicht',
                             id: 'components.event.usersevents.index.tabitem.published',
@@ -222,24 +222,23 @@ const UsersEvents = observer((props: Props) => {
                     >
                         <div className={clsx(styles.card, 'card')}>
                             <div className={clsx('card__header')}>
-                                <h3>{
-                                    translate({
+                                <h3>
+                                    {translate({
                                         message: 'Veröffentlicht',
                                         id: 'components.event.usersevents.index.header.published',
                                         description: 'Th : Events published'
-                                    })
-                                }</h3>
+                                    })}
+                                </h3>
                             </div>
                             <EventsViewer
                                 events={published}
                                 gridConfig={{ columns: COLUMN_CONFIG }}
-                                bulkActionConfig={{ 
+                                bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [<ChangeViewAction
-                                        viewType={viewType}
-                                        setViewType={setViewType}
-                                    />
-                                ]}}
+                                    defaultActions: [
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                    ]
+                                }}
                                 type={viewType}
                             />
                         </div>
@@ -247,7 +246,7 @@ const UsersEvents = observer((props: Props) => {
                 )}
                 {deleted.length > 0 && (
                     <TabItem
-                        value='deleted'
+                        value="deleted"
                         label={translate({
                             message: 'Gelöscht',
                             id: 'components.event.usersevents.index.tabitem.deleted',
@@ -256,31 +255,30 @@ const UsersEvents = observer((props: Props) => {
                     >
                         <div className={clsx(styles.card, 'card')}>
                             <div className={clsx('card__header')}>
-                                <h3>{
-                                    translate({
+                                <h3>
+                                    {translate({
                                         message: 'Gelöscht',
                                         id: 'components.event.usersevents.index.header.deleted',
                                         description: 'Th: Events deleted'
-                                    })
-                                }</h3>
+                                    })}
+                                </h3>
                             </div>
                             <EventsViewer
                                 events={deleted}
                                 gridConfig={{ columns: COLUMN_CONFIG }}
-                                bulkActionConfig={{ 
+                                bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [<ChangeViewAction
-                                        viewType={viewType}
-                                        setViewType={setViewType}
-                                    />
-                                ]}}
+                                    defaultActions: [
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                    ]
+                                }}
                                 type={viewType}
                             />
                         </div>
                     </TabItem>
                 )}
                 {jobStore.importJobs.length > 0 && (
-                    <TabItem value='import' label='Import'>
+                    <TabItem value="import" label="Import">
                         <div className={clsx(styles.imports)}>
                             {jobStore.importJobs.map((job, idx) => {
                                 const events = viewStore.allEvents({ jobId: job.id, orderBy: 'isValid-asc' });
@@ -289,45 +287,47 @@ const UsersEvents = observer((props: Props) => {
                                         key={job.id}
                                         summary={
                                             <summary>
-                                                {(job.user as User)?.email} - {job.filename || '|'} - {job.state} - {events.length}
+                                                {(job.user as User)?.email} - {job.filename || '|'} -{' '}
+                                                {job.state} - {events.length}
                                             </summary>
                                         }
                                     >
                                         <div className={clsx(styles.imported)}>
                                             <EventsViewer
                                                 events={events}
-                                                gridConfig={{ 
+                                                gridConfig={{
                                                     columns: ['nr', ...COLUMN_CONFIG],
                                                     className: clsx(styles.noMarginScrollContainer)
                                                 }}
-                                                bulkActionConfig={{ 
+                                                bulkActionConfig={{
                                                     className: styles.indent,
                                                     defaultActions: [
                                                         <Delete
                                                             onClick={() => {
                                                                 jobStore.destroy(job);
                                                             }}
-                                                            text={
-                                                                translate({
-                                                                    message: 'Job Löschen', 
-                                                                    id: 'components.event.usersevents.index.delete',
-                                                                    description: 'Text to delete a job'
-                                                                })
-                                                            }
-                                                            flyoutSide='right'
-                                                            iconSide='right'
-                                                            apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                                            text={translate({
+                                                                message: 'Job Löschen',
+                                                                id: 'components.event.usersevents.index.delete',
+                                                                description: 'Text to delete a job'
+                                                            })}
+                                                            flyoutSide="right"
+                                                            iconSide="right"
+                                                            apiState={jobStore.apiStateFor(
+                                                                `destroy-${job.id}`
+                                                            )}
                                                         />,
                                                         <ChangeViewAction
                                                             viewType={viewType}
                                                             setViewType={setViewType}
                                                         />
-                                                    ]}}
+                                                    ]
+                                                }}
                                                 type={viewType}
                                             />
                                         </div>
                                     </LazyDetails>
-                                )
+                                );
                             })}
                         </div>
                     </TabItem>

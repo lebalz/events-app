@@ -7,7 +7,6 @@ import Checkbox from '@site/src/components/shared/Checkbox';
 import styles from './styles.module.scss';
 import Event from '@site/src/models/Event';
 
-
 interface Props extends ReadonlyProps {
     onSelect: (event: Event, selected: boolean, shiftKey: boolean) => void;
 }
@@ -15,22 +14,22 @@ interface Props extends ReadonlyProps {
 const Select = observer((props: Props) => {
     const { event } = props;
     return (
-        <div 
+        <div
             data-id={event.id}
-            style={{gridColumn: 'select'}} 
+            style={{ gridColumn: 'select' }}
             className={clsx('grid-select', styles.select, props.className)}
             onClick={(e) => {
                 e.stopPropagation();
             }}
         >
-            <Checkbox 
+            <Checkbox
                 checked={event.selected}
                 onChange={(checked, shiftKey) => {
                     props.onSelect(event, checked, shiftKey);
                 }}
             />
         </div>
-    )
+    );
 });
 
 export default Select;

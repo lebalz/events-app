@@ -7,9 +7,9 @@
         width: fit-content;
         padding: calc(var(--ifm-spacing-horizontal) * 0.5) calc(var(--ifm-spacing-horizontal) * 0.5);
         display: grid;
-        grid-template-areas: 
-            "subj . . teacher"
-            "day h h h";
+        grid-template-areas:
+            'subj . . teacher'
+            'day h h h';
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 0.1rem;
         .subject {
@@ -31,10 +31,10 @@
     }
 }
 
-[data-theme='dark']{
+[data-theme='dark'] {
     .card {
         .lesson {
             background: var(--ifm-color-info-contrast-background);
         }
     }
-}   
+}

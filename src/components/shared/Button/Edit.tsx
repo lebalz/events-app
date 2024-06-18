@@ -12,7 +12,6 @@ interface Props {
     newVersion?: boolean;
 }
 
-
 type EditProps = Props & Base;
 
 const Edit = (props: EditProps) => {
@@ -20,28 +19,30 @@ const Edit = (props: EditProps) => {
         <Button
             title={
                 props.newVersion
-                ? translate({
-                    message : "Bearbeiten (Es wird eine neue Version erstellt)",
-                    id : "share.button.edit.versioned.title",
-                    description : "Text of the button edit"
-                })
-                : translate({
-                    message : "Bearbeiten",
-                    id : "share.button.edit.title",
-                    description : "Text of the button edit"
-                })
+                    ? translate({
+                          message: 'Bearbeiten (Es wird eine neue Version erstellt)',
+                          id: 'share.button.edit.versioned.title',
+                          description: 'Text of the button edit'
+                      })
+                    : translate({
+                          message: 'Bearbeiten',
+                          id: 'share.button.edit.title',
+                          description: 'Text of the button edit'
+                      })
             }
             {...extractSharedProps(props)}
             className={clsx(styles.edit, props.className)}
-            color='orange'
+            color="orange"
             onClick={props.onClick}
             icon={
-                props.newVersion
-                ? <EditVersionIcon size={props.size ?? SIZE_S}/>
-                : <EditIcon size={props.size ?? SIZE_S}/>
+                props.newVersion ? (
+                    <EditVersionIcon size={props.size ?? SIZE_S} />
+                ) : (
+                    <EditIcon size={props.size ?? SIZE_S} />
+                )
             }
         />
-    )
+    );
 };
 
 export default Edit;

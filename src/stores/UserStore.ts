@@ -1,5 +1,12 @@
 import { override, action, computed, makeObservable, observable, reaction } from 'mobx';
-import { User as UserProps, linkToUntis, createIcs, Role, setRole, affectedEventIds as apiAffectedEventIds } from '../api/user';
+import {
+    User as UserProps,
+    linkToUntis,
+    createIcs,
+    Role,
+    setRole,
+    affectedEventIds as apiAffectedEventIds
+} from '../api/user';
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';
@@ -22,7 +29,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     constructor(root: RootStore) {
         super();
         this.root = root;
-        
+
         setTimeout(() => {
             // attempt to load the previous state of this store from localstorage
             this.rehydrate();
@@ -30,7 +37,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         makeObservable(this);
     }
 
-    
     @action
     rehydrate(_data?: PersistedData) {
         if (this.models.length > 0) {
@@ -58,20 +64,22 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @computed
     get current(): User | undefined {
         if (this.root.sessionStore?.authMethod === 'msal') {
-            return this.models.find((u) => u.email.toLowerCase() === this.root.sessionStore?.account?.username?.toLowerCase());
+            return this.models.find(
+                (u) => u.email.toLowerCase() === this.root.sessionStore?.account?.username?.toLowerCase()
+            );
         }
         return this.models.find((u) => u.id === this.root.sessionStore?.currentUserId);
     }
 
     @computed
     get currentUsersEvents() {
-        return this.root.eventStore.byUser(this.current?.id);;
+        return this.root.eventStore.byUser(this.current?.id);
     }
 
     @override
     postLoad(models: User[], publicModels: boolean, success?: boolean): Promise<any> {
         if (!publicModels && success && this.current) {
-            return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id)
+            return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id);
         }
         return Promise.resolve();
     }
@@ -135,10 +143,12 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             return Promise.resolve([]);
         }
         return this.withAbortController(`load-affected-events-${user.id}-${semesterId}`, (sig) => {
-            return apiAffectedEventIds(user.id, semesterId, sig.signal).then(action(({ data }) => {
-                this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
-                return data;
-            }));
+            return apiAffectedEventIds(user.id, semesterId, sig.signal).then(
+                action(({ data }) => {
+                    this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
+                    return data;
+                })
+            );
         });
     }
 }

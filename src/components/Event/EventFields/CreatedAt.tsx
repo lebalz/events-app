@@ -13,16 +13,14 @@ interface Props extends DefaultProps {
 const CreatedAt = observer((props: Props) => {
     const { event } = props;
     return (
-        <div 
-            className={clsx(props.className, styles.dateTime, styles.view)}
-        >
+        <div className={clsx(props.className, styles.dateTime, styles.view)}>
             <div
                 style={{ gridColumn: 'createdAt' }}
                 className={clsx(
-                    styles.date, 
-                    styles.createdAt, 
+                    styles.date,
+                    styles.createdAt,
                     event.isOnOneDay && styles.onOneDay,
-                    !props.showTime && styles.dateOnly, 
+                    !props.showTime && styles.dateOnly,
                     'grid-createdAt'
                 )}
             >
@@ -30,7 +28,7 @@ const CreatedAt = observer((props: Props) => {
                 {props.showTime && <span>{formatTime(event.createdAt)}</span>}
             </div>
         </div>
-    )
+    );
 });
 
 export default CreatedAt;

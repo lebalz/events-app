@@ -1,4 +1,3 @@
-
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
@@ -6,7 +5,6 @@ import styles from './styles.module.scss';
 import { toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
 import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
-
 
 interface Props {
     date: Date;
@@ -30,7 +28,7 @@ const toDate = (date: Date | string, time: 'start' | 'end') => {
         newDate.setUTCHours(24, 0, 0, 0);
     }
     return newDate;
-}
+};
 
 const initDate = (date: Date, time: 'start' | 'end') => {
     if (time === 'start') {
@@ -44,20 +42,25 @@ const initDate = (date: Date, time: 'start' | 'end') => {
     const newDate = new Date(toGlobalDate(new Date(date)).getTime() - 1);
     newDate.setUTCHours(0, 0, 0, 0);
     return newDate;
-}
+};
 
 const DatePicker = observer((props: Props) => {
-    const [date, setDate] = React.useState<string>(initDate(props.date, props.time).toISOString().substring(0, 10));
+    const [date, setDate] = React.useState<string>(
+        initDate(props.date, props.time).toISOString().substring(0, 10)
+    );
     const [_id, _setId] = React.useState<string>(props.id);
 
-    React.useEffect(action(() => {
-        try {
-            props.onChange(toDate(date, props.time));
-        } catch (e) {
-            /** invalid date - ignore */
-        }
-    }), [date, props.time]);
-    
+    React.useEffect(
+        action(() => {
+            try {
+                props.onChange(toDate(date, props.time));
+            } catch (e) {
+                /** invalid date - ignore */
+            }
+        }),
+        [date, props.time]
+    );
+
     React.useEffect(() => {
         if (props.id !== _id) {
             _setId(props.id);
@@ -67,8 +70,8 @@ const DatePicker = observer((props: Props) => {
 
     return (
         <div>
-            <input 
-                type={'date'} 
+            <input
+                type={'date'}
                 value={date}
                 disabled={props.disabled}
                 onChange={(e) => {
@@ -76,7 +79,7 @@ const DatePicker = observer((props: Props) => {
                 }}
             />
         </div>
-    )
+    );
 });
 
 export default DatePicker;

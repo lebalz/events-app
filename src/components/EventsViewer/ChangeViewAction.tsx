@@ -8,7 +8,6 @@ import Popup from 'reactjs-popup';
 import { View, ViewIcons, ViewTranslations } from '.';
 import Button from '../shared/Button';
 
-
 interface Props {
     viewType: View;
     setViewType: (view: View) => void;
@@ -20,10 +19,7 @@ const ChangeViewAction = observer((props: Props) => {
         <Popup
             trigger={
                 <div>
-                    <Button
-                        icon={ViewIcons[viewType]}
-                        title={ViewTranslations[viewType]}
-                    />
+                    <Button icon={ViewIcons[viewType]} title={ViewTranslations[viewType]} />
                 </div>
             }
         >
@@ -32,7 +28,7 @@ const ChangeViewAction = observer((props: Props) => {
                     <Button
                         key={v}
                         text={ViewTranslations[v]}
-                        iconSide='left'
+                        iconSide="left"
                         icon={ViewIcons[v]}
                         active={viewType === v}
                         onClick={() => setViewType(v)}
@@ -40,7 +36,7 @@ const ChangeViewAction = observer((props: Props) => {
                 ))}
             </div>
         </Popup>
-    )
+    );
 });
 
 export default ChangeViewAction;

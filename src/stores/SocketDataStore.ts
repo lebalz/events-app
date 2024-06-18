@@ -1,11 +1,24 @@
 import { RootStore } from './stores';
 // @ts-ignore
-import { io, Socket } from "socket.io-client";
+import { io, Socket } from 'socket.io-client';
 import { action, makeObservable, observable, reaction } from 'mobx';
 import { default as api, checkLogin as pingApi } from '../api/base';
 import axios from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
-import { ChangedMembers, ChangedRecord, ChangedState, ClientToServerEvents, DeletedRecord, IoEvent, IoEvents, NewRecord, NotificationMessage, RecordStoreMap, ReloadAffectingEvents, ServerToClientEvents } from './IoEventTypes';
+import {
+    ChangedMembers,
+    ChangedRecord,
+    ChangedState,
+    ClientToServerEvents,
+    DeletedRecord,
+    IoEvent,
+    IoEvents,
+    NewRecord,
+    NotificationMessage,
+    RecordStoreMap,
+    ReloadAffectingEvents,
+    ServerToClientEvents
+} from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
 import { CheckedUntisLesson } from '../api/untis';
 import { Event as EventProps } from '../api/event';
@@ -24,8 +37,8 @@ const withParsedMessage = <T>(fn: (data: T) => void) => {
         } catch {
             return null;
         }
-    }
-}
+    };
+};
 
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
@@ -43,7 +56,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     get initialLoadPerformed() {
-        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
+        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed;
     }
 
     @observable
@@ -54,8 +67,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         makeObservable(this);
 
         api.interceptors.response.use(
-            res => res,
-            error => {
+            (res) => res,
+            (error) => {
                 if (error.response?.status === 401) {
                     this.disconnect();
                 }
@@ -76,16 +89,18 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             this.abortControllers.get(sigId).abort();
         }
         this.abortControllers.set(sigId, sig);
-        return fn(sig).catch((err) => {
-            if (axios.isCancel(err)) {
-                return { data: null };
-            }
-            throw err;
-        }).finally(() => {
-            if (this.abortControllers.get(sigId) === sig) {
-                this.abortControllers.delete(sigId);
-            }
-        });
+        return fn(sig)
+            .catch((err) => {
+                if (axios.isCancel(err)) {
+                    return { data: null };
+                }
+                throw err;
+            })
+            .finally(() => {
+                if (this.abortControllers.get(sigId) === sig) {
+                    this.abortControllers.delete(sigId);
+                }
+            });
     }
 
     @action
@@ -93,7 +108,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.disconnect();
         this.connect();
     }
-
 
     @action
     disconnect() {
@@ -116,12 +130,11 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         const ws_url = EVENTS_API;
         this.socket = io(ws_url, {
             withCredentials: true,
-            transports: ['websocket'],
+            transports: ['websocket']
         });
         this._socketConfig();
         this.socket.connect();
     }
-
 
     handleEventStateChange = () => {
         return action((data: ChangedState) => {
@@ -129,7 +142,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             data.ids.forEach((id) => {
                 store.loadModel(id);
             });
-        })
+        });
     };
     handleReloadAffectingEvents = () => {
         return action((data: ReloadAffectingEvents) => {
@@ -146,7 +159,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                     }
                     break;
             }
-        })
+        });
     };
 
     handleChangedMemebers = () => {
@@ -172,8 +185,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                     }
                     break;
             }
-        })
-    }
+        });
+    };
 
     handleReload = (type: IoEvent) => {
         return action((data: NewRecord | ChangedRecord | DeletedRecord) => {
@@ -197,7 +210,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                     store.loadModel(data.id);
                     break;
             }
-        })
+        });
     };
 
     _socketConfig() {
@@ -220,45 +233,37 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 if (reconnect) {
                     this.reconnect();
                 }
-            })
+            });
         });
-        this.socket.on(IoEvent.NEW_RECORD, (data) => {})
+        this.socket.on(IoEvent.NEW_RECORD, (data) => {});
         this.socket.on(IoEvent.NEW_RECORD, withParsedMessage(this.handleReload(IoEvent.NEW_RECORD)));
         this.socket.on(IoEvent.CHANGED_RECORD, withParsedMessage(this.handleReload(IoEvent.CHANGED_RECORD)));
         this.socket.on(IoEvent.DELETED_RECORD, withParsedMessage(this.handleReload(IoEvent.DELETED_RECORD)));
         this.socket.on(IoEvent.CHANGED_STATE, withParsedMessage(this.handleEventStateChange()));
-        this.socket.on(IoEvent.RELOAD_AFFECTING_EVENTS, withParsedMessage(this.handleReloadAffectingEvents()));
+        this.socket.on(
+            IoEvent.RELOAD_AFFECTING_EVENTS,
+            withParsedMessage(this.handleReloadAffectingEvents())
+        );
         this.socket.on(IoEvent.CHANGED_MEMBERS, withParsedMessage(this.handleChangedMemebers()));
-
     }
 
     checkEvent(eventId: string, semesterId: string) {
-        this.socket?.emit(
-            IoEvents.AffectedLessons, 
-            eventId,
-            semesterId, 
-            (data) => {
-                if (data.state === 'success') {
-                    this.root.untisStore.addLessons(data.lessons);
-                } else {
-                    console.log('checkEvent', data);
-                }
+        this.socket?.emit(IoEvents.AffectedLessons, eventId, semesterId, (data) => {
+            if (data.state === 'success') {
+                this.root.untisStore.addLessons(data.lessons);
+            } else {
+                console.log('checkEvent', data);
             }
-        );
+        });
     }
     checkUnpersistedEvent(event: EventProps, semesterId: string) {
-        this.socket?.emit(
-            IoEvents.AffectedLessonsTmp,
-            event,
-            semesterId,
-            (data) => {
-                if (data.state === 'success') {
-                    this.root.untisStore.addLessons(data.lessons);
-                } else {
-                    console.log('checkEvent', data);
-                }
+        this.socket?.emit(IoEvents.AffectedLessonsTmp, event, semesterId, (data) => {
+            if (data.state === 'success') {
+                this.root.untisStore.addLessons(data.lessons);
+            } else {
+                console.log('checkEvent', data);
             }
-        );
+        });
     }
 
     checkLogin() {
@@ -271,7 +276,8 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                         } else {
                             return false;
                         }
-                    }).catch((err) => {
+                    })
+                    .catch((err) => {
                         return false;
                     });
             });
@@ -294,14 +300,17 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
     @action
     loadAuthorized() {
-        return this.checkLogin().then((reconnect) => {
-            if (reconnect) {
-                this.reconnect();
-            }
-            return []
-        }).finally(action(() => {
-            this.initialAuthorizedLoadPerformed = true;
-        }));
+        return this.checkLogin()
+            .then((reconnect) => {
+                if (reconnect) {
+                    this.reconnect();
+                }
+                return [];
+            })
+            .finally(
+                action(() => {
+                    this.initialAuthorizedLoadPerformed = true;
+                })
+            );
     }
-
 }

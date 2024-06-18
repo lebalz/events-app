@@ -1,6 +1,6 @@
-import { Event, EventState } from "../api/event";
-import { view_LessonsAffectedByEvents } from "../api/views";
-import { rootStore } from "./stores";
+import { Event, EventState } from '../api/event';
+import { view_LessonsAffectedByEvents } from '../api/views';
+import { rootStore } from './stores';
 
 export enum IoEvent {
     NEW_RECORD = 'NEW_RECORD',
@@ -11,16 +11,23 @@ export enum IoEvent {
     CHANGED_MEMBERS = 'CHANGED_MEMBERS'
 }
 
-type RecordTypes = 'EVENT' | 'USER' | 'JOB' | 'DEPARTMENT' | 'SEMESTER' | 'REGISTRATION_PERIOD' | 'EVENT_GROUP';
+type RecordTypes =
+    | 'EVENT'
+    | 'USER'
+    | 'JOB'
+    | 'DEPARTMENT'
+    | 'SEMESTER'
+    | 'REGISTRATION_PERIOD'
+    | 'EVENT_GROUP';
 
 export interface NewRecord {
     record: RecordTypes;
     id: string;
 }
 
-export interface DeletedRecord { 
-    record: RecordTypes, 
-    id: string
+export interface DeletedRecord {
+    record: RecordTypes;
+    id: string;
 }
 
 export interface ChangedRecord {
@@ -41,14 +48,19 @@ export interface ChangedState {
     ids: string[];
 }
 export interface ReloadAffectingEvents {
-    record: 'SEMESTER',
+    record: 'SEMESTER';
     semesterIds: string[];
 }
 
-export type NotificationMessage = NewRecord | ChangedRecord | ChangedState | ReloadAffectingEvents | ChangedMembers;
+export type NotificationMessage =
+    | NewRecord
+    | ChangedRecord
+    | ChangedState
+    | ReloadAffectingEvents
+    | ChangedMembers;
 
 export interface Notification {
-    message: NotificationMessage
+    message: NotificationMessage;
     event: IoEvent;
     to: string;
     toSelf?: true | boolean;
@@ -58,48 +70,50 @@ export enum IoEvents {
     AffectedLessons = 'affectedLessons',
     AffectedLessonsTmp = 'affectedLessons:tmp',
     AffectedTeachers = 'affectedTeachers',
-    AffectedTeachersTmp = 'affectedTeachers:tmp',
+    AffectedTeachersTmp = 'affectedTeachers:tmp'
 }
 
 export type ServerToClientEvents = {
-    [notification in IoEvent]: (message: NotificationMessage) => void
-}
+    [notification in IoEvent]: (message: NotificationMessage) => void;
+};
 
 export interface ClientToServerEvents {
     [IoEvents.AffectedLessons]: (
-        event_id: string, 
-        semester_id: string, 
+        event_id: string,
+        semester_id: string,
         callback: (
-            result: { state: 'success', lessons: view_LessonsAffectedByEvents[] } 
-                  | { state: 'error', message: string}
+            result:
+                | { state: 'success'; lessons: view_LessonsAffectedByEvents[] }
+                | { state: 'error'; message: string }
         ) => void
     ) => void;
     [IoEvents.AffectedLessonsTmp]: (
-        event: Event, 
-        semester_id: string, 
+        event: Event,
+        semester_id: string,
         callback: (
-            result: { state: 'success', lessons: view_LessonsAffectedByEvents[] } 
-                  | { state: 'error', message: string}
+            result:
+                | { state: 'success'; lessons: view_LessonsAffectedByEvents[] }
+                | { state: 'error'; message: string }
         ) => void
     ) => void;
     [IoEvents.AffectedTeachers]: (
-        event_id: string, 
-        semester_id: string, 
-        callback: (result: { state: 'success', usersIds: string[] } 
-                         | {state: 'error', message: string}) => void
+        event_id: string,
+        semester_id: string,
+        callback: (
+            result: { state: 'success'; usersIds: string[] } | { state: 'error'; message: string }
+        ) => void
     ) => void;
     [IoEvents.AffectedTeachersTmp]: (
         event: Event,
-        semester_id: string, 
-        callback: (result: { state: 'success', usersIds: string[] } 
-                         | {state: 'error', message: string}) => void
+        semester_id: string,
+        callback: (
+            result: { state: 'success'; usersIds: string[] } | { state: 'error'; message: string }
+        ) => void
     ) => void;
 }
 
-
-
 /* this is additional! */
-export const RecordStoreMap: {[key in RecordTypes]: keyof typeof rootStore} = {
+export const RecordStoreMap: { [key in RecordTypes]: keyof typeof rootStore } = {
     EVENT: 'eventStore',
     USER: 'userStore',
     JOB: 'jobStore',

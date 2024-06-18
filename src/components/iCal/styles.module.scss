@@ -11,15 +11,15 @@
         .icalWrapper {
             max-height: 20em;
             overflow-y: auto;
-            .publicIcal  {
+            .publicIcal {
                 display: flex;
                 .icalButton {
                     display: flex;
-                    flex-basis:11em;
+                    flex-basis: 11em;
                     flex-shrink: 0;
                     &.department {
                         flex-basis: 16em;
-                    } 
+                    }
                 }
             }
         }

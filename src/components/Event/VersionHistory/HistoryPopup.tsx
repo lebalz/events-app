@@ -12,14 +12,13 @@ import VersionHistory from '.';
 import { PopupActions } from 'reactjs-popup/dist/types';
 import { SIZE_S } from '../../shared/icons';
 
-
 interface Props {
     event: EventModel;
 }
 
 const HistoryPopup = observer((props: Props) => {
     const ref = React.useRef<PopupActions>();
-    const {event} = props;
+    const { event } = props;
     return (
         <Popup
             modal
@@ -28,17 +27,17 @@ const HistoryPopup = observer((props: Props) => {
                 <span>
                     <Button
                         text={translate({
-                            message: "Versionen",
+                            message: 'Versionen',
                             id: 'event.button.versions',
                             description: 'for a single event: button to show version history'
                         })}
                         title={translate({
-                            message: "Versionen laden und anzeigen",
-                            id: 'event.button.versions.title',
+                            message: 'Versionen laden und anzeigen',
+                            id: 'event.button.versions.title'
                         })}
                         icon={mdiHistory}
                         size={SIZE_S}
-                        color='primary'
+                        color="primary"
                     />
                 </span>
             }
@@ -54,31 +53,27 @@ const HistoryPopup = observer((props: Props) => {
             <div className={clsx('card', styles.historyCard)}>
                 <div className={clsx('card__header', styles.header)}>
                     <h3>
-                        <Translate id="versions.history.modal.title">
-                            Versionen
-                        </Translate>                 
+                        <Translate id="versions.history.modal.title">Versionen</Translate>
                     </h3>
-                        <Button
-                            color="red"
-                            title={
-                                translate({
-                                    message: 'Schliessen',
-                                    id: 'button.close',
-                                    description: 'Button text to close a modal'
-                                })
-                            }
-                            size={SIZE_S}
-                            icon={mdiClose}
-                            iconSide='left' 
-                            onClick={() => ref.current.close()}
-                        />
+                    <Button
+                        color="red"
+                        title={translate({
+                            message: 'Schliessen',
+                            id: 'button.close',
+                            description: 'Button text to close a modal'
+                        })}
+                        size={SIZE_S}
+                        icon={mdiClose}
+                        iconSide="left"
+                        onClick={() => ref.current.close()}
+                    />
                 </div>
                 <div className={clsx('card__body', styles.history)}>
                     <VersionHistory event={event} />
                 </div>
             </div>
         </Popup>
-    )
+    );
 });
 
 export default HistoryPopup;

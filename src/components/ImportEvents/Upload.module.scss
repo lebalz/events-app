@@ -1,14 +1,14 @@
 .dropArea {
     width: 100%;
     position: relative;
-    display: grid; 
+    display: grid;
     grid-template-columns: min-content 1fr;
-    grid-template-rows: min-content 1fr; 
+    grid-template-rows: min-content 1fr;
 
     gap: 0px;
-    grid-template-areas: 
-      "icon input"
-      "icon upload";
+    grid-template-areas:
+        'icon input'
+        'icon upload';
     justify-items: center;
     align-items: center;
     height: 200px;
@@ -16,7 +16,9 @@
     border: 2px dashed var(--ifm-color-secondary-darkest);
     color: var(--ifm-font-color-base);
     cursor: pointer;
-    transition: background var(--ifm-button-transition-duration) ease-in-out, border var(--ifm-button-transition-duration) ease-in-out;
+    transition:
+        background var(--ifm-button-transition-duration) ease-in-out,
+        border var(--ifm-button-transition-duration) ease-in-out;
     margin-bottom: 1rem;
     &:hover {
         background: var(--ifm-hover-overlay);
@@ -29,7 +31,7 @@
         grid-area: upload;
     }
 
-    input[type=file] {
+    input[type='file'] {
         grid-area: input;
         margin-top: 1rem;
         border: none;
@@ -42,7 +44,7 @@
         border: 1px solid var(--ifm-color-secondary-darkest);
     }
 
-    input[type=file]::file-selector-button {
+    input[type='file']::file-selector-button {
         border: none;
         margin-right: 20px;
         color: var(--ifm-font-color-base);
@@ -58,6 +60,4 @@
             color: var(--ifm-font-color-base-inverse);
         }
     }
-
-
 }

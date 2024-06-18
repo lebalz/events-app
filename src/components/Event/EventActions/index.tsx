@@ -15,7 +15,6 @@ import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-
 interface Props {
     event: Event;
     closePopup?: () => void;
@@ -40,7 +39,7 @@ const DefaultActions = observer((props: Props) => {
                     title={translate({
                         message: 'Übersicht Öffnen',
                         id: 'event.options.open.overview',
-                        description: "Text of the button open overview"
+                        description: 'Text of the button open overview'
                     })}
                     icon={mdiArrowExpandAll}
                     color="primary"
@@ -78,17 +77,17 @@ const DefaultActions = observer((props: Props) => {
                 <>
                     <Button
                         title={
-                            event.isDirty 
-                            ? translate({
-                                    message : 'Verwerfen',
-                                    id : "components.event.actions.discard",
-                                    description : "Text of the button discard"
-                                })
-                            : translate({
-                                    message : 'Abbrechen',
-                                    id : "components.event.actions.cancel",
-                                    description : "Text of the button cancel"
-                                })
+                            event.isDirty
+                                ? translate({
+                                      message: 'Verwerfen',
+                                      id: 'components.event.actions.discard',
+                                      description: 'Text of the button discard'
+                                  })
+                                : translate({
+                                      message: 'Abbrechen',
+                                      id: 'components.event.actions.cancel',
+                                      description: 'Text of the button cancel'
+                                  })
                         }
                         color="black"
                         size={BTN_SIZE}
@@ -107,36 +106,37 @@ const DefaultActions = observer((props: Props) => {
                             event.isValid
                                 ? event.isDraft
                                     ? translate({
-                                        message: 'Änderungen Speichern',
-                                        id: 'button.save',
-                                        description: 'Button to save changes'
-                                    })
+                                          message: 'Änderungen Speichern',
+                                          id: 'button.save',
+                                          description: 'Button to save changes'
+                                      })
                                     : translate({
-                                        message: 'Neue, unveröffentlichte Version Speichern',
-                                        id: 'button.save.new-version'
-                                    })
+                                          message: 'Neue, unveröffentlichte Version Speichern',
+                                          id: 'button.save.new-version'
+                                      })
                                 : translate({
-                                    message: 'Fehler beheben vor dem Speichern',
-                                    id: 'button.save.error',
-                                    description: 'Button to save changes with error'
-                                })
+                                      message: 'Fehler beheben vor dem Speichern',
+                                      id: 'button.save.error',
+                                      description: 'Button to save changes with error'
+                                  })
                         }
                         size={BTN_SIZE}
                         disabled={!event.isDirty || !event.isValid}
-                        icon={event.isDraft 
-                            ? <SaveIcon size={BTN_SIZE} />
-                            : <SaveVersionIcon size={BTN_SIZE} />
+                        icon={
+                            event.isDraft ? <SaveIcon size={BTN_SIZE} /> : <SaveVersionIcon size={BTN_SIZE} />
                         }
-                        iconSide='left'
+                        iconSide="left"
                         onClick={() => {
                             if (event.state !== EventState.Draft) {
-                                event.save().then(action((model) => {
-                                    const current = eventStore.find(event.id);
-                                    current?.reset();
-                                    if (model) {
-                                        viewStore.setEventModalId(model.id)
-                                    }
-                                }))
+                                event.save().then(
+                                    action((model) => {
+                                        const current = eventStore.find(event.id);
+                                        current?.reset();
+                                        if (model) {
+                                            viewStore.setEventModalId(model.id);
+                                        }
+                                    })
+                                );
                             } else {
                                 event.save();
                             }
@@ -150,7 +150,7 @@ const DefaultActions = observer((props: Props) => {
                 </>
             )}
         </div>
-    )
+    );
 });
 
 export default DefaultActions;

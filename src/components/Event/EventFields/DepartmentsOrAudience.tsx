@@ -9,15 +9,15 @@ import Departments from './Departments';
 import AudiencePicker from '../../shared/AudiencePicker';
 
 interface Props extends CommonProps {
-    isEditGrid?: boolean; /** true when at least one element of the grid is edited */
+    isEditGrid?: boolean /** true when at least one element of the grid is edited */;
 }
 
 const DepartmentsOrAudiencePicker = observer((props: Props) => {
     const { event } = props;
     if (event.isEditing) {
-        return <AudiencePicker event={event} />
+        return <AudiencePicker event={event} />;
     }
-    return <Departments {...props} />
+    return <Departments {...props} />;
 });
 
 export default DepartmentsOrAudiencePicker;

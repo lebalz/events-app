@@ -29,7 +29,7 @@ const Delete = (props: DeleteProps) => {
                             icon={<DeleteIcon size={props.size ?? SIZE_S} />}
                             size={props.size ?? SIZE_S}
                             onClick={(e) => e.preventDefault()}
-                            color='red'
+                            color="red"
                         />
                     </span>
                 )}
@@ -42,7 +42,10 @@ const Delete = (props: DeleteProps) => {
                 <div className={clsx('card')}>
                     <div className={clsx('card__header')}>
                         <h4>
-                            <Translate id="share.button.delete.confirm" description="Text of the button confirm">
+                            <Translate
+                                id="share.button.delete.confirm"
+                                description="Text of the button confirm"
+                            >
                                 Wirklich Löschen?
                             </Translate>
                         </h4>
@@ -51,42 +54,38 @@ const Delete = (props: DeleteProps) => {
                         <div className={clsx('button-group', 'button-group--block')}>
                             <Button
                                 className={clsx(styles.discard)}
-                                color='secondary'
+                                color="secondary"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
                                     setIsOpen(false);
                                 }}
-                                text={
-                                    translate({
-                                        message : "Nein",
-                                        id : "share.button.delete.confirm.no",
-                                        description : "Text of the button confirm no"
-                                    })
-                                }
+                                text={translate({
+                                    message: 'Nein',
+                                    id: 'share.button.delete.confirm.no',
+                                    description: 'Text of the button confirm no'
+                                })}
                             />
                             <Button
                                 className={clsx(styles.confirm)}
-                                color='red'
+                                color="red"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
                                     props.onClick();
                                 }}
-                                text={
-                                    translate({
-                                        message : "Ja",
-                                        id : "share.button.delete.confirm.yes",
-                                        description : "Text of the button confirm yes"
-                                    })
-                                }
+                                text={translate({
+                                    message: 'Ja',
+                                    id: 'share.button.delete.confirm.yes',
+                                    description: 'Text of the button confirm yes'
+                                })}
                             />
                         </div>
                     </div>
                 </div>
             </Popup>
         </span>
-    )
+    );
 };
 
 export default Delete;

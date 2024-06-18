@@ -11,7 +11,7 @@ export interface Base {
     title?: string;
     iconSide?: 'left' | 'right';
     noOutline?: boolean;
-    text?: string
+    text?: string;
     className?: string;
     disabled?: boolean;
     size?: number;
@@ -47,8 +47,8 @@ export const extractSharedProps = (props: Base) => {
         disabled: props.disabled,
         color: props.color,
         size: props.size
-    }
-}
+    };
+};
 
 const BadgeIcon = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
@@ -57,16 +57,10 @@ const BadgeIcon = (props: Props) => {
     }
     let icon = props.icon;
     if (typeof icon === 'string') {
-        icon = <Icon path={icon} size={props.size}/>;
+        icon = <Icon path={icon} size={props.size} />;
     }
-    return (
-        <span
-            className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}
-        >
-            {icon}
-        </span>
-    )
-}
+    return <span className={clsx(textAndIcon && styles.inlineIcon, styles.icon)}>{icon}</span>;
+};
 
 const BadgeInner = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
@@ -75,22 +69,18 @@ const BadgeInner = (props: Props) => {
         <>
             {props.icon && iconSide === 'left' && <BadgeIcon {...props} />}
             <span className={clsx(textAndIcon && styles.border)}>
-                {
-                    props.text && <span>{props.text}</span>
-                }
-                {
-                    props.children && props.children
-                }
+                {props.text && <span>{props.text}</span>}
+                {props.children && props.children}
             </span>
             {props.icon && iconSide === 'right' && <BadgeIcon {...props} />}
         </>
-    )
-}
+    );
+};
 
 const Badge = (props: Props) => {
     const textOnly = props.text && !(props.children || props.icon);
     const iconOnly = props.icon && !(props.children || props.text);
-    const colorCls = getColorClass(props.color, props.color ? undefined : 'secondary' );
+    const colorCls = getColorClass(props.color, props.color ? undefined : 'secondary');
     const style: React.CSSProperties = {};
     if (props.color && !colorCls) {
         style['--ifm-badge-background-color'] = props.color;
@@ -108,12 +98,9 @@ const Badge = (props: Props) => {
         props.className,
         props.disabled && styles.disabled
     );
-    return (        
+    return (
         <Tooltip title={props.title}>
-            <span
-                className={clsx(commonCls, styles.tooltiped)}
-                style={style}
-            >
+            <span className={clsx(commonCls, styles.tooltiped)} style={style}>
                 <BadgeInner {...props} />
             </span>
         </Tooltip>

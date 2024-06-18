@@ -18,8 +18,15 @@ const EventBody = observer((props: Props) => {
     const { event, hideParent } = props;
 
     return (
-        <div className={clsx(styles.eventBody, event.hasParent, isOpen && styles.flex, event.hasParent && styles.splitView)}>
-            <EventProps 
+        <div
+            className={clsx(
+                styles.eventBody,
+                event.hasParent,
+                isOpen && styles.flex,
+                event.hasParent && styles.splitView
+            )}
+        >
+            <EventProps
                 {...props}
                 showVersionHeader={event.hasParent}
                 hideShowVersionsButton={props.hideShowVersionsButton}
@@ -28,7 +35,7 @@ const EventBody = observer((props: Props) => {
                 <ParentDetails event={event} inModal={props.inModal} onOpenChange={setOpen} />
             )}
         </div>
-    )
+    );
 });
 
 export default EventBody;

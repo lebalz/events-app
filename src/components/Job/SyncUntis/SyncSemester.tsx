@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Semester from '@site/src/models/Semester';
 import LazyDetails from '../../shared/Details';
-import {SyncSummary} from '../Summary';
+import { SyncSummary } from '../Summary';
 import Details from '../Details';
 import Job from '..';
 import { JobState } from '@site/src/api/job';
@@ -15,16 +15,15 @@ import Button from '../../shared/Button';
 import Badge from '../../shared/Badge';
 import Translate, { translate } from '@docusaurus/Translate';
 
-
 interface Props {
     semester: Semester;
 }
 
 const SyncSemester = observer((props: Props) => {
-    const {semester} = props;
+    const { semester } = props;
     const semesterStore = useStore('semesterStore');
     const jobStore = useStore('jobStore');
-    const isPending = (jobStore.bySemester(semester.id) || []).some(j => j.state === JobState.PENDING);
+    const isPending = (jobStore.bySemester(semester.id) || []).some((j) => j.state === JobState.PENDING);
     return (
         <div className={clsx(styles.syncSemester)}>
             {semester.untisSyncJobs.length > 0 ? (
@@ -35,9 +34,7 @@ const SyncSemester = observer((props: Props) => {
                     <div>
                         <Details job={semester.untisSyncJobs[0]} />
                         {semester.untisSyncJobs.slice(1).map((job, idx) => {
-                            return (
-                                <Job key={idx} job={job} />
-                            )
+                            return <Job key={idx} job={job} />;
                         })}
                     </div>
                 </LazyDetails>
@@ -52,9 +49,10 @@ const SyncSemester = observer((props: Props) => {
                                     message: 'Sync Untis',
                                     description: 'Text of the badge for sync Untis'
                                 })}
-                                color="orange" />
+                                color="orange"
+                            />
                             <div className={clsx(styles.spacer)} />
-                                <Badge text={`${semester.name}`} color="blue" />
+                            <Badge text={`${semester.name}`} color="blue" />
                             <div className={clsx(styles.spacer)} />
                             <Button
                                 onClick={(e) => {
@@ -74,12 +72,11 @@ const SyncSemester = observer((props: Props) => {
                         </summary>
                     }
                 >
-                    <div>                        
-                    </div>
+                    <div></div>
                 </LazyDetails>
             )}
         </div>
-    )
+    );
 });
 
 export default SyncSemester;

@@ -2,8 +2,22 @@
  * MUST BE IN SYNC WITH THE CLIENT SIDE
  */
 
-import { DepartmentLetter } from "@site/src/api/department";
-import { ECGBilingual_Letter, ECG_Letter, ESC_Letter, FMPaed_Letter, FMSBilingual_Letter, FMS_Letter, GYMDBilingual_Letter, GYMD_Letter, GYMFBilingual_Letter, GYMF_Letter, MSOP_Letter, PASSERELLE_Letter, WMS_Letter } from "./departmentNames";
+import { DepartmentLetter } from '@site/src/api/department';
+import {
+    ECGBilingual_Letter,
+    ECG_Letter,
+    ESC_Letter,
+    FMPaed_Letter,
+    FMSBilingual_Letter,
+    FMS_Letter,
+    GYMDBilingual_Letter,
+    GYMD_Letter,
+    GYMFBilingual_Letter,
+    GYMF_Letter,
+    MSOP_Letter,
+    PASSERELLE_Letter,
+    WMS_Letter
+} from './departmentNames';
 
 export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -22,4 +36,17 @@ type MSOP = `${Digit}${Digit}${DepartmentLetter.ECG}${MSOP_Letter}`;
 type Passerelle = `${Digit}${Digit}${DepartmentLetter.PASSERELLE}${PASSERELLE_Letter}`;
 type ESC = `${Digit}${Digit}${DepartmentLetter.ESC}${ESC_Letter}`;
 
-export type KlassName = GYM | GYMBilingual | FMS | FMPaed | FMSBilingual | WMS | Maturite | MaturiteBilingual | ECG | ECGBilingual | MSOP | Passerelle | ESC;
+export type KlassName =
+    | GYM
+    | GYMBilingual
+    | FMS
+    | FMPaed
+    | FMSBilingual
+    | WMS
+    | Maturite
+    | MaturiteBilingual
+    | ECG
+    | ECGBilingual
+    | MSOP
+    | Passerelle
+    | ESC;

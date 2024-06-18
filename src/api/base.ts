@@ -33,7 +33,7 @@ export const setupDefaultAxios = () => {
             Promise.reject(error);
         }
     );
-}
+};
 
 export const setupMsalAxios = () => {
     /** clear all current interceptors and set them up... */
@@ -59,7 +59,7 @@ export const setupMsalAxios = () => {
                 } catch (e) {
                     delete config.headers['Authorization'];
                     if (e instanceof InteractionRequiredAuthError) {
-                        // If there are no cached tokens, or the cached tokens are expired, then the user will need to interact 
+                        // If there are no cached tokens, or the cached tokens are expired, then the user will need to interact
                         // with the page to get a new token.
                         console.log('User interaction required to get a new token.', e);
                         // hacky way to get the user to log in again - only happens on firefox when
@@ -75,9 +75,9 @@ export const setupMsalAxios = () => {
                 }
             } else {
                 /*
-                * User is not signed in. Throw error or wait for user to login.
-                * Do not attempt to log a user in outside of the context of MsalProvider
-                */
+                 * User is not signed in. Throw error or wait for user to login.
+                 * Do not attempt to log a user in outside of the context of MsalProvider
+                 */
                 if (config.headers['Authorization']) {
                     delete config.headers['Authorization'];
                 }
@@ -90,9 +90,8 @@ export const setupMsalAxios = () => {
     );
 };
 
-
 export const checkLogin = (signal: AbortSignal) => {
     return api.get('checklogin', { signal });
-}
+};
 
 export default api;

@@ -13,7 +13,6 @@ import Save from '../shared/Button/Save';
 import { ApiAction } from '@site/src/stores/iStore';
 import Delete from '../shared/Button/Delete';
 
-
 interface Props {
     className?: string;
     model: ApiModel<any, ApiAction>;
@@ -30,39 +29,37 @@ const ModelActions = observer((props: Props) => {
     return (
         <div className={clsx(styles.flex, props.className)}>
             {props.leftNodes}
-            {
-                model.isEditable && !model.isEditing && (
-                    <Edit onClick={() => {
+            {model.isEditable && !model.isEditing && (
+                <Edit
+                    onClick={() => {
                         model.setEditing(true);
                         if (props.onEdit) {
                             props.onEdit();
                         }
-                    }} />
-                )
-            }
-            {
-                model.isEditing && (
-                    <>
-                        <Discard onClick={() => model.reset()} />
-                        <Save
-                            disabled={!model.isDirty}
-                            onClick={() => model.save()}
-                            apiState={model.apiStateFor(`save-${model.id}`)}
+                    }}
+                />
+            )}
+            {model.isEditing && (
+                <>
+                    <Discard onClick={() => model.reset()} />
+                    <Save
+                        disabled={!model.isDirty}
+                        onClick={() => model.save()}
+                        apiState={model.apiStateFor(`save-${model.id}`)}
+                    />
+                    {!props.hideDelete && (
+                        <Delete
+                            onClick={() => model.destroy()}
+                            apiState={model.apiStateFor(`destroy-${model.id}`)}
+                            disabled={props.disableDelete}
+                            title={props.deleteTitle}
                         />
-                        {!props.hideDelete && (
-                            <Delete 
-                                onClick={() => model.destroy()}
-                                apiState={model.apiStateFor(`destroy-${model.id}`)}
-                                disabled={props.disableDelete}
-                                title={props.deleteTitle}
-                            />
-                        )}
-                    </>
-                )
-            }
+                    )}
+                </>
+            )}
             {props.rightNodes}
         </div>
-    )
+    );
 });
 
 export default ModelActions;

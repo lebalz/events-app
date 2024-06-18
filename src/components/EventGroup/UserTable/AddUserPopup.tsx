@@ -14,7 +14,6 @@ import EventGroup from '@site/src/models/EventGroup';
 import _ from 'lodash';
 import Popup from 'reactjs-popup';
 
-
 interface Props {
     group: EventGroup;
 }
@@ -40,7 +39,15 @@ const AddUserPopup = observer((props: Props) => {
             }
             modal
             overlayStyle={{ background: 'rgba(0, 0, 0, 0.2)' }}
-            position={['top center', 'bottom center', 'right center', 'left center', 'bottom right', 'top right', 'center center']}
+            position={[
+                'top center',
+                'bottom center',
+                'right center',
+                'left center',
+                'bottom right',
+                'top right',
+                'center center'
+            ]}
             nested
         >
             <div className={clsx(styles.content)}>
@@ -59,46 +66,42 @@ const AddUserPopup = observer((props: Props) => {
                     <div className={clsx(styles.addUsersWrapper)}>
                         <table className={clsx(styles.userTable)}>
                             <tbody>
-                                {
-                                    _.orderBy(
-                                        userStore.models.filter(u => u.matches(_searchFilter)),
-                                        ['lastName'],
-                                        ['asc']
-                                    ).map((user) => {
-                                        return (
-                                            <tr key={user.id}>
-                                                <td><Badge text={user.shortName || '-'} /></td>
-                                                <td>{user.firstName}</td>
-                                                <td>{user.lastName}</td>
-                                                <td>
-                                                    {
-                                                        props.group.userIds.has(user.id) ? (
-                                                            <Icon
-                                                                path={mdiCheckCircle}
-                                                                color='green'
-                                                                size={SIZE_S}
-                                                            />
-                                                        ) : (
-                                                            <Button
-                                                                icon={mdiPlusCircleOutline}
-                                                                size={SIZE_S}
-                                                                color='green'
-                                                                onClick={() => { props.group.addUsers([user]) }}
-                                                            />
-                                                        )
-                                                    }
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
+                                {_.orderBy(
+                                    userStore.models.filter((u) => u.matches(_searchFilter)),
+                                    ['lastName'],
+                                    ['asc']
+                                ).map((user) => {
+                                    return (
+                                        <tr key={user.id}>
+                                            <td>
+                                                <Badge text={user.shortName || '-'} />
+                                            </td>
+                                            <td>{user.firstName}</td>
+                                            <td>{user.lastName}</td>
+                                            <td>
+                                                {props.group.userIds.has(user.id) ? (
+                                                    <Icon path={mdiCheckCircle} color="green" size={SIZE_S} />
+                                                ) : (
+                                                    <Button
+                                                        icon={mdiPlusCircleOutline}
+                                                        size={SIZE_S}
+                                                        color="green"
+                                                        onClick={() => {
+                                                            props.group.addUsers([user]);
+                                                        }}
+                                                    />
+                                                )}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </Popup>
-    )
+    );
 });
 
 export default AddUserPopup;

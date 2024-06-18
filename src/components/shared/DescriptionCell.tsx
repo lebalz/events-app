@@ -39,42 +39,40 @@ const DescriptionCell = (props: CellProps) => {
             e.preventDefault();
         }
         setEditingText(true);
-    }
+    };
 
     const onTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         props.onChange(e, props.id);
-    }
+    };
 
     const onTextBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         setEditingText(false);
-    }
+    };
 
     return (
         <td onMouseDown={onSelect} className={clsx(styles.td)}>
-        {editingText ? (
-            <form>
-                <textarea
-                    name={props.name}
-                    value={props.description}
-                    onChange={onTextChange}
-                    onBlur={onTextBlur}
-                    autoFocus={editingText}
-                    disabled={props.locked}
-                />
-            </form>
-        ) : (
-            <span
-                className={clsx(styles.cell, props.locked && styles.locked)}
-            >
-                {/* <pre> */}
+            {editingText ? (
+                <form>
+                    <textarea
+                        name={props.name}
+                        value={props.description}
+                        onChange={onTextChange}
+                        onBlur={onTextBlur}
+                        autoFocus={editingText}
+                        disabled={props.locked}
+                    />
+                </form>
+            ) : (
+                <span className={clsx(styles.cell, props.locked && styles.locked)}>
+                    {/* <pre> */}
                     {props.description || '-'}
-                {/* </pre> */}
-            </span>
-        )}
-    </td>)
-
-}
+                    {/* </pre> */}
+                </span>
+            )}
+        </td>
+    );
+};
 
 export default DescriptionCell;

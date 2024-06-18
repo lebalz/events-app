@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Popup from 'reactjs-popup';
 
-
 interface Props {
     title?: string;
     children: JSX.Element;
@@ -24,17 +23,15 @@ const Tooltip = observer((props: Props) => {
             trigger={props.children}
             mouseEnterDelay={MOUSE_ENTER_DELAY_MS}
             mouseLeaveDelay={MOUSE_LEAVE_DELAY_MS}
-            on='hover'
-            position={['top center', 'top right', 'top left', ]}
+            on="hover"
+            position={['top center', 'top right', 'top left']}
             arrow={false}
             offsetY={5}
-            contentStyle={{width: 'max-content', maxWidth: '50%'}}
+            contentStyle={{ width: 'max-content', maxWidth: '50%' }}
         >
-            <div className={clsx(styles.tooltip)}>
-                {props.title}
-            </div>
+            <div className={clsx(styles.tooltip)}>{props.title}</div>
         </Popup>
-    )
+    );
 });
 
 export default Tooltip;

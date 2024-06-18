@@ -8,7 +8,6 @@ import { default as LessonModel } from '@site/src/models/Untis/Lesson';
 import Badge from '../shared/Badge';
 import { Clock } from '../shared/icons';
 
-
 interface Props {
     lesson: LessonModel;
     className?: string;
@@ -23,7 +22,12 @@ const Lesson = observer((props: Props) => {
             <div className={clsx('card__body', styles.lesson)}>
                 <Badge text={lesson.subject} className={clsx(styles.subject)} />
                 {lesson.teachers.map((teacher, idx) => (
-                    <Badge key={idx} text={teacher.name} className={clsx(styles.teacher)} color={teacher.name === current.shortName ? 'primary' : undefined} />
+                    <Badge
+                        key={idx}
+                        text={teacher.name}
+                        className={clsx(styles.teacher)}
+                        color={teacher.name === current.shortName ? 'primary' : undefined}
+                    />
                 ))}
                 <Badge
                     text={`${lesson.fStart} - ${lesson.fEnd}`}
@@ -32,10 +36,9 @@ const Lesson = observer((props: Props) => {
                     className={clsx(styles.duration)}
                 />
                 <Badge text={lesson.day} className={clsx(styles.day)} />
-
             </div>
         </div>
-    )
+    );
 });
 
 export default Lesson;

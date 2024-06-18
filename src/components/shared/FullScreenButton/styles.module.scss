@@ -1,12 +1,11 @@
 .bla {
     .button {
         color: var(--ifm-color-primary) !important;
-        background: var(--ifm-color-content-inverse)  !important;
+        background: var(--ifm-color-content-inverse) !important;
         border-color: var(--ifm-color-primary) !important;
         &:hover {
-            background: var(--ifm-color-primary)  !important;
+            background: var(--ifm-color-primary) !important;
             color: var(--ifm-color-content-inverse) !important;
         }
     }
-
 }

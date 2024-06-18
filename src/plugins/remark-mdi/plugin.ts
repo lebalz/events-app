@@ -60,7 +60,7 @@ const MDI_PROPS = [
         optional: true,
         description: 'additional class names'
     }
-]
+];
 
 const IMPORT_MDI_REACT_NODE = {
     type: 'mdxjsEsm',
@@ -92,7 +92,6 @@ const IMPORT_MDI_REACT_NODE = {
         }
     }
 };
-
 
 const IMPORT_MDI_ICONS = (icons: string[]) => {
     return {
@@ -127,7 +126,7 @@ const IMPORT_MDI_ICONS = (icons: string[]) => {
             }
         }
     };
-}
+};
 
 const plugin: Plugin = function plugin(
     this: Processor,
@@ -145,10 +144,10 @@ const plugin: Plugin = function plugin(
         visit(root, (node, idx, parent: Parent) => {
             if (node.type === 'mdxjsEsm') {
                 const n = node as unknown as MdxjsEsm;
-                if ((/import.*(Icon|{.*default\s+as\s+\w+.*}).*from '@mdi\/react'/).test(n.value || '')) {
+                if (/import.*(Icon|{.*default\s+as\s+\w+.*}).*from '@mdi\/react'/.test(n.value || '')) {
                     includesIcon = true;
                 }
-                if ((/import.*{(.*)}.*from\s+'@mdi\/js'/).test(n.value || '')) {
+                if (/import.*{(.*)}.*from\s+'@mdi\/js'/.test(n.value || '')) {
                     const match = n.value.match(/import.*{(.*)}.*from\s+'@mdi\/js'/);
                     if (match) {
                         match[1].split(',').forEach((s) => {
@@ -169,7 +168,7 @@ const plugin: Plugin = function plugin(
             }
             // const parent = _parent as Parent;
             hasMdiIcons = true;
-            const directive = node as unknown as TextDirective
+            const directive = node as unknown as TextDirective;
             const icon = (directive.children[0] as Text).value;
             const mdiIcon = `mdi${captialize(camelCased(icon))}`;
             if (!includedMdiIcons.has(mdiIcon)) {
@@ -177,53 +176,58 @@ const plugin: Plugin = function plugin(
             }
             const rawAttributes = transformAttributes(directive.attributes || {});
             if (!('size' in rawAttributes.attributes)) {
-                delete rawAttributes.style['size']
+                delete rawAttributes.style['size'];
                 rawAttributes.attributes.size = optionsInput?.defaultSize || 1.5;
             }
             if ('color' in rawAttributes.attributes) {
-                delete rawAttributes.style['color']
+                delete rawAttributes.style['color'];
                 const color = rawAttributes.attributes.color as string;
                 if (optionsInput?.colorMapping && color in optionsInput.colorMapping) {
                     rawAttributes.attributes.color = optionsInput.colorMapping[color];
                 }
             }
-            if ('className' in rawAttributes.attributes && !/mdi-icon/.test(rawAttributes.attributes.className as string)) {
+            if (
+                'className' in rawAttributes.attributes &&
+                !/mdi-icon/.test(rawAttributes.attributes.className as string)
+            ) {
                 rawAttributes.attributes.className = `mdi-icon ${rawAttributes.attributes.className}`;
             } else {
                 rawAttributes.attributes.className = 'mdi-icon';
             }
-            const attributes = Object.entries(rawAttributes.attributes).map(([key, value]) => toJsxAttribute(key, value));
+            const attributes = Object.entries(rawAttributes.attributes).map(([key, value]) =>
+                toJsxAttribute(key, value)
+            );
 
             const iconNode: MdxJsxTextElement = {
                 name: 'Icon',
                 type: 'mdxJsxTextElement',
                 attributes: [
                     {
-                      type: "mdxJsxAttribute",
-                      name: "path",
-                      value: {
-                        type: "mdxJsxAttributeValueExpression",
-                        value: mdiIcon,
-                        data: {
-                          estree: {
-                            type: "Program",
-                            body: [
-                              {
-                                type: "ExpressionStatement",
-                                expression: {
-                                  type: "Identifier",
-                                  name: mdiIcon,
-                                },
-                              },
-                            ],
-                            sourceType: "module",
-                          },
-                        },
-                      },
+                        type: 'mdxJsxAttribute',
+                        name: 'path',
+                        value: {
+                            type: 'mdxJsxAttributeValueExpression',
+                            value: mdiIcon,
+                            data: {
+                                estree: {
+                                    type: 'Program',
+                                    body: [
+                                        {
+                                            type: 'ExpressionStatement',
+                                            expression: {
+                                                type: 'Identifier',
+                                                name: mdiIcon
+                                            }
+                                        }
+                                    ],
+                                    sourceType: 'module'
+                                }
+                            }
+                        }
                     },
                     ...attributes
-                  ],
-                  children: [],
+                ],
+                children: []
             };
             (parent.children as any)[idx] = iconNode;
         });
@@ -235,6 +239,6 @@ const plugin: Plugin = function plugin(
             (root as any).children.unshift(IMPORT_MDI_ICONS([...newMdiIcons]));
         }
     };
-}
+};
 
 export default plugin;

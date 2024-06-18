@@ -12,7 +12,6 @@ import Save from '../../shared/Button/Save';
 import Badge from '../../shared/Badge';
 import { mdiAlertOutline } from '@mdi/js';
 
-
 interface Props {
     semester: Semester;
 }
@@ -20,28 +19,56 @@ interface Props {
 const EditTr = observer((props: Props) => {
     const { semester } = props;
     const ref = React.useRef<HTMLDivElement>(null);
-    
+
     React.useEffect(() => {
         if (ref.current) {
             ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-    }, [ref])
+    }, [ref]);
     return (
         <tr className={clsx(styles.semester, semester.isDirty && styles.dirty)}>
             <td>
-                <TextInput text={semester.name} onChange={(text) => { semester.update({ name: text }) }} />
+                <TextInput
+                    text={semester.name}
+                    onChange={(text) => {
+                        semester.update({ name: text });
+                    }}
+                />
             </td>
             <td>
-                <DatePicker time='start' date={semester.start} onChange={(date) => { semester.update({ start: date.toISOString() }) }} />
-
+                <DatePicker
+                    time="start"
+                    date={semester.start}
+                    onChange={(date) => {
+                        semester.update({ start: date.toISOString() });
+                    }}
+                />
             </td>
             <td>
-                <DatePicker time='end' date={semester.end} onChange={(date) => { semester.update({ end: date.toISOString() }) }} />
+                <DatePicker
+                    time="end"
+                    date={semester.end}
+                    onChange={(date) => {
+                        semester.update({ end: date.toISOString() });
+                    }}
+                />
             </td>
             <td>
                 <div className={clsx(styles.syncDate)}>
-                    {!semester.isSyncdateWithinSemester && (<Badge icon={mdiAlertOutline} color='orange' title='Das Synchronisationsdatum liegt nicht im Semester'/>)}
-                    <DatePicker time='start' date={semester.untisSyncDate} onChange={(date) => { semester.update({ untisSyncDate: date.toISOString() }) }} />
+                    {!semester.isSyncdateWithinSemester && (
+                        <Badge
+                            icon={mdiAlertOutline}
+                            color="orange"
+                            title="Das Synchronisationsdatum liegt nicht im Semester"
+                        />
+                    )}
+                    <DatePicker
+                        time="start"
+                        date={semester.untisSyncDate}
+                        onChange={(date) => {
+                            semester.update({ untisSyncDate: date.toISOString() });
+                        }}
+                    />
                 </div>
             </td>
             <td>
@@ -50,13 +77,17 @@ const EditTr = observer((props: Props) => {
                     <Save
                         disabled={!semester.isDirty}
                         onClick={() => semester.save()}
-                        apiState={semester.apiStateFor(`save-${semester.id}`)} 
+                        apiState={semester.apiStateFor(`save-${semester.id}`)}
                     />
-                    <Delete onClick={() => semester.destroy()} flyoutSide="left" apiState={semester.apiStateFor(`destroy-${semester.id}`)} />
+                    <Delete
+                        onClick={() => semester.destroy()}
+                        flyoutSide="left"
+                        apiState={semester.apiStateFor(`destroy-${semester.id}`)}
+                    />
                 </div>
             </td>
         </tr>
-    )
+    );
 });
 
 export default EditTr;

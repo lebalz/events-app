@@ -10,7 +10,6 @@ import { translate } from '@docusaurus/Translate';
 import EventProps from './EventProps';
 import { default as EventModel } from '@site/src/models/Event';
 
-
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -26,25 +25,21 @@ const ParentDetails = observer((props: Props) => {
                 <summary>
                     <Badge
                         icon={mdiRecordCircleOutline}
-                        iconSide='left'
+                        iconSide="left"
                         text={translate({
                             id: 'event.version.current.long',
-                            message: 'Aktuelle Version',
+                            message: 'Aktuelle Version'
                         })}
-                        color='green'
+                        color="green"
                     />
                 </summary>
             }
             className={clsx('alert--success', styles.parentEventDetails, props.className)}
             onOpenChange={props.onOpenChange}
         >
-            <EventProps 
-                event={event.publishedParent} 
-                inModal={props.inModal}
-                showVersionHeader
-            />
+            <EventProps event={event.publishedParent} inModal={props.inModal} showVersionHeader />
         </LazyDetails>
-    )
+    );
 });
 
 export default ParentDetails;

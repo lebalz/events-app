@@ -1,11 +1,11 @@
 import React from 'react';
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
 import siteConfig from '@generated/docusaurus.config';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 moment.locale(`${CURRENT_LOCALE}-CH`);
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
@@ -15,10 +15,8 @@ import Klass from '@site/src/models/Untis/Klass';
 import { DAYS } from '@site/src/models/helpers/time';
 import Lesson from '@site/src/models/Untis/Lesson';
 
-
-const localizer = momentLocalizer(moment)
-interface Props {
-}
+const localizer = momentLocalizer(moment);
+interface Props {}
 
 interface EventProps {
     subject: string;
@@ -31,55 +29,56 @@ interface FullEventProps extends EventProps {
     end: Date;
 }
 
-
 const Event = (props) => {
     const event: EventProps = props.event;
     return (
-      <span>
-        <strong>{event.subject}</strong>
-        {': '}<i>{event.classes}</i>
-      </span>
-    )
-}
+        <span>
+            <strong>{event.subject}</strong>
+            {': '}
+            <i>{event.classes}</i>
+        </span>
+    );
+};
 
 const TimeTable = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const untisStore = useStore('untisStore');
 
     const lessons = React.useMemo(() => {
-        const lsns = (viewStore.usersLessons || []).filter(l => l.isFirstSuccessiveLesson).map((l, idx): FullEventProps => {
-            const klGroups = Lesson.GroupedClassesByYear([l]);
-            // const klGroups = Klass.ClassNamesGroupedByYear(l.classes);
-            // const kl = Object.values(klGroups).join(', ');
-            const kl = Object.values(klGroups).sort().join(', ');
-            const lastLesson = l.lastSuccessiveLesson ?? l;
-            return {
-                start: l.start,
-                end: lastLesson.end,
-                subject: l.subject,
-                classes: kl,
-                id: l.id
-            }
-        });
+        const lsns = (viewStore.usersLessons || [])
+            .filter((l) => l.isFirstSuccessiveLesson)
+            .map((l, idx): FullEventProps => {
+                const klGroups = Lesson.GroupedClassesByYear([l]);
+                // const klGroups = Klass.ClassNamesGroupedByYear(l.classes);
+                // const kl = Object.values(klGroups).join(', ');
+                const kl = Object.values(klGroups).sort().join(', ');
+                const lastLesson = l.lastSuccessiveLesson ?? l;
+                return {
+                    start: l.start,
+                    end: lastLesson.end,
+                    subject: l.subject,
+                    classes: kl,
+                    id: l.id
+                };
+            });
         return lsns;
     }, [viewStore.usersLessons, untisStore.initialized]);
 
-    
     const week = React.useMemo(() => {
         return {
             event: Event
-        }
+        };
     }, []);
 
     return (
         <div className={clsx(styles.timeTable)}>
             {lessons.length > 0 && (
                 <BigCalendar
-                    defaultView='work_week'
+                    defaultView="work_week"
                     toolbar={false}
                     views={['work_week']}
                     defaultDate={new Date()}
-                    formats={{dayFormat: (date: Date) => `${DAYS[date.getDay()]}.`}}
+                    formats={{ dayFormat: (date: Date) => `${DAYS[date.getDay()]}.` }}
                     localizer={localizer}
                     events={lessons}
                     startAccessor="start"
@@ -99,7 +98,7 @@ const TimeTable = observer((props: Props) => {
                 />
             )}
         </div>
-    )
+    );
 });
 
 export default TimeTable;

@@ -12,9 +12,7 @@ import { Icon, SIZE, SIZE_S } from '../../shared/icons';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import Translate, { translate } from '@docusaurus/Translate';
 
-
-interface Props {
-}
+interface Props {}
 
 const DepartmentTable = observer((props: Props) => {
     const departmentStore = useStore('departmentStore');
@@ -30,18 +28,20 @@ const DepartmentTable = observer((props: Props) => {
                     id: 'admin.DepartmentTable.create'
                 })}
                 onClick={() => departmentStore.create({ name: ' ' })}
-                iconSide='left'
+                iconSide="left"
                 icon={mdiPlusCircleOutline}
                 apiState={departmentStore.apiStateFor('create')}
             />
             <table>
                 <thead>
                     <tr>
-                        <th><Icon path={mdiDotsSquare} /></th>
+                        <th>
+                            <Icon path={mdiDotsSquare} />
+                        </th>
                         <th>
                             <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminDepartmentTable.sortColumn === 'name' && icon}
                                 text={translate({
                                     message: 'Name',
@@ -54,7 +54,7 @@ const DepartmentTable = observer((props: Props) => {
                         <th>
                             <Translate
                                 id="admin.DepartmentTable.th.description"
-                                description='th: description'
+                                description="th: description"
                             >
                                 Beschreibung
                             </Translate>
@@ -62,7 +62,7 @@ const DepartmentTable = observer((props: Props) => {
                         <th>
                             <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminDepartmentTable.sortColumn === 'letter' && icon}
                                 text={translate({
                                     message: 'Buchstabe',
@@ -75,7 +75,7 @@ const DepartmentTable = observer((props: Props) => {
                         <th>
                             <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminDepartmentTable.sortColumn === 'color' && icon}
                                 text={translate({
                                     message: 'Farbe',
@@ -96,7 +96,7 @@ const DepartmentTable = observer((props: Props) => {
                         <th>
                             <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminDepartmentTable.sortColumn === 'createdAt' && icon}
                                 text={translate({
                                     message: 'Erstellt',
@@ -109,7 +109,7 @@ const DepartmentTable = observer((props: Props) => {
                         <th>
                             <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminDepartmentTable.sortColumn === 'updatedAt' && icon}
                                 text={translate({
                                     message: 'Aktualisiert',
@@ -117,44 +117,39 @@ const DepartmentTable = observer((props: Props) => {
                                     id: 'admin.DepartmentTable.th.updatedAt'
                                 })}
                                 onClick={() => adminDepartmentTable.setSortColumn('updatedAt')}
-                            /></th>
+                            />
+                        </th>
                         <th>
-                            <Translate
-                                id="admin.DepartmentTable.th.id"
-                                description='th: id'
-                            >
+                            <Translate id="admin.DepartmentTable.th.id" description="th: id">
                                 Id
                             </Translate>
                         </th>
                         <th>
-                            <Translate
-                                id="admin.DepartmentTable.th.actions"
-                                description='th: actions'
-                            >
+                            <Translate id="admin.DepartmentTable.th.actions" description="th: actions">
                                 Aktionen
                             </Translate>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        departments.filter(d => d.isSchool).map((dep, idx) => {
+                    {departments
+                        .filter((d) => d.isSchool)
+                        .map((dep, idx) => {
                             return (
                                 <React.Fragment key={idx}>
                                     <Department key={dep.id} department={dep} />
                                     {dep.subDepartments.map((subDep) => {
                                         return (
                                             <Department key={`${dep.id}--${subDep.id}`} department={subDep} />
-                                        )
+                                        );
                                     })}
                                 </React.Fragment>
-                            )
-                        })
-                    }
+                            );
+                        })}
                 </tbody>
             </table>
         </div>
-    )
+    );
 });
 
 export default DepartmentTable;

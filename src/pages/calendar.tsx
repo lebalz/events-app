@@ -13,12 +13,10 @@ const Calendar = observer(() => {
         <Layout>
             <div>
                 <Filter />
-                {eventTable.events.length > 0 && (
-                    <CalendarComponent events={eventTable.events} />
-                )}
+                {eventTable.events.length > 0 && <CalendarComponent events={eventTable.events} />}
             </div>
         </Layout>
-    )
+    );
 });
 
 export default Calendar;

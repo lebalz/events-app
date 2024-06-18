@@ -28,7 +28,7 @@ const AddButton = observer((props: Props) => {
             title={props.title}
             className={clsx(props.className)}
         />
-    )
+    );
 });
 
 export default AddButton;

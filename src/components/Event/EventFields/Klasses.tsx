@@ -7,15 +7,15 @@ import { Props as CommonProps } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
 
 interface Props extends CommonProps {
-    isEditGrid?: boolean; /** true when at least one element of the grid is edited */
+    isEditGrid?: boolean /** true when at least one element of the grid is edited */;
     maxWidth?: string;
 }
 
 const Klasses = observer((props: Props) => {
     const { event } = props;
     return (
-        <div 
-            style={{ gridColumn: 'classes' }} 
+        <div
+            style={{ gridColumn: 'classes' }}
             className={clsx(
                 props.className,
                 styles.classes,
@@ -24,20 +24,23 @@ const Klasses = observer((props: Props) => {
             )}
         >
             <div className={clsx(styles.tags)}>
-                {
-                    event.fClasses.map((c, idx) => {
-                        const color = c.classes.length === 0 ? 'red' : 'gray';
-                        return (<Badge key={idx} text={c.text} title={c.classes.map(cl => cl.displayName).join(', ')} color={color} />);
-                    })
-                }
-                {
-                    event._unknownClassGroups.map((cg) => {
-                        return (<Badge key={cg} text={`${cg}*`} color="red" />);
-                    })
-                }
+                {event.fClasses.map((c, idx) => {
+                    const color = c.classes.length === 0 ? 'red' : 'gray';
+                    return (
+                        <Badge
+                            key={idx}
+                            text={c.text}
+                            title={c.classes.map((cl) => cl.displayName).join(', ')}
+                            color={color}
+                        />
+                    );
+                })}
+                {event._unknownClassGroups.map((cg) => {
+                    return <Badge key={cg} text={`${cg}*`} color="red" />;
+                })}
             </div>
         </div>
-    )
+    );
 });
 
 export default Klasses;

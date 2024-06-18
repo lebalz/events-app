@@ -19,7 +19,7 @@ const Semester = observer((props: Props) => {
             <div>{semester.fStartDate}</div>
             <div>{semester.fEndDate}</div>
         </div>
-    )
+    );
 });
 
 export default Semester;

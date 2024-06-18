@@ -1,16 +1,15 @@
-import { UntisTeacher } from "@site/src/api/untis";
-import { User } from "@site/src/api/user";
-import { Primitive } from "utility-types";
-
+import { UntisTeacher } from '@site/src/api/untis';
+import { User } from '@site/src/api/user';
+import { Primitive } from 'utility-types';
 
 export type PersistedData = {
-  user?: User;
-  teacher?: UntisTeacher;
+    user?: User;
+    teacher?: UntisTeacher;
 };
 
 export enum StorageKey {
-  SessionStore = "SessionStore",
-  ColorPrefs = "ColorPrefs",
+    SessionStore = 'SessionStore',
+    ColorPrefs = 'ColorPrefs'
 }
 
 /**
@@ -19,69 +18,69 @@ export enum StorageKey {
  * localStorage is not available.
  */
 class Storage {
-  interface: typeof localStorage | MemoryStorage;
+    interface: typeof localStorage | MemoryStorage;
 
-  public constructor() {
-    try {
-      localStorage.setItem("test", "test");
-      localStorage.removeItem("test");
-      this.interface = localStorage;
-    } catch (_err) {
-      this.interface = new MemoryStorage();
-    }
-  }
-
-  /**
-   * Set a value in storage. For efficiency, this method will remove the
-   * value if it is undefined.
-   *
-   * @param key The key to set under.
-   * @param value The value to set
-   */
-  public set<T>(key: string, value: T) {
-    try {
-      if (value === undefined) {
-        this.remove(key);
-      } else {
-        this.interface.setItem(key, JSON.stringify(value));
-      }
-    } catch (_err) {
-      // Ignore errors
-    }
-  }
-
-  /**
-   * Get a value from storage.
-   *
-   * @param key The key to get.
-   * @param fallback The fallback value if the key doesn't exist.
-   * @returns The value or undefined if it doesn't exist.
-   */
-  public get<T>(key: StorageKey, fallback?: T): T {
-    try {
-      const value = this.interface.getItem(key);
-      if (typeof value === "string") {
-        return JSON.parse(value);
-      }
-    } catch (_err) {
-      // Ignore errors
+    public constructor() {
+        try {
+            localStorage.setItem('test', 'test');
+            localStorage.removeItem('test');
+            this.interface = localStorage;
+        } catch (_err) {
+            this.interface = new MemoryStorage();
+        }
     }
 
-    return fallback;
-  }
-
-  /**
-   * Remove a value from storage.
-   *
-   * @param key The key to remove.
-   */
-  public remove(key: string) {
-    try {
-      this.interface.removeItem(key);
-    } catch (_err) {
-      // Ignore errors
+    /**
+     * Set a value in storage. For efficiency, this method will remove the
+     * value if it is undefined.
+     *
+     * @param key The key to set under.
+     * @param value The value to set
+     */
+    public set<T>(key: string, value: T) {
+        try {
+            if (value === undefined) {
+                this.remove(key);
+            } else {
+                this.interface.setItem(key, JSON.stringify(value));
+            }
+        } catch (_err) {
+            // Ignore errors
+        }
     }
-  }
+
+    /**
+     * Get a value from storage.
+     *
+     * @param key The key to get.
+     * @param fallback The fallback value if the key doesn't exist.
+     * @returns The value or undefined if it doesn't exist.
+     */
+    public get<T>(key: StorageKey, fallback?: T): T {
+        try {
+            const value = this.interface.getItem(key);
+            if (typeof value === 'string') {
+                return JSON.parse(value);
+            }
+        } catch (_err) {
+            // Ignore errors
+        }
+
+        return fallback;
+    }
+
+    /**
+     * Remove a value from storage.
+     *
+     * @param key The key to remove.
+     */
+    public remove(key: string) {
+        try {
+            this.interface.removeItem(key);
+        } catch (_err) {
+            // Ignore errors
+        }
+    }
 }
 
 /**
@@ -89,23 +88,23 @@ class Storage {
  * when localStorage is not available.
  */
 class MemoryStorage {
-  private data = {};
+    private data = {};
 
-  getItem(key: string) {
-    return this.data[key] || null;
-  }
+    getItem(key: string) {
+        return this.data[key] || null;
+    }
 
-  setItem(key: string, value: Primitive) {
-    return (this.data[key] = String(value));
-  }
+    setItem(key: string, value: Primitive) {
+        return (this.data[key] = String(value));
+    }
 
-  removeItem(key: string) {
-    return delete this.data[key];
-  }
+    removeItem(key: string) {
+        return delete this.data[key];
+    }
 
-  clear() {
-    return (this.data = {});
-  }
+    clear() {
+        return (this.data = {});
+    }
 }
 
 export default new Storage();

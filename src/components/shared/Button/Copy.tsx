@@ -12,7 +12,6 @@ interface Props {
     icon?: ReactNode;
 }
 
-
 type EditProps = Props & Base;
 type CopyState = 'none' | 'spin' | 'copied' | 'error';
 
@@ -41,25 +40,31 @@ const Copy = (props: EditProps) => {
     }
     return (
         <Button
-            title={props.title ?? translate({
-                message : "Kopieren",
-                id : "share.button.copy.title",
-                description : "Text of the button copy"
-            })}
+            title={
+                props.title ??
+                translate({
+                    message: 'Kopieren',
+                    id: 'share.button.copy.title',
+                    description: 'Text of the button copy'
+                })
+            }
             {...extractSharedProps(props)}
             onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 setCopyState('spin');
-                navigator.clipboard.writeText(props.value).then(() => {
-                    setCopyState('copied');
-                }).catch(() => {
-                    setCopyState('error');
-                })
+                navigator.clipboard
+                    .writeText(props.value)
+                    .then(() => {
+                        setCopyState('copied');
+                    })
+                    .catch(() => {
+                        setCopyState('error');
+                    });
             }}
             icon={icon}
         />
-    )
+    );
 };
 
 export default Copy;

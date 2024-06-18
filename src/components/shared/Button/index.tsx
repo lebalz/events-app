@@ -11,7 +11,7 @@ import Tooltip from '../Tooltip';
 
 export const POPUP_BUTTON_STYLE = clsx(
     styles.button,
-    styles.reducedPadding, 
+    styles.reducedPadding,
     styles.iconLeft,
     styles.popupButton,
     'button',
@@ -28,7 +28,7 @@ export interface Base {
     target?: '_blank' | `_self`;
     iconSide?: 'left' | 'right';
     noOutline?: boolean;
-    text?: string
+    text?: string;
     active?: boolean;
     className?: string;
     disabled?: boolean;
@@ -69,8 +69,8 @@ export const extractSharedProps = (props: Base) => {
         apiIconSize: props.apiIconSize,
         color: props.color,
         size: props.size
-    }
-}
+    };
+};
 
 export const ButtonIcon = (props: Props) => {
     let icon = props.icon;
@@ -79,27 +79,17 @@ export const ButtonIcon = (props: Props) => {
     }
     return (
         <>
-            {
-                icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
-                    <span
-                        className={clsx(styles.icon, props.className)}
-                    >
-                        {icon}
-                    </span>
-                )
-            }
-            {
-                (props.apiState && props.apiState !== ApiState.IDLE) && (
-                    <span
-                        className={clsx(styles.icon)}
-                    >
-                        <ApiIcon state={props.apiState} size={props.apiIconSize ?? SIZE_S} />
-                    </span>
-                )
-            }
+            {icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
+                <span className={clsx(styles.icon, props.className)}>{icon}</span>
+            )}
+            {props.apiState && props.apiState !== ApiState.IDLE && (
+                <span className={clsx(styles.icon)}>
+                    <ApiIcon state={props.apiState} size={props.apiIconSize ?? SIZE_S} />
+                </span>
+            )}
         </>
-    )
-}
+    );
+};
 
 const ButtonInner = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
@@ -107,39 +97,38 @@ const ButtonInner = (props: Props) => {
     return (
         <>
             {props.icon && iconSide === 'left' && <ButtonIcon {...props} className={clsx(undefined)} />}
-            <span className={clsx(styles.spacer, textAndIcon && iconSide === 'left' && styles.borderLeft)}></span>
-            {
-                props.text && <span>{props.text}</span>
-            }
-            {
-                props.children && props.children
-            }
+            <span
+                className={clsx(styles.spacer, textAndIcon && iconSide === 'left' && styles.borderLeft)}
+            ></span>
+            {props.text && <span>{props.text}</span>}
+            {props.children && props.children}
             {props.icon && iconSide === 'center' && <ButtonIcon {...props} className={clsx(undefined)} />}
-            <span className={clsx(styles.spacer, textAndIcon && iconSide === 'right' && styles.borderRight)}></span>
-            {props.icon && iconSide === 'right' && <ButtonIcon {...props}  className={clsx(undefined)}/>}
-
+            <span
+                className={clsx(styles.spacer, textAndIcon && iconSide === 'right' && styles.borderRight)}
+            ></span>
+            {props.icon && iconSide === 'right' && <ButtonIcon {...props} className={clsx(undefined)} />}
         </>
-    )
-}
+    );
+};
 
 const Button = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
-    let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary' );
+    let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary');
     const style: React.CSSProperties = {};
     if (props.color && !colorCls) {
         style['--ifm-color-primary'] = props.color;
         style['--ifm-color-primary-darker'] = props.color;
-        colorCls = 'button--primary'
+        colorCls = 'button--primary';
     }
     const commonCls = clsx(
-        styles.button, 
+        styles.button,
         props.active && 'button--active',
         !textAndIcon && props.icon && styles.reducedPadding,
         props.children && styles.reducedPadding,
-        props.icon &&( props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
+        props.icon && (props.iconSide === 'left' ? styles.iconLeft : styles.iconRight),
         textOnly && styles.soloText,
-        'button', 
+        'button',
         !props.noOutline && 'button--outline',
         props.disabled && styles.disabled,
         colorCls,
@@ -165,7 +154,7 @@ const Button = (props: Props) => {
     return (
         <Tooltip title={props.title}>
             <button
-                type='button'
+                type="button"
                 className={clsx(commonCls)}
                 onClick={props.onClick}
                 style={style}

@@ -20,8 +20,7 @@
         width: 100%;
         input {
             width: 100%;
-            font: bold var(--ifm-h4-font-size) / var(--ifm-heading-line-height)
-            var(--ifm-font-family-base);
+            font: bold var(--ifm-h4-font-size) / var(--ifm-heading-line-height) var(--ifm-font-family-base);
         }
     }
     .summaryContent {
@@ -49,7 +48,7 @@
         border-right-width: 0;
         border-radius: 0;
         /* remove padding, and add it to the child components */
-        padding: var(--ifm-card-vertical-spacing) 0; 
+        padding: var(--ifm-card-vertical-spacing) 0;
         .bulkActions,
         .summary {
             margin: 0 var(--ifm-card-horizontal-spacing);
@@ -60,10 +59,8 @@
     }
 }
 
-
-
 @media screen and (max-width: 712px) {
-    .group {    
+    .group {
         flex-basis: 100%;
     }
 }

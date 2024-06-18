@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import LazyDetails from '../shared/Details';
 import { JobType as JobTypeModel } from '@site/src/models/Job';
-import {ImportSummary, SyncSummary} from './Summary';
+import { ImportSummary, SyncSummary } from './Summary';
 import Details from './Details';
 import { JobType } from '@site/src/api/job';
 
@@ -26,14 +26,10 @@ const JobSummary = observer((props: Props) => {
 const Job = observer((props: Props) => {
     const { job } = props;
     return (
-        <LazyDetails
-            className={clsx(styles.details)}
-            summary={<JobSummary job={job} />}
-        >
+        <LazyDetails className={clsx(styles.details)} summary={<JobSummary job={job} />}>
             <Details job={job} />
         </LazyDetails>
-    )
+    );
 });
-
 
 export default Job;

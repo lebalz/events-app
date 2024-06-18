@@ -9,7 +9,6 @@ export interface Department {
     updatedAt: string;
 }
 
-
 export function all<T>(endpoint: string, signal: AbortSignal): AxiosPromise<T[]> {
     return api.get(endpoint, { signal });
 }
@@ -29,4 +28,3 @@ export function update<T>(endpoint: string, data: Partial<T>, signal: AbortSigna
 export function destroy<T>(endpoint: string, signal: AbortSignal): AxiosPromise<any> {
     return api.delete(endpoint, { signal });
 }
-

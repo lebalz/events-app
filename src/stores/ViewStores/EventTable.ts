@@ -1,4 +1,3 @@
-
 import { action, computed, makeObservable, observable } from 'mobx';
 import User from '../../models/User';
 import { EventAudience, EventState } from '../../api/event';
@@ -56,7 +55,6 @@ class EventTable {
     @observable
     showSelect = false;
 
-
     constructor(store: ViewStore) {
         makeObservable(this);
         this.store = store;
@@ -99,12 +97,14 @@ class EventTable {
 
     @computed
     get hasAdvancedFilters(): boolean {
-        return this.departmentIds.size > 0
-                || this.textFilter.size > 0
-                || !!this.start
-                || !!this.end
-                || this.classNames.size > 0
-                || this.audienceFilter.size > 0 && this.audienceFilter.size < 4;
+        return (
+            this.departmentIds.size > 0 ||
+            this.textFilter.size > 0 ||
+            !!this.start ||
+            !!this.end ||
+            this.classNames.size > 0 ||
+            (this.audienceFilter.size > 0 && this.audienceFilter.size < 4)
+        );
     }
 
     @computed
@@ -168,17 +168,21 @@ class EventTable {
                 keep = [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.classNames.size > 0) {
-                const intersection = new Set([...this.classNames].filter(c => event.affectedClassNames.has(c)));
+                const intersection = new Set(
+                    [...this.classNames].filter((c) => event.affectedClassNames.has(c))
+                );
                 keep = intersection.size > 0;
             }
             if (keep && this.textFilter.size > 0) {
-                const tokens = [...this.textFilter]
-                const klassNames = event.fClasses.map(c => c.classes.map(cl => cl.displayName)).join(' ');
+                const tokens = [...this.textFilter];
+                const klassNames = event.fClasses.map((c) => c.classes.map((cl) => cl.displayName)).join(' ');
                 keep = tokens.some((tkn) => klassNames.match(new RegExp(tkn, 'i')));
                 const depNames = event.departmentNames.join(' ');
                 if (!keep) {
                     keep = tokens.some((tkn) => {
-                        return `${event.description} ${event.descriptionLong} ${event.dayFullStart} ${event.fStartDate} ${event.fStartTime} ${event.fEndDate} ${event.fEndTime} ${event.location} ${depNames}`.match(new RegExp(tkn, 'i'))
+                        return `${event.description} ${event.descriptionLong} ${event.dayFullStart} ${event.fStartDate} ${event.fStartTime} ${event.fEndDate} ${event.fEndTime} ${event.location} ${depNames}`.match(
+                            new RegExp(tkn, 'i')
+                        );
                     });
                 }
             }

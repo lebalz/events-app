@@ -1,10 +1,16 @@
-import { action, IObservableArray, observable } from "mobx";
-import ApiModel from "../models/ApiModel";
-import { all as apiAll, find as apiFind, create as apiCreate, destroy as apiDestroy, update as apiUpdat } from '../api/api_model';
-import { RootStore } from "./stores";
-import { computedFn } from "mobx-utils";
-import axios from "axios";
-import { EndPoint } from "./EndPoint";
+import { action, IObservableArray, observable } from 'mobx';
+import ApiModel from '../models/ApiModel';
+import {
+    all as apiAll,
+    find as apiFind,
+    create as apiCreate,
+    destroy as apiDestroy,
+    update as apiUpdat
+} from '../api/api_model';
+import { RootStore } from './stores';
+import { computedFn } from 'mobx-utils';
+import axios from 'axios';
+import { EndPoint } from './EndPoint';
 
 type ApiModelInst = ApiModel<any, any>;
 export class ResettableStore {
@@ -34,18 +40,26 @@ export class LoadeableStore<T> {
     initialLoadPerformed: boolean;
 }
 
-export type ApiAction = `loadPublic-${string}` | `loadAuthorized-${string}` | 'create' | `load-${string}` | `save-${string}` | `destroy-${string}`;
+export type ApiAction =
+    | `loadPublic-${string}`
+    | `loadAuthorized-${string}`
+    | 'create'
+    | `load-${string}`
+    | `save-${string}`
+    | `destroy-${string}`;
 export enum ApiState {
     IDLE = 'idle',
     LOADING = 'loading',
     ERROR = 'error',
-    SUCCESS = 'success',
+    SUCCESS = 'success'
 }
-
 
 const API_STATE_RESET_TIMEOUT = 1500;
 
-abstract class iStore<Model extends { id: string }, Api = ''> extends ResettableStore implements LoadeableStore<any> {
+abstract class iStore<Model extends { id: string }, Api = ''>
+    extends ResettableStore
+    implements LoadeableStore<any>
+{
     abstract readonly root: RootStore;
 
     @observable.ref
@@ -63,26 +77,36 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         }
         this.abortControllers.set(sigId, sig);
         this.apiState.set(sigId, ApiState.LOADING);
-        return fn(sig).then(action((res) => {
-            this.apiState.set(sigId, ApiState.SUCCESS);
-            return res;
-        })).catch(action((err) => {
-            if (axios.isCancel(err)) {
-                return { data: null } as T;
-            } else {
-                this.apiState.set(sigId, ApiState.ERROR);
-            }
-            throw err;
-        })).finally(() => {
-            if (this.abortControllers.get(sigId) === sig) {
-                this.abortControllers.delete(sigId);
-            }
-            setTimeout(action(() => {
-                if (this && !this.abortControllers.has(sigId)) {
-                    this.apiState.delete(sigId);
+        return fn(sig)
+            .then(
+                action((res) => {
+                    this.apiState.set(sigId, ApiState.SUCCESS);
+                    return res;
+                })
+            )
+            .catch(
+                action((err) => {
+                    if (axios.isCancel(err)) {
+                        return { data: null } as T;
+                    } else {
+                        this.apiState.set(sigId, ApiState.ERROR);
+                    }
+                    throw err;
+                })
+            )
+            .finally(() => {
+                if (this.abortControllers.get(sigId) === sig) {
+                    this.abortControllers.delete(sigId);
                 }
-            }), API_STATE_RESET_TIMEOUT);
-        });
+                setTimeout(
+                    action(() => {
+                        if (this && !this.abortControllers.has(sigId)) {
+                            this.apiState.delete(sigId);
+                        }
+                    }),
+                    API_STATE_RESET_TIMEOUT
+                );
+            });
     }
 
     get initialPublicLoadPerformed() {
@@ -148,7 +172,11 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    postLoad(models: ApiModel<Model, Api | ApiAction>[], publicModels: boolean, success?: boolean): Promise<any> {
+    postLoad(
+        models: ApiModel<Model, Api | ApiAction>[],
+        publicModels: boolean,
+        success?: boolean
+    ): Promise<any> {
         /**
          * Post load hook
          */
@@ -156,7 +184,7 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
     }
 
     @action
-    _load(endPoint: string, models: 'public' | 'authorized', sigId: Api | ApiAction) {        
+    _load(endPoint: string, models: 'public' | 'authorized', sigId: Api | ApiAction) {
         return this.withAbortController(sigId, (sig) => {
             return apiAll<Model>(endPoint, sig.signal)
                 .then(
@@ -166,18 +194,24 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                         }
                         return this.postLoad(this.models, models === 'public', true)
                             .then(() => {
-                                return this.models
+                                return this.models;
                             })
                             .catch((err) => {
                                 console.warn('Post load hook failed', err);
                                 return this.models;
-                            }).finally(() => {
+                            })
+                            .finally(() => {
                                 this.ApiEndpoint.setLoaded(models);
                             });
                     })
-                ).catch((err) => {
-                    if (err.code === 'ERR_BAD_REQUEST' && err.response?.status === 401 && err.response?.data?.error === 'Unauthorized') {
-                        console.log('using msal strategy')
+                )
+                .catch((err) => {
+                    if (
+                        err.code === 'ERR_BAD_REQUEST' &&
+                        err.response?.status === 401 &&
+                        err.response?.data?.error === 'Unauthorized'
+                    ) {
+                        console.log('using msal strategy');
                         this.root.sessionStore.setMsalStrategy();
                         return;
                     }
@@ -185,28 +219,40 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
                         this.ApiEndpoint.setLoaded(models);
                     }
                     console.warn(endPoint, err.code, err);
-                    return this.postLoad([], models === 'public', false).then(() => []).catch(() => []);
+                    return this.postLoad([], models === 'public', false)
+                        .then(() => [])
+                        .catch(() => []);
                 });
         });
     }
 
-
     @action
     loadPublic(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
         if (!this.ApiEndpoint.hasPublicRoute) {
-            return this.postLoad([], true, true).then(() => []).catch(() => []);
-        };
-        return this._load(this.ApiEndpoint.routeWithSemesterId('public', semesterId), 'public', `loadPublic-${this.ApiEndpoint.Base}-${semesterId}`);
+            return this.postLoad([], true, true)
+                .then(() => [])
+                .catch(() => []);
+        }
+        return this._load(
+            this.ApiEndpoint.routeWithSemesterId('public', semesterId),
+            'public',
+            `loadPublic-${this.ApiEndpoint.Base}-${semesterId}`
+        );
     }
 
     @action
     loadAuthorized(semesterId?: string): Promise<ApiModel<Model, Api | ApiAction>[]> {
         if (!this.ApiEndpoint.hasAuthorizedRoute) {
-            return this.postLoad([], false, true).then(() => []).catch(() => []);
+            return this.postLoad([], false, true)
+                .then(() => [])
+                .catch(() => []);
         }
-        return this._load(this.ApiEndpoint.routeWithSemesterId('authorized', semesterId), 'authorized', `loadAuthorized-${semesterId}`);
+        return this._load(
+            this.ApiEndpoint.routeWithSemesterId('authorized', semesterId),
+            'authorized',
+            `loadAuthorized-${semesterId}`
+        );
     }
-
 
     @action
     resetUserData() {
@@ -215,7 +261,6 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         this.ApiEndpoint.reset('authorized');
     }
 
-
     @action
     loadModel(id: string) {
         if (!id) {
@@ -223,22 +268,26 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         }
         return this.withAbortController(`load-${id}`, (sig) => {
             return apiFind<Model>(`${this.ApiEndpoint.Base}/${id}`, sig.signal);
-        }).then(action(({ data }) => {
-            if (data && Object.keys(data).length > 0) {
-                return this.addToStore(data, 'load');
-            } else {
-                /** apparently the model is not present anymore - remove it from the store */
-                return this.removeFromStore(id);
-            }
-        })).catch((err) => {
-            if (axios.isCancel(err)) {
-                return;
-            } else {
-                /** apparently the model is not present anymore - remove it from the store */
-                this.removeFromStore(id);
-                return;
-            }
-        });
+        })
+            .then(
+                action(({ data }) => {
+                    if (data && Object.keys(data).length > 0) {
+                        return this.addToStore(data, 'load');
+                    } else {
+                        /** apparently the model is not present anymore - remove it from the store */
+                        return this.removeFromStore(id);
+                    }
+                })
+            )
+            .catch((err) => {
+                if (axios.isCancel(err)) {
+                    return;
+                } else {
+                    /** apparently the model is not present anymore - remove it from the store */
+                    this.removeFromStore(id);
+                    return;
+                }
+            });
     }
 
     @action
@@ -247,12 +296,14 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
             const { id } = model;
             return this.withAbortController(`save-${id}`, (sig) => {
                 return apiUpdat<Model>(`${this.ApiEndpoint.Base}/${id}`, model.props, sig.signal);
-            }).then(action(({ data }) => {
-                if (data) {
-                    return this.addToStore(data);
-                }
-                return undefined
-            }));
+            }).then(
+                action(({ data }) => {
+                    if (data) {
+                        return this.addToStore(data);
+                    }
+                    return undefined;
+                })
+            );
         }
         return Promise.resolve(undefined);
     }
@@ -262,10 +313,12 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
         const { id } = model;
         this.withAbortController(`destroy-${id}`, (sig) => {
             return apiDestroy<Model>(`${this.ApiEndpoint.Base}/${id}`, sig.signal);
-        }).then(action(() => {
-            // this.removeFromStore(id);
-            this.loadModel(id);
-        }));
+        }).then(
+            action(() => {
+                // this.removeFromStore(id);
+                this.loadModel(id);
+            })
+        );
     }
 
     @action
@@ -275,9 +328,11 @@ abstract class iStore<Model extends { id: string }, Api = ''> extends Resettable
          */
         return this.withAbortController('create', (sig) => {
             return apiCreate<Model>(this.ApiEndpoint.Base, model, sig.signal);
-        }).then(action(({ data }) => {
-            return this.addToStore(data, 'create');
-        }));
+        }).then(
+            action(({ data }) => {
+                return this.addToStore(data, 'create');
+            })
+        );
     }
 }
 

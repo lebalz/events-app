@@ -14,30 +14,26 @@ interface Props extends DefaultProps {
 const UpdatedAt = observer((props: Props) => {
     const { event } = props;
     return (
-        <div 
-            className={clsx(props.className, styles.dateTime, styles.view)}
-        >
+        <div className={clsx(props.className, styles.dateTime, styles.view)}>
             <div
                 style={{ gridColumn: 'updatedAt' }}
                 className={clsx(
-                    styles.date, 
-                    styles.updatedAt, 
+                    styles.date,
+                    styles.updatedAt,
                     event.isOnOneDay && styles.onOneDay,
-                    !props.showTime && styles.dateOnly, 
+                    !props.showTime && styles.dateOnly,
                     'grid-updatedAt'
                 )}
             >
-                {
-                    (props.showAlways || event.updatedAt.getTime() !== event.createdAt.getTime()) && (
-                        <>
-                            <span>{formatDate(event.updatedAt)}</span>
-                            {props.showTime && <span>{formatTime(event.updatedAt)}</span>}
-                        </>
-                    )
-                }
+                {(props.showAlways || event.updatedAt.getTime() !== event.createdAt.getTime()) && (
+                    <>
+                        <span>{formatDate(event.updatedAt)}</span>
+                        {props.showTime && <span>{formatTime(event.updatedAt)}</span>}
+                    </>
+                )}
             </div>
         </div>
-    )
+    );
 });
 
 export default UpdatedAt;

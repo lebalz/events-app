@@ -1,11 +1,11 @@
-import { action, computed, makeObservable, observable, override } from "mobx";
-import { RegistrationPeriod as RegPeriodProps } from "../api/registration_period";
-import { ApiAction } from "../stores/iStore";
-import { RegistrationPeriodStore } from "../stores/RegistrationPeriodStore";
-import ApiModel, { UpdateableProps } from "./ApiModel";
-import { formatDateTime, toGlobalDate, toLocalDate } from "./helpers/time";
-import { rmUndefined } from "./helpers/filterHelpers";
-import Department from "./Department";
+import { action, computed, makeObservable, observable, override } from 'mobx';
+import { RegistrationPeriod as RegPeriodProps } from '../api/registration_period';
+import { ApiAction } from '../stores/iStore';
+import { RegistrationPeriodStore } from '../stores/RegistrationPeriodStore';
+import ApiModel, { UpdateableProps } from './ApiModel';
+import { formatDateTime, toGlobalDate, toLocalDate } from './helpers/time';
+import { rmUndefined } from './helpers/filterHelpers';
+import Department from './Department';
 
 export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<RegPeriodProps>[] = [
@@ -68,10 +68,10 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
 
     @observable
     description: string;
-    
+
     @observable.ref
     start: Date;
-    
+
     @observable.ref
     end: Date;
 
@@ -82,7 +82,7 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
     eventRangeEnd: Date;
 
     @observable.ref
-    isOpen: boolean
+    isOpen: boolean;
 
     departmentIds = observable.set<string>([]);
 
@@ -123,25 +123,25 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
             isOpen: this.isOpen,
             departmentIds: [...this.departmentIds].sort(),
             createdAt: this.createdAt.toISOString(),
-            updatedAt: this.updatedAt.toISOString(),
+            updatedAt: this.updatedAt.toISOString()
         };
     }
 
     @computed
     get fStart() {
-        return formatDateTime(this.start)
+        return formatDateTime(this.start);
     }
     @computed
     get fEnd() {
-        return formatDateTime(this.end)
+        return formatDateTime(this.end);
     }
     @computed
     get fEventRangeStart() {
-        return formatDateTime(this.eventRangeStart)
+        return formatDateTime(this.eventRangeStart);
     }
     @computed
     get fEventRangeEnd() {
-        return formatDateTime(this.eventRangeEnd)
+        return formatDateTime(this.eventRangeEnd);
     }
 
     @action
@@ -151,13 +151,15 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
 
     @computed
     get departments() {
-        return rmUndefined([...this.departmentIds].map((dId) => this.store.root.departmentStore.find<Department>(dId)));
+        return rmUndefined(
+            [...this.departmentIds].map((dId) => this.store.root.departmentStore.find<Department>(dId))
+        );
     }
 
     @computed
     get isWithinOpenPeriod() {
         const now = new Date();
-        return  now >= this.start && now <= this.end;
+        return now >= this.start && now <= this.end;
     }
 
     @computed

@@ -7,16 +7,20 @@ import Loading from './Loading';
 interface IconProps {
     size?: number;
     state: 'success' | 'error' | 'loading';
-    text?: string | {
-        success: string;
-        error: string;
-        loading: string;
-    }
-    title?: string | {
-        success: string;
-        error: string;
-        loading: string;
-    }
+    text?:
+        | string
+        | {
+              success: string;
+              error: string;
+              loading: string;
+          };
+    title?:
+        | string
+        | {
+              success: string;
+              error: string;
+              loading: string;
+          };
 }
 
 type Props = IconProps & Base;

@@ -12,7 +12,6 @@ interface Props {
     size?: number;
 }
 
-
 type EditProps = Props & Base;
 
 const Clone = (props: EditProps) => {
@@ -20,19 +19,19 @@ const Clone = (props: EditProps) => {
         <Button
             icon={mdiContentDuplicate}
             title={translate({
-                message : "Duplizieren",
-                id : "share.button.clone.title",
-                description : "Text of the button clone"
+                message: 'Duplizieren',
+                id: 'share.button.clone.title',
+                description: 'Text of the button clone'
             })}
             {...extractSharedProps(props)}
-            className={clsx( props.className)}
+            className={clsx(props.className)}
             size={props.size ?? SIZE_S}
-            color='primary'
+            color="primary"
             onClick={() => {
                 props.onClick();
             }}
         />
-    )
+    );
 };
 
 export default Clone;

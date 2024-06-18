@@ -15,7 +15,6 @@ import { Loading } from '../shared/icons';
 import EventsViewer, { View } from '../EventsViewer';
 import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 
-
 interface Props {
     job: ImportJobModel;
     summary?: string | React.ReactNode;
@@ -54,14 +53,11 @@ const ImportJob = observer((props: Props) => {
                                     message: 'Job Löschen',
                                     description: 'job.delete'
                                 })}
-                                flyoutSide='right'
-                                iconSide='right'
+                                flyoutSide="right"
+                                iconSide="right"
                                 apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
                             />,
-                            <ChangeViewAction
-                                viewType={viewType}
-                                setViewType={setViewType}
-                            />
+                            <ChangeViewAction viewType={viewType} setViewType={setViewType} />
                         ]
                     }}
                     events={job.events}
@@ -91,7 +87,7 @@ const ImportJob = observer((props: Props) => {
                 />
             </div>
         </LazyDetails>
-    )
+    );
 });
 
 export default ImportJob;

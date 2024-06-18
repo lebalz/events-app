@@ -7,7 +7,7 @@ import { Props as CommonProps } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
 
 interface Props extends CommonProps {
-    isEditGrid?: boolean; /** true when at least one element of the grid is edited */
+    isEditGrid?: boolean /** true when at least one element of the grid is edited */;
     flexWrap?: boolean;
 }
 
@@ -25,22 +25,20 @@ const Departments = observer((props: Props) => {
             )}
         >
             <div className={clsx(styles.tags)}>
-                {
-                    event.affectedDepartments.map((d, idx) => {
-                        return (
-                            <Badge 
-                                key={idx} 
-                                text={d.shortName}
-                                title={d.description}
-                                color={d.color}
-                                className={clsx(styles.badge)}
-                            />
-                        );
-                    })
-                }
+                {event.affectedDepartments.map((d, idx) => {
+                    return (
+                        <Badge
+                            key={idx}
+                            text={d.shortName}
+                            title={d.description}
+                            color={d.color}
+                            className={clsx(styles.badge)}
+                        />
+                    );
+                })}
             </div>
         </div>
-    )
+    );
 });
 
 export default Departments;

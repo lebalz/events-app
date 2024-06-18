@@ -11,7 +11,6 @@
         align-items: center;
     }
     .affects {
-        
         :global(.button-group) {
             --ifm-button-group-spacing: 0;
             margin: 0.1rem;
@@ -41,7 +40,6 @@
     .select {
         max-width: 100%;
     }
-    
 
     .options {
         display: flex;
@@ -70,9 +68,7 @@
     // .label {
     //     font-weight: bold;
     // }
-}   
-
-
+}
 
 .error {
     border: 1px dashed red;

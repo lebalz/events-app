@@ -7,7 +7,7 @@ const Import = observer(() => {
     return (
         <Layout>
             <ImportEvents />
-        </Layout >
+        </Layout>
     );
 });
 

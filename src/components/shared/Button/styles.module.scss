@@ -15,7 +15,7 @@
         width: min-content;
         padding-top: 0.02rem;
         padding-bottom: 0.02rem;
-        .buttonInner {            
+        .buttonInner {
             flex-grow: 1;
             display: flex;
             align-items: center;
@@ -75,19 +75,17 @@
         }
     }
     &:global(.button) {
-        &:hover {        
+        &:hover {
             opacity: 0.6;
         }
     }
     &:global(.button--active) {
-        &:hover {        
+        &:hover {
             opacity: 0.6;
             --ifm-button-color: var(--ifm-color-content);
         }
     }
-    
 }
-
 
 .delete {
     display: flex;

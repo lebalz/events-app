@@ -3,17 +3,17 @@ import api from './base';
 import { Event } from './event';
 
 export interface EventGroup {
-    id: string
-    name: string
-    description: string
-    userIds: string[]
-    eventIds: string[]
-    createdAt: string
-    updatedAt: string
+    id: string;
+    name: string;
+    description: string;
+    userIds: string[];
+    eventIds: string[];
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface EventGroupCreate extends Partial<EventGroup> {
-    event_ids: string[]
+    event_ids: string[];
 }
 
 export function create(data: EventGroupCreate, signal: AbortSignal): AxiosPromise<EventGroup> {

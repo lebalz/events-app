@@ -31,7 +31,7 @@
             position: relative;
 
             &::after {
-                content: "";
+                content: '';
                 width: calc(100% - 1px);
                 border: 1px solid red;
                 position: absolute;
@@ -41,7 +41,6 @@
         }
 
         .content {
-
             // margin: 0.25em 0.5em;
             // overflow: hidden;
             // white-space: nowrap;
@@ -63,7 +62,7 @@
         }
 
         &.odd {
-            background: var(--ifm-color-emphasis-100);            
+            background: var(--ifm-color-emphasis-100);
             &.currentWeek:not(.actions) {
                 background: var(--color-current-week-odd-background);
                 &.today {
@@ -106,8 +105,6 @@
                 padding: 0;
             }
         }
-
-        
     }
 
     .group {
@@ -115,7 +112,7 @@
         color: var(--color-week-group);
         cursor: pointer;
         display: flex;
-        font-size: calc(.875rem * var(--ifm-button-size-multiplier));
+        font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
         font-weight: var(--ifm-font-weight-bold);
         gap: 1em;
         line-height: 1;
@@ -144,8 +141,9 @@
                 clip-path: inset(0px 0px 0px calc(-1 * var(--header-shadow-blur)));
 
                 &.header {
-                    clip-path: inset(0px 0px calc(-1 * var(--header-shadow-blur)) calc(-1 * var(--header-shadow-blur)));
-
+                    clip-path: inset(
+                        0px 0px calc(-1 * var(--header-shadow-blur)) calc(-1 * var(--header-shadow-blur))
+                    );
                 }
             }
 

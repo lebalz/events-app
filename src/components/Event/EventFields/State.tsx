@@ -16,36 +16,34 @@ interface Props extends ReadonlyProps {
 
 const State = observer((props: Props) => {
     const { event, showText } = props;
-    const state = (event.isDirty && !event.isDraft) ? EventState.Draft : event.state;
+    const state = event.isDirty && !event.isDraft ? EventState.Draft : event.state;
     return (
-        <div 
-            style={{gridColumn: 'state'}} 
+        <div
+            style={{ gridColumn: 'state' }}
             className={clsx('state', styles.state, !showText && styles.flex, props.className, 'grid-isValid')}
         >
             <div className={clsx(showText && styles.flex)}>
-                <Badge 
+                <Badge
                     icon={EventStateButton[state]}
                     color={EventStateColor[state]}
                     size={SIZE_S}
                     title={EventStateTranslation[state]}
                     text={showText && EventStateTranslation[state]}
-                    iconSide='left'
+                    iconSide="left"
                 />
             </div>
-            {
-                event.isDeleted && (
-                    <Badge 
-                        icon={mdiDeleteForever} 
-                        color="red" 
-                        size={SIZE_S} 
-                        title={`Gelöscht am ${Event.fDate(event.deletedAt)}`}
-                        text={Event.fDate(event.deletedAt)}
-                        iconSide='left'
-                    />
-                )
-            }
+            {event.isDeleted && (
+                <Badge
+                    icon={mdiDeleteForever}
+                    color="red"
+                    size={SIZE_S}
+                    title={`Gelöscht am ${Event.fDate(event.deletedAt)}`}
+                    text={Event.fDate(event.deletedAt)}
+                    iconSide="left"
+                />
+            )}
         </div>
-    )
+    );
 });
 
 export default State;

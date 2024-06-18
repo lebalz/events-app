@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import {default as UserModel} from '@site/src/models/User';
+import { default as UserModel } from '@site/src/models/User';
 import User from './User';
 import Button from '../../shared/Button';
 import { mdiSortAscending, mdiSortDescending } from '@mdi/js';
@@ -13,24 +13,23 @@ import { translate } from '@docusaurus/Translate';
 import TextInput from '../../shared/TextInput';
 import Badge from '../../shared/Badge';
 
-
 interface Props {
     users: UserModel[];
 }
 
 const UserTable = observer((props: Props) => {
     const [itemsShown, setItemsShown] = React.useState(15);
-    const {adminUserTable} = useStore('viewStore');
+    const { adminUserTable } = useStore('viewStore');
     const observerTarget = React.useRef(null);
 
     React.useEffect(() => {
         const observer = new IntersectionObserver(
-            entries => {
-            if (entries[0].isIntersecting) {
-                if (itemsShown < props.users.length) {
-                    setItemsShown((prev) => prev + 20);
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    if (itemsShown < props.users.length) {
+                        setItemsShown((prev) => prev + 20);
+                    }
                 }
-            }
             },
             { threshold: 1 }
         );
@@ -46,133 +45,128 @@ const UserTable = observer((props: Props) => {
         };
     }, [observerTarget, props.users.length]);
 
-    const {users} = props;
+    const { users } = props;
     const icon = adminUserTable.sortDirection === 'asc' ? mdiSortAscending : mdiSortDescending;
     return (
         <div>
-            <div className={clsx('alert alert--primary', styles.filter)} role='alert'>
+            <div className={clsx('alert alert--primary', styles.filter)} role="alert">
                 <TextInput
                     placeholder={translate({
-                        message: "Filter",
+                        message: 'Filter',
                         id: 'admin.userTable.filter.placeholder',
                         description: 'filter: placeholder'
                     })}
-                    onChange={(txt) => adminUserTable?.setTextFilter(txt)} 
+                    onChange={(txt) => adminUserTable?.setTextFilter(txt)}
                     text={adminUserTable?._filter}
                     search
                 />
-                <Badge 
-                    color='primary'
-                    text={`Users: ${users.length}`}
-                />
+                <Badge color="primary" text={`Users: ${users.length}`} />
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>
-                            <Button 
+                            <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminUserTable.sortColumn === 'email' && icon}
                                 text={translate({
-                                    message: "Email",
+                                    message: 'Email',
                                     id: 'admin.userTable.th.email',
                                     description: 'th: email'
                                 })}
-                                onClick={() => adminUserTable.setSortColumn('email')} 
+                                onClick={() => adminUserTable.setSortColumn('email')}
                             />
                         </th>
                         <th>
-                            <Button 
+                            <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminUserTable.sortColumn === 'role' && icon}
                                 text={translate({
-                                    message: "Rolle",
+                                    message: 'Rolle',
                                     id: 'admin.userTable.th.role',
                                     description: 'th: role'
                                 })}
-                                onClick={() => adminUserTable.setSortColumn('role')} 
+                                onClick={() => adminUserTable.setSortColumn('role')}
                             />
                         </th>
                         <th>
-                            <Button 
+                            <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminUserTable.sortColumn === 'notifyOnEventUpdate' && icon}
                                 text={translate({
-                                    message: "Mail bei Event-Update",
+                                    message: 'Mail bei Event-Update',
                                     id: 'admin.userTable.th.notifyOnEventUpdate',
                                     description: 'th: notifyOnEventUpdate'
                                 })}
-                                onClick={() => adminUserTable.setSortColumn('notifyOnEventUpdate')} 
+                                onClick={() => adminUserTable.setSortColumn('notifyOnEventUpdate')}
                             />
                         </th>
                         <th>
-                            <Button 
+                            <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminUserTable.sortColumn === 'shortName' && icon}
                                 text={translate({
-                                    message: "Kürzel",
+                                    message: 'Kürzel',
                                     id: 'admin.userTable.th.shortName',
                                     description: 'th: shortName'
                                 })}
-                                onClick={() => adminUserTable.setSortColumn('shortName')} 
+                                onClick={() => adminUserTable.setSortColumn('shortName')}
                             />
                         </th>
                         <th>
-                            <Button 
+                            <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminUserTable.sortColumn === 'createdAt' && icon}
                                 text={translate({
-                                    message: "Erstellt",
+                                    message: 'Erstellt',
                                     id: 'admin.userTable.th.createdAt',
                                     description: 'th: createdAt'
                                 })}
-                                onClick={() => adminUserTable.setSortColumn('createdAt')} 
+                                onClick={() => adminUserTable.setSortColumn('createdAt')}
                             />
                         </th>
                         <th>
-                            <Button 
+                            <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminUserTable.sortColumn === 'updatedAt' && icon}
                                 text={translate({
-                                    message: "Aktualisiert",
+                                    message: 'Aktualisiert',
                                     id: 'admin.userTable.th.updatedAt',
                                     description: 'th: updatedAt'
                                 })}
-                                onClick={() => adminUserTable.setSortColumn('updatedAt')} 
+                                onClick={() => adminUserTable.setSortColumn('updatedAt')}
                             />
                         </th>
                         <th>
-                            <Button 
+                            <Button
                                 size={SIZE_S}
-                                iconSide='left'
+                                iconSide="left"
                                 icon={adminUserTable.sortColumn === 'id' && icon}
                                 text={translate({
-                                    message: "Id",
+                                    message: 'Id',
                                     id: 'admin.userTable.th.id',
                                     description: 'th: id'
                                 })}
-                                onClick={() => adminUserTable.setSortColumn('id')} 
+                                onClick={() => adminUserTable.setSortColumn('id')}
                             />
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        users.slice(0, itemsShown).map((user, idx) => {
-                            return <User key={user.id} user={user} />;
-                        })
-                    }
+                    {users.slice(0, itemsShown).map((user, idx) => {
+                        return <User key={user.id} user={user} />;
+                    })}
                 </tbody>
             </table>
             <div ref={observerTarget}></div>
         </div>
-    )
+    );
 });
 
 export default UserTable;

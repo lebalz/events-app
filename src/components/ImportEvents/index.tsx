@@ -14,9 +14,7 @@ import { ImportType } from '@site/src/api/event';
 import Upload from './Upload';
 import Job from '../Job';
 
-
-interface Props {
-}
+interface Props {}
 
 const ImportEvents = observer((props: Props) => {
     const jobStore = useStore('jobStore');
@@ -26,15 +24,13 @@ const ImportEvents = observer((props: Props) => {
             title={
                 <span>
                     <Icon path={mdiFileImport} size={2} color={'var(--ifm-color-primary)'} />
-                    <Translate
-                        id="import.section.title"
-                        description="import.section.title"
-                    >
+                    <Translate id="import.section.title" description="import.section.title">
                         Datei Importieren
                     </Translate>
-                </span>}
+                </span>
+            }
             subtitle={translate({
-                message: "Importiere Daten aus Excel-Dateien.",
+                message: 'Importiere Daten aus Excel-Dateien.',
                 id: 'import.section.subtitle',
                 description: 'import.section.subtitle'
             })}
@@ -73,13 +69,11 @@ const ImportEvents = observer((props: Props) => {
             </Tabs>
             <div>
                 {jobStore.importJobs.map((job, idx) => {
-                    return (
-                        <Job key={job.id} job={job} />
-                    )
+                    return <Job key={job.id} job={job} />;
                 })}
             </div>
         </Section>
-    )
+    );
 });
 
 export default ImportEvents;

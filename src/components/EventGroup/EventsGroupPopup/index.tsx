@@ -10,7 +10,6 @@ import Popup from 'reactjs-popup';
 import clsx from 'clsx';
 import { translate } from '@docusaurus/Translate';
 
-
 interface Props {
     event: Event;
     iconSize?: number;
@@ -27,7 +26,7 @@ const EventsGroupPopup = observer((props: Props) => {
                         title={
                             props.event.groups.length > 0
                                 ? props.event.groups.map((g) => g.name).join(', ')
-                                : translate({message: 'Gruppen hinzufügen', id: 'event.group.add'})
+                                : translate({ message: 'Gruppen hinzufügen', id: 'event.group.add' })
                         }
                         color={'primary'}
                         text={`${props.event.groups.length}`}
@@ -35,22 +34,20 @@ const EventsGroupPopup = observer((props: Props) => {
                     />
                 </span>
             }
-            on='click'
+            on="click"
             position={['bottom right', 'top right']}
             nested
         >
             <div className={clsx('card')}>
                 <div className={clsx('card__header')}>
-                    <h4>
-                        Gruppen
-                    </h4>
-                </div>    
+                    <h4>Gruppen</h4>
+                </div>
                 <div className={clsx('card__body')}>
                     <GroupSelect event={props.event} />
                 </div>
             </div>
         </Popup>
-    )
+    );
 });
 
 export default EventsGroupPopup;

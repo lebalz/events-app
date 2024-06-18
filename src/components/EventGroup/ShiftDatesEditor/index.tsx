@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import EventGroup from '@site/src/models/EventGroup';
 import Event from './Event';
 import DatePicker from '../../shared/DatePicker';
-import {default as EventModel} from '@site/src/models/Event';
+import { default as EventModel } from '@site/src/models/Event';
 import Icon from '@mdi/react';
 import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
 import { DiscardIcon, SIZE, SIZE_S, SaveIcon } from '../../shared/icons';
@@ -16,19 +16,18 @@ import Select from 'react-select';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button from '../../shared/Button';
 
-
 interface Props {
     group: EventGroup;
     close: () => void;
 }
 
 const getClone = (event: EventModel, idPostFix: string = '') => {
-    return new EventModel({...event._pristine, id: `${idPostFix}${event.id}`}, event.store);
-}
+    return new EventModel({ ...event._pristine, id: `${idPostFix}${event.id}` }, event.store);
+};
 
 const hoursToMs = (hours: number) => {
     return hours * 60 * 60 * 1000;
-}
+};
 
 const ShiftDatesEditor = observer((props: Props) => {
     const [shift, setShift] = React.useState(0);
@@ -42,14 +41,17 @@ const ShiftDatesEditor = observer((props: Props) => {
             const clone = getClone(event, '---');
             const toStart = new Date(event.start.getTime() + shift + hoursToMs(shiftedHours));
             const toEnd = new Date(event.end.getTime() + shift + hoursToMs(shiftedHours));
-            clone.update({start: toGlobalDate(toStart).toISOString(), end: toGlobalDate(toEnd).toISOString()});
+            clone.update({
+                start: toGlobalDate(toStart).toISOString(),
+                end: toGlobalDate(toEnd).toISOString()
+            });
             setShiftedEvent(clone);
         }
     }, [event, group.events, shift, shiftedHours]);
 
     React.useEffect(() => {
         if (group.events.length > 0) {
-            const firstDraft = group.events.find(e => e.isDraft);
+            const firstDraft = group.events.find((e) => e.isDraft);
             if (firstDraft) {
                 setEvent(getClone(firstDraft));
             }
@@ -63,18 +65,18 @@ const ShiftDatesEditor = observer((props: Props) => {
                     <Translate id="shiftDatesEditor.title">Verschiebung von Terminen</Translate>
                 </h3>
                 {event && (
-                    <Select 
+                    <Select
                         menuPortalTarget={document.body}
-                        styles={{ 
+                        styles={{
                             menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
                         }}
-                        value={{value: event.id, label: event.description}}
-                        options={
-                            group.events.filter(e => e.isDraft).map(e => ({value: e.id, label: e.description}))
-                        }
+                        value={{ value: event.id, label: event.description }}
+                        options={group.events
+                            .filter((e) => e.isDraft)
+                            .map((e) => ({ value: e.id, label: e.description }))}
                         onChange={(opt) => {
                             if (opt?.value) {
-                                const newEvent = group.events.find(e => e.id === opt.value);
+                                const newEvent = group.events.find((e) => e.id === opt.value);
                                 setEvent(getClone(newEvent));
                             }
                         }}
@@ -87,20 +89,25 @@ const ShiftDatesEditor = observer((props: Props) => {
             <div className={clsx(styles.editor, 'card__body')}>
                 {event && shiftedEvent && (
                     <>
-                        <Event 
-                            event={event} 
-                            title={translate({id: "shiftDatesEditor.eventSelection.current", message: "Aktueller Termin"})} 
+                        <Event
+                            event={event}
+                            title={translate({
+                                id: 'shiftDatesEditor.eventSelection.current',
+                                message: 'Aktueller Termin'
+                            })}
                         />
                         <div className={clsx(styles.actions)}>
                             <h4>
                                 <Translate id="shiftDatesEditor.shift">Verschiebung</Translate>
                             </h4>
                             <fieldset className={clsx(styles.dates)}>
-                                <legend><Translate id="shiftedDatesEditor.dates">Tage</Translate></legend>
+                                <legend>
+                                    <Translate id="shiftedDatesEditor.dates">Tage</Translate>
+                                </legend>
                                 <DatePicker
                                     date={event.start}
                                     onChange={() => {}}
-                                    time='start'
+                                    time="start"
                                     disabled
                                     id={event.id}
                                 />
@@ -108,19 +115,23 @@ const ShiftDatesEditor = observer((props: Props) => {
                                 <DatePicker
                                     date={shiftedEvent.start}
                                     onChange={(date) => {
-                                        const to = new Date(`${date.toISOString().slice(0, 10)}${event.start.toISOString().slice(10)}`);
+                                        const to = new Date(
+                                            `${date.toISOString().slice(0, 10)}${event.start.toISOString().slice(10)}`
+                                        );
                                         const diff = to.getTime() - event.start.getTime();
                                         setShift(diff);
                                     }}
-                                    time='start'
+                                    time="start"
                                     id={shiftedEvent.id}
                                 />
                             </fieldset>
                             <fieldset className={clsx(styles.hours)}>
-                                <legend><Translate id="shiftDatesEditor.hours">Stunden</Translate></legend>
+                                <legend>
+                                    <Translate id="shiftDatesEditor.hours">Stunden</Translate>
+                                </legend>
                                 <input
                                     id="shiftHours"
-                                    type="number" 
+                                    type="number"
                                     value={shiftedHours}
                                     onChange={(e) => {
                                         const value = parseInt(e.target.value);
@@ -128,30 +139,36 @@ const ShiftDatesEditor = observer((props: Props) => {
                                     }}
                                 />
                             </fieldset>
-                            {(shift + hoursToMs(shiftedHours)) !== 0 && (
+                            {shift + hoursToMs(shiftedHours) !== 0 && (
                                 <Button
-                                    text={translate({id: "shiftDatesEditor.apply", message: "Anwenden (Vorschau)"})}
+                                    text={translate({
+                                        id: 'shiftDatesEditor.apply',
+                                        message: 'Anwenden (Vorschau)'
+                                    })}
                                     onClick={() => {
-                                        group.shiftEvents(shift + hoursToMs(shiftedHours))
+                                        group.shiftEvents(shift + hoursToMs(shiftedHours));
                                         setShift(0);
                                         setShiftedHours(0);
                                         props.close();
                                     }}
-                                    color='green'
+                                    color="green"
                                     icon={mdiCheckCircleOutline}
-                                    iconSide='left'
+                                    iconSide="left"
                                 />
                             )}
                         </div>
-                        <Event 
-                            event={shiftedEvent} 
-                            title={translate({id: "shiftDatesEditor.eventSelection.new", message: "Neu (Vorschau)"})} 
+                        <Event
+                            event={shiftedEvent}
+                            title={translate({
+                                id: 'shiftDatesEditor.eventSelection.new',
+                                message: 'Neu (Vorschau)'
+                            })}
                         />
                     </>
                 )}
             </div>
         </div>
-    )
+    );
 });
 
 export default ShiftDatesEditor;

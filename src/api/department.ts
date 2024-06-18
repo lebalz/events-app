@@ -5,10 +5,10 @@ export enum DepartmentLetter {
     ECG = 's',
     PASSERELLE = 'p',
     ESC = 'c',
-    GYMF = 'm',
+    GYMF = 'm'
 }
 
-export const Letter2Name: {[letter in DepartmentLetter]: string} = {
+export const Letter2Name: { [letter in DepartmentLetter]: string } = {
     [DepartmentLetter.WMS]: 'WMS',
     [DepartmentLetter.FMS]: 'FMS',
     [DepartmentLetter.GYMD]: 'GBSL',
@@ -16,15 +16,14 @@ export const Letter2Name: {[letter in DepartmentLetter]: string} = {
     [DepartmentLetter.PASSERELLE]: 'Passerelle',
     [DepartmentLetter.ESC]: 'ESC',
     [DepartmentLetter.GYMF]: 'GBJB'
-}
-
+};
 
 export interface Department {
     id: string;
     name: string;
     color: string;
     letter: DepartmentLetter;
-    classLetters: string[]
+    classLetters: string[];
     description: string;
     department1_Id: string | null;
     department2_Id: string | null;

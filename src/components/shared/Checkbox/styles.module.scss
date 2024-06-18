@@ -1,4 +1,3 @@
-
 .checkbox {
     display: flex;
     .label {
@@ -26,7 +25,7 @@
         */
 
         // https://moderncss.dev/pure-css-custom-checkbox-style/
-        input[type="checkbox"] {
+        input[type='checkbox'] {
             /* Add if not using autoprefixer */
             -webkit-appearance: none;
             /* Remove most all native input styles */
@@ -48,7 +47,7 @@
             place-content: center;
             cursor: pointer;
             &::before {
-                content: "";
+                content: '';
                 width: 0.45em;
                 height: 0.45em;
                 transform: scale(0);
@@ -71,10 +70,9 @@
         }
     }
 
-
     &.partialChecked {
         .label {
-            input[type="checkbox"] {
+            input[type='checkbox'] {
                 // border-color: var(--ifm-color-primary);
                 --cb-color: var(--ifm-color-primary);
                 &::before {
@@ -84,11 +82,10 @@
                 }
             }
         }
-
     }
     &.checked {
         .label {
-            input[type="checkbox"] {
+            input[type='checkbox'] {
                 --cb-color: var(--ifm-color-primary);
                 &::before {
                     // background: var(--ifm-color-primary);

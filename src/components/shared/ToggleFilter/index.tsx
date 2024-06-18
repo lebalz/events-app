@@ -19,21 +19,18 @@ const ToggleFilter = observer(<T extends string>(props: Props<T>) => {
     const { values, onChange } = props;
     return (
         <div className={clsx(styles.toggleFilter)}>
-            {
-                values.map((item, idx) => (
-                    <div 
-                        key={idx} 
-                        style={{ ['--color' as any]: item.color || 'var(--ifm-color-primary)'}}
-                        onClick={() => onChange(item.value)}
-                        className={clsx('badge', styles.toggle, item.active && styles.active)}
-                    >
-                        {item.label || item.value}
-                    </div>
-                ))
-            }
+            {values.map((item, idx) => (
+                <div
+                    key={idx}
+                    style={{ ['--color' as any]: item.color || 'var(--ifm-color-primary)' }}
+                    onClick={() => onChange(item.value)}
+                    className={clsx('badge', styles.toggle, item.active && styles.active)}
+                >
+                    {item.label || item.value}
+                </div>
+            ))}
         </div>
     );
-}
-);
+});
 
 export default ToggleFilter;

@@ -3,14 +3,20 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import {translate} from '@docusaurus/Translate';
+import { translate } from '@docusaurus/Translate';
 import { Icon, SIZE_S } from '../../../shared/icons';
-import { mdiBookmarkCheck, mdiCheckDecagramOutline, mdiSchool, mdiSortAscending, mdiSortDescending, mdiTools } from '@mdi/js';
+import {
+    mdiBookmarkCheck,
+    mdiCheckDecagramOutline,
+    mdiSchool,
+    mdiSortAscending,
+    mdiSortDescending,
+    mdiTools
+} from '@mdi/js';
 import Checkbox from '../../../shared/Checkbox';
 import Button, { ButtonIcon } from '../../../shared/Button';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 import Tooltip from '../../../shared/Tooltip';
-
 
 interface Props extends Partial<ConfigOptionsSortable> {
     gridColumn: number;
@@ -114,9 +120,8 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
         message: 'Duplikat',
         id: 'eventGrid.header.isDuplicate',
         description: 'Label for the Event Grid Columns'
-    }),
+    })
 };
-
 
 const ColumnHeader = observer((props: Props) => {
     let content: JSX.Element | string = HeaderTitles[props.name];
@@ -131,11 +136,8 @@ const ColumnHeader = observer((props: Props) => {
             break;
         case 'select':
             content = (
-                <div style={{paddingLeft: '0.2em'}}>
-                    <Checkbox 
-                        checked={props.active as boolean} 
-                        onChange={props.onClick} 
-                    />
+                <div style={{ paddingLeft: '0.2em' }}>
+                    <Checkbox checked={props.active as boolean} onChange={props.onClick} />
                 </div>
             );
             break;
@@ -146,10 +148,7 @@ const ColumnHeader = observer((props: Props) => {
             content = <Icon path={mdiBookmarkCheck} size={SIZE_S} />;
             break;
         case 'teachingAffected':
-            content = <Icon
-                path={mdiSchool}
-                size={SIZE_S}
-            />;
+            content = <Icon path={mdiSchool} size={SIZE_S} />;
             title = translate({
                 message: 'Sortieren nach "Unterricht betroffen?"',
                 id: 'eventGrid.header.teachingAffected.title',
@@ -167,16 +166,23 @@ const ColumnHeader = observer((props: Props) => {
                     message: `Sortieren nach "{column}"`,
                     id: 'eventGrid.header.sortBy.title'
                 },
-                {column: HeaderTitles[props.name]}
+                { column: HeaderTitles[props.name] }
             );
         }
     }
     return (
         <div
-            className={clsx(styles.cell, styles.header, props.className, props.sortable && styles.sortable, props.active && styles.active, props.fixed && styles.fixed)}
+            className={clsx(
+                styles.cell,
+                styles.header,
+                props.className,
+                props.sortable && styles.sortable,
+                props.active && styles.active,
+                props.fixed && styles.fixed
+            )}
             style={{
                 gridColumn: props.gridColumn,
-                width: (typeof props.sortable === 'string') ? props.sortable : props.width,
+                width: typeof props.sortable === 'string' ? props.sortable : props.width,
                 maxWidth: props.maxWidth,
                 minWidth: props.direction ? props.minWidthWhenActive : undefined,
                 position: props.fixed ? 'sticky' : undefined,
@@ -184,29 +190,31 @@ const ColumnHeader = observer((props: Props) => {
                 right: props.fixed?.right
             }}
         >
-            {
-                props.sortable ? (
-                    <Button
-                        size={SIZE_S}
-                        className={clsx(styles.sortableButton)}
-                        iconSide='left'
-                        disabled={!props.sortable}
-                        icon={props.active ? props.active === 'asc' ? mdiSortAscending : mdiSortDescending : undefined}
-                        onClick={props.sortable ? props.onClick : undefined}
-                        title={title}
-                    >
-                        {content}
-                    </Button>
-                ) : (
-                    <Tooltip title={title}>
-                        <span className={clsx(styles.content, styles[props.name])}>
-                            {content}
-                        </span>
-                    </Tooltip>
-                )
-            }
+            {props.sortable ? (
+                <Button
+                    size={SIZE_S}
+                    className={clsx(styles.sortableButton)}
+                    iconSide="left"
+                    disabled={!props.sortable}
+                    icon={
+                        props.active
+                            ? props.active === 'asc'
+                                ? mdiSortAscending
+                                : mdiSortDescending
+                            : undefined
+                    }
+                    onClick={props.sortable ? props.onClick : undefined}
+                    title={title}
+                >
+                    {content}
+                </Button>
+            ) : (
+                <Tooltip title={title}>
+                    <span className={clsx(styles.content, styles[props.name])}>{content}</span>
+                </Tooltip>
+            )}
         </div>
-    )
+    );
 });
 
 export default ColumnHeader;

@@ -15,7 +15,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     models = observable<Department>([]);
 
     constructor(root: RootStore) {
-        super()
+        super();
         this.root = root;
         makeObservable(this);
     }
@@ -38,7 +38,11 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         if (!match) {
             return false;
         }
-        const { departmentLetter } = match.groups as { year: string, departmentLetter: string, classLetter: string };
+        const { departmentLetter } = match.groups as {
+            year: string;
+            departmentLetter: string;
+            classLetter: string;
+        };
         return this.departments.some((d) => d.letter === departmentLetter);
     }
 
@@ -55,7 +59,6 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         return departments.some((d) => d.classLetters.has(classLetter));
     }
 
-
     createModel(data: DepartmentProps): Department {
         return new Department(data, this);
     }
@@ -70,7 +73,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
 
     @action
     reload() {
-        console.log('reload departments')
+        console.log('reload departments');
         if (this.root.sessionStore.isLoggedIn) {
             this.resetUserData();
             this.loadPublic(this.root.viewStore.semesterId);
@@ -85,7 +88,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
             return this.departments.filter((d) => d.letter === letter);
         },
         { keepAlive: true }
-    )
+    );
 
     letterToName = computedFn(
         function (this: DepartmentStore, letter?: string): string {
@@ -93,11 +96,11 @@ export class DepartmentStore extends iStore<DepartmentProps> {
             if (departments.length < 1) {
                 return letter || '';
             }
-            const ascendingByLength = departments.map(d => d.name).sort((a, b) => a.length - b.length);
+            const ascendingByLength = departments.map((d) => d.name).sort((a, b) => a.length - b.length);
             return ascendingByLength[0];
         },
         { keepAlive: true }
-    )
+    );
 
     @action
     loadDepartment(id: string) {
@@ -107,7 +110,10 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     @computed
     get usedDepartments(): Department[] {
         const ids = [...new Set(this.root.eventStore.events.map((e) => [...e.departmentIdsAll]).flat())];
-        return ids.map((id) => this.find<Department>(id)).filter(d => !!d).sort((a, b) => a.name.localeCompare(b.name));
+        return ids
+            .map((id) => this.find<Department>(id))
+            .filter((d) => !!d)
+            .sort((a, b) => a.name.localeCompare(b.name));
     }
 
     /**
@@ -136,7 +142,7 @@ export class DepartmentStore extends iStore<DepartmentProps> {
      */
     @computed
     get groupedByLetter() {
-        const departments = this.departmentsWithClasses.filter(d => d.classes.length > 0);
+        const departments = this.departmentsWithClasses.filter((d) => d.classes.length > 0);
         const grouped = _.groupBy(departments, (d) => d.letter);
         return grouped;
     }

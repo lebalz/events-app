@@ -1,5 +1,13 @@
 import { action, computed, makeObservable, observable, override, reaction } from 'mobx';
-import { teachers as fetchTeachers, classes as fetchClasses, subjects as fetchSubjects, teacher as fetchTeacher, UntisTeacher, UntisLesson, CheckedUntisLesson } from '../api/untis';
+import {
+    teachers as fetchTeachers,
+    classes as fetchClasses,
+    subjects as fetchSubjects,
+    teacher as fetchTeacher,
+    UntisTeacher,
+    UntisLesson,
+    CheckedUntisLesson
+} from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
 import Klass from '../models/Untis/Klass';
@@ -30,14 +38,14 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     }
 
     get initialLoadPerformed() {
-        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
+        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed;
     }
 
     @observable
     initialized = false;
     constructor(root: RootStore) {
         this.root = root;
-        
+
         makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,
@@ -46,17 +54,19 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                     this.loadUntisTeacher(id);
                 }
             }
-        )
+        );
         reaction(
             () => this.root.userStore.current?.untisTeacher?.lessons,
             (lessons) => {
                 if (lessons?.length > 0) {
                     const teacher = this.root.userStore?.current?.untisTeacher;
                     if (teacher) {
-                        /** 
-                         * configure the filter for this user 
+                        /**
+                         * configure the filter for this user
                          */
-                        this.root.viewStore.eventTable.setDepartmentIds(teacher.usersDepartments.map(d => d.id));               
+                        this.root.viewStore.eventTable.setDepartmentIds(
+                            teacher.usersDepartments.map((d) => d.id)
+                        );
                     }
                 }
             }
@@ -74,22 +84,23 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             this.abortControllers.get(sigId).abort();
         }
         this.abortControllers.set(sigId, sig);
-        return fn(sig).catch((err) => {
-            if (axios.isCancel(err)) {
-                return { data: null };
-            }
-            throw err;
-        }).finally(() => {
-            if (this.abortControllers.get(sigId) === sig) {
-                this.abortControllers.delete(sigId);
-            }
-        });
+        return fn(sig)
+            .catch((err) => {
+                if (axios.isCancel(err)) {
+                    return { data: null };
+                }
+                throw err;
+            })
+            .finally(() => {
+                if (this.abortControllers.get(sigId) === sig) {
+                    this.abortControllers.delete(sigId);
+                }
+            });
     }
 
     findSemester(id: string): Semester | undefined {
         return this.root.semesterStore.find<Semester>(id);
     }
-
 
     findTeacher = computedFn(
         function (this: UntisStore, id?: number): Teacher | undefined {
@@ -99,7 +110,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.teachers.find((t) => t.id === id);
         },
         { keepAlive: true }
-    )
+    );
 
     findTeacherByName = computedFn(
         function (this: UntisStore, name?: string): Teacher | undefined {
@@ -109,7 +120,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.teachers.find((t) => t.name === name);
         },
         { keepAlive: true }
-    )
+    );
 
     findLesson = computedFn(
         function (this: UntisStore, id?: number): Lesson | undefined {
@@ -119,7 +130,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.lessons.find((l) => id === l.id);
         },
         { keepAlive: true }
-    )
+    );
     findLessonsByTeacher = computedFn(
         function (this: UntisStore, teacherId?: number): Lesson[] {
             if (!teacherId) {
@@ -128,7 +139,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.lessons.filter((l) => l.teacherIds.includes(teacherId));
         },
         { keepAlive: true }
-    )
+    );
     findLessonsBySemester = computedFn(
         function (this: UntisStore, semesterId?: string): Lesson[] {
             if (!semesterId) {
@@ -137,7 +148,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.lessons.filter((l) => l.semesterId === semesterId);
         },
         { keepAlive: true }
-    )
+    );
 
     findClassesByTeacher = computedFn(
         function (this: UntisStore, teacherId?: number): Klass[] {
@@ -147,7 +158,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.classes.filter((kl) => kl.teacherIds.includes(teacherId));
         },
         { keepAlive: true }
-    )
+    );
     findClassesByDepartment = computedFn(
         function (this: UntisStore, departmentId?: string): Klass[] {
             if (!departmentId) {
@@ -156,7 +167,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.classes.filter((kl) => kl.departmentId === departmentId);
         },
         { keepAlive: true }
-    )
+    );
     findClass = computedFn(
         function (this: UntisStore, id?: number): Klass | undefined {
             if (!id) {
@@ -165,7 +176,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.classes.find((kl) => id === kl.id);
         },
         { keepAlive: true }
-    )
+    );
 
     findSubject = computedFn(
         function (this: UntisStore, name?: string): Subject | undefined {
@@ -175,7 +186,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.subjects.find((su) => name === su.name);
         },
         { keepAlive: true }
-    )
+    );
 
     /**
      * no wildcard class names supported
@@ -188,13 +199,13 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return this.classes.find((kl) => name === kl.name);
         },
         { keepAlive: true }
-    )
+    );
 
     /**
      * classes starting with given name
      * @exampe ```ts
      * findClassesByGroupName('25G') // -> ['25Ga', '25Gb', '25Gc', ...]
-     * ``` 
+     * ```
      * @return {Klass[]}
      */
     findClassesByGroupName = (startPart?: string): Klass[] => {
@@ -202,14 +213,14 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return [];
         }
         return this.classes.filter((kl) => kl.name.startsWith(startPart));
-    }
+    };
 
     hasClassesWithGroupName = (startPart?: string): boolean => {
         if (!startPart) {
             return false;
         }
         return this.classes.some((kl) => kl.name.startsWith(startPart));
-    }
+    };
 
     get classesGroupedByGroupNames(): Map<string, Klass[]> {
         const byGroupName = _.groupBy(this.classes, (c) => c.groupName);
@@ -218,8 +229,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return prev;
         }, new Map<string, Klass[]>());
     }
-
-
 
     @action
     reload() {
@@ -235,13 +244,17 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return Promise.resolve(this.teachers);
         }
         return this.withAbortController('untis-public', (sig) => {
-            return fetchClasses(sig.signal).catch(() => { return {data: []}});
-        }).then(action(({ data }) => {
-            if (this.classes.length === 0 && data?.length > 0) {
-                this.classes.replace(data.map((c) => new Klass(c, this)));
-            }
-            return this.teachers; /** only classes were loaded, no untis teachers */
-        }));
+            return fetchClasses(sig.signal).catch(() => {
+                return { data: [] };
+            });
+        }).then(
+            action(({ data }) => {
+                if (this.classes.length === 0 && data?.length > 0) {
+                    this.classes.replace(data.map((c) => new Klass(c, this)));
+                }
+                return this.teachers; /** only classes were loaded, no untis teachers */
+            })
+        );
     }
 
     @action
@@ -249,21 +262,33 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         this.initialized = false;
         return this.withAbortController('untis', (sig) => {
             return Promise.all([
-                fetchTeachers(sig.signal).catch(() => { return {data: []}}),
-                fetchClasses(sig.signal).catch(() => { return {data: []}}),
-                fetchSubjects(sig.signal).catch(() => { return {data: []}}),
-            ]).then(action(([teachers, classes, subjects]) => {
-                this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
-                this.classes.replace(classes.data.map((c) => new Klass(c, this)));
-                this.subjects.replace(subjects.data.map((s) => new Subject(s, this)));
-                this.initialized = true;
-                return { data: this.teachers };
-            }));
-        }).then(({ data }) => {
-            return data || [];
-        }).finally(action(() => {
-            this.initialPublicLoadPerformed = true;
-        }));
+                fetchTeachers(sig.signal).catch(() => {
+                    return { data: [] };
+                }),
+                fetchClasses(sig.signal).catch(() => {
+                    return { data: [] };
+                }),
+                fetchSubjects(sig.signal).catch(() => {
+                    return { data: [] };
+                })
+            ]).then(
+                action(([teachers, classes, subjects]) => {
+                    this.teachers.replace(teachers.data.map((t) => new Teacher(t, this)));
+                    this.classes.replace(classes.data.map((c) => new Klass(c, this)));
+                    this.subjects.replace(subjects.data.map((s) => new Subject(s, this)));
+                    this.initialized = true;
+                    return { data: this.teachers };
+                })
+            );
+        })
+            .then(({ data }) => {
+                return data || [];
+            })
+            .finally(
+                action(() => {
+                    this.initialPublicLoadPerformed = true;
+                })
+            );
     }
 
     @computed
@@ -274,19 +299,21 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @action
     loadUntisTeacher(untisId: number) {
         /**
-         * This will be called automatically by the constructors reaction 
+         * This will be called automatically by the constructors reaction
          */
         return this.withAbortController(`untis-teacher-${untisId}`, (sig) => {
-            return fetchTeacher(untisId, sig.signal).then(action(({ data }) => {
-                const lessons = this.lessons.slice();
-                data.lessons.forEach((l) => {
-                    const lesson = new Lesson(l, this);
-                    replaceOrAdd(lessons, lesson, (a, b) => a.id === b.id);
-                });
-                this.lessons.replace(lessons);
-                return data;
-            }));
-        })
+            return fetchTeacher(untisId, sig.signal).then(
+                action(({ data }) => {
+                    const lessons = this.lessons.slice();
+                    data.lessons.forEach((l) => {
+                        const lesson = new Lesson(l, this);
+                        replaceOrAdd(lessons, lesson, (a, b) => a.id === b.id);
+                    });
+                    this.lessons.replace(lessons);
+                    return data;
+                })
+            );
+        });
     }
 
     findDepartment(id: string): Department | undefined {
@@ -318,22 +345,19 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         this.lessons.replace(current);
     }
 
-    overlappingEvents = computedFn(
-        function (this: UntisStore, lessonId: number): Event[] {
-            const lesson = this.findLesson(lessonId);
-            if (!lesson || !this.root.viewStore.semester) {
-                return [];
-            }
-            return this.root.viewStore.semester.events.filter((e) => {
-                if (!lesson.classes.some((c) => e.affectsClass(c))) {
-                    return false;
-                }
-                const unaffected = lesson.weekOffsetMS_end < e.weekOffsetMS_start ||
-                    lesson.weekOffsetMS_start > e.weekOffsetMS_end;
-                return !unaffected;
-            })
+    overlappingEvents = computedFn(function (this: UntisStore, lessonId: number): Event[] {
+        const lesson = this.findLesson(lessonId);
+        if (!lesson || !this.root.viewStore.semester) {
+            return [];
         }
-    )
-
-
+        return this.root.viewStore.semester.events.filter((e) => {
+            if (!lesson.classes.some((c) => e.affectsClass(c))) {
+                return false;
+            }
+            const unaffected =
+                lesson.weekOffsetMS_end < e.weekOffsetMS_start ||
+                lesson.weekOffsetMS_start > e.weekOffsetMS_end;
+            return !unaffected;
+        });
+    });
 }

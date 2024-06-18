@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 
-
 interface Props {
     text: string;
     onChange: (text: string) => void;
@@ -18,9 +17,9 @@ const TextInput = (props: Props) => {
 
     React.useEffect(() => {
         if (ref.current && props.autoFocus) {
-            ref.current.focus()
+            ref.current.focus();
         }
-    }, [ref, props.autoFocus])
+    }, [ref, props.autoFocus]);
 
     return (
         <div className={clsx(props.className, styles.textInput)}>
@@ -35,7 +34,7 @@ const TextInput = (props: Props) => {
                 }}
             />
         </div>
-    )
+    );
 };
 
 export default TextInput;

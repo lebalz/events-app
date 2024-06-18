@@ -13,21 +13,21 @@ import Translate, { translate } from '@docusaurus/Translate';
 interface Props {
     type: ImportType;
 }
-const FileEnding: {[key in ImportType]: '.xlsx' | '.csv'} = {
+const FileEnding: { [key in ImportType]: '.xlsx' | '.csv' } = {
     [ImportType.V1]: '.xlsx',
     [ImportType.GBJB_CSV]: '.csv',
-    [ImportType.GBSL_XLSX]: '.xlsx',
-}
-const FileIcon: {[key in ImportType]: string} = {
+    [ImportType.GBSL_XLSX]: '.xlsx'
+};
+const FileIcon: { [key in ImportType]: string } = {
     [ImportType.V1]: mdiFileExcel,
     [ImportType.GBJB_CSV]: mdiFileDelimited,
     [ImportType.GBSL_XLSX]: mdiFileExcel
-}
-const FileIconColor: {[key in ImportType]: string} = {
+};
+const FileIconColor: { [key in ImportType]: string } = {
     [ImportType.V1]: 'green',
     [ImportType.GBJB_CSV]: 'blue',
     [ImportType.GBSL_XLSX]: 'teal'
-}
+};
 
 const Upload = observer((props: Props) => {
     const [selectedFile, setSelectedFile] = useState<File>(null);
@@ -36,7 +36,12 @@ const Upload = observer((props: Props) => {
 
     return (
         <label className={clsx(styles.dropArea)} htmlFor="excel-import">
-            <Icon path={FileIcon[props.type]} size={4} className={clsx(styles.icon)} color={FileIconColor[props.type]}/>
+            <Icon
+                path={FileIcon[props.type]}
+                size={4}
+                className={clsx(styles.icon)}
+                color={FileIconColor[props.type]}
+            />
             <input
                 className={clsx('button', 'button--secondary')}
                 key={fileInputKey}
@@ -59,7 +64,7 @@ const Upload = observer((props: Props) => {
                     description: 'Text displayed on mouse-over over the upload button'
                 })}
                 disabled={!selectedFile}
-                color='primary'
+                color="primary"
                 onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();

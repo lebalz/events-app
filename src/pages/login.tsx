@@ -5,14 +5,13 @@ import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { default as indexStyles } from './index.module.scss';
 import Link from '@docusaurus/Link';
-import { useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
 import { tokenRequest } from '../authConfig';
 import siteConfig from '@generated/docusaurus.config';
 import { useStore } from '../stores/hooks';
-const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean};
-
+const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean };
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -26,27 +25,24 @@ function HomepageHeader() {
     );
 }
 
-
 const Login = observer(() => {
     const sessionStore = useStore('sessionStore');
     const { instance } = useMsal();
     const isAuthenticated = sessionStore.isLoggedIn || useIsAuthenticated();
     if (isAuthenticated || NO_AUTH) {
-        console.log('redirect')
-        return (
-            <Redirect to={'/user?user-tab=account'} />
-        );
+        console.log('redirect');
+        return <Redirect to={'/user?user-tab=account'} />;
     }
     return (
         <Layout>
             <HomepageHeader />
             <main>
                 <div className={clsx(styles.loginPage)}>
-                    <Link 
-                        to="/" 
-                        onClick={() => instance.acquireTokenRedirect(tokenRequest)} 
-                        className="button button--warning" 
-                        style={{color: 'black'}}
+                    <Link
+                        to="/"
+                        onClick={() => instance.acquireTokenRedirect(tokenRequest)}
+                        className="button button--warning"
+                        style={{ color: 'black' }}
                     >
                         Login mit Schul-Account
                     </Link>

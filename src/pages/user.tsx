@@ -20,7 +20,7 @@ import { useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
 import { Loading } from '../components/shared/icons';
 import siteConfig from '@generated/docusaurus.config';
-const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean };
+const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
 
 const UserPage = observer(() => {
     const sessionStore = useStore('sessionStore');
@@ -29,35 +29,29 @@ const UserPage = observer(() => {
     const { inProgress } = useMsal();
     const { isStudent } = sessionStore;
     const { current } = userStore;
-    if (!NO_AUTH && ((sessionStore.currentUserId && !sessionStore.isLoggedIn) || inProgress !== InteractionStatus.None)) {
-        return (
-            <Loading />
-        )
+    if (
+        !NO_AUTH &&
+        ((sessionStore.currentUserId && !sessionStore.isLoggedIn) || inProgress !== InteractionStatus.None)
+    ) {
+        return <Loading />;
     }
     if (!NO_AUTH && !(sessionStore.isLoggedIn || isAuthenticated)) {
-        return (
-            <Redirect to={'/login'} />
-        );
+        return <Redirect to={'/login'} />;
     }
     if (!NO_AUTH && isStudent) {
-        return (
-            <Redirect to={'/'} />
-        );
+        return <Redirect to={'/'} />;
     }
     return (
         <Layout>
             <main className={clsx(styles.main)}>
-                <Section title={translate({
-                    message: "Persönlicher Bereich",
-                    id: 'user.section.title.personal-area',
-                    description: 'user.section.title.personal-area'
-                })}>
-                    <Tabs 
-                        queryString 
-                        groupId='user-tab' 
-                        defaultValue='account'
-                        lazy
-                    >
+                <Section
+                    title={translate({
+                        message: 'Persönlicher Bereich',
+                        id: 'user.section.title.personal-area',
+                        description: 'user.section.title.personal-area'
+                    })}
+                >
+                    <Tabs queryString groupId="user-tab" defaultValue="account" lazy>
                         <TabItem
                             value="account"
                             label={translate({
@@ -75,12 +69,12 @@ const UserPage = observer(() => {
                                             id: 'user.button.refresh'
                                         })}
                                         icon={mdiRefresh}
-                                        iconSide='left'
+                                        iconSide="left"
                                         onClick={() => {
                                             localStorage.clear();
                                             window.location.reload();
                                         }}
-                                        color='orange'
+                                        color="orange"
                                         noOutline
                                     />
                                 </div>

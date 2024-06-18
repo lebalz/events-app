@@ -13,7 +13,6 @@ import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
 import { SIZE_S } from '../../shared/icons';
 import Delete from '../../shared/Button/Delete';
 
-
 interface Props {
     event: Event;
     closePopup?: () => void;
@@ -25,47 +24,38 @@ const DefaultEventActions = observer((props: Props) => {
     const userStore = useStore('userStore');
     const viewStore = useStore('viewStore');
     return (
-        <DefinitionList gridTemplateColumns='1fr 0.5fr'>
-            {
-                viewStore.openEventModalId !== event.id && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.options.open"
-                                description="Text of the button open"
-                            >
-                                Öffnen
-                            </Translate>
-                        </dt>
-                        <dd>
-                            <Button
-                                title={translate({
-                                        message: 'Übersicht Öffnen',
-                                        id: 'event.options.open.overview',
-                                        description: "Text of the button open overview"
-                                    })}
-                                icon={mdiArrowExpandAll}
-                                color="primary"
-                                size={SIZE_S}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    if (props.closePopup) {
-                                        props.closePopup();
-                                    }
-                                    viewStore.setEventModalId(event.id);
-                                }}
-                            />
-                        </dd>
-                    </>
-                )
-            }
+        <DefinitionList gridTemplateColumns="1fr 0.5fr">
+            {viewStore.openEventModalId !== event.id && (
+                <>
+                    <dt>
+                        <Translate id="event.options.open" description="Text of the button open">
+                            Öffnen
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <Button
+                            title={translate({
+                                message: 'Übersicht Öffnen',
+                                id: 'event.options.open.overview',
+                                description: 'Text of the button open overview'
+                            })}
+                            icon={mdiArrowExpandAll}
+                            color="primary"
+                            size={SIZE_S}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (props.closePopup) {
+                                    props.closePopup();
+                                }
+                                viewStore.setEventModalId(event.id);
+                            }}
+                        />
+                    </dd>
+                </>
+            )}
             <dt>
-                <Translate
-                    id="event.options.share"
-                >
-                    Teilen
-                </Translate>
+                <Translate id="event.options.share">Teilen</Translate>
             </dt>
             <dd>
                 <Button
@@ -82,10 +72,7 @@ const DefaultEventActions = observer((props: Props) => {
             {!props.hideEdit && (
                 <>
                     <dt>
-                        <Translate
-                            id="event.options.edit"
-                            description="Text of the button edit"
-                        >
+                        <Translate id="event.options.edit" description="Text of the button edit">
                             Bearbeiten
                         </Translate>
                     </dt>
@@ -95,10 +82,7 @@ const DefaultEventActions = observer((props: Props) => {
                 </>
             )}
             <dt>
-                <Translate
-                    id="event.options.clone"
-                    description="Text of the button clone"
-                >
+                <Translate id="event.options.clone" description="Text of the button clone">
                     Duplizieren
                 </Translate>
             </dt>
@@ -106,38 +90,30 @@ const DefaultEventActions = observer((props: Props) => {
                 <Clone event={event} />
             </dd>
             <dt>
-                <Translate
-                    id="event.options.group"
-                    description="Text of the button group"
-                >
+                <Translate id="event.options.group" description="Text of the button group">
                     Gruppe
                 </Translate>
             </dt>
             <dd>
                 <AddToGroup event={event} />
             </dd>
-            {
-                (userStore.current?.isAdmin || userStore.current?.id === event.authorId) && (
-                    <>
-                        <dt>
-                            <Translate
-                                id="event.options.delete"
-                                description="Text of the button delete"
-                            >
-                                Löschen
-                            </Translate>
-                        </dt>
-                        <dd>
-                            <Delete
-                                onClick={() => event.destroy()}
-                                apiState={event.apiStateFor(`destroy-${event.id}`)}
-                            />
-                        </dd>
-                    </>
-                )
-            }
+            {(userStore.current?.isAdmin || userStore.current?.id === event.authorId) && (
+                <>
+                    <dt>
+                        <Translate id="event.options.delete" description="Text of the button delete">
+                            Löschen
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <Delete
+                            onClick={() => event.destroy()}
+                            apiState={event.apiStateFor(`destroy-${event.id}`)}
+                        />
+                    </dd>
+                </>
+            )}
         </DefinitionList>
-    )
+    );
 });
 
 export default DefaultEventActions;

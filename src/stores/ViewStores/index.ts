@@ -14,7 +14,6 @@ import Klass from '@site/src/models/Untis/Klass';
 import Department from '@site/src/models/Department';
 import Colors from './Colors';
 
-
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
 
@@ -49,7 +48,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     get initialLoadPerformed() {
-        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed
+        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed;
     }
 
     @observable
@@ -59,7 +58,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     icalListClassFilter = '';
 
     @observable
-    calendarViewDate = (new Date()).toISOString().split('T')[0];
+    calendarViewDate = new Date().toISOString().split('T')[0];
 
     expandedEventIds = observable.set<string>();
 
@@ -81,7 +80,16 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         ignoreDeleted = undefined,
         orderBy = undefined
     }: EventViewProps): Event[] => {
-        return this.allEvents({ user: this.user, jobId, states, ignoreImported, onlyDeleted, ignoreDeleted, onlyImported, orderBy });
+        return this.allEvents({
+            user: this.user,
+            jobId,
+            states,
+            ignoreImported,
+            onlyDeleted,
+            ignoreDeleted,
+            onlyImported,
+            orderBy
+        });
     };
 
     allEvents = ({
@@ -94,8 +102,12 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         ignoreDeleted = undefined,
         orderBy = undefined
     }: EventViewProps) => {
-        let events = user ? user.events : jobId ? this.root.eventStore.byJob(jobId) : this.root.eventStore?.events ?? [];
-        events = events.filter((e) => !(e.hasParent && e.state === EventState.Published))
+        let events = user
+            ? user.events
+            : jobId
+              ? this.root.eventStore.byJob(jobId)
+              : this.root.eventStore?.events ?? [];
+        events = events.filter((e) => !(e.hasParent && e.state === EventState.Published));
         if (ignoreImported) {
             events = events.filter((e) => !e.jobId);
         } else if (onlyImported) {
@@ -124,7 +136,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
             }
         }
         return events;
-    }
+    };
 
     @action
     setCalendarViewDate(date: Date) {
@@ -147,8 +159,10 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @action
     setEventExpanded(eventId: string, expanded: boolean): void {
-        if ((expanded && !this.expandedEventIds.has(eventId))
-            || !expanded && this.expandedEventIds.has(eventId)) {
+        if (
+            (expanded && !this.expandedEventIds.has(eventId)) ||
+            (!expanded && this.expandedEventIds.has(eventId))
+        ) {
             this.toggleExpandedEvent(eventId);
         }
     }
@@ -204,7 +218,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @computed
     get allUserLessons(): Lesson[] {
-        return this.root.untisStore.findLessonsByTeacher(this.user?.untisId || -1).filter((l) => l?.semesterId === this.semester?.id);
+        return this.root.untisStore
+            .findLessonsByTeacher(this.user?.untisId || -1)
+            .filter((l) => l?.semesterId === this.semester?.id);
     }
 
     @computed
@@ -223,7 +239,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         if (this.root.userStore.current?.untisId) {
             // this.eventTable.setOnlyMine(true);
         }
-        return Promise.resolve()
+        return Promise.resolve();
     }
 
     @action
@@ -238,8 +254,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @computed
     get icalListDepartmentsFiltered() {
-        const match = (dep: Department, s: string) => dep.shortName.toLowerCase().includes(s) || dep.name.toLowerCase().includes(s);
-        return this.root.departmentStore.departments.filter((d) => match(d, this.icalListDepartmentsFilter.toLowerCase()));
+        const match = (dep: Department, s: string) =>
+            dep.shortName.toLowerCase().includes(s) || dep.name.toLowerCase().includes(s);
+        return this.root.departmentStore.departments.filter((d) =>
+            match(d, this.icalListDepartmentsFilter.toLowerCase())
+        );
     }
 
     @action
@@ -252,5 +271,4 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         const match = (klass: Klass, s: string) => klass.legacyName?.includes(s) || klass.name.includes(s);
         return this.root.untisStore.classes.filter((c) => match(c, this.icalListClassFilter));
     }
-
 }

@@ -7,29 +7,29 @@ import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const Location = observer((props: Props) => {
-    const {event} = props;
+    const { event } = props;
     if (event.isEditable && event.isEditing) {
         return (
-            <div 
-                style={{gridColumn: 'location'}} 
+            <div
+                style={{ gridColumn: 'location' }}
                 className={clsx(styles.location, props.className, 'grid-Location')}
             >
                 <TextArea
                     text={event.location}
-                    onChange={(loc) => event.update({location: loc})}
+                    onChange={(loc) => event.update({ location: loc })}
                     rows={2}
                 />
             </div>
-        )
+        );
     }
     return (
-        <div 
-            style={{gridColumn: 'location'}} 
+        <div
+            style={{ gridColumn: 'location' }}
             className={clsx(styles.location, props.className, 'grid-Location')}
         >
             {event.location}
         </div>
-    )
+    );
 });
 
 export default Location;

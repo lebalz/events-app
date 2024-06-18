@@ -10,7 +10,7 @@ import { mdiContentDuplicate, mdiDotsHorizontalCircleOutline } from '@mdi/js';
 import { translate } from '@docusaurus/Translate';
 import Edit from '../../shared/Button/Edit';
 import Event from '@site/src/models/Event';
-import {useWindowSize} from '@docusaurus/theme-common';
+import { useWindowSize } from '@docusaurus/theme-common';
 import i18n from '@generated/i18n';
 import { useHistory } from '@docusaurus/router';
 import EventsGroupPopup from '../../EventGroup/EventsGroupPopup';
@@ -20,11 +20,10 @@ import { PopupActions } from 'reactjs-popup/dist/types';
 import clrStyles from '../../shared/Colors/styles.module.scss';
 import { action } from 'mobx';
 
-
 interface Props {
     trigger?: JSX.Element;
     event: Event;
-    hideEdit?: boolean;	
+    hideEdit?: boolean;
 }
 
 interface ActionProps {
@@ -38,11 +37,11 @@ export const EditRowMode = observer((props: ActionProps) => {
     const viewStore = useStore('viewStore');
     const { event } = props;
     return (
-        <Edit 
+        <Edit
             onClick={() => {
                 event.setEditing(true);
                 if (windowSize === 'mobile') {
-                    viewStore.setEventModalId(event.id)
+                    viewStore.setEventModalId(event.id);
                 }
                 if (props.onEdit) {
                     props.onEdit();
@@ -51,7 +50,7 @@ export const EditRowMode = observer((props: ActionProps) => {
             size={props.iconSize || SIZE_S}
             newVersion={!event.isDraft}
         />
-    )
+    );
 });
 
 export const Clone = observer((props: ActionProps) => {
@@ -71,25 +70,24 @@ export const Clone = observer((props: ActionProps) => {
                 eventStore.clone(event).then((newEvent) => {
                     if (newEvent) {
                         const id = (newEvent as { id: string }).id;
-                        history.push(`${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events`);
+                        history.push(
+                            `${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events`
+                        );
                         eventStore.find(id)?.setEditing(true);
                     }
                 });
-
             }}
         />
-    )
+    );
 });
 export const AddToGroup = observer((props: ActionProps) => {
     const { event, iconSize } = props;
-    return (
-        <EventsGroupPopup event={event} iconSize={iconSize}/>
-    )
+    return <EventsGroupPopup event={event} iconSize={iconSize} />;
 });
 
 const OptionsPopup = observer((props: Props) => {
     const ref = React.useRef<PopupActions>();
-    
+
     return (
         <Popup
             ref={ref}
@@ -112,9 +110,13 @@ const OptionsPopup = observer((props: Props) => {
             on={'click'}
             nested
         >
-            <DefaultEventActions event={props.event} hideEdit={props.hideEdit} closePopup={() => ref.current?.close()}  />
+            <DefaultEventActions
+                event={props.event}
+                hideEdit={props.hideEdit}
+                closePopup={() => ref.current?.close()}
+            />
         </Popup>
-    )
+    );
 });
 
 export default OptionsPopup;

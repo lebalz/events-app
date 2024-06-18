@@ -10,7 +10,7 @@ import DatePicker from '../../shared/DatePicker';
 import { translate } from '@docusaurus/Translate';
 
 interface Props extends DefaultProps {
-    time: 'start' | 'end'
+    time: 'start' | 'end';
 }
 
 const DateTime = observer((props: Props) => {
@@ -34,30 +34,34 @@ const DateTime = observer((props: Props) => {
         return (
             <div
                 style={{ gridColumnStart: dateColumn, gridColumnEnd: `${props.time}End` }}
-                className={clsx(props.className, 'grid-dateTime', styles.dateTime, styles[props.time], error && styles.error)}
+                className={clsx(
+                    props.className,
+                    'grid-dateTime',
+                    styles.dateTime,
+                    styles[props.time],
+                    error && styles.error
+                )}
             >
-                {
-                    event.showAsAllDay ? (
-                        <DatePicker
-                            date={date}
-                            onChange={(date) => {
-                                const d = date.toISOString();
-                                event.update({ [props.time]: d })
-                            }}
-                            time={props.time}
-                            id={datePickerId}
-                        />
-                    ) : (
-                        <DateTimePicker
-                            date={date}
-                            onChange={(date) => {
-                                const d = date.toISOString();
-                                event.update({ [props.time]: d })
-                            }}
-                            id={datePickerId}
-                        />
-                    )
-                }
+                {event.showAsAllDay ? (
+                    <DatePicker
+                        date={date}
+                        onChange={(date) => {
+                            const d = date.toISOString();
+                            event.update({ [props.time]: d });
+                        }}
+                        time={props.time}
+                        id={datePickerId}
+                    />
+                ) : (
+                    <DateTimePicker
+                        date={date}
+                        onChange={(date) => {
+                            const d = date.toISOString();
+                            event.update({ [props.time]: d });
+                        }}
+                        id={datePickerId}
+                    />
+                )}
                 {props.time === 'start' && (
                     <Checkbox
                         checked={event.showAsAllDay}
@@ -65,27 +69,26 @@ const DateTime = observer((props: Props) => {
                             event.setAllDay(checked);
                         }}
                         label={translate({
-                            message : "Ganztägig",
-                            id:'components.events.datetime.allday',
-                            description:'Label of the checkbox all day'
+                            message: 'Ganztägig',
+                            id: 'components.events.datetime.allday',
+                            description: 'Label of the checkbox all day'
                         })}
                     />
                 )}
-                {error && (
-                    <div className={clsx(styles.errorMessage)}>
-                        {error.message}
-                    </div>
-                )}
+                {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
-        )
+        );
     }
     return (
-        <div 
-            className={clsx(props.className, styles.dateTime, styles.view)}
-        >
+        <div className={clsx(props.className, styles.dateTime, styles.view)}>
             <div
                 style={{ gridColumn: dateColumn }}
-                className={clsx(styles.date, styles[dateColumn], event.isOnOneDay && styles.onOneDay, `grid-${dateColumn}`)}
+                className={clsx(
+                    styles.date,
+                    styles[dateColumn],
+                    event.isOnOneDay && styles.onOneDay,
+                    `grid-${dateColumn}`
+                )}
             >
                 {fdate}
             </div>
@@ -98,24 +101,14 @@ const DateTime = observer((props: Props) => {
                 </div>
             )}
         </div>
-    )
+    );
 });
 
 export const StartDateTime = observer((props: DefaultProps) => {
-    return (
-        <DateTime
-            {...props}
-            time='start'
-        />
-    )
+    return <DateTime {...props} time="start" />;
 });
 export const EndDateTime = observer((props: DefaultProps) => {
-    return (
-        <DateTime
-            {...props}
-            time='end'
-        />
-    )
+    return <DateTime {...props} time="end" />;
 });
 
 export default DateTime;

@@ -1,11 +1,9 @@
-
 import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { isValidDate, toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
 import { action } from 'mobx';
-
 
 interface Props {
     date: Date;
@@ -23,14 +21,17 @@ const DateTimePicker = (props: Props) => {
     const [date, setDate] = React.useState<string>(toGlobalDate(props.date).toISOString().substring(0, 16));
     const [_id, _setId] = React.useState<string>(props.id);
 
-    React.useEffect(action(() => {
-        try {
-            const newDate = new Date(date);
-            props.onChange(toGlobalDate(newDate));
-        } catch (e) {
-            /** invalid date or time - ignore */
-        }
-    }), [date]);
+    React.useEffect(
+        action(() => {
+            try {
+                const newDate = new Date(date);
+                props.onChange(toGlobalDate(newDate));
+            } catch (e) {
+                /** invalid date or time - ignore */
+            }
+        }),
+        [date]
+    );
 
     React.useEffect(() => {
         if (props.id !== _id) {
@@ -41,9 +42,9 @@ const DateTimePicker = (props: Props) => {
 
     return (
         <div>
-            <input 
+            <input
                 className={clsx(styles.input)}
-                type={'datetime-local'} 
+                type={'datetime-local'}
                 value={date}
                 max="2050-12-31T12:00"
                 min="2023-01-01T12:00"
@@ -54,7 +55,7 @@ const DateTimePicker = (props: Props) => {
                 }}
             />
         </div>
-    )
+    );
 };
 
 export default DateTimePicker;

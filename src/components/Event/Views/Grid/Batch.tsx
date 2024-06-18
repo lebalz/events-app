@@ -5,18 +5,16 @@ import { observer } from 'mobx-react-lite';
 import { useOnScreen } from '@site/src/stores/hooks';
 import { BATCH_SIZE } from '.';
 
-
 interface Props {
     tableCssSelector: string;
     rowHeight: number;
     children: React.ReactNode;
 }
 
-
 const Batch = observer((props: Props) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const [expanded, setExpanded] = React.useState(false);
-    const onScreen = useOnScreen(ref, props.tableCssSelector, "0% 30px 0% 30px");
+    const onScreen = useOnScreen(ref, props.tableCssSelector, '0% 30px 0% 30px');
     React.useEffect(() => {
         if (onScreen) {
             setExpanded(true);
@@ -24,19 +22,18 @@ const Batch = observer((props: Props) => {
     }, [onScreen]);
     return (
         <>
-            <div 
-                className={clsx(styles.batch)} 
-                style={{ 
+            <div
+                className={clsx(styles.batch)}
+                style={{
                     height: expanded ? undefined : `${BATCH_SIZE * props.rowHeight}px`,
                     gridColumnStart: 1,
-                    gridColumnEnd: -1, /** span the full grid */
+                    gridColumnEnd: -1 /** span the full grid */
                 }}
                 ref={ref}
-            >
-            </div>
+            ></div>
             {expanded && props.children}
         </>
-    )
+    );
 });
 
 export default Batch;

@@ -28,80 +28,96 @@ const AdminView = observer(() => {
     const regPeriodStore = useStore('registrationPeriodStore');
 
     if (!userStore.current?.isAdmin) {
-        return (<Layout>
-            <main>
-                <div className='hero hero--primary'>
-                    <div className='container'>
-                        <h1 className='hero__title'>
-                            <Translate id="admin.noadmin.titre" description="the title for no administrator">
-                                For administrators only
-                            </Translate>
-                        </h1>
-                        <p className='hero__subtitle'>
-                            <Translate id="admin.noadmin.text" description="the description text for no admins">
-                                Area reserved for administrators
-                            </Translate>
-                        </p>
+        return (
+            <Layout>
+                <main>
+                    <div className="hero hero--primary">
+                        <div className="container">
+                            <h1 className="hero__title">
+                                <Translate
+                                    id="admin.noadmin.titre"
+                                    description="the title for no administrator"
+                                >
+                                    For administrators only
+                                </Translate>
+                            </h1>
+                            <p className="hero__subtitle">
+                                <Translate
+                                    id="admin.noadmin.text"
+                                    description="the description text for no admins"
+                                >
+                                    Area reserved for administrators
+                                </Translate>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </main>
-        </Layout>)
+                </main>
+            </Layout>
+        );
     }
 
     return (
         <Layout wrapperClassName={clsx(styles.layout)}>
-            <Tabs className={clsx(styles.tabs)} queryString groupId='admin-tab' lazy>
-                <TabItem value="users" label={translate({message: 'Users', id: 'admin.tab.users'})} default>
+            <Tabs className={clsx(styles.tabs)} queryString groupId="admin-tab" lazy>
+                <TabItem value="users" label={translate({ message: 'Users', id: 'admin.tab.users' })} default>
                     <UserTable users={viewStore.adminUserTable.users} />
                 </TabItem>
-                <TabItem value="semesters" label={translate({message: 'Semester', id: 'admin.tab.Semester'})}>
-                    <Section 
+                <TabItem
+                    value="semesters"
+                    label={translate({ message: 'Semester', id: 'admin.tab.Semester' })}
+                >
+                    <Section
                         title={translate({
-                            message : "Semester",
-                            id:'admin.section.semester' ,
-                            description:'Section Title semester'
+                            message: 'Semester',
+                            id: 'admin.section.semester',
+                            description: 'Section Title semester'
                         })}
                     >
-                        <Button 
+                        <Button
                             title={translate({
-                                message : "Semester Hinzufügen",
-                                id:'admin.button.semester.hinzufugen.title' ,
-                                description:'Button Title Semester Hinzufügen'
+                                message: 'Semester Hinzufügen',
+                                id: 'admin.button.semester.hinzufugen.title',
+                                description: 'Button Title Semester Hinzufügen'
                             })}
                             text={translate({
-                                message : "Neues Semester",
-                                id:'admin.button.semester.hinzufuge.text' ,
-                                description:'Button Text Neues Semester'
+                                message: 'Neues Semester',
+                                id: 'admin.button.semester.hinzufuge.text',
+                                description: 'Button Text Neues Semester'
                             })}
-                            iconSide='left'
-                            icon={<Icon path={mdiPlusCircleOutline}/>}
-                            color='primary'
+                            iconSide="left"
+                            icon={<Icon path={mdiPlusCircleOutline} />}
+                            color="primary"
                             apiState={semesterStore.apiStateFor('create')}
                             onClick={() => {
                                 semesterStore.create({
-                                    name: 'New', 
-                                    start: (new Date(Date.now() + 1000 * 60 * 60 * 24 * 90)).toISOString(),
-                                    end: (new Date(Date.now() + 1000 * 60 * 60 * 24 * 270)).toISOString()
-                                })
+                                    name: 'New',
+                                    start: new Date(Date.now() + 1000 * 60 * 60 * 24 * 90).toISOString(),
+                                    end: new Date(Date.now() + 1000 * 60 * 60 * 24 * 270).toISOString()
+                                });
                             }}
                         />
                         <SemesterList />
                     </Section>
                     <SyncUntis />
                 </TabItem>
-                <TabItem value="departments" label={translate({message: 'Abteilungen', id: 'admin.tab.departments'})}>
+                <TabItem
+                    value="departments"
+                    label={translate({ message: 'Abteilungen', id: 'admin.tab.departments' })}
+                >
                     <DepartmentTable />
                 </TabItem>
-                <TabItem value="import" label={translate({message: 'Import', id: 'admin.tab.import'})}>
+                <TabItem value="import" label={translate({ message: 'Import', id: 'admin.tab.import' })}>
                     <ImportEvents />
                 </TabItem>
-                <TabItem value="reg-periods" label={translate({message: 'Registrierungs Perioden', id: 'admin.tab.reg-periods'})}>
+                <TabItem
+                    value="reg-periods"
+                    label={translate({ message: 'Registrierungs Perioden', id: 'admin.tab.reg-periods' })}
+                >
                     <RegistrationPeriods />
                 </TabItem>
             </Tabs>
-
         </Layout>
-    )
+    );
 });
 
 export default AdminView;

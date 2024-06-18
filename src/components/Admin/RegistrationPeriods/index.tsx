@@ -9,9 +9,7 @@ import AddButton from '../../Event/AddButton';
 import { SEC_2_MS, WEEK_2_MS, toGlobalDate } from '@site/src/models/helpers/time';
 import { translate } from '@docusaurus/Translate';
 
-
-interface Props {
-}
+interface Props {}
 
 const RegistrationPeriods = observer((props: Props) => {
     const regPeriodStore = useStore('registrationPeriodStore');
@@ -25,10 +23,10 @@ const RegistrationPeriods = observer((props: Props) => {
                     const nextSemester = semesterStore.nextSemester(semesterStore.currentSemester?.id, 1);
                     const erStart = nextSemester ? nextSemester.start : start;
                     const erEnd = nextSemester ? nextSemester.end : end;
-                    regPeriodStore.create({ 
-                        start: start.toISOString(), 
-                        end: end.toISOString(), 
-                        eventRangeStart: erStart.toISOString(), 
+                    regPeriodStore.create({
+                        start: start.toISOString(),
+                        end: end.toISOString(),
+                        eventRangeStart: erStart.toISOString(),
                         eventRangeEnd: erEnd.toISOString(),
                         name: nextSemester ? nextSemester.name : `Eingabefenster ${start.getFullYear()}`
                     });
@@ -39,17 +37,15 @@ const RegistrationPeriods = observer((props: Props) => {
                     description: 'Text of button to add RegistrationPeriod'
                 })}
                 apiState={regPeriodStore.apiStateFor('create')}
-                color='primary'
+                color="primary"
             />
             <div className={clsx(styles.regPeriods)}>
                 {regPeriodStore.registrationPeriods.map((period) => {
-                    return (
-                        <RegistrationPeriod period={period} key={period.id} />
-                    );
+                    return <RegistrationPeriod period={period} key={period.id} />;
                 })}
             </div>
         </div>
-    )
+    );
 });
 
 export default RegistrationPeriods;

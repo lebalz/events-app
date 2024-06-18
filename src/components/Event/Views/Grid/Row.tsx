@@ -27,7 +27,6 @@ import CreatedAt from '../../EventFields/CreatedAt';
 import UpdatedAt from '../../EventFields/UpdatedAt';
 import Nr from '../../EventFields/Nr';
 
-
 interface Props {
     event: Event;
     columns: [keyof typeof DefaultConfig, Partial<ConfigOptionsSortable>][];
@@ -54,7 +53,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     userGroup: EventGroup,
     departmens: DepartmentsOrAudiencePicker,
     classes: Klasses,
-    descriptionLong: DescriptionLong,
+    descriptionLong: DescriptionLong
 };
 
 const Row = observer((props: Props) => {
@@ -80,18 +79,18 @@ const Row = observer((props: Props) => {
                 return (
                     <div
                         className={clsx(
-                            styles.cell, 
-                            (props.event.isDeleted && name !== 'actions') && styles.deleted, 
-                            styles[name as string], 
-                            config.className, 
-                            (props.index % 2) === 1 && styles.odd,
+                            styles.cell,
+                            props.event.isDeleted && name !== 'actions' && styles.deleted,
+                            styles[name as string],
+                            config.className,
+                            props.index % 2 === 1 && styles.odd,
                             props.event.isToday && styles.today,
-                            props.event.isCurrentWeek && styles.currentWeek,
+                            props.event.isCurrentWeek && styles.currentWeek
                         )}
                         style={{
                             gridColumn: gridColumn,
                             maxWidth: maxWidth,
-                            width: (typeof config.sortable === 'string') ? config.sortable : config.width,
+                            width: typeof config.sortable === 'string' ? config.sortable : config.width,
                             minWidth: config.direction ? config.minWidthWhenActive : undefined,
                             position: config.fixed ? 'sticky' : undefined,
                             left: config.fixed?.left,
@@ -127,7 +126,7 @@ const Row = observer((props: Props) => {
                         }}
                         key={index}
                     >
-                        <div style={{maxWidth: maxContentWidth}}>
+                        <div style={{ maxWidth: maxContentWidth }}>
                             <Component
                                 event={props.event}
                                 className={clsx(styles.content, !props.event.isExpanded && styles.collapsed)}
@@ -136,11 +135,10 @@ const Row = observer((props: Props) => {
                             />
                         </div>
                     </div>
-                )
-            })
-            }
+                );
+            })}
         </>
-    )
+    );
 });
 
 export default Row;

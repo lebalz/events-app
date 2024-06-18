@@ -1,19 +1,20 @@
-import { action, computed, IObservableArray, makeObservable, observable, reaction } from "mobx";
+import { action, computed, IObservableArray, makeObservable, observable, reaction } from 'mobx';
 import _ from 'lodash';
-import iStore from "../stores/iStore";
-import { notEqual } from "./helpers";
+import iStore from '../stores/iStore';
+import { notEqual } from './helpers';
 
 type AnyExceptUndefined = string | number | boolean | symbol | object | null;
 // type ConfigType<T extends { id: string }> = { attr: keyof T };
 // type TransformType<T extends { id: string }> = { attr: keyof T, transform: (value: any) => AnyExceptUndefined};
 // type UpdateType<T extends { id: string }> = { attr: keyof T, update: (value: any) => void};
 // export type UpdateableProps<T extends { id: string }> = (keyof T | ConfigType<T> | TransformType<T> | UpdateType<T>)[];
-export type UpdateableProps<T extends { id: string }> = (
-    keyof T | { 
-        attr: keyof T,
-        transform?: (value: any) => AnyExceptUndefined,
-        update?: (value: any) => void}
-    );
+export type UpdateableProps<T extends { id: string }> =
+    | keyof T
+    | {
+          attr: keyof T;
+          transform?: (value: any) => AnyExceptUndefined;
+          update?: (value: any) => void;
+      };
 
 export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly _pristine: T;
@@ -43,14 +44,14 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     get dirtyProps(): Partial<T> {
         const { _pristine, props } = this;
         const changes: Partial<T> = {};
-        Object.keys(props).forEach(key => {
+        Object.keys(props).forEach((key) => {
             if (notEqual(props[key], _pristine[key])) {
                 changes[key] = props[key];
             }
         });
         return changes;
     }
-    
+
     @computed
     get isDirty(): boolean {
         return Object.keys(this.dirtyProps).length > 0;
@@ -71,7 +72,7 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
 
     @action
     update(props: Partial<T>) {
-        this.UPDATEABLE_PROPS.forEach(val => {
+        this.UPDATEABLE_PROPS.forEach((val) => {
             const hasConfiguration = typeof val === 'object';
             const isUpdater = hasConfiguration && val.update;
             const isTransformer = hasConfiguration && !isUpdater && val.transform;

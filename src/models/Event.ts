@@ -1,9 +1,32 @@
 import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
-import { EventAudience, Event as EventProps, EventState, JoiEvent, JoiMessages, Meta, TeachingAffected } from '../api/event';
+import {
+    EventAudience,
+    Event as EventProps,
+    EventState,
+    JoiEvent,
+    JoiMessages,
+    Meta,
+    TeachingAffected
+} from '../api/event';
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { toLocalDate, formatTime, formatDate, getKW, DAYS, toGlobalDate, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, WEEK_2_MS, getLastMonday, DAYS_LONG, dateBetween, formatDateLong} from './helpers/time';
+import {
+    toLocalDate,
+    formatTime,
+    formatDate,
+    getKW,
+    DAYS,
+    toGlobalDate,
+    DAY_2_MS,
+    HOUR_2_MS,
+    MINUTE_2_MS,
+    WEEK_2_MS,
+    getLastMonday,
+    DAYS_LONG,
+    dateBetween,
+    formatDateLong
+} from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
@@ -39,7 +62,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly UPDATEABLE_PROPS: UpdateableProps<EventProps>[] = [
         'description',
         'descriptionLong',
-        { 
+        {
             attr: 'start',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
@@ -50,7 +73,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                 this.start = date;
             })
         },
-        { 
+        {
             attr: 'end',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
@@ -130,7 +153,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     selected: boolean = false;
 
     @observable.ref
-    _errors?: Joi.ValidationError
+    _errors?: Joi.ValidationError;
 
     @observable
     affectsDepartment2: boolean;
@@ -167,7 +190,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
         this._pristine_start = toLocalDate(new Date(props.start));
         this._pristine_end = toLocalDate(new Date(props.end));
-
 
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
@@ -211,13 +233,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     validate() {
-        const result = JoiEvent.validate(
-            this.props, 
-            {
-                abortEarly: false,
-                messages: JoiMessages
-            }
-        );
+        const result = JoiEvent.validate(this.props, {
+            abortEarly: false,
+            messages: JoiMessages
+        });
         if (result.error) {
             this._errors = result.error;
             console.log(result.error);
@@ -262,7 +281,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.durationMS === 0) {
             return false;
         }
-        return this.start.getHours() === 0 && this.start.getMinutes() === 0 && this.end.getHours() === 0 && this.end.getMinutes() === 0;
+        return (
+            this.start.getHours() === 0 &&
+            this.start.getMinutes() === 0 &&
+            this.end.getHours() === 0 &&
+            this.end.getMinutes() === 0
+        );
     }
 
     @computed
@@ -325,20 +349,20 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             if (this.classGroups.has(classGroupName)) {
                 this.classGroups.delete(classGroupName);
                 const allOfGroup = this.store.root.untisStore.findClassesByGroupName(classGroupName);
-                allOfGroup.forEach(c => {
+                allOfGroup.forEach((c) => {
                     if (c.name !== klass) {
                         this.classes.add(c.name);
                     }
-                })
+                });
             }
-            const department = this.departments.find(d => d.classes.some(c => c.name === klass));
+            const department = this.departments.find((d) => d.classes.some((c) => c.name === klass));
             if (department) {
                 this.departmentIds.delete(department.id);
-                department.classes.forEach(c => {
+                department.classes.forEach((c) => {
                     if (c.name !== klass) {
                         this.setClass(c.name, true);
                     }
-                })
+                });
             }
         }
 
@@ -348,7 +372,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @action
     toggleClassGroup(groupName: string) {
         const current = this.untisStore.classesGroupedByGroupNames.get(groupName);
-        const isActive = this.classGroups.has(groupName) || current?.every(c => this.affectedClassNames.has(c.name));
+        const isActive =
+            this.classGroups.has(groupName) || current?.every((c) => this.affectedClassNames.has(c.name));
         this.setClassGroup(groupName, !isActive);
     }
 
@@ -366,16 +391,16 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
 
         if (!value) {
-            const affectedDeps = this.departments.filter(d => d.classGroups.has(klassGroup));
+            const affectedDeps = this.departments.filter((d) => d.classGroups.has(klassGroup));
             if (affectedDeps.length > 0) {
-                affectedDeps.forEach(dep => {
+                affectedDeps.forEach((dep) => {
                     this.departmentIds.delete(dep.id);
-                    dep.classes.forEach(c => {
+                    dep.classes.forEach((c) => {
                         if (!c.name.startsWith(klassGroup)) {
                             this.classes.add(c.name);
                         }
-                    })
-                })
+                    });
+                });
             }
         }
         this.normalizeAffectedClasses();
@@ -391,16 +416,16 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get affectedClassNames(): Set<string> {
         const classNames = new Set<string>(this.classes);
-        [...this.classGroups].forEach(cg => {
-            this.store.root.untisStore.findClassesByGroupName(cg).forEach(c => {
+        [...this.classGroups].forEach((cg) => {
+            this.store.root.untisStore.findClassesByGroupName(cg).forEach((c) => {
                 classNames.add(c.name);
             });
-        })
-        this.departments.forEach(d => {
-            d.classes.forEach(c => {
+        });
+        this.departments.forEach((d) => {
+            d.classes.forEach((c) => {
                 classNames.add(c.name);
-            })
-        })
+            });
+        });
         return classNames;
     }
 
@@ -409,22 +434,22 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      * - known (untis) class
      * - classes included by classGroup
      * - classes included by department
-     * 
+     *
      * unknwon classes are **not** included
      */
     @computed
     get affectedKnownClasses(): Set<Klass> {
         const klasses = new Set<Klass>(this._selectedClasses);
-        [...this.classGroups].forEach(cg => {
-            this.store.root.untisStore.findClassesByGroupName(cg).forEach(c => {
+        [...this.classGroups].forEach((cg) => {
+            this.store.root.untisStore.findClassesByGroupName(cg).forEach((c) => {
                 klasses.add(c);
             });
-        })
-        this.departments.forEach(d => {
-            d.classes.forEach(c => {
+        });
+        this.departments.forEach((d) => {
+            d.classes.forEach((c) => {
                 klasses.add(c);
-            })
-        })
+            });
+        });
         return klasses;
     }
 
@@ -434,25 +459,25 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         const classes = new Set<KlassName>();
         const classGroups = new Set<string>();
         const departmentIds = new Set<string>();
-        this.departmentStore.departments.forEach(d => {
-            if (d.classes.length > 0 && d.classes.every(c => cNames.has(c.name))) {
-                d.classes.forEach(c => cNames.delete(c.name));
+        this.departmentStore.departments.forEach((d) => {
+            if (d.classes.length > 0 && d.classes.every((c) => cNames.has(c.name))) {
+                d.classes.forEach((c) => cNames.delete(c.name));
                 departmentIds.add(d.id);
             }
         });
         this.untisStore.classesGroupedByGroupNames.forEach((classes, group) => {
-            if (classes.every(c => cNames.has(c.name))) {
-                classes.forEach(c => cNames.delete(c.name));
+            if (classes.every((c) => cNames.has(c.name))) {
+                classes.forEach((c) => cNames.delete(c.name));
                 classGroups.add(group);
             }
         });
         this._unknownClassGroups.forEach((cg) => {
             classGroups.add(cg);
-            cNames.forEach(c => {
+            cNames.forEach((c) => {
                 if (c.startsWith(cg)) {
                     cNames.delete(c);
                 }
-            })
+            });
         });
         cNames.forEach((c) => {
             if (c.length === 4) {
@@ -483,8 +508,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.normalizeAffectedClasses();
     }
 
-
-
     /**
      * @returns departments of the event which are included through the #departmentIds
      */
@@ -498,7 +521,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get affectedDepartments() {
-        const depIds = new Set([...this.departmentIds, ...this.untisClasses.map(c => c.departmentId)]);
+        const depIds = new Set([...this.departmentIds, ...this.untisClasses.map((c) => c.departmentId)]);
         return this.store.getDepartments([...depIds]);
     }
 
@@ -507,12 +530,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get departmentIdsAll() {
-        return new Set(this.affectedDepartments.map(d => d.id));
+        return new Set(this.affectedDepartments.map((d) => d.id));
     }
 
     @computed
     get departmentNames() {
-        return this.affectedDepartments.map(d => d.name);
+        return this.affectedDepartments.map((d) => d.name);
     }
 
     @computed
@@ -630,7 +653,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         const fDate = this.fStartDateLong;
         return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
     }
-    
+
     /**
      * @example 17.05.2024
      */
@@ -650,7 +673,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return `${fDate.slice(0, 6)}${fDate.slice(8)}`;
     }
 
-
     @action
     setAllDay(allDay: boolean) {
         this.showAsAllDay = allDay;
@@ -666,21 +688,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get fClasses(): ({text: string, classes: Klass[]})[] {
+    get fClasses(): { text: string; classes: Klass[] }[] {
         const kls: { [year: string]: Klass[] } = {};
-        [...this.affectedKnownClasses].sort((a, b) => a.name.localeCompare(b.name)).forEach(c => {
-            const year = c.legacyName ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
-            if (!kls[year]) {
-                kls[year] = [];
-            }
-            kls[year].push(c);
-        });
-        const composed = Object.keys(kls).map(year => ({
-            text: `${year}${kls[year].map(c => c.displayName.slice(year.length)).sort().join('')}`,
+        [...this.affectedKnownClasses]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .forEach((c) => {
+                const year = c.legacyName ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
+                if (!kls[year]) {
+                    kls[year] = [];
+                }
+                kls[year].push(c);
+            });
+        const composed = Object.keys(kls).map((year) => ({
+            text: `${year}${kls[year]
+                .map((c) => c.displayName.slice(year.length))
+                .sort()
+                .join('')}`,
             classes: kls[year]
         }));
 
-        return [...composed, ...this._unknownClassNames.map(c => ({text: c, classes: []}))];
+        return [...composed, ...this._unknownClassNames.map((c) => ({ text: c, classes: [] }))];
     }
 
     @computed
@@ -748,12 +775,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get dayStart(): typeof DAYS[number] {
+    get dayStart(): (typeof DAYS)[number] {
         return DAYS[this.start.getDay()];
     }
 
     @computed
-    get dayEnd(): typeof DAYS[number] {
+    get dayEnd(): (typeof DAYS)[number] {
         /**
          * subtract a millisecond to take in account, that the 1.1.2024-24:00 is in JS the 2.1.2024-00:00
          */
@@ -762,12 +789,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get dayFullStart(): typeof DAYS_LONG[number] {
+    get dayFullStart(): (typeof DAYS_LONG)[number] {
         return DAYS_LONG[this.start.getDay()];
     }
 
     @computed
-    get dayFullEnd(): typeof DAYS_LONG[number] {
+    get dayFullEnd(): (typeof DAYS_LONG)[number] {
         const newDate = new Date(this.end.getTime() - 1);
         return DAYS_LONG[newDate.getDay()];
     }
@@ -802,7 +829,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     affectsClass(klass: Klass): boolean {
-        return this.untisClasses.some(c => c.id === klass.id);
+        return this.untisClasses.some((c) => c.id === klass.id);
     }
 
     hasOverlap(lesson: Lesson) {
@@ -811,10 +838,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
         const { weeks, minutes } = this.duration;
         const dayOffset = (lesson.weekDay + weeks * 7 - this.weekDay) % 7;
-        const startOffset = dayOffset * 24 * 60 + Math.floor(lesson.startHHMM / 100) * 60 + lesson.startHHMM % 100;
-        const endOffset = dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + lesson.endHHMM % 100;
+        const startOffset =
+            dayOffset * 24 * 60 + Math.floor(lesson.startHHMM / 100) * 60 + (lesson.startHHMM % 100);
+        const endOffset =
+            dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + (lesson.endHHMM % 100);
         const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
-        return startOffset < (eventStartOffset + minutes) && endOffset > eventStartOffset;
+        return startOffset < eventStartOffset + minutes && endOffset > eventStartOffset;
     }
 
     @computed
@@ -827,7 +856,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get _selectedClassNames(): KlassName[] {
-        return [...this._selectedClasses.map(c => c.name), ...this._unknownClassNames]
+        return [...this._selectedClasses.map((c) => c.name), ...this._unknownClassNames];
     }
 
     /**
@@ -836,19 +865,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get _selectedClasses(): Klass[] {
-        const wildcard = new Set(this._wildcardClasses.map(c => c.id));
-        return this.untisClasses.filter(c => !wildcard.has(c.id));
+        const wildcard = new Set(this._wildcardClasses.map((c) => c.id));
+        return this.untisClasses.filter((c) => !wildcard.has(c.id));
     }
 
     @computed
     get _unknownClassNames(): KlassName[] {
-        const known = new Set(this.untisClasses.map(c => c.name));
-        return [...this.classes].filter(c => !known.has(c));
+        const known = new Set(this.untisClasses.map((c) => c.name));
+        return [...this.classes].filter((c) => !known.has(c));
     }
 
     @computed
     get _unknownClassGroups(): string[] {
-        return [...this.classGroups].filter(c => !this.store.hasUntisClassesInClassGroup(c));
+        return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c));
     }
 
     @computed
@@ -857,7 +886,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     /**
-     * all classes that are affected by this event, but are 
+     * all classes that are affected by this event, but are
      * not selected thorugh the className filter
      */
     @computed
@@ -872,21 +901,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get affectedLessons(): Lesson[] {
-        const lessons = this.untisClasses.map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat();
+        const lessons = this.untisClasses
+            .map((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)))
+            .flat();
         return _.uniqBy(lessons, 'id').sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start);
     }
 
-    get affectedLessonsGroupedByClass(): { class: string, lessons: Lesson[] }[] {
-        const lessons = this.untisClasses.slice().map(c => c.lessons.slice().filter(l => this.hasOverlap(l))).flat();
+    get affectedLessonsGroupedByClass(): { class: string; lessons: Lesson[] }[] {
+        const lessons = this.untisClasses
+            .slice()
+            .map((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)))
+            .flat();
         const affected: { [kl: string]: Lesson[] } = {};
         const placedLessonIds = new Set<number>();
-        lessons.forEach(l => {
+        lessons.forEach((l) => {
             if (placedLessonIds.has(l.id)) {
                 return;
             }
             placedLessonIds.add(l.id);
             if (l.classes.length > 1) {
-                const letters = l.classes.map(c => c.letter).sort();
+                const letters = l.classes.map((c) => c.letter).sort();
                 const year = l.classes[0].year;
                 const name = `${year % 100}${letters.length > 4 ? '*' : letters.join('')}`;
                 if (!affected[name]) {
@@ -901,19 +935,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                 affected[name].push(l);
             }
         });
-        return Object.keys(affected).map(kl => ({ class: kl, lessons: affected[kl] }));
+        return Object.keys(affected).map((kl) => ({ class: kl, lessons: affected[kl] }));
     }
 
-    get usersAffectedLessonsGroupedByClass(): { class: string, lessons: Lesson[] }[] {
+    get usersAffectedLessonsGroupedByClass(): { class: string; lessons: Lesson[] }[] {
         const lessons = this.affectedLessonsGroupedByClass;
         const tId = this.store.root.userStore.current?.untisTeacher?.id;
         if (!tId) {
             return lessons;
         }
-        lessons.forEach(l => {
-            l.lessons = l.lessons.filter(l => l.teacherIds.includes(tId));
+        lessons.forEach((l) => {
+            l.lessons = l.lessons.filter((l) => l.teacherIds.includes(tId));
         });
-        return lessons.filter(l => l.lessons.length > 0);
+        return lessons.filter((l) => l.lessons.length > 0);
     }
 
     @computed
@@ -940,14 +974,20 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     get departmentState(): DepartmentState {
-        const someDepartments = this.departmentStore.departmentsWithClasses.some(d => this.departmentIds.has(d.id));
-        const allDepartments = someDepartments && this.departmentStore.departmentsWithClasses.every(d => this.departmentIds.has(d.id));
+        const someDepartments = this.departmentStore.departmentsWithClasses.some((d) =>
+            this.departmentIds.has(d.id)
+        );
+        const allDepartments =
+            someDepartments &&
+            this.departmentStore.departmentsWithClasses.every((d) => this.departmentIds.has(d.id));
 
         const { departmentsDe, departmentsFr } = this.departmentStore;
-        const someDepartmentsDe = departmentsDe.some(d => this.departmentIds.has(d.id));
-        const allDepartmentsDe = someDepartmentsDe && departmentsDe.every(d => this.departmentIds.has(d.id));
-        const someDepartmentsFr = departmentsFr.some(d => this.departmentIds.has(d.id));
-        const allDepartmentsFr = someDepartmentsFr && departmentsFr.every(d => this.departmentIds.has(d.id));
+        const someDepartmentsDe = departmentsDe.some((d) => this.departmentIds.has(d.id));
+        const allDepartmentsDe =
+            someDepartmentsDe && departmentsDe.every((d) => this.departmentIds.has(d.id));
+        const someDepartmentsFr = departmentsFr.some((d) => this.departmentIds.has(d.id));
+        const allDepartmentsFr =
+            someDepartmentsFr && departmentsFr.every((d) => this.departmentIds.has(d.id));
         return {
             someDepartments,
             allDepartments,
@@ -955,8 +995,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             allDepartmentsFr,
             someDepartmentsDe,
             someDepartmentsFr
-        }
-
+        };
     }
 
     @override
@@ -984,7 +1023,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             publishedVersionIds: this.publishedVersionIds,
             deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null,
             meta: this.meta
-        }
+        };
     }
 
     @computed
@@ -1009,14 +1048,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get parents() {
         if (!this.parentId) {
-            return []
+            return [];
         }
         return [this.parent, ...this.parent.parents];
     }
 
     @computed
     get publishedVersions() {
-        const all = this.publishedVersionIds.map(id => this.store.find<Event>(id)).filter(e => !!e);
+        const all = this.publishedVersionIds.map((id) => this.store.find<Event>(id)).filter((e) => !!e);
         return _.orderBy(all, ['createdAt'], ['asc']);
     }
 
@@ -1025,7 +1064,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.hasParent) {
             let version = 0;
             let subversion = 0;
-            this.versions.every(e => {
+            this.versions.every((e) => {
                 if (e.state === EventState.Published) {
                     version++;
                     subversion = 0;
@@ -1047,9 +1086,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.versionsLoaded && !force) {
             return;
         }
-        this.store.loadVersions(this).then(action((versions) => {
-            this.versionsLoaded = true;
-        }));
+        this.store.loadVersions(this).then(
+            action((versions) => {
+                this.versionsLoaded = true;
+            })
+        );
     }
 
     @computed
@@ -1060,7 +1101,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.publishedVersions;
     }
 
-
     @computed
     get allVersions() {
         const root: Event = this.publishedParent || this;
@@ -1070,7 +1110,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get descendants(): Event[] {
-        return this.children.flatMap<Event>(c => [c, ...c.descendants]);
+        return this.children.flatMap<Event>((c) => [c, ...c.descendants]);
     }
 
     @computed
@@ -1080,7 +1120,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get unpublishedVersions() {
-        return this.allVersions.filter(c => !c.isPublished);
+        return this.allVersions.filter((c) => !c.isPublished);
     }
 
     @computed
@@ -1090,24 +1130,38 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get _dupCompareString() {
-        const exclude: (keyof EventProps)[] = ['id', 'jobId', 'authorId', 'createdAt', 'updatedAt', 'deletedAt', 'parentId', 'cloned', 'state'];
+        const exclude: (keyof EventProps)[] = [
+            'id',
+            'jobId',
+            'authorId',
+            'createdAt',
+            'updatedAt',
+            'deletedAt',
+            'parentId',
+            'cloned',
+            'state'
+        ];
 
-        const props = (Object.keys(this.props) as (keyof EventProps)[]).filter(p => {
-            return !exclude.includes(p)
-        }).reduce((acc, key) => {
-            let val = this.props[key];
-            if (Array.isArray(val)) {
-                val = val.sort().join(',');
-            }
-            return {...acc, [key]: val}
-        }, {});
+        const props = (Object.keys(this.props) as (keyof EventProps)[])
+            .filter((p) => {
+                return !exclude.includes(p);
+            })
+            .reduce((acc, key) => {
+                let val = this.props[key];
+                if (Array.isArray(val)) {
+                    val = val.sort().join(',');
+                }
+                return { ...acc, [key]: val };
+            }, {});
 
         return JSON.stringify(props);
     }
 
     @computed
     get duplicatedEvents() {
-        return this.store.publicEvents.filter(e => e._dupCompareString === this._dupCompareString && e.id !== this.id);
+        return this.store.publicEvents.filter(
+            (e) => e._dupCompareString === this._dupCompareString && e.id !== this.id
+        );
     }
 
     @computed
@@ -1123,7 +1177,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             days: Math.ceil(period / DAY_2_MS),
             hours: Math.ceil(period / HOUR_2_MS),
             minutes: Math.ceil(period / MINUTE_2_MS)
-        }
+        };
     }
 
     @computed
@@ -1137,9 +1191,19 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fDurationCompact() {
         if (this.store?.root?.currentLocale === 'fr') {
-            return humanize(this.durationMS, { language: 'fr', units: ['w', 'd', 'h', 'm'], largest: 1, round: true });
+            return humanize(this.durationMS, {
+                language: 'fr',
+                units: ['w', 'd', 'h', 'm'],
+                largest: 1,
+                round: true
+            });
         }
-        return humanize(this.durationMS, { language: 'de', units: ['w', 'd', 'h', 'm'], largest: 1, round: true });
+        return humanize(this.durationMS, {
+            language: 'de',
+            units: ['w', 'd', 'h', 'm'],
+            largest: 1,
+            round: true
+        });
     }
 
     /**
@@ -1152,12 +1216,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     get affectedSemesters() {
-        return this.store.root.semesterStore.semesters.filter(s => dateBetween(this.start, s.start, s.end) || dateBetween(this.end, s.start, s.end));
+        return this.store.root.semesterStore.semesters.filter(
+            (s) => dateBetween(this.start, s.start, s.end) || dateBetween(this.end, s.start, s.end)
+        );
     }
 
     @computed
     get groups() {
-        return this.store.root.eventGroupStore.eventGroups.filter(g => g.eventIds.has(this.id));
+        return this.store.root.eventGroupStore.eventGroups.filter((g) => g.eventIds.has(this.id));
     }
 
     @override

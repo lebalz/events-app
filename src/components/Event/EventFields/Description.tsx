@@ -7,35 +7,33 @@ import { Props } from './iEventField';
 import TextArea from '@site/src/components/shared/TextArea';
 
 const Description = observer((props: Props) => {
-    const {event} = props;
+    const { event } = props;
     const error = event.errorFor('description');
     if (event.isEditable && event.isEditing) {
         return (
-            <div 
-                style={{gridColumn: 'description'}} 
-                className={clsx(styles.description, props.className, error && styles.error, 'grid-description')}
+            <div
+                style={{ gridColumn: 'description' }}
+                className={clsx(
+                    styles.description,
+                    props.className,
+                    error && styles.error,
+                    'grid-description'
+                )}
                 aria-invalid={!!error}
             >
-                <TextArea
-                    text={event.description}
-                    onChange={(text) => event.update({description: text})}
-                />
-                {error && (
-                    <div className={clsx(styles.errorMessage)}>
-                        {error.message}
-                    </div>
-                )}
+                <TextArea text={event.description} onChange={(text) => event.update({ description: text })} />
+                {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
-        )
+        );
     }
     return (
-        <div 
-            style={{gridColumn: 'description'}} 
+        <div
+            style={{ gridColumn: 'description' }}
             className={clsx(styles.description, props.className, 'grid-description')}
         >
             {event.description}
         </div>
-    )
+    );
 });
 
 export default Description;

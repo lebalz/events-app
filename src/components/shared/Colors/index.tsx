@@ -10,8 +10,8 @@ export const Colors = {
     orange: styles.orange,
     gray: styles.gray,
     lightBlue: styles.lightBlue,
-    black: styles.black,
-}
+    black: styles.black
+};
 
 export const ButtonColors = {
     primary: 'button--primary',
@@ -23,14 +23,18 @@ export const ButtonColors = {
     gray: 'button--secondary',
     lightBlue: 'button--info',
     black: 'button--primary'
-}
+};
 
 export type Color = keyof typeof Colors;
 
 export const getColorClass = (color: Color | string | undefined, defaultColor?: Color) => {
     return Colors[color] || Colors[defaultColor];
-}
+};
 
 export const getButtonColorClass = (color: Color | string, defaultColor?: Color) => {
-    return clsx(ButtonColors[color] || ButtonColors[defaultColor], color === 'blue' && styles.buttonBlue, color === 'black' && styles.buttonBlack);
-}
+    return clsx(
+        ButtonColors[color] || ButtonColors[defaultColor],
+        color === 'blue' && styles.buttonBlue,
+        color === 'black' && styles.buttonBlack
+    );
+};

@@ -26,7 +26,7 @@ const Event = observer((props: Props) => {
                 <EventBody {...props} />
             </div>
         </div>
-    )
+    );
 });
 
 export default Event;

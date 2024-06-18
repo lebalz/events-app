@@ -1,4 +1,3 @@
-
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
@@ -14,10 +13,13 @@ class AdminDepartmentTable {
         makeObservable(this);
     }
 
-
     @computed
     get departments(): Department[] {
-        return _.orderBy(this.store.root.departmentStore.departments, [(d) => d.pristine[this.sortColumn]], [this.sortDirection]);
+        return _.orderBy(
+            this.store.root.departmentStore.departments,
+            [(d) => d.pristine[this.sortColumn]],
+            [this.sortDirection]
+        );
     }
 
     @action

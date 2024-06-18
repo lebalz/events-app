@@ -10,8 +10,7 @@ import { mdiAccountCircleOutline } from '@mdi/js';
 import siteConfig from '@generated/docusaurus.config';
 import { ApiState } from '@site/src/stores/iStore';
 import { translate } from '@docusaurus/Translate';
-const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean};
-
+const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean };
 
 const LoginProfileButton = observer(() => {
     const userStore = useStore('userStore');
@@ -21,16 +20,16 @@ const LoginProfileButton = observer(() => {
             <Button
                 text={userStore.current?.shortName || userStore.current?.firstName || 'Profil'}
                 icon={mdiAccountCircleOutline}
-                iconSide='left'
+                iconSide="left"
                 apiState={userStore.current ? ApiState.IDLE : ApiState.LOADING}
-                color='primary'
-                href='/user?user-tab=account'
+                color="primary"
+                href="/user?user-tab=account"
                 title={translate({
                     id: 'user.navbar.profile.title',
-                    message: 'Persönlicher Bereich',
+                    message: 'Persönlicher Bereich'
                 })}
             />
-        )
+        );
     }
     return (
         <>
@@ -38,7 +37,7 @@ const LoginProfileButton = observer(() => {
                 <Link to={'/login'}>Login 🔑</Link>
             </div>
         </>
-    )
+    );
 });
 
 export default LoginProfileButton;

@@ -9,7 +9,6 @@ import { mdiCheckboxBlankBadgeOutline } from '@mdi/js';
 import { SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 
-
 interface Props {
     label?: string;
 }
@@ -29,7 +28,7 @@ const ShowSelectCheckBoxes = observer((props: Props) => {
                 })}
             />
         </div>
-    )
+    );
 });
 
 export default ShowSelectCheckBoxes;

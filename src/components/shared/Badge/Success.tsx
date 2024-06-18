@@ -16,15 +16,15 @@ const Success = (props: Props) => {
     return (
         <Badge
             title={translate({
-                message : "Erfolgreich",
-                id : "share.badge.success.title",
-                description : "share.badge.success.title"
+                message: 'Erfolgreich',
+                id: 'share.badge.success.title',
+                description: 'share.badge.success.title'
             })}
             {...extractSharedProps(props)}
             className={clsx(styles.save, props.className)}
-            icon={<SuccessIcon size={props.size ?? SIZE_S}  disabled={props.disabled} />}
+            icon={<SuccessIcon size={props.size ?? SIZE_S} disabled={props.disabled} />}
         />
-    )
+    );
 };
 
 export default Success;

@@ -7,4 +7,4 @@ export const replaceOrAdd = <T>(list: T[], item: T, compareFn: (a: T, b: T) => b
         list.splice(idx, 1);
     }
     list.push(item);
-}
+};

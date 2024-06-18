@@ -16,15 +16,15 @@ const Error = (props: Props) => {
     return (
         <Badge
             title={translate({
-                message : "Laden",
-                id : "share.badge.loading.title",
-                description : "share.badge.loading.title"
+                message: 'Laden',
+                id: 'share.badge.loading.title',
+                description: 'share.badge.loading.title'
             })}
             {...extractSharedProps(props)}
             className={clsx(styles.load, props.className)}
             icon={<LoadingIcon size={props.size ?? SIZE_S} disabled={props.disabled} />}
         />
-    )
+    );
 };
 
 export default Error;

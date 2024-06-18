@@ -8,7 +8,6 @@ import Select from 'react-select';
 import Event from '@site/src/models/Event';
 import EventGroup from '@site/src/models/EventGroup';
 
-
 interface Props {
     event: Event;
 }
@@ -41,21 +40,17 @@ const GroupSelect = observer((props: Props) => {
                         }
                         break;
                     case 'clear':
-                        event.groups.forEach(g => g.removeEvents([event]));
-                        break;	
+                        event.groups.forEach((g) => g.removeEvents([event]));
+                        break;
                 }
             }}
-            options={
-                eventGroupStore.eventGroups.map(group => ({
-                    value: group.id,
-                    label: group.name,
-                }))
-            }
-            value={
-                event.groups.map(g => ({ value: g.id, label: g.name }))
-            }
+            options={eventGroupStore.eventGroups.map((group) => ({
+                value: group.id,
+                label: group.name
+            }))}
+            value={event.groups.map((g) => ({ value: g.id, label: g.name }))}
         />
-    )
+    );
 });
 
 export default GroupSelect;

@@ -1,11 +1,10 @@
-import { makeObservable, computed, observable, action, override } from "mobx";
-import { JobType as ApiJobType, JobState, Job as JobProps, UntisSyncJob, UntisImportJob } from "../api/job";
-import { ApiAction } from "../stores/iStore";
-import { JobStore } from "../stores/JobStore";
-import ApiModel, { UpdateableProps } from "./ApiModel";
-import Semester from "./Semester";
-import { formatDate } from "./helpers/time";
-
+import { makeObservable, computed, observable, action, override } from 'mobx';
+import { JobType as ApiJobType, JobState, Job as JobProps, UntisSyncJob, UntisImportJob } from '../api/job';
+import { ApiAction } from '../stores/iStore';
+import { JobStore } from '../stores/JobStore';
+import ApiModel, { UpdateableProps } from './ApiModel';
+import Semester from './Semester';
+import { formatDate } from './helpers/time';
 
 export default class Job extends ApiModel<JobProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<JobProps>[] = [];
@@ -59,10 +58,10 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
          * formatted log
          */
         if (!this.log) {
-            return ''
-        };
+            return '';
+        }
         try {
-            return JSON.stringify(JSON.parse(this.log || '[]'), undefined, 2).replaceAll('\\n', '\n')
+            return JSON.stringify(JSON.parse(this.log || '[]'), undefined, 2).replaceAll('\\n', '\n');
         } catch {
             return this.log;
         }
@@ -96,7 +95,7 @@ export class SyncJob extends Job {
 
     @computed
     get isLatest() {
-        return (this.store.bySemester(this.semesterId) || []).findIndex(j => j.id === this.id) === 0;
+        return (this.store.bySemester(this.semesterId) || []).findIndex((j) => j.id === this.id) === 0;
     }
 
     /**
@@ -120,7 +119,7 @@ export class SyncJob extends Job {
             description: this.description,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt
-        }
+        };
     }
 
     @action
@@ -128,7 +127,6 @@ export class SyncJob extends Job {
         this.store.cancelJob(this);
     }
 }
-
 
 export class ImportJob extends Job {
     readonly type: ApiJobType.IMPORT = ApiJobType.IMPORT;

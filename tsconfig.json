@@ -1,14 +1,14 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@docusaurus/tsconfig",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "lib": ["ESNext", "DOM"],
-    // "strict": true,
-    "useDefineForClassFields": true,
-    "experimentalDecorators": true,
-    "downlevelIteration": true,
-    "esModuleInterop":true,
-    "resolveJsonModule": true,
-  }
+    // This file is not used in compilation. It is here just for a nice editor experience.
+    "extends": "@docusaurus/tsconfig",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "lib": ["ESNext", "DOM"],
+        // "strict": true,
+        "useDefineForClassFields": true,
+        "experimentalDecorators": true,
+        "downlevelIteration": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true
+    }
 }

@@ -3,13 +3,21 @@ import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore, { ApiAction } from './iStore';
 import { Event as EventProps } from '../api/event';
-import { EventGroupCreate, EventGroup as EventGroupProps, create as apiCreate, clone as apiClone, events as fetchEvents } from '../api/event_group';
+import {
+    EventGroupCreate,
+    EventGroup as EventGroupProps,
+    create as apiCreate,
+    clone as apiClone,
+    events as fetchEvents
+} from '../api/event_group';
 import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
 
-export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-${string}` | `fetch-${string}`> {
-
+export class EventGroupStore extends iStore<
+    EventGroupProps,
+    ApiAction | `clone-${string}` | `fetch-${string}`
+> {
     readonly ApiEndpoint = new EndPoint('event_groups', { authorized: true });
 
     readonly root: RootStore;
@@ -45,14 +53,16 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
          */
         return this.withAbortController('create', (sig) => {
             return apiCreate(model, sig.signal);
-        }).then(action(({ data }) => {
-            const model = this.addToStore(data, 'create');
-            if (model._pristine.eventIds.length > 0) {
-                return this.reloadEvents(model).then(() => model);
-            } else {
-                return model;
-            }
-        }));
+        }).then(
+            action(({ data }) => {
+                const model = this.addToStore(data, 'create');
+                if (model._pristine.eventIds.length > 0) {
+                    return this.reloadEvents(model).then(() => model);
+                } else {
+                    return model;
+                }
+            })
+        );
     }
 
     @action
@@ -66,12 +76,14 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
 
         return this.withAbortController(`clone-${model.id}`, (sig) => {
             return apiClone(model.id, sig.signal);
-        }).then(({ data }: { data: EventGroupProps }) => {
-            const group = this.addToStore(data);
-            return this.reloadEvents(group);
-        }).catch((err) => {
-            console.log(err);
-        });
+        })
+            .then(({ data }: { data: EventGroupProps }) => {
+                const group = this.addToStore(data);
+                return this.reloadEvents(group);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     @action
@@ -81,13 +93,15 @@ export class EventGroupStore extends iStore<EventGroupProps, ApiAction | `clone-
         }
         return this.withAbortController(`fetch-${model.id}`, (sig) => {
             return fetchEvents(model.id, sig.signal);
-        }).then(({ data }: { data: EventProps[] }) => {
-            return data.map((e) => {
-                return this.eventStore.addToStore(e);
+        })
+            .then(({ data }: { data: EventProps[] }) => {
+                return data.map((e) => {
+                    return this.eventStore.addToStore(e);
+                });
+            })
+            .catch((err) => {
+                console.log(err);
             });
-        }).catch((err) => {
-            console.log(err);
-        });
     }
 
     byIds(ids?: string | string[]): EventGroup[] {

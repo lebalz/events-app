@@ -2,7 +2,12 @@ import { action, computed, makeObservable, observable, override } from 'mobx';
 import _ from 'lodash';
 import { RootStore } from './stores';
 import iStore from './iStore';
-import { JobAndEvents as JobAndEventsProps, Job as JobProps, JobState, JobType as ApiJobType} from '../api/job';
+import {
+    JobAndEvents as JobAndEventsProps,
+    Job as JobProps,
+    JobState,
+    JobType as ApiJobType
+} from '../api/job';
 import { EventState, ImportType, importEvents as postImportEvents } from '../api/event';
 import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
@@ -12,7 +17,7 @@ import { EndPoint } from './EndPoint';
 export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;
 
-    readonly ApiEndpoint = new EndPoint('jobs', {authorized: true});
+    readonly ApiEndpoint = new EndPoint('jobs', { authorized: true });
 
     models = observable<Job>([]);
     constructor(root: RootStore) {
@@ -29,7 +34,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         return this.root.userStore.find<User>(id);
     }
 
-    addToStore(data: JobProps, state?: 'load' | 'create', reloadStores?: boolean): Job
+    addToStore(data: JobProps, state?: 'load' | 'create', reloadStores?: boolean): Job;
     @override
     addToStore(data: JobAndEventsProps, state?: 'load' | 'create', reloadStores?: boolean): Job {
         const job = this.createModel(data);

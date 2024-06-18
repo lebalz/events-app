@@ -1,18 +1,17 @@
-
-import React from "react";
-import { action, makeObservable, observable, reaction } from "mobx";
-import { SessionStore } from "./SessionStore";
-import { UserStore } from "./UserStore";
-import { EventStore } from "./EventStore";
+import React from 'react';
+import { action, makeObservable, observable, reaction } from 'mobx';
+import { SessionStore } from './SessionStore';
+import { UserStore } from './UserStore';
+import { EventStore } from './EventStore';
 import { UntisStore } from './UntisStore';
-import { SocketDataStore } from "./SocketDataStore";
-import { LoadeableStore, ResettableStore } from "./iStore";
-import { JobStore } from "./JobStore";
-import { ViewStore } from "./ViewStores";
-import { DepartmentStore } from "./DepartmentStore";
-import { RegistrationPeriodStore } from "./RegistrationPeriodStore";
-import { SemesterStore } from "./SemesterStore";
-import { EventGroupStore } from "./EventGroupStore";
+import { SocketDataStore } from './SocketDataStore';
+import { LoadeableStore, ResettableStore } from './iStore';
+import { JobStore } from './JobStore';
+import { ViewStore } from './ViewStores';
+import { DepartmentStore } from './DepartmentStore';
+import { RegistrationPeriodStore } from './RegistrationPeriodStore';
+import { SemesterStore } from './SemesterStore';
+import { EventGroupStore } from './EventGroupStore';
 import siteConfig from '@generated/docusaurus.config';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
@@ -47,7 +46,7 @@ export class RootStore {
 
     constructor() {
         makeObservable(this);
-        
+
         this.semesterStore = new SemesterStore(this);
         this.subscribeTo(this.semesterStore, ['load', 'reset']);
 
@@ -78,7 +77,7 @@ export class RootStore {
         this.subscribeTo(this.eventGroupStore, ['load', 'reset']);
 
         this.viewStore = new ViewStore(this);
-        this.subscribeTo(this.viewStore,  ['load', 'reset']);
+        this.subscribeTo(this.viewStore, ['load', 'reset']);
 
         reaction(
             () => this.viewStore.semesterId,
@@ -99,11 +98,11 @@ export class RootStore {
         }, 0);
     }
 
-    subscribeTo(store: ResettableStore, events: ['reset'])
-    subscribeTo(store: LoadeableStore<any>, events: ['load'])
-    subscribeTo(store: LoadeableStore<any>, events: ['load', 'semester'])
-    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset'])
-    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset', 'semester'])
+    subscribeTo(store: ResettableStore, events: ['reset']);
+    subscribeTo(store: LoadeableStore<any>, events: ['load']);
+    subscribeTo(store: LoadeableStore<any>, events: ['load', 'semester']);
+    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset']);
+    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset', 'semester']);
     @action
     subscribeTo(store: any, events: StoreActions[]) {
         if (events.includes('load')) {
@@ -124,20 +123,24 @@ export class RootStore {
         } else {
             this._isLoadingPrivate = true;
         }
-        return Promise.all(this.loadableStores.map((store) => {
-            console.log('load', type, store.constructor.name);
-            if (type === 'public') {
-                return store.loadPublic(semesterId);
-            } else {
-                return store.loadAuthorized(semesterId);
-            }
-        })).finally(action(() => {
-            if (type === 'public') {
-                this._isLoadingPublic = false;
-            } else {
-                this._isLoadingPrivate = false;
-            }
-        }));
+        return Promise.all(
+            this.loadableStores.map((store) => {
+                console.log('load', type, store.constructor.name);
+                if (type === 'public') {
+                    return store.loadPublic(semesterId);
+                } else {
+                    return store.loadAuthorized(semesterId);
+                }
+            })
+        ).finally(
+            action(() => {
+                if (type === 'public') {
+                    this._isLoadingPublic = false;
+                } else {
+                    this._isLoadingPrivate = false;
+                }
+            })
+        );
     }
 
     @action
@@ -154,15 +157,18 @@ export class RootStore {
         this.semesterizedStores.forEach((store) => {
             store.loadPublic(semesterId);
         });
-        if (this.sessionStore.isLoggedIn && this.semesterStore.currentSemester && this.semesterStore.currentSemester.id !== semesterId) {
+        if (
+            this.sessionStore.isLoggedIn &&
+            this.semesterStore.currentSemester &&
+            this.semesterStore.currentSemester.id !== semesterId
+        ) {
             this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
-            this.semesterizedStores.forEach((store) => {            
+            this.semesterizedStores.forEach((store) => {
                 store.loadAuthorized(semesterId);
-            })
+            });
         }
     }
 }
-
 
 export const rootStore = Object.freeze(new RootStore());
 export const storesContext = React.createContext(rootStore);

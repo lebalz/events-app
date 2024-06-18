@@ -1,4 +1,3 @@
-
 import React from 'react';
 import clsx from 'clsx';
 
@@ -17,8 +16,6 @@ import Translate, { translate } from '@docusaurus/Translate';
 import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
 import { mdiDotsHorizontalCircleOutline } from '@mdi/js';
 import Audience from './Audience';
-
-
 
 interface Props {
     event: EventModel;
@@ -40,7 +37,7 @@ const TranslationsTA: { [key in TeachingAffected]: string } = {
         description: 'Only a part of the class will be present',
         id: 'TeachingAffected.PARTIAL.description'
     })
-}
+};
 
 const AudiencePicker = observer((props: Props) => {
     const [showOptions, setShowOptions] = React.useState(false);
@@ -48,8 +45,8 @@ const AudiencePicker = observer((props: Props) => {
     const userStore = useStore('userStore');
     const { current } = userStore;
     if (!current) {
-        return null
-    };
+        return null;
+    }
 
     const departments = departmentStore.groupedByLetter;
     const { event } = props;
@@ -76,16 +73,18 @@ const AudiencePicker = observer((props: Props) => {
                         </Translate>
                     </span>
                     <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                        {Object.keys(EventAudience).map(audience => {
-                            return (<Button
-                                text={EventAudienceTranslationShort[audience]}
-                                onClick={() => event.update({ audience: EventAudience[audience] })}
-                                active={event.audience === audience}
-                                key={audience}
-                            />)
+                        {Object.keys(EventAudience).map((audience) => {
+                            return (
+                                <Button
+                                    text={EventAudienceTranslationShort[audience]}
+                                    onClick={() => event.update({ audience: EventAudience[audience] })}
+                                    active={event.audience === audience}
+                                    key={audience}
+                                />
+                            );
                         })}
                     </div>
-                    <Audience event={event} showExample marginLeft='2em' />
+                    <Audience event={event} showExample marginLeft="2em" />
                 </div>
                 <div className={clsx(styles.toggle)}>
                     <span className={clsx(styles.label)}>
@@ -97,21 +96,28 @@ const AudiencePicker = observer((props: Props) => {
                         </Translate>
                     </span>
                     <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                        {Object.keys(TeachingAffected).map(affected => {
-                            return (<Button
-                                text={TranslationsTA[affected]}
-                                onClick={() => event.update({ teachingAffected: TeachingAffected[affected] })}
-                                active={event.teachingAffected === affected}
-                                key={affected}
-                            />)
+                        {Object.keys(TeachingAffected).map((affected) => {
+                            return (
+                                <Button
+                                    text={TranslationsTA[affected]}
+                                    onClick={() =>
+                                        event.update({ teachingAffected: TeachingAffected[affected] })
+                                    }
+                                    active={event.teachingAffected === affected}
+                                    key={affected}
+                                />
+                            );
                         })}
                     </div>
                 </div>
-                {
-                    [EventAudience.ALL, EventAudience.LP].includes(event.audience) && event.affectedDepartments.some(d => d.isSubDepartment && !!d.department2_Id) && (
+                {[EventAudience.ALL, EventAudience.LP].includes(event.audience) &&
+                    event.affectedDepartments.some((d) => d.isSubDepartment && !!d.department2_Id) && (
                         <div className={clsx(styles.toggle)}>
                             <span className={clsx(styles.label)}>
-                                <Translate id="shared.text.bilingual.people.concerned" description="The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event">
+                                <Translate
+                                    id="shared.text.bilingual.people.concerned"
+                                    description="The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event"
+                                >
                                     Bilingue Lehrpersonen betroffen?
                                 </Translate>
                             </span>
@@ -136,9 +142,7 @@ const AudiencePicker = observer((props: Props) => {
                                 />
                             </div>
                         </div>
-                    )
-                }
-
+                    )}
             </div>
             <div className={clsx(error && styles.error)}>
                 <h4>
@@ -160,9 +164,9 @@ const AudiencePicker = observer((props: Props) => {
                         color={someDepartments ? 'primary' : 'secondary'}
                         onClick={() => {
                             if (!allDepartments) {
-                                departmentStore.departments.forEach(d => event.setDepartment(d, true));
+                                departmentStore.departments.forEach((d) => event.setDepartment(d, true));
                             } else {
-                                departmentStore.departments.forEach(d => event.setDepartment(d, false));
+                                departmentStore.departments.forEach((d) => event.setDepartment(d, false));
                             }
                         }}
                     />
@@ -172,9 +176,9 @@ const AudiencePicker = observer((props: Props) => {
                         color={someDepartmentsDe ? 'primary' : 'secondary'}
                         onClick={() => {
                             if (!allDepartmentsDe) {
-                                departmentStore.departmentsDe.forEach(d => event.setDepartment(d, true));
+                                departmentStore.departmentsDe.forEach((d) => event.setDepartment(d, true));
                             } else {
-                                departmentStore.departmentsDe.forEach(d => event.setDepartment(d, false));
+                                departmentStore.departmentsDe.forEach((d) => event.setDepartment(d, false));
                             }
                         }}
                     />
@@ -184,31 +188,35 @@ const AudiencePicker = observer((props: Props) => {
                         color={someDepartmentsFr ? 'primary' : 'secondary'}
                         onClick={() => {
                             if (!allDepartmentsFr) {
-                                departmentStore.departmentsFr.forEach(d => event.setDepartment(d, true));
+                                departmentStore.departmentsFr.forEach((d) => event.setDepartment(d, true));
                             } else {
-                                departmentStore.departmentsFr.forEach(d => event.setDepartment(d, false));
+                                departmentStore.departmentsFr.forEach((d) => event.setDepartment(d, false));
                             }
                         }}
                     />
                 </div>
                 <Tabs className={clsx(styles.tabs)} lazy>
-                    {Object.keys(departments).sort().map((letter, idx) => {
-                        const color = (departments[letter] as DepartmentModel[])[0].color
-                        const touched = (departments[letter] as DepartmentModel[]).some(d => d.classes.some(c => event.affectsClass(c)));
-                        return (
-                            <TabItem 
-                                value={letter}
-                                label={departmentStore.letterToName(letter)}
-                                key={letter} 
-                                attributes={{ 
-                                    className: clsx(touched && styles.touched), 
-                                    style: { color: color } 
-                                }}
-                            >
-                                <Department departments={departments[letter]} event={event} />
-                            </TabItem>
-                        )
-                    })}
+                    {Object.keys(departments)
+                        .sort()
+                        .map((letter, idx) => {
+                            const color = (departments[letter] as DepartmentModel[])[0].color;
+                            const touched = (departments[letter] as DepartmentModel[]).some((d) =>
+                                d.classes.some((c) => event.affectsClass(c))
+                            );
+                            return (
+                                <TabItem
+                                    value={letter}
+                                    label={departmentStore.letterToName(letter)}
+                                    key={letter}
+                                    attributes={{
+                                        className: clsx(touched && styles.touched),
+                                        style: { color: color }
+                                    }}
+                                >
+                                    <Department departments={departments[letter]} event={event} />
+                                </TabItem>
+                            );
+                        })}
                 </Tabs>
                 <div className={clsx(styles.options)}>
                     <Button
@@ -219,31 +227,26 @@ const AudiencePicker = observer((props: Props) => {
                             description: 'Text appearing on the expand button'
                         })}
                         onClick={() => setShowOptions(!showOptions)}
-                        className={clsx(styles.optionsBtn, (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions)}
+                        className={clsx(
+                            styles.optionsBtn,
+                            (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions
+                        )}
                     />
-                    {
-                        (showOptions || event.unknownClassIdentifiers.length > 0) && (
-                            <div>
-                                <h4>
-                                    <Translate
-                                        id="shared.audiencePicker.title.futureClasses"
-                                    >
-                                        Künftige Klassen
-                                    </Translate>
-                                </h4>
-                                <ClassSelector event={event} />
-                            </div>
-                        )
-                    }
+                    {(showOptions || event.unknownClassIdentifiers.length > 0) && (
+                        <div>
+                            <h4>
+                                <Translate id="shared.audiencePicker.title.futureClasses">
+                                    Künftige Klassen
+                                </Translate>
+                            </h4>
+                            <ClassSelector event={event} />
+                        </div>
+                    )}
                 </div>
-                {error && (
-                    <div className={clsx(styles.errorMessage)}>
-                        {error.message}
-                    </div>
-                )}
+                {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
         </div>
-    )
+    );
 });
 
 export default AudiencePicker;

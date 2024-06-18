@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { Gantt, Task, ViewMode } from 'gantt-task-react';
-import "gantt-task-react/dist/index.css";
+import 'gantt-task-react/dist/index.css';
 import { observer } from 'mobx-react-lite';
 import { createTransformer } from 'mobx-utils';
 import siteConfig from '@generated/docusaurus.config';
@@ -14,7 +14,7 @@ const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 
 const ISO_639_CODES = {
     de: 'gsw',
     fr: 'fr'
-}
+};
 
 const createTasks = createTransformer<Event[], Task[]>((events: Event[]) => {
     return _.orderBy(events, ['startTimeMs'], ['asc']).map((e, idx) => {
@@ -33,8 +33,8 @@ const createTasks = createTransformer<Event[], Task[]>((events: Event[]) => {
             type: 'task',
             progress: e.progress,
             isDisabled: true,
-            styles: styles,
-        }
+            styles: styles
+        };
     });
 });
 
@@ -72,10 +72,10 @@ const Timeline = observer((props: Props) => {
                 /** the second div is the one that blocks the wheel event */
                 const wheelBlocker = children[1];
                 const onWheel = (e: WheelEvent) => {
-                    /** stops propagation to other handlers on this element, 
+                    /** stops propagation to other handlers on this element,
                      * but does not stop propagation/bubbling  */
                     e.stopImmediatePropagation();
-                }
+                };
                 wheelBlocker.addEventListener('wheel', onWheel);
                 return () => wheelBlocker.removeEventListener('wheel', onWheel);
             } else if (timer < 50) {
@@ -85,7 +85,9 @@ const Timeline = observer((props: Props) => {
                 }, 200);
                 return () => clearTimeout(ts);
             } else {
-                console.warn('Could not find the wheel-blocking div in the gantt component. Sidescrolling might not work.')
+                console.warn(
+                    'Could not find the wheel-blocking div in the gantt component. Sidescrolling might not work.'
+                );
             }
         }
     }, [ref.current, timer]);
@@ -97,14 +99,11 @@ const Timeline = observer((props: Props) => {
             if (header) {
                 header.style.transform = `translateY(${target.scrollTop}px)`;
             }
-        }
+        };
     }, []);
-                
+
     return (
-        <div 
-            className={clsx(styles.container)}
-            onScroll={onScroll}
-        >
+        <div className={clsx(styles.container)} onScroll={onScroll}>
             <div className={clsx(styles.gantt)} ref={ref}>
                 {tasks.length > 0 && (
                     <Gantt
@@ -121,7 +120,7 @@ const Timeline = observer((props: Props) => {
                 )}
             </div>
         </div>
-    )
+    );
 });
 
 export default Timeline;

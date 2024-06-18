@@ -1,16 +1,13 @@
-import {
-    AccountInfo,
-    IPublicClientApplication,
-} from '@azure/msal-browser';
+import { AccountInfo, IPublicClientApplication } from '@azure/msal-browser';
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
 import { Role, User, logout } from '../api/user';
 import Storage, { PersistedData, StorageKey } from './utils/Storage';
 import { UntisTeacher } from '../api/untis';
 import siteConfig from '@generated/docusaurus.config';
-const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string, NO_AUTH?: boolean};
+const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
 
-class State {    
+class State {
     @observable.ref
     account?: AccountInfo | null = undefined;
 
@@ -21,7 +18,6 @@ class State {
         makeObservable(this);
     }
 }
-
 
 export class SessionStore {
     private readonly root: RootStore;
@@ -55,17 +51,14 @@ export class SessionStore {
             (name) => {
                 if (name) {
                     const user = this.root.userStore.current;
-                    Storage.set(
-                        StorageKey.SessionStore,
-                        {
-                            user: {...user.props, role: Role.USER}, 
-                            teacher: {...user.untisTeacher?.props}
-                        }
-                    );
+                    Storage.set(StorageKey.SessionStore, {
+                        user: { ...user.props, role: Role.USER },
+                        teacher: { ...user.untisTeacher?.props }
+                    });
                 }
             }
-        )
-    
+        );
+
         // listen to the localstorage value changing in other tabs to react to
         // signin/signout events in other tabs and follow suite.
         this.initialized = true;
@@ -75,7 +68,7 @@ export class SessionStore {
     rehydrate(data: PersistedData) {
         this.authMethod = !!data?.user ? 'apiKey' : 'msal';
         if (!data.user || this.currentUserId) {
-            return
+            return;
         }
         this.currentUserId = data.user?.id;
     }
@@ -88,12 +81,12 @@ export class SessionStore {
         window.addEventListener('storage', (event) => {
             if (event.key === SessionStore.NAME && event.newValue) {
                 const newData: PersistedData | null = JSON.parse(event.newValue);
-        
+
                 // data may be null if key is deleted in localStorage
                 if (!newData) {
                     return;
                 }
-        
+
                 // If we're not signed in then hydrate from the received data, otherwise if
                 // we are signed in and the received data contains no user then sign out
                 if (this.isLoggedIn) {
@@ -112,14 +105,16 @@ export class SessionStore {
     @action
     logout() {
         const sig = new AbortController();
-        logout(sig.signal).then(() => {
-            this.root.cleanup();
-            Storage.remove(SessionStore.NAME);
-            localStorage.clear();
-            window.location.reload();
-        }).catch((err) => {
-            console.error('Failed to logout', err);
-        });
+        logout(sig.signal)
+            .then(() => {
+                this.root.cleanup();
+                Storage.remove(SessionStore.NAME);
+                localStorage.clear();
+                window.location.reload();
+            })
+            .catch((err) => {
+                console.error('Failed to logout', err);
+            });
     }
 
     @action
@@ -127,7 +122,6 @@ export class SessionStore {
         Storage.remove(SessionStore.NAME);
         this.authMethod = 'msal';
     }
-
 
     get locale() {
         return this.root.currentLocale;
@@ -150,8 +144,6 @@ export class SessionStore {
 
     @computed
     get isLoggedIn(): boolean {
-        return this.authMethod === 'apiKey'
-            ? !!this.currentUserId
-            : !!this.state.account;
+        return this.authMethod === 'apiKey' ? !!this.currentUserId : !!this.state.account;
     }
 }

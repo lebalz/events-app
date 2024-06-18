@@ -10,10 +10,9 @@ import queryString from 'query-string';
 import Section from '../components/shared/Section';
 import Translate, { translate } from '@docusaurus/Translate';
 import EventGroup from '../components/EventGroup';
-import {default as EventGroupModel} from '../models/EventGroup';
+import { default as EventGroupModel } from '../models/EventGroup';
 
-interface Props {
-}
+interface Props {}
 
 const GroupView = observer((props: Props) => {
     const [id, setId] = React.useState<string>('');
@@ -25,7 +24,7 @@ const GroupView = observer((props: Props) => {
             if (typeof parsed.id === 'string') {
                 setId(parsed.id);
             } else if (parsed.id.length > 0) {
-                setId(parsed.id[0]);                
+                setId(parsed.id[0]);
             }
         }
     }, [location.search, groupStore.initialAuthorizedLoadPerformed]);
@@ -34,30 +33,24 @@ const GroupView = observer((props: Props) => {
     // Select the appropriate pluralized label based on `items.length`
     return (
         <Layout>
-            <Section 
-                title={translate({message: 'Gruppe', id: 'group.title'})} 
+            <Section
+                title={translate({ message: 'Gruppe', id: 'group.title' })}
                 containerClassName={clsx(styles.groups)}
             >
                 {group ? (
                     <EventGroup group={group} standalone />
                 ) : (
                     <h3>
-                        {
-                            groupStore.initialAuthorizedLoadPerformed ? (
-                                <Translate id="group.message.notFound">
-                                    Gruppe nicht gefunden
-                                </Translate>
-                            ) : (
-                                <Translate id="group.message.loading">
-                                    Gruppe Laden
-                                </Translate>
-                            )
-                        }
+                        {groupStore.initialAuthorizedLoadPerformed ? (
+                            <Translate id="group.message.notFound">Gruppe nicht gefunden</Translate>
+                        ) : (
+                            <Translate id="group.message.loading">Gruppe Laden</Translate>
+                        )}
                     </h3>
                 )}
             </Section>
         </Layout>
-    )
+    );
 });
 
 export default GroupView;

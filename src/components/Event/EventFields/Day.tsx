@@ -18,27 +18,24 @@ const Day = observer((props: Props) => {
     const start = showFullName ? event.dayFullStart : event.dayStart;
     const end = showFullName ? event.dayFullEnd : event.dayEnd;
     return (
-        <div 
-            style={{gridColumn: 'day'}} 
-            className={clsx(styles.day, props.className, 'grid-day')}
-        >
+        <div style={{ gridColumn: 'day' }} className={clsx(styles.day, props.className, 'grid-day')}>
             <div className={clsx(styles.value, !showFullName && styles.abbrev)}>
-                {(showRange && event.fStartDate !== event.fEndDate) ? `${start} - ${end}` : start}
+                {showRange && event.fStartDate !== event.fEndDate ? `${start} - ${end}` : start}
             </div>
             {props.expandeable && props.showUnexpandButton && event.isExpanded && (
                 <div className={clsx(styles.expand)}>
-                    <Button 
-                        icon={mdiArrowExpandUp} 
+                    <Button
+                        icon={mdiArrowExpandUp}
                         onClick={(e) => {
                             e.stopPropagation();
                             event.setExpanded(false);
-                        }} 
-                        size={SIZE_S} 
+                        }}
+                        size={SIZE_S}
                     />
                 </div>
             )}
         </div>
-    )
+    );
 });
 
 export default Day;

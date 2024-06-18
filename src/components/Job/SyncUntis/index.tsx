@@ -8,8 +8,7 @@ import Section from '../../shared/Section';
 import SyncSemester from './SyncSemester';
 import Translate, { translate } from '@docusaurus/Translate';
 
-interface Props {
-}
+interface Props {}
 
 const SyncUntis = observer((props: Props) => {
     const semesterStore = useStore('semesterStore');
@@ -26,17 +25,11 @@ const SyncUntis = observer((props: Props) => {
                 description: 'Subtitle of the section syncUntis'
             })}
         >
-            {
-                semesterStore.semesters.map((semester, idx) => {
-                    return (
-                        <SyncSemester key={semester.id} semester={semester} />
-                    );
-                })
-            }
+            {semesterStore.semesters.map((semester, idx) => {
+                return <SyncSemester key={semester.id} semester={semester} />;
+            })}
         </Section>
-    )
+    );
 });
 
 export default SyncUntis;
-
-

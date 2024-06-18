@@ -9,14 +9,14 @@ import { DepartmentLetter } from '@site/src/api/department';
 import _ from 'lodash';
 
 export default class Klass {
-    readonly id: number
+    readonly id: number;
     readonly name: KlassName;
-    readonly legacyName?: string
-    readonly sf: string
-    readonly year: number
-    readonly departmentId: string
-    readonly teacherIds: number[]
-    readonly lessonIds: number[]
+    readonly legacyName?: string;
+    readonly sf: string;
+    readonly year: number;
+    readonly departmentId: string;
+    readonly teacherIds: number[];
+    readonly lessonIds: number[];
     private readonly store: UntisStore;
 
     constructor(props: UntisClassWithTeacher, store: UntisStore) {
@@ -34,14 +34,17 @@ export default class Klass {
         makeObservable(this);
     }
 
-    static ClassNamesGroupedByYear(classes: Klass[], threshold: number = 3): {[name: string]: string} {        
-        const klGroupsRaw = _.groupBy(_.uniqBy(classes, c => c.id), c => c?.year);
-        const klGroup: {[key: string]: string} = {};
+    static ClassNamesGroupedByYear(classes: Klass[], threshold: number = 3): { [name: string]: string } {
+        const klGroupsRaw = _.groupBy(
+            _.uniqBy(classes, (c) => c.id),
+            (c) => c?.year
+        );
+        const klGroup: { [key: string]: string } = {};
         Object.keys(klGroupsRaw).forEach((year) => {
             if (klGroupsRaw[year].length > threshold) {
                 klGroup[year] = `${year.slice(2)}`;
             } else {
-                klGroup[year] = klGroupsRaw[year].map(c => c?.displayName).join(', ');
+                klGroup[year] = klGroupsRaw[year].map((c) => c?.displayName).join(', ');
             }
         });
         return klGroup;
@@ -75,13 +78,15 @@ export default class Klass {
 
     @computed
     get teachers() {
-        return this.teacherIds.map(t => this.store.findTeacher(t));
+        return this.teacherIds.map((t) => this.store.findTeacher(t));
     }
 
     @computed
     get lessons() {
         const current = this.store.currentSemester;
-        return this.lessonIds.map(t => this.store.findLesson(t)).filter(l => l?.semesterId === current?.id);
+        return this.lessonIds
+            .map((t) => this.store.findLesson(t))
+            .filter((l) => l?.semesterId === current?.id);
     }
 
     @computed
@@ -98,5 +103,4 @@ export default class Klass {
     get groupName(): string {
         return this.name.slice(0, 3);
     }
-
 }
