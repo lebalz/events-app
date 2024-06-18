@@ -4,7 +4,12 @@ node_modules
 build
 coverage
 .docusaurus
+.github
+.drone.yml
 
+docs
+
+*.md
 
 i18n
 versions.json
