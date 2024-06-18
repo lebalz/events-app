@@ -17,7 +17,7 @@
         "crowdin": "crowdin",
         "crowdin:sync": "docusaurus write-translations && crowdin upload && crowdin download",
         "format": "prettier --write .",
-        "format:diff": "prettier --list-different ."
+        "format:check": "prettier --check ."
     },
     "dependencies": {
         "@azure/msal-browser": "^3.17.0",
