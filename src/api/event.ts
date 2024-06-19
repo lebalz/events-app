@@ -272,6 +272,8 @@ interface ImportMeta {
     type: 'import';
     version: 'gbsl_xlsx';
     rowNr: number;
+    infos: string[];
+    infosReviewed: boolean;
     warnings: string[];
     warningsReviewed: boolean;
     raw: any;

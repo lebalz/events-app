@@ -52,7 +52,8 @@ import CodeBlock from '@theme/CodeBlock';
 import LazyDetails from '../shared/Details';
 import { PopupActions } from 'reactjs-popup/dist/types';
 import Admonition from '@theme/Admonition';
-import MetaWarningAlert from './MetaWarningAlert';
+import MetaWarningAlert from './MetaAlert/warning';
+import MetaInfoAlert from './MetaAlert/info';
 
 interface Props {
     event: EventModel;
@@ -475,6 +476,7 @@ const EventProps = observer((props: Props) => {
                     </dt>
                     <dd>
                         {event.importWarnings.length > 0 && <MetaWarningAlert event={event} />}
+                        {event.importInfos.length > 0 && <MetaInfoAlert event={event} />}
                         <Popup
                             trigger={
                                 <span>
@@ -494,13 +496,25 @@ const EventProps = observer((props: Props) => {
                         >
                             <div className={clsx(styles.metaCard, 'card')}>
                                 <div className={clsx('card__header', styles.header)}>
-                                    {event.meta?.warningsReviewed && (
+                                    {event.meta?.warnings?.length > 0 && (
                                         <>
                                             <Button
                                                 onClick={() => event.setWarningsReviewed(false)}
                                                 text={translate({
                                                     id: 'event.meta.warningsReviewed',
                                                     message: 'Warnung wieder anzeigen'
+                                                })}
+                                            />
+                                            <span className={styles.spacer}></span>
+                                        </>
+                                    )}
+                                    {event.meta?.infos?.length > 0 && (
+                                        <>
+                                            <Button
+                                                onClick={() => event.setInfosReviewed(false)}
+                                                text={translate({
+                                                    id: 'event.meta.infosReviewed',
+                                                    message: 'Infos wieder anzeigen'
                                                 })}
                                             />
                                             <span className={styles.spacer}></span>
@@ -520,6 +534,7 @@ const EventProps = observer((props: Props) => {
                                     />
                                 </div>
                                 <MetaWarningAlert event={event} />
+                                <MetaInfoAlert event={event} />
                                 <CodeBlock
                                     language="json"
                                     title="import.json"

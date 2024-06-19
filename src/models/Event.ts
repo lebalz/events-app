@@ -51,6 +51,13 @@ interface DepartmentState {
     allDepartmentsFr: boolean;
 }
 
+export enum ValidState {
+    Valid = 'VALID',
+    Error = 'ERROR',
+    Warning = 'WARNING',
+    Info = 'INFO'
+}
+
 const currentKW = getKW(new Date());
 const currentYear = new Date().getFullYear();
 export const CURRENT_YYYY_KW = `${currentYear}-${currentKW}`;
@@ -216,10 +223,25 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.meta.warnings;
     }
 
+    @computed
+    get importInfos() {
+        if (!this.meta || this.meta.infosReviewed) {
+            return [];
+        }
+        return this.meta.infos;
+    }
+
     @action
     setWarningsReviewed(reviewed: boolean = true) {
         if (this.meta && this.meta.warningsReviewed !== reviewed) {
             this.store.updateMeta(this, { warningsReviewed: reviewed });
+        }
+    }
+
+    @action
+    setInfosReviewed(reviewed: boolean = true) {
+        if (this.meta && this.meta.infosReviewed !== reviewed) {
+            this.store.updateMeta(this, { infosReviewed: reviewed });
         }
     }
 
@@ -245,9 +267,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
+    @computed
+    get validationState(): ValidState {        
+        if (this._errors && this._errors.details.length > 0) {
+            return ValidState.Error;
+        }
+        if (!this.meta?.warningsReviewed && this.meta?.warnings.length > 0) {
+            return ValidState.Warning;
+        }
+        if (!this.meta?.infosReviewed && this.meta?.infos.length > 0) {
+            return ValidState.Info;
+        }
+        return ValidState.Valid;
+    }
+
     @override
     get isValid() {
-        return this._errors === undefined || this._errors.details.length === 0;
+        return this.validationState === ValidState.Valid;
     }
 
     errorFor(attr: keyof EventProps) {

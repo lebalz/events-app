@@ -11,6 +11,12 @@
 .errors {
     color: var(--ifm-color-danger);
 }
+.warnings {
+    color: var(--ifm-color-warning);
+}
+.infos {
+    color: var(--ifm-color-info);
+}
 .state {
     .flex,
     &.flex {
