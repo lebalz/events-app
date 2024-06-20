@@ -67,9 +67,16 @@ const UserEventGroup = observer((props: Props) => {
     }, [isOpen, props.group, props.group.isFullyLoaded, props.standalone, store.isLoggedIn]);
 
     React.useEffect(() => {
+        const toAdd: ('nr' | 'author')[] = [];
         if (props.group.isFullyLoaded && props.group.events.some(e => e.nr > 0)) {
+            toAdd.push('nr');
+        }
+        if (props.group.isFullyLoaded && props.group.events.some(e => e.author.id !== props.group.events[0].author.id)) {
+            toAdd.push('author');
+        }
+        if (toAdd.length > 0) {
             setColumnConfig([
-                'nr',
+                ...toAdd,
                 ...DEFAULT_COLUMN_CONFIG
             ]);
         }

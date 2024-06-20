@@ -199,7 +199,7 @@ const UsersEvents = observer((props: Props) => {
                             </div>
                             <EventsViewer
                                 events={adminReview}
-                                gridConfig={{ columns: COLUMN_CONFIG }}
+                                gridConfig={{ columns: ['author', ...COLUMN_CONFIG] }}
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     defaultActions: [

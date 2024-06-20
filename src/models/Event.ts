@@ -220,7 +220,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (!this.meta || this.meta.warningsReviewed) {
             return [];
         }
-        return this.meta.warnings;
+        return this.meta.warnings || [];
     }
 
     @computed
@@ -228,7 +228,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (!this.meta || this.meta.infosReviewed) {
             return [];
         }
-        return this.meta.infos;
+        return this.meta.infos || [];
     }
 
     @action
