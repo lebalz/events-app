@@ -26,15 +26,15 @@ const MetaWarningAlert = observer((props: Props) => {
                     <span aria-hidden="true">&times;</span>
                 </button>
             )}
-                {event.meta.warnings.length === 1 ? (
-                    event.meta.warnings[0]
-                ) : (
-                    <ul className={clsx(styles.warning)}>
-                        {event.meta.warnings.map((warning, idx) => (
-                            <li key={`w-${idx}`}>{warning}</li>
-                        ))}
-                    </ul>
-                )}
+            {event.meta.warnings.length === 1 ? (
+                event.meta.warnings[0]
+            ) : (
+                <ul className={clsx(styles.warning)}>
+                    {event.meta.warnings.map((warning, idx) => (
+                        <li key={`w-${idx}`}>{warning}</li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 });

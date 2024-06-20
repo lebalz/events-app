@@ -26,15 +26,15 @@ const MetaInfoAlert = observer((props: Props) => {
                     <span aria-hidden="true">&times;</span>
                 </button>
             )}
-                {event.meta.infos.length === 1 ? (
-                    event.meta.infos[0]
-                ) : (
-                    <ul className={clsx(styles.info)}>
-                        {event.meta.infos.map((info, idx) => (
-                            <li key={`i-${idx}`}>{info}</li>
-                        ))}
-                    </ul>
-                )}
+            {event.meta.infos.length === 1 ? (
+                event.meta.infos[0]
+            ) : (
+                <ul className={clsx(styles.info)}>
+                    {event.meta.infos.map((info, idx) => (
+                        <li key={`i-${idx}`}>{info}</li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 });

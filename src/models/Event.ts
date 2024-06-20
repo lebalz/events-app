@@ -268,7 +268,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get validationState(): ValidState {        
+    get validationState(): ValidState {
         if (this._errors && this._errors.details?.length > 0) {
             return ValidState.Error;
         }
