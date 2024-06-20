@@ -269,13 +269,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get validationState(): ValidState {        
-        if (this._errors && this._errors.details.length > 0) {
+        if (this._errors && this._errors.details?.length > 0) {
             return ValidState.Error;
         }
-        if (!this.meta?.warningsReviewed && this.meta?.warnings.length > 0) {
+        if (!this.meta?.warningsReviewed && this.meta?.warnings?.length > 0) {
             return ValidState.Warning;
         }
-        if (!this.meta?.infosReviewed && this.meta?.infos.length > 0) {
+        if (!this.meta?.infosReviewed && this.meta?.infos?.length > 0) {
             return ValidState.Info;
         }
         return ValidState.Valid;

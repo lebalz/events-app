@@ -11,7 +11,7 @@ import TextArea from '../shared/TextArea';
 import ModelActions from '../ModelActions';
 import Clone from '../shared/Button/Clone';
 import BulkActions from '../Event/BulkActions';
-import Grid from '../Event/Views/Grid';
+import Grid, { ColumnConfig } from '../Event/Views/Grid';
 import LazyDetails from '../shared/Details';
 import { ApiIcon, DiscardIcon, SIZE, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
@@ -35,17 +35,46 @@ interface Props {
 }
 const BTN_SIZE = SIZE_S;
 
+const DEFAULT_COLUMN_CONFIG: ColumnConfig = [
+    'isValid',
+    'select',
+    ['state', { sortable: true, width: undefined }],
+    ['teachingAffected', { componentProps: { show: 'icon' } }],
+    'kw',
+    'day',
+    'description',
+    'start',
+    'end',
+    ['userGroup', { sortable: false }],
+    'location',
+    'departmens',
+    'classes',
+    'descriptionLong',
+    ['actions', { fixed: { right: 0 } }]
+] as const;
+
 const UserEventGroup = observer((props: Props) => {
     const store = useStore('sessionStore');
     const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
+    const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
 
     React.useEffect(() => {
         if ((isOpen || props.standalone) && !group.isFullyLoaded && store.isLoggedIn) {
             group.loadEvents();
         }
     }, [isOpen, props.group, props.group.isFullyLoaded, props.standalone, store.isLoggedIn]);
+
+    React.useEffect(() => {
+        if (props.group.isFullyLoaded && props.group.events.some(e => e.nr > 0)) {
+            setColumnConfig([
+                'nr',
+                ...DEFAULT_COLUMN_CONFIG
+            ]);
+        }
+    }, [props.group.isFullyLoaded]);
+
     const { group } = props;
     return (
         <div
@@ -267,23 +296,7 @@ const UserEventGroup = observer((props: Props) => {
                         events={group.events}
                         type={viewType}
                         gridConfig={{
-                            columns: [
-                                'isValid',
-                                'select',
-                                ['state', { sortable: false, width: undefined }],
-                                ['teachingAffected', { componentProps: { show: 'icon' } }],
-                                'kw',
-                                'day',
-                                'description',
-                                'start',
-                                'end',
-                                ['userGroup', { sortable: false }],
-                                'location',
-                                'departmens',
-                                'classes',
-                                'descriptionLong',
-                                ['actions', { fixed: { right: 0 } }]
-                            ]
+                            columns: columnConfig
                         }}
                     />
                 </div>
