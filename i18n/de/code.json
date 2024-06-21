@@ -1514,7 +1514,7 @@
     "description": "Text of the button full screen"
   },
   "theme.docs.DocCard.categoryDescription.plurals": {
-    "message": "{count} Einträge",
+    "message": "1 Eintrag|{count} Einträge",
     "description": "The default description for a category card in the generated index about how many items this category includes"
   },
   "event.filter.mine.title": {
@@ -1823,5 +1823,85 @@
   },
   "user.navbar.profile.title": {
     "message": "Persönlicher Bereich"
+  },
+  "event.firstAuthor": {
+    "message": "Erstautor:in",
+    "description": "for a single event: author of the first version"
+  },
+  "EventAudience.STUDENTS.description.overview": {
+    "message": "SuS, betroffene LP*",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "event.filter.deleted": {
+    "message": "Gelöschte Verstecken?",
+    "description": "Filter: deleted"
+  },
+  "group.title": {
+    "message": "Gruppe"
+  },
+  "group.message.notFound": {
+    "message": "Gruppe nicht gefunden"
+  },
+  "group.message.loading": {
+    "message": "Gruppe Laden"
+  },
+  "colorPicker.title": {
+    "message": "Hauptfarbe Auswählen"
+  },
+  "versions.navColorPicker.modal.title": {
+    "message": "Hauptfarbe Wählen"
+  },
+  "event.firstAuthor.title": {
+    "message": "Dieser Termin wurde ursprünglich von {author} erstellt."
+  },
+  "event.firstAuthor.importedTitle": {
+    "message": "Dieser Termin wurde von {author} importiert."
+  },
+  "event.modifier": {
+    "message": "Geändert von",
+    "description": "for a single event: author of the first version"
+  },
+  "event.modifier.title": {
+    "message": "Dieser Termin wurde von {author} aktualisiert."
+  },
+  "event.meta": {
+    "message": "Metadaten",
+    "description": "for a single event: audience long"
+  },
+  "event.button.showImportLog": {
+    "message": "Rohdaten anzeigen"
+  },
+  "event.meta.warningsReviewed": {
+    "message": "Warnung wieder anzeigen"
+  },
+  "button.group.open.title": {
+    "message": "Gruppenseite anzeigen"
+  },
+  "navcard.list.text": {
+    "message": "Liste",
+    "description": "View text for the event list"
+  },
+  "components.admin.department.class.letters": {
+    "message": "Klassen-Buchstaben",
+    "description": "the text of the column for the class letters"
+  },
+  "event.button.versions.title": {
+    "message": "Versionen laden und anzeigen"
+  },
+  "eventGrid.header.nr": {
+    "message": "Nr",
+    "description": "Label for the Event Grid Row Number"
+  },
+  "theme.PwaReloadPopup.info": {
+    "message": "Neue Version verfügbar",
+    "description": "The text for PWA reload popup"
+  },
+  "theme.PwaReloadPopup.refreshButtonText": {
+    "message": "Aktualisieren",
+    "description": "The text for PWA reload button"
+  },
+  "theme.PwaReloadPopup.closeButtonAriaLabel": {
+    "message": "Schließen",
+    "description": "The ARIA label for close button of PWA reload popup"
   }
 }

@@ -1474,11 +1474,11 @@
     "message": "Fenêtre de saisie"
   },
   "EventAudience.STUDENTS.KLP.description": {
-    "message": "Klassenlehrpersonen der betroffenen Klassen",
+    "message": "Maître·sse·s de classe des classes impactées",
     "description": "audience: students, description for KLP"
   },
   "EventAudience.STUDENTS.example": {
-    "message": "Exkursion",
+    "message": "Excursion",
     "description": "Students Example"
   },
   "joi.event.emptyAudience": {
@@ -1486,267 +1486,363 @@
     "description": "Joi validation error for empty audience"
   },
   "event.title": {
-    "message": "Termine",
+    "message": "Évènement",
     "description": "[plural] Title of the event overview"
   },
   "event.versions.unpublished.title": {
-    "message": "Unveröffentlichte Versionen"
+    "message": "Versions non publiées"
   },
   "navcard.docs.text": {
     "message": "Documentation",
     "description": "Button text for navigating to the documentation page"
   },
   "event.bulk_actions.hide_select": {
-    "message": "Terminauswahl verbergen"
+    "message": "Cacher la sélection des dates"
   },
   "event.version.current.short": {
-    "message": "Aktuell"
+    "message": "Actuel"
   },
   "event.createdAt": {
-    "message": "Erstellt am",
+    "message": "Crée le",
     "description": "for a single event: date of event creation"
   },
   "event.updatedAt": {
-    "message": "Aktualisiert am",
+    "message": "Actualisé le",
     "description": "for a single event: date of update"
   },
   "event.actions": {
-    "message": "Aktionen",
+    "message": "Actions",
     "description": "Actions for a single event"
   },
   "event.version.current.long": {
-    "message": "Aktuelle Version"
+    "message": "Version actuelle"
   },
   "group.name.placeholder": {
-    "message": "Name der Gruppe"
+    "message": "Nom du groupe"
   },
   "group.description.placeholder": {
-    "message": "Beschreibung der Gruppe"
+    "message": "Description du groupe"
   },
   "group.delete.title": {
-    "message": "Nur Gruppen ohne Termine können gelöscht werden"
+    "message": "Seuls les groupes sans évènements peuvent être supprimés"
   },
   "group.createdAt": {
-    "message": "Erstellt Am"
+    "message": "Crée le"
   },
   "group.updatedAt": {
-    "message": "Geändert Am"
+    "message": "Modifié le"
   },
   "group.clone.dt": {
-    "message": "Duplizieren"
+    "message": "Dupliquer"
   },
   "group.clone.description": {
-    "message": "Gruppe inkl. Termine"
+    "message": "Groupe (incl. évènements)"
   },
   "group.users.dt": {
-    "message": "Mitglieder"
+    "message": "Membres"
   },
   "group.users.description": {
-    "message": "Alle Mitglieder der Gruppe sind können Termine beliebig verändern."
+    "message": "Tous les membres du groupe peuvent modifier les dates."
   },
   "group.shiftDates.dt": {
-    "message": "Datum Verschieben"
+    "message": "Décaler la date"
   },
   "group.shiftDates.description": {
-    "message": "Alle unveröffentlichten Termine um eine bestimmte Anzahl Tage verschieben"
+    "message": "Décaler toutes les dates non publiées d'un certain nombre de jours"
   },
   "group.shiftDates.closeShiftEditor": {
-    "message": "Editor schliessen"
+    "message": "Fermer l'éditeur"
   },
   "group.shiftDates.openShiftEditor": {
-    "message": "Editor öffnen"
+    "message": "Ouvrir l'éditeur"
   },
   "group.groupActions": {
-    "message": "Aktionen"
+    "message": "Actions"
   },
   "group.actions.saveAll": {
-    "message": "Alle Speichern"
+    "message": "Tout enregistrer"
   },
   "group.actions.discardAll": {
-    "message": "Alle Verwerfen"
+    "message": "Tout annuler"
   },
   "import.tab.v1.label": {
-    "message": "V1 Import",
+    "message": "Importation V1",
     "description": "import.tab.v1"
   },
   "user.logout.title": {
-    "message": "{mail} abmelden"
+    "message": "Désinscrire {mail}"
   },
   "user.ical.personal-calendar.copy-button.title": {
-    "message": "Kopiere den Link zum persönlichen Kalender."
+    "message": "Copier le lien vers le calendrier personnel."
   },
   "user.ical.copy-button.title": {
-    "message": "Kopiere den Link zum Kalender {name}."
+    "message": "Copier le lien vers le calendrier {name}."
   },
   "xlsx.events": {
-    "message": "Termine"
+    "message": "Évènement"
   },
   "kw": {
-    "message": "KW",
+    "message": "SC",
     "description": "Calendar week"
   },
   "xlsx.kw": {
-    "message": "KW"
+    "message": "SC"
   },
   "xlsx.weekday": {
-    "message": "Wochentag"
+    "message": "Jour de la semaine"
   },
   "xlsx.description": {
-    "message": "Titel"
+    "message": "Titre"
   },
   "xlsx.dateStart": {
-    "message": "Datum Beginn"
+    "message": "Date début"
   },
   "xlsx.timeStart": {
-    "message": "Zeit Beginn"
+    "message": "Heure début"
   },
   "xlsx.dateEnd": {
-    "message": "Datum Ende"
+    "message": "Date fin"
   },
   "xlsx.timeEnd": {
-    "message": "Zeit Ende"
+    "message": "Heure fin"
   },
   "xlsx.location": {
-    "message": "Ort"
+    "message": "Lieu"
   },
   "xlsx.descriptionLong": {
-    "message": "Beschreibung"
+    "message": "Description"
   },
   "xlsx.bilingueLPsAffected": {
-    "message": "Bilingue LP's betroffen"
+    "message": "Concerne profs des classes bilingues ?"
   },
   "xlsx.classes": {
-    "message": "Klassen"
+    "message": "Classes"
   },
   "xlsx.affects": {
-    "message": "Betrifft"
+    "message": "Concerne"
   },
   "xlsx.teachingAffected": {
-    "message": "Unterricht Betroffen?"
+    "message": "Leçons impactées"
   },
   "xlsx.deletedAt": {
-    "message": "Gelöscht am"
+    "message": "Supprimé le"
   },
   "event.bulkActions.show_select": {
-    "message": "Terminauswahl anzeigen"
+    "message": "Afficher la sélection"
   },
   "event.bulk_actions.clear_selection": {
-    "message": "Auswahl aufheben"
+    "message": "Annuler la sélection"
   },
   "event.bulk_actions.share": {
-    "message": "Übersicht Öffnen"
+    "message": "Ouvrir l'aperçu"
   },
   "event.bulk_actions.stats.total_events": {
-    "message": "{num} Termine"
+    "message": "{num} évènements"
   },
   "button.open.title": {
-    "message": "Terminseite Anzeigen"
+    "message": "Afficher la page de l'évènement"
   },
   "components.event.actions.close-edit.title": {
-    "message": "Editiermodus beenden"
+    "message": "Quitter le mode édition"
   },
   "button.save.new-version": {
-    "message": "Neue, unveröffentlichte Version Speichern"
+    "message": "Enregister la nouvelle version non publiée"
   },
   "button.save.error": {
-    "message": "Fehler beheben vor dem Speichern",
+    "message": "Corriger les erreurs avant de sauvegarder",
     "description": "Button to save changes with error"
   },
   "event.showUnpublishedVersions.singular.text": {
-    "message": "Entwurf",
+    "message": "Brouillon",
     "description": "singular"
   },
   "event.showUnpublishedVersions.text": {
-    "message": "Entwürfe",
+    "message": "Brouillons",
     "description": "plural"
   },
   "event.showUnpublishedVersions.title": {
-    "message": "Zeige {count} {updates}"
+    "message": "Montrer {count} {updates}"
   },
   "eventGrid.header.actions.title": {
-    "message": "Aktionen"
+    "message": "Actions"
   },
   "eventGrid.header.sortBy.title": {
-    "message": "Sortieren nach \"{column}\""
+    "message": "Trié par \"{column}\""
   },
   "event.filter.mine.title": {
-    "message": "Nur die für mich relevanten Termine anzeigen"
+    "message": "Afficher uniquement les dates qui me concernent"
   },
   "event.filter.future.title": {
-    "message": "Vergangene Termine ausblenden.",
+    "message": "Cacher les évènements passés.",
     "description": "Filter: Only current and future events"
   },
   "event.filter.search": {
-    "message": "Suche"
+    "message": "Chercher"
   },
   "event.filter.advanced.filterAudience": {
-    "message": "Nach Zielgruppe filtern"
+    "message": "Filtrer par groupe"
   },
   "event.filter.show_select": {
-    "message": "Termine auswählen"
+    "message": "Sélectionner les évènements"
   },
   "event.AddButton.title": {
-    "message": "Erstellt einen neuen, unveröffentlichten Termin"
+    "message": "Crée un nouvel évènement non publié"
   },
   "event.button.versions": {
-    "message": "Versionen",
+    "message": "Versions",
     "description": "for a single event: button to show version history"
   },
   "versions.history.modal.title": {
-    "message": "Versionen"
+    "message": "Versions"
   },
   "event.group.add": {
-    "message": "Gruppen hinzufügen"
+    "message": "Ajouter des groupes"
   },
   "user.button.add-group": {
-    "message": "Gruppe hinzufügen"
+    "message": "Ajouter des groupes"
   },
   "shiftDatesEditor.title": {
-    "message": "Verschiebung von Terminen"
+    "message": "Décaler des évènements"
   },
   "shiftDatesEditor.eventSelection.current": {
-    "message": "Aktueller Termin"
+    "message": "Évènement actuel"
   },
   "shiftDatesEditor.shift": {
-    "message": "Verschiebung"
+    "message": "Décaler"
   },
   "shiftedDatesEditor.dates": {
-    "message": "Tage"
+    "message": "Jours"
   },
   "shiftDatesEditor.hours": {
-    "message": "Stunden"
+    "message": "Heures"
   },
   "shiftDatesEditor.apply": {
-    "message": "Anwenden (Vorschau)"
+    "message": "Appliquer (aperçu)"
   },
   "shiftDatesEditor.eventSelection.new": {
-    "message": "Neu (Vorschau)"
+    "message": "Nouveau (aperçu)"
   },
   "eventGroup.userTable.search": {
-    "message": "Suche",
+    "message": "Chercher",
     "description": "search"
   },
   "eventGroup.userTable.th.shortName": {
-    "message": "Kürzel",
+    "message": "Sigle",
     "description": "th: shortName"
   },
   "eventGroup.userTable.th.firstName": {
-    "message": "Vorname",
+    "message": "Prénom",
     "description": "th: firstName"
   },
   "eventGroup.userTable.th.lastName": {
-    "message": "Nachname",
+    "message": "Nom",
     "description": "th: lastName"
   },
   "eventGroup.userTable.removeUser": {
-    "message": "Mitglied Entfernen"
+    "message": "Supprimer un membre"
   },
   "share.button.edit.versioned.title": {
-    "message": "Bearbeiten (Es wird eine neue Version erstellt)",
+    "message": "Modifier (une nouvelle version est créée)",
     "description": "Text of the button edit"
   },
   "theme.docs.DocCard.categoryDescription.plurals": {
     "message": "{count} éléments",
     "description": "The default description for a category card in the generated index about how many items this category includes"
+  },
+  "event.firstAuthor": {
+    "message": "Crée par",
+    "description": "for a single event: author of the first version"
+  },
+  "EventAudience.STUDENTS.description.overview": {
+    "message": "Élèves, MC impacté·e·s*",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "event.filter.deleted": {
+    "message": "Cacher les évènements supprimés",
+    "description": "Filter: deleted"
+  },
+  "subscribe.instructions.p1": {
+    "message": "Dans tous les programmes de calendrier courants, il est possible de s'abonner à des calendriers à partir d'une page web en indiquant l'URL d'un fichier .ics."
+  },
+  "subscribe.instructions.p2": {
+    "message": "Les liens correspondants sont indiqués ci-dessous et peuvent être insérés dans votre calendrier électronique préféré. Pour s'abonner à Outlook, on peut cliquer directement sur le bouton \"S'abonner à Outlook\" sur un ordinateur portable. ou procéder comme décrit dans les instructions en lien."
+  },
+  "subscribe.instructions.microsoft": {
+    "message": "Instructions pour Outlook"
+  },
+  "subscribe.instructions.apple": {
+    "message": "Instructions pour le calendrier Apple"
+  },
+  "colorGenerator.inputs.primary.label": {
+    "message": "Couleur principale"
+  },
+  "colorGenerator.inputs.modeToggle.label": {
+    "message": "Mode {colorMode} ",
+    "description": "The label for the button that toggles color mode"
+  },
+  "colorGenerator.inputs.modeToggle.label.colorMode.light": {
+    "message": "clair"
+  },
+  "colorGenerator.inputs.modeToggle.label.colorMode.dark": {
+    "message": "sombre"
+  },
+  "colorGenerator.inputs.resetButton.label": {
+    "message": "Réinitialiser"
+  },
+  "colorGenerator.table.heading2": {
+    "message": "Couleur",
+    "description": "This column is the color's representation in hex"
+  },
+  "colorGenerator.table.heading3": {
+    "message": "Ajustement",
+    "description": "This column is the adjusted shades' adjustment values relative to the primary color"
+  },
+  "colorGenerator.table.heading4": {
+    "message": "Aperçu",
+    "description": "This column is WCAG contrast rating: AAA, AA, Fail"
+  },
+  "colorGenerator.codeBlock.summary": {
+    "message": "Afficher le code couleur"
+  },
+  "colorGenerator.codeBlock.Description": {
+    "message": "Suggestions de couleurs pour les couleurs principales, à envoyer au développeur..."
+  },
+  "event.author": {
+    "message": "Auteur·e",
+    "description": "for a single event: author"
+  },
+  "event.author.importJob": {
+    "message": "Importation d'évènements"
+  },
+  "event.author.importJob.title": {
+    "message": "L'évènement a été créé à partir d'une importation de données.."
+  },
+  "user.navbar.profile.title": {
+    "message": "Espace personnel"
+  },
+  "event.bulk_actions.pubslish": {
+    "message": "Publier",
+    "description": "Publish Event"
+  },
+  "import.tab.gbsl": {
+    "message": "Importation GBSL ",
+    "description": "import.tab.gbsl"
+  },
+  "import.tab.gbjb": {
+    "message": "Importation GBJB",
+    "description": "import.tab.gbjb"
+  },
+  "eventGrid.header.sort.title": {
+    "message": "Trié par"
+  },
+  "event.show-unpublished-versions": {
+    "message": "Mises à jour"
+  },
+  "event.show-unpublished-versions-title": {
+    "message": "Affiche {count} {updates}"
+  },
+  "event.showUnpublishedVersion.text": {
+    "message": "Mises à jour",
+    "description": "singular"
   }
 }
