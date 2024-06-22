@@ -61,10 +61,13 @@ const Stats = observer((props: Props) => {
                 color="blue"
                 icon={mdiDownloadCircleOutline}
                 size={SIZE_S}
-                title={translate({
-                    id: 'event.bulk_actions.download',
-                    message: 'Download {number} Termine als Excel',
-                }, {number: props.events.length})}
+                title={translate(
+                    {
+                        id: 'event.bulk_actions.download',
+                        message: 'Download {number} Termine als Excel'
+                    },
+                    { number: props.events.length }
+                )}
             />
             {props.rightActions}
         </div>

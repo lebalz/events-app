@@ -136,9 +136,7 @@ const UsersEvents = observer((props: Props) => {
                             gridConfig={{ columns: COLUMN_CONFIG }}
                             bulkActionConfig={{
                                 className: styles.indent,
-                                middleActions: [
-                                    <AddEventButton />,
-                                ],
+                                middleActions: [<AddEventButton />],
                                 rightActions: [
                                     <ChangeViewAction viewType={viewType} setViewType={setViewType} />
                                 ]

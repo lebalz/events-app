@@ -150,7 +150,7 @@ const Filter = observer((props: Props) => {
                             id: 'event.filter.showAdvanced',
                             message: 'Erweiterte Filter anzeigen',
                             description: 'Button: Show advanced filter'
-                        })} 
+                        })}
                         onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
                     />
                     {eventTable.hasAdvancedFilters && (
