@@ -136,8 +136,10 @@ const UsersEvents = observer((props: Props) => {
                             gridConfig={{ columns: COLUMN_CONFIG }}
                             bulkActionConfig={{
                                 className: styles.indent,
-                                defaultActions: [
+                                middleActions: [
                                     <AddEventButton />,
+                                ],
+                                rightActions: [
                                     <ChangeViewAction viewType={viewType} setViewType={setViewType} />
                                 ]
                             }}
@@ -169,7 +171,7 @@ const UsersEvents = observer((props: Props) => {
                                 gridConfig={{ columns: COLUMN_CONFIG }}
                                 bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [
+                                    rightActions: [
                                         <ChangeViewAction viewType={viewType} setViewType={setViewType} />
                                     ]
                                 }}
@@ -202,7 +204,7 @@ const UsersEvents = observer((props: Props) => {
                                 gridConfig={{ columns: ['author', ...COLUMN_CONFIG] }}
                                 bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [
+                                    rightActions: [
                                         <ChangeViewAction viewType={viewType} setViewType={setViewType} />
                                     ]
                                 }}
@@ -235,7 +237,7 @@ const UsersEvents = observer((props: Props) => {
                                 gridConfig={{ columns: COLUMN_CONFIG }}
                                 bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [
+                                    rightActions: [
                                         <ChangeViewAction viewType={viewType} setViewType={setViewType} />
                                     ]
                                 }}
@@ -268,7 +270,7 @@ const UsersEvents = observer((props: Props) => {
                                 gridConfig={{ columns: COLUMN_CONFIG }}
                                 bulkActionConfig={{
                                     className: styles.indent,
-                                    defaultActions: [
+                                    rightActions: [
                                         <ChangeViewAction viewType={viewType} setViewType={setViewType} />
                                     ]
                                 }}
@@ -301,7 +303,7 @@ const UsersEvents = observer((props: Props) => {
                                                 }}
                                                 bulkActionConfig={{
                                                     className: styles.indent,
-                                                    defaultActions: [
+                                                    rightActions: [
                                                         <Delete
                                                             onClick={() => {
                                                                 jobStore.destroy(job);

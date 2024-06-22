@@ -39,7 +39,7 @@ const Table = observer(() => {
                         <BulkActions
                             events={viewStore.eventTable.events}
                             className={clsx(styles.bulkActions)}
-                            defaultActions={[
+                            leftActions={[
                                 <Button
                                     icon={mdiCheckboxBlankBadge}
                                     key={'show_select'}
@@ -52,7 +52,6 @@ const Table = observer(() => {
                                     onClick={() => viewStore.eventTable.toggleShowSelect()}
                                 />
                             ]}
-                            actionsSide="left"
                         />
                     )}
                 </div>

@@ -16,21 +16,24 @@ import {
     mdiBookmarkMinus,
     mdiClose,
     mdiCross,
+    mdiDownloadCircleOutline,
     mdiFileCertificate,
     mdiShareAll,
     mdiTag
 } from '@mdi/js';
-import { Icon, SIZE_XS } from '../../shared/icons';
+import { Icon, SIZE_S, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
 import EventGroup from '@site/src/models/EventGroup';
 import { options } from 'joi';
 import Stats from './stats';
+import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 
 export interface Props {
     events: EventModel[];
-    defaultActions?: React.ReactNode | React.ReactNode[];
-    actionsSide?: 'left' | 'right';
+    leftActions?: React.ReactNode | React.ReactNode[];
+    middleActions?: React.ReactNode | React.ReactNode[];
+    rightActions?: React.ReactNode | React.ReactNode[];
     className?: string;
     showShare?: boolean;
 }
@@ -39,14 +42,16 @@ const BulkActions = observer((props: Props) => {
     const userStore = useStore('userStore');
     const eventStore = useStore('eventStore');
     const eventGroupStore = useStore('eventGroupStore');
+    const departmentStore = useStore('departmentStore');
     const { current } = userStore;
     const selected = props.events.slice().filter((e) => e.selected);
     if (selected.length < 1) {
         return (
             <Stats
                 events={props.events}
-                postActions={props.actionsSide === 'left' ? undefined : props.defaultActions}
-                preActions={props.actionsSide === 'left' ? props.defaultActions : undefined}
+                leftActions={props.leftActions}
+                middleActions={props.middleActions}
+                rightActions={props.rightActions}
                 className={clsx(props.className)}
             />
         );
@@ -216,6 +221,29 @@ const BulkActions = observer((props: Props) => {
                         selected[0]?.groups?.map((g) => ({ id: g.id, name: g.name })) || []
                     )
                     .map((g) => ({ value: g.id, label: g.name }))}
+            />
+            <Button
+                onClick={() => {
+                    toExcel(selected, departmentStore.departments).then((buffer) => {
+                        const blob = new Blob([buffer], {
+                            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        document.body.appendChild(a);
+                        a.href = url;
+                        a.download = 'events.xlsx';
+                        a.click();
+                        document.body.removeChild(a);
+                    });
+                }}
+                color="blue"
+                icon={mdiDownloadCircleOutline}
+                size={SIZE_S}
+                title={translate({
+                    id: 'event.bulk_actions.download',
+                    message: 'Download {number} Termine als Excel',
+                }, {number: selected.length})}
             />
             {onlyMine && (
                 <Delete

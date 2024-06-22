@@ -146,6 +146,11 @@ const Filter = observer((props: Props) => {
                         active={eventTable.showAdvancedFilter}
                         className={clsx(styles.showAdvancedFilter)}
                         color={eventTable.hasAdvancedFilters ? 'primary' : undefined}
+                        title={translate({
+                            id: 'event.filter.showAdvanced',
+                            message: 'Erweiterte Filter anzeigen',
+                            description: 'Button: Show advanced filter'
+                        })} 
                         onClick={() => eventTable.setShowAdvancedFilter(!eventTable.showAdvancedFilter)}
                     />
                     {eventTable.hasAdvancedFilters && (
