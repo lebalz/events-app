@@ -49,7 +49,7 @@ const Login = observer(() => {
                             id="login.button.with.school.account.text"
                             description="the text of the button login with school account"
                         >
-                        Login mit Schul-Account
+                            Login mit Schul-Account
                         </Translate>
                     </Link>
                 </div>

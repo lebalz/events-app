@@ -298,9 +298,9 @@ const Filter = observer((props: Props) => {
                                         icon={mdiMinusCircleOutline}
                                         iconSide="left"
                                         text={translate({
-                                            message : "Start",
-                                            id:'event.filter.index.button.start' ,
-                                            description:'Text of button start time'
+                                            message: 'Start',
+                                            id: 'event.filter.index.button.start',
+                                            description: 'Text of button start time'
                                         })}
                                         onClick={() => eventTable.setStartFilter(null)}
                                     />
@@ -310,9 +310,9 @@ const Filter = observer((props: Props) => {
                                     icon={mdiPlusCircleOutline}
                                     iconSide="left"
                                     text={translate({
-                                        message : "Start",
-                                        id:'event.filter.index.button.start' ,
-                                        description:'Text of button start time'
+                                        message: 'Start',
+                                        id: 'event.filter.index.button.start',
+                                        description: 'Text of button start time'
                                     })}
                                     onClick={() => eventTable.setStartFilter(new Date())}
                                 />
@@ -330,9 +330,9 @@ const Filter = observer((props: Props) => {
                                         icon={mdiMinusCircleOutline}
                                         iconSide="left"
                                         text={translate({
-                                            message : "Ende",
-                                            id:'event.filter.index.button.end' ,
-                                            description:'Text of button end time'
+                                            message: 'Ende',
+                                            id: 'event.filter.index.button.end',
+                                            description: 'Text of button end time'
                                         })}
                                         onClick={() => eventTable.setEndFilter(null)}
                                     />
@@ -342,9 +342,9 @@ const Filter = observer((props: Props) => {
                                     icon={mdiPlusCircleOutline}
                                     iconSide="left"
                                     text={translate({
-                                        message : "Ende",
-                                        id:'event.filter.index.button.end' ,
-                                        description:'Text of button end time'
+                                        message: 'Ende',
+                                        id: 'event.filter.index.button.end',
+                                        description: 'Text of button end time'
                                     })}
                                     onClick={() => eventTable.setEndFilter(new Date())}
                                 />
