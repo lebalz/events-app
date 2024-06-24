@@ -1,6 +1,6 @@
 # Nouvel évènement
 
-Les évènements peuvent être créés à tout moment via __Personnel > :mdi[plus-circle-outline] Nouvel événement__ :
+Les évènements peuvent être créés à tout moment via __Personnel > :mdi[plus-circle-outline] Nouvel évènement__ :
 
 [👉 Personnel](/fr/user?user-tab=events)
 

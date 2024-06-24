@@ -130,6 +130,7 @@ setErrorMessages([
         {letter : token.charAt(2)}
     )
 ]);
+```
 
 et dans fr/code.json :
 
@@ -140,15 +141,32 @@ et dans fr/code.json :
     }
 ```
 
+## Mettre à jour les traductions
+
+Après avoir ajouté les balises translate, lancer en ligne de commande
+
+```bash
+yarn write-translations --locale de
+```
+ou
+
+```bash
+yarn write-translations --locale fr
+```
+
+pour ajouter automatiquement les entrées dans le fichier code.json.
+
+## Gestion des branches de traduction
+
 ### Travailler sur une nouvelle branche sur le dépôt original
 
 ```bash
 git clone git@github.com:lebalz/events-app.git events-app
 cd events-app
-git checkout -b "nom-de-la-nouvelle-branche"
+git 
 # Maintenant sur la nouvelle branche
 # travailler et faire des commits
-# et lors du premier push
+# et lors du premier pushya
 git push -u origin neuer-branch-name
 # continuer à travailler...
 # pour les push suivants :

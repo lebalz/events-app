@@ -9,7 +9,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 Documentation, instructions et aide pour l'utilisation du Calendrier des évènements.
 
 <ThemedImage
-  alt="Logo Calendrier des événements"
+  alt="Logo Calendrier des évènements"
   width="400px"
   style={{ marginLeft: 'auto', marginRight: 'auto', display: 'block'}}
   sources={{

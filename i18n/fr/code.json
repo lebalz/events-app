@@ -584,7 +584,7 @@
     "description": "user.button.refresh.text"
   },
   "user.tab.events": {
-    "message": "Événements"
+    "message": "Évènements"
   },
   "user.tab.groups": {
     "message": "Groupes"
@@ -593,7 +593,7 @@
     "message": "Horaire"
   },
   "event.AddButton.text": {
-    "message": "Nouvel événement",
+    "message": "Nouvel évènement",
     "description": "AddButton text"
   },
   "event.description": {
@@ -919,7 +919,6 @@
   },
   "components.event.usersevents.index.tabitem.notpublished": {
     "message": "Brouillons",
-    "message": "Brouillons",
     "description": "Text not published"
   },
   "components.event.usersevents.index.header.notpublished": {
@@ -1243,7 +1242,7 @@
     "description": "Only relevant (and displayed) for class teachers"
   },
   "EventAudience.LP.description.long": {
-    "message": "Enseignant·e·s dont les leçons sont impactées",
+    "message": "Enseignant·e·s",
     "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
   },
   "EventAudience.STUDENTS.description.long": {
@@ -1844,5 +1843,95 @@
   "event.showUnpublishedVersion.text": {
     "message": "Mises à jour",
     "description": "singular"
+  },
+  "group.title": {
+    "message": "Groupe"
+  },
+  "group.message.notFound": {
+    "message": "Groupe non trouvé"
+  },
+  "group.message.loading": {
+    "message": "Groupe chargé"
+  },
+  "login.button.with.school.account.text": {
+    "message": "S'identifier avec le compte de l'école",
+    "description": "the text of the button login with school account"
+  },
+  "colorPicker.title": {
+    "message": "Choisir la couleur principale"
+  },
+  "versions.navColorPicker.modal.title": {
+    "message": "Choisir la couleur principale"
+  },
+  "event.firstAuthor.title": {
+    "message": "Cet évènement a été créé par {author}."
+  },
+  "event.firstAuthor.importedTitle": {
+    "message": "Cet évènement a été importé par {author}."
+  },
+  "event.modifier": {
+    "message": "Modifié par",
+    "description": "for a single event: author of the first version"
+  },
+  "event.modifier.title": {
+    "message": "Cet évènement a été actualisé par {author}."
+  },
+  "event.meta": {
+    "message": "Métadonnées",
+    "description": "for a single event: audience long"
+  },
+  "event.button.showImportLog": {
+    "message": "Afficher les données brutes"
+  },
+  "event.meta.warningsReviewed": {
+    "message": "Afficher à nouveau l'avertissement"
+  },
+  "event.meta.infosReviewed": {
+    "message": "Afficher à nouveau les infos"
+  },
+  "button.group.open.title": {
+    "message": "Afficher la page du groupe"
+  },
+  "navcard.list.text": {
+    "message": "Liste",
+    "description": "View text for the event list"
+  },
+  "components.admin.department.class.letters": {
+    "message": "Sigle des classes",
+    "description": "the text of the column for the class letters"
+  },
+  "event.bulk_actions.download": {
+    "message": "Téléchargement de {number} évènements au format Excel"
+  },
+  "event.filter.showAdvanced": {
+    "message": "Afficher les filtres avancés",
+    "description": "Button: Show advanced filter"
+  },
+  "event.button.versions.title": {
+    "message": "Charger et afficher les versions"
+  },
+  "eventGrid.header.nr": {
+    "message": "N°",
+    "description": "Label for the Event Grid Row Number"
+  },
+  "theme.PwaReloadPopup.info": {
+    "message": "Nouvelle version disponible",
+    "description": "The text for PWA reload popup"
+  },
+  "theme.PwaReloadPopup.refreshButtonText": {
+    "message": "Rafraîchir",
+    "description": "The text for PWA reload button"
+  },
+  "theme.PwaReloadPopup.closeButtonAriaLabel": {
+    "message": "Fermer",
+    "description": "The ARIA label for close button of PWA reload popup"
+  },
+  "event.filter.index.button.start": {
+    "message": "Début",
+    "description": "Text of button start time"
+  },
+  "event.filter.index.button.end": {
+    "message": "Fin",
+    "description": "Text of button end time"
   }
 }
