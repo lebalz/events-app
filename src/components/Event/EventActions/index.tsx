@@ -9,7 +9,7 @@ import { translate } from '@docusaurus/Translate';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
 import { DiscardIcon, SIZE, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
-import Event from '@site/src/models/Event';
+import Event, { ValidState } from '@site/src/models/Event';
 import Delete from '../../shared/Button/Delete';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
@@ -121,7 +121,7 @@ const DefaultActions = observer((props: Props) => {
                                   })
                         }
                         size={BTN_SIZE}
-                        disabled={!event.isDirty || !event.isValid}
+                        disabled={!event.isDirty || event.validationState !== ValidState.Error}
                         icon={
                             event.isDraft ? <SaveIcon size={BTN_SIZE} /> : <SaveVersionIcon size={BTN_SIZE} />
                         }
