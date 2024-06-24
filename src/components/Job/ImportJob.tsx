@@ -43,7 +43,7 @@ const ImportJob = observer((props: Props) => {
                 <EventsViewer
                     bulkActionConfig={{
                         className: clsx(styles.bulkActions),
-                        defaultActions: [
+                        rightActions: [
                             <Delete
                                 onClick={() => {
                                     jobStore.destroy(job);

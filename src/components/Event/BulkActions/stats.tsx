@@ -60,7 +60,6 @@ const Stats = observer((props: Props) => {
                 }}
                 color="blue"
                 icon={mdiDownloadCircleOutline}
-                size={SIZE_S}
                 title={translate(
                     {
                         id: 'event.bulk_actions.download',
