@@ -7,11 +7,9 @@ import { useStore } from '@site/src/stores/hooks';
 import LazyDetails from '../shared/Details';
 import User from '@site/src/models/User';
 import Delete from '../shared/Button/Delete';
-import BulkActions from '../Event/BulkActions';
-import Grid from '../Event/Views/Grid';
 import { ImportJob as ImportJobModel } from '@site/src/models/Job';
-import Translate, { translate } from '@docusaurus/Translate';
-import { Loading } from '../shared/icons';
+import { translate } from '@docusaurus/Translate';
+import { Loading, SIZE } from '../shared/icons';
 import EventsViewer, { View } from '../EventsViewer';
 import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 
@@ -53,6 +51,7 @@ const ImportJob = observer((props: Props) => {
                                     message: 'Job Löschen',
                                     description: 'job.delete'
                                 })}
+                                size={SIZE}
                                 flyoutSide="right"
                                 iconSide="right"
                                 apiState={jobStore.apiStateFor(`destroy-${job.id}`)}

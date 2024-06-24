@@ -20,6 +20,7 @@ import Badge from '../../shared/Badge';
 import RegPeriodBadge from '../../RegistrationPeriod/RegPeriodBadge';
 import EventsViewer, { View } from '../../EventsViewer';
 import ChangeViewAction from '../../EventsViewer/ChangeViewAction';
+import { SIZE } from '../../shared/icons';
 const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     ['state', { sortable: false, width: undefined }],
@@ -313,6 +314,7 @@ const UsersEvents = observer((props: Props) => {
                                                             })}
                                                             flyoutSide="right"
                                                             iconSide="right"
+                                                            size={SIZE}
                                                             apiState={jobStore.apiStateFor(
                                                                 `destroy-${job.id}`
                                                             )}
