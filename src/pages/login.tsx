@@ -11,6 +11,7 @@ import { Redirect } from '@docusaurus/router';
 import { tokenRequest } from '../authConfig';
 import siteConfig from '@generated/docusaurus.config';
 import { useStore } from '../stores/hooks';
+import Translate from '@docusaurus/Translate';
 const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean };
 
 function HomepageHeader() {
@@ -44,7 +45,12 @@ const Login = observer(() => {
                         className="button button--warning"
                         style={{ color: 'black' }}
                     >
+                        <Translate
+                            id="login.button.with.school.account.text"
+                            description="the text of the button login with school account"
+                        >
                         Login mit Schul-Account
+                        </Translate>
                     </Link>
                 </div>
             </main>
