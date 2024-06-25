@@ -91,7 +91,11 @@ const Table = observer(() => {
                     color="primary"
                     iconSide="left"
                     icon={mdiDownloadCircleOutline}
-                    text="Download"
+                    text={translate({
+                        message: 'Download',
+                        id: 'table.button.download',
+                        description: 'Text of the button download xlsx'
+                    })}
                 />
             </div>
         </Layout>
