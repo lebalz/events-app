@@ -12,7 +12,7 @@ import strongPlugin from './src/plugins/remark-strong/plugin';
 import deflistPlugin from './src/plugins/remark-deflist/plugin';
 import mdiPlugin from './src/plugins/remark-mdi/plugin';
 
-const VERSION = 'beta-1.11';
+const VERSION = 'rc-1.0';
 
 const defaultLocale = 'de';
 
@@ -198,7 +198,7 @@ const config: Config = {
     themeConfig: {
         announcementBar: {
             id: VERSION,
-            content: `🚧 Beta-Phase: ${VERSION} 🚧`,
+            content: `Einführungsphase: ${VERSION}`,
             backgroundColor: 'var(--color-current-week-odd-background)',
             textColor: 'var(--ifm-font-color-base)'
         },

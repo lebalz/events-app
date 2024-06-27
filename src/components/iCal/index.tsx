@@ -25,6 +25,7 @@ import _ from 'lodash';
 import Link from '@docusaurus/Link';
 import TextInput from '../shared/TextInput';
 import Copy from '../shared/Button/Copy';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface Props {}
 
@@ -107,7 +108,7 @@ const ICal = observer((props: Props) => {
                                     Sie müssen sich zuerst mit Untis verbinden, um einen persönlichen Kalender
                                     zu erhalten.
                                 </Translate>
-                                <Link to={'/user?user-tab=account'}>
+                                <Link to={useBaseUrl('/user?user-tab=account')}>
                                     <Translate
                                         id="ical.link.text.settings"
                                         description="Link text to navigate to the user settings"

@@ -189,25 +189,52 @@ const Home = observer(() => {
                                 <h3>Vielen Dank für die Mithilfe!</h3>
                             </div>
                             <div className="card__header">
-                                <h3>Kurzanleitungen</h3>
+                                <h1>Wie funktioniert's?</h1>
                             </div>
                             <div className="card__body">
                                 <VideoGrid
                                     videos={[
-                                        { src: '/videos/Events-Anmelden.mp4', title: 'Anmelden' },
-                                        { src: '/videos/Events-Filtern.mp4', title: 'Filtern' },
+                                        {
+                                            src: '/videos/Events-Anmelden.mp4',
+                                            title: '👉 Anmelden',
+                                            href: '/docs/login'
+                                        },
+                                        {
+                                            src: '/videos/Events-Filtern.mp4',
+                                            title: '👉 Filtern',
+                                            href: '/docs/events/filter'
+                                        },
                                         {
                                             src: '/videos/Events-Abonnieren.mp4',
-                                            title: 'Abonnieren',
+                                            title: '👉 Abonnieren',
                                             href: 'docs/events/subscribe'
                                         },
-                                        { src: '/videos/events-ruttl-de.mp4', title: 'Feedback' }
+                                        {
+                                            src: '/videos/events-ruttl-de.mp4',
+                                            title: '👉 Feedback',
+                                            href: 'docs/betaphase'
+                                        }
                                     ]}
                                 />
                             </div>
                             <div className="card__body">
                                 <Details summary="Neuerungen des Terminkalenders anzeigen">
                                     <h3>Changelog</h3>
+                                    <h4>Version: Release Candidate 1.0 (27.06.2024)</h4>
+                                    <ul>
+                                        <li>
+                                            🚀💅 Neu: In Gruppen oder beim Import kann zwischen den
+                                            verschiedenen Ansichten umgestellt werden
+                                        </li>
+                                        <li>
+                                            🚀: Anleitungen mit kurzen Videos in die Dokumentation
+                                            aufgenommen.
+                                        </li>
+                                        <li>
+                                            🐛 Fix: Die Terminfilterung nach eigenen Terminen funktioniert
+                                            zuverlässiger und schneller.
+                                        </li>
+                                    </ul>
                                     <h4>Version: Beta 1.11 (05.05.2024)</h4>
                                     <ul>
                                         <li>
@@ -467,21 +494,34 @@ const Home = observer(() => {
                                 grâce à l'application de traçage de bugs (voir Video).
                                 <h3>Merci beaucoup pour votre aide.</h3>
                             </div>
-                            <div className="card__footer">
-                                <video
-                                    autoPlay
-                                    controls
-                                    muted
-                                    loop
-                                    id="myVideo"
-                                    ref={ref}
-                                    style={{ width: '100%', height: '100%', maxHeight: '1200px' }}
-                                >
-                                    <source
-                                        src={useBaseUrl('/videos/events-ruttl-de.mp4')}
-                                        type="video/mp4"
-                                    />
-                                </video>
+                            <div className="card__header">
+                                <h1>Comment ça marche ?</h1>
+                            </div>
+                            <div className="card__body">
+                                <VideoGrid
+                                    videos={[
+                                        {
+                                            src: '/videos/ME-s-identifier.mp4',
+                                            title: "S'identifier"
+                                        },
+                                        {
+                                            src: '/videos/ME-les-filtres.mp4',
+                                            title: 'Filtrer'
+                                        },
+                                        {
+                                            src: '/videos/ME-s-abonner.mp4',
+                                            title: "S'abonner"
+                                        },
+                                        {
+                                            src: '/videos/ME-s-abonner-autre-agenda.mp4',
+                                            title: "S'abonner à un autre agenda"
+                                        },
+                                        {
+                                            src: '/videos/events-ruttl-de.mp4',
+                                            title: 'Feedback'
+                                        }
+                                    ]}
+                                />
                             </div>
                         </div>
                     )}
