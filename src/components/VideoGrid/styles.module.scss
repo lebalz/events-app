@@ -1,0 +1,9 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); /* see notes below */
+    gap: 1em;
+    .video {
+        flex-basis: 350px;
+        flex-grow: 1;
+    }
+}

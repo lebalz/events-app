@@ -228,6 +228,7 @@ const config: Config = {
                     type: 'custom-adminLink',
                     position: 'left'
                 },
+                { to: '/docs', label: '?', position: 'right' },
                 {
                     type: 'localeDropdown',
                     position: 'right',
