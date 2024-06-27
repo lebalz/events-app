@@ -8,10 +8,10 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 
 interface Props {
-    src: string,
-    title: string,
-    autoplay?: boolean,
-    href?: string,
+    src: string;
+    title: string;
+    autoplay?: boolean;
+    href?: string;
 }
 
 const Video = observer((props: Props) => {
@@ -35,22 +35,15 @@ const Video = observer((props: Props) => {
                     <source src={useBaseUrl(props.src)} type="video/mp4" />
                 </video>
             </div>
-            
+
             <div className="card__footer">
-                {
-                    props.href ? (
-                        <Link
-                            className="button button--primary button--block"
-                            to={useBaseUrl(props.href)}
-                        >
-                            {props.title}
-                        </Link>
-                    ) : (
-                        <h3>
-                            {props.title}
-                        </h3>
-                    )
-                }
+                {props.href ? (
+                    <Link className="button button--primary button--block" to={useBaseUrl(props.href)}>
+                        {props.title}
+                    </Link>
+                ) : (
+                    <h3>{props.title}</h3>
+                )}
             </div>
         </div>
     );

@@ -170,21 +170,20 @@ const Home = observer(() => {
                                 <h2>Einführung Terminkalender</h2>
                             </div>
                             <div className="card__body">
-                                Der Terminkalender ist noch in der Einführungsphase, was folgende Einschränkungen
-                                mit sich bringt:
+                                Der Terminkalender ist noch in der Einführungsphase, was folgende
+                                Einschränkungen mit sich bringt:
                                 <ul>
                                     <li>
-                                        <b>
-                                            Erfasste Termine werden erst für das FS2025 veröffentlicht.
-                                        </b>
+                                        <b>Erfasste Termine werden erst für das FS2025 veröffentlicht.</b>
                                     </li>
                                     <li>
-                                        Die URL der abonnierten Kalender könnte sich während der Einführungsphase
-                                        ändern. Dann würden Sie informiert und müssten den Kalender erneut
-                                        abonnieren.
+                                        Die URL der abonnierten Kalender könnte sich während der
+                                        Einführungsphase ändern. Dann würden Sie informiert und müssten den
+                                        Kalender erneut abonnieren.
                                     </li>
                                     <li>
-                                        Nicht alles wird bereits perfekt funktionieren. Rückmeldungen zu Fehlern oder Anregungen sind nach wie vor sehr willkommen.
+                                        Nicht alles wird bereits perfekt funktionieren. Rückmeldungen zu
+                                        Fehlern oder Anregungen sind nach wie vor sehr willkommen.
                                     </li>
                                 </ul>
                                 <h3>Vielen Dank für die Mithilfe!</h3>
@@ -192,26 +191,28 @@ const Home = observer(() => {
                             <div className="card__header">
                                 <h3>Kurzanleitungen</h3>
                             </div>
-                            <div className="card__body">                                                                
+                            <div className="card__body">
                                 <VideoGrid
                                     videos={[
-                                        {src: '/videos/Events-Anmelden.mp4', title: 'Anmelden'},
-                                        {src: '/videos/Events-Filtern.mp4', title: 'Filtern'},
-                                        {src: '/videos/Events-Abonnieren.mp4', title: 'Abonnieren', href: 'docs/events/subscribe'},
-                                        {src: '/videos/events-ruttl-de.mp4', title: 'Feedback'},
+                                        { src: '/videos/Events-Anmelden.mp4', title: 'Anmelden' },
+                                        { src: '/videos/Events-Filtern.mp4', title: 'Filtern' },
+                                        {
+                                            src: '/videos/Events-Abonnieren.mp4',
+                                            title: 'Abonnieren',
+                                            href: 'docs/events/subscribe'
+                                        },
+                                        { src: '/videos/events-ruttl-de.mp4', title: 'Feedback' }
                                     ]}
                                 />
                             </div>
                             <div className="card__body">
-                                <Details
-                                    summary="Neuerungen des Terminkalenders anzeigen"
-                                >
+                                <Details summary="Neuerungen des Terminkalenders anzeigen">
                                     <h3>Changelog</h3>
                                     <h4>Version: Beta 1.11 (05.05.2024)</h4>
                                     <ul>
                                         <li>
-                                            🚀💅 Neu: Benutzende können selber die Hauptfarbe einstellen. In der
-                                            Navigationsliste auf{' '}
+                                            🚀💅 Neu: Benutzende können selber die Hauptfarbe einstellen. In
+                                            der Navigationsliste auf{' '}
                                             <Badge
                                                 icon={mdiPalette}
                                                 color="primary"
@@ -225,8 +226,8 @@ const Home = observer(() => {
                                     <ul>
                                         <li>🚀 Neu: Dokumentation und Gebrauchsanweisungen Verlinkt</li>
                                         <li>
-                                            🚀 Neu: Aktualisierte, aber noch nicht veröffentlichte Termine können
-                                            in einer Übersicht dargestellt werden.
+                                            🚀 Neu: Aktualisierte, aber noch nicht veröffentlichte Termine
+                                            können in einer Übersicht dargestellt werden.
                                         </li>
                                         <li>💅 Aktionen für Termine werden übersichtlicher dargestellt.</li>
                                         <li>
@@ -236,14 +237,16 @@ const Home = observer(() => {
                                     </ul>
                                     <h4>Version: Beta 1.9 (28.04.2024)</h4>
                                     <ul>
-                                        <li>💅 Neue Zeilen werden bei den Beschreibungen korrekt angezeigt.</li>
+                                        <li>
+                                            💅 Neue Zeilen werden bei den Beschreibungen korrekt angezeigt.
+                                        </li>
                                         <li>
                                             💅 Rechts-Klick oder langes drücken auf Tablets öffnet die
                                             Termin-Übersicht.
                                         </li>
                                         <li>
-                                            💅 Ist in der Tabelle bei einem Termin kein Text ausgewählt, kann eine
-                                            Zeile auch durch erneutes Klicken reduziert werden.
+                                            💅 Ist in der Tabelle bei einem Termin kein Text ausgewählt, kann
+                                            eine Zeile auch durch erneutes Klicken reduziert werden.
                                         </li>
                                         <li>💅 Zeige den "Edit" Knopf bei unveröffentlichten Terminen an.</li>
                                         <li>
@@ -251,8 +254,8 @@ const Home = observer(() => {
                                             einer Gruppe hinzugefügt werden.
                                         </li>
                                         <li>
-                                            🐛 Fix: Der "Termin Hinzufügen" Knopf wurde nicht angezeigt, wenn noch
-                                            keine Termine vorhanden waren.
+                                            🐛 Fix: Der "Termin Hinzufügen" Knopf wurde nicht angezeigt, wenn
+                                            noch keine Termine vorhanden waren.
                                         </li>
                                     </ul>
                                     <h4>Version: Beta 1.8 (17.04.2024)</h4>
@@ -280,9 +283,9 @@ const Home = observer(() => {
                                             Tabelle.
                                         </li>
                                         <li>
-                                            💅 Ist eine Zeile in der Tabellensicht erweitert, kann sie auch durch
-                                            Klicken auf "Lektionen Betroffen Knopf" 🔴🟡🟢 wieder reduziert
-                                            werden.
+                                            💅 Ist eine Zeile in der Tabellensicht erweitert, kann sie auch
+                                            durch Klicken auf "Lektionen Betroffen Knopf" 🔴🟡🟢 wieder
+                                            reduziert werden.
                                         </li>
                                         <li>
                                             💅 Mit <kbd>ctrl + Klick</kbd> kann die Terminübersicht geöffnet
@@ -295,22 +298,23 @@ const Home = observer(() => {
                                         </li>
                                         <li>🚀 Neu: Download-Format des Excel-Exports.</li>
                                         <li>
-                                            🐛 Fix: Der Excel-Export fügt nur die angezeigten Termine ins Excel
-                                            ein.
+                                            🐛 Fix: Der Excel-Export fügt nur die angezeigten Termine ins
+                                            Excel ein.
                                         </li>
                                     </ul>
                                     <h4>Version: Beta 1.7 (26.02.2024)</h4>
                                     <ul>
                                         <li>
-                                            💅 Verbesserung: Wird der Start oder das Ende eines Termins verändert,
-                                            so dass der "Start" nach dem "Ende" erfolgt, wird automatisch ein
-                                            zulässiges Datum gesetzt.
+                                            💅 Verbesserung: Wird der Start oder das Ende eines Termins
+                                            verändert, so dass der "Start" nach dem "Ende" erfolgt, wird
+                                            automatisch ein zulässiges Datum gesetzt.
                                         </li>
                                         <li>
                                             🚀 Neu: Benachrichtigungen: In den{' '}
-                                            <Link to="/user?user-tab=account">👉 Benutzereinstellungen</Link> kann
-                                            festgelegt werden, ob man bei Terminänderungen, die einem betreffen,
-                                            per Mail benachrichtigt werden möchte. Benachrichtigt wirst du, wenn:
+                                            <Link to="/user?user-tab=account">👉 Benutzereinstellungen</Link>{' '}
+                                            kann festgelegt werden, ob man bei Terminänderungen, die einem
+                                            betreffen, per Mail benachrichtigt werden möchte. Benachrichtigt
+                                            wirst du, wenn:
                                             <ul>
                                                 <li>Ein Termin der dich betrifft, gelöscht wird.</li>
                                                 <li>Ein Termin verändert wird, der dich betrifft.</li>
@@ -325,23 +329,25 @@ const Home = observer(() => {
                                             🚀 Neu: Termine können zu einer Gruppe gruppiert werden:
                                             <ul>
                                                 <li>Eigene Termine können zu Gruppen hinzugefügt werden.</li>
-                                                <li>Öffentliche Termine können zu Gruppen hinzugefügt werden.</li>
+                                                <li>
+                                                    Öffentliche Termine können zu Gruppen hinzugefügt werden.
+                                                </li>
                                                 <li>Gruppen können kopiert werden.</li>
                                                 <li>
-                                                    Es gibt einen Editor zum verschieben aller Start- und Enddaten
-                                                    um eine feste Anzahl Tage/Stunden von Terminen in einer
-                                                    Gruppe.
+                                                    Es gibt einen Editor zum verschieben aller Start- und
+                                                    Enddaten um eine feste Anzahl Tage/Stunden von Terminen in
+                                                    einer Gruppe.
                                                 </li>
                                                 <li>Gruppen können mit anderen Personen geteilt werden.</li>
                                             </ul>
                                         </li>
                                         <li>
-                                            🐛 Fix: Klassengruppen wurden in der Terminübersicht fälschlicherweise
-                                            nicht angezeigt.
+                                            🐛 Fix: Klassengruppen wurden in der Terminübersicht
+                                            fälschlicherweise nicht angezeigt.
                                         </li>
                                         <li>
-                                            🐛 Fix: Beim Neuladen der User-Seite wird wieder der zuvor ausgewählte
-                                            Tab angezeigt.
+                                            🐛 Fix: Beim Neuladen der User-Seite wird wieder der zuvor
+                                            ausgewählte Tab angezeigt.
                                         </li>
                                     </ul>
                                     <h4>Version: Beta 1.6 (11.02.2024)</h4>
@@ -360,8 +366,8 @@ const Home = observer(() => {
                                             diese nun auch wieder ausgeblendet werden.
                                         </li>
                                         <li>
-                                            🐛 Fix: Falls sich das Login "aufhängt" und oben Links durchgehend das
-                                            "Profil" geladen wird, kann durch Klicken auf das Profil und
+                                            🐛 Fix: Falls sich das Login "aufhängt" und oben Links durchgehend
+                                            das "Profil" geladen wird, kann durch Klicken auf das Profil und
                                             anschliessendes "Aktualisieren" das Login neu angestossen werden.
                                         </li>
                                         <li>
@@ -376,7 +382,9 @@ const Home = observer(() => {
                                             🐛 Fix: Login sollte nun auf allen Browsern funktionieren und die
                                             Account-Daten werden auch nach dem ersten Login geladen.
                                         </li>
-                                        <li>🔧 Bestätigung für das Löschen eines Events ist nun ein Popup.</li>
+                                        <li>
+                                            🔧 Bestätigung für das Löschen eines Events ist nun ein Popup.
+                                        </li>
                                     </ul>
                                     <h4>Version: Beta 1.4 (22.01.2024)</h4>
                                     <ul>
@@ -385,21 +393,22 @@ const Home = observer(() => {
                                             hinzugefügt.
                                         </li>
                                         <li>
-                                            🐛 Fix: Verbesserung des UI's wenn die Mehrfaktor-Authentifizierung
-                                            notwendig ist.
+                                            🐛 Fix: Verbesserung des UI's wenn die
+                                            Mehrfaktor-Authentifizierung notwendig ist.
                                         </li>
                                         <li>
-                                            💅 Zeitachse: Titelleiste ist beim Scrollen oben am Fenster fixiert.
+                                            💅 Zeitachse: Titelleiste ist beim Scrollen oben am Fenster
+                                            fixiert.
                                         </li>
                                     </ul>
                                     <h4>Version: Beta 1.3 (15.01.2024)</h4>
                                     <ul>
                                         <li>
-                                            🚀 Inkrementelles Laden: Es werden die öffentlichen Termine geladen,{' '}
-                                            <b>während</b> die Benutzer:in eingeloggt wird. Sobald die
-                                            Anmeldeinformationen vorhanden sind, werden auch die persönlichen
-                                            Daten geladen. Führt zu einem schnelleren Laden der Seite.{' '}
-                                            <a href="https://github.com/lebalz/events-app/pull/17"></a>
+                                            🚀 Inkrementelles Laden: Es werden die öffentlichen Termine
+                                            geladen, <b>während</b> die Benutzer:in eingeloggt wird. Sobald
+                                            die Anmeldeinformationen vorhanden sind, werden auch die
+                                            persönlichen Daten geladen. Führt zu einem schnelleren Laden der
+                                            Seite. <a href="https://github.com/lebalz/events-app/pull/17"></a>
                                         </li>
                                         <li>
                                             💅 Logout Button ist nun im sichtbaren Bereich auf der{' '}
@@ -407,27 +416,32 @@ const Home = observer(() => {
                                         </li>
                                         <li>🐛 Fix: Abonnierbare Kalender sind korrekt beschriftet</li>
                                         <li>
-                                            🐛 Fix: Kalenderwochen werden auch beim Jahreswechsel korrekt sortiert
+                                            🐛 Fix: Kalenderwochen werden auch beim Jahreswechsel korrekt
+                                            sortiert
                                         </li>
                                     </ul>
                                     <h4>Version: Beta 1.2 (07.01.2024)</h4>
                                     <ul>
                                         <li>
-                                            🐛 Fix: Termin-Filter: Wer EF Unterrichtet, wurde bisher automatisch
-                                            auch dem GBJB zugeteilt (bei EF's werden alle Gym-Klassen zugeteilt,
-                                            also auch Nicht-Bilingue Klassen des GBJB, so dass bisher eine
-                                            Zugehörigkeit zum GBJB abgeleitet wurde). Für das EF bzw. OC ist
-                                            dieser Fehler behoben. Falls bei anderen Fächern ebenfalls
-                                            Schulübergreifend Klassen zugeordnet werden, gerne melden.{' '}
-                                            <a href="https://github.com/lebalz/events-api/pull/9" target="_blank">
+                                            🐛 Fix: Termin-Filter: Wer EF Unterrichtet, wurde bisher
+                                            automatisch auch dem GBJB zugeteilt (bei EF's werden alle
+                                            Gym-Klassen zugeteilt, also auch Nicht-Bilingue Klassen des GBJB,
+                                            so dass bisher eine Zugehörigkeit zum GBJB abgeleitet wurde). Für
+                                            das EF bzw. OC ist dieser Fehler behoben. Falls bei anderen
+                                            Fächern ebenfalls Schulübergreifend Klassen zugeordnet werden,
+                                            gerne melden.{' '}
+                                            <a
+                                                href="https://github.com/lebalz/events-api/pull/9"
+                                                target="_blank"
+                                            >
                                                 PR: Bilingue flag and relations for events
                                             </a>
                                         </li>
                                         <li>
                                             🚀 Beim Erfassen von Terminen für Bilingua-Klassen, welche nur{' '}
-                                            <i>LP</i> oder <i>ALLE</i> betreffen, kann nun angegeben werden, ob
-                                            Lehrpersonen der abderen Schule auch betroffen sind (bspw. bei 26Gn
-                                            das GBJB oder bei 26mT das GBSL){' '}
+                                            <i>LP</i> oder <i>ALLE</i> betreffen, kann nun angegeben werden,
+                                            ob Lehrpersonen der abderen Schule auch betroffen sind (bspw. bei
+                                            26Gn das GBJB oder bei 26mT das GBSL){' '}
                                         </li>
                                         <li>
                                             🚀 Admin-Bereich: Bilingue-Departemente können nun den zugehörigen
@@ -463,7 +477,10 @@ const Home = observer(() => {
                                     ref={ref}
                                     style={{ width: '100%', height: '100%', maxHeight: '1200px' }}
                                 >
-                                    <source src={useBaseUrl('/videos/events-ruttl-de.mp4')} type="video/mp4" />
+                                    <source
+                                        src={useBaseUrl('/videos/events-ruttl-de.mp4')}
+                                        type="video/mp4"
+                                    />
                                 </video>
                             </div>
                         </div>
