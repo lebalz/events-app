@@ -10,7 +10,6 @@ Der Terminkalender kann auch in der persönlichen Kalenderanwendung (Outlook, iC
 Änderungen bei abonnierten Terminen werden automatisch übernommen (bis zu 12h Verzögerung).
 :::
 
-
 <Tabs>
   <TabItem value="outlook" label="Outlook" default>
     <Video
@@ -34,4 +33,12 @@ Rückmeldungen an __hfr__.
   </TabItem>
 </Tabs>
 
+:::warning[Einzelne Termine Löschen]
+Bei einem abonnierten Kalender können einzelne Termine nicht gelöscht oder verändert werden. Es ist aber angedacht, dass künftig einzelne Termine abbestellt werden können.
+:::
 
+## Abteilungs- oder Klassenkalender
+
+Es ist auch möglich, nur die Termine einer Abteilung oder Klasse zu abonnieren. Dazu einfach die entsprechende Abteilung oder Klasse auswählen und den Kalender so wie oben beschrieben abonnieren.
+
+![](./images/events-subscribe.png)
