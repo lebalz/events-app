@@ -80,6 +80,7 @@ const TimeTable = observer((props: Props) => {
                     defaultDate={new Date()}
                     formats={{ dayFormat: (date: Date) => `${DAYS[date.getDay()]}.` }}
                     localizer={localizer}
+                    className={styles.calendar}
                     events={lessons}
                     startAccessor="start"
                     endAccessor="end"
