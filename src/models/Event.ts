@@ -166,6 +166,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     affectsDepartment2: boolean;
 
     validationDisposer: IReactionDisposer;
+    validationTimeout: NodeJS.Timeout;
 
     constructor(props: EventProps, store: EventStore) {
         super();
@@ -205,7 +206,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
         makeObservable(this);
         if (this.state !== EventState.Published && !this.deletedAt) {
-            this.validate();
+            this.validationTimeout = setTimeout(() => {
+                this.validate();
+            }, 200 + Math.round(Math.random() * 300))
         }
         this.validationDisposer = reaction(
             () => this.props,
@@ -1268,5 +1271,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @override
     cleanup() {
         this.validationDisposer();
+        clearTimeout(this.validationTimeout);
     }
 }

@@ -25,7 +25,6 @@ const GroupSelect = observer((props: Props) => {
                 menuPortal: (base) => ({ ...base, zIndex: '1000' })
             }}
             onChange={(options, meta) => {
-                console.log('options', options, meta);
                 switch (meta.action) {
                     case 'select-option':
                         const group = eventGroupStore.find<EventGroup>(meta.option.value);

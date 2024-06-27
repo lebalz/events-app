@@ -73,7 +73,6 @@ export class DepartmentStore extends iStore<DepartmentProps> {
 
     @action
     reload() {
-        console.log('reload departments');
         if (this.root.sessionStore.isLoggedIn) {
             this.resetUserData();
             this.loadPublic(this.root.viewStore.semesterId);

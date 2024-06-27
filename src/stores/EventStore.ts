@@ -156,7 +156,8 @@ export class EventStore extends iStore<
         events.forEach((event) => {
             const idx = current.findIndex((e) => e.id === event.id);
             if (idx !== -1) {
-                current.splice(idx, 1);
+                const removed = current.splice(idx, 1);
+                removed.forEach((e) => e.cleanup());
             }
         });
         this.models.replace(current);

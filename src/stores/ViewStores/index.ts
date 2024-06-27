@@ -74,7 +74,6 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
             () => this.semesterId,
             (semesterId) => {
                 if (semesterId) {
-                    console.log('sid', semesterId);
                     const teacher = this.root.userStore?.current?.untisTeacher;
                     if (teacher) {
                         /**
