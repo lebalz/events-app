@@ -206,9 +206,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
         makeObservable(this);
         if (this.state !== EventState.Published && !this.deletedAt) {
-            this.validationTimeout = setTimeout(() => {
-                this.validate();
-            }, 200 + Math.round(Math.random() * 300))
+            this.validationTimeout = setTimeout(
+                () => {
+                    this.validate();
+                },
+                200 + Math.round(Math.random() * 300)
+            );
         }
         this.validationDisposer = reaction(
             () => this.props,
