@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { RootStore } from '../stores';
 import Semester from '../../models/Semester';
 import User from '../../models/User';
@@ -69,6 +69,24 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         this.colors = new Colors(this);
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
+
+        reaction(
+            () => this.semesterId,
+            (semesterId) => {
+                if (semesterId) {
+                    console.log('sid', semesterId);
+                    const teacher = this.root.userStore?.current?.untisTeacher;
+                    if (teacher) {
+                        /**
+                         * configure the filter for this user
+                         */
+                        this.root.viewStore.eventTable.setDepartmentIds(
+                            teacher.usersDepartments(semesterId).map((d) => d.id)
+                        );
+                    }
+                }
+            }
+        );
     }
 
     usersEvents = ({

@@ -65,7 +65,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                          * configure the filter for this user
                          */
                         this.root.viewStore.eventTable.setDepartmentIds(
-                            teacher.usersDepartments.map((d) => d.id)
+                            teacher.usersDepartments(this.root.viewStore?.semester?.id).map((d) => d.id)
                         );
                     }
                 }
@@ -75,7 +75,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
 
     @computed
     get currentSemester() {
-        return this.root.viewStore.semester;
+        return this.root.viewStore?.semester;
     }
 
     withAbortController<T>(sigId: string, fn: (ct: AbortController) => Promise<T>) {

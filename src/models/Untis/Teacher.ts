@@ -68,10 +68,11 @@ export default class Teacher {
     /**
      * only the relevant departments for this teacher
      */
-    get usersDepartments(): Department[] {
+    usersDepartments(semesterId?: string): Department[] {
         return [
             ...new Set(
                 this.lessons
+                    .filter((l) => (semesterId ? l.semesterId === semesterId : true))
                     .flatMap((l) =>
                         l.isEF
                             ? l.classes.filter((c) => isFromDepartment(c.departmentLetter, this.name))
