@@ -9,6 +9,7 @@ interface Props {
         src: string;
         title: string;
         href?: string;
+        playbackRate?: number;
     }[];
 }
 

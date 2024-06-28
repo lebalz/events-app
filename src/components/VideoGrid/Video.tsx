@@ -12,13 +12,14 @@ interface Props {
     title: string;
     autoplay?: boolean;
     href?: string;
+    playbackRate?: number;
 }
 
 const Video = observer((props: Props) => {
     const ref = React.useRef<HTMLVideoElement>(null);
     React.useEffect(() => {
         if (ref.current) {
-            ref.current.playbackRate = 0.5;
+            ref.current.playbackRate = props.playbackRate || 1;
         }
     }, [ref]);
     return (

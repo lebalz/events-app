@@ -212,7 +212,8 @@ const Home = observer(() => {
                                         {
                                             src: '/videos/events-ruttl-de.mp4',
                                             title: '👉 Feedback',
-                                            href: 'docs/betaphase'
+                                            href: 'docs/betaphase',
+                                            playbackRate: 0.5
                                         }
                                     ]}
                                 />
@@ -518,7 +519,8 @@ const Home = observer(() => {
                                         },
                                         {
                                             src: '/videos/events-ruttl-de.mp4',
-                                            title: 'Feedback'
+                                            title: 'Feedback',
+                                            playbackRate: 0.5
                                         }
                                     ]}
                                 />

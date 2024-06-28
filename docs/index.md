@@ -17,7 +17,7 @@ Dokumentation, Anleitungen und Hilfestellungen für die Nutzung des Terminplans.
     {src: '/videos/Events-Anmelden.mp4', title: '👉 Anmelden', href: '/docs/login'},
     {src: '/videos/Events-Filtern.mp4', title: '👉 Filtern', href: '/docs/events/filter'},
     {src: '/videos/Events-Abonnieren.mp4', title: '👉 Abonnieren', href: 'docs/events/subscribe'},
-    {src: '/videos/events-ruttl-de.mp4', title: '👉 Feedback', href: 'docs/betaphase'},
+    {src: '/videos/events-ruttl-de.mp4', title: '👉 Feedback', href: 'docs/betaphase', playbackRate: 0.5},
   ]}
 />
 ```
