@@ -219,7 +219,7 @@ const Home = observer(() => {
                                 />
                             </div>
                             <div className="card__body">
-                                <Details summary="Neuerungen des Terminkalenders anzeigen">
+                                <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
                                     <h4>Version: Release Candidate 1.0 (27.06.2024)</h4>
                                     <ul>

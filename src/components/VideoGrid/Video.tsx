@@ -13,6 +13,7 @@ interface Props {
     autoplay?: boolean;
     href?: string;
     playbackRate?: number;
+    loop?: boolean;
 }
 
 const Video = observer((props: Props) => {
@@ -29,7 +30,7 @@ const Video = observer((props: Props) => {
                     autoPlay={props.autoplay}
                     controls
                     muted
-                    loop
+                    loop={props.loop}
                     ref={ref}
                     style={{ width: '100%', height: '100%', maxHeight: '1200px' }}
                 >

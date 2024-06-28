@@ -10,6 +10,7 @@ interface Props {
         title: string;
         href?: string;
         playbackRate?: number;
+        loop?: boolean;
     }[];
 }
 
