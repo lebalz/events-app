@@ -511,7 +511,7 @@ const Home = observer(() => {
                                         },
                                         {
                                             src: '/videos/ME-exporter-imprimer.mp4',
-                                            title: "Exporter son agenda en format PDF ou papier"
+                                            title: 'Exporter son agenda en format PDF ou papier'
                                         },
                                         {
                                             src: '/videos/events-ruttl-de.mp4',
