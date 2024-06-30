@@ -488,14 +488,6 @@ const Home = observer(() => {
                     ) : (
                         <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
                             <div className="card__header">
-                                <h2>Phase test</h2>
-                            </div>
-                            <div className="card__body">
-                                Le calendrier est encore dans sa phase test. Des retours peuvent être transmis
-                                grâce à l'application de traçage de bugs (voir Video).
-                                <h3>Merci beaucoup pour votre aide.</h3>
-                            </div>
-                            <div className="card__header">
                                 <h1>Comment ça marche ?</h1>
                             </div>
                             <div className="card__body">
@@ -516,6 +508,10 @@ const Home = observer(() => {
                                         {
                                             src: '/videos/ME-s-abonner-autre-agenda.mp4',
                                             title: "S'abonner à un autre agenda"
+                                        },
+                                        {
+                                            src: '/videos/ME-exporter-imprimer.mp4',
+                                            title: "Exporter son agenda en format PDF ou papier"
                                         },
                                         {
                                             src: '/videos/events-ruttl-de.mp4',
