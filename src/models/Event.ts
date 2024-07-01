@@ -73,10 +73,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             attr: 'start',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
-                if (date.getTime() > this.end.getTime()) {
-                    const diff = this.end.getTime() - this.start.getTime();
-                    this.end = new Date(date.getTime() + diff);
-                }
+                // if (date.getTime() > this.end.getTime()) {
+                //     const diff = this.end.getTime() - this.start.getTime();
+                //     this.end = new Date(date.getTime() + diff);
+                // }
                 this.start = date;
             })
         },
@@ -84,10 +84,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             attr: 'end',
             update: action((val: string) => {
                 const date = toLocalDate(new Date(val));
-                if (date.getTime() < this.start.getTime()) {
-                    const diff = this.end.getTime() - this.start.getTime();
-                    this.start = new Date(date.getTime() - diff);
-                }
+                // if (date.getTime() < this.start.getTime()) {
+                //     const diff = this.end.getTime() - this.start.getTime();
+                //     this.start = new Date(date.getTime() - diff);
+                // }
                 this.end = date;
             })
         },

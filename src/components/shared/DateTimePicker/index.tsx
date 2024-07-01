@@ -1,8 +1,8 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import { isValidDate, toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
+import { isValidDate, toGlobalDate } from '@site/src/models/helpers/time';
 import { action } from 'mobx';
 
 interface Props {

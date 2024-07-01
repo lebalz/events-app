@@ -8,7 +8,10 @@ import { mdiArrowRightCircle, mdiRecordCircleOutline, mdiShareAllOutline, mdiSha
 import Badge from '@site/src/components/shared/Badge';
 import { Icon, SIZE_S, SIZE_XS } from '../../shared/icons';
 import Button from '../../shared/Button';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
+import DefinitionList from '../../shared/DefinitionList';
+import CreatedAt from './CreatedAt';
+import UpdatedAt from './UpdatedAt';
 
 interface Props extends ReadonlyProps {
     hideVersion?: boolean;
@@ -34,7 +37,39 @@ const Version = observer((props: Props) => {
     const nVersions = event.unpublishedVersions.length;
     return (
         <div style={{ gridColumn: 'version' }} className={clsx('version', styles.version, props.className)}>
-            <Badge text={version} />
+            <Badge
+                text={version}
+                title={
+                    <DefinitionList gridTemplateColumns='minmax(7em, 1fr) minmax(7em, 1fr)'>
+                        <dt>
+                            <Translate
+                                id="event.createdAt"
+                                description="for a single event: date of event creation"
+                            >
+                                Erstellt am
+                            </Translate>
+                        </dt>
+                        <dd>
+                            <CreatedAt showTime {...props} />
+                        </dd>
+                        {event.updatedAt.getTime() !== event.createdAt.getTime() && (
+                            <>
+                                <dt>
+                                    <Translate
+                                        id="event.updatedAt"
+                                        description="for a single event: date of update"
+                                    >
+                                        Aktualisiert am
+                                    </Translate>
+                                </dt>
+                                <dd>
+                                    <UpdatedAt showTime {...props} />
+                                </dd>
+                            </>
+                        )}
+                    </DefinitionList>
+                }
+            />
             {isCurrent && <Icon path={mdiRecordCircleOutline} color="green" />}
             {isCurrent && (
                 <Badge text={event.updatedAt.toISOString().slice(0, 16).replace('T', ' ')} color="primary" />

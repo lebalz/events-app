@@ -296,26 +296,6 @@ const EventProps = observer((props: Props) => {
                     />
                 </span>
             </dd>
-            <dt>
-                <Translate id="event.createdAt" description="for a single event: date of event creation">
-                    Erstellt am
-                </Translate>
-            </dt>
-            <dd>
-                <CreatedAt showTime {...commonProps} />
-            </dd>
-            {event.updatedAt.getTime() !== event.createdAt.getTime() && (
-                <>
-                    <dt>
-                        <Translate id="event.updatedAt" description="for a single event: date of update">
-                            Aktualisiert am
-                        </Translate>
-                    </dt>
-                    <dd>
-                        <UpdatedAt showTime {...commonProps} />
-                    </dd>
-                </>
-            )}
             {event.firstAuthor && (
                 <>
                     <dt>
@@ -334,16 +314,16 @@ const EventProps = observer((props: Props) => {
                                     event.jobId
                                         ? translate(
                                               {
-                                                  id: 'event.firstAuthor.title',
-                                                  message:
-                                                      'Dieser Termin wurde ursprünglich von {author} erstellt.'
+                                                  id: 'event.firstAuthor.importedTitle',
+                                                  message: 'Dieser Termin wurde von {author} importiert.'
                                               },
                                               { author: event.firstAuthor.displayName }
                                           )
                                         : translate(
                                               {
-                                                  id: 'event.firstAuthor.importedTitle',
-                                                  message: 'Dieser Termin wurde von {author} importiert.'
+                                                  id: 'event.firstAuthor.title',
+                                                  message:
+                                                      'Dieser Termin wurde ursprünglich von {author} erstellt.'
                                               },
                                               { author: event.firstAuthor.displayName }
                                           )

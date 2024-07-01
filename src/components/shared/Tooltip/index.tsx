@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Popup from 'reactjs-popup';
 
 interface Props {
-    title?: string;
+    title?: string | JSX.Element;
     children: JSX.Element;
 }
 

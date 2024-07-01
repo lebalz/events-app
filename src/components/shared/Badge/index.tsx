@@ -8,7 +8,7 @@ import Tooltip from '../Tooltip';
 
 export interface Base {
     color?: Color | string;
-    title?: string;
+    title?: string | JSX.Element;
     iconSide?: 'left' | 'right';
     noOutline?: boolean;
     text?: string;
