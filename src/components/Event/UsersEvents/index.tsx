@@ -14,7 +14,7 @@ import Delete from '../../shared/Button/Delete';
 import styles from './styles.module.scss';
 import Grid, { ColumnConfig } from '../Views/Grid';
 import Translate, { translate } from '@docusaurus/Translate';
-import { toGlobalDate } from '@site/src/models/helpers/time';
+import { formatDate, toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
 import { useWindowSize } from '@docusaurus/theme-common';
 import Badge from '../../shared/Badge';
 import RegPeriodBadge from '../../RegistrationPeriod/RegPeriodBadge';
@@ -137,9 +137,9 @@ const UsersEvents = observer((props: Props) => {
                             gridConfig={{ columns: COLUMN_CONFIG }}
                             bulkActionConfig={{
                                 className: styles.indent,
-                                middleActions: [<AddEventButton />],
+                                middleActions: [<AddEventButton key="action-m1" />],
                                 rightActions: [
-                                    <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                    <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
                                 ]
                             }}
                             type={viewType}
@@ -171,7 +171,7 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1" />
                                     ]
                                 }}
                                 type={viewType}
@@ -204,7 +204,7 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
                                     ]
                                 }}
                                 type={viewType}
@@ -237,7 +237,7 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
                                     ]
                                 }}
                                 type={viewType}
@@ -270,7 +270,7 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
                                     ]
                                 }}
                                 type={viewType}
@@ -289,7 +289,7 @@ const UsersEvents = observer((props: Props) => {
                                         summary={
                                             <summary>
                                                 {(job.user as User)?.email} - {job.filename || '|'} -{' '}
-                                                {job.state} - {events.length}
+                                                {job.state} - {events.length} - {formatDate(job.createdAt)}
                                             </summary>
                                         }
                                     >
@@ -318,10 +318,12 @@ const UsersEvents = observer((props: Props) => {
                                                             apiState={jobStore.apiStateFor(
                                                                 `destroy-${job.id}`
                                                             )}
+                                                            key="action-r1"
                                                         />,
                                                         <ChangeViewAction
                                                             viewType={viewType}
                                                             setViewType={setViewType}
+                                                            key="action-r2"
                                                         />
                                                     ]
                                                 }}

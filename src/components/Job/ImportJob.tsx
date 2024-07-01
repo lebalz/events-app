@@ -55,8 +55,9 @@ const ImportJob = observer((props: Props) => {
                                 flyoutSide="right"
                                 iconSide="right"
                                 apiState={jobStore.apiStateFor(`destroy-${job.id}`)}
+                                key="action-r1"
                             />,
-                            <ChangeViewAction viewType={viewType} setViewType={setViewType} />
+                            <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r2"/>
                         ]
                     }}
                     events={job.events}
