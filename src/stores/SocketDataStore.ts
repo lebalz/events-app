@@ -6,6 +6,7 @@ import { default as api, checkLogin as pingApi } from '../api/base';
 import axios from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import {
+    ChangedRecord,
     ClientToServerEvents,
     DeletedRecord,
     IoEvent,
@@ -133,19 +134,16 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     createRecord(data: NewRecord<RecordType>) {
-        console.log('createRecord', data.type, data.record);
         const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
         store.addToStore(data.record, 'create');
     }
 
-    updateRecord(data: NewRecord<RecordType>) {
-        console.log('updateRecord', data.type, data.record);
+    updateRecord(data: ChangedRecord<RecordType>) {
         const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
         store.addToStore(data.record, 'load');
     }
 
     deleteRecord(data: DeletedRecord) {
-        console.log('deleteRecord', data.type, data.id);
         const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
         store.removeFromStore(data.id);
     }

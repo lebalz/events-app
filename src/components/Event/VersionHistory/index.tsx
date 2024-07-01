@@ -29,10 +29,7 @@ const VersionHistory = observer((props: Props) => {
                                 idx % 2 === 0 ? styles.right : styles.left
                             )}
                         >
-                            <Badge
-                                text={formatDateTime(version.updatedAt)}
-                                color="primary"
-                            />
+                            <Badge text={formatDateTime(version.updatedAt)} color="primary" />
                         </div>
                         <div className={clsx(styles.versionItem, styles.dot, isLast && styles.last)}>
                             <Icon path={mdiRecordCircleOutline} color="primary" />

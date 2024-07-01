@@ -315,8 +315,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
             return apiDestroy<Model>(`${this.ApiEndpoint.Base}/${id}`, sig.signal);
         }).then(
             action(() => {
-                // this.removeFromStore(id);
-                this.loadModel(id);
+                this.removeFromStore(id);
             })
         );
     }
