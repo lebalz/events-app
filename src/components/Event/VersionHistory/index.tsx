@@ -8,6 +8,7 @@ import { mdiRecordCircleOutline } from '@mdi/js';
 import Badge from '../../shared/Badge';
 import { Icon } from '../../shared/icons';
 import EventProps from '../EventProps';
+import { formatDateTime } from '@site/src/models/helpers/time';
 
 interface Props {
     event: EventModel;
@@ -29,7 +30,7 @@ const VersionHistory = observer((props: Props) => {
                             )}
                         >
                             <Badge
-                                text={version.createdAt.toISOString().slice(0, 16).replace('T', ' ')}
+                                text={formatDateTime(version.updatedAt)}
                                 color="primary"
                             />
                         </div>

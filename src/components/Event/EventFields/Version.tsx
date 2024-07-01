@@ -12,6 +12,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import DefinitionList from '../../shared/DefinitionList';
 import CreatedAt from './CreatedAt';
 import UpdatedAt from './UpdatedAt';
+import { formatDateTime } from '@site/src/models/helpers/time';
 
 interface Props extends ReadonlyProps {
     hideVersion?: boolean;
@@ -72,7 +73,7 @@ const Version = observer((props: Props) => {
             />
             {isCurrent && <Icon path={mdiRecordCircleOutline} color="green" />}
             {isCurrent && (
-                <Badge text={event.updatedAt.toISOString().slice(0, 16).replace('T', ' ')} color="primary" />
+                <Badge text={formatDateTime(event.updatedAt)} color="primary" />
             )}
             {!props.hideVersion && nVersions > (event.isPublished ? 0 : 1) && (
                 <Button
