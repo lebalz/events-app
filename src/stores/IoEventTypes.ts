@@ -1,70 +1,75 @@
+import { Department } from '../api/department';
 import { Event, EventState } from '../api/event';
+import { EventGroup } from '../api/event_group';
+import { Job } from '../api/job';
+import { RegistrationPeriod } from '../api/registration_period';
+import { Semester } from '../api/semester';
+import { User } from '../api/user';
 import { view_LessonsAffectedByEvents } from '../api/views';
 import { rootStore } from './stores';
 
 export enum IoEvent {
     NEW_RECORD = 'NEW_RECORD',
     CHANGED_RECORD = 'CHANGED_RECORD',
-    CHANGED_STATE = 'CHANGED_STATE',
-    DELETED_RECORD = 'DELETED_RECORD',
-    RELOAD_AFFECTING_EVENTS = 'RELOAD_AFFECTING_EVENTS',
-    CHANGED_MEMBERS = 'CHANGED_MEMBERS'
+    DELETED_RECORD = 'DELETED_RECORD'
 }
 
-type RecordTypes =
-    | 'EVENT'
-    | 'USER'
-    | 'JOB'
-    | 'DEPARTMENT'
-    | 'SEMESTER'
-    | 'REGISTRATION_PERIOD'
-    | 'EVENT_GROUP';
+export enum RecordType {
+    Event = 'EVENT',
+    User = 'USER',
+    Job = 'JOB',
+    Department = 'DEPARTMENT',
+    Semester = 'SEMESTER',
+    RegistrationPeriod = 'REGISTRATION_PERIOD',
+    EventGroup = 'EVENT_GROUP'
+}
 
-export interface NewRecord {
-    record: RecordTypes;
-    id: string;
+type TypeRecordMap = {
+    [RecordType.Event]: Event;
+    [RecordType.User]: User;
+    [RecordType.Job]: Job;
+    [RecordType.Department]: Department;
+    [RecordType.Semester]: Semester;
+    [RecordType.RegistrationPeriod]: RegistrationPeriod;
+    [RecordType.EventGroup]: EventGroup;
+};
+
+export interface NewRecord<T extends RecordType> {
+    type: T;
+    record: TypeRecordMap[T];
+}
+
+export interface ChangedRecord<T extends RecordType> {
+    type: T;
+    record: TypeRecordMap[T];
 }
 
 export interface DeletedRecord {
-    record: RecordTypes;
+    type: RecordType;
     id: string;
 }
 
-export interface ChangedRecord {
-    record: RecordTypes;
-    id: string;
-}
-
-export interface ChangedMembers {
-    record: RecordTypes;
-    id: string;
-    memberType: RecordTypes;
-    addedIds: string[];
-    removedIds: string[];
-}
-
-export interface ChangedState {
-    state: EventState;
-    ids: string[];
-}
-export interface ReloadAffectingEvents {
-    record: 'SEMESTER';
-    semesterIds: string[];
-}
-
-export type NotificationMessage =
-    | NewRecord
-    | ChangedRecord
-    | ChangedState
-    | ReloadAffectingEvents
-    | ChangedMembers;
-
-export interface Notification {
-    message: NotificationMessage;
-    event: IoEvent;
+interface NotificationBase {
     to: string;
     toSelf?: true | boolean;
 }
+
+interface NotificationNewRecord extends NotificationBase {
+    event: IoEvent.NEW_RECORD;
+    message: NewRecord<RecordType>;
+}
+
+interface NotificationChangedRecord extends NotificationBase {
+    event: IoEvent.CHANGED_RECORD;
+    message: ChangedRecord<RecordType>;
+}
+
+interface NotificationDeletedRecord extends NotificationBase {
+    event: IoEvent.DELETED_RECORD;
+    message: DeletedRecord;
+}
+
+export type Notification = NotificationNewRecord | NotificationChangedRecord | NotificationDeletedRecord;
 
 export enum IoEvents {
     AffectedLessons = 'affectedLessons',
@@ -74,7 +79,9 @@ export enum IoEvents {
 }
 
 export type ServerToClientEvents = {
-    [notification in IoEvent]: (message: NotificationMessage) => void;
+    [IoEvent.NEW_RECORD]: (message: NewRecord<RecordType>) => void;
+    [IoEvent.CHANGED_RECORD]: (message: ChangedRecord<RecordType>) => void;
+    [IoEvent.DELETED_RECORD]: (message: DeletedRecord) => void;
 };
 
 export interface ClientToServerEvents {
@@ -113,7 +120,7 @@ export interface ClientToServerEvents {
 }
 
 /* this is additional! */
-export const RecordStoreMap: { [key in RecordTypes]: keyof typeof rootStore } = {
+export const RecordStoreMap: { [key in RecordType]: keyof typeof rootStore } = {
     EVENT: 'eventStore',
     USER: 'userStore',
     JOB: 'jobStore',

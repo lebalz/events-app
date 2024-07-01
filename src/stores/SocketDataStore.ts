@@ -6,24 +6,17 @@ import { default as api, checkLogin as pingApi } from '../api/base';
 import axios from 'axios';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import {
-    ChangedMembers,
-    ChangedRecord,
-    ChangedState,
     ClientToServerEvents,
     DeletedRecord,
     IoEvent,
     IoEvents,
     NewRecord,
-    NotificationMessage,
     RecordStoreMap,
-    ReloadAffectingEvents,
+    RecordType,
     ServerToClientEvents
 } from './IoEventTypes';
 import { EVENTS_API } from '../authConfig';
-import { CheckedUntisLesson } from '../api/untis';
 import { Event as EventProps } from '../api/event';
-import Semester from '../models/Semester';
-import EventGroup from '../models/EventGroup';
 interface Message {
     type: string;
     message: string;
@@ -32,9 +25,12 @@ interface Message {
 const withParsedMessage = <T>(fn: (data: T) => void) => {
     return (data: T) => {
         try {
+            console.log('wp', data);
             const parsed = JSON.parse(data as string);
+            console.log('wp', parsed);
             return fn(parsed as T);
-        } catch {
+        } catch (e) {
+            console.warn('Failed to parse message', e, data);
             return null;
         }
     };
@@ -136,82 +132,23 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         this.socket.connect();
     }
 
-    handleEventStateChange = () => {
-        return action((data: ChangedState) => {
-            const store = this.root.eventStore;
-            data.ids.forEach((id) => {
-                store.loadModel(id);
-            });
-        });
-    };
-    handleReloadAffectingEvents = () => {
-        return action((data: ReloadAffectingEvents) => {
-            switch (data.record) {
-                case 'SEMESTER':
-                    const current = this.root.userStore.current;
-                    if (current) {
-                        data.semesterIds!.forEach((id) => {
-                            const sem = this.root.semesterStore.find<Semester>(id);
-                            if (sem) {
-                                this.root.userStore.loadAffectedEventIds(current, sem.id);
-                            }
-                        });
-                    }
-                    break;
-            }
-        });
-    };
+    createRecord(data: NewRecord<RecordType>) {
+        console.log('createRecord', data.type, data.record);
+        const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
+        store.addToStore(data.record, 'create');
+    }
 
-    handleChangedMemebers = () => {
-        return action((data: ChangedMembers) => {
-            switch (data.record) {
-                case 'EVENT_GROUP':
-                    const model = this.root.eventGroupStore.find<EventGroup>(data.id!);
-                    if (model) {
-                        data.addedIds?.forEach((id) => {
-                            if (data.memberType === 'USER') {
-                                model.appendUserId(id);
-                            } else if (data.memberType === 'EVENT') {
-                                model.appendEventId(id);
-                            }
-                        });
-                        data.removedIds?.forEach((id) => {
-                            if (data.memberType === 'USER') {
-                                model.rmUserId(id);
-                            } else if (data.memberType === 'EVENT') {
-                                model.rmEventId(id);
-                            }
-                        });
-                    }
-                    break;
-            }
-        });
-    };
+    updateRecord(data: NewRecord<RecordType>) {
+        console.log('updateRecord', data.type, data.record);
+        const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
+        store.addToStore(data.record, 'load');
+    }
 
-    handleReload = (type: IoEvent) => {
-        return action((data: NewRecord | ChangedRecord | DeletedRecord) => {
-            const store = this.root[RecordStoreMap[data.record]] as iStore<any>;
-            if (!store) {
-                return;
-            }
-            switch (type) {
-                case IoEvent.NEW_RECORD:
-                    store.loadModel(data.id).then((model) => {
-                        if (data.record === 'EVENT_GROUP') {
-                            this.root.eventGroupStore.reloadEvents(model);
-                        }
-                    });
-                    break;
-                case IoEvent.CHANGED_RECORD:
-                    store.loadModel(data.id);
-                    break;
-                case IoEvent.DELETED_RECORD:
-                    // store.removeFromStore(record.id);
-                    store.loadModel(data.id);
-                    break;
-            }
-        });
-    };
+    deleteRecord(data: DeletedRecord) {
+        console.log('deleteRecord', data.type, data.id);
+        const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
+        store.removeFromStore(data.id);
+    }
 
     _socketConfig() {
         if (!this.socket) {
@@ -235,16 +172,9 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
                 }
             });
         });
-        this.socket.on(IoEvent.NEW_RECORD, (data) => {});
-        this.socket.on(IoEvent.NEW_RECORD, withParsedMessage(this.handleReload(IoEvent.NEW_RECORD)));
-        this.socket.on(IoEvent.CHANGED_RECORD, withParsedMessage(this.handleReload(IoEvent.CHANGED_RECORD)));
-        this.socket.on(IoEvent.DELETED_RECORD, withParsedMessage(this.handleReload(IoEvent.DELETED_RECORD)));
-        this.socket.on(IoEvent.CHANGED_STATE, withParsedMessage(this.handleEventStateChange()));
-        this.socket.on(
-            IoEvent.RELOAD_AFFECTING_EVENTS,
-            withParsedMessage(this.handleReloadAffectingEvents())
-        );
-        this.socket.on(IoEvent.CHANGED_MEMBERS, withParsedMessage(this.handleChangedMemebers()));
+        this.socket.on(IoEvent.NEW_RECORD, this.createRecord.bind(this));
+        this.socket.on(IoEvent.CHANGED_RECORD, this.updateRecord.bind(this));
+        this.socket.on(IoEvent.DELETED_RECORD, this.deleteRecord.bind(this));
     }
 
     checkEvent(eventId: string, semesterId: string) {
