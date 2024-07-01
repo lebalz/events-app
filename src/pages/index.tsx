@@ -487,6 +487,28 @@ const Home = observer(() => {
                         </div>
                     ) : (
                         <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
+                            <div className="card__body">
+                                L'agenda est encore en phase de lancement, ce qui implique les contraintes
+                                suivantes :
+                                <ul>
+                                    <li>
+                                        <b>
+                                            Les évènements saisies ne seront publiées que pour le semestre de
+                                            printemps 2025.
+                                        </b>
+                                    </li>
+                                    <li>
+                                        L'URL des calendriers abonnés pourrait changer pendant la phase de
+                                        lancement. Dans ce cas, vous seriez informé et vous devriez s'abonner
+                                        à nouveau au calendrier.
+                                    </li>
+                                    <li>
+                                        Tout ne fonctionnera pas déjà parfaitement. Les commentaires sur les
+                                        erreurs ou des suggestions sont toujours les bienvenues.
+                                    </li>
+                                </ul>
+                                <h3>Merci beaucoup pour votre compréhension et votre aide</h3>
+                            </div>
                             <div className="card__header">
                                 <h1>Comment ça marche ?</h1>
                             </div>
