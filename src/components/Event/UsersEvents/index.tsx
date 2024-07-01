@@ -139,7 +139,11 @@ const UsersEvents = observer((props: Props) => {
                                 className: styles.indent,
                                 middleActions: [<AddEventButton key="action-m1" />],
                                 rightActions: [
-                                    <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
+                                    <ChangeViewAction
+                                        viewType={viewType}
+                                        setViewType={setViewType}
+                                        key="action-r1"
+                                    />
                                 ]
                             }}
                             type={viewType}
@@ -171,7 +175,11 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1" />
+                                        <ChangeViewAction
+                                            viewType={viewType}
+                                            setViewType={setViewType}
+                                            key="action-r1"
+                                        />
                                     ]
                                 }}
                                 type={viewType}
@@ -204,7 +212,11 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
+                                        <ChangeViewAction
+                                            viewType={viewType}
+                                            setViewType={setViewType}
+                                            key="action-r1"
+                                        />
                                     ]
                                 }}
                                 type={viewType}
@@ -237,7 +249,11 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
+                                        <ChangeViewAction
+                                            viewType={viewType}
+                                            setViewType={setViewType}
+                                            key="action-r1"
+                                        />
                                     ]
                                 }}
                                 type={viewType}
@@ -270,7 +286,11 @@ const UsersEvents = observer((props: Props) => {
                                 bulkActionConfig={{
                                     className: styles.indent,
                                     rightActions: [
-                                        <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>
+                                        <ChangeViewAction
+                                            viewType={viewType}
+                                            setViewType={setViewType}
+                                            key="action-r1"
+                                        />
                                     ]
                                 }}
                                 type={viewType}

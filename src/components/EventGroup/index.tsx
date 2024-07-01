@@ -296,7 +296,13 @@ const UserEventGroup = observer((props: Props) => {
                     <EventsViewer
                         bulkActionConfig={{
                             className: styles.bulkActions,
-                            rightActions: [<ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1"/>]
+                            rightActions: [
+                                <ChangeViewAction
+                                    viewType={viewType}
+                                    setViewType={setViewType}
+                                    key="action-r1"
+                                />
+                            ]
                         }}
                         events={group.events}
                         type={viewType}
