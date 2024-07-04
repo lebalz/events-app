@@ -15,21 +15,19 @@ Der Terminkalender kann auch in der persönlichen Kalenderanwendung (Outlook, iC
     <Video
         src="/videos/Events-Abonnieren.mp4"
         title="Abonnieren"
-        autoplay
     />
   </TabItem>
   <TabItem value="google" label="Google Calendar">
     <Video
         src="/videos/Events-Abonnieren-Google.mp4"
-        title="Abonnieren"
-        autoplay
+        title="Abonnieren Google Calendar"
     />    
   </TabItem>
   <TabItem value="apple" label="Apple iCalendar">
-:::warning[Apple iCalendar]
-Wer hat ein Apple Gerät und kann uns ein Video zur Verfügung stellen?
-Rückmeldungen an __hfr__.
-:::
+    <Video
+        src="/videos/Events-Abonnieren-iCalendar.mp4"
+        title="Abonnieren Apple iCalendar"
+    />
   </TabItem>
 </Tabs>
 
