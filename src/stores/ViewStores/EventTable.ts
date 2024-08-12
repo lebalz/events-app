@@ -128,11 +128,17 @@ class EventTable {
     }
 
     @action
-    setAudienceFilter(audience: EventAudience): void {
+    toggleAudienceFilter(audience: EventAudience): void {
         if (this.audienceFilter.has(audience)) {
             this.audienceFilter.delete(audience);
+            if (audience !== EventAudience.ALL && this.audienceFilter.has(EventAudience.ALL)) {
+                this.audienceFilter.clear();
+            }
         } else {
             this.audienceFilter.add(audience);
+            if (audience !== EventAudience.ALL && !this.audienceFilter.has(EventAudience.ALL)) {
+                this.audienceFilter.add(EventAudience.ALL);
+            }
         }
     }
 

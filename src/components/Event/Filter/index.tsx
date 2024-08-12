@@ -256,7 +256,7 @@ const Filter = observer((props: Props) => {
                                         key={audience}
                                         color="primary"
                                         onClick={() =>
-                                            eventTable.setAudienceFilter(audience as EventAudience)
+                                            eventTable.toggleAudienceFilter(audience as EventAudience)
                                         }
                                     />
                                 );
