@@ -20,6 +20,7 @@ import { useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
 import { Loading } from '../components/shared/icons';
 import siteConfig from '@generated/docusaurus.config';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
 
 const UserPage = observer(() => {
@@ -36,10 +37,10 @@ const UserPage = observer(() => {
         return <Loading />;
     }
     if (!NO_AUTH && !(sessionStore.isLoggedIn || isAuthenticated)) {
-        return <Redirect to={'/login'} />;
+        return <Redirect to={useBaseUrl('/login')} />;
     }
     if (!NO_AUTH && isStudent) {
-        return <Redirect to={'/'} />;
+        return <Redirect to={useBaseUrl('/')} />;
     }
     return (
         <Layout>
