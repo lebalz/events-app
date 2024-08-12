@@ -10,8 +10,20 @@ import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } fr
 import { setupMsalAxios, setupDefaultAxios } from '../api/base';
 import { useStore } from '../stores/hooks';
 import { action, runInAction } from 'mobx';
-const { NO_AUTH, TEST_USERNAME } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
-export const msalInstance = new PublicClientApplication(msalConfig);
+const { NO_AUTH, TEST_USERNAME, CURRENT_LOCALE } = siteConfig.customFields as {
+    TEST_USERNAME?: string;
+    NO_AUTH?: boolean;
+    CURRENT_LOCALE?: 'de' | 'fr';
+};
+
+export const msalInstance = new PublicClientApplication({
+    ...msalConfig,
+    auth: {
+        ...msalConfig.auth,
+        postLogoutRedirectUri:
+            CURRENT_LOCALE === 'fr' ? `${siteConfig.url}/fr` : msalConfig.auth.postLogoutRedirectUri
+    }
+});
 
 if (NO_AUTH) {
     const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
