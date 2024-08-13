@@ -12,6 +12,7 @@ import { tokenRequest } from '../authConfig';
 import siteConfig from '@generated/docusaurus.config';
 import { useStore } from '../stores/hooks';
 import Translate from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean };
 
 function HomepageHeader() {
@@ -31,8 +32,7 @@ const Login = observer(() => {
     const { instance } = useMsal();
     const isAuthenticated = sessionStore.isLoggedIn || useIsAuthenticated();
     if (isAuthenticated || NO_AUTH) {
-        console.log('redirect');
-        return <Redirect to={'/user?user-tab=account'} />;
+        return <Redirect to={useBaseUrl('/user?user-tab=account')} />;
     }
     return (
         <Layout>

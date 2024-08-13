@@ -6,7 +6,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
-import { Redirect } from '@docusaurus/router';
+import { Redirect, useHistory } from '@docusaurus/router';
 import { mdiRefresh } from '@mdi/js';
 import Button from '../components/shared/Button';
 import User from '../components/User';
@@ -20,6 +20,7 @@ import { useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
 import { Loading } from '../components/shared/icons';
 import siteConfig from '@generated/docusaurus.config';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
 
 const UserPage = observer(() => {
@@ -29,6 +30,7 @@ const UserPage = observer(() => {
     const { inProgress } = useMsal();
     const { isStudent } = sessionStore;
     const { current } = userStore;
+    const history = useHistory();
     if (
         !NO_AUTH &&
         ((sessionStore.currentUserId && !sessionStore.isLoggedIn) || inProgress !== InteractionStatus.None)
@@ -36,10 +38,10 @@ const UserPage = observer(() => {
         return <Loading />;
     }
     if (!NO_AUTH && !(sessionStore.isLoggedIn || isAuthenticated)) {
-        return <Redirect to={'/login'} />;
+        return <Redirect to={useBaseUrl('/login')} />;
     }
     if (!NO_AUTH && isStudent) {
-        return <Redirect to={'/'} />;
+        return <Redirect to={useBaseUrl('/')} />;
     }
     return (
         <Layout>
@@ -72,7 +74,9 @@ const UserPage = observer(() => {
                                         iconSide="left"
                                         onClick={() => {
                                             localStorage.clear();
-                                            window.location.reload();
+                                            setTimeout(() => {
+                                                window.location.replace(useBaseUrl('/login'));
+                                            }, 1);
                                         }}
                                         color="orange"
                                         noOutline
