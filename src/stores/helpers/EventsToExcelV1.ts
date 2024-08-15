@@ -1,7 +1,8 @@
-import Excel, { ValueType } from 'exceljs';
+import Excel from 'exceljs';
 import Event from '@site/src/models/Event';
 import { translate } from '@docusaurus/Translate';
 import Department from '@site/src/models/Department';
+import { toGlobalDate } from '@site/src/models/helpers/time';
 
 const DEP_ORDER = [
     'GYMD',
@@ -135,9 +136,9 @@ export const toExcel = async (events: Event[], departments: Department[]) => {
                     e.kw,
                     e.dayStart,
                     e.description,
-                    e.fStartDateLong,
+                    toGlobalDate(e.start),
                     e.isAllDay ? '' : e.fStartTime.padStart(5, '0'),
-                    e.fEndDateLong,
+                    toGlobalDate(e.end),
                     e.isAllDay ? '' : e.fEndTime.padStart(5, '0'),
                     e.location,
                     e.descriptionLong,
