@@ -28,20 +28,18 @@ const UserPage = observer(() => {
     const userStore = useStore('userStore');
     const isAuthenticated = useIsAuthenticated();
     const { inProgress } = useMsal();
-    const { isStudent } = sessionStore;
+    const { isStudent, isLoggedIn, currentUserId } = sessionStore;
     const { current } = userStore;
-    const history = useHistory();
-    if (
-        !NO_AUTH &&
-        ((sessionStore.currentUserId && !sessionStore.isLoggedIn) || inProgress !== InteractionStatus.None)
-    ) {
+    const loginRoute = useBaseUrl('/login');
+    const homeRoute = useBaseUrl('/');
+    if (!NO_AUTH && ((currentUserId && !isLoggedIn) || inProgress !== InteractionStatus.None)) {
         return <Loading />;
     }
-    if (!NO_AUTH && !(sessionStore.isLoggedIn || isAuthenticated)) {
-        return <Redirect to={useBaseUrl('/login')} />;
+    if (!NO_AUTH && !(isLoggedIn || isAuthenticated)) {
+        return <Redirect to={loginRoute} />;
     }
     if (!NO_AUTH && isStudent) {
-        return <Redirect to={useBaseUrl('/')} />;
+        return <Redirect to={homeRoute} />;
     }
     return (
         <Layout>
