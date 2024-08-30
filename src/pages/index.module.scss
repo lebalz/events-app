@@ -49,6 +49,15 @@
         }
     }
 }
+.alert {
+    margin-bottom: 1em;
+    h5 {
+        margin-bottom: 0.5em;
+    }
+    p {
+        margin: 0;
+    }
+}
 
 @media screen and (max-width: 768px) {
     :global(.hero).navCardSection {
