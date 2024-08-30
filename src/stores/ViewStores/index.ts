@@ -162,13 +162,13 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
          */
         if (date < viewedSemester.start) {
             const idx = this.root.semesterStore.semesters.findIndex((s) => s.id === viewedSemester.id);
-            if (idx > 0) {
-                this.setSemester(this.root.semesterStore.semesters[idx - 1]);
+            if (idx < this.root.semesterStore.semesters.length - 1) {
+                this.setSemester(this.root.semesterStore.semesters[idx + 1]);
             }
         } else if (date > viewedSemester.end) {
             const idx = this.root.semesterStore.semesters.findIndex((s) => s.id === viewedSemester.id);
-            if (idx < this.root.semesterStore.semesters.length - 1) {
-                this.setSemester(this.root.semesterStore.semesters[idx + 1]);
+            if (idx > 0) {
+                this.setSemester(this.root.semesterStore.semesters[idx - 1]);
             }
         }
     }
