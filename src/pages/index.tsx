@@ -168,7 +168,7 @@ const Home = observer(() => {
                         <div className={clsx('alert', 'alert--warning', styles.alert)}>
                             <h5>
                                 Fehlerkorrektur 28.08.2024:{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8">
+                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
                                     Fehlende Termine
                                 </a>{' '}
                                 bei der Filterfunktion "Meine" behoben
@@ -176,7 +176,7 @@ const Home = observer(() => {
                             <p>
                                 Bei der Filterfunktion "Meine" wurden nicht in jedem Fall alle Termine
                                 angezeigt, die für die angemeldete Person relevant sind. Betroffen waren diese{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8">
+                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
                                     👉 6 Termine
                                 </a>
                                 , der Fehler wurde behoben.
@@ -186,7 +186,7 @@ const Home = observer(() => {
                         <div className={clsx('alert', 'alert--warning', styles.alert)}>
                             <h5>
                                 Correction d'erreur 28.08.2024 : Problèmes résolus concernant les{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8?id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
+                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
                                     rendez-vous manquants
                                 </a>{' '}
                                 dans la fonction de filtrage "Les miens"
@@ -195,8 +195,8 @@ const Home = observer(() => {
                                 Dans certains cas, la fonction de filtrage "Les miens" ne montrait pas tous
                                 les rendez-vous pertinents pour la personne connectée. Ce problème a été
                                 résolu. Les{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8?id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
-                                    👉 7 rendez-vous
+                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
+                                    👉 6 rendez-vous
                                 </a>{' '}
                                 étaient concernés, le problème a été résolu.
                             </p>
