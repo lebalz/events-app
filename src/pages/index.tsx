@@ -278,7 +278,8 @@ const Home = observer(() => {
                                             Klassen betreffen, korrekt gefiltert werden.
                                         </li>
                                         <li>
-                                            🐛 Fix: Zeige auf der Userseite nur die Klassen und Abteilungen des aktuellen Semesters an. 
+                                            🐛 Fix: Zeige auf der Userseite nur die Klassen und Abteilungen
+                                            des aktuellen Semesters an.
                                         </li>
                                         <li>🐛 Fix: Fehler beim Logout wurde behoben.</li>
                                     </ul>
