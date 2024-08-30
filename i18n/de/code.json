@@ -20,15 +20,15 @@
     "description": "The ARIA label for the back to top button"
   },
   "theme.admonition.note": {
-    "message": "note",
+    "message": "hinweis",
     "description": "The default label used for the Note admonition (:::note)"
   },
   "theme.admonition.tip": {
-    "message": "tip",
+    "message": "tipp",
     "description": "The default label used for the Tip admonition (:::tip)"
   },
   "theme.admonition.danger": {
-    "message": "danger",
+    "message": "gefahr",
     "description": "The default label used for the Danger admonition (:::danger)"
   },
   "theme.admonition.info": {
@@ -36,7 +36,7 @@
     "description": "The default label used for the Info admonition (:::info)"
   },
   "theme.admonition.caution": {
-    "message": "caution",
+    "message": "vorsicht",
     "description": "The default label used for the Caution admonition (:::caution)"
   },
   "theme.blog.archive.title": {
@@ -772,7 +772,7 @@
     "description": "toggle all departments"
   },
   "theme.admonition.warning": {
-    "message": "warning",
+    "message": "warnung",
     "description": "The default label used for the Warning admonition (:::warning)"
   },
   "theme.DocSidebarItem.expandCategoryAriaLabel": {
@@ -926,7 +926,7 @@
     "description": "Name of the calendar in Outlook"
   },
   "components.user.index.events": {
-    "message": "Events",
+    "message": "Veröffentlichte Events",
     "description": "Button Events"
   },
   "components.user.index.schools": {
@@ -1903,5 +1903,67 @@
   "theme.PwaReloadPopup.closeButtonAriaLabel": {
     "message": "Schließen",
     "description": "The ARIA label for close button of PWA reload popup"
+  },
+  "login.button.with.school.account.text": {
+    "message": "Login mit Schul-Account",
+    "description": "the text of the button login with school account"
+  },
+  "table.button.download": {
+    "message": "Download",
+    "description": "Text of the button download xlsx"
+  },
+  "event.meta.infosReviewed": {
+    "message": "Infos wieder anzeigen"
+  },
+  "event.bulk_actions.download": {
+    "message": "Download {number} Termine als Excel"
+  },
+  "event.filter.showAdvanced": {
+    "message": "Erweiterte Filter anzeigen",
+    "description": "Button: Show advanced filter"
+  },
+  "event.filter.index.button.start": {
+    "message": "Start",
+    "description": "Text of button start time"
+  },
+  "event.filter.index.button.end": {
+    "message": "Ende",
+    "description": "Text of button end time"
+  },
+  "eventGrid.header.description.expand.title:expanded": {
+    "message": "Beschreibung Verkleinern",
+    "description": "Message when hovering the expand button when it is expanded"
+  },
+  "eventGrid.header.description.expand.title:collapsed": {
+    "message": "Beschreibung Vergrössern",
+    "description": "Message when hovering the expand button when it is collapsed"
+  },
+  "theme.blog.author.pageTitle": {
+    "message": "{authorName} - {nPosts}",
+    "description": "The title of the page for a blog author"
+  },
+  "theme.blog.authorsList.pageTitle": {
+    "message": "Authors",
+    "description": "The title of the authors page"
+  },
+  "theme.blog.authorsList.viewAll": {
+    "message": "View All Authors",
+    "description": "The label of the link targeting the blog authors page"
+  },
+  "theme.contentVisibility.unlistedBanner.title": {
+    "message": "Unlisted page",
+    "description": "The unlisted content banner title"
+  },
+  "theme.contentVisibility.unlistedBanner.message": {
+    "message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+    "description": "The unlisted content banner message"
+  },
+  "theme.contentVisibility.draftBanner.title": {
+    "message": "Draft page",
+    "description": "The draft content banner title"
+  },
+  "theme.contentVisibility.draftBanner.message": {
+    "message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+    "description": "The draft content banner message"
   }
 }

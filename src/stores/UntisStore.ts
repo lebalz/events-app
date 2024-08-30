@@ -64,9 +64,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                         /**
                          * configure the filter for this user
                          */
-                        this.root.viewStore.eventTable.setDepartmentIds(
-                            teacher.usersDepartments(this.root.viewStore?.semester?.id).map((d) => d.id)
-                        );
+                        this.root.viewStore.eventTable.setDepartmentIds(teacher.departments.map((d) => d.id));
                     }
                 }
             }

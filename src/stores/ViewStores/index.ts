@@ -79,9 +79,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                         /**
                          * configure the filter for this user
                          */
-                        this.root.viewStore.eventTable.setDepartmentIds(
-                            teacher.usersDepartments(semesterId).map((d) => d.id)
-                        );
+                        this.root.viewStore.eventTable.setDepartmentIds(teacher.departments.map((d) => d.id));
                     }
                 }
             }

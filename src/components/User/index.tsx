@@ -37,6 +37,8 @@ const User = observer((props: Props) => {
     const current = user;
     const iconSide = 'right';
     const sessionStore = useStore('sessionStore');
+    const semesterStore = useStore('semesterStore');
+    const currentSemester = semesterStore.currentSemester;
 
     const classes = React.useMemo(() => {
         const klGroups = Lesson.GroupedClassesByYear(user.untisTeacher?.lessons || [], 10);
@@ -180,7 +182,7 @@ const User = observer((props: Props) => {
                 <dt>
                     <Badge
                         text={translate({
-                            message: 'Events',
+                            message: 'Veröffentlichte Events',
                             id: 'components.user.index.events',
                             description: 'Button Events'
                         })}
@@ -189,7 +191,14 @@ const User = observer((props: Props) => {
                         color="gray"
                     />
                 </dt>
-                <dd>{user.events.length}</dd>
+                <dd>
+                    {
+                        user.events.filter(
+                            (e) =>
+                                e.isPublished && !e.hasParent && e.affectedSemesters.includes(currentSemester)
+                        ).length
+                    }
+                </dd>
                 {user.untisTeacher && (
                     <>
                         <dt>

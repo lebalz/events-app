@@ -277,6 +277,9 @@ const Home = observer(() => {
                                             dass nun auch Termine die Sowohl Abteilungen wie auch einzelne
                                             Klassen betreffen, korrekt gefiltert werden.
                                         </li>
+                                        <li>
+                                            🐛 Fix: Zeige auf der Userseite nur die Klassen und Abteilungen des aktuellen Semesters an. 
+                                        </li>
                                         <li>🐛 Fix: Fehler beim Logout wurde behoben.</li>
                                     </ul>
                                     <h4>Version: Release Candidate 1.0 (27.06.2024)</h4>

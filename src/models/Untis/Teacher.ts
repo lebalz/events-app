@@ -57,7 +57,10 @@ export default class Teacher {
 
     @computed
     get classes() {
-        return this.store.findClassesByTeacher(this.id);
+        const semesterId = this.store.currentSemester?.id;
+        return this.store
+            .findClassesByTeacher(this.id)
+            .filter((c) => c.lessons.some((l) => l.semesterId === semesterId));
     }
 
     @computed
@@ -65,28 +68,10 @@ export default class Teacher {
         return [...new Set(this.classes.map((c) => c.department).filter((d) => d !== undefined))];
     }
 
-    /**
-     * only the relevant departments for this teacher
-     */
-    usersDepartments(semesterId?: string): Department[] {
-        return [
-            ...new Set(
-                this.lessons
-                    .filter((l) => (semesterId ? l.semesterId === semesterId : true))
-                    .flatMap((l) =>
-                        l.isEF
-                            ? l.classes.filter((c) => isFromDepartment(c.departmentLetter, this.name))
-                            : l.classes
-                    )
-                    .map((c) => c.department)
-                    .filter((d) => d !== undefined)
-            )
-        ];
-    }
-
     @computed
     get lessons() {
-        return this.store.findLessonsByTeacher(this.id);
+        const semesterId = this.store.currentSemester?.id;
+        return this.store.findLessonsByTeacher(this.id).filter((l) => l.semesterId === semesterId);
     }
 
     @computed
