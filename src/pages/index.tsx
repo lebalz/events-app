@@ -11,6 +11,7 @@ import { translate } from '@docusaurus/Translate';
 import Icon from '@mdi/react';
 import {
     mdiAccountCircleOutline,
+    mdiArrowExpandHorizontal,
     mdiBookOpenVariantOutline,
     mdiCalendarAccount,
     mdiCalendarMonth,
@@ -259,6 +260,25 @@ const Home = observer(() => {
                             <div className="card__body">
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: Release Candidate 1.1 (30.08.2024)</h4>
+                                    <ul>
+                                        <li>
+                                            🚀💅 Neu: Die Spalte "Beschreibung" kann auf über den Knopf{' '}
+                                            <Icon path={mdiArrowExpandHorizontal} size={1} />{' '}
+                                            vergrössert/verkleinert werden
+                                        </li>
+                                        <li>
+                                            💅 Ganztägige Kalender-Events werden nun auch im Apple Kalender
+                                            als solche angezeigt. Leider funktioniert dies aber bei Apple nur
+                                            bei Terminen, die um Mitternacht starten und auch enden.
+                                        </li>
+                                        <li>
+                                            🐛 Fix: Der Algorithmus zur Terminfilterung wurde verbessert, so
+                                            dass nun auch Termine die Sowohl Abteilungen wie auch einzelne
+                                            Klassen betreffen, korrekt gefiltert werden.
+                                        </li>
+                                        <li>🐛 Fix: Fehler beim Logout wurde behoben.</li>
+                                    </ul>
                                     <h4>Version: Release Candidate 1.0 (27.06.2024)</h4>
                                     <ul>
                                         <li>
