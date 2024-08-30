@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import { default as EventModelView } from '@site/src/components/Event';
 import _ from 'lodash';

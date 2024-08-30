@@ -6,6 +6,9 @@ import { observer } from 'mobx-react-lite';
 import { translate } from '@docusaurus/Translate';
 import { Icon, SIZE_S } from '../../../shared/icons';
 import {
+    mdiArrowCollapseHorizontal,
+    mdiArrowExpandHorizontal,
+    mdiArrowLeftRight,
     mdiBookmarkCheck,
     mdiCheckDecagramOutline,
     mdiSchool,
@@ -17,6 +20,7 @@ import Checkbox from '../../../shared/Checkbox';
 import Button, { ButtonIcon } from '../../../shared/Button';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 import Tooltip from '../../../shared/Tooltip';
+import { useStore } from '@site/src/stores/hooks';
 
 interface Props extends Partial<ConfigOptionsSortable> {
     gridColumn: number;
@@ -124,6 +128,7 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
 };
 
 const ColumnHeader = observer((props: Props) => {
+    const viewStore = useStore('viewStore');
     let content: JSX.Element | string = HeaderTitles[props.name];
     let title: string | undefined = undefined;
     switch (props.name) {
@@ -155,6 +160,42 @@ const ColumnHeader = observer((props: Props) => {
                 description: 'Message when hovering the icon'
             });
             break;
+        case 'description':
+            content = (
+                <span className={clsx(styles.descriptionHeader)}>
+                    {content}
+                    <Button
+                        icon={
+                            viewStore.eventTable.isDescriptionExpanded
+                                ? mdiArrowCollapseHorizontal
+                                : mdiArrowExpandHorizontal
+                        }
+                        size={0.7}
+                        active={viewStore.eventTable.isDescriptionExpanded}
+                        onClick={() =>
+                            viewStore.eventTable.setDescriptionExpanded(
+                                !viewStore.eventTable.isDescriptionExpanded
+                            )
+                        }
+                        className={clsx(styles.expandButton)}
+                        title={
+                            viewStore.eventTable.isDescriptionExpanded
+                                ? translate({
+                                      description:
+                                          'Message when hovering the expand button when it is expanded',
+                                      id: 'eventGrid.header.description.expand.title:expanded',
+                                      message: 'Beschreibung Verkleinern'
+                                  })
+                                : translate({
+                                      description:
+                                          'Message when hovering the expand button when it is collapsed',
+                                      id: 'eventGrid.header.description.expand.title:collapsed',
+                                      message: 'Beschreibung Vergrössern'
+                                  })
+                        }
+                    />
+                </span>
+            );
     }
     if (props.sortable) {
         if (typeof content !== 'string') {

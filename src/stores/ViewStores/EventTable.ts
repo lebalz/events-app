@@ -38,6 +38,9 @@ class EventTable {
     classNames = observable.set<string>();
 
     @observable
+    isDescriptionExpanded = false;
+
+    @observable
     onlyMine: boolean = false;
 
     @observable
@@ -83,6 +86,11 @@ class EventTable {
     @action
     setOnlyMine(onlyMine: boolean): void {
         this.onlyMine = onlyMine;
+    }
+
+    @action
+    setDescriptionExpanded(expanded: boolean): void {
+        this.isDescriptionExpanded = expanded;
     }
 
     @action

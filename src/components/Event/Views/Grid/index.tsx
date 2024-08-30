@@ -9,6 +9,7 @@ import _ from 'lodash';
 import Batch from './Batch';
 import Group from './Group';
 import ColumnHeader from './ColumnHeader';
+import { useStore } from '@site/src/stores/hooks';
 
 interface ConfigOptionsBase {
     width?: string;
@@ -139,6 +140,7 @@ const Grid = observer(
             return grouped;
         }, [props.events, sortBy, sortDirection]);
         const [columns, setColumns] = React.useState<[keyof typeof DefaultConfig, ConfigOptions][]>([]);
+        const viewStore = useStore('viewStore');
         React.useEffect(() => {
             const config: [keyof typeof DefaultConfig, ConfigOptions][] = [];
             const onSelect = (event: EventModel, selected: boolean, shiftKey: boolean) => {
@@ -155,6 +157,7 @@ const Grid = observer(
                 }
                 event.setSelected(selected);
             };
+
             props.columns.forEach((col, idx) => {
                 const isConfig = typeof col !== 'string';
                 const name = isConfig ? col[0] : col;
@@ -162,6 +165,9 @@ const Grid = observer(
                     ...DefaultConfig[name],
                     ...(name === 'select' ? { componentProps: { onSelect } } : {})
                 };
+                if (viewStore.eventTable.isDescriptionExpanded && name === 'description') {
+                    defaultConf.width = '45em';
+                }
                 if (!defaultConf) {
                     return null;
                 }
@@ -175,7 +181,7 @@ const Grid = observer(
                 ]);
             });
             setColumns(config);
-        }, [props.columns, groupEvents]);
+        }, [props.columns, groupEvents, viewStore.eventTable.isDescriptionExpanded]);
 
         const gridTemplateColumns = `repeat(${props.columns.length}, max-content)`;
         return (
