@@ -156,6 +156,21 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @action
     setCalendarViewDate(date: Date) {
         this.calendarViewDate = date.toISOString().split('T')[0];
+        const viewedSemester = this.semester;
+        /**
+         * Side-Effect: Change the viewed semester if the date is not in the current semester
+         */
+        if (date < viewedSemester.start) {
+            const idx = this.root.semesterStore.semesters.findIndex((s) => s.id === viewedSemester.id);
+            if (idx > 0) {
+                this.setSemester(this.root.semesterStore.semesters[idx - 1]);
+            }
+        } else if (date > viewedSemester.end) {
+            const idx = this.root.semesterStore.semesters.findIndex((s) => s.id === viewedSemester.id);
+            if (idx < this.root.semesterStore.semesters.length - 1) {
+                this.setSemester(this.root.semesterStore.semesters[idx + 1]);
+            }
+        }
     }
 
     @action

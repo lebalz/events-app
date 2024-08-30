@@ -268,6 +268,10 @@ const Home = observer(() => {
                                             vergrössert/verkleinert werden
                                         </li>
                                         <li>
+                                            🚀💅 Neu: wird bei der Kalender-Ansicht ein Datum eines neuen
+                                            Semesters erreicht, wird dieses automatisch geladen und angezeigt.
+                                        </li>
+                                        <li>
                                             💅 Ganztägige Kalender-Events werden nun auch im Apple Kalender
                                             als solche angezeigt. Leider funktioniert dies aber bei Apple nur
                                             bei Terminen, die um Mitternacht starten und auch enden.
