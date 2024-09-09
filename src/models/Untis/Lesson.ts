@@ -202,7 +202,7 @@ export default class Lesson implements iEvent {
     }
 
     @computed
-    get props() {
+    get props(): UntisLessonWithTeacher {
         return {
             id: this.id,
             room: this.room,
@@ -211,9 +211,11 @@ export default class Lesson implements iEvent {
             endHHMM: this.endHHMM,
             teacherIds: this.teacherIds.slice(),
             classIds: this.classIds.slice(),
-            s: this.weekOffsetMS_start,
-            e: this.weekOffsetMS_end,
-            eo: this.weekOffsetMS_end + SUCCESSIVE_LESSON_THRESHOLD_MS
+            semesterNr: this.semesterNr,
+            year: this.year,
+            semesterId: this.semesterId,
+            description: this.description,
+            weekDay: this.weekDay
         };
     }
 }

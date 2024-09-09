@@ -435,7 +435,7 @@ const EventProps = observer((props: Props) => {
                     return null;
                 }
                 return (
-                    <React.Fragment key={`kl-${idx}`}>
+                    <React.Fragment key={`kl-${idx}-${kl.lessons.map((l) => l.id).join('-')}`}>
                         <dt className={commonClasses}>{kl.class}</dt>
                         <dd className={clsx(styles.lessons)}>
                             <div className={clsx(commonClasses)}>

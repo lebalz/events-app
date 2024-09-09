@@ -35,6 +35,7 @@ import _ from 'lodash';
 import { KlassName } from './helpers/klassNames';
 import humanize from 'humanize-duration';
 import Department from './Department';
+import { LessonOverlap, lessonOverlap } from './helpers/lessonOverlap';
 
 export interface iEvent {
     weekOffsetMS_start: number;
@@ -167,6 +168,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     validationDisposer: IReactionDisposer;
     validationTimeout: NodeJS.Timeout;
+    initialValidation: boolean = false;
 
     constructor(props: EventProps, store: EventStore) {
         super();
@@ -216,7 +218,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.validationDisposer = reaction(
             () => this.props,
             () => {
-                this.validate();
+                if (this.initialValidation) {
+                    this.validate();
+                }
             }
         );
     }
@@ -265,6 +269,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             abortEarly: false,
             messages: JoiMessages
         });
+        if (!this.initialValidation) {
+            this.initialValidation = true;
+        }
         if (result.error) {
             this._errors = result.error;
             console.log(result.error);
@@ -960,25 +967,45 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         const affected: { [kl: string]: Lesson[] } = {};
         const placedLessonIds = new Set<number>();
         lessons.forEach((l) => {
-            if (placedLessonIds.has(l.id)) {
+            if (placedLessonIds.has(l.id) || l.classes.length === 0) {
                 return;
             }
             placedLessonIds.add(l.id);
-            if (l.classes.length > 1) {
-                const letters = l.classes.map((c) => c.letter).sort();
-                const year = l.classes[0].year;
-                const name = `${year % 100}${letters.length > 4 ? '*' : letters.join('')}`;
+            l.classes.forEach((c) => {
+                const name = c.displayName;
                 if (!affected[name]) {
                     affected[name] = [];
                 }
-                affected[name].push(l);
-            } else if (l.classes.length === 1) {
-                const name = l.classes[0].displayName;
-                if (!affected[name]) {
-                    affected[name] = [];
+                const overlappingLessons = affected[name]
+                    .map((lesson) => ({ overlap: lessonOverlap(lesson, l), lesson: lesson }))
+                    .filter((ol) => ol.overlap !== LessonOverlap.None);
+                if (overlappingLessons.length > 0) {
+                    overlappingLessons.forEach((ol) => {
+                        const idx = affected[name].indexOf(ol.lesson);
+                        if (ol.overlap === LessonOverlap.Start) {
+                            affected[name].splice(
+                                idx,
+                                1,
+                                new Lesson(
+                                    { ...ol.lesson.props, startHHMM: l.startHHMM },
+                                    this.store.root.untisStore
+                                )
+                            );
+                        } else if (ol.overlap === LessonOverlap.End) {
+                            affected[name].splice(
+                                idx,
+                                1,
+                                new Lesson(
+                                    { ...ol.lesson.props, endHHMM: l.endHHMM },
+                                    this.store.root.untisStore
+                                )
+                            );
+                        }
+                    });
+                } else {
+                    affected[name].push(l);
                 }
-                affected[name].push(l);
-            }
+            });
         });
         return Object.keys(affected).map((kl) => ({ class: kl, lessons: affected[kl] }));
     }
