@@ -26,5 +26,9 @@
   "item.label.Abonnieren": {
     "message": "S'abonner",
     "description": "Navbar item with label Abonnieren"
+  },
+  "item.label.?": {
+    "message": "?",
+    "description": "Navbar item with label ?"
   }
 }

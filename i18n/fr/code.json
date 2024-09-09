@@ -299,7 +299,7 @@
     "description": "th: actions"
   },
   "event.kw": {
-    "message": "SA",
+    "message": "SC",
     "description": "for a single event: kw"
   },
   "event.weekday": {
@@ -1937,5 +1937,13 @@
   "table.button.download": {
     "message": "Télécharger (xslx)",
     "description": "Text of the button download xlsx"
+  },
+  "eventGrid.header.description.expand.title:expanded": {
+    "message": "Réduire la description",
+    "description": "Message when hovering the expand button when it is expanded"
+  },
+  "eventGrid.header.description.expand.title:collapsed": {
+    "message": "Développer la description",
+    "description": "Message when hovering the expand button when it is collapsed"
   }
 }
