@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { ViewGroup } from '.';
 import { formatDate } from '@site/src/models/helpers/time';
+import Translate from '@docusaurus/Translate';
 
 interface Props extends ViewGroup {
     isCurrent?: boolean;
@@ -23,7 +24,12 @@ const Group = observer((props: Props) => {
                 gridColumn: '1 / -1'
             }}
         >
-            <span>KW {props.group}</span>
+            <span>
+                <Translate id="event.kw" description="for a single event: kw">
+                    KW
+                </Translate>{' '}
+                {props.group}
+            </span>
             <span>
                 {formatDate(events[0].weekStart)} - {formatDate(events[0].weekEnd)}
             </span>
