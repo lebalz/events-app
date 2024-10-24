@@ -962,7 +962,7 @@
     "description": "Events admin"
   },
   "components.event.usersevents.index.header.admin": {
-    "message": "Review Anfragen für Admin",
+    "message": "Review Anfragen für Admins",
     "description": "Events admin"
   },
   "components.event.usersevents.index.tabitem.published": {
@@ -1965,5 +1965,8 @@
   "theme.contentVisibility.draftBanner.message": {
     "message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
     "description": "The draft content banner message"
+  },
+  "admin.tab.event-reviews": {
+    "message": "Termin-Reviews"
   }
 }

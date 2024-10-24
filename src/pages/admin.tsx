@@ -19,6 +19,7 @@ import Job from '../components/Job';
 import Translate, { translate } from '@docusaurus/Translate';
 import ImportEvents from '../components/ImportEvents';
 import RegistrationPeriods from '../components/Admin/RegistrationPeriods';
+import ToReview from '../components/Event/UsersEvents/ToReview';
 
 const AdminView = observer(() => {
     const userStore = useStore('userStore');
@@ -114,6 +115,12 @@ const AdminView = observer(() => {
                     label={translate({ message: 'Registrierungs Perioden', id: 'admin.tab.reg-periods' })}
                 >
                     <RegistrationPeriods />
+                </TabItem>
+                <TabItem
+                    value="event-reviews"
+                    label={translate({ message: 'Termin-Reviews', id: 'admin.tab.event-reviews' })}
+                >
+                    <ToReview user={userStore.current} />
                 </TabItem>
             </Tabs>
         </Layout>

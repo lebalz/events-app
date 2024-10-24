@@ -21,7 +21,8 @@ import RegPeriodBadge from '../../RegistrationPeriod/RegPeriodBadge';
 import EventsViewer, { View } from '../../EventsViewer';
 import ChangeViewAction from '../../EventsViewer/ChangeViewAction';
 import { SIZE } from '../../shared/icons';
-const COLUMN_CONFIG: ColumnConfig = [
+import ToReview from './ToReview';
+export const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     ['state', { sortable: false, width: undefined }],
     'select',
@@ -101,7 +102,7 @@ const UsersEvents = observer((props: Props) => {
 
     return (
         <div className="full-width">
-            <Tabs lazy>
+            <Tabs lazy queryString groupId="events-tab">
                 <TabItem
                     value="my-events"
                     label={translate({
@@ -196,32 +197,7 @@ const UsersEvents = observer((props: Props) => {
                             description: 'Events admin'
                         })}
                     >
-                        <div className={clsx(styles.card, 'card')}>
-                            <div className={clsx('card__header')}>
-                                <h3>
-                                    {translate({
-                                        message: 'Review Anfragen für Admin',
-                                        id: 'components.event.usersevents.index.header.admin',
-                                        description: 'Events admin'
-                                    })}
-                                </h3>
-                            </div>
-                            <EventsViewer
-                                events={adminReview}
-                                gridConfig={{ columns: ['author', ...COLUMN_CONFIG] }}
-                                bulkActionConfig={{
-                                    className: styles.indent,
-                                    rightActions: [
-                                        <ChangeViewAction
-                                            viewType={viewType}
-                                            setViewType={setViewType}
-                                            key="action-r1"
-                                        />
-                                    ]
-                                }}
-                                type={viewType}
-                            />
-                        </div>
+                        <ToReview user={user} />
                     </TabItem>
                 )}
                 {published.length > 0 && (
