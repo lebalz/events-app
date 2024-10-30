@@ -17,7 +17,7 @@ interface Props extends ReadonlyProps {
     toggleExpanded?: boolean;
 }
 
-const ColorMap: { [key in TeachingAffectedType]: string } = {
+export const TeachingAffectedColors: { [key in TeachingAffectedType]: string } = {
     [TeachingAffectedType.NO]: 'green',
     [TeachingAffectedType.PARTIAL]: 'orange',
     [TeachingAffectedType.YES]: 'red'
@@ -41,7 +41,7 @@ const DescriptionMap: { [key in TeachingAffectedType]: string } = {
     })
 };
 
-const TitleMap: { [key in TeachingAffectedType]: string } = {
+export const TitleMap: { [key in TeachingAffectedType]: string } = {
     [TeachingAffectedType.NO]: translate({
         message: 'Betrifft den Unterricht nicht',
         id: 'eventField.teachingAffected.no.title',
@@ -81,7 +81,7 @@ const TeachingAffected = observer((props: Props) => {
                                     icon={
                                         <Icon
                                             path={mdiCircle}
-                                            color={ColorMap[event.teachingAffected]}
+                                            color={TeachingAffectedColors[event.teachingAffected]}
                                             size={SIZE_XXS}
                                         />
                                     }
@@ -96,7 +96,7 @@ const TeachingAffected = observer((props: Props) => {
                                     }}
                                     icon={mdiCircle}
                                     size={SIZE_XXS}
-                                    color={ColorMap[event.teachingAffected]}
+                                    color={TeachingAffectedColors[event.teachingAffected]}
                                     className={clsx(styles.teachingAffectedBtn)}
                                 />
                                 // <Icon path={mdiCircle} color={ColorMap[event.teachingAffected]} size={SIZE_XXS} />

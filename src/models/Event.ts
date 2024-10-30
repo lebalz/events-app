@@ -212,7 +212,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                 () => {
                     this.validate();
                 },
-                200 + Math.round(Math.random() * 300)
+                500 + Math.round(Math.random() * 300)
             );
         }
         this.validationDisposer = reaction(
@@ -290,6 +290,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
         if (!this.meta?.infosReviewed && this.meta?.infos?.length > 0) {
             return ValidState.Info;
+        }
+        if (this.overlappingEvents.length > 0) {
+            return ValidState.Warning;
         }
         return ValidState.Valid;
     }
@@ -895,6 +898,22 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + (lesson.endHHMM % 100);
         const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
         return startOffset < eventStartOffset + minutes && endOffset > eventStartOffset;
+    }
+
+    @computed
+    get overlappingEvents() {
+        return this.store.events.filter((e) => {
+            if (e.id === this.id || !(e.state === EventState.Published || e.state === EventState.Review)) {
+                return false;
+            }
+            if (e.parentId || e.isDeleted) {
+                return false;
+            }
+            if (e.startTimeMs > this.endTimeMs || e.endTimeMs < this.startTimeMs) {
+                return false;
+            }
+            return this.untisClasses.some((c) => e.affectsClass(c));
+        });
     }
 
     @computed

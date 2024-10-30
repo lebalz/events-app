@@ -79,6 +79,14 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         }
     }
 
+    findByClassGroupName = (classGroupName: string) => {
+        if (!this.isValidClassGroup(classGroupName)) {
+            return undefined;
+        }
+        const letter = classGroupName.charAt(2);
+        return this.departments.find((d) => d.letter === letter);
+    };
+
     findByDepartmentLetter = computedFn(
         function (this: DepartmentStore, letter?: string): Department[] {
             if (!letter) {

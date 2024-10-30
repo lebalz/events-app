@@ -4,6 +4,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "lib": ["ESNext", "DOM"],
+        "target": "ES2018",
         // "strict": true,
         "useDefineForClassFields": true,
         "experimentalDecorators": true,

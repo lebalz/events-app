@@ -1,0 +1,115 @@
+.event {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'body'
+        'footer';
+    grid-template-rows: auto auto auto;
+    flex-direction: column;
+    border: 1px solid;
+    padding: 2px 4px;
+    border-radius: var(--ifm-global-radius);
+
+    .header {
+        grid-area: header;
+        display: grid;
+        grid-template-areas:
+            'd-start d-end location author'
+            't-start t-end location author';
+        grid-template-columns: auto auto 3fr minmax(auto, 5em);
+        gap: 4px;
+        font-size: 10px;
+        .location {
+            grid-area: location;
+
+            justify-self: center;
+        }
+        .date {
+            font-weight: 600;
+            &.dateStart {
+                grid-area: d-start;
+            }
+            &.dateEnd {
+                grid-area: d-end;
+            }
+            &.timeStart {
+                grid-area: t-start;
+                justify-self: flex-end;
+            }
+            &.timeEnd {
+                grid-area: t-end;
+                justify-self: flex-start;
+            }
+        }
+        .author {
+            grid-area: author;
+            justify-self: flex-end;
+        }
+    }
+    .body {
+        grid-area: body;
+        overflow: hidden;
+        .title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    .footer {
+        grid-area: footer;
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 1em;
+        font-size: 10px;
+        .teachingAffected {
+            .teachingAffectedIcon {
+                cursor: pointer;
+            }
+        }
+        .teachingAffected,
+        .state {
+            flex-grow: 0;
+            flex-basis: 1em;
+        }
+        .audience {
+            display: flex;
+            gap: 0.2em;
+            flex-shrink: 1;
+            flex-grow: 1;
+            flex-basis: 10em;
+            flex-wrap: wrap;
+            &.target {
+                font-weight: 400;
+            }
+        }
+    }
+    .badge {
+        font-size: inherit;
+        padding: 2px 4px;
+    }
+}
+.spacer {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    flex-basis: 0;
+}
+
+// @media screen and (min-width: 1024px) {
+//     .event {
+//         grid-template-areas: "header body footer";
+//         grid-template-columns: auto auto auto;
+//         grid-template-rows: auto;
+//         align-items: center;
+//         gap: 1em;
+//         .header {
+//             align-items: center;
+//         }
+//         .footer {
+//             .spacer {
+//                 flex-grow: 0;
+//             }
+//         }
+//     }
+// }

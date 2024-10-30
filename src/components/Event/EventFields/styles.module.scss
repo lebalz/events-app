@@ -7,6 +7,22 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    .conflicts {
+        max-height: 20em;
+        overflow-y: auto;
+        .overlappingEvents {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 0.5em;
+            max-height: 30em;
+            overflow-y: auto;
+            .overview {
+                flex-shrink: 1;
+                flex-basis: 25em;
+            }
+        }
+    }
 }
 .errors {
     color: var(--ifm-color-danger);

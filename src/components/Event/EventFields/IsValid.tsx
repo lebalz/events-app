@@ -11,6 +11,8 @@ import { mdiCloseCircle, mdiAlertCircle, mdiInformation, mdiCheckCircle } from '
 import Badge from '../../shared/Badge';
 import { Icon, SIZE_S } from '../../shared/icons';
 import { ValidState } from '@site/src/models/Event';
+import EventOverviewSmall from '../EventOverviewSmall';
+import Translate from '@docusaurus/Translate';
 
 const StateIcon: { [key in ValidState]: string } = {
     [ValidState.Valid]: mdiCheckCircle,
@@ -73,6 +75,27 @@ const IsValid = observer((props: ReadonlyProps) => {
                                 <li key={index}>{warning}</li>
                             ))}
                         </ul>
+                    )}
+                    {event.overlappingEvents.length > 0 && (
+                        <div className={clsx(styles.conflicts)}>
+                            <h3>
+                                <Translate
+                                    id="event.isValid.conflicts"
+                                    description="Conflicts between events that are overlapping and concerning the same event"
+                                >
+                                    Konflikte
+                                </Translate>
+                            </h3>
+                            <div className={clsx(styles.overlappingEvents)}>
+                                {event.overlappingEvents.map((overlap, idx) => (
+                                    <EventOverviewSmall
+                                        event={overlap}
+                                        key={overlap.id}
+                                        className={clsx(styles.overview)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     )}
                     {infos.length > 0 && (
                         <ul className={clsx(styles.infos)}>

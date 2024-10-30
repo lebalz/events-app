@@ -447,7 +447,7 @@ const EventProps = observer((props: Props) => {
                     </React.Fragment>
                 );
             })}
-            {event.meta && !event.isPublished && userStore.current.isAdmin && (
+            {event.meta && !event.isPublished && userStore.current?.isAdmin && (
                 <>
                     <dt>
                         <Translate id="event.meta" description="for a single event: audience long">
