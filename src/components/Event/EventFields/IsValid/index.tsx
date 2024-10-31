@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
@@ -9,11 +9,10 @@ import { ReadonlyProps } from '../iEventField';
 import Popup from 'reactjs-popup';
 import Button from '../../../shared/Button';
 import { mdiCloseCircle, mdiAlertCircle, mdiInformation, mdiCheckCircle } from '@mdi/js';
-import Badge from '../../../shared/Badge';
 import { Icon, SIZE_S } from '../../../shared/icons';
 import { ValidState } from '@site/src/models/Event';
 import EventOverviewSmall from '../../EventOverviewSmall';
-import Translate, { translate } from '@docusaurus/Translate';
+import { translate } from '@docusaurus/Translate';
 
 const StateIcon: { [key in ValidState]: string } = {
     [ValidState.Valid]: mdiCheckCircle,
