@@ -59,6 +59,23 @@
     }
 }
 
+main {
+    .today {
+        margin-top: 0;
+        margin-bottom: -1rem;
+        padding: 0.5rem;
+        h1:global(.hero__title) {
+            font-size: 1.5rem;
+        }
+        .todaysEvents {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            gap: 0.5em;
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     :global(.hero).navCardSection {
         margin: 0;

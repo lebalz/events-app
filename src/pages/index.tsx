@@ -16,8 +16,6 @@ import {
     mdiCalendarAccount,
     mdiCalendarMonth,
     mdiCalendarSync,
-    mdiChartTimeline,
-    mdiMicrosoftOutlook,
     mdiPalette,
     mdiSecurity,
     mdiViewList
@@ -28,6 +26,7 @@ import Badge from '../components/shared/Badge';
 import { Timeline } from '../components/shared/icons';
 import Details from '@theme/Details';
 import VideoGrid from '@site/src/components/VideoGrid';
+import EventOverviewSmall from '../components/Event/EventOverviewSmall';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -71,6 +70,7 @@ const NavCard = observer((props: NavProps) => {
 const Home = observer(() => {
     const { i18n } = useDocusaurusContext();
     const ref = React.useRef<HTMLVideoElement>(null);
+    const viewStore = useStore('viewStore');
     React.useEffect(() => {
         if (ref.current) {
             ref.current.playbackRate = 0.5;
@@ -80,6 +80,15 @@ const Home = observer(() => {
         <Layout title="Events" description="Events Application">
             <HomepageHeader />
             <main>
+                {viewStore.todayEvents.length > 0 && (
+                    <Section className={clsx(styles.today)} title="Heute">
+                        <div className={clsx(styles.todaysEvents)}>
+                            {viewStore.todayEvents.map((event) => (
+                                <EventOverviewSmall key={event.id} event={event} />
+                            ))}
+                        </div>
+                    </Section>
+                )}
                 <Section className={clsx(styles.navCardSection)}>
                     <div className={clsx(styles.navCards)}>
                         <NavCard
