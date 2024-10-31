@@ -915,7 +915,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             if (e.parentId || e.isDeleted) {
                 return false;
             }
-            if (e.startTimeMs > this.endTimeMs || e.endTimeMs < this.startTimeMs) {
+            if (e.startTimeMs >= this.endTimeMs || e.endTimeMs <= this.startTimeMs) {
                 return false;
             }
             return this.untisClasses.some((c) => e.affectsClass(c));
