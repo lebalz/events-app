@@ -121,7 +121,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
             ? user.events
             : jobId
               ? this.root.eventStore.byJob(jobId)
-              : this.root.eventStore?.events ?? [];
+              : (this.root.eventStore?.events ?? []);
         events = events.filter((e) => !(e.hasParent && e.state === EventState.Published));
         if (ignoreImported) {
             events = events.filter((e) => !e.jobId);

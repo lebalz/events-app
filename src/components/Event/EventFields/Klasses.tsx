@@ -9,6 +9,7 @@ import Badge from '@site/src/components/shared/Badge';
 interface Props extends CommonProps {
     isEditGrid?: boolean /** true when at least one element of the grid is edited */;
     maxWidth?: string;
+    multiLine?: boolean;
 }
 
 const Klasses = observer((props: Props) => {
@@ -20,7 +21,7 @@ const Klasses = observer((props: Props) => {
                 props.className,
                 styles.classes,
                 props.isEditGrid && styles.editGrid,
-                event.isExpanded && styles.expanded
+                (event.isExpanded || props.multiLine) && styles.expanded
             )}
         >
             <div className={clsx(styles.tags)}>

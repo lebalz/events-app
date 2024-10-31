@@ -72,7 +72,6 @@ const Version = observer((props: Props) => {
                 }
             />
             {isCurrent && <Icon path={mdiRecordCircleOutline} color="green" />}
-            {isCurrent && <Badge text={formatDateTime(event.updatedAt)} color="primary" />}
             {!props.hideVersion && nVersions > (event.isPublished ? 0 : 1) && (
                 <Button
                     text={`${nVersions} ${nVersions === 1 ? UpdateTranslation.singular : UpdateTranslation.plural}`}

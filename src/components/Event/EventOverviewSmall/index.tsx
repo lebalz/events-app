@@ -185,7 +185,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         {[...event.classGroups].map((c) => (
                             <Badge
                                 key={c}
-                                text={`${c}*`}
+                                text={/(26|25)[FGWcmps]/.test(c) ? `${c.substring(0, 2)}*` : `${c}*`}
                                 title={translate(
                                     {
                                         message: 'Alle Klassen der Stufe {classGroup}',
@@ -208,7 +208,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         {[...event.classes].map((c) => (
                             <Badge
                                 key={c}
-                                text={c}
+                                text={untisStore.findClassByName(c)?.displayName || c}
                                 color={untisStore.findClassByName(c)?.color || 'var(--ifm-color-danger)'}
                                 className={clsx(styles.badge)}
                             />
