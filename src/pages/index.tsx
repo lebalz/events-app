@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Section from '../components/shared/Section';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import Icon from '@mdi/react';
 import {
     mdiAccountCircleOutline,
@@ -80,15 +80,30 @@ const Home = observer(() => {
         <Layout title="Events" description="Events Application">
             <HomepageHeader />
             <main>
-                {viewStore.todayEvents.length > 0 && (
-                    <Section className={clsx(styles.today)} title="Heute">
-                        <div className={clsx(styles.todaysEvents)}>
-                            {viewStore.todayEvents.map((event) => (
-                                <EventOverviewSmall key={event.id} event={event} />
-                            ))}
-                        </div>
-                    </Section>
-                )}
+                <Section
+                    className={clsx(styles.today)}
+                    title={
+                        <>
+                            <Translate id="home.today.title" description="Title for the today section">
+                                Heute
+                            </Translate>
+                        </>
+                    }
+                >
+                    <div className={clsx(styles.todaysEvents)}>
+                        {viewStore.todayEvents.length > 0 ? (
+                            <>
+                                {viewStore.todayEvents.map((event) => (
+                                    <EventOverviewSmall key={event.id} event={event} />
+                                ))}
+                            </>
+                        ) : (
+                            <Translate id="home.today.noEvents" description="No events for today">
+                                Keine Termine für heute
+                            </Translate>
+                        )}
+                    </div>
+                </Section>
                 <Section className={clsx(styles.navCardSection)}>
                     <div className={clsx(styles.navCards)}>
                         <NavCard
