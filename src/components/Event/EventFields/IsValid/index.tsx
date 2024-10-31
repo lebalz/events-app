@@ -2,16 +2,17 @@ import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
+import sharedStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 
-import { ReadonlyProps } from './iEventField';
+import { ReadonlyProps } from '../iEventField';
 import Popup from 'reactjs-popup';
-import Button from '../../shared/Button';
+import Button from '../../../shared/Button';
 import { mdiCloseCircle, mdiAlertCircle, mdiInformation, mdiCheckCircle } from '@mdi/js';
-import Badge from '../../shared/Badge';
-import { Icon, SIZE_S } from '../../shared/icons';
+import Badge from '../../../shared/Badge';
+import { Icon, SIZE_S } from '../../../shared/icons';
 import { ValidState } from '@site/src/models/Event';
-import EventOverviewSmall from '../EventOverviewSmall';
+import EventOverviewSmall from '../../EventOverviewSmall';
 import Translate, { translate } from '@docusaurus/Translate';
 
 const StateIcon: { [key in ValidState]: string } = {
@@ -39,7 +40,7 @@ const IsValid = observer((props: ReadonlyProps) => {
     return (
         <div
             style={{ gridColumn: 'isValid' }}
-            className={clsx('isValid', styles.isValid, props.className, 'grid-isValid')}
+            className={clsx('isValid', sharedStyles.isValid, props.className, 'grid-isValid')}
             onClick={() => console.log(event.id, event._errors)}
         >
             {props.event.isValid ? (
@@ -65,14 +66,14 @@ const IsValid = observer((props: ReadonlyProps) => {
                     closeOnDocumentClick
                 >
                     {errors.length > 0 && (
-                        <ul className={clsx(styles.errors)}>
+                        <ul className={clsx(sharedStyles.errors)}>
                             {errors.map((error, index) => (
                                 <li key={index}>{error.message}</li>
                             ))}
                         </ul>
                     )}
                     {warnings.length > 0 && (
-                        <ul className={clsx(styles.warnings)}>
+                        <ul className={clsx(sharedStyles.warnings)}>
                             {warnings.map((warning, index) => (
                                 <li key={index}>{warning}</li>
                             ))}
@@ -104,7 +105,7 @@ const IsValid = observer((props: ReadonlyProps) => {
                         </div>
                     )}
                     {infos.length > 0 && (
-                        <ul className={clsx(styles.infos)}>
+                        <ul className={clsx(sharedStyles.infos)}>
                             {infos.map((info, index) => (
                                 <li key={index}>{info}</li>
                             ))}

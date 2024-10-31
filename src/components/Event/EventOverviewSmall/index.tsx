@@ -29,12 +29,16 @@ interface Props {
 
 const EventOverviewSmall = observer((props: Props) => {
     const untisStore = useStore('untisStore');
+    const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
     const { event } = props;
     return (
         <div
             className={clsx(styles.event, props.className)}
             style={{ borderColor: IfmColors[EventStateColor[event.state]] }}
+            onClick={() => {
+                viewStore.setEventModalId(event.id);
+            }}
         >
             <div className={clsx(styles.header)}>
                 <div className={clsx(styles.date, styles.dateStart)}>{event.fStartDate}</div>
@@ -50,32 +54,34 @@ const EventOverviewSmall = observer((props: Props) => {
                         </div>
                     </>
                 )}
-                <div className={clsx(styles.location)}>
-                    {event.location.length > 20 ? (
-                        <Tooltip
-                            title={
-                                <div>
-                                    <h4 style={{ marginBottom: 0 }}>
-                                        <Translate
-                                            id="event.location"
-                                            description="for a single event: location"
-                                        >
-                                            Ort
-                                        </Translate>
-                                    </h4>
-                                    {event.location}
-                                </div>
-                            }
-                        >
-                            <span>{`@ ${event.location.substring(0, 17)}...`}</span>
-                        </Tooltip>
-                    ) : (
-                        <>
-                            {'@ '}
-                            {event.location}
-                        </>
-                    )}
-                </div>
+                {event.location.length > 0 && (
+                    <div className={clsx(styles.location)}>
+                        {event.location.length > 20 ? (
+                            <Tooltip
+                                title={
+                                    <div>
+                                        <h4 style={{ marginBottom: 0 }}>
+                                            <Translate
+                                                id="event.location"
+                                                description="for a single event: location"
+                                            >
+                                                Ort
+                                            </Translate>
+                                        </h4>
+                                        {event.location}
+                                    </div>
+                                }
+                            >
+                                <span>{`@ ${event.location.substring(0, 17)}...`}</span>
+                            </Tooltip>
+                        ) : (
+                            <>
+                                {'@ '}
+                                {event.location}
+                            </>
+                        )}
+                    </div>
+                )}
                 <div className={clsx(styles.author)}>
                     <Badge
                         text={event.author?.shortName}
@@ -109,7 +115,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         </DefinitionList>
                     }
                 >
-                    <div className={clsx(styles.title)}>{event.description}</div>
+                    <span className={clsx(styles.title)}>{event.description}</span>
                 </Tooltip>
             </div>
             <div className={clsx(styles.footer)}>
