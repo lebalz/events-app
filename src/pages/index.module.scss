@@ -72,6 +72,11 @@ main {
             justify-content: space-evenly;
             flex-wrap: wrap;
             gap: 0.5em;
+            .eventOverview {
+                flex-basis: 16em;
+                flex-grow: 1;
+                max-width: 24em;
+            }
         }
     }
 }

@@ -94,7 +94,7 @@ const Home = observer(() => {
                         {viewStore.todayEvents.length > 0 ? (
                             <>
                                 {viewStore.todayEvents.map((event) => (
-                                    <EventOverviewSmall key={event.id} event={event} />
+                                    <EventOverviewSmall key={event.id} event={event} className={clsx(styles.eventOverview)} />
                                 ))}
                             </>
                         ) : (
