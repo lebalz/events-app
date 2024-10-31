@@ -12,7 +12,7 @@ import Badge from '../../shared/Badge';
 import { Icon, SIZE_S } from '../../shared/icons';
 import { ValidState } from '@site/src/models/Event';
 import EventOverviewSmall from '../EventOverviewSmall';
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 
 const StateIcon: { [key in ValidState]: string } = {
     [ValidState.Valid]: mdiCheckCircle,
@@ -33,7 +33,9 @@ const IsValid = observer((props: ReadonlyProps) => {
     const errors = event._errors?.details || [];
     const warnings = event.meta?.warningsReviewed ? [] : event.meta?.warnings || [];
     const infos = event.meta?.infosReviewed ? [] : event.meta?.infos || [];
-
+    React.useEffect(() => {
+        event.triggerInitialValidation();
+    }, [event.id]);
     return (
         <div
             style={{ gridColumn: 'isValid' }}
@@ -59,7 +61,7 @@ const IsValid = observer((props: ReadonlyProps) => {
                         </span>
                     }
                     position="right center"
-                    on="hover"
+                    on="click"
                     closeOnDocumentClick
                 >
                     {errors.length > 0 && (
@@ -79,14 +81,18 @@ const IsValid = observer((props: ReadonlyProps) => {
                     {event.overlappingEvents.length > 0 && (
                         <div className={clsx(styles.conflicts)}>
                             <h3>
-                                <Translate
-                                    id="event.isValid.conflicts"
-                                    description="Conflicts between events that are overlapping and concerning the same event"
-                                >
-                                    Konflikte
-                                </Translate>
+                                {translate(
+                                    {
+                                        id: 'event.isValid.conflicts',
+                                        description:
+                                            'Conflicts between events that are overlapping and concerning the same event',
+                                        message: '{count} Konflikte'
+                                    },
+                                    { count: event.overlappingEvents.length }
+                                )}
                             </h3>
                             <div className={clsx(styles.overlappingEvents)}>
+                                <EventOverviewSmall event={event} className={clsx(styles.main)} />
                                 {event.overlappingEvents.map((overlap, idx) => (
                                     <EventOverviewSmall
                                         event={overlap}

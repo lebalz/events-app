@@ -207,14 +207,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.meta = props.meta;
 
         makeObservable(this);
-        if (this.state !== EventState.Published && !this.deletedAt) {
-            this.validationTimeout = setTimeout(
-                () => {
-                    this.validate();
-                },
-                500 + Math.round(Math.random() * 300)
-            );
-        }
         this.validationDisposer = reaction(
             () => this.props,
             () => {
@@ -222,6 +214,20 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                     this.validate();
                 }
             }
+        );
+    }
+
+    @action
+    triggerInitialValidation() {
+        if (this.initialValidation || this.isPublished || this.isDeleted) {
+            return;
+        }
+        this.initialValidation = true;
+        this.validationTimeout = setTimeout(
+            () => {
+                this.validate();
+            },
+            100 + Math.round(Math.random() * 300)
         );
     }
 

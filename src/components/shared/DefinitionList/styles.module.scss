@@ -35,6 +35,17 @@ dl.definitionList {
     dd + dd {
         margin-top: -0.4em;
     }
+    &.slim {
+        grid-template-columns: 1fr;
+        dt {
+            justify-content: left;
+        }
+        dd {
+            grid-column: 1;
+            margin-left: 1.5rem;
+            display: block;
+        }
+    }
 }
 
 @media screen and (max-width: 620px) {

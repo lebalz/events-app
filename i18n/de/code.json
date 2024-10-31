@@ -1968,5 +1968,13 @@
   },
   "admin.tab.event-reviews": {
     "message": "Termin-Reviews"
+  },
+  "event.isValid.conflicts": {
+    "message": "{count} Konflikte",
+    "description": "Conflicts between events that are overlapping and concerning the same event"
+  },
+  "event.classGroupBadgeTitle": {
+    "message": "Alle Klassen der Stufe {classGroup}",
+    "description": "EventOverviewSmall class group badge title"
   }
 }

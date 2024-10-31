@@ -20,6 +20,7 @@ import Tooltip from '../../shared/Tooltip';
 import { TeachingAffectedColors, TitleMap as TeachingAffectedTitle } from '../EventFields/TeachingAffected';
 import { mdiCircle } from '@mdi/js';
 import Icon from '@mdi/react';
+import DefinitionList from '../../shared/DefinitionList';
 
 interface Props {
     event: Event;
@@ -84,19 +85,32 @@ const EventOverviewSmall = observer((props: Props) => {
                 </div>
             </div>
             <div className={clsx(styles.body)}>
-                {event.descriptionLong.length > 0 ? (
-                    <Tooltip
-                        title={
-                            <div>
-                                <div>{event.descriptionLong}</div>
-                            </div>
-                        }
-                    >
-                        <div className={clsx(styles.title)}>{event.description}</div>
-                    </Tooltip>
-                ) : (
+                <Tooltip
+                    title={
+                        <DefinitionList slim>
+                            <dt>
+                                <Translate
+                                    id="event.description"
+                                    description="for a single event: description"
+                                >
+                                    Titel
+                                </Translate>
+                            </dt>
+                            <dd>{event.description}</dd>
+                            <dt>
+                                <Translate
+                                    id="event.descriptionLong"
+                                    description="for a single event: description long"
+                                >
+                                    Beschreibung
+                                </Translate>
+                            </dt>
+                            <dd>{event.descriptionLong || '-'}</dd>
+                        </DefinitionList>
+                    }
+                >
                     <div className={clsx(styles.title)}>{event.description}</div>
-                )}
+                </Tooltip>
             </div>
             <div className={clsx(styles.footer)}>
                 {!event.isPublished && (
