@@ -84,7 +84,7 @@ const Home = observer(() => {
         setToday(new Date());
     }, []);
     React.useEffect(() => {
-        if (viewStore.todayEventsForUser.length) {
+        if (viewStore.todayEventsForUser.length === 0) {
             setShowToday('all');
         }
     }, [viewStore.todayEventsForUser.length]);
