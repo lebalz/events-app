@@ -158,6 +158,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         return this.root.eventStore.events.filter((e) => e.isToday && e.isPublished && !e.hasParent);
     }
 
+    @computed
+    get todayEventsForUser() {
+        return this.todayEvents.filter((e) => e.isAffectedByUser);
+    }
+
     @action
     setCalendarViewDate(date: Date) {
         this.calendarViewDate = date.toISOString().split('T')[0];

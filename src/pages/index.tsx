@@ -27,6 +27,7 @@ import { Timeline } from '../components/shared/icons';
 import Details from '@theme/Details';
 import VideoGrid from '@site/src/components/VideoGrid';
 import EventOverviewSmall from '../components/Event/EventOverviewSmall';
+import ToggleFilter from '../components/shared/ToggleFilter';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -76,6 +77,12 @@ const Home = observer(() => {
             ref.current.playbackRate = 0.5;
         }
     }, [ref]);
+
+    const [showToday, setShowToday] = React.useState<'mine' | 'all'>('mine');
+    const todaysEvents =
+        showToday === 'mine' && viewStore.user?.untisId
+            ? viewStore.todayEventsForUser
+            : viewStore.todayEvents;
     return (
         <Layout title="Events" description="Events Application">
             <HomepageHeader />
@@ -87,13 +94,41 @@ const Home = observer(() => {
                             <Translate id="home.today.title" description="Title for the today section">
                                 Heute
                             </Translate>
+                            <div className={clsx('button-group')} style={{ marginLeft: '1em' }}>
+                                <button
+                                    className={clsx(
+                                        'button',
+                                        'button--sm',
+                                        'button--secondary',
+                                        showToday === 'mine' && 'button--active'
+                                    )}
+                                    onClick={() => setShowToday('mine')}
+                                >
+                                    <Translate id="home.today.mine" description="Only show my events">
+                                        Meine
+                                    </Translate>
+                                </button>
+                                <button
+                                    className={clsx(
+                                        'button',
+                                        'button--sm',
+                                        'button--secondary',
+                                        showToday === 'all' && 'button--active'
+                                    )}
+                                    onClick={() => setShowToday('all')}
+                                >
+                                    <Translate id="home.today.all" description="Show all events">
+                                        Alle
+                                    </Translate>
+                                </button>
+                            </div>
                         </>
                     }
                 >
                     <div className={clsx(styles.todaysEvents)}>
-                        {viewStore.todayEvents.length > 0 ? (
+                        {todaysEvents.length > 0 ? (
                             <>
-                                {viewStore.todayEvents.map((event) => (
+                                {todaysEvents.map((event) => (
                                     <EventOverviewSmall
                                         key={event.id}
                                         event={event}
