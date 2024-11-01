@@ -909,7 +909,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get overlappingEvents() {
         return this.store.events.filter((e) => {
-            if (e.id === this.id || !(e.state === EventState.Published || e.state === EventState.Review)) {
+            if (
+                e.id === this.id ||
+                (e.parentId && e.state === EventState.Published) ||
+                !(e.state === EventState.Published || e.state === EventState.Review)
+            ) {
                 return false;
             }
             if (e.parentId || e.isDeleted) {
