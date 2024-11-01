@@ -114,9 +114,7 @@ const EventOverviewSmall = observer((props: Props) => {
                                     })}
                                     className={clsx(styles.label)}
                                 />
-                                <p className={clsx(styles.descriptionLong)}>
-                                    {event.descriptionLong || '-'}
-                                </p>
+                                <p className={clsx(styles.descriptionLong)}>{event.descriptionLong || '-'}</p>
                             </div>
                         </div>
                     }

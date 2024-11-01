@@ -1,9 +1,15 @@
 .card {
-    max-height: 90vh;
+    max-height: min(90vh, calc(100vh - 4em));
     height: fit-content;
     .body {
         overflow: auto;
         flex-shrink: 1;
         flex-grow: 1;
+    }
+}
+
+@media screen and (max-height: 900px) {
+    :global(.popup-content) {
+        transform: translateY(-1em);
     }
 }
