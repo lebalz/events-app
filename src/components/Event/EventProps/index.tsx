@@ -62,7 +62,7 @@ interface Props {
     showVersionHeader?: boolean;
     hideLoadVersionsButton?: boolean;
     hideShowVersionsButton?: boolean;
-    noTitle?: boolean;
+    hideTitle?: boolean;
 }
 
 const EventProps = observer((props: Props) => {
@@ -126,7 +126,7 @@ const EventProps = observer((props: Props) => {
                     <dt className="line"></dt>
                 </>
             )}
-            {!props.noTitle && (
+            {(!props.hideTitle || event.isEditing) && (
                 <>
                     <dt>
                         <Translate id="event.description" description="for a single event: description">

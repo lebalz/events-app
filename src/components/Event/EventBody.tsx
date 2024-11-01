@@ -11,7 +11,7 @@ interface Props {
     inModal?: boolean;
     hideParent?: boolean;
     hideShowVersionsButton?: boolean;
-    noTitle?: boolean;
+    hideTitle?: boolean;
 }
 
 const EventBody = observer((props: Props) => {
@@ -39,7 +39,7 @@ const EventBody = observer((props: Props) => {
                 {...props}
                 showVersionHeader={event.hasParent}
                 hideShowVersionsButton={props.hideShowVersionsButton}
-                noTitle={props.noTitle}
+                hideTitle={props.hideTitle}
             />
             {!hideParent && event.hasParent && (
                 <ParentDetails event={event} inModal={props.inModal} onOpenChange={setOpen} />
