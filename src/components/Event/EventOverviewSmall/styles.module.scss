@@ -54,8 +54,11 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // .title {
-        // }
+        .title {
+            .small {
+                margin-left: 0.5em;
+            }
+        }
     }
     .footer {
         grid-area: footer;
@@ -116,3 +119,21 @@
 //         }
 //     }
 // }
+
+.fieldset {
+    position: relative;
+    padding-right: 5em;
+    .label {
+        position: absolute;
+        top: -1em;
+        right: -1em;
+        font-weight: 400;
+        opacity: 0.9;
+    }
+    h3 {
+        margin-bottom: 0.15em;
+    }
+    p {
+        margin-bottom: 0;
+    }
+}

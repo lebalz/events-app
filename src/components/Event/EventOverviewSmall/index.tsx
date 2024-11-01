@@ -93,29 +93,39 @@ const EventOverviewSmall = observer((props: Props) => {
             <div className={clsx(styles.body)}>
                 <Tooltip
                     title={
-                        <DefinitionList slim>
-                            <dt>
-                                <Translate
-                                    id="event.description"
-                                    description="for a single event: description"
-                                >
-                                    Titel
-                                </Translate>
-                            </dt>
-                            <dd>{event.description}</dd>
-                            <dt>
-                                <Translate
-                                    id="event.descriptionLong"
-                                    description="for a single event: description long"
-                                >
-                                    Beschreibung
-                                </Translate>
-                            </dt>
-                            <dd>{event.descriptionLong || '-'}</dd>
-                        </DefinitionList>
+                        <div>
+                            <div className={clsx(styles.fieldset)}>
+                                <Badge
+                                    text={translate({
+                                        id: 'event.description',
+                                        description: 'for a single event: description',
+                                        message: 'Titel'
+                                    })}
+                                    className={clsx(styles.label)}
+                                />
+                                <h3>{event.description}</h3>
+                            </div>
+                            <div className={clsx(styles.fieldset)}>
+                                <Badge
+                                    text={translate({
+                                        id: 'event.descriptionLong',
+                                        description: 'for a single event: description long',
+                                        message: 'Beschreibung'
+                                    })}
+                                    className={clsx(styles.label)}
+                                />
+                                <p className={clsx(styles.descriptionLong)}>
+                                    {event.descriptionLong || '-'}
+                                    {event.descriptionLong || '-'}
+                                </p>
+                            </div>
+                        </div>
                     }
                 >
-                    <span className={clsx(styles.title)}>{event.description}</span>
+                    <span className={clsx(styles.title)}>
+                        {event.description}
+                        <small className={clsx(styles.small)}>{event.descriptionLong}</small>
+                    </span>
                 </Tooltip>
             </div>
             <div className={clsx(styles.footer)}>
