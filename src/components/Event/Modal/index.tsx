@@ -62,7 +62,7 @@ const EventModal = observer((props: Props) => {
                             <h3>{event.description}</h3>
                         </div>
                         <div className={clsx(styles.body, 'card__body')}>
-                            <EventBody event={event} />
+                            <EventBody event={event} noTitle />
                         </div>
                         <div className={clsx(styles.footer, 'card__footer')}>
                             <div className={clsx('button-group button-group--block')}>

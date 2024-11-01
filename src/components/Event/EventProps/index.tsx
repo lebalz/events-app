@@ -62,6 +62,7 @@ interface Props {
     showVersionHeader?: boolean;
     hideLoadVersionsButton?: boolean;
     hideShowVersionsButton?: boolean;
+    noTitle?: boolean;
 }
 
 const EventProps = observer((props: Props) => {
@@ -125,14 +126,18 @@ const EventProps = observer((props: Props) => {
                     <dt className="line"></dt>
                 </>
             )}
-            <dt>
-                <Translate id="event.description" description="for a single event: description">
-                    Titel
-                </Translate>
-            </dt>
-            <dd>
-                <Description {...commonEditProps} />
-            </dd>
+            {!props.noTitle && (
+                <>
+                    <dt>
+                        <Translate id="event.description" description="for a single event: description">
+                            Titel
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <Description {...commonEditProps} />
+                    </dd>
+                </>
+            )}
             <dt>
                 <Translate id="event.descriptionLong" description="for a single event: description long">
                     Beschreibung
