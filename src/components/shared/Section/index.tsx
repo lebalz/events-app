@@ -9,16 +9,17 @@ interface Props {
     subtitle?: string | ReactNode;
     children?: ReactNode;
     className?: string;
-    containerClassName?: string;
+    classNameContainer?: string;
+    classNameTitle?: string;
 }
 
 const Section = observer((props: Props) => {
     return (
         <div className={clsx('hero', 'shadow--lw', styles.section, props.className)}>
             <div className={clsx('container')}>
-                {props.title && <h1 className={clsx('hero__title')}>{props.title}</h1>}
+                {props.title && <h1 className={clsx('hero__title', props.classNameTitle)}>{props.title}</h1>}
                 {props.subtitle && <p className={clsx('hero__subtitle')}>{props.subtitle}</p>}
-                <div className={clsx(props.containerClassName)}>{props.children}</div>
+                <div className={clsx(props.classNameContainer)}>{props.children}</div>
             </div>
         </div>
     );

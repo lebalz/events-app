@@ -28,6 +28,7 @@ import Details from '@theme/Details';
 import VideoGrid from '@site/src/components/VideoGrid';
 import EventOverviewSmall from '../components/Event/EventOverviewSmall';
 import ToggleFilter from '../components/shared/ToggleFilter';
+import { DAYS, DAYS_LONG, formatDate } from '../models/helpers/time';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -72,13 +73,22 @@ const Home = observer(() => {
     const { i18n } = useDocusaurusContext();
     const ref = React.useRef<HTMLVideoElement>(null);
     const viewStore = useStore('viewStore');
+    const [today, setToday] = React.useState(new Date());
+    const [showToday, setShowToday] = React.useState<'mine' | 'all'>('mine');
     React.useEffect(() => {
         if (ref.current) {
             ref.current.playbackRate = 0.5;
         }
     }, [ref]);
+    React.useEffect(() => {
+        setToday(new Date());
+    }, []);
+    React.useEffect(() => {
+        if (viewStore.todayEventsForUser.length) {
+            setShowToday('all');
+        }
+    }, [viewStore.todayEventsForUser.length]);
 
-    const [showToday, setShowToday] = React.useState<'mine' | 'all'>('mine');
     const todaysEvents =
         showToday === 'mine' && viewStore.user?.untisId
             ? viewStore.todayEventsForUser
@@ -89,39 +99,61 @@ const Home = observer(() => {
             <main>
                 <Section
                     className={clsx(styles.today)}
+                    classNameTitle={clsx(styles.todayTitle)}
                     title={
                         <>
-                            <Translate id="home.today.title" description="Title for the today section">
-                                Heute
+                            <Translate
+                                values={{ date: formatDate(today, true), day: DAYS_LONG[today.getDay()] }}
+                                id="home.today.title"
+                                description="Title for the today section"
+                            >
+                                {'{day} {date}'}
                             </Translate>
-                            <div className={clsx('button-group')} style={{ marginLeft: '1em' }}>
-                                <button
-                                    className={clsx(
-                                        'button',
-                                        'button--sm',
-                                        'button--secondary',
-                                        showToday === 'mine' && 'button--active'
-                                    )}
-                                    onClick={() => setShowToday('mine')}
+                            {viewStore.user?.untisTeacher && (
+                                <div
+                                    className={clsx('button-group', styles.switcher)}
+                                    style={{ marginLeft: '1em' }}
                                 >
-                                    <Translate id="home.today.mine" description="Only show my events">
-                                        Meine
-                                    </Translate>
-                                </button>
-                                <button
-                                    className={clsx(
-                                        'button',
-                                        'button--sm',
-                                        'button--secondary',
-                                        showToday === 'all' && 'button--active'
-                                    )}
-                                    onClick={() => setShowToday('all')}
-                                >
-                                    <Translate id="home.today.all" description="Show all events">
-                                        Alle
-                                    </Translate>
-                                </button>
-                            </div>
+                                    <button
+                                        className={clsx(
+                                            'button',
+                                            'button--sm',
+                                            'button--secondary',
+                                            styles.switcherButton,
+                                            showToday === 'mine' && 'button--active'
+                                        )}
+                                        onClick={() => setShowToday('mine')}
+                                    >
+                                        <Translate id="home.today.mine" description="Only show my events">
+                                            Meine
+                                        </Translate>
+                                        <Badge
+                                            text={`${viewStore.todayEventsForUser.length}`}
+                                            size={0.6}
+                                            className={clsx(styles.numEvents)}
+                                        />
+                                    </button>
+                                    <button
+                                        className={clsx(
+                                            'button',
+                                            'button--sm',
+                                            'button--secondary',
+                                            styles.switcherButton,
+                                            showToday === 'all' && 'button--active'
+                                        )}
+                                        onClick={() => setShowToday('all')}
+                                    >
+                                        <Translate id="home.today.all" description="Show all events">
+                                            Alle
+                                        </Translate>
+                                        <Badge
+                                            text={`${viewStore.todayEvents.length}`}
+                                            size={0.6}
+                                            className={clsx(styles.numEvents)}
+                                        />
+                                    </button>
+                                </div>
+                            )}
                         </>
                     }
                 >
