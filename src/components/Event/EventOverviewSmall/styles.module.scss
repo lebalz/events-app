@@ -56,35 +56,42 @@
                 margin-left: -3px;
             }
             &.time:not(.singleDayEvent) {
+                /* vertical line */
                 &::before {
                     content: '';
                     position: absolute;
                     top: 50%;
-                    right: -1em;
+                    right: -0.5em;
                     transform: translateY(-50%);
-                    width: 6px;
+                    width: 2px;
                     height: 6px;
-                    background-color: var(--ifm-color-success-lightest);
-                    border-radius: 50%;
+                    background-color: var(--ifm-color-success-light);
+                    z-index: 1;
                 }
+                /* line */
                 &::after {
                     content: '';
                     position: absolute;
                     top: 50%;
-                    left: calc(100% + 1em);
+                    left: calc(100% + 1em - 6px);
                     transform: translateY(-50%);
-                    width: calc(100% - 1em - 6px); /* adjust width to fill the desired space */
+                    width: calc(100% - 1em - 2px);
                     height: 2px; /* thickness of the line */
                     background-color: var(--ifm-color-success-lightest);
                 }
                 &.timeEnd {
+                    /* line */
                     &::after {
                         right: calc(100% + 1em);
                         left: unset;
+                        width: calc(100% - 1em - 6px);
                     }
+                    /* dot */
                     &::before {
                         left: -1em;
                         background-color: var(--ifm-color-success-lightest);
+                        width: 6px;
+                        border-radius: 50%;
                     }
                 }
             }
