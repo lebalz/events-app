@@ -179,7 +179,6 @@ const EventOverviewSmall = observer((props: Props) => {
                         />
                     </Tooltip>
                 </div>
-                <div className={clsx(styles.spacer)} />
                 <div className={clsx(styles.target, styles.audience)}>
                     <Popup
                         trigger={

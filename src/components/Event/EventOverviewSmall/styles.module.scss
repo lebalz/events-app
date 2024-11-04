@@ -109,14 +109,15 @@
     .footer {
         grid-area: footer;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: flex-end;
         flex-wrap: wrap;
-        gap: 1em;
+        gap: 0 1em;
         font-size: 10px;
         .teachingAffected {
             .teachingAffectedIcon {
                 cursor: pointer;
+                transform: translateY(3px);
             }
         }
         .teachingAffected,
@@ -128,8 +129,8 @@
             display: flex;
             gap: 0.2em;
             flex-shrink: 1;
-            flex-grow: 1;
-            flex-basis: 10em;
+            flex-grow: 0;
+            flex-basis: 9em;
             flex-wrap: wrap;
             &.target {
                 font-weight: 400;
