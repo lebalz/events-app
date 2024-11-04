@@ -36,7 +36,6 @@ import Departments from '../EventFields/Departments';
 import Klasses from '../EventFields/Klasses';
 import {
     EventAudienceOverviewTranslation,
-    EventAudienceTranslationLong,
     EventState,
     EventStateActions,
     EventStateButton,
@@ -44,15 +43,11 @@ import {
 } from '@site/src/api/event';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import Version from '../EventFields/Version';
-import CreatedAt from '../EventFields/CreatedAt';
-import UpdatedAt from '../EventFields/UpdatedAt';
 import HistoryPopup from '../VersionHistory/HistoryPopup';
 import DefaultActions from '../EventActions';
 import Popup from 'reactjs-popup';
 import CodeBlock from '@theme/CodeBlock';
-import LazyDetails from '../../shared/Details';
 import { PopupActions } from 'reactjs-popup/dist/types';
-import Admonition from '@theme/Admonition';
 import MetaWarningAlert from '../MetaAlert/warning';
 import MetaInfoAlert from '../MetaAlert/info';
 import IsValid from '../EventFields/IsValid';
@@ -90,7 +85,7 @@ const EventProps = observer((props: Props) => {
     }
 
     return (
-        <DefinitionList className={clsx(sharedStyles.eventProps)}>
+        <DefinitionList className={clsx(sharedStyles.eventProps, styles.eventProps)}>
             {props.showVersionHeader && event.hasParent && (
                 <>
                     {[EventState.Draft, EventState.Review].includes(event.state) ? (
