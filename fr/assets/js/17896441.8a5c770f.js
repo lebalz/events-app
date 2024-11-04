@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkevents_app=self.webpackChunkevents_app||[]).push([[401],{45140:(e,s,p)=>{p.d(s,{A:()=>t});var a=p(94795),n=p(64025);const t={...a.A,Dl:n.A}}}]);
