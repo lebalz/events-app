@@ -4,16 +4,10 @@
  */
 
 .heroBanner {
-    padding: 4rem 0;
+    padding: 1rem 0;
     text-align: center;
     position: relative;
     overflow: hidden;
-}
-
-@media screen and (max-width: 996px) {
-    .heroBanner {
-        padding: 2rem;
-    }
 }
 
 .buttons {
@@ -105,6 +99,28 @@ main {
             .todayTitle:global(.hero__title) {
                 font-size: 1.2rem;
             }
+        }
+    }
+}
+
+@media screen and (max-height: 900px) and (max-width: 430px) {
+    .heroBanner {
+        padding: 0;
+        padding-top: 0.5rem;
+        .title {
+            font-size: 1.5rem;
+        }
+        .tagline {
+            display: none;
+        }
+    }
+}
+@media screen and (max-height: 1200px) and (max-width: 560px) {
+    .heroBanner {
+        padding: 0;
+        padding-top: 1rem;
+        .title {
+            font-size: 2rem;
         }
     }
 }
