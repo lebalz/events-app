@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 import { observer } from 'mobx-react-lite';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Section from '../components/shared/Section';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import Icon from '@mdi/react';
 import {
     mdiAccountCircleOutline,
@@ -16,8 +16,6 @@ import {
     mdiCalendarAccount,
     mdiCalendarMonth,
     mdiCalendarSync,
-    mdiChartTimeline,
-    mdiMicrosoftOutlook,
     mdiPalette,
     mdiSecurity,
     mdiViewList
@@ -28,14 +26,17 @@ import Badge from '../components/shared/Badge';
 import { Timeline } from '../components/shared/icons';
 import Details from '@theme/Details';
 import VideoGrid from '@site/src/components/VideoGrid';
+import EventOverviewSmall from '../components/Event/EventOverviewSmall';
+import ToggleFilter from '../components/shared/ToggleFilter';
+import { DAYS, DAYS_LONG, formatDate } from '../models/helpers/time';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
     return (
         <header className={clsx('hero hero--primary', styles.heroBanner)}>
             <div className="container">
-                <h1 className="hero__title">{siteConfig.title}</h1>
-                <p className="hero__subtitle">{siteConfig.tagline}</p>
+                <h1 className={clsx('hero__title', styles.title)}>{siteConfig.title}</h1>
+                <p className={clsx('hero__subtitle', styles.tagline)}>{siteConfig.tagline}</p>
                 {/* <img src='/img/events.png' /> */}
             </div>
         </header>
@@ -71,15 +72,104 @@ const NavCard = observer((props: NavProps) => {
 const Home = observer(() => {
     const { i18n } = useDocusaurusContext();
     const ref = React.useRef<HTMLVideoElement>(null);
+    const viewStore = useStore('viewStore');
+    const [today, setToday] = React.useState(new Date());
+    const [showToday, setShowToday] = React.useState<'mine' | 'all'>('mine');
     React.useEffect(() => {
         if (ref.current) {
             ref.current.playbackRate = 0.5;
         }
     }, [ref]);
+    React.useEffect(() => {
+        setToday(new Date());
+    }, []);
+
+    const todaysEvents =
+        showToday === 'mine' && viewStore.user?.untisId
+            ? viewStore.todayEventsForUser
+            : viewStore.todayEvents;
     return (
         <Layout title="Events" description="Events Application">
             <HomepageHeader />
             <main>
+                <Section
+                    className={clsx(styles.today)}
+                    classNameTitle={clsx(styles.todayTitle)}
+                    title={
+                        <>
+                            <Translate
+                                values={{ date: formatDate(today, true), day: DAYS_LONG[today.getDay()] }}
+                                id="home.today.title"
+                                description="Title for the today section"
+                            >
+                                {'{day} {date}'}
+                            </Translate>
+                            {viewStore.user?.untisTeacher && (
+                                <div
+                                    className={clsx('button-group', styles.switcher)}
+                                    style={{ marginLeft: '1em' }}
+                                >
+                                    <button
+                                        className={clsx(
+                                            'button',
+                                            'button--sm',
+                                            'button--secondary',
+                                            styles.switcherButton,
+                                            showToday === 'mine' && 'button--active'
+                                        )}
+                                        onClick={() => setShowToday('mine')}
+                                    >
+                                        <Translate id="home.today.mine" description="Only show my events">
+                                            Meine
+                                        </Translate>
+                                        <Badge
+                                            text={`${viewStore.todayEventsForUser.length}`}
+                                            size={0.6}
+                                            className={clsx(styles.numEvents)}
+                                        />
+                                    </button>
+                                    <button
+                                        className={clsx(
+                                            'button',
+                                            'button--sm',
+                                            'button--secondary',
+                                            styles.switcherButton,
+                                            showToday === 'all' && 'button--active'
+                                        )}
+                                        onClick={() => setShowToday('all')}
+                                    >
+                                        <Translate id="home.today.all" description="Show all events">
+                                            Alle
+                                        </Translate>
+                                        <Badge
+                                            text={`${viewStore.todayEvents.length}`}
+                                            size={0.6}
+                                            className={clsx(styles.numEvents)}
+                                        />
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    }
+                >
+                    <div className={clsx(styles.todaysEvents)}>
+                        {todaysEvents.length > 0 ? (
+                            <>
+                                {todaysEvents.map((event) => (
+                                    <EventOverviewSmall
+                                        key={event.id}
+                                        event={event}
+                                        className={clsx(styles.eventOverview)}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <Translate id="home.today.noEvents" description="No events for today">
+                                Keine Termine für heute
+                            </Translate>
+                        )}
+                    </div>
+                </Section>
                 <Section className={clsx(styles.navCardSection)}>
                     <div className={clsx(styles.navCards)}>
                         <NavCard
@@ -166,44 +256,6 @@ const Home = observer(() => {
                 </Section>
                 <Section>
                     {i18n?.currentLocale === 'de' ? (
-                        <div className={clsx('alert', 'alert--warning', styles.alert)}>
-                            <h5>
-                                Fehlerkorrektur 28.08.2024:{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
-                                    Fehlende Termine
-                                </a>{' '}
-                                bei der Filterfunktion "Meine" behoben
-                            </h5>
-                            <p>
-                                Bei der Filterfunktion "Meine" wurden nicht in jedem Fall alle Termine
-                                angezeigt, die für die angemeldete Person relevant sind. Betroffen waren diese{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
-                                    👉 6 Termine
-                                </a>
-                                , der Fehler wurde behoben.
-                            </p>
-                        </div>
-                    ) : (
-                        <div className={clsx('alert', 'alert--warning', styles.alert)}>
-                            <h5>
-                                Correction d'erreur 28.08.2024 : Problèmes résolus concernant les{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
-                                    évènements manquants
-                                </a>{' '}
-                                dans la fonction de filtrage "Les miens"
-                            </h5>
-                            <p>
-                                Dans certains cas, la fonction de filtrage "Les miens" ne montrait pas tous
-                                les évènements pertinents pour la personne connectée. Ce problème a été
-                                résolu. Les{' '}
-                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
-                                    👉 6 évènements
-                                </a>{' '}
-                                étaient concernés, le problème a été résolu.
-                            </p>
-                        </div>
-                    )}
-                    {i18n?.currentLocale === 'de' ? (
                         <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
                             <div className="card__header">
                                 <h2>Einführung Terminkalender</h2>
@@ -260,7 +312,62 @@ const Home = observer(() => {
                             <div className="card__body">
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: Release Candidate 1.2 (04.11.2024)</h4>
+                                    <ul>
+                                        <li>
+                                            🚀💅 Neu: Die Startseite enthält eine simple Terminübersicht für
+                                            den aktuellen Tag. Es kann zwischen den eigenen ("Meine") und
+                                            allen Terminen gewechselt werden.
+                                        </li>
+                                        <li>
+                                            🚀Neu: Bei der Termineingabe wird nun eine Warnung angezeigt, wenn
+                                            es für einen Termin überlagerungen gibt.
+                                        </li>
+                                        <li>
+                                            Aktualisierung der verwendeten Frameworks (Docusaurus v3.6.0).
+                                        </li>
+                                    </ul>
                                     <h4>Version: Release Candidate 1.1 (30.08.2024)</h4>
+                                    {i18n?.currentLocale === 'de' ? (
+                                        <div className={clsx('alert', 'alert--warning', styles.alert)}>
+                                            <h5>
+                                                Fehlerkorrektur 28.08.2024:{' '}
+                                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
+                                                    Fehlende Termine
+                                                </a>{' '}
+                                                bei der Filterfunktion "Meine" behoben
+                                            </h5>
+                                            <p>
+                                                Bei der Filterfunktion "Meine" wurden nicht in jedem Fall alle
+                                                Termine angezeigt, die für die angemeldete Person relevant
+                                                sind. Betroffen waren diese{' '}
+                                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
+                                                    👉 6 Termine
+                                                </a>
+                                                , der Fehler wurde behoben.
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className={clsx('alert', 'alert--warning', styles.alert)}>
+                                            <h5>
+                                                Correction d'erreur 28.08.2024 : Problèmes résolus concernant
+                                                les{' '}
+                                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
+                                                    évènements manquants
+                                                </a>{' '}
+                                                dans la fonction de filtrage "Les miens"
+                                            </h5>
+                                            <p>
+                                                Dans certains cas, la fonction de filtrage "Les miens" ne
+                                                montrait pas tous les évènements pertinents pour la personne
+                                                connectée. Ce problème a été résolu. Les{' '}
+                                                <a href="https://events.gbsl.website/event?id=b8fa310e-0e6c-4161-a552-a49997152fe9&id=83258126-0871-43d2-aa8e-ffd9e8932b97&id=3d67f0e4-3717-4fa4-b363-d9cbc6292caa&id=6c8520a3-7a1b-46bf-a316-d1feb80eb199&id=f6600ef1-3ec5-4ce5-9375-a664dcba97e8&id=d36fc63d-1a9e-45c3-ad1c-15b69a11e8d0">
+                                                    👉 6 évènements
+                                                </a>{' '}
+                                                étaient concernés, le problème a été résolu.
+                                            </p>
+                                        </div>
+                                    )}
                                     <ul>
                                         <li>
                                             🚀💅 Neu: Die Spalte "Beschreibung" kann auf über den Knopf{' '}

@@ -35,7 +35,7 @@ const GroupView = observer((props: Props) => {
         <Layout>
             <Section
                 title={translate({ message: 'Gruppe', id: 'group.title' })}
-                containerClassName={clsx(styles.groups)}
+                classNameContainer={clsx(styles.groups)}
             >
                 {group ? (
                     <EventGroup group={group} standalone />

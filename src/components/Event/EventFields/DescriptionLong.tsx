@@ -38,14 +38,14 @@ const DescriptionLong = observer((props: Props) => {
         >
             {displayMultiline ? (
                 <>
-                    {event.descriptionLong.split('\n').map((text, index) => (
+                    {(event.descriptionLong || '-').split('\n').map((text, index) => (
                         <div key={index} className={clsx(styles.line)}>
                             {text}
                         </div>
                     ))}
                 </>
             ) : (
-                <>{event.descriptionLong.replace(/\n/g, ' ')}</>
+                <>{(event.descriptionLong || '-').replace(/\n/g, ' ')}</>
             )}
         </div>
     );

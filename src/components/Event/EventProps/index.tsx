@@ -1,12 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
 
+import sharedStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
-import DefinitionList from '../shared/DefinitionList';
-import { default as ShowAffectedAudience } from '../shared/AudiencePicker/Audience';
-import Badge from '../shared/Badge';
+import DefinitionList from '../../shared/DefinitionList';
+import { default as ShowAffectedAudience } from '../../shared/AudiencePicker/Audience';
+import Badge from '../../shared/Badge';
 import {
     mdiArrowLeftBoldCircleOutline,
     mdiArrowRightBoldCircleOutline,
@@ -18,42 +19,38 @@ import {
     mdiText,
     mdiTextLong
 } from '@mdi/js';
-import { Icon, SIZE, SIZE_S } from '../shared/icons';
-import Button from '../shared/Button';
+import { Icon, SIZE, SIZE_S } from '../../shared/icons';
+import Button from '../../shared/Button';
 import { useStore } from '@site/src/stores/hooks';
-import Lesson from '../Lesson';
+import Lesson from '../../Lesson';
 import Translate, { translate } from '@docusaurus/Translate';
-import Description from './EventFields/Description';
-import DescriptionLong from './EventFields/DescriptionLong';
-import KW from './EventFields/Kw';
-import Day from './EventFields/Day';
-import { EndDateTime, StartDateTime } from './EventFields/DateTime';
-import Location from './EventFields/Location';
-import { default as AudiencePicker } from './EventFields/Audience';
-import State from './EventFields/State';
-import Departments from './EventFields/Departments';
-import Klasses from './EventFields/Klasses';
+import Description from '../EventFields/Description';
+import DescriptionLong from '../EventFields/DescriptionLong';
+import KW from '../EventFields/Kw';
+import Day from '../EventFields/Day';
+import { EndDateTime, StartDateTime } from '../EventFields/DateTime';
+import Location from '../EventFields/Location';
+import { default as AudiencePicker } from '../EventFields/Audience';
+import State from '../EventFields/State';
+import Departments from '../EventFields/Departments';
+import Klasses from '../EventFields/Klasses';
 import {
     EventAudienceOverviewTranslation,
-    EventAudienceTranslationLong,
     EventState,
     EventStateActions,
     EventStateButton,
     EventStateColor
 } from '@site/src/api/event';
-import TeachingAffected from './EventFields/TeachingAffected';
-import Version from './EventFields/Version';
-import CreatedAt from './EventFields/CreatedAt';
-import UpdatedAt from './EventFields/UpdatedAt';
-import HistoryPopup from './VersionHistory/HistoryPopup';
-import DefaultActions from './EventActions';
+import TeachingAffected from '../EventFields/TeachingAffected';
+import Version from '../EventFields/Version';
+import HistoryPopup from '../VersionHistory/HistoryPopup';
+import DefaultActions from '../EventActions';
 import Popup from 'reactjs-popup';
 import CodeBlock from '@theme/CodeBlock';
-import LazyDetails from '../shared/Details';
 import { PopupActions } from 'reactjs-popup/dist/types';
-import Admonition from '@theme/Admonition';
-import MetaWarningAlert from './MetaAlert/warning';
-import MetaInfoAlert from './MetaAlert/info';
+import MetaWarningAlert from '../MetaAlert/warning';
+import MetaInfoAlert from '../MetaAlert/info';
+import IsValid from '../EventFields/IsValid';
 
 interface Props {
     event: EventModel;
@@ -61,6 +58,7 @@ interface Props {
     showVersionHeader?: boolean;
     hideLoadVersionsButton?: boolean;
     hideShowVersionsButton?: boolean;
+    hideTitle?: boolean;
 }
 
 const EventProps = observer((props: Props) => {
@@ -76,8 +74,8 @@ const EventProps = observer((props: Props) => {
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
     const metaRef = React.useRef<PopupActions>();
 
-    const commonClasses = clsx(event?.isDeleted && styles.deleted) || '';
-    const commonProps = { event, styles, className: commonClasses };
+    const commonClasses = clsx(event?.isDeleted && sharedStyles.deleted) || '';
+    const commonProps = { event, styles: sharedStyles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
     const showVersions =
         !props.hideLoadVersionsButton && (event.publishedVersionIds.length > 0 || event.hasParent);
@@ -87,7 +85,7 @@ const EventProps = observer((props: Props) => {
     }
 
     return (
-        <DefinitionList className={clsx(styles.eventProps)}>
+        <DefinitionList className={clsx(sharedStyles.eventProps, styles.eventProps)}>
             {props.showVersionHeader && event.hasParent && (
                 <>
                     {[EventState.Draft, EventState.Review].includes(event.state) ? (
@@ -124,14 +122,18 @@ const EventProps = observer((props: Props) => {
                     <dt className="line"></dt>
                 </>
             )}
-            <dt>
-                <Translate id="event.description" description="for a single event: description">
-                    Titel
-                </Translate>
-            </dt>
-            <dd>
-                <Description {...commonEditProps} />
-            </dd>
+            {(!props.hideTitle || event.isEditing) && (
+                <>
+                    <dt>
+                        <Translate id="event.description" description="for a single event: description">
+                            Titel
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <Description {...commonEditProps} />
+                    </dd>
+                </>
+            )}
             <dt>
                 <Translate id="event.descriptionLong" description="for a single event: description long">
                     Beschreibung
@@ -139,29 +141,6 @@ const EventProps = observer((props: Props) => {
             </dt>
             <dd>
                 <DescriptionLong {...commonEditProps} displayMultiLine />
-            </dd>
-            <dt>
-                <Translate id="event.versionNumber" description="for a single event: version number">
-                    Version
-                </Translate>
-            </dt>
-            <dd>
-                <Version {...commonProps} hideVersion={props.hideShowVersionsButton} />
-            </dd>
-            {showVersions && (
-                <dd>
-                    <HistoryPopup event={event} />
-                </dd>
-            )}
-            <dt>
-                <Translate id="event.state" description="for a single event: state">
-                    Status
-                </Translate>
-            </dt>
-            <dd>
-                <div className={clsx(styles.flex)}>
-                    <State {...commonProps} showText />
-                </div>
             </dd>
             <dt>
                 <Translate id="event.kw" description="for a single event: kw">
@@ -185,20 +164,23 @@ const EventProps = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <div className={clsx(styles.flex, commonClasses)}>
+                <div className={clsx(sharedStyles.flex, commonClasses, styles.bolderFont)}>
                     <StartDateTime {...commonEditProps} />
                 </div>
             </dd>
             {!(event.isAllDay && event.isOnOneDay && !event.isEditing) && (
                 <>
                     <dd>
-                        <div className={clsx(styles.flex, commonClasses)}>
+                        <div className={clsx(sharedStyles.flex, commonClasses)}>
                             <Icon path={mdiArrowRightBottom} />
-                            <EndDateTime {...commonEditProps} />
+                            <EndDateTime
+                                {...commonEditProps}
+                                className={clsx(commonEditProps.className, styles.bolderFont)}
+                            />
                         </div>
                     </dd>
                     <dd>
-                        <div className={clsx(styles.duration, styles.flex, commonClasses)}>
+                        <div className={clsx(sharedStyles.duration, sharedStyles.flex, commonClasses)}>
                             <Icon path={mdiEqual} />
                             {event.fDuration}
                         </div>
@@ -229,6 +211,32 @@ const EventProps = observer((props: Props) => {
                 </>
             ) : (
                 <>
+                    <dt>
+                        <Translate
+                            id="event.audience"
+                            description="for a single event: class and department picker"
+                        >
+                            Publikum
+                        </Translate>
+                    </dt>
+                    <dd>
+                        <Popup
+                            trigger={
+                                <span
+                                    style={{ display: 'inline-block' }}
+                                    className={clsx(styles.lighterFont)}
+                                >
+                                    <Badge text={EventAudienceOverviewTranslation[event.audience]} />
+                                </span>
+                            }
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <ShowAffectedAudience event={event} />
+                        </Popup>
+                    </dd>
                     {event.classes.size + event.classGroups.size > 0 && (
                         <>
                             <dt>
@@ -236,8 +244,8 @@ const EventProps = observer((props: Props) => {
                                     Klassen
                                 </Translate>
                             </dt>
-                            <dd>
-                                <Klasses {...commonProps} />
+                            <dd className={clsx(styles.lighterFont)}>
+                                <Klasses {...commonProps} multiLine />
                             </dd>
                         </>
                     )}
@@ -251,34 +259,11 @@ const EventProps = observer((props: Props) => {
                                     Departemente
                                 </Translate>
                             </dt>
-                            <dd>
+                            <dd className={clsx(styles.lighterFont)}>
                                 <Departments {...commonProps} flexWrap />
                             </dd>
                         </>
                     )}
-                    <dt>
-                        <Translate
-                            id="event.audience"
-                            description="for a single event: class and department picker"
-                        >
-                            Publikum
-                        </Translate>
-                    </dt>
-                    <dd>
-                        <Popup
-                            trigger={
-                                <span style={{ display: 'inline-block' }}>
-                                    <Badge text={EventAudienceOverviewTranslation[event.audience]} />
-                                </span>
-                            }
-                            on="hover"
-                            position={['top center', 'top right', 'top left']}
-                            nested
-                            repositionOnResize
-                        >
-                            <ShowAffectedAudience event={event} />
-                        </Popup>
-                    </dd>
                 </>
             )}
             <dt>
@@ -292,7 +277,7 @@ const EventProps = observer((props: Props) => {
                         event={event}
                         show="both"
                         align="left"
-                        className={clsx(styles.teachingAffected)}
+                        className={clsx(sharedStyles.teachingAffected)}
                     />
                 </span>
             </dd>
@@ -306,8 +291,8 @@ const EventProps = observer((props: Props) => {
                             Erstautor:in
                         </Translate>
                     </dt>
-                    <dd>
-                        <div className={clsx(styles.author)}>
+                    <dd className={clsx(styles.lighterFont)}>
+                        <div className={clsx(sharedStyles.author)}>
                             <Badge
                                 text={event.firstAuthor.displayName}
                                 title={
@@ -345,8 +330,8 @@ const EventProps = observer((props: Props) => {
                             Geändert von
                         </Translate>
                     </dt>
-                    <dd>
-                        <div className={clsx(styles.author)}>
+                    <dd className={clsx(styles.lighterFont)}>
+                        <div className={clsx(sharedStyles.author)}>
                             <Badge
                                 text={event.author.displayName}
                                 title={translate(
@@ -391,6 +376,30 @@ const EventProps = observer((props: Props) => {
                     </dd>
                 </>
             )}
+            <dt>
+                <Translate id="event.versionNumber" description="for a single event: version number">
+                    Version
+                </Translate>
+            </dt>
+            <dd className={clsx(styles.lighterFont)}>
+                <Version {...commonProps} hideVersion={props.hideShowVersionsButton} />
+            </dd>
+            {showVersions && (
+                <dd>
+                    <HistoryPopup event={event} />
+                </dd>
+            )}
+            <dt>
+                <Translate id="event.state" description="for a single event: state">
+                    Status
+                </Translate>
+            </dt>
+            <dd className={clsx(styles.lighterFont)}>
+                <div className={clsx(sharedStyles.flex)}>
+                    {!event.isValid && <IsValid event={event} />}
+                    <State {...commonProps} showText />
+                </div>
+            </dd>
             <dt>
                 <Translate id="event.actions" description="Actions for a single event">
                     Aktionen
@@ -437,7 +446,7 @@ const EventProps = observer((props: Props) => {
                 return (
                     <React.Fragment key={`kl-${idx}-${kl.lessons.map((l) => l.id).join('-')}`}>
                         <dt className={commonClasses}>{kl.class}</dt>
-                        <dd className={clsx(styles.lessons)}>
+                        <dd className={clsx(sharedStyles.lessons)}>
                             <div className={clsx(commonClasses)}>
                                 {kl.lessons.map((l, idx) => (
                                     <Lesson lesson={l} key={l.id} className={commonClasses} />
@@ -447,7 +456,7 @@ const EventProps = observer((props: Props) => {
                     </React.Fragment>
                 );
             })}
-            {event.meta && !event.isPublished && userStore.current.isAdmin && (
+            {event.meta && !event.isPublished && userStore.current?.isAdmin && (
                 <>
                     <dt>
                         <Translate id="event.meta" description="for a single event: audience long">
@@ -474,8 +483,8 @@ const EventProps = observer((props: Props) => {
                             ref={metaRef}
                             modal
                         >
-                            <div className={clsx(styles.metaCard, 'card')}>
-                                <div className={clsx('card__header', styles.header)}>
+                            <div className={clsx(sharedStyles.metaCard, 'card')}>
+                                <div className={clsx('card__header', sharedStyles.header)}>
                                     {event.meta?.warnings?.length > 0 && (
                                         <>
                                             <Button
@@ -485,7 +494,7 @@ const EventProps = observer((props: Props) => {
                                                     message: 'Warnung wieder anzeigen'
                                                 })}
                                             />
-                                            <span className={styles.spacer}></span>
+                                            <span className={sharedStyles.spacer}></span>
                                         </>
                                     )}
                                     {event.meta?.infos?.length > 0 && (
@@ -497,7 +506,7 @@ const EventProps = observer((props: Props) => {
                                                     message: 'Infos wieder anzeigen'
                                                 })}
                                             />
-                                            <span className={styles.spacer}></span>
+                                            <span className={sharedStyles.spacer}></span>
                                         </>
                                     )}
                                     <Button
@@ -519,7 +528,7 @@ const EventProps = observer((props: Props) => {
                                     language="json"
                                     title="import.json"
                                     showLineNumbers
-                                    className={clsx(styles.codeblock)}
+                                    className={clsx(sharedStyles.codeblock)}
                                 >
                                     {JSON.stringify(event.meta, null, 2)}
                                 </CodeBlock>

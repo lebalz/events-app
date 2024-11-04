@@ -103,7 +103,7 @@ const DefaultActions = observer((props: Props) => {
                     <Button
                         color="green"
                         title={
-                            event.isValid
+                            event.canSave
                                 ? event.isDraft
                                     ? translate({
                                           message: 'Änderungen Speichern',

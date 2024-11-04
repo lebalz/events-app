@@ -88,6 +88,11 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     }
 
     @computed
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
+
+    @computed
     get displayName() {
         return this.untisTeacher?.shortName || `${this.firstName.charAt(0)}. ${this.lastName}`;
     }

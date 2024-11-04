@@ -119,7 +119,7 @@ export class EventStore extends iStore<
                 .map((id) => this.root.departmentStore.departments.find((d) => d.id === id))
                 .filter((d) => !!d),
             (d) => {
-                return `${d.lang === locale ? '0' : '1'}${d.department2_Id ? '1' : '0'}${/GBSL|GBJB/i.test(d.name) ? '0' : '1'}${d.name}`;
+                return `${d.lang === locale ? '0' : '1'}${/GYM/i.test(d.name) ? '0' : '1'}${d.department2_Id ? '1' : '0'}${d.name}`;
             }
         );
     }

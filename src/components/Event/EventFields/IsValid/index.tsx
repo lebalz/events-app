@@ -1,16 +1,16 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
-import styles from './styles.module.scss';
+import sharedStyles from '../styles.module.scss';
 
-import { ReadonlyProps } from './iEventField';
+import { ReadonlyProps } from '../iEventField';
 import Popup from 'reactjs-popup';
-import Button from '../../shared/Button';
+import Button from '../../../shared/Button';
 import { mdiCloseCircle, mdiAlertCircle, mdiInformation, mdiCheckCircle } from '@mdi/js';
-import Badge from '../../shared/Badge';
-import { Icon, SIZE_S } from '../../shared/icons';
+import { Icon, SIZE_S } from '../../../shared/icons';
 import { ValidState } from '@site/src/models/Event';
+import PopupContent from './PopupContent';
 
 const StateIcon: { [key in ValidState]: string } = {
     [ValidState.Valid]: mdiCheckCircle,
@@ -28,20 +28,22 @@ const StateColor: { [key in ValidState]: string } = {
 
 const IsValid = observer((props: ReadonlyProps) => {
     const { event } = props;
-    const errors = event._errors?.details || [];
-    const warnings = event.meta?.warningsReviewed ? [] : event.meta?.warnings || [];
-    const infos = event.meta?.infosReviewed ? [] : event.meta?.infos || [];
-
+    React.useEffect(() => {
+        event.triggerInitialValidation();
+    }, [event.id]);
     return (
         <div
             style={{ gridColumn: 'isValid' }}
-            className={clsx('isValid', styles.isValid, props.className, 'grid-isValid')}
+            className={clsx('isValid', sharedStyles.isValid, props.className, 'grid-isValid')}
             onClick={() => console.log(event.id, event._errors)}
         >
             {props.event.isValid ? (
                 ''
             ) : (
                 <Popup
+                    closeOnEscape
+                    closeOnDocumentClick
+                    nested
                     trigger={
                         <span>
                             <Button
@@ -57,30 +59,9 @@ const IsValid = observer((props: ReadonlyProps) => {
                         </span>
                     }
                     position="right center"
-                    on="hover"
-                    closeOnDocumentClick
+                    on="click"
                 >
-                    {errors.length > 0 && (
-                        <ul className={clsx(styles.errors)}>
-                            {errors.map((error, index) => (
-                                <li key={index}>{error.message}</li>
-                            ))}
-                        </ul>
-                    )}
-                    {warnings.length > 0 && (
-                        <ul className={clsx(styles.warnings)}>
-                            {warnings.map((warning, index) => (
-                                <li key={index}>{warning}</li>
-                            ))}
-                        </ul>
-                    )}
-                    {infos.length > 0 && (
-                        <ul className={clsx(styles.infos)}>
-                            {infos.map((info, index) => (
-                                <li key={index}>{info}</li>
-                            ))}
-                        </ul>
-                    )}
+                    <PopupContent event={event} />
                 </Popup>
             )}
         </div>

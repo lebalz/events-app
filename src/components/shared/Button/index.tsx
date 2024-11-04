@@ -93,7 +93,7 @@ export const ButtonIcon = (props: Props) => {
 
 const ButtonInner = (props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
-    const iconSide = textAndIcon ? props.iconSide ?? 'right' : 'center';
+    const iconSide = textAndIcon ? (props.iconSide ?? 'right') : 'center';
     return (
         <>
             {props.icon && iconSide === 'left' && <ButtonIcon {...props} className={clsx(undefined)} />}

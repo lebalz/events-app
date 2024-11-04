@@ -8,6 +8,7 @@ interface Props {
     children: ReactNode;
     className?: string;
     gridTemplateColumns?: string;
+    slim?: boolean;
 }
 
 const DefinitionList = observer((props: Props) => {
@@ -15,6 +16,7 @@ const DefinitionList = observer((props: Props) => {
         <dl
             className={clsx(
                 styles.definitionList,
+                props.slim && styles.slim,
                 props.className,
                 props.gridTemplateColumns && styles.ignoreMediaQueries
             )}

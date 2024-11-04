@@ -12,7 +12,7 @@ import strongPlugin from './src/plugins/remark-strong/plugin';
 import deflistPlugin from './src/plugins/remark-deflist/plugin';
 import mdiPlugin from './src/plugins/remark-mdi/plugin';
 
-const VERSION = 'rc-1.1';
+const VERSION = 'rc-1.2';
 
 const defaultLocale = 'de';
 
@@ -106,7 +106,9 @@ const config: Config = {
         TEST_USERNAME: process.env.TEST_USERNAME,
         NO_AUTH: process.env.NODE_ENV !== 'production' && process.env.TEST_USERNAME?.length > 0,
         /** The Domain Name where the api is running */
-        DOMAIN: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
+        DOMAIN: process.env.NETLIFY
+            ? process.env.DEPLOY_PRIME_URL
+            : process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
         /** The Domain Name of this app */
         EVENTS_API: process.env.REACT_APP_EVENTS_API || 'http://localhost:3002',
         /** The application id generated in https://portal.azure.com */
@@ -138,6 +140,16 @@ const config: Config = {
                 label: 'Français'
             },
         },
+    },
+    future: {
+      experimental_faster: {
+        lightningCssMinimizer: true,
+        mdxCrossCompilerCache: true,
+        rspackBundler: true,
+        swcHtmlMinimizer: true,
+        swcJsLoader: false,
+        swcJsMinimizer: true,
+      },
     },
     presets: [
         [

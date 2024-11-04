@@ -4,16 +4,10 @@
  */
 
 .heroBanner {
-    padding: 4rem 0;
+    padding: 1rem 0;
     text-align: center;
     position: relative;
     overflow: hidden;
-}
-
-@media screen and (max-width: 996px) {
-    .heroBanner {
-        padding: 2rem;
-    }
 }
 
 .buttons {
@@ -59,8 +53,74 @@
     }
 }
 
+main {
+    .today {
+        margin-top: 0;
+        margin-bottom: -1rem;
+        padding: 0.5rem;
+        .todayTitle:global(.hero__title) {
+            font-size: 1.5rem;
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            .switcher {
+                .switcherButton {
+                    position: relative;
+                    .numEvents {
+                        position: absolute;
+                        top: -0.5em;
+                        right: -0.5em;
+                        z-index: var(--ifm-z-index-dropdown);
+                    }
+                }
+            }
+        }
+        .todaysEvents {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            .eventOverview {
+                flex-basis: 16em;
+                flex-grow: 1;
+                max-width: 18em;
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     :global(.hero).navCardSection {
         margin: 0;
+    }
+
+    main {
+        .today {
+            .todayTitle:global(.hero__title) {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-height: 900px) and (max-width: 430px) {
+    .heroBanner {
+        padding: 0;
+        padding-top: 0.5rem;
+        .title {
+            font-size: 1.5rem;
+        }
+        .tagline {
+            display: none;
+        }
+    }
+}
+@media screen and (max-height: 1200px) and (max-width: 560px) {
+    .heroBanner {
+        padding: 0;
+        padding-top: 1rem;
+        .title {
+            font-size: 2rem;
+        }
     }
 }

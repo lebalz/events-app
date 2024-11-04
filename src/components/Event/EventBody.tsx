@@ -11,11 +11,18 @@ interface Props {
     inModal?: boolean;
     hideParent?: boolean;
     hideShowVersionsButton?: boolean;
+    hideTitle?: boolean;
 }
 
 const EventBody = observer((props: Props) => {
     const [isOpen, setOpen] = React.useState(false);
     const { event, hideParent } = props;
+    const ref = React.useRef<HTMLDivElement>(null);
+    React.useEffect(() => {
+        if (ref.current) {
+            ref.current.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+    }, [ref]);
 
     return (
         <div
@@ -26,10 +33,13 @@ const EventBody = observer((props: Props) => {
                 event.hasParent && styles.splitView
             )}
         >
+            <div ref={ref} />
+            {/* scroll to top */}
             <EventProps
                 {...props}
                 showVersionHeader={event.hasParent}
                 hideShowVersionsButton={props.hideShowVersionsButton}
+                hideTitle={props.hideTitle}
             />
             {!hideParent && event.hasParent && (
                 <ParentDetails event={event} inModal={props.inModal} onOpenChange={setOpen} />

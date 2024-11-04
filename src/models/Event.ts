@@ -207,14 +207,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.meta = props.meta;
 
         makeObservable(this);
-        if (this.state !== EventState.Published && !this.deletedAt) {
-            this.validationTimeout = setTimeout(
-                () => {
-                    this.validate();
-                },
-                200 + Math.round(Math.random() * 300)
-            );
-        }
         this.validationDisposer = reaction(
             () => this.props,
             () => {
@@ -222,6 +214,24 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                     this.validate();
                 }
             }
+        );
+    }
+
+    @action
+    triggerInitialValidation() {
+        console.log('triggerInitialValidation', this.id, this.isDirty, this.isPublished, this.isDeleted);
+        if (this.initialValidation) {
+            return;
+        }
+        if (!this.isDirty && (this.isPublished || this.isDeleted)) {
+            return;
+        }
+        this.initialValidation = true;
+        this.validationTimeout = setTimeout(
+            () => {
+                this.validate();
+            },
+            100 + Math.round(Math.random() * 300)
         );
     }
 
@@ -291,12 +301,20 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (!this.meta?.infosReviewed && this.meta?.infos?.length > 0) {
             return ValidState.Info;
         }
+        if (this.overlappingEvents.length > 0) {
+            return ValidState.Warning;
+        }
         return ValidState.Valid;
     }
 
     @override
     get isValid() {
         return this.validationState === ValidState.Valid;
+    }
+
+    @override
+    get canSave() {
+        return this.validationState !== ValidState.Error;
     }
 
     errorFor(attr: keyof EventProps) {
@@ -631,6 +649,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @override
+    setEditing(editing: boolean) {
+        this._isEditing = editing;
+        this.triggerInitialValidation();
+    }
+
+    @override
     get isEditable() {
         return !this.isDeleted && this.store.canEdit(this);
     }
@@ -895,6 +919,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             dayOffset * 24 * 60 + Math.floor(lesson.endHHMM / 100) * 60 + (lesson.endHHMM % 100);
         const eventStartOffset = this.start.getHours() * 60 + this.start.getMinutes();
         return startOffset < eventStartOffset + minutes && endOffset > eventStartOffset;
+    }
+
+    @computed
+    get overlappingEvents() {
+        return this.store.events.filter((e) => {
+            if (
+                e.id === this.id ||
+                (this.parentId && this.parentId === e.id) ||
+                !(e.state === EventState.Published || e.state === EventState.Review)
+            ) {
+                return false;
+            }
+            if (e.parentId || e.isDeleted) {
+                return false;
+            }
+            if (e.startTimeMs >= this.endTimeMs || e.endTimeMs <= this.startTimeMs) {
+                return false;
+            }
+            return this.untisClasses.some((c) => e.affectsClass(c));
+        });
     }
 
     @computed

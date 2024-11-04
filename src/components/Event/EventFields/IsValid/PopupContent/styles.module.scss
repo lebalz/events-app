@@ -1,0 +1,25 @@
+.conflicts {
+    position: relative;
+    .overlappingEvents {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        max-height: 80vh;
+        overflow-y: auto;
+        .overview {
+            flex-shrink: 1;
+            flex-basis: 15em;
+        }
+        .main {
+            flex-shrink: 0;
+            flex-grow: 1;
+            flex-basis: 80%;
+            border-width: 4px;
+            position: sticky;
+            top: 0;
+            background: var(--ifm-navbar-background-color);
+            z-index: var(--ifm-z-index-overlay);
+        }
+    }
+}

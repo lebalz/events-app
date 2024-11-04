@@ -94,6 +94,11 @@ export default class Klass {
         return this.store.findDepartment(this.departmentId);
     }
 
+    @computed
+    get color() {
+        return this.department?.color || 'var(--ifm-color-secondary)';
+    }
+
     /**
      * the group name
      * @example '25Gh' -> '25G'

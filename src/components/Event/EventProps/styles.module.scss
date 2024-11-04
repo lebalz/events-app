@@ -1,0 +1,12 @@
+.bolderFont {
+    font-weight: 500;
+}
+.lighterFont {
+    font-weight: 400;
+    :global(.badge) {
+        font-weight: 400;
+    }
+}
+.eventProps {
+    margin-block-start: 0em;
+}

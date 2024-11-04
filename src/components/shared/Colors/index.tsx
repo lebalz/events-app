@@ -13,6 +13,18 @@ export const Colors = {
     black: styles.black
 };
 
+export const IfmColors = {
+    primary: 'var(--ifm-color-primary)',
+    secondary: 'var(--ifm-color-secondary)',
+    blue: 'var(--ifm-color-blue)',
+    green: 'var(--ifm-color-success)',
+    red: 'var(--ifm-color-danger)',
+    orange: 'var(--ifm-color-warning)',
+    gray: 'var(--ifm-color-secondary)',
+    lightBlue: 'var(--ifm-color-info)',
+    black: 'var(--ifm-font-color-base)'
+};
+
 export const ButtonColors = {
     primary: 'button--primary',
     secondary: 'button--secondary',
