@@ -12,7 +12,7 @@ import strongPlugin from './src/plugins/remark-strong/plugin';
 import deflistPlugin from './src/plugins/remark-deflist/plugin';
 import mdiPlugin from './src/plugins/remark-mdi/plugin';
 
-const VERSION = 'rc-1.1';
+const VERSION = 'rc-1.2';
 
 const defaultLocale = 'de';
 
