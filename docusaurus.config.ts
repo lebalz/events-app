@@ -141,6 +141,16 @@ const config: Config = {
             },
         },
     },
+    future: {
+      experimental_faster: {
+        lightningCssMinimizer: true,
+        mdxCrossCompilerCache: true,
+        rspackBundler: true,
+        swcHtmlMinimizer: true,
+        swcJsLoader: false,
+        swcJsMinimizer: true,
+      },
+    },
     presets: [
         [
             'classic',

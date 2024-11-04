@@ -20,7 +20,7 @@
             'd-start d-end location author'
             't-start t-end location author';
         grid-template-columns: auto auto 3fr minmax(auto, 5em);
-        gap: 4px;
+        gap: 0 4px;
         font-size: 10px;
         .location {
             grid-area: location;
@@ -28,19 +28,65 @@
         }
         .date {
             font-weight: 700;
+            position: relative;
             &.dateStart {
                 grid-area: d-start;
+                margin-right: 0.5em;
             }
             &.dateEnd {
                 grid-area: d-end;
             }
             &.timeStart {
                 grid-area: t-start;
-                justify-self: flex-end;
+                justify-self: flex-start;
+                &.singleDayEvent {
+                    justify-self: flex-end;
+                }
             }
             &.timeEnd {
                 grid-area: t-end;
-                justify-self: flex-start;
+                justify-self: flex-end;
+                &.singleDayEvent {
+                    justify-self: flex-start;
+                }
+            }
+            .timeDash {
+                transform: translateY(3px);
+                margin-right: 0px;
+                margin-left: -3px;
+            }
+            &.time:not(.singleDayEvent) {
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    right: -1em;
+                    transform: translateY(-50%);
+                    width: 6px;
+                    height: 6px;
+                    background-color: var(--ifm-color-success-lightest);
+                    border-radius: 50%;
+                }
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: calc(100% + 1em);
+                    transform: translateY(-50%);
+                    width: calc(100% - 2em); /* adjust width to fill the desired space */
+                    height: 2px; /* thickness of the line */
+                    background-color: var(--ifm-color-success-lightest);
+                }
+                &.timeEnd {
+                    &::after {
+                        right: calc(100% + 1em);
+                        left: unset;
+                    }
+                    &::before {
+                        left: -1em;
+                        background-color: var(--ifm-color-success-lightest);
+                    }
+                }
             }
         }
         .author {

@@ -18,9 +18,8 @@ import { IfmColors } from '../../shared/Colors';
 import Translate, { translate } from '@docusaurus/Translate';
 import Tooltip from '../../shared/Tooltip';
 import { TeachingAffectedColors, TitleMap as TeachingAffectedTitle } from '../EventFields/TeachingAffected';
-import { mdiCircle } from '@mdi/js';
+import { mdiCircle, mdiMinus, mdiMinusThick } from '@mdi/js';
 import Icon from '@mdi/react';
-import DefinitionList from '../../shared/DefinitionList';
 
 interface Props {
     event: Event;
@@ -41,15 +40,42 @@ const EventOverviewSmall = observer((props: Props) => {
             }}
         >
             <div className={clsx(styles.header)}>
-                <div className={clsx(styles.date, styles.dateStart)}>{event.fStartDate}</div>
+                <div className={clsx(styles.date, styles.dateStart)}>
+                    {event.fStartDate.replace(/^0/, '')}
+                </div>
                 {!event.isOnOneDay && (
-                    <div className={clsx(styles.date, styles.dateEnd)}>{event.fEndDate}</div>
+                    <div className={clsx(styles.date, styles.dateEnd)}>
+                        {event.fEndDate.replace(/^0/, '')}
+                    </div>
                 )}
                 {!event.isAllDay && (
                     <>
-                        <div className={clsx(styles.date, styles.timeStart)}>{event.fStartTime}</div>
-                        <div className={clsx(styles.date, styles.timeEnd)}>
-                            {' - '}
+                        <div
+                            className={clsx(
+                                styles.date,
+                                styles.time,
+                                styles.timeStart,
+                                event.isOnOneDay && styles.singleDayEvent
+                            )}
+                        >
+                            {event.fStartTime}
+                        </div>
+                        <div
+                            className={clsx(
+                                styles.date,
+                                styles.time,
+                                styles.timeEnd,
+                                event.isOnOneDay && styles.singleDayEvent
+                            )}
+                        >
+                            {event.isOnOneDay && (
+                                <Icon
+                                    className={clsx(styles.timeDash)}
+                                    path={mdiMinusThick}
+                                    color="var(--ifm-color-success-lightest)"
+                                    size={0.5}
+                                />
+                            )}
                             {event.fEndTime}
                         </div>
                     </>
@@ -174,52 +200,151 @@ const EventOverviewSmall = observer((props: Props) => {
                 </div>
                 {event.departmentIds.size > 0 && (
                     <div className={clsx(styles.departments, styles.audience)}>
-                        {event.departments.map((d, idx) => {
-                            return (
-                                <Badge
-                                    key={idx}
-                                    text={d.shortName}
-                                    title={d.description}
-                                    color={d.color}
-                                    className={clsx(styles.badge)}
-                                />
-                            );
-                        })}
+                        <Popup
+                            trigger={
+                                <span style={{ display: 'flex' }}>
+                                    {event.departments.slice(0, 2).map((d, idx) => {
+                                        return (
+                                            <Badge
+                                                key={idx}
+                                                text={d.shortName}
+                                                title={d.description}
+                                                color={d.color}
+                                                className={clsx(styles.badge)}
+                                            />
+                                        );
+                                    })}
+                                    {event.departments.length > 2 && (
+                                        <span style={{ fontSize: '1rem', lineHeight: 1, marginLeft: '4px' }}>
+                                            ...
+                                        </span>
+                                    )}
+                                </span>
+                            }
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                                {event.departments.map((d, idx) => {
+                                    return (
+                                        <Badge
+                                            key={idx}
+                                            text={d.shortName}
+                                            title={d.description}
+                                            color={d.color}
+                                            className={clsx(styles.badge)}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </Popup>
                     </div>
                 )}
                 {event.classGroups.size > 0 && (
                     <div className={clsx(styles.classGroups, styles.audience)}>
-                        {[...event.classGroups].map((c) => (
-                            <Badge
-                                key={c}
-                                text={/(26|25)[FGWcmps]/.test(c) ? `${c.substring(0, 2)}*` : `${c}*`}
-                                title={translate(
-                                    {
-                                        message: 'Alle Klassen der Stufe {classGroup}',
-                                        description: 'EventOverviewSmall class group badge title',
-                                        id: 'event.classGroupBadgeTitle'
-                                    },
-                                    { classGroup: c }
-                                )}
-                                color={
-                                    departmentStore.findByClassGroupName(c)?.color ||
-                                    'var(--ifm-color-secondary)'
-                                }
-                                className={clsx(styles.badge)}
-                            />
-                        ))}
+                        <Popup
+                            trigger={
+                                <span style={{ display: 'flex' }}>
+                                    {[...event.classGroups].slice(0, 3).map((c) => (
+                                        <Badge
+                                            key={c}
+                                            text={
+                                                /(26|25)[FGWcmps]/.test(c) ? `${c.substring(0, 2)}*` : `${c}*`
+                                            }
+                                            title={translate(
+                                                {
+                                                    message: 'Alle Klassen der Stufe {classGroup}',
+                                                    description: 'EventOverviewSmall class group badge title',
+                                                    id: 'event.classGroupBadgeTitle'
+                                                },
+                                                { classGroup: c }
+                                            )}
+                                            color={
+                                                departmentStore.findByClassGroupName(c)?.color ||
+                                                'var(--ifm-color-secondary)'
+                                            }
+                                            className={clsx(styles.badge)}
+                                        />
+                                    ))}
+                                    {event.classGroups.size > 2 && (
+                                        <span style={{ fontSize: '1rem', lineHeight: 1, marginLeft: '4px' }}>
+                                            ...
+                                        </span>
+                                    )}
+                                </span>
+                            }
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                                {[...event.classGroups].map((c) => (
+                                    <Badge
+                                        key={c}
+                                        text={/(26|25)[FGWcmps]/.test(c) ? `${c.substring(0, 2)}*` : `${c}*`}
+                                        title={translate(
+                                            {
+                                                message: 'Alle Klassen der Stufe {classGroup}',
+                                                description: 'EventOverviewSmall class group badge title',
+                                                id: 'event.classGroupBadgeTitle'
+                                            },
+                                            { classGroup: c }
+                                        )}
+                                        color={
+                                            departmentStore.findByClassGroupName(c)?.color ||
+                                            'var(--ifm-color-secondary)'
+                                        }
+                                        className={clsx(styles.badge)}
+                                    />
+                                ))}
+                            </div>
+                        </Popup>
                     </div>
                 )}
                 {event.classes.size > 0 && (
                     <div className={clsx(styles.classes, styles.audience)}>
-                        {[...event.classes].map((c) => (
-                            <Badge
-                                key={c}
-                                text={untisStore.findClassByName(c)?.displayName || c}
-                                color={untisStore.findClassByName(c)?.color || 'var(--ifm-color-danger)'}
-                                className={clsx(styles.badge)}
-                            />
-                        ))}
+                        <Popup
+                            trigger={
+                                <span style={{ display: 'flex' }}>
+                                    {[...event.classes].slice(0, 3).map((c) => (
+                                        <Badge
+                                            key={c}
+                                            text={untisStore.findClassByName(c)?.displayName || c}
+                                            color={
+                                                untisStore.findClassByName(c)?.color ||
+                                                'var(--ifm-color-danger)'
+                                            }
+                                            className={clsx(styles.badge)}
+                                        />
+                                    ))}
+                                    {event.classes.size > 2 && (
+                                        <span style={{ fontSize: '1rem', lineHeight: 1, marginLeft: '4px' }}>
+                                            ...
+                                        </span>
+                                    )}
+                                </span>
+                            }
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                                {[...event.classes].map((c) => (
+                                    <Badge
+                                        key={c}
+                                        text={untisStore.findClassByName(c)?.displayName || c}
+                                        color={
+                                            untisStore.findClassByName(c)?.color || 'var(--ifm-color-danger)'
+                                        }
+                                        className={clsx(styles.badge)}
+                                    />
+                                ))}
+                            </div>
+                        </Popup>
                     </div>
                 )}
             </div>

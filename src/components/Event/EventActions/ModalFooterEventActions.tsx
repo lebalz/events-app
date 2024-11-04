@@ -81,8 +81,8 @@ const ModalFooterEventActions = observer((props: Props) => {
                         : undefined
                 }
                 size={size}
-                disabled={!event.isDirty || !event.isValid}
-                title={event.isValid ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
+                disabled={!event.isDirty || !event.canSave}
+                title={event.canSave ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
                 icon={<SaveIcon size={size} />}
                 iconSide="left"
                 onClick={() => {

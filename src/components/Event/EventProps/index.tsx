@@ -55,6 +55,7 @@ import { PopupActions } from 'reactjs-popup/dist/types';
 import Admonition from '@theme/Admonition';
 import MetaWarningAlert from '../MetaAlert/warning';
 import MetaInfoAlert from '../MetaAlert/info';
+import IsValid from '../EventFields/IsValid';
 
 interface Props {
     event: EventModel;
@@ -400,6 +401,7 @@ const EventProps = observer((props: Props) => {
             </dt>
             <dd className={clsx(styles.lighterFont)}>
                 <div className={clsx(sharedStyles.flex)}>
+                    {!event.isValid && <IsValid event={event} />}
                     <State {...commonProps} showText />
                 </div>
             </dd>

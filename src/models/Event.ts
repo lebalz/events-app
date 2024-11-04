@@ -219,7 +219,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     triggerInitialValidation() {
-        if (this.initialValidation || this.isPublished || this.isDeleted) {
+        console.log('triggerInitialValidation', this.id, this.isDirty, this.isPublished, this.isDeleted);
+        if (this.initialValidation) {
+            return;
+        }
+        if (!this.isDirty && (this.isPublished || this.isDeleted)) {
             return;
         }
         this.initialValidation = true;
@@ -306,6 +310,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @override
     get isValid() {
         return this.validationState === ValidState.Valid;
+    }
+
+    @override
+    get canSave() {
+        return this.validationState !== ValidState.Error;
     }
 
     errorFor(attr: keyof EventProps) {
@@ -640,6 +649,12 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @override
+    setEditing(editing: boolean) {
+        this._isEditing = editing;
+        this.triggerInitialValidation();
+    }
+
+    @override
     get isEditable() {
         return !this.isDeleted && this.store.canEdit(this);
     }
@@ -911,7 +926,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.events.filter((e) => {
             if (
                 e.id === this.id ||
-                (e.parentId && e.state === EventState.Published) ||
+                (this.parentId && this.parentId === e.id) ||
                 !(e.state === EventState.Published || e.state === EventState.Review)
             ) {
                 return false;
