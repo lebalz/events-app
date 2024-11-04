@@ -73,7 +73,7 @@
                     top: 50%;
                     left: calc(100% + 1em);
                     transform: translateY(-50%);
-                    width: calc(100% - 2em); /* adjust width to fill the desired space */
+                    width: calc(100% - 1em - 6px); /* adjust width to fill the desired space */
                     height: 2px; /* thickness of the line */
                     background-color: var(--ifm-color-success-lightest);
                 }
