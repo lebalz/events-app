@@ -84,7 +84,7 @@
                     &::after {
                         right: calc(100% + 1em);
                         left: unset;
-                        width: calc(100% - 1em - 6px);
+                        width: calc(100% - 1em);
                     }
                     /* dot */
                     &::before {
