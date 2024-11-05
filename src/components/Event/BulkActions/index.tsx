@@ -15,7 +15,6 @@ import {
     mdiBookmarkCheck,
     mdiBookmarkMinus,
     mdiClose,
-    mdiCross,
     mdiDownloadCircleOutline,
     mdiFileCertificate,
     mdiShareAll,
@@ -25,7 +24,6 @@ import { Icon, SIZE_S, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
 import EventGroup from '@site/src/models/EventGroup';
-import { options } from 'joi';
 import Stats from './stats';
 import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 

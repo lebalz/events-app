@@ -45,9 +45,9 @@ const Actions = observer((props: Props) => {
                             }}
                         />
                         <Save
-                            disabled={!event.isDirty || !event.isValid}
+                            disabled={!event.isDirty || !event.canSave}
                             title={
-                                event.isValid
+                                event.canSave
                                     ? event.isDraft
                                         ? 'Änderungen speichern'
                                         : 'Als neue Version speichern (kann als Änderungsvorschlag eingereicht werden)'
