@@ -75,7 +75,7 @@
                     top: 50%;
                     left: calc(100% + 1em - 6px);
                     transform: translateY(-50%);
-                    width: calc(100% - 1em - 2px);
+                    width: calc(100% - 1em);
                     height: 2px; /* thickness of the line */
                     background-color: var(--ifm-color-success-lightest);
                 }
