@@ -89,9 +89,7 @@ const Version = observer((props: Props) => {
                     )}
                     icon={nVersions === 1 ? mdiShareOutline : mdiShareAllOutline}
                     color="primary"
-                    href={useBaseUrl(
-                        `/event?${event.unpublishedVersions.map((e) => e.queryParam).join('&')}`
-                    )}
+                    href={`/event?${event.unpublishedVersions.map((e) => e.queryParam).join('&')}`}
                 />
             )}
         </div>

@@ -21,3 +21,16 @@ export const getChanges = <T extends { id: string }>(model: ApiModel<T>) => {
     });
     return changes;
 };
+
+export const getDifferences = <T extends { id: string }>(
+    modelA: ApiModel<T, any>,
+    modelB: ApiModel<T, any>
+) => {
+    const changes = new Set<keyof T>();
+    Object.keys(modelA.props).forEach((key) => {
+        if (notEqual(modelA.props[key], modelB.props[key])) {
+            changes.add(key as keyof T);
+        }
+    });
+    return changes;
+};

@@ -62,7 +62,7 @@ const DefaultEventActions = observer((props: Props) => {
                 <Button
                     color="blue"
                     icon={mdiShareCircle}
-                    href={useBaseUrl(event.shareUrl)}
+                    href={event.shareUrl}
                     size={SIZE_S}
                     title={translate({
                         message: 'Terminseite Anzeigen',

@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import sharedStyles from '../../styles.module.scss';
-import EventOverviewSmall from '../../../EventOverviewSmall';
 import Translate, { translate } from '@docusaurus/Translate';
+import EventOverviewSmall from '@site/src/components/EventOverviewSmall';
 
 interface Props {
     event: Event;

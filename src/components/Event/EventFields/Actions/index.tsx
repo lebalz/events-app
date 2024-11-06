@@ -24,8 +24,6 @@ interface Props extends ReadonlyProps {
 
 const Actions = observer((props: Props) => {
     const { event } = props;
-    const viewStore = useStore('viewStore');
-    const eventStore = useStore('eventStore');
     if (event.isEditable && event.isEditing) {
         return <Edit {...props} />;
     }
