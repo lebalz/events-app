@@ -13,6 +13,7 @@ import DefinitionList from '../../shared/DefinitionList';
 import CreatedAt from './CreatedAt';
 import UpdatedAt from './UpdatedAt';
 import { formatDateTime } from '@site/src/models/helpers/time';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface Props extends ReadonlyProps {
     hideVersion?: boolean;
@@ -88,7 +89,9 @@ const Version = observer((props: Props) => {
                     )}
                     icon={nVersions === 1 ? mdiShareOutline : mdiShareAllOutline}
                     color="primary"
-                    href={`/event?${event.unpublishedVersions.map((e) => e.queryParam).join('&')}`}
+                    href={useBaseUrl(
+                        `/event?${event.unpublishedVersions.map((e) => e.queryParam).join('&')}`
+                    )}
                 />
             )}
         </div>

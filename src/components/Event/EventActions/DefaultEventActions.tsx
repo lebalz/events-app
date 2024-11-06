@@ -12,6 +12,7 @@ import Button from '../../shared/Button';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
 import { SIZE_S } from '../../shared/icons';
 import Delete from '../../shared/Button/Delete';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface Props {
     event: Event;
@@ -61,7 +62,7 @@ const DefaultEventActions = observer((props: Props) => {
                 <Button
                     color="blue"
                     icon={mdiShareCircle}
-                    href={event.shareUrl}
+                    href={useBaseUrl(event.shareUrl)}
                     size={SIZE_S}
                     title={translate({
                         message: 'Terminseite Anzeigen',
