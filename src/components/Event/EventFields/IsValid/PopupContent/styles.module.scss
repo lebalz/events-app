@@ -10,6 +10,7 @@
         .overview {
             flex-shrink: 1;
             flex-basis: 15em;
+            border-width: 2px;
         }
         .main {
             flex-shrink: 0;
@@ -21,5 +22,15 @@
             background: var(--ifm-navbar-background-color);
             z-index: var(--ifm-z-index-overlay);
         }
+    }
+}
+.alert {
+    margin-bottom: 1em;
+    &:last-child {
+        margin-bottom: 0;
+    }
+    .title {
+        margin-bottom: 0;
+        transform: translateY(-50%);
     }
 }

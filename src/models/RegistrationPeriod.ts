@@ -81,7 +81,7 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
     @observable.ref
     eventRangeEnd: Date;
 
-    @observable.ref
+    @observable
     isOpen: boolean;
 
     departmentIds = observable.set<string>([]);

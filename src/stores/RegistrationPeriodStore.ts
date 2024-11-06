@@ -25,4 +25,9 @@ export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
     get registrationPeriods() {
         return _.sortBy(this.models, ['_pristine.start', '_pristine.eventRangeStart'], ['desc', 'desc']);
     }
+
+    @computed
+    get openRegistrationPeriods() {
+        return this.registrationPeriods.filter((rp) => rp.isPeriodOpen);
+    }
 }

@@ -13,6 +13,7 @@ import DefinitionList from '../../shared/DefinitionList';
 import CreatedAt from './CreatedAt';
 import UpdatedAt from './UpdatedAt';
 import { formatDateTime } from '@site/src/models/helpers/time';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface Props extends ReadonlyProps {
     hideVersion?: boolean;
