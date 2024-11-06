@@ -109,6 +109,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly _pristine_start: Date;
     readonly parentId: string | null;
     readonly cloned: boolean;
+    /** this contains only! the published child versions! */
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
 
@@ -1194,6 +1195,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get publishedVersions() {
+        if (this.hasParent) {
+            return this.publishedParent?.publishedVersions || [];
+        }
         const all = this.publishedVersionIds.map((id) => this.store.find<Event>(id)).filter((e) => !!e);
         return _.orderBy(all, ['createdAt'], ['asc']);
     }
