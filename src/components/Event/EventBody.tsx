@@ -7,6 +7,7 @@ import { default as EventModel } from '@site/src/models/Event';
 import EventProps from './EventProps';
 import ParentDetails from './ParentDetails';
 import EventOverviewSmall from '../EventOverviewSmall';
+import { useStore } from '@site/src/stores/hooks';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -19,11 +20,17 @@ const EventBody = observer((props: Props) => {
     const [isOpen, setOpen] = React.useState(false);
     const { event, hideParent } = props;
     const ref = React.useRef<HTMLDivElement>(null);
+    const eventStore = useStore('eventStore');
     React.useEffect(() => {
         if (ref.current) {
             ref.current.scrollIntoView({ behavior: 'instant', block: 'start' });
         }
     }, [ref]);
+    React.useEffect(() => {
+        if (event.hasParent && !event.parent) {
+            eventStore.loadModel(event.parentId);
+        }
+    }, [event.hasParent]);
 
     return (
         <div
