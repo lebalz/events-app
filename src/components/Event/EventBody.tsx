@@ -8,6 +8,7 @@ import EventProps from './EventProps';
 import ParentDetails from './ParentDetails';
 import EventOverviewSmall from '../EventOverviewSmall';
 import { useStore } from '@site/src/stores/hooks';
+import { reaction } from 'mobx';
 interface Props {
     event: EventModel;
     inModal?: boolean;
@@ -27,10 +28,16 @@ const EventBody = observer((props: Props) => {
         }
     }, [ref]);
     React.useEffect(() => {
-        if (event.hasParent && !event.parent) {
-            eventStore.loadModel(event.parentId);
-        }
-    }, [event.hasParent]);
+        const disposer = reaction(
+            () => event.hasParent && !event.parent,
+            (loadParent) => {
+                if (loadParent) {
+                    eventStore.loadModel(event.parentId);
+                }
+            }
+        );
+        return () => disposer();
+    }, [])
 
     return (
         <div
