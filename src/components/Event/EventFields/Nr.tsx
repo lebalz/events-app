@@ -7,9 +7,10 @@ import styles from './styles.module.scss';
 import { ReadonlyProps } from './iEventField';
 
 const Nr = observer((props: ReadonlyProps) => {
+    const { event } = props;
     return (
         <div style={{ gridColumn: 'nr' }} className={clsx('nr', styles.nr, props.className, 'grid-nr')}>
-            {props.event.meta?.rowNr}
+            {event.meta?.rowNr}
         </div>
     );
 });

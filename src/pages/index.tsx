@@ -26,9 +26,8 @@ import Badge from '../components/shared/Badge';
 import { Timeline } from '../components/shared/icons';
 import Details from '@theme/Details';
 import VideoGrid from '@site/src/components/VideoGrid';
-import EventOverviewSmall from '../components/Event/EventOverviewSmall';
-import ToggleFilter from '../components/shared/ToggleFilter';
-import { DAYS, DAYS_LONG, formatDate } from '../models/helpers/time';
+import EventOverviewSmall from '../components/EventOverviewSmall';
+import { DAYS_LONG, formatDate } from '../models/helpers/time';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();

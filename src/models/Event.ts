@@ -109,6 +109,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly _pristine_start: Date;
     readonly parentId: string | null;
     readonly cloned: boolean;
+    /** this contains only! the published child versions! */
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
 
@@ -219,7 +220,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     triggerInitialValidation() {
-        console.log('triggerInitialValidation', this.id, this.isDirty, this.isPublished, this.isDeleted);
         if (this.initialValidation) {
             return;
         }
@@ -304,6 +304,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.overlappingEvents.length > 0) {
             return ValidState.Warning;
         }
+        if (
+            !this.hasOpenRegistrationPeriod &&
+            !this.hasParent &&
+            [EventState.Draft, EventState.Review].includes(this.state)
+        ) {
+            return ValidState.Warning;
+        }
         return ValidState.Valid;
     }
 
@@ -315,6 +322,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @override
     get canSave() {
         return this.validationState !== ValidState.Error;
+    }
+
+    @computed
+    get hasOpenRegistrationPeriod() {
+        return this.store.root.registrationPeriodStore.openRegistrationPeriods.some(
+            (rp) =>
+                rp.departmentIds.intersection(this.departmentIdsAll).size > 0 &&
+                rp.eventRangeStart <= this.start &&
+                rp.eventRangeEnd >= this.start
+        );
+    }
+
+    get canBeTransitioned() {
+        if (this.validationState === ValidState.Error || !this.initialValidation) {
+            return false;
+        }
+        return this.hasOpenRegistrationPeriod;
     }
 
     errorFor(attr: keyof EventProps) {
@@ -1171,6 +1195,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get publishedVersions() {
+        if (this.hasParent) {
+            return this.publishedParent?.publishedVersions || [];
+        }
         const all = this.publishedVersionIds.map((id) => this.store.find<Event>(id)).filter((e) => !!e);
         return _.orderBy(all, ['createdAt'], ['asc']);
     }

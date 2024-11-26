@@ -56,7 +56,7 @@ const BulkActions = observer((props: Props) => {
     }
     const state = selected[0]?.state;
     const sameState = selected.every((event) => event.state === state);
-    const allValid = selected.every((event) => event.isValid);
+    const allTransitionable = selected.every((event) => event.canBeTransitioned);
     const onlyMine = selected.every((event) => event.authorId === current.id);
     return (
         <div className={clsx(styles.bulk, 'card', props.className)}>
@@ -82,7 +82,7 @@ const BulkActions = observer((props: Props) => {
             />
             {sameState && (
                 <div className={clsx(styles.stateActions)}>
-                    {state === EventState.Draft && allValid && (
+                    {state === EventState.Draft && allTransitionable && (
                         <Button
                             text={translate({
                                 message: 'Überprüfung anfordern',
