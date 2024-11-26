@@ -37,7 +37,7 @@ const EventBody = observer((props: Props) => {
             }
         );
         return () => disposer();
-    }, [])
+    }, []);
 
     return (
         <div
