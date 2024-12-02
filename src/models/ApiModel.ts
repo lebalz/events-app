@@ -23,12 +23,9 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly UPDATEABLE_PROPS: UpdateableProps<T>[];
     abstract readonly isUserModel: boolean;
 
-    @observable
-    _isEditing = false;
+    @observable accessor _isEditing = false;
 
-    constructor() {
-        makeObservable(this);
-    }
+    constructor() {}
 
     @computed
     get props(): T {

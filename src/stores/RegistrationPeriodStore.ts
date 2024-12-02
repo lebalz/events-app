@@ -7,14 +7,13 @@ import RegistrationPeriod from '../models/RegistrationPeriod';
 import { EndPoint } from './EndPoint';
 
 export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
-    readonly ApiEndpoint = new EndPoint('registration_periods', { authorized: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('registration_periods', { authorized: true });
     readonly root: RootStore;
 
     models = observable<RegistrationPeriod>([]);
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     createModel(data: RegPeriodProps): RegistrationPeriod {

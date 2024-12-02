@@ -18,8 +18,8 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
     readonly createdAt: Date;
     readonly updatedAt: Date;
 
-    @observable state: JobState;
-    @observable description: string;
+    @observable accessor state: JobState;
+    @observable accessor description: string;
 
     constructor(props: JobProps, store: JobStore) {
         super();
@@ -33,8 +33,6 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
         this.description = props.description;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
     static create(props: JobProps, store: JobStore): SyncJob | ImportJob {
@@ -81,7 +79,6 @@ export class SyncJob extends Job {
         super(props, store);
         this.semesterId = props.semesterId;
         this.syncDate = new Date(props.syncDate);
-        makeObservable(this);
     }
     @computed
     get fSyncDate() {
@@ -106,7 +103,6 @@ export class SyncJob extends Job {
         return this.semester?.fUntisSyncDate === this.fSyncDate;
     }
 
-    @override
     get props(): UntisSyncJob {
         return {
             id: this.id,
@@ -132,13 +128,11 @@ export class ImportJob extends Job {
     readonly type: ApiJobType.IMPORT = ApiJobType.IMPORT;
     readonly filename?: string;
 
-    @observable
-    fullyLoaded = false;
+    @observable accessor fullyLoaded = false;
 
     constructor(props: UntisImportJob, store: JobStore) {
         super(props, store);
         this.filename = props.filename;
-        makeObservable(this);
     }
 
     @action

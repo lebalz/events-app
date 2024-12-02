@@ -17,25 +17,19 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     readonly _pristine: SemesterProps;
     readonly store: SemesterStore;
     readonly id: string;
-    @observable
-    name: string;
+    @observable accessor name: string;
 
-    @observable.ref
-    start: Date;
+    @observable.ref accessor start: Date;
 
-    @observable.ref
-    end: Date;
+    @observable.ref accessor end: Date;
 
-    @observable.ref
-    untisSyncDate: Date;
+    @observable.ref accessor untisSyncDate: Date;
 
-    @observable
-    description: string;
+    @observable accessor description: string;
 
     readonly createdAt: Date;
 
-    @observable.ref
-    updatedAt: Date;
+    @observable.ref accessor updatedAt: Date;
 
     constructor(props: SemesterProps, store: SemesterStore) {
         super();
@@ -48,11 +42,8 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
         this.untisSyncDate = toLocalDate(new Date(props.untisSyncDate));
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
-    @override
     get props(): SemesterProps {
         return {
             id: this.id,

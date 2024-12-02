@@ -27,14 +27,10 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     readonly updatedAt: Date;
     readonly icalUrl: string | null;
 
-    @observable
-    notifyOnEventUpdate: boolean;
-    @observable
-    notifyAdminOnReviewRequest: boolean;
-    @observable
-    notifyAdminOnReviewDecision: boolean;
-    @observable
-    untisId?: number;
+    @observable accessor notifyOnEventUpdate: boolean;
+    @observable accessor notifyAdminOnReviewRequest: boolean;
+    @observable accessor notifyAdminOnReviewDecision: boolean;
+    @observable accessor untisId: number | undefined;
 
     constructor(props: UserProps, store: UserStore, untisStore: UntisStore) {
         super();
@@ -53,8 +49,6 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         this.icalUrl = props.icsLocator;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
     @computed
@@ -116,7 +110,6 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         return search.test(this.firstName) || search.test(this.lastName) || search.test(this.shortName || '');
     }
 
-    @override
     get props() {
         return {
             id: this.id,

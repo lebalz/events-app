@@ -18,13 +18,12 @@ import Storage, { PersistedData, StorageKey } from './utils/Storage';
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
 export class UserStore extends iStore<UserProps, ApiAction> {
-    readonly ApiEndpoint = new EndPoint('users', { authorized: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('users', { authorized: true });
 
     readonly root: RootStore;
     models = observable<User>([]);
 
-    @observable.ref
-    affectedEventIds = observable.set<string>([]);
+    @observable.ref accessor affectedEventIds = observable.set<string>([]);
 
     constructor(root: RootStore) {
         super();
@@ -34,7 +33,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             // attempt to load the previous state of this store from localstorage
             this.rehydrate();
         }, 1);
-        makeObservable(this);
     }
 
     @action
@@ -76,7 +74,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         return this.root.eventStore.byUser(this.current?.id);
     }
 
-    @override
     postLoad(models: User[], publicModels: boolean, success?: boolean): Promise<any> {
         if (!publicModels && success && this.current) {
             return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id);

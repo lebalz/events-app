@@ -10,14 +10,13 @@ import { EndPoint } from './EndPoint';
 export class DepartmentStore extends iStore<DepartmentProps> {
     readonly root: RootStore;
 
-    readonly ApiEndpoint = new EndPoint('departments', { public: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('departments', { public: true });
 
     models = observable<Department>([]);
 
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     @computed

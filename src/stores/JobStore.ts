@@ -17,13 +17,12 @@ import { EndPoint } from './EndPoint';
 export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;
 
-    readonly ApiEndpoint = new EndPoint('jobs', { authorized: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('jobs', { authorized: true });
 
     models = observable<Job>([]);
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     createModel(data: JobProps): SyncJob | ImportJob {
@@ -35,7 +34,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     }
 
     addToStore(data: JobProps, state?: 'load' | 'create', reloadStores?: boolean): Job;
-    @override
+
     addToStore(data: JobAndEventsProps, state?: 'load' | 'create', reloadStores?: boolean): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
@@ -56,7 +55,6 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         return job;
     }
 
-    @override
     removeFromStore(id?: string) {
         if (!id) {
             return;

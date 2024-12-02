@@ -3,13 +3,11 @@
     "extends": "@docusaurus/tsconfig",
     "compilerOptions": {
         "baseUrl": ".",
-        "lib": ["ESNext", "DOM"],
-        "target": "ES2018",
+        "experimentalDecorators": false,
+        "module": "esnext",
+        "target": "esnext",
         // "strict": true,
-        "useDefineForClassFields": true,
-        "experimentalDecorators": true,
-        "downlevelIteration": true,
-        "esModuleInterop": true,
         "resolveJsonModule": true
-    }
+    },
+    "exclude": ["src/plugins/**/*.test.ts", "node_modules", "dist", "build"]
 }

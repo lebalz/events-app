@@ -113,8 +113,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
 
-    @observable.ref
-    updatedAt: Date;
+    @observable.ref accessor updatedAt: Date;
 
     /**
      * These are **only** the departments, which are added as a whole.
@@ -125,47 +124,33 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     classes = observable.set<KlassName>([]);
     classGroups = observable.set<string>([]);
 
-    @observable
-    description: string;
+    @observable accessor description: string;
 
-    @observable
-    descriptionLong: string;
+    @observable accessor descriptionLong: string;
 
-    @observable
-    location: string;
+    @observable accessor location: string;
 
-    @observable
-    end: Date;
+    @observable accessor end: Date;
 
-    @observable
-    deletedAt?: Date;
+    @observable accessor deletedAt: Date | undefined;
 
-    @observable
-    start: Date;
+    @observable accessor start: Date;
 
-    @observable
-    allLPs: boolean;
+    @observable accessor allLPs: boolean;
 
-    @observable
-    audience: EventAudience;
+    @observable accessor audience: EventAudience;
 
-    @observable
-    showAsAllDay: boolean;
+    @observable accessor showAsAllDay: boolean;
 
-    @observable
-    teachingAffected: TeachingAffected;
+    @observable accessor teachingAffected: TeachingAffected;
 
-    @observable
-    versionsLoaded: boolean = false;
+    @observable accessor versionsLoaded: boolean = false;
 
-    @observable
-    selected: boolean = false;
+    @observable accessor selected: boolean = false;
 
-    @observable.ref
-    _errors?: Joi.ValidationError;
+    @observable.ref accessor _errors: Joi.ValidationError | undefined;
 
-    @observable
-    affectsDepartment2: boolean;
+    @observable accessor affectsDepartment2: boolean;
 
     validationDisposer: IReactionDisposer;
     validationTimeout: NodeJS.Timeout;
@@ -207,7 +192,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.showAsAllDay = this.isAllDay;
         this.meta = props.meta;
 
-        makeObservable(this);
         this.validationDisposer = reaction(
             () => this.props,
             () => {
@@ -314,12 +298,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return ValidState.Valid;
     }
 
-    @override
     get isValid() {
         return this.validationState === ValidState.Valid;
     }
 
-    @override
     get canSave() {
         return this.validationState !== ValidState.Error;
     }
@@ -672,13 +654,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.selected = selected;
     }
 
-    @override
     setEditing(editing: boolean) {
         this._isEditing = editing;
         this.triggerInitialValidation();
     }
 
-    @override
     get isEditable() {
         return !this.isDeleted && this.store.canEdit(this);
     }
@@ -1138,7 +1118,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         };
     }
 
-    @override
     get props(): EventProps {
         return {
             id: this.id,
@@ -1369,7 +1348,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.root.eventGroupStore.eventGroups.filter((g) => g.eventIds.has(this.id));
     }
 
-    @override
     cleanup() {
         this.validationDisposer();
         clearTimeout(this.validationTimeout);

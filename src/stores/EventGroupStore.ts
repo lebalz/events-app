@@ -18,7 +18,7 @@ export class EventGroupStore extends iStore<
     EventGroupProps,
     ApiAction | `clone-${string}` | `fetch-${string}`
 > {
-    readonly ApiEndpoint = new EndPoint('event_groups', { authorized: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('event_groups', { authorized: true });
 
     readonly root: RootStore;
 
@@ -26,7 +26,6 @@ export class EventGroupStore extends iStore<
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     createModel(data: EventGroupProps): EventGroup {
@@ -46,7 +45,6 @@ export class EventGroupStore extends iStore<
         return _.orderBy(this.models, ['_pristine.name'], ['asc']) as EventGroup[];
     }
 
-    @override
     create(model: EventGroupCreate) {
         /**
          * Save the model to the api

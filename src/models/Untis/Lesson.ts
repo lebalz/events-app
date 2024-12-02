@@ -44,7 +44,6 @@ export default class Lesson implements iEvent {
         this.classIds = props.classIds;
 
         this.store = store;
-        makeObservable(this);
     }
 
     static GroupedClassesByYear(lessons: Lesson[], threshold: number = 3): { [name: string]: string } {

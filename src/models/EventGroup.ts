@@ -19,14 +19,11 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     userIds = observable.set<string>([]);
     eventIds = observable.set<string>([]);
 
-    @observable
-    name: string;
+    @observable accessor name: string;
 
-    @observable
-    description: string;
+    @observable accessor description: string;
 
-    @observable.ref
-    updatedAt: Date;
+    @observable.ref accessor updatedAt: Date;
 
     constructor(props: EventGroupProps, store: EventGroupStore) {
         super();
@@ -39,8 +36,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         this.description = props.description;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
     @computed
@@ -78,7 +73,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         return this.store.eventStore.apiStateFor(`load-events-${this.id}`);
     }
 
-    @override
     get isEditable() {
         return true;
     }
@@ -139,7 +133,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         }
     }
 
-    @override
     get props(): EventGroupProps {
         return {
             id: this.id,

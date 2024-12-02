@@ -8,7 +8,7 @@ import { syncUntis as apiStartSyncJob } from '../api/semester';
 import { EndPoint } from './EndPoint';
 
 export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${string}`> {
-    readonly ApiEndpoint = new EndPoint('semesters', { public: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('semesters', { public: true });
 
     readonly root: RootStore;
     models = observable<Semester>([]);
@@ -17,7 +17,6 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     createModel(data: SemesterProps): Semester {
@@ -46,7 +45,6 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
         return this.semesters.find((s) => s.isCurrent);
     }
 
-    @override
     resetUserData() {
         this.models.clear();
         this.loadedSemesters.clear();
