@@ -143,12 +143,37 @@ const config: Config = {
     },
     future: {
       experimental_faster: {
+        /**
+         * no config options for swcJsLoader so far. 
+         * Instead configure it over the jsLoader in the next step 
+         */
+        swcJsLoader: false, 
         lightningCssMinimizer: true,
         mdxCrossCompilerCache: true,
         rspackBundler: true,
         swcHtmlMinimizer: true,
-        swcJsLoader: false,
         swcJsMinimizer: true,
+      },
+    },
+    webpack: {
+      jsLoader: (isServer) => {
+        const defaultOptions = require("@docusaurus/faster").getSwcLoaderOptions({isServer});
+        return {
+          loader: 'builtin:swc-loader', // (only works with Rspack)
+          options: {
+            ...defaultOptions,
+            jsc: {
+              parser: {
+                ...defaultOptions.jsc.parser,
+                decorators: true
+              },
+              transform: {
+                ...defaultOptions.jsc.transform,
+                decoratorVersion: '2022-03'
+              }
+            }
+          },
+        }
       },
     },
     presets: [
