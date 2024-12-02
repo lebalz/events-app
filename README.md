@@ -41,16 +41,10 @@ $ yarn run start
 yarn install
 yarn run start
 ```
+This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 If you have troubles with npm or yarn, try to delete the `node_modules` folder and run `yarn install` again.
 
-#### upgrade Docusaurus
-
-```bash
-yarn upgrade @docusaurus/core@latest @docusaurus/preset-classic@latest @docusaurus/module-type-aliases@latest @docusaurus/types@latest @tsconfig/docusaurus@latest
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 #### Use unauthorized backend (e.g. when developping offline)
 
