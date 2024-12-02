@@ -40,13 +40,11 @@ const withParsedMessage = <T>(fn: (data: T) => void) => {
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
     abortControllers = new Map<string, AbortController>();
-    @observable.ref
-    socket?: Socket<ServerToClientEvents, ClientToServerEvents>;
+    @observable.ref accessor socket?: Socket<ServerToClientEvents, ClientToServerEvents>;
 
     messages = observable<Message>([]);
 
-    @observable
-    initialAuthorizedLoadPerformed = false;
+    @observable accessor initialAuthorizedLoadPerformed = false;
 
     get initialPublicLoadPerformed() {
         return this.initialAuthorizedLoadPerformed;
@@ -56,8 +54,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
         return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed;
     }
 
-    @observable
-    isLive: boolean = false;
+    @observable accessor isLive: boolean = false;
 
     constructor(root: RootStore) {
         this.root = root;

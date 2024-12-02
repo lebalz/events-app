@@ -23,8 +23,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     readonly root: RootStore;
     models = observable<User>([]);
 
-    @observable.ref
-    affectedEventIds = observable.set<string>([]);
+    @observable.ref accessor affectedEventIds = observable.set<string>([]);
 
     constructor(root: RootStore) {
         super();

@@ -23,8 +23,7 @@ export class RootStore {
     resettableStores = observable<ResettableStore>([]);
     semesterizedStores = observable<LoadeableStore<any>>([]);
 
-    @observable
-    _initialSemesterLoaded = false;
+    @observable accessor _initialSemesterLoaded = false;
 
     sessionStore: SessionStore;
     untisStore: UntisStore;
@@ -39,10 +38,8 @@ export class RootStore {
 
     viewStore: ViewStore;
 
-    @observable
-    _isLoadingPublic = false;
-    @observable
-    _isLoadingPrivate = false;
+    @observable accessor _isLoadingPublic = false;
+    @observable accessor _isLoadingPrivate = false;
 
     constructor() {
         this.semesterStore = new SemesterStore(this);

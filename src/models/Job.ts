@@ -18,8 +18,8 @@ export default class Job extends ApiModel<JobProps, ApiAction> {
     readonly createdAt: Date;
     readonly updatedAt: Date;
 
-    @observable state: JobState;
-    @observable description: string;
+    @observable accessor state: JobState;
+    @observable accessor description: string;
 
     constructor(props: JobProps, store: JobStore) {
         super();
@@ -129,8 +129,7 @@ export class ImportJob extends Job {
     readonly type: ApiJobType.IMPORT = ApiJobType.IMPORT;
     readonly filename?: string;
 
-    @observable
-    fullyLoaded = false;
+    @observable accessor fullyLoaded = false;
 
     constructor(props: UntisImportJob, store: JobStore) {
         super(props, store);

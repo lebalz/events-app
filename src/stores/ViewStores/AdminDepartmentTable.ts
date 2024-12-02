@@ -4,10 +4,8 @@ import Department from '@site/src/models/Department';
 import _ from 'lodash';
 class AdminDepartmentTable {
     private readonly store: ViewStore;
-    @observable
-    sortColumn: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' = 'letter';
-    @observable
-    sortDirection: 'asc' | 'desc' = 'asc';
+    @observable accessor sortColumn: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' = 'letter';
+    @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
     constructor(store: ViewStore) {
         this.store = store;
     }

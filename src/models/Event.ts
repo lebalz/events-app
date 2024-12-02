@@ -113,8 +113,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
 
-    @observable.ref
-    updatedAt: Date;
+    @observable.ref accessor updatedAt: Date;
 
     /**
      * These are **only** the departments, which are added as a whole.
@@ -125,47 +124,33 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     classes = observable.set<KlassName>([]);
     classGroups = observable.set<string>([]);
 
-    @observable
-    description: string;
+    @observable accessor description: string;
 
-    @observable
-    descriptionLong: string;
+    @observable accessor descriptionLong: string;
 
-    @observable
-    location: string;
+    @observable accessor location: string;
 
-    @observable
-    end: Date;
+    @observable accessor end: Date;
 
-    @observable
-    deletedAt?: Date;
+    @observable accessor deletedAt?: Date;
 
-    @observable
-    start: Date;
+    @observable accessor start: Date;
 
-    @observable
-    allLPs: boolean;
+    @observable accessor allLPs: boolean;
 
-    @observable
-    audience: EventAudience;
+    @observable accessor audience: EventAudience;
 
-    @observable
-    showAsAllDay: boolean;
+    @observable accessor showAsAllDay: boolean;
 
-    @observable
-    teachingAffected: TeachingAffected;
+    @observable accessor teachingAffected: TeachingAffected;
 
-    @observable
-    versionsLoaded: boolean = false;
+    @observable accessor versionsLoaded: boolean = false;
 
-    @observable
-    selected: boolean = false;
+    @observable accessor selected: boolean = false;
 
-    @observable.ref
-    _errors?: Joi.ValidationError;
+    @observable.ref accessor _errors?: Joi.ValidationError;
 
-    @observable
-    affectsDepartment2: boolean;
+    @observable accessor affectsDepartment2: boolean;
 
     validationDisposer: IReactionDisposer;
     validationTimeout: NodeJS.Timeout;

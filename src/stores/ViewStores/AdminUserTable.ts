@@ -5,14 +5,17 @@ import _ from 'lodash';
 
 class AdminUserTable {
     private readonly store: ViewStore;
-    @observable
-    sortColumn: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' | 'notifyOnEventUpdate' =
-        'email';
-    @observable
-    sortDirection: 'asc' | 'desc' = 'asc';
+    @observable accessor sortColumn:
+        | 'id'
+        | 'email'
+        | 'shortName'
+        | 'role'
+        | 'createdAt'
+        | 'updatedAt'
+        | 'notifyOnEventUpdate' = 'email';
+    @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
 
-    @observable
-    _filter = '';
+    @observable accessor _filter = '';
 
     constructor(store: ViewStore) {
         this.store = store;

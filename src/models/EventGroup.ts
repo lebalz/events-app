@@ -19,14 +19,11 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     userIds = observable.set<string>([]);
     eventIds = observable.set<string>([]);
 
-    @observable
-    name: string;
+    @observable accessor name: string;
 
-    @observable
-    description: string;
+    @observable accessor description: string;
 
-    @observable.ref
-    updatedAt: Date;
+    @observable.ref accessor updatedAt: Date;
 
     constructor(props: EventGroupProps, store: EventGroupStore) {
         super();

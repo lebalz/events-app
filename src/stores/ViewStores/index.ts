@@ -17,31 +17,21 @@ import Colors from './Colors';
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
 
-    @observable
-    showFullscreenButton = false;
-    @observable
-    fullscreen = false;
+    @observable accessor showFullscreenButton = false;
+    @observable accessor fullscreen = false;
 
-    // @observable.ref
-    eventTable: EventTable;
+    // @observable.ref accessor     eventTable: EventTable;
 
-    @observable
-    _semesterId = '';
+    @observable accessor _semesterId = '';
 
-    @observable
-    _userId: string | null = null;
+    @observable accessor _userId: string | null = null;
 
-    @observable.ref
-    adminUserTable: AdminUserTable;
-    @observable.ref
-    adminDepartmentTable: AdminDepartmentTable;
-    @observable.ref
-    colors: Colors;
-    @observable
-    openEventModalId?: string;
+    @observable.ref accessor adminUserTable: AdminUserTable;
+    @observable.ref accessor adminDepartmentTable: AdminDepartmentTable;
+    @observable.ref accessor colors: Colors;
+    @observable accessor openEventModalId?: string;
 
-    @observable
-    initialAuthorizedLoadPerformed = false;
+    @observable accessor initialAuthorizedLoadPerformed = false;
 
     get initialPublicLoadPerformed() {
         return this.initialAuthorizedLoadPerformed;
@@ -51,14 +41,11 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed;
     }
 
-    @observable
-    icalListDepartmentsFilter = '';
+    @observable accessor icalListDepartmentsFilter = '';
 
-    @observable
-    icalListClassFilter = '';
+    @observable accessor icalListClassFilter = '';
 
-    @observable
-    calendarViewDate = new Date().toISOString().split('T')[0];
+    @observable accessor calendarViewDate = new Date().toISOString().split('T')[0];
 
     expandedEventIds = observable.set<string>();
 
