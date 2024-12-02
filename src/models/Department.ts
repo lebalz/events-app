@@ -157,7 +157,6 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.isCapitalLetter ? 'de' : 'fr';
     }
 
-    @override
     get props(): DepartmentProps {
         return {
             id: this.id,

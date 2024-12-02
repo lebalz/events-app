@@ -45,7 +45,6 @@ export class EventGroupStore extends iStore<
         return _.orderBy(this.models, ['_pristine.name'], ['asc']) as EventGroup[];
     }
 
-    @override
     create(model: EventGroupCreate) {
         /**
          * Save the model to the api

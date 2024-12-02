@@ -34,7 +34,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     }
 
     addToStore(data: JobProps, state?: 'load' | 'create', reloadStores?: boolean): Job;
-    @override
+
     addToStore(data: JobAndEventsProps, state?: 'load' | 'create', reloadStores?: boolean): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {
@@ -55,7 +55,6 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         return job;
     }
 
-    @override
     removeFromStore(id?: string) {
         if (!id) {
             return;

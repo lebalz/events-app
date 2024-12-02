@@ -298,12 +298,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return ValidState.Valid;
     }
 
-    @override
     get isValid() {
         return this.validationState === ValidState.Valid;
     }
 
-    @override
     get canSave() {
         return this.validationState !== ValidState.Error;
     }
@@ -656,13 +654,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.selected = selected;
     }
 
-    @override
     setEditing(editing: boolean) {
         this._isEditing = editing;
         this.triggerInitialValidation();
     }
 
-    @override
     get isEditable() {
         return !this.isDeleted && this.store.canEdit(this);
     }
@@ -1122,7 +1118,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         };
     }
 
-    @override
     get props(): EventProps {
         return {
             id: this.id,
@@ -1353,7 +1348,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.root.eventGroupStore.eventGroups.filter((g) => g.eventIds.has(this.id));
     }
 
-    @override
     cleanup() {
         this.validationDisposer();
         clearTimeout(this.validationTimeout);

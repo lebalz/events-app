@@ -44,7 +44,6 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
         this.updatedAt = new Date(props.updatedAt);
     }
 
-    @override
     get props(): SemesterProps {
         return {
             id: this.id,

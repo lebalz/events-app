@@ -110,7 +110,6 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         return search.test(this.firstName) || search.test(this.lastName) || search.test(this.shortName || '');
     }
 
-    @override
     get props() {
         return {
             id: this.id,

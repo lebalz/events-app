@@ -100,7 +100,6 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
         this.updatedAt = new Date(props.updatedAt);
     }
 
-    @override
     get props(): RegPeriodProps {
         return {
             id: this.id,

@@ -73,7 +73,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         return this.store.eventStore.apiStateFor(`load-events-${this.id}`);
     }
 
-    @override
     get isEditable() {
         return true;
     }
@@ -134,7 +133,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         }
     }
 
-    @override
     get props(): EventGroupProps {
         return {
             id: this.id,
