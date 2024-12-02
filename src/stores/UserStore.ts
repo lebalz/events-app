@@ -18,7 +18,7 @@ import Storage, { PersistedData, StorageKey } from './utils/Storage';
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
 export class UserStore extends iStore<UserProps, ApiAction> {
-    readonly ApiEndpoint = new EndPoint('users', { authorized: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('users', { authorized: true });
 
     readonly root: RootStore;
     models = observable<User>([]);

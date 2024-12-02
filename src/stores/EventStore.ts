@@ -25,7 +25,10 @@ export class EventStore extends iStore<
 > {
     readonly root: RootStore;
 
-    readonly ApiEndpoint = new EndPoint('events', { authorized: 'user/events', public: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('events', {
+        authorized: 'user/events',
+        public: true
+    });
 
     models = observable<Event>([]);
 

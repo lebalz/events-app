@@ -18,7 +18,7 @@ export class EventGroupStore extends iStore<
     EventGroupProps,
     ApiAction | `clone-${string}` | `fetch-${string}`
 > {
-    readonly ApiEndpoint = new EndPoint('event_groups', { authorized: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('event_groups', { authorized: true });
 
     readonly root: RootStore;
 

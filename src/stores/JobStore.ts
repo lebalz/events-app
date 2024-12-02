@@ -17,7 +17,7 @@ import { EndPoint } from './EndPoint';
 export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;
 
-    readonly ApiEndpoint = new EndPoint('jobs', { authorized: true });
+    @observable.ref accessor ApiEndpoint = new EndPoint('jobs', { authorized: true });
 
     models = observable<Job>([]);
     constructor(root: RootStore) {

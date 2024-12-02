@@ -62,7 +62,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
 {
     abstract readonly root: RootStore;
 
-    @observable.ref abstract readonly accessor ApiEndpoint: EndPoint;
+    abstract readonly ApiEndpoint: EndPoint;
 
     abstract models: IObservableArray<ApiModel<Model, Api | ApiAction>>;
 
