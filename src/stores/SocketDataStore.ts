@@ -40,7 +40,7 @@ const withParsedMessage = <T>(fn: (data: T) => void) => {
 export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     private readonly root: RootStore;
     abortControllers = new Map<string, AbortController>();
-    @observable.ref accessor socket?: Socket<ServerToClientEvents, ClientToServerEvents>;
+    @observable.ref accessor socket: Socket<ServerToClientEvents, ClientToServerEvents> | undefined;
 
     messages = observable<Message>([]);
 

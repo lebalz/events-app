@@ -29,7 +29,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable.ref accessor adminUserTable: AdminUserTable;
     @observable.ref accessor adminDepartmentTable: AdminDepartmentTable;
     @observable.ref accessor colors: Colors;
-    @observable accessor openEventModalId?: string;
+    @observable accessor openEventModalId: string | undefined;
 
     @observable accessor initialAuthorizedLoadPerformed = false;
 

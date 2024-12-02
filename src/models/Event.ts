@@ -132,7 +132,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable accessor end: Date;
 
-    @observable accessor deletedAt?: Date;
+    @observable accessor deletedAt: Date | undefined;
 
     @observable accessor start: Date;
 
@@ -148,7 +148,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable accessor selected: boolean = false;
 
-    @observable.ref accessor _errors?: Joi.ValidationError;
+    @observable.ref accessor _errors: Joi.ValidationError | undefined;
 
     @observable accessor affectsDepartment2: boolean;
 
