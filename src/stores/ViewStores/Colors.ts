@@ -148,7 +148,7 @@ class Colors {
     constructor(store: ViewStore) {
         this.store = store;
         this.rehydrate();
-        makeObservable(this);
+
         reaction(
             () => JSON.stringify(this.data),
             () => {

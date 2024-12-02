@@ -14,9 +14,7 @@ class State {
     @observable.ref
     _msalInstance?: IPublicClientApplication;
 
-    constructor() {
-        makeObservable(this);
-    }
+    constructor() {}
 }
 
 export class SessionStore {
@@ -39,7 +37,7 @@ export class SessionStore {
 
     constructor(store: RootStore) {
         this.root = store;
-        makeObservable(this);
+
         const data = Storage.get<PersistedData>(StorageKey.SessionStore) || {};
         this.rehydrate(data);
         // setTimeout(() => {

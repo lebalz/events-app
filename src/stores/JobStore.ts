@@ -23,7 +23,6 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     createModel(data: JobProps): SyncJob | ImportJob {

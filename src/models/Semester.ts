@@ -48,8 +48,6 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
         this.untisSyncDate = toLocalDate(new Date(props.untisSyncDate));
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
     @override

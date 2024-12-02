@@ -34,7 +34,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             // attempt to load the previous state of this store from localstorage
             this.rehydrate();
         }, 1);
-        makeObservable(this);
     }
 
     @action

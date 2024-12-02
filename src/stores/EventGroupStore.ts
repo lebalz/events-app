@@ -26,7 +26,6 @@ export class EventGroupStore extends iStore<
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     createModel(data: EventGroupProps): EventGroup {

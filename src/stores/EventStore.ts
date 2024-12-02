@@ -32,7 +32,6 @@ export class EventStore extends iStore<
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     canEdit(event: Event) {

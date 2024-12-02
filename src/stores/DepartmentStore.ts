@@ -17,7 +17,6 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     constructor(root: RootStore) {
         super();
         this.root = root;
-        makeObservable(this);
     }
 
     @computed

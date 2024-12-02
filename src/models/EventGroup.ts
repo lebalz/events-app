@@ -39,8 +39,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         this.description = props.description;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
     @computed

@@ -106,8 +106,6 @@ export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiActi
 
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
     @override

@@ -26,9 +26,7 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     @observable
     _isEditing = false;
 
-    constructor() {
-        makeObservable(this);
-    }
+    constructor() {}
 
     @computed
     get props(): T {

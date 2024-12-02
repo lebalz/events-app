@@ -61,7 +61,6 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
     constructor(root: RootStore) {
         this.root = root;
-        makeObservable(this);
 
         api.interceptors.response.use(
             (res) => res,

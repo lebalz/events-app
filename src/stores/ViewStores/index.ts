@@ -63,7 +63,6 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     expandedEventIds = observable.set<string>();
 
     constructor(store: RootStore) {
-        makeObservable(this);
         this.root = store;
         this.eventTable = new EventTable(this);
         this.colors = new Colors(this);

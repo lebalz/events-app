@@ -207,7 +207,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.showAsAllDay = this.isAllDay;
         this.meta = props.meta;
 
-        makeObservable(this);
         this.validationDisposer = reaction(
             () => this.props,
             () => {

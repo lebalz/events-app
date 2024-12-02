@@ -45,8 +45,6 @@ export class RootStore {
     _isLoadingPrivate = false;
 
     constructor() {
-        makeObservable(this);
-
         this.semesterStore = new SemesterStore(this);
         this.subscribeTo(this.semesterStore, ['load', 'reset']);
 

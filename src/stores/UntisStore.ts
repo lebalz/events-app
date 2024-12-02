@@ -46,7 +46,6 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     constructor(root: RootStore) {
         this.root = root;
 
-        makeObservable(this);
         reaction(
             () => this.root.userStore.current?.untisId,
             (id) => {

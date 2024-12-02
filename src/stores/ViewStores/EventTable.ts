@@ -59,7 +59,6 @@ class EventTable {
     showSelect = false;
 
     constructor(store: ViewStore) {
-        makeObservable(this);
         this.store = store;
     }
 

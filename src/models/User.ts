@@ -53,8 +53,6 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         this.icalUrl = props.icsLocator;
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
-
-        makeObservable(this);
     }
 
     @computed

@@ -16,7 +16,6 @@ class AdminUserTable {
 
     constructor(store: ViewStore) {
         this.store = store;
-        makeObservable(this);
     }
 
     @computed

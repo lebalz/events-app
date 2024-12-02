@@ -21,7 +21,6 @@ export class EndPoint {
                 : config.authorized
                   ? Base
                   : '';
-        makeObservable(this);
     }
 
     get hasPublicRoute() {
