@@ -320,7 +320,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.validationState === ValidState.Error || !this.initialValidation) {
             return false;
         }
-        return this.hasOpenRegistrationPeriod || !this.hasParent;
+        return this.hasOpenRegistrationPeriod || this.hasParent;
     }
 
     errorFor(attr: keyof EventProps) {
@@ -1201,6 +1201,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             return version;
         }
         return this.publishedVersionIds.length + 1;
+    }
+
+    @action
+    loadParent(force?: boolean) {
+        if (!this.hasParent || (!this.parent && !force)) {
+            return Promise.resolve(true);
+        }
+        return this.store.loadEvents([this.parentId], this.parentId);
     }
 
     @action
