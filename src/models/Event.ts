@@ -1205,8 +1205,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     loadParent(force?: boolean) {
-        if (!this.hasParent || (!this.parent && !force)) {
-            return Promise.resolve(true);
+        if (!this.hasParent || (this.parent && !force)) {
+            return Promise.resolve(this.parent);
         }
         return this.store.loadEvents([this.parentId], this.parentId);
     }
