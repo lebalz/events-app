@@ -320,7 +320,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.validationState === ValidState.Error || !this.initialValidation) {
             return false;
         }
-        return this.hasOpenRegistrationPeriod;
+        return this.hasOpenRegistrationPeriod || !this.hasParent;
     }
 
     errorFor(attr: keyof EventProps) {

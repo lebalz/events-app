@@ -8,6 +8,8 @@ import { ApiIcon, Icon, SIZE_S } from '../icons';
 import Link from '@docusaurus/Link';
 import { Color, getButtonColorClass } from '../Colors';
 import Tooltip from '../Tooltip';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
 export const POPUP_BUTTON_STYLE = clsx(
     styles.button,
@@ -111,7 +113,7 @@ const ButtonInner = (props: Props) => {
     );
 };
 
-const Button = (props: Props) => {
+const Button = observer((props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
     let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary');
@@ -151,8 +153,9 @@ const Button = (props: Props) => {
             </Link>
         );
     }
-    return (
-        <Tooltip title={props.title}>
+
+    const Btn = observer(() => {
+        return (
             <button
                 type="button"
                 className={clsx(commonCls)}
@@ -162,8 +165,23 @@ const Button = (props: Props) => {
             >
                 <ButtonInner {...props} />
             </button>
+        );
+    });
+    return (
+        <Tooltip title={props.title}>
+            <span>
+                <button
+                    type="button"
+                    className={clsx(commonCls)}
+                    onClick={props.onClick}
+                    style={style}
+                    disabled={props.disabled}
+                >
+                    <ButtonInner {...props} />
+                </button>
+            </span>
         </Tooltip>
     );
-};
+});
 
 export default Button;

@@ -109,6 +109,7 @@ export class EventStore extends iStore<
     createModel(data: EventProps, state?: 'load' | 'create'): Event {
         const model = new Event(data, this);
         if (state === 'create') {
+            model.triggerInitialValidation();
             model.setEditing(true);
         }
         return model;
