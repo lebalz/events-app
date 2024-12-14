@@ -35,7 +35,12 @@ const ParentDetails = observer((props: Props) => {
                 </summary>
             }
             className={clsx('alert--success', styles.parentEventDetails, props.className)}
-            onOpenChange={props.onOpenChange}
+            onOpenChange={(isOpen) => {
+                if (isOpen) {
+                    event.loadParent();
+                }
+                props.onOpenChange(isOpen);
+            }}
         >
             <EventProps event={event.publishedParent} inModal={props.inModal} showVersionHeader />
         </LazyDetails>

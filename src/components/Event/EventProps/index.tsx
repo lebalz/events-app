@@ -77,12 +77,11 @@ const EventProps = observer((props: Props) => {
     const commonClasses = clsx(event?.isDeleted && sharedStyles.deleted) || '';
     const commonProps = { event, styles: sharedStyles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
-    const showVersions =
-        !props.hideLoadVersionsButton && (event.publishedVersionIds.length > 0 || event.hasParent);
-
     if (!event) {
         return null;
     }
+    const showVersions =
+        !props.hideLoadVersionsButton && (event.publishedVersionIds.length > 0 || event.hasParent);
 
     return (
         <DefinitionList className={clsx(sharedStyles.eventProps, styles.eventProps)}>

@@ -42,7 +42,7 @@ const BulkActions = observer((props: Props) => {
     const eventGroupStore = useStore('eventGroupStore');
     const departmentStore = useStore('departmentStore');
     const { current } = userStore;
-    const selected = props.events.slice().filter((e) => e.selected);
+    const selected = props.events.filter((e) => e.selected);
     if (selected.length < 1) {
         return (
             <Stats
@@ -54,6 +54,7 @@ const BulkActions = observer((props: Props) => {
             />
         );
     }
+
     const state = selected[0]?.state;
     const sameState = selected.every((event) => event.state === state);
     const allTransitionable = selected.every((event) => event.canBeTransitioned);
@@ -82,7 +83,7 @@ const BulkActions = observer((props: Props) => {
             />
             {sameState && (
                 <div className={clsx(styles.stateActions)}>
-                    {state === EventState.Draft && allTransitionable && (
+                    {state === EventState.Draft && (
                         <Button
                             text={translate({
                                 message: 'Überprüfung anfordern',
@@ -98,6 +99,16 @@ const BulkActions = observer((props: Props) => {
                                     EventState.Review
                                 );
                             }}
+                            title={
+                                allTransitionable
+                                    ? undefined
+                                    : translate({
+                                          message:
+                                              'Entweder ist aktuell kein Terminfenster offen, oder ein Termin weist Fehler auf.',
+                                          id: 'event.bulk_actions.request_review_disabled'
+                                      })
+                            }
+                            disabled={!allTransitionable}
                         />
                     )}
                     {state === EventState.Review && (
