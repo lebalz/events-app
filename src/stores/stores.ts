@@ -13,6 +13,7 @@ import { RegistrationPeriodStore } from './RegistrationPeriodStore';
 import { SemesterStore } from './SemesterStore';
 import { EventGroupStore } from './EventGroupStore';
 import siteConfig from '@generated/docusaurus.config';
+import { SubscriptionStore } from './SubscriptionStore';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 type StoreActions = 'load' | 'reset' | 'semester';
@@ -35,6 +36,7 @@ export class RootStore {
     semesterStore: SemesterStore;
     registrationPeriodStore: RegistrationPeriodStore;
     eventGroupStore: EventGroupStore;
+    subscriptionStore: SubscriptionStore;
 
     viewStore: ViewStore;
 
@@ -73,6 +75,9 @@ export class RootStore {
 
         this.viewStore = new ViewStore(this);
         this.subscribeTo(this.viewStore, ['load', 'reset']);
+
+        this.subscriptionStore = new SubscriptionStore(this);
+        this.subscribeTo(this.subscriptionStore, ['reset']);
 
         reaction(
             () => this.viewStore.semesterId,

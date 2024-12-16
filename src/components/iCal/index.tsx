@@ -58,11 +58,11 @@ const ICal = observer((props: Props) => {
                         </Translate>
                     </div>
                     <div className={clsx('card__body')}>
-                        {user.untisId ? (
+                        {user.subscription ? (
                             <>
                                 <div className={clsx(styles.icalButtons)}>
                                     <Button
-                                        href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}&name=${translate(
+                                        href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}&name=${translate(
                                             {
                                                 message: 'GBSL',
                                                 id: 'user.ical.outlook.calendar-name',
@@ -87,7 +87,7 @@ const ICal = observer((props: Props) => {
                                 </div>
                                 <div className={clsx(styles.ical)}>
                                     <Copy
-                                        value={`${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}`}
+                                        value={`${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}`}
                                         size={SIZE_XS}
                                         icon={mdiClipboardText}
                                         title={translate({
@@ -96,7 +96,7 @@ const ICal = observer((props: Props) => {
                                         })}
                                         className={clsx(styles.copyButton)}
                                     />
-                                    {user.icalUrl && `${EVENTS_API}/ical/${currentLocale}/${user.icalUrl}`}
+                                    {`${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}`}
                                 </div>
                             </>
                         ) : (
