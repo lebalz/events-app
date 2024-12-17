@@ -986,7 +986,7 @@
     "description": "Text to delete a job"
   },
   "ical.section.personal": {
-    "message": "Persönlicher Kalender",
+    "message": "Persönliches Kalenderabo",
     "description": "personal ical sync address"
   },
   "ical.section.departments": {
@@ -1030,7 +1030,7 @@
     "description": "Message for a user, that is logged in, but is not linked to a untis account"
   },
   "ical.link.text.settings": {
-    "message": "Einstellungen",
+    "message": "👉 Einstellungen",
     "description": "Link text to navigate to the user settings"
   },
   "user.ical.filter.class.placeholder": {
@@ -1976,5 +1976,40 @@
   "event.classGroupBadgeTitle": {
     "message": "Alle Klassen der Stufe {classGroup}",
     "description": "EventOverviewSmall class group badge title"
+  },
+  "home.today.title": {
+    "message": "{day} {date}",
+    "description": "Title for the today section"
+  },
+  "home.today.mine": {
+    "message": "Meine",
+    "description": "Only show my events"
+  },
+  "home.today.all": {
+    "message": "Alle",
+    "description": "Show all events"
+  },
+  "home.today.noEvents": {
+    "message": "Keine Termine für heute",
+    "description": "No events for today"
+  },
+  "subscription.no_untis_account": {
+    "message": "Sie haben keinen Untis Account verknüpft, weshalb Ihre Termine nicht mit Ihrem Stundenplan abgegelichen werden können.",
+    "description": "Message for a user, that is not linked to a untis account"
+  },
+  "event.bulk_actions.request_review_disabled": {
+    "message": "Entweder ist aktuell kein Terminfenster offen, oder ein Termin weist Fehler auf."
+  },
+  "event.isValid.noRegistrationPeriod.title": {
+    "message": "Kein Anmeldefenster",
+    "description": "Alert message for event without open registration period"
+  },
+  "event.isValid.noRegistrationPeriod.text": {
+    "message": "Es gibt keinen offenen Anmeldezeitraum für dieses Event.",
+    "description": "Alert message for event without open registration period"
+  },
+  "theme.blog.author.noPosts": {
+    "message": "This author has not written any posts yet.",
+    "description": "The text for authors with 0 blog post"
   }
 }

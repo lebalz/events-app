@@ -47,6 +47,9 @@ export class RootStore {
         this.semesterStore = new SemesterStore(this);
         this.subscribeTo(this.semesterStore, ['load', 'reset']);
 
+        this.subscriptionStore = new SubscriptionStore(this);
+        this.subscribeTo(this.subscriptionStore, ['reset']);
+
         this.userStore = new UserStore(this);
         this.subscribeTo(this.userStore, ['load', 'reset']);
 
@@ -57,9 +60,6 @@ export class RootStore {
 
         this.eventStore = new EventStore(this);
         this.subscribeTo(this.eventStore, ['load', 'reset', 'semester']);
-
-        this.socketStore = new SocketDataStore(this);
-        this.subscribeTo(this.socketStore, ['load', 'reset']);
 
         this.jobStore = new JobStore(this);
         this.subscribeTo(this.jobStore, ['load', 'reset']);
@@ -73,12 +73,11 @@ export class RootStore {
         this.eventGroupStore = new EventGroupStore(this);
         this.subscribeTo(this.eventGroupStore, ['load', 'reset']);
 
+        this.socketStore = new SocketDataStore(this);
+        this.subscribeTo(this.socketStore, ['load', 'reset']);
+
         this.viewStore = new ViewStore(this);
         this.subscribeTo(this.viewStore, ['load', 'reset']);
-
-        this.subscriptionStore = new SubscriptionStore(this);
-        this.subscribeTo(this.subscriptionStore, ['reset']);
-
         reaction(
             () => this.viewStore.semesterId,
             (semesterId) => {

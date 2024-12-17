@@ -26,8 +26,8 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     readonly role: Role;
     readonly createdAt: Date;
     readonly updatedAt: Date;
-    readonly subscriptionId?: string;
 
+    @observable accessor subscriptionId: string | undefined = undefined;
     @observable accessor notifyOnEventUpdate: boolean;
     @observable accessor notifyAdminOnReviewRequest: boolean;
     @observable accessor notifyAdminOnReviewDecision: boolean;
@@ -57,6 +57,11 @@ export default class User extends ApiModel<UserProps, ApiAction> {
 
     get subscription(): Subscription | undefined {
         return this.store.root.subscriptionStore.find(this.subscriptionId);
+    }
+
+    @action
+    setSubscriptionId(subscriptionId: string | undefined) {
+        this.subscriptionId = subscriptionId;
     }
 
     @computed

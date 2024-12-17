@@ -28,9 +28,4 @@ export class SubscriptionStore extends iStore<SubscriptionProps, ApiAction> {
     destroy(model: Subscription) {
         throw new Error('Not implemented');
     }
-
-    @action
-    create(model: Partial<SubscriptionProps>): Promise<Subscription> {
-        throw new Error('Not implemented');
-    }
 }

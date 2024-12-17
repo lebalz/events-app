@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { Subscription as SubscriptionProps } from '../api/subscription';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
@@ -46,6 +46,67 @@ export default class Subscription extends ApiModel<SubscriptionProps, ApiAction>
 
     get user() {
         return this.store.root.userStore.find(this.userId);
+    }
+
+    @action
+    ignoreEvent(eventId: string) {
+        this.ignoredEventIds.add(eventId);
+        this.save();
+    }
+
+    @action
+    unignoreEvent(eventId: string) {
+        this.ignoredEventIds.delete(eventId);
+        this.save();
+    }
+
+    @action
+    setSubscribeToAffected(subscribe: boolean) {
+        this.subscribeToAffected = subscribe;
+        this.save();
+    }
+
+    @computed
+    get ignoredEvents() {
+        return this.store.root.eventStore.events.filter((event) => this.ignoredEventIds.has(event.id));
+    }
+
+    @action
+    addDepartment(departmentId: string) {
+        this.departmentIds.add(departmentId);
+        this.save();
+    }
+
+    @action
+    removeDepartment(departmentId: string) {
+        this.departmentIds.delete(departmentId);
+        this.save();
+    }
+
+    @computed
+    get departments() {
+        return this.store.root.departmentStore.departments.filter((department) =>
+            this.departmentIds.has(department.id)
+        );
+    }
+
+    @action
+    addUntisClass(untisClassId: number) {
+        this.untisClassIds.add(untisClassId);
+        this.save();
+    }
+
+    @action
+    removeUntisClass(untisClassId: number) {
+        this.untisClassIds.delete(untisClassId);
+        this.save();
+    }
+
+    @computed
+    get untisClasses() {
+        return this.store.root.untisStore.classes.filter((untisClass) =>
+            this.untisClassIds.has(untisClass.id)
+        );
     }
 
     @computed

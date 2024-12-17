@@ -11,6 +11,8 @@ import ConfigLocalized from './docusaurus.config.localized.json';
 import strongPlugin from './src/plugins/remark-strong/plugin';
 import deflistPlugin from './src/plugins/remark-deflist/plugin';
 import mdiPlugin from './src/plugins/remark-mdi/plugin';
+import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
+
 
 const VERSION = 'rc-1.2';
 
@@ -414,7 +416,18 @@ const config: Config = {
                 },
               ],
             },
-          ],
+        ],
+        [
+            dynamicRouterPlugin,
+            {
+                routes: [
+                    {
+                        path: '/unsubscribe/',
+                        component: '@site/src/components/Unsubscribe',
+                    }
+                ]
+            } satisfies DynamicRouteConfig
+        ],
     ]
 };
 

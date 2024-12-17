@@ -23,10 +23,12 @@ import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
 import { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
-import ICal from '../iCal';
+import Subscription from '../Subscription';
 import Checkbox from '../shared/Checkbox';
 import { ApiState } from '@site/src/stores/iStore';
 import { useStore } from '@site/src/stores/hooks';
+import ClassSubscriptions from '../Subscription/ClassSubscriptions';
+import DepartmentSubscriptions from '../Subscription/DepartmentSubscription';
 
 interface Props {
     user: UserModel;
@@ -126,7 +128,6 @@ const User = observer((props: Props) => {
                         </dd>
                     </>
                 )}
-
                 <dt>
                     <Badge
                         text={translate({
@@ -255,7 +256,9 @@ const User = observer((props: Props) => {
                     />
                 </dt>
                 <dd>
-                    <ICal />
+                    <Subscription />
+                    <ClassSubscriptions />
+                    <DepartmentSubscriptions />
                 </dd>
             </DefinitionList>
         </div>
