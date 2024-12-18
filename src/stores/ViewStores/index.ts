@@ -20,7 +20,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable accessor showFullscreenButton = false;
     @observable accessor fullscreen = false;
 
-    // @observable.ref accessor     eventTable: EventTable;
+    @observable.ref accessor eventTable: EventTable;
 
     @observable accessor _semesterId = '';
 

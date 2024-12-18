@@ -131,12 +131,12 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
 
     createRecord(data: NewRecord<RecordType>) {
         const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
-        store.addToStore(data.record, 'create');
+        store?.addToStore(data.record, 'create');
     }
 
     updateRecord(data: ChangedRecord<RecordType>) {
         const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
-        store.addToStore(data.record, 'load');
+        store?.addToStore(data.record, 'load');
     }
 
     deleteRecord(data: DeletedRecord) {

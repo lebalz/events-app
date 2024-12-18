@@ -59,7 +59,11 @@ class EventTable {
 
     @action
     toggleShowSelect() {
-        this.showSelect = !this.showSelect;
+        this.setShowSelect(!this.showSelect);
+    }
+    @action
+    setShowSelect(show: boolean) {
+        this.showSelect = show;
     }
 
     @action
@@ -156,6 +160,9 @@ class EventTable {
             }
             let keep = true;
             if (this.onlyMine && !event.isAffectedByUser) {
+                keep = false;
+            }
+            if (keep && this.onlyMine && event.isIgnored) {
                 keep = false;
             }
             if (keep && this.audienceFilter) {

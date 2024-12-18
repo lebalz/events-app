@@ -986,7 +986,7 @@
     "description": "Text to delete a job"
   },
   "ical.section.personal": {
-    "message": "Persönlicher Kalender",
+    "message": "Persönliches Kalenderabo",
     "description": "personal ical sync address"
   },
   "ical.section.departments": {
@@ -1022,7 +1022,7 @@
     "description": "subscribe to calendars .ics file"
   },
   "ical.section.personal.description": {
-    "message": "Dieser Kalender ist mit dem persönlichen Stundenplan abgeglichen und zeigt nur die für Sie relevanten Termine an. Es werden administrative Termine (bspw. Konvente), den Unterricht betreffende Lektionen (bspw. eine Klasse ist nicht anwesend) und für KLP's die eigene Klasse betreffenden Termine angezeigt.",
+    "message": "Die persönlichen Termine beinhalten alle für eine LP relevanten Termine",
     "description": "text which explains, which things are included in the personal calendar"
   },
   "ical.user_without_untis.message": {
@@ -1030,7 +1030,7 @@
     "description": "Message for a user, that is logged in, but is not linked to a untis account"
   },
   "ical.link.text.settings": {
-    "message": "Einstellungen",
+    "message": "👉 Einstellungen",
     "description": "Link text to navigate to the user settings"
   },
   "user.ical.filter.class.placeholder": {
@@ -1976,5 +1976,138 @@
   "event.classGroupBadgeTitle": {
     "message": "Alle Klassen der Stufe {classGroup}",
     "description": "EventOverviewSmall class group badge title"
+  },
+  "home.today.title": {
+    "message": "{day} {date}",
+    "description": "Title for the today section"
+  },
+  "home.today.mine": {
+    "message": "Meine",
+    "description": "Only show my events"
+  },
+  "home.today.all": {
+    "message": "Alle",
+    "description": "Show all events"
+  },
+  "home.today.noEvents": {
+    "message": "Keine Termine für heute",
+    "description": "No events for today"
+  },
+  "subscription.no_untis_account": {
+    "message": "Sie haben keinen Untis Account verknüpft, weshalb Ihre Termine nicht mit Ihrem Stundenplan abgegelichen werden können.",
+    "description": "Message for a user, that is not linked to a untis account"
+  },
+  "event.bulk_actions.request_review_disabled": {
+    "message": "Entweder ist aktuell kein Terminfenster offen, oder ein Termin weist Fehler auf."
+  },
+  "event.isValid.noRegistrationPeriod.title": {
+    "message": "Kein Anmeldefenster",
+    "description": "Alert message for event without open registration period"
+  },
+  "event.isValid.noRegistrationPeriod.text": {
+    "message": "Es gibt keinen offenen Anmeldezeitraum für dieses Event.",
+    "description": "Alert message for event without open registration period"
+  },
+  "theme.blog.author.noPosts": {
+    "message": "This author has not written any posts yet.",
+    "description": "The text for authors with 0 blog post"
+  },
+  "subscriptions.subscribed.subscribePersonal": {
+    "message": "Persönliche Termine?"
+  },
+  "subscriptions.subscribed.subscribePersonal.label": {
+    "message": "Abonniert"
+  },
+  "ical.personal.description.affectsLessons": {
+    "message": "Termine, die zu Stundenausfällen führen."
+  },
+  "subscriptions.subscribed.classes": {
+    "message": "Abonnierte Klassen"
+  },
+  "subscriptions.subscribed.departments": {
+    "message": "Abonnierte Abteilungen"
+  },
+  "subscriptions.subscribed.ignoredEvents": {
+    "message": "Ignorierte Termine"
+  },
+  "subscriptions.ical.openOutlook": {
+    "message": "In Outlook öffnen"
+  },
+  "subscriptions.ical.url": {
+    "message": "Kalender URL"
+  },
+  "unsubscribe.noUser": {
+    "message": "Nicht angemeldet",
+    "description": "Nicht angemeldet"
+  },
+  "unsubscribe.noEvent": {
+    "message": "Termin nicht gefunden",
+    "description": "Kein Termin gefunden"
+  },
+  "unsubscribe.title": {
+    "message": "Termin Abbestellt"
+  },
+  "unsubscribe.undo": {
+    "message": "Rückgängig machen",
+    "description": "Rückgängig machen"
+  },
+  "unsubscribe.description": {
+    "message": "Einen Termin abbestellen"
+  },
+  "event.bulk_actions.resubscribe": {
+    "message": "Wieder abonnieren"
+  },
+  "event.bulk_actions.unsubscribe": {
+    "message": "Deabonnieren"
+  },
+  "user.ical.already-subscribed-button.text": {
+    "message": "Abonniert",
+    "description": "Button text for subscribing to the calendar"
+  },
+  "user.ical.subscribe-button.text": {
+    "message": "Abonnieren",
+    "description": "Button text for subscribing to the calendar"
+  },
+  "user.ical.already-subscribe-button.title": {
+    "message": "Bereits dem persönlichen Kalenderabo hinzugefügt",
+    "description": "Button title for subscribing to the calendar"
+  },
+  "user.ical.subscribe-button.title": {
+    "message": "Zum persönlichen Kalenderabo hinzufügen",
+    "description": "Button title for subscribing to the calendar"
+  },
+  "user.ical.download-button.title": {
+    "message": "ICS Date herunterladen",
+    "description": "Button text for downloading the ics calendar file"
+  },
+  "subscriptionPanel.configure.title": {
+    "message": "Abonnement Konfigurieren"
+  },
+  "event.ignored": {
+    "message": "Ignorierte Termine"
+  },
+  "ical.personal.description.forTeachers": {
+    "message": "Termine für Lehrpersonen."
+  },
+  "ical.personal.description.forSchool": {
+    "message": "Termine für die ganze Schule."
+  },
+  "ical.personal.description.forClass": {
+    "message": "Termine welche die eigene Klasse betreffen."
+  },
+  "subscriptions.subscribed.classes.description": {
+    "message": "Werden die Termine einer Klasse abonniert, erscheinen diese auch im persönlichen Kalender. Doppelte Termine werden nicht angezeigt."
+  },
+  "subscriptions.subscribed.classes.hint": {
+    "message": "Die eigene Klasse (für KLP's) muss nicht abonniert werden - diese Termine sind bereits enthalten."
+  },
+  "subscriptions.subscribed.departments.description": {
+    "message": "Werden die Termine einer Abteilung abonniert, erscheinen diese auch im persönlichen Kalender. Doppelte Termine werden nicht angezeigt."
+  },
+  "subscriptions.departments.classes.hint": {
+    "message": "Die Abteilungen unterrichteter Klassen sind bereits im persönlichen Kalender abonniert."
+  },
+  "subscription.content.advanced": {
+    "message": "Erweiterte Abo-Einstellungen"
   }
 }

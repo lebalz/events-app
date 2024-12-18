@@ -154,19 +154,19 @@ const Button = observer((props: Props) => {
         );
     }
 
-    const Btn = observer(() => {
-        return (
-            <button
-                type="button"
-                className={clsx(commonCls)}
-                onClick={props.onClick}
-                style={style}
-                disabled={props.disabled}
-            >
-                <ButtonInner {...props} />
-            </button>
-        );
-    });
+    // const Btn = observer(() => {
+    //     return (
+    //         <button
+    //             type="button"
+    //             className={clsx(commonCls)}
+    //             onClick={props.onClick}
+    //             style={style}
+    //             disabled={props.disabled}
+    //         >
+    //             <ButtonInner {...props} />
+    //         </button>
+    //     );
+    // });
     return (
         <Tooltip title={props.title}>
             <span>

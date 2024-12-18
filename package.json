@@ -57,6 +57,7 @@
         "uuid": "^9.0.0"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.25.9",
         "@docusaurus/module-type-aliases": "^3.6.3",
         "@docusaurus/tsconfig": "^3.6.3",
         "@docusaurus/types": "^3.6.3",

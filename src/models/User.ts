@@ -1,9 +1,10 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { Role, User as UserProps } from '../api/user';
 import { ApiAction } from '../stores/iStore';
 import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
+import Subscription from './Subscription';
 
 export default class User extends ApiModel<UserProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = [
@@ -25,8 +26,8 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     readonly role: Role;
     readonly createdAt: Date;
     readonly updatedAt: Date;
-    readonly icalUrl: string | null;
 
+    @observable accessor subscriptionId: string | undefined = undefined;
     @observable accessor notifyOnEventUpdate: boolean;
     @observable accessor notifyAdminOnReviewRequest: boolean;
     @observable accessor notifyAdminOnReviewDecision: boolean;
@@ -46,9 +47,21 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         this.firstName = props.firstName;
         this.lastName = props.lastName;
         this.untisId = props.untisId;
-        this.icalUrl = props.icsLocator;
+        if (props.subscription) {
+            this.subscriptionId = props.subscription.id;
+            this.store.root.subscriptionStore.addToStore({ ...props.subscription, userId: props.id }, 'load');
+        }
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
+    }
+
+    get subscription(): Subscription | undefined {
+        return this.store.root.subscriptionStore.find(this.subscriptionId);
+    }
+
+    @action
+    setSubscriptionId(subscriptionId: string | undefined) {
+        this.subscriptionId = subscriptionId;
     }
 
     @computed
@@ -121,7 +134,6 @@ export default class User extends ApiModel<UserProps, ApiAction> {
             notifyAdminOnReviewDecision: this.notifyAdminOnReviewDecision,
             role: this.role,
             untisId: this.untisId,
-            icsLocator: this.icalUrl,
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString()
         };

@@ -14,6 +14,9 @@ import {
     mdiBookCancel,
     mdiBookmarkCheck,
     mdiBookmarkMinus,
+    mdiCalendarMinusOutline,
+    mdiCalendarPlus,
+    mdiCalendarPlusOutline,
     mdiClose,
     mdiDownloadCircleOutline,
     mdiFileCertificate,
@@ -27,13 +30,30 @@ import EventGroup from '@site/src/models/EventGroup';
 import Stats from './stats';
 import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 
+interface ActionConfig {
+    stateActions: boolean;
+    share: boolean;
+    downlaod: boolean;
+    groups: boolean;
+    delete: boolean;
+    unsubscribe: boolean;
+}
+
+const DEFAULT_CONFIG: ActionConfig = {
+    delete: true,
+    downlaod: true,
+    groups: true,
+    share: true,
+    stateActions: true,
+    unsubscribe: true
+};
 export interface Props {
     events: EventModel[];
     leftActions?: React.ReactNode | React.ReactNode[];
     middleActions?: React.ReactNode | React.ReactNode[];
     rightActions?: React.ReactNode | React.ReactNode[];
     className?: string;
-    showShare?: boolean;
+    actionConfig?: Partial<ActionConfig>;
 }
 
 const BulkActions = observer((props: Props) => {
@@ -41,8 +61,9 @@ const BulkActions = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     const eventGroupStore = useStore('eventGroupStore');
     const departmentStore = useStore('departmentStore');
+    const viewStore = useStore('viewStore');
     const { current } = userStore;
-    const selected = props.events.filter((e) => e.selected);
+    const selected = props.events?.filter((e) => e.selected) || [];
     if (selected.length < 1) {
         return (
             <Stats
@@ -51,6 +72,7 @@ const BulkActions = observer((props: Props) => {
                 middleActions={props.middleActions}
                 rightActions={props.rightActions}
                 className={clsx(props.className)}
+                actionConfig={props.actionConfig}
             />
         );
     }
@@ -59,6 +81,9 @@ const BulkActions = observer((props: Props) => {
     const sameState = selected.every((event) => event.state === state);
     const allTransitionable = selected.every((event) => event.canBeTransitioned);
     const onlyMine = selected.every((event) => event.authorId === current.id);
+    const actionConfig: ActionConfig = { ...DEFAULT_CONFIG, ...(props.actionConfig || {}) };
+    const showUnsubscribe = sameState && state === EventState.Published && actionConfig.unsubscribe;
+    const allUnsubscribed = showUnsubscribe && selected.every((event) => event.isIgnored);
     return (
         <div className={clsx(styles.bulk, 'card', props.className)}>
             <Badge
@@ -81,7 +106,7 @@ const BulkActions = observer((props: Props) => {
                     />
                 }
             />
-            {sameState && (
+            {sameState && actionConfig.stateActions && (
                 <div className={clsx(styles.stateActions)}>
                     {state === EventState.Draft && (
                         <Button
@@ -169,95 +194,145 @@ const BulkActions = observer((props: Props) => {
                     )}
                 </div>
             )}
-            <Button
-                text={translate({
-                    id: 'event.bulk_actions.share',
-                    message: 'Übersicht Öffnen'
-                })}
-                icon={mdiShareAll}
-                size={SIZE_XS}
-                iconSide="left"
-                color="primary"
-                href={`/event?${selected.map((e) => e.queryParam).join('&')}`}
-            />
-            <Button
-                text="Neue Gruppe"
-                icon={mdiTag}
-                size={SIZE_XS}
-                iconSide="left"
-                onClick={action(() => {
-                    const ids = selected.map((event) => event.id);
-                    eventGroupStore.create({ event_ids: ids, name: 'Neue Gruppe' });
-                })}
-            />
-            <Select
-                isMulti={true}
-                isSearchable={true}
-                isClearable={true}
-                menuPortalTarget={document.body}
-                styles={{
-                    menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
-                }}
-                onChange={(options, meta) => {
-                    switch (meta.action) {
-                        case 'select-option':
-                            const group = eventGroupStore.find<EventGroup>(meta.option.value);
-                            if (group) {
-                                group.addEvents(selected);
+            {actionConfig.share && (
+                <Button
+                    text={translate({
+                        id: 'event.bulk_actions.share',
+                        message: 'Übersicht Öffnen'
+                    })}
+                    icon={mdiShareAll}
+                    size={SIZE_XS}
+                    iconSide="left"
+                    color="primary"
+                    href={`/event?${selected.map((e) => e.queryParam).join('&')}`}
+                />
+            )}
+            {actionConfig.groups && (
+                <>
+                    <Button
+                        text="Neue Gruppe"
+                        icon={mdiTag}
+                        size={SIZE_XS}
+                        iconSide="left"
+                        onClick={action(() => {
+                            const ids = selected.map((event) => event.id);
+                            eventGroupStore.create({ event_ids: ids, name: 'Neue Gruppe' });
+                        })}
+                    />
+                    <Select
+                        isMulti={true}
+                        isSearchable={true}
+                        isClearable={true}
+                        menuPortalTarget={document.body}
+                        styles={{
+                            menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
+                        }}
+                        onChange={(options, meta) => {
+                            switch (meta.action) {
+                                case 'select-option':
+                                    const group = eventGroupStore.find<EventGroup>(meta.option.value);
+                                    if (group) {
+                                        group.addEvents(selected);
+                                    }
+                                    break;
+                                case 'remove-value':
+                                    const rmGroup = eventGroupStore.find<EventGroup>(
+                                        meta.removedValue?.value
+                                    );
+                                    if (rmGroup) {
+                                        rmGroup.removeEvents(selected);
+                                    }
+                                    break;
+                                case 'clear':
+                                    selected.forEach((event) =>
+                                        event.groups.forEach((g) => g.removeEvents([event]))
+                                    );
+                                    break;
                             }
-                            break;
-                        case 'remove-value':
-                            const rmGroup = eventGroupStore.find<EventGroup>(meta.removedValue?.value);
-                            if (rmGroup) {
-                                rmGroup.removeEvents(selected);
-                            }
-                            break;
-                        case 'clear':
-                            selected.forEach((event) => event.groups.forEach((g) => g.removeEvents([event])));
-                            break;
-                    }
-                }}
-                options={eventGroupStore.eventGroups.map((group) => ({
-                    value: group.id,
-                    label: group.name
-                }))}
-                value={selected
-                    .reduce(
-                        (acc, event) => {
-                            const gIds = new Set(event.groups.map((g) => g.id));
-                            return acc.filter(({ id }) => gIds.has(id));
-                        },
-                        selected[0]?.groups?.map((g) => ({ id: g.id, name: g.name })) || []
-                    )
-                    .map((g) => ({ value: g.id, label: g.name }))}
-            />
-            <Button
-                onClick={() => {
-                    toExcel(selected, departmentStore.departments).then((buffer) => {
-                        const blob = new Blob([buffer], {
-                            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        }}
+                        options={eventGroupStore.eventGroups.map((group) => ({
+                            value: group.id,
+                            label: group.name
+                        }))}
+                        value={selected
+                            .reduce(
+                                (acc, event) => {
+                                    const gIds = new Set(event.groups.map((g) => g.id));
+                                    return acc.filter(({ id }) => gIds.has(id));
+                                },
+                                selected[0]?.groups?.map((g) => ({ id: g.id, name: g.name })) || []
+                            )
+                            .map((g) => ({ value: g.id, label: g.name }))}
+                    />
+                </>
+            )}
+            {showUnsubscribe && (
+                <>
+                    {allUnsubscribed ? (
+                        <Button
+                            icon={mdiCalendarPlusOutline}
+                            text={translate({
+                                message: 'Wieder abonnieren',
+                                id: 'event.bulk_actions.resubscribe'
+                            })}
+                            onClick={() => {
+                                const { subscription } = current;
+                                if (subscription) {
+                                    subscription.unignoreEvents(selected.map((e) => e.id));
+                                    selected.forEach((s) => s.setSelected(false));
+                                }
+                            }}
+                            color={'green'}
+                        />
+                    ) : (
+                        <Button
+                            icon={mdiCalendarMinusOutline}
+                            text={translate({
+                                message: 'Deabonnieren',
+                                id: 'event.bulk_actions.unsubscribe'
+                            })}
+                            onClick={() => {
+                                const { subscription } = current;
+                                if (subscription) {
+                                    subscription.ignoreEvents(selected.map((e) => e.id));
+                                    selected.forEach((s) => s.setSelected(false));
+                                    viewStore.eventTable.setShowSelect(false);
+                                }
+                            }}
+                            color="red"
+                        />
+                    )}
+                </>
+            )}
+            {actionConfig.downlaod && (
+                <Button
+                    onClick={() => {
+                        toExcel(selected, departmentStore.departments).then((buffer) => {
+                            const blob = new Blob([buffer], {
+                                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                            });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            document.body.appendChild(a);
+                            a.href = url;
+                            a.download = 'events.xlsx';
+                            a.click();
+                            document.body.removeChild(a);
                         });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        document.body.appendChild(a);
-                        a.href = url;
-                        a.download = 'events.xlsx';
-                        a.click();
-                        document.body.removeChild(a);
-                    });
-                }}
-                color="blue"
-                icon={mdiDownloadCircleOutline}
-                size={SIZE_S}
-                title={translate(
-                    {
-                        id: 'event.bulk_actions.download',
-                        message: 'Download {number} Termine als Excel'
-                    },
-                    { number: selected.length }
-                )}
-            />
-            {onlyMine && (
+                    }}
+                    color="blue"
+                    icon={mdiDownloadCircleOutline}
+                    size={SIZE_S}
+                    title={translate(
+                        {
+                            id: 'event.bulk_actions.download',
+                            message: 'Download {number} Termine als Excel'
+                        },
+                        { number: selected.length }
+                    )}
+                />
+            )}
+            {onlyMine && actionConfig.delete && (
                 <Delete
                     onClick={action(() => {
                         selected.forEach((event) => event.destroy());

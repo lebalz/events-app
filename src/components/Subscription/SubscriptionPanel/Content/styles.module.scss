@@ -1,0 +1,18 @@
+.ignoredEvents {
+    max-width: 100%;
+    .semesterSelector {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.groupSubscriptions {
+    margin-top: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.advanced {
+    margin-top: 1em;
+}

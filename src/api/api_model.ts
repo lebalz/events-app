@@ -1,14 +1,6 @@
 import { AxiosPromise } from 'axios';
 import api from './base';
 
-export interface Department {
-    id: string;
-    name: string;
-    description: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
 export function all<T>(endpoint: string, signal: AbortSignal): AxiosPromise<T[]> {
     return api.get(endpoint, { signal });
 }

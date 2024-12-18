@@ -7,6 +7,8 @@ import {
     setRole,
     affectedEventIds as apiAffectedEventIds
 } from '../api/user';
+import { update as apiUpdateSubscription } from '../api/subscription';
+
 import { RootStore } from './stores';
 import User from '../models/User';
 import _ from 'lodash';

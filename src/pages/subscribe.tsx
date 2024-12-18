@@ -4,7 +4,7 @@ import styles from './user.module.scss';
 import Layout from '@theme/Layout';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
-import ICal from '../components/iCal';
+import Subscription from '../components/Subscription';
 import Section from '../components/shared/Section';
 import Translate, { translate } from '@docusaurus/Translate';
 
@@ -54,7 +54,7 @@ const UserPage = observer(() => {
                             </a>
                         </li>
                     </ul>
-                    <ICal />
+                    <Subscription />
                 </Section>
             </main>
         </Layout>

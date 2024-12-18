@@ -58,19 +58,20 @@ interface Props {
 }
 
 const EventsViewer = observer((props: Props) => {
+    const count = props.events.length;
     return (
         <div className={clsx(styles.view)}>
             <BulkActions events={props.events} {...(props.bulkActionConfig || {})} />
-            {props.type === View.Grid && <Grid events={props.events} {...props.gridConfig} />}
-            {props.type === View.List && <List events={props.events} />}
-            {props.type === View.Calendar && (
+            {count > 0 && props.type === View.Grid && <Grid events={props.events} {...props.gridConfig} />}
+            {count > 0 && props.type === View.List && <List events={props.events} />}
+            {count > 0 && props.type === View.Calendar && (
                 <Calendar
                     events={props.events}
                     defaultDate={_.minBy(props.events, (e) => e.startTimeMs)?.start}
                     className={clsx(styles.calendar)}
                 />
             )}
-            {props.type === View.Timeline && <Timeline events={props.events} />}
+            {count > 0 && props.type === View.Timeline && <Timeline events={props.events} />}
         </div>
     );
 });

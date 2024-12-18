@@ -21,12 +21,16 @@ import UntisLinker from './UntisLinker';
 import { ApiIcon, Calendar, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
-import ICal from '../iCal';
+import Subscription from '../Subscription';
 import Checkbox from '../shared/Checkbox';
 import { ApiState } from '@site/src/stores/iStore';
 import { useStore } from '@site/src/stores/hooks';
+import ClassSubscriptions from '../Subscription/ClassSubscriptions';
+import DepartmentSubscriptions from '../Subscription/DepartmentSubscription';
+import SubscriptionPanel from '../Subscription/SubscriptionPanel';
+import Section from '../shared/Section';
 
 interface Props {
     user: UserModel;
@@ -126,7 +130,6 @@ const User = observer((props: Props) => {
                         </dd>
                     </>
                 )}
-
                 <dt>
                     <Badge
                         text={translate({
@@ -242,22 +245,10 @@ const User = observer((props: Props) => {
                         <dd>{[...new Set(user.untisTeacher.lessons.map((l) => l.subject))].join(', ')}</dd>
                     </>
                 )}
-                <dt>
-                    <Badge
-                        text={translate({
-                            message: 'Kalender Abonnieren',
-                            id: 'components.user.index.calendar',
-                            description: 'Button Calendar'
-                        })}
-                        icon={<Calendar />}
-                        iconSide={iconSide}
-                        color="gray"
-                    />
-                </dt>
-                <dd>
-                    <ICal />
-                </dd>
             </DefinitionList>
+            <div className={clsx(styles.subscription)}>
+                <Subscription />
+            </div>
         </div>
     );
 });

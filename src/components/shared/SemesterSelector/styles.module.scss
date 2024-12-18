@@ -9,5 +9,8 @@
         .dropdown {
             cursor: pointer;
         }
+        .dropdownMenu {
+            z-index: calc(var(--ifm-z-index-dropdown) + 5);
+        }
     }
 }

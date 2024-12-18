@@ -1,5 +1,6 @@
 import api from './base';
 import { AxiosPromise } from 'axios';
+import { Subscription } from './subscription';
 
 export enum Role {
     USER = 'USER',
@@ -16,7 +17,7 @@ export type User = {
     notifyAdminOnReviewRequest: boolean;
     notifyAdminOnReviewDecision: boolean;
     role: Role;
-    icsLocator: string | null;
+    subscription?: Omit<Subscription, 'userId'>;
     createdAt: string;
     updatedAt: string;
 };
