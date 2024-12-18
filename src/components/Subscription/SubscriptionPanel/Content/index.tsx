@@ -20,6 +20,7 @@ import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction
 import ClassSubscriptions from '../../ClassSubscriptions';
 import DepartmentSubscriptions from '../../DepartmentSubscription';
 import Badge from '@site/src/components/shared/Badge';
+import LazyDetails from '@site/src/components/shared/Details';
 
 interface Props {
     subscription: Subscription;
@@ -45,7 +46,9 @@ const Content = observer((props: Props) => {
     return (
         <div>
             <div className={clsx(styles.ignoredEvents)}>
-                <SemesterSelector />
+                <div className={clsx(styles.semesterSelector)}>
+                    <SemesterSelector />
+                </div>
                 <EventsViewer
                     events={subscription.semestersIgnoredEvents}
                     gridConfig={{ columns: COLUMN_CONFIG }}
@@ -72,10 +75,19 @@ const Content = observer((props: Props) => {
                     }}
                 />
             </div>
-            <div className={clsx(styles.groupSubscriptions)}>
-                <ClassSubscriptions />
-                <DepartmentSubscriptions />
-            </div>
+            <LazyDetails
+                summary={
+                    <summary>
+                        <Translate id="subscription.content.advanced">Erweiterte Abo-Einstellungen</Translate>
+                    </summary>
+                }
+                className={clsx(styles.advanced)}
+            >
+                <div className={clsx(styles.groupSubscriptions)}>
+                    <ClassSubscriptions />
+                    <DepartmentSubscriptions />
+                </div>
+            </LazyDetails>
         </div>
     );
 });

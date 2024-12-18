@@ -4,13 +4,6 @@
     &.personal {
         flex-basis: 100%;
     }
-    .ical {
-        font-size: small;
-        font-style: italic;
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
-    }
 
     .icalWrapper {
         max-height: 20em;
@@ -27,4 +20,12 @@
             }
         }
     }
+}
+
+.ical {
+    font-size: small;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
 }

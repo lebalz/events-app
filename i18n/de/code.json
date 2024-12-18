@@ -1022,7 +1022,7 @@
     "description": "subscribe to calendars .ics file"
   },
   "ical.section.personal.description": {
-    "message": "Dieser Kalender ist mit dem persönlichen Stundenplan abgeglichen und zeigt nur die für Sie relevanten Termine an. Es werden administrative Termine (bspw. Konvente), den Unterricht betreffende Lektionen (bspw. eine Klasse ist nicht anwesend) und für KLP's die eigene Klasse betreffenden Termine angezeigt.",
+    "message": "Die persönlichen Termine beinhalten alle für eine LP relevanten:",
     "description": "text which explains, which things are included in the personal calendar"
   },
   "ical.user_without_untis.message": {
@@ -2011,5 +2011,79 @@
   "theme.blog.author.noPosts": {
     "message": "This author has not written any posts yet.",
     "description": "The text for authors with 0 blog post"
+  },
+  "subscriptions.subscribed.subscribePersonal": {
+    "message": "Persönliche Termine?"
+  },
+  "subscriptions.subscribed.subscribePersonal.label": {
+    "message": "Abonniert"
+  },
+  "ical.personal.description.affectsLessons": {
+    "message": "Termine welche die eigene Klasse betreffen."
+  },
+  "subscriptions.subscribed.classes": {
+    "message": "Abonnierte Klassen"
+  },
+  "subscriptions.subscribed.departments": {
+    "message": "Abonnierte Abteilungen"
+  },
+  "subscriptions.subscribed.ignoredEvents": {
+    "message": "Ignorierte Termine"
+  },
+  "subscriptions.ical.openOutlook": {
+    "message": "In Outlook öffnen"
+  },
+  "subscriptions.ical.url": {
+    "message": "Kalender URL"
+  },
+  "unsubscribe.noUser": {
+    "message": "Nicht angemeldet",
+    "description": "Nicht angemeldet"
+  },
+  "unsubscribe.noEvent": {
+    "message": "Termin nicht gefunden",
+    "description": "Kein Termin gefunden"
+  },
+  "unsubscribe.title": {
+    "message": "Abbestellen"
+  },
+  "unsubscribe.undo": {
+    "message": "Rückgängig machen",
+    "description": "Rückgängig machen"
+  },
+  "unsubscribe.description": {
+    "message": "Einen Termin abbestellen"
+  },
+  "event.bulk_actions.resubscribe": {
+    "message": "Wieder abonnieren"
+  },
+  "event.bulk_actions.unsubscribe": {
+    "message": "Deabonnieren"
+  },
+  "user.ical.already-subscribed-button.text": {
+    "message": "Abonniert",
+    "description": "Button text for subscribing to the calendar"
+  },
+  "user.ical.subscribe-button.text": {
+    "message": "Abonnieren",
+    "description": "Button text for subscribing to the calendar"
+  },
+  "user.ical.already-subscribe-button.title": {
+    "message": "Bereits dem persönlichen Kalenderabo hinzugefügt",
+    "description": "Button title for subscribing to the calendar"
+  },
+  "user.ical.subscribe-button.title": {
+    "message": "Zum persönlichen Kalenderabo hinzufügen",
+    "description": "Button title for subscribing to the calendar"
+  },
+  "user.ical.download-button.title": {
+    "message": "ICS Date herunterladen",
+    "description": "Button text for downloading the ics calendar file"
+  },
+  "subscriptionPanel.configure.title": {
+    "message": "Abonnement Konfigurieren"
+  },
+  "event.ignored": {
+    "message": "Ignorierte Termine"
   }
 }
