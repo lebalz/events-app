@@ -6,9 +6,22 @@
 }
 .card {
     flex-grow: 1;
-    .icalButtons {
-        display: flex;
+    &.personal {
+        flex-basis: 100%;
     }
+    .ical {
+        font-size: small;
+        font-style: italic;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+    }
+    // .controls {
+    // .settings {
+    // display: inline-block;
+    // max-width: 100%;
+    // }
+    // }
     .icalWrapper {
         max-height: 20em;
         overflow-y: auto;
@@ -23,15 +36,5 @@
                 }
             }
         }
-    }
-    .ical {
-        font-size: small;
-        font-style: italic;
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
-    }
-    &.personal {
-        flex-basis: 100%;
     }
 }

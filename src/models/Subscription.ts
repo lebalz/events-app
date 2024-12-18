@@ -50,13 +50,23 @@ export default class Subscription extends ApiModel<SubscriptionProps, ApiAction>
 
     @action
     ignoreEvent(eventId: string) {
-        this.ignoredEventIds.add(eventId);
+        this.ignoreEvents([eventId]);
+    }
+
+    @action
+    ignoreEvents(eventIds: string[]) {
+        eventIds.forEach((id) => this.ignoredEventIds.add(id));
         this.save();
     }
 
     @action
     unignoreEvent(eventId: string) {
-        this.ignoredEventIds.delete(eventId);
+        this.unignoreEvents([eventId]);
+    }
+
+    @action
+    unignoreEvents(eventIds: string[]) {
+        eventIds.forEach((id) => this.ignoredEventIds.delete(id));
         this.save();
     }
 
@@ -69,6 +79,11 @@ export default class Subscription extends ApiModel<SubscriptionProps, ApiAction>
     @computed
     get ignoredEvents() {
         return this.store.root.eventStore.events.filter((event) => this.ignoredEventIds.has(event.id));
+    }
+
+    @computed
+    get semestersIgnoredEvents() {
+        return this.store.root.viewStore.semester.events.filter((e) => this.ignoredEventIds.has(e.id));
     }
 
     @action

@@ -1356,6 +1356,34 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.root.eventGroupStore.eventGroups.filter((g) => g.eventIds.has(this.id));
     }
 
+    get isIgnored() {
+        const { current } = this.store.root.userStore;
+        if (!current || !current.subscription) {
+            return false;
+        }
+        return current.subscription.ignoredEventIds.has(this.id);
+    }
+
+    @action
+    unsubscribe() {
+        const { current } = this.store.root.userStore;
+        if (!current || !current.subscription) {
+            return;
+        }
+        current.subscription.ignoreEvent(this.id);
+    }
+
+    @action
+    resubscribe() {
+        const { current } = this.store.root.userStore;
+        if (!current || !current.subscription) {
+            return;
+        }
+        if (current.subscription.ignoredEventIds.has(this.id)) {
+            current.subscription.unignoreEvent(this.id);
+        }
+    }
+
     cleanup() {
         this.validationDisposer();
         clearTimeout(this.validationTimeout);

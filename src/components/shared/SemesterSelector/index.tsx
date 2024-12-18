@@ -13,7 +13,7 @@ const SemesterSelector = observer(() => {
     const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
     const windowSize = useWindowSize();
-    if (semesterStore.apiStateFor('loadAll') === ApiState.LOADING) {
+    if (!semesterStore.currentSemester) {
         return <Loading />;
     }
     if (semesterStore.semesters.length < 1) {
@@ -46,7 +46,7 @@ const SemesterSelector = observer(() => {
                 >
                     {viewStore.semester?.name}
                 </button>
-                <ul className="dropdown__menu">
+                <ul className={clsx('dropdown__menu', styles.dropdownMenu)}>
                     {semesterStore.semesters.map((semester, idx) => (
                         <li key={idx} onClick={() => viewStore.setSemester(semester)}>
                             <div

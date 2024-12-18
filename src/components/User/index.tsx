@@ -21,7 +21,7 @@ import UntisLinker from './UntisLinker';
 import { ApiIcon, Calendar, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
 import Subscription from '../Subscription';
 import Checkbox from '../shared/Checkbox';
@@ -29,6 +29,8 @@ import { ApiState } from '@site/src/stores/iStore';
 import { useStore } from '@site/src/stores/hooks';
 import ClassSubscriptions from '../Subscription/ClassSubscriptions';
 import DepartmentSubscriptions from '../Subscription/DepartmentSubscription';
+import SubscriptionPanel from '../Subscription/SubscriptionPanel';
+import Section from '../shared/Section';
 
 interface Props {
     user: UserModel;
@@ -243,24 +245,17 @@ const User = observer((props: Props) => {
                         <dd>{[...new Set(user.untisTeacher.lessons.map((l) => l.subject))].join(', ')}</dd>
                     </>
                 )}
-                <dt>
-                    <Badge
-                        text={translate({
-                            message: 'Kalender Abonnieren',
-                            id: 'components.user.index.calendar',
-                            description: 'Button Calendar'
-                        })}
-                        icon={<Calendar />}
-                        iconSide={iconSide}
-                        color="gray"
-                    />
-                </dt>
-                <dd>
-                    <Subscription />
-                    <ClassSubscriptions />
-                    <DepartmentSubscriptions />
-                </dd>
             </DefinitionList>
+            <div className={clsx(styles.subscription)}>
+                <h3>
+                    <Translate id="components.user.index.calendar" description="">
+                        Kalender Abonnieren
+                    </Translate>
+                </h3>
+                <Subscription />
+                <ClassSubscriptions />
+                <DepartmentSubscriptions />
+            </div>
         </div>
     );
 });

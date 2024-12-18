@@ -30,6 +30,8 @@ import DefinitionList from '../shared/DefinitionList';
 import Badge from '../shared/Badge';
 import EventOverviewSmall from '../EventOverviewSmall';
 import Checkbox from '../shared/Checkbox';
+import SubscriptionPanel from './SubscriptionPanel';
+import Content from './SubscriptionPanel/Content';
 
 interface Props {}
 
@@ -94,116 +96,133 @@ const Subscription = observer((props: Props) => {
                                         </div>
                                     </div>
                                 )}
-                                <DefinitionList>
-                                    {user.untisId && (
-                                        <>
-                                            <dt>
-                                                <Translate id="subscriptions.subscribed.subscribePersonal">
-                                                    Persönliche Termine?
-                                                </Translate>
-                                            </dt>
-                                            <dd>
-                                                <Checkbox
-                                                    label={translate({
-                                                        id: 'subscriptions.subscribed.subscribePersonal.label',
-                                                        message: 'Abonniert'
+                                <div className={clsx(styles.controls)}>
+                                    <DefinitionList>
+                                        {user.untisId && (
+                                            <>
+                                                <dt>
+                                                    <Translate id="subscriptions.subscribed.subscribePersonal">
+                                                        Persönliche Termine?
+                                                    </Translate>
+                                                </dt>
+                                                <dd>
+                                                    <Checkbox
+                                                        label={translate({
+                                                            id: 'subscriptions.subscribed.subscribePersonal.label',
+                                                            message: 'Abonniert'
+                                                        })}
+                                                        checked={user.subscription.subscribeToAffected}
+                                                        onChange={(checked) => {
+                                                            user.subscription.setSubscribeToAffected(checked);
+                                                        }}
+                                                    />
+                                                </dd>
+                                            </>
+                                        )}
+                                        <dt>
+                                            <Translate id="subscriptions.subscribed.classes">
+                                                Klassen
+                                            </Translate>
+                                        </dt>
+                                        <dd>
+                                            {user.subscription.untisClasses.length > 0 ? (
+                                                user.subscription.untisClasses.map((c, idx) => (
+                                                    <Badge
+                                                        key={idx}
+                                                        text={c.displayName}
+                                                        title={c.name}
+                                                        color={c.color}
+                                                    />
+                                                ))
+                                            ) : (
+                                                <Badge text="0" />
+                                            )}
+                                        </dd>
+                                        <dt>
+                                            <Translate id="subscriptions.subscribed.departments">
+                                                Abteilungen
+                                            </Translate>
+                                        </dt>
+                                        <dd>
+                                            {user.subscription.departments.length > 0 ? (
+                                                user.subscription.departments.map((d, idx) => (
+                                                    <Badge
+                                                        key={idx}
+                                                        text={d.shortName}
+                                                        title={d.description}
+                                                        color={d.color}
+                                                    />
+                                                ))
+                                            ) : (
+                                                <Badge text="0" />
+                                            )}
+                                        </dd>
+                                        <dt>
+                                            <Translate id="subscriptions.subscribed.ignoredEvents">
+                                                Ignorierte Termine
+                                            </Translate>
+                                        </dt>
+                                        <dd>
+                                            <Badge
+                                                text={`${user.subscription.semestersIgnoredEvents.length}`}
+                                            />
+                                        </dd>
+                                        <dt>
+                                            <Translate id="subscriptions.ical.openOutlook">
+                                                In Outlook öffnen
+                                            </Translate>
+                                        </dt>
+                                        <dd>
+                                            <Button
+                                                href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}&name=${translate(
+                                                    {
+                                                        message: 'GBSL',
+                                                        id: 'user.ical.outlook.calendar-name',
+                                                        description: 'Name of the calendar in Outlook'
+                                                    }
+                                                )}`}
+                                                target="_blank"
+                                                text={translate({
+                                                    message: 'Outlook',
+                                                    id: 'user.ical.outlook-button.text',
+                                                    description:
+                                                        'Button text for adding the calendar to Outlook'
+                                                })}
+                                                title={translate({
+                                                    message: 'Abonniere den Kalender in Outlook',
+                                                    id: 'user.ical.outlook-button.title',
+                                                    description:
+                                                        'Button text for adding the calendar to Outlook'
+                                                })}
+                                                icon={mdiMicrosoftOutlook}
+                                                color={'primary'}
+                                                size={SIZE_S}
+                                            />
+                                        </dd>
+                                        <dt>
+                                            <Translate id="subscriptions.ical.url">Kalender URL</Translate>
+                                        </dt>
+                                        <dd>
+                                            <div className={clsx(styles.ical)}>
+                                                <Copy
+                                                    value={`${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}`}
+                                                    size={SIZE_XS}
+                                                    icon={mdiClipboardText}
+                                                    title={translate({
+                                                        message:
+                                                            'Kopiere den Link zum persönlichen Kalender.',
+                                                        id: 'user.ical.personal-calendar.copy-button.title'
                                                     })}
-                                                    checked={user.subscription.subscribeToAffected}
-                                                    onChange={(checked) => {
-                                                        user.subscription.setSubscribeToAffected(checked);
-                                                    }}
+                                                    className={clsx(styles.copyButton)}
                                                 />
-                                            </dd>
-                                        </>
-                                    )}
-                                    <dt>
-                                        <Translate id="subscriptions.subscribed.classes">Klassen</Translate>
-                                    </dt>
-                                    <dd>
-                                        {user.subscription.untisClasses.length > 0 ? (
-                                            user.subscription.untisClasses.map((c, idx) => (
-                                                <Badge
-                                                    key={idx}
-                                                    text={c.displayName}
-                                                    title={c.name}
-                                                    color={c.color}
-                                                />
-                                            ))
-                                        ) : (
-                                            <Badge text="0" />
-                                        )}
-                                    </dd>
-                                    <dt>
-                                        <Translate id="subscriptions.subscribed.departments">
-                                            Abteilungen
-                                        </Translate>
-                                    </dt>
-                                    <dd>
-                                        {user.subscription.departments.length > 0 ? (
-                                            user.subscription.departments.map((d, idx) => (
-                                                <Badge
-                                                    key={idx}
-                                                    text={d.shortName}
-                                                    title={d.description}
-                                                    color={d.color}
-                                                />
-                                            ))
-                                        ) : (
-                                            <Badge text="0" />
-                                        )}
-                                    </dd>
-                                    <dt>
-                                        <Translate id="subscriptions.subscribed.ignoredEvents">
-                                            Ignorierte Termine
-                                        </Translate>
-                                    </dt>
-                                    <dd>
-                                        {user.subscription.ignoredEvents.length > 0 ? (
-                                            user.subscription.ignoredEvents.map((e, idx) => (
-                                                <EventOverviewSmall key={idx} event={e} />
-                                            ))
-                                        ) : (
-                                            <Badge text="0" />
-                                        )}
-                                    </dd>
-                                </DefinitionList>
-                                <div className={clsx(styles.icalButtons)}>
-                                    <Button
-                                        href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}&name=${translate(
-                                            {
-                                                message: 'GBSL',
-                                                id: 'user.ical.outlook.calendar-name',
-                                                description: 'Name of the calendar in Outlook'
-                                            }
-                                        )}`}
-                                        target="_blank"
-                                        text={translate({
-                                            message: 'Outlook',
-                                            id: 'user.ical.outlook-button.text',
-                                            description: 'Button text for adding the calendar to Outlook'
-                                        })}
-                                        title={translate({
-                                            message: 'Abonniere den Kalender in Outlook',
-                                            id: 'user.ical.outlook-button.title',
-                                            description: 'Button text for adding the calendar to Outlook'
-                                        })}
-                                        icon={mdiMicrosoftOutlook}
-                                        color={'primary'}
-                                        size={SIZE_S}
-                                    />
-                                </div>
-                                <div className={clsx(styles.ical)}>
-                                    <Copy
-                                        value={`${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}`}
-                                        size={SIZE_XS}
-                                        icon={mdiClipboardText}
-                                        title={translate({
-                                            message: 'Kopiere den Link zum persönlichen Kalender.',
-                                            id: 'user.ical.personal-calendar.copy-button.title'
-                                        })}
-                                        className={clsx(styles.copyButton)}
-                                    />
-                                    {`${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}`}
+                                                {`${EVENTS_API}/ical/${currentLocale}/${user.subscription.icsLocator}`}
+                                            </div>
+                                        </dd>
+                                    </DefinitionList>
+                                    <div className={clsx(styles.settings)}>
+                                        {/* <SubscriptionPanel subscription={user.subscription} /> */}
+                                        <Content subscription={user.subscription} />
+                                    </div>
                                 </div>
                             </>
                         ) : (

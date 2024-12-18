@@ -45,6 +45,11 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
         return this.semesters.find((s) => s.isCurrent);
     }
 
+    @computed
+    get viewedSemester(): Semester | undefined {
+        return this.root.viewStore.semester;
+    }
+
     resetUserData() {
         this.models.clear();
         this.loadedSemesters.clear();
