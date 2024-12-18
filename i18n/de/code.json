@@ -1022,7 +1022,7 @@
     "description": "subscribe to calendars .ics file"
   },
   "ical.section.personal.description": {
-    "message": "Die persönlichen Termine beinhalten alle für eine LP relevanten:",
+    "message": "Die persönlichen Termine beinhalten alle für eine LP relevanten Termine",
     "description": "text which explains, which things are included in the personal calendar"
   },
   "ical.user_without_untis.message": {
@@ -2019,7 +2019,7 @@
     "message": "Abonniert"
   },
   "ical.personal.description.affectsLessons": {
-    "message": "Termine welche die eigene Klasse betreffen."
+    "message": "Termine, die zu Stundenausfällen führen."
   },
   "subscriptions.subscribed.classes": {
     "message": "Abonnierte Klassen"
@@ -2045,7 +2045,7 @@
     "description": "Kein Termin gefunden"
   },
   "unsubscribe.title": {
-    "message": "Abbestellen"
+    "message": "Termin Abbestellt"
   },
   "unsubscribe.undo": {
     "message": "Rückgängig machen",
@@ -2085,5 +2085,29 @@
   },
   "event.ignored": {
     "message": "Ignorierte Termine"
+  },
+  "ical.personal.description.forTeachers": {
+    "message": "Termine für Lehrpersonen."
+  },
+  "ical.personal.description.forSchool": {
+    "message": "Termine für die ganze Schule."
+  },
+  "ical.personal.description.forClass": {
+    "message": "Termine welche die eigene Klasse betreffen."
+  },
+  "subscriptions.subscribed.classes.description": {
+    "message": "Werden die Termine einer Klasse abonniert, erscheinen diese auch im persönlichen Kalender. Doppelte Termine werden nicht angezeigt."
+  },
+  "subscriptions.subscribed.classes.hint": {
+    "message": "Die eigene Klasse (für KLP's) muss nicht abonniert werden - diese Termine sind bereits enthalten."
+  },
+  "subscriptions.subscribed.departments.description": {
+    "message": "Werden die Termine einer Abteilung abonniert, erscheinen diese auch im persönlichen Kalender. Doppelte Termine werden nicht angezeigt."
+  },
+  "subscriptions.departments.classes.hint": {
+    "message": "Die Abteilungen unterrichteter Klassen sind bereits im persönlichen Kalender abonniert."
+  },
+  "subscription.content.advanced": {
+    "message": "Erweiterte Abo-Einstellungen"
   }
 }

@@ -1,0 +1,18 @@
+.unsubscribe {
+    max-width: 100vw;
+    padding: 1em;
+    .event {
+        margin: 1em 0;
+    }
+    .alert {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        --ifm-alert-padding-vertical: 0.25em;
+        margin-bottom: 2em;
+    }
+}
+
+.wrapper {
+    margin: 2em;
+}

@@ -19,6 +19,7 @@ import Event from '@site/src/models/Event';
 import EventOverviewSmall from '../EventOverviewSmall';
 import Button from '../shared/Button';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import Link from '@docusaurus/Link';
 
 type PathParams = { eventId: string };
 const PATHNAME_PATTERN = '/unsubscribe/:eventId' as const;
@@ -57,6 +58,7 @@ const UnsubscribeComponent = observer((props: Props) => {
     const skipUnsubscribe = React.useRef(false);
     const history = useHistory();
     const accountUrl = useBaseUrl('/user?user-tab=account');
+    const homeUrl = useBaseUrl('/');
     React.useEffect(() => {
         if (skipUnsubscribe.current) {
             return;
@@ -65,10 +67,10 @@ const UnsubscribeComponent = observer((props: Props) => {
     }, [event, subscription, skipUnsubscribe]);
 
     return (
-        <div>
+        <div className={clsx(styles.unsubscribe)}>
             <h1>{translate({ id: 'unsubscribe.title', message: 'Termin Abbestellt' })}</h1>
-            <EventOverviewSmall event={event} />
-            <div className={clsx('alert alert--secondary', styles.alert)} role="alert">
+            <EventOverviewSmall event={event} className={clsx(styles.event)} />
+            <div className={clsx('alert alert--warning', styles.alert)} role="alert">
                 <Translate id="unsubscribe.undo" description="Rückgängig machen">
                     Rückgängig machen
                 </Translate>
@@ -77,11 +79,15 @@ const UnsubscribeComponent = observer((props: Props) => {
                     onClick={() => {
                         skipUnsubscribe.current = true;
                         subscription.unignoreEvent(event.id);
-                        history.push(accountUrl);
+                        history.push(homeUrl);
                     }}
                 />
             </div>
-            <Subscription />
+            <Link to={accountUrl}>
+                <Translate id="unsubscribe.go2settings" description="Go to the settings">
+                    👉 Zu den Einstellungen
+                </Translate>
+            </Link>
         </div>
     );
 });
@@ -138,11 +144,10 @@ const WithUser = observer((props: WithParentRootProps): JSX.Element => {
 const Unsubscribe = observer(() => {
     const location = useLocation();
     return (
-        <Layout
-            title={translate({ id: 'unsubscribe.title', message: 'Abbestellen' })}
-            description={translate({ id: 'unsubscribe.description', message: 'Einen Termin abbestellen' })}
-        >
-            <BrowserOnly fallback={<Loader />}>{() => <WithUser path={location.pathname} />}</BrowserOnly>
+        <Layout title={translate({ id: 'unsubscribe.title', message: 'Termin Abbestellt' })}>
+            <div className={clsx(styles.wrapper)}>
+                <BrowserOnly fallback={<Loader />}>{() => <WithUser path={location.pathname} />}</BrowserOnly>
+            </div>
         </Layout>
     );
 });
