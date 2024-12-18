@@ -1,3 +1,10 @@
 .ignoredEvents {
     max-width: 100%;
 }
+
+.groupSubscriptions {
+    margin-top: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}

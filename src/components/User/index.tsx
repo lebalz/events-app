@@ -247,14 +247,7 @@ const User = observer((props: Props) => {
                 )}
             </DefinitionList>
             <div className={clsx(styles.subscription)}>
-                <h3>
-                    <Translate id="components.user.index.calendar" description="">
-                        Kalender Abonnieren
-                    </Translate>
-                </h3>
                 <Subscription />
-                <ClassSubscriptions />
-                <DepartmentSubscriptions />
             </div>
         </div>
     );

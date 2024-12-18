@@ -17,6 +17,9 @@ import SemesterSelector from '@site/src/components/shared/SemesterSelector';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
+import ClassSubscriptions from '../../ClassSubscriptions';
+import DepartmentSubscriptions from '../../DepartmentSubscription';
+import Badge from '@site/src/components/shared/Badge';
 
 interface Props {
     subscription: Subscription;
@@ -39,9 +42,6 @@ export const COLUMN_CONFIG: ColumnConfig = [
 const Content = observer((props: Props) => {
     const { subscription } = props;
     const [viewType, setViewType] = React.useState<View>(View.Grid);
-    const semesterStore = useStore('semesterStore');
-    console.log(semesterStore.currentSemester.name);
-
     return (
         <div>
             <div className={clsx(styles.ignoredEvents)}>
@@ -52,6 +52,13 @@ const Content = observer((props: Props) => {
                     type={viewType}
                     bulkActionConfig={{
                         className: styles.indent,
+                        middleActions: [
+                            <Badge
+                                text={translate({ message: 'Ignorierte Termine', id: 'event.ignored' })}
+                                key="badge-m1"
+                                color="orange"
+                            />
+                        ],
                         rightActions: [
                             <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1" />
                         ],
@@ -64,6 +71,10 @@ const Content = observer((props: Props) => {
                         }
                     }}
                 />
+            </div>
+            <div className={clsx(styles.groupSubscriptions)}>
+                <ClassSubscriptions />
+                <DepartmentSubscriptions />
             </div>
         </div>
     );
