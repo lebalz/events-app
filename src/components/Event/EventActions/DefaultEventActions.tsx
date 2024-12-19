@@ -1,7 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import DefinitionList from '../../shared/DefinitionList';
@@ -12,7 +10,6 @@ import Button from '../../shared/Button';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
 import { SIZE_S } from '../../shared/icons';
 import Delete from '../../shared/Button/Delete';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface Props {
     event: Event;

@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { default as EventModel, InvalidTransition } from '@site/src/models/Event';
+import { default as EventModel } from '@site/src/models/Event';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
@@ -11,12 +11,11 @@ import { action } from 'mobx';
 import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
 import {
+    mdiBellPlus,
+    mdiBellRemove,
     mdiBookCancel,
     mdiBookmarkCheck,
     mdiBookmarkMinus,
-    mdiCalendarMinusOutline,
-    mdiCalendarPlus,
-    mdiCalendarPlusOutline,
     mdiClose,
     mdiDownloadCircleOutline,
     mdiFileCertificate,
@@ -303,7 +302,7 @@ const BulkActions = observer((props: Props) => {
                 <>
                     {allUnsubscribed ? (
                         <Button
-                            icon={mdiCalendarPlusOutline}
+                            icon={mdiBellPlus}
                             text={translate({
                                 message: 'Wieder abonnieren',
                                 id: 'event.bulk_actions.resubscribe'
@@ -319,7 +318,7 @@ const BulkActions = observer((props: Props) => {
                         />
                     ) : (
                         <Button
-                            icon={mdiCalendarMinusOutline}
+                            icon={mdiBellRemove}
                             text={translate({
                                 message: 'Deabonnieren',
                                 id: 'event.bulk_actions.unsubscribe'

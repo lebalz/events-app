@@ -2,11 +2,9 @@ import React from 'react';
 
 import { observer } from 'mobx-react-lite';
 import Button from '@site/src/components/shared/Button';
-import { SIZE_S } from '@site/src/components/shared/icons';
+import { SIZE } from '@site/src/components/shared/icons';
 import { useStore } from '@site/src/stores/hooks';
-import { EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import { translate } from '@docusaurus/Translate';
-import Edit from './Edit';
 import Event, { InvalidTransition } from '@site/src/models/Event';
 import { mdiBellPlus, mdiBellRemove } from '@mdi/js';
 
@@ -28,6 +26,7 @@ export const InvalidTransitionMessages: Record<InvalidTransition, string> = {
 interface Props {
     event: Event;
     size?: number;
+    hideText?: boolean;
 }
 
 const ToggleSubscription = observer((props: Props) => {
@@ -49,19 +48,21 @@ const ToggleSubscription = observer((props: Props) => {
     return (
         <Button
             text={
-                event.isIgnored
-                    ? translate({
-                          id: 'subscription.unsubscribe',
-                          message: 'Wieder anzeigen'
-                      })
-                    : translate({
-                          id: 'subscription.unsubscribe',
-                          message: 'Nicht mehr anzeigen'
-                      })
+                props.hideText
+                    ? undefined
+                    : event.isIgnored
+                      ? translate({
+                            id: 'subscription.unsubscribe',
+                            message: 'Wieder anzeigen'
+                        })
+                      : translate({
+                            id: 'subscription.unsubscribe',
+                            message: 'Nicht mehr anzeigen'
+                        })
             }
             icon={event.isIgnored ? mdiBellPlus : mdiBellRemove}
             color={event.isIgnored ? 'green' : 'red'}
-            size={size || SIZE_S}
+            size={size || SIZE}
             iconSide="left"
             title={
                 event.isIgnored
@@ -82,6 +83,7 @@ const ToggleSubscription = observer((props: Props) => {
                 }
             }}
             apiState={subscriptionStore.apiStateFor(`save-${subscription.id}`)}
+            apiIconSize={size || SIZE}
         />
     );
 });

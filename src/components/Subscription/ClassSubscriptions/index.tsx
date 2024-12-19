@@ -6,8 +6,8 @@ import { useStore } from '@site/src/stores/hooks';
 import TextInput from '../../shared/TextInput';
 import Button from '../../shared/Button';
 import {
-    mdiCalendarCheck,
-    mdiCalendarPlus,
+    mdiBellPlus,
+    mdiBellPlusOutline,
     mdiClipboardText,
     mdiDownloadOutline,
     mdiMicrosoftOutlook
@@ -51,7 +51,7 @@ const ClassSubscriptions = observer(() => {
                                 <div className={clsx(styles.icalButton)}>
                                     {subscription && (
                                         <Button
-                                            icon={subscribed ? mdiCalendarCheck : mdiCalendarPlus}
+                                            icon={subscribed ? mdiBellPlus : mdiBellPlusOutline}
                                             color={subscribed ? 'primary' : 'green'}
                                             disabled={subscribed}
                                             text={

@@ -392,8 +392,11 @@ const EventProps = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <DefaultActions event={event} hideOpen={props.inModal} />
-                <ToggleSubscription event={event} />
+                <DefaultActions
+                    event={event}
+                    hideOpen={props.inModal}
+                    rightActions={<ToggleSubscription event={event} hideText />}
+                />
             </dd>
             <dt>
                 <Translate id="event.affectedLessons" description="for a single event: affected lessons">
