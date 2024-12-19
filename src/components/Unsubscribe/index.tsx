@@ -4,7 +4,15 @@ import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Icon from '@mdi/react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import { mdiAccountAlert, mdiCalendarPlusOutline, mdiCalendarRemove } from '@mdi/js';
+import {
+    mdiAccountAlert,
+    mdiBellMinus,
+    mdiBellPlus,
+    mdiCalendarPlusOutline,
+    mdiCalendarRemove,
+    mdiClockAlert,
+    mdiUndo
+} from '@mdi/js';
 import { observer } from 'mobx-react-lite';
 import { matchPath, useHistory, useLocation } from '@docusaurus/router';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -20,7 +28,9 @@ import EventOverviewSmall from '../EventOverviewSmall';
 import Button from '../shared/Button';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
-
+import { SIZE, SIZE_S } from '../shared/icons';
+import { MDXProvider } from '@mdx-js/react';
+import Admonition from '@theme/Admonition';
 type PathParams = { eventId: string };
 const PATHNAME_PATTERN = '/unsubscribe/:eventId' as const;
 
@@ -68,26 +78,56 @@ const UnsubscribeComponent = observer((props: Props) => {
 
     return (
         <div className={clsx(styles.unsubscribe)}>
-            <h1>{translate({ id: 'unsubscribe.title', message: 'Termin Abbestellt' })}</h1>
-            <EventOverviewSmall event={event} className={clsx(styles.event)} />
+            <Admonition
+                className={clsx(styles.admonition)}
+                type="danger"
+                icon={<Icon path={mdiBellMinus} size={1.5} color="red" />}
+                title={translate({ id: 'unsubscribe.title', message: 'Termin Abbestellt' })}
+            >
+                <p>
+                    <Translate id="unsubscribe.success" description="Successfully unsubscribed">
+                        Der Termin wird nicht mehr im persönlichen Kalender angezeigt.
+                    </Translate>
+                </p>
+                <EventOverviewSmall event={event} className={clsx(styles.event)} />
+                <Admonition
+                    type="warning"
+                    icon={<Icon path={mdiClockAlert} size={SIZE} color="orange" />}
+                    title={translate({
+                        id: 'unsubscribe.calendarPickup.title',
+                        message: 'Zeitverzögerte Aktualisierung im Kalender (24h)'
+                    })}
+                >
+                    <Translate id="unsubscribe.calendarPickup">
+                        Bis die Änderungen vom Kalenderprogramm übernommen werden, kann es einige Zeit dauern
+                        (bis zu 24h, abhängig vom Synchronisierungsintervall).
+                    </Translate>
+                </Admonition>
+            </Admonition>
+            <Link to={accountUrl} style={{ alignSelf: 'center' }}>
+                <Translate id="unsubscribe.go2settings" description="Go to the settings">
+                    👉 Zu den Einstellungen
+                </Translate>
+            </Link>
+
             <div className={clsx('alert alert--warning', styles.alert)} role="alert">
                 <Translate id="unsubscribe.undo" description="Rückgängig machen">
                     Rückgängig machen
                 </Translate>
                 <Button
-                    icon={mdiCalendarPlusOutline}
+                    icon={mdiUndo}
+                    color="orange"
                     onClick={() => {
                         skipUnsubscribe.current = true;
                         subscription.unignoreEvent(event.id);
                         history.push(homeUrl);
                     }}
+                    title={translate({
+                        id: 'subscription.unsubscribe',
+                        message: 'Diesen Termin wieder im persönlichen Kalender anzeigen.'
+                    })}
                 />
             </div>
-            <Link to={accountUrl}>
-                <Translate id="unsubscribe.go2settings" description="Go to the settings">
-                    👉 Zu den Einstellungen
-                </Translate>
-            </Link>
         </div>
     );
 });

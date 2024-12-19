@@ -11,12 +11,11 @@ import { action } from 'mobx';
 import { EventState } from '@site/src/api/event';
 import Button from '../../shared/Button';
 import {
+    mdiBellPlus,
+    mdiBellRemove,
     mdiBookCancel,
     mdiBookmarkCheck,
     mdiBookmarkMinus,
-    mdiCalendarMinusOutline,
-    mdiCalendarPlus,
-    mdiCalendarPlusOutline,
     mdiClose,
     mdiDownloadCircleOutline,
     mdiFileCertificate,
@@ -29,6 +28,8 @@ import Select from 'react-select';
 import EventGroup from '@site/src/models/EventGroup';
 import Stats from './stats';
 import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
+import { InvalidTransitionMessages } from '../EventFields/Actions/Transition';
+import Loader from '../../shared/Loader';
 
 interface ActionConfig {
     stateActions: boolean;
@@ -55,6 +56,35 @@ export interface Props {
     className?: string;
     actionConfig?: Partial<ActionConfig>;
 }
+interface ValidationCheckerProps {
+    unchecked: EventModel[];
+}
+const ValidationChecker = observer((props: ValidationCheckerProps) => {
+    const [checking, setChecking] = React.useState(false);
+    const { unchecked } = props;
+    React.useEffect(() => {
+        if (unchecked.length < 1) {
+            return;
+        }
+        unchecked.forEach((event) => {
+            event.triggerInitialValidation();
+        });
+        setChecking(true);
+    }, [unchecked]);
+    React.useEffect(() => {
+        if (checking) {
+            const cancelId = setTimeout(() => {
+                setChecking(false);
+            }, 1500);
+            return () => clearTimeout(cancelId);
+        }
+    }, [checking]);
+
+    if (!checking) {
+        return null;
+    }
+    return <Loader label={translate({ id: 'event.validate.inProgress', message: 'Validieren' })} />;
+});
 
 const BulkActions = observer((props: Props) => {
     const userStore = useStore('userStore');
@@ -79,7 +109,10 @@ const BulkActions = observer((props: Props) => {
 
     const state = selected[0]?.state;
     const sameState = selected.every((event) => event.state === state);
-    const allTransitionable = selected.every((event) => event.canBeTransitioned);
+    const allTransitionable = selected.every((event) => event.canBeTransitioned.can);
+    const transitionIssues = new Set(
+        selected.flatMap((event) => event.canBeTransitioned.reason).filter((x) => !!x)
+    );
     const onlyMine = selected.every((event) => event.authorId === current.id);
     const actionConfig: ActionConfig = { ...DEFAULT_CONFIG, ...(props.actionConfig || {}) };
     const showUnsubscribe = sameState && state === EventState.Published && actionConfig.unsubscribe;
@@ -108,6 +141,7 @@ const BulkActions = observer((props: Props) => {
             />
             {sameState && actionConfig.stateActions && (
                 <div className={clsx(styles.stateActions)}>
+                    <ValidationChecker unchecked={selected.filter((e) => !e.initialValidation)} />
                     {state === EventState.Draft && (
                         <Button
                             text={translate({
@@ -125,13 +159,11 @@ const BulkActions = observer((props: Props) => {
                                 );
                             }}
                             title={
-                                allTransitionable
-                                    ? undefined
-                                    : translate({
-                                          message:
-                                              'Entweder ist aktuell kein Terminfenster offen, oder ein Termin weist Fehler auf.',
-                                          id: 'event.bulk_actions.request_review_disabled'
-                                      })
+                                transitionIssues.size > 0
+                                    ? [...transitionIssues]
+                                          .map((issue) => `⚠️ ${InvalidTransitionMessages[issue]}`)
+                                          .join('\n')
+                                    : undefined
                             }
                             disabled={!allTransitionable}
                         />
@@ -270,7 +302,7 @@ const BulkActions = observer((props: Props) => {
                 <>
                     {allUnsubscribed ? (
                         <Button
-                            icon={mdiCalendarPlusOutline}
+                            icon={mdiBellPlus}
                             text={translate({
                                 message: 'Wieder abonnieren',
                                 id: 'event.bulk_actions.resubscribe'
@@ -286,7 +318,7 @@ const BulkActions = observer((props: Props) => {
                         />
                     ) : (
                         <Button
-                            icon={mdiCalendarMinusOutline}
+                            icon={mdiBellRemove}
                             text={translate({
                                 message: 'Deabonnieren',
                                 id: 'event.bulk_actions.unsubscribe'

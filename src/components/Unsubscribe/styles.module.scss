@@ -1,11 +1,15 @@
 .unsubscribe {
     max-width: 100vw;
     padding: 1em;
+    display: flex;
+    flex-direction: column;
     .event {
         margin: 1em 0;
     }
     .alert {
+        margin-top: 5em;
         display: flex;
+        align-self: flex-end;
         justify-content: space-between;
         align-items: center;
         --ifm-alert-padding-vertical: 0.25em;
@@ -15,4 +19,19 @@
 
 .wrapper {
     margin: 2em;
+}
+
+.admonition {
+    > div[class^='admonitionHeading'] {
+        font-size: var(--ifm-h2-font-size);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .wrapper {
+        margin: 0;
+    }
+    .event {
+        margin: 0.2em 0;
+    }
 }

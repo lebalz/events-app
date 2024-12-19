@@ -22,6 +22,7 @@ interface Props {
     hideDelete?: boolean;
     hideEdit?: boolean;
     hideOpen?: boolean;
+    rightActions?: React.ReactNode | React.ReactNode[];
 }
 
 const BTN_SIZE = SIZE;
@@ -149,6 +150,7 @@ const DefaultActions = observer((props: Props) => {
                     />
                 </>
             )}
+            {props.rightActions}
         </div>
     );
 });

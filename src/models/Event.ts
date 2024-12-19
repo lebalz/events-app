@@ -59,6 +59,23 @@ export enum ValidState {
     Info = 'INFO'
 }
 
+export enum InvalidTransition {
+    Validation = 'validation',
+    InitialValidation = 'initialValidation',
+    NoOpenRegistrationPeriod = 'noOpenRegistrationPeriod'
+}
+
+interface InvalidTransitionState {
+    can: false;
+    reason: InvalidTransition;
+}
+interface ValidTransitionState {
+    can: true;
+    reason?: undefined;
+}
+
+type TransitionState = InvalidTransitionState | ValidTransitionState;
+
 const currentKW = getKW(new Date());
 const currentYear = new Date().getFullYear();
 export const CURRENT_YYYY_KW = `${currentYear}-${currentKW}`;
@@ -316,11 +333,17 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         );
     }
 
-    get canBeTransitioned() {
-        if (this.validationState === ValidState.Error || !this.initialValidation) {
-            return false;
+    get canBeTransitioned(): TransitionState {
+        if (this.validationState === ValidState.Error) {
+            return { can: false, reason: InvalidTransition.Validation };
         }
-        return this.hasOpenRegistrationPeriod || this.hasParent;
+        if (!this.initialValidation) {
+            return { can: false, reason: InvalidTransition.InitialValidation };
+        }
+        if (this.hasParent || this.hasOpenRegistrationPeriod) {
+            return { can: true };
+        }
+        return { can: false, reason: InvalidTransition.NoOpenRegistrationPeriod };
     }
 
     errorFor(attr: keyof EventProps) {
@@ -908,7 +931,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     affectsClass(klass: Klass): boolean {
-        return this.untisClasses.some((c) => c.id === klass.id);
+        return this.affectsClassId(klass.id);
+    }
+
+    affectsClassId(klassId: number): boolean {
+        return this.untisClasses.some((c) => c.id === klassId);
     }
 
     hasOverlap(lesson: Lesson) {

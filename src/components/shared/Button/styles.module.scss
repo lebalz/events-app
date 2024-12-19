@@ -61,11 +61,11 @@
     // }
     &.disabled {
         opacity: 0.5;
+        --ifm-button-border-color: var(--ifm-color-disabled);
         .spacer.borderLeft,
         .spacer.borderRight {
             border-color: var(--ifm-color-disabled);
         }
-        --ifm-button-border-color: var(--ifm-color-disabled);
     }
 
     &:hover {
@@ -81,8 +81,8 @@
     }
     &:global(.button--active) {
         &:hover {
-            opacity: 0.6;
-            --ifm-button-color: var(--ifm-color-content);
+            opacity: 0.8;
+            // --ifm-button-color: var(--ifm-color-content);
         }
     }
 }

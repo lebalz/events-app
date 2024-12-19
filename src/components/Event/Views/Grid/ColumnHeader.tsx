@@ -8,7 +8,6 @@ import { Icon, SIZE_S } from '../../../shared/icons';
 import {
     mdiArrowCollapseHorizontal,
     mdiArrowExpandHorizontal,
-    mdiArrowLeftRight,
     mdiBookmarkCheck,
     mdiCheckDecagramOutline,
     mdiSchool,
