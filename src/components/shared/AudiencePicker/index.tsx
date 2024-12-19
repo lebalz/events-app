@@ -80,6 +80,7 @@ const AudiencePicker = observer((props: Props) => {
                                     onClick={() => event.update({ audience: EventAudience[audience] })}
                                     active={event.audience === audience}
                                     key={audience}
+                                    noWrap
                                 />
                             );
                         })}
@@ -105,6 +106,7 @@ const AudiencePicker = observer((props: Props) => {
                                     }
                                     active={event.teachingAffected === affected}
                                     key={affected}
+                                    noWrap
                                 />
                             );
                         })}
@@ -130,6 +132,7 @@ const AudiencePicker = observer((props: Props) => {
                                     })}
                                     onClick={() => event.update({ affectsDepartment2: true })}
                                     active={event.affectsDepartment2}
+                                    noWrap
                                 />
                                 <Button
                                     text={translate({
@@ -139,6 +142,7 @@ const AudiencePicker = observer((props: Props) => {
                                     })}
                                     onClick={() => event.update({ affectsDepartment2: false })}
                                     active={!event.affectsDepartment2}
+                                    noWrap
                                 />
                             </div>
                         </div>

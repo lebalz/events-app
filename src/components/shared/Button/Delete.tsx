@@ -65,6 +65,7 @@ const Delete = (props: DeleteProps) => {
                                     id: 'share.button.delete.confirm.no',
                                     description: 'Text of the button confirm no'
                                 })}
+                                noWrap
                             />
                             <Button
                                 className={clsx(styles.confirm)}
@@ -79,6 +80,7 @@ const Delete = (props: DeleteProps) => {
                                     id: 'share.button.delete.confirm.yes',
                                     description: 'Text of the button confirm yes'
                                 })}
+                                noWrap
                             />
                         </div>
                     </div>

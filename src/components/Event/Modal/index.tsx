@@ -95,6 +95,7 @@ const EventModal = observer((props: Props) => {
                                             onClick={() => {
                                                 viewStore.setEventModalId();
                                             }}
+                                            noWrap
                                         />
                                         <Button
                                             color="blue"
@@ -117,6 +118,7 @@ const EventModal = observer((props: Props) => {
                                                 history.push(event.shareUrl);
                                             }}
                                             href={event.shareUrl}
+                                            noWrap
                                         />
                                     </>
                                 )}

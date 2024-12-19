@@ -125,6 +125,25 @@ export default class Subscription extends ApiModel<SubscriptionProps, ApiAction>
     }
 
     @computed
+    get subscribedEvents() {
+        const classIds = [...this.untisClassIds];
+        const departmentIds = [...this.departmentIds];
+        return this.store.root.eventStore.events
+            .filter((e) => e.isPublished && !e.hasParent)
+            .filter(
+                (e) =>
+                    e.isAffectedByUser ||
+                    classIds.some((cId) => e.affectsClassId(cId)) ||
+                    departmentIds.some((dId) => e.departmentIdsAll.has(dId))
+            );
+    }
+
+    @computed
+    get subscribedEventIds() {
+        return new Set(this.subscribedEvents.map((e) => e.id));
+    }
+
+    @computed
     get props(): SubscriptionProps {
         return {
             id: this.id,
