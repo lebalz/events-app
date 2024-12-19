@@ -36,6 +36,7 @@ export interface Base {
     disabled?: boolean;
     size?: number;
     color?: Color | string;
+    noWrap?: boolean;
 }
 interface IconProps extends Base {
     icon: ReactNode | string;
@@ -167,6 +168,21 @@ const Button = observer((props: Props) => {
     //         </button>
     //     );
     // });
+    if (props.noWrap) {
+        return (
+            <Tooltip title={props.title}>
+                <button
+                    type="button"
+                    className={clsx(commonCls)}
+                    onClick={props.onClick}
+                    style={style}
+                    disabled={props.disabled}
+                >
+                    <ButtonInner {...props} />
+                </button>
+            </Tooltip>
+        );
+    }
     return (
         <Tooltip title={props.title}>
             <span>

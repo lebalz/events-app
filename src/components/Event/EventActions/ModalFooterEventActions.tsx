@@ -47,6 +47,7 @@ const ModalFooterEventActions = observer((props: Props) => {
                 }
                 color="black"
                 size={size}
+                noWrap
                 title={
                     event.isDirty
                         ? translate({
@@ -85,6 +86,7 @@ const ModalFooterEventActions = observer((props: Props) => {
                 title={event.canSave ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
                 icon={<SaveIcon size={size} />}
                 iconSide="left"
+                noWrap
                 onClick={() => {
                     if (event.state !== EventState.Draft) {
                         event.save().then(
