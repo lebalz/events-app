@@ -121,7 +121,7 @@ const DefaultActions = observer((props: Props) => {
                                   })
                         }
                         size={BTN_SIZE}
-                        disabled={!event.isDirty || event.validationState !== ValidState.Error}
+                        disabled={!event.isDirty || !event.canSave}
                         icon={
                             event.isDraft ? <SaveIcon size={BTN_SIZE} /> : <SaveVersionIcon size={BTN_SIZE} />
                         }
