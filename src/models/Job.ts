@@ -140,9 +140,11 @@ export class ImportJob extends Job {
         if (this.fullyLoaded) {
             return;
         }
-        this.store.loadJobEvents(this.id).then(() => {
-            this.fullyLoaded = true;
-        });
+        this.store.loadJobEvents(this.id).then(
+            action(() => {
+                this.fullyLoaded = true;
+            })
+        );
     }
 
     @computed

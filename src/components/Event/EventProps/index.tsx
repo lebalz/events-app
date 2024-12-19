@@ -51,6 +51,8 @@ import { PopupActions } from 'reactjs-popup/dist/types';
 import MetaWarningAlert from '../MetaAlert/warning';
 import MetaInfoAlert from '../MetaAlert/info';
 import IsValid from '../EventFields/IsValid';
+import Transition from '../EventFields/Actions/Transition';
+import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
 
 interface Props {
     event: EventModel;
@@ -356,22 +358,7 @@ const EventProps = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        {event.possibleStates.map((state, idx) => {
-                            return (
-                                <Button
-                                    key={state}
-                                    text={EventStateActions[state]}
-                                    icon={EventStateButton[state]}
-                                    color={EventStateColor[state]}
-                                    size={SIZE}
-                                    iconSide="left"
-                                    onClick={() => {
-                                        event.requestState(state);
-                                    }}
-                                    apiState={eventStore.apiStateFor(`save-state-${state}-${event.id}`)}
-                                />
-                            );
-                        })}
+                        <Transition event={event} />
                     </dd>
                 </>
             )}
@@ -406,6 +393,7 @@ const EventProps = observer((props: Props) => {
             </dt>
             <dd>
                 <DefaultActions event={event} hideOpen={props.inModal} />
+                <ToggleSubscription event={event} />
             </dd>
             <dt>
                 <Translate id="event.affectedLessons" description="for a single event: affected lessons">

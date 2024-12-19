@@ -107,6 +107,7 @@ const Filter = observer((props: Props) => {
                             active={eventTable.onlyMine}
                             color="primary"
                             onClick={() => eventTable.toggleOnlyMine()}
+                            noWrap
                         />
                     )}
                     {eventTable.showCurrentAndFutureFilter && props.showCurrentAndFuture && (
@@ -126,6 +127,7 @@ const Filter = observer((props: Props) => {
                             onClick={() =>
                                 eventTable.setOnlyCurrentWeekAndFuture(!eventTable.onlyCurrentWeekAndFuture)
                             }
+                            noWrap
                         />
                     )}
                 </div>
@@ -258,6 +260,7 @@ const Filter = observer((props: Props) => {
                                         onClick={() =>
                                             eventTable.toggleAudienceFilter(audience as EventAudience)
                                         }
+                                        noWrap
                                     />
                                 );
                             })}

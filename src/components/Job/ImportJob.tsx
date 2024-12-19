@@ -69,7 +69,7 @@ const ImportJob = observer((props: Props) => {
                             'isValid',
                             'isDuplicate',
                             'select',
-                            ['state', { sortable: false, width: undefined }],
+                            ['state', { sortable: true, width: undefined }],
                             ['teachingAffected', { componentProps: { show: 'icon' } }],
                             'kw',
                             'day',
