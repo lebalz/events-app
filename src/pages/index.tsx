@@ -12,6 +12,9 @@ import Icon from '@mdi/react';
 import {
     mdiAccountCircleOutline,
     mdiArrowExpandHorizontal,
+    mdiBellMinus,
+    mdiBellPlus,
+    mdiBellPlusOutline,
     mdiBookOpenVariantOutline,
     mdiCalendarAccount,
     mdiCalendarMonth,
@@ -309,6 +312,44 @@ const Home = observer(() => {
                                 />
                             </div>
                             <div className="card__body">
+                                <h4>Version: Release Candidate 1.3 (20.12.2024)</h4>
+                                <ul>
+                                    <li>
+                                        🚀 Neu: Es kann nun ein persönliches Kalender-Abo erzeugt werden.
+                                        Hinzufügen lassen sich:
+                                        <ul>
+                                            <li>
+                                                <Icon path={mdiBellPlusOutline} size={0.8} color="green" />{' '}
+                                                Die persönlichen Termine
+                                            </li>
+                                            <li>
+                                                <Icon path={mdiBellPlusOutline} size={0.8} color="green" />{' '}
+                                                Die Termine einer Klasse
+                                            </li>
+                                            <li>
+                                                <Icon path={mdiBellPlusOutline} size={0.8} color="green" />{' '}
+                                                Die Termine einer Abteilung
+                                            </li>
+                                        </ul>
+                                        wobei <b>doppelte Termine automatisch entfernt werden 🥳</b>.
+                                    </li>
+                                    <li>
+                                        🚀 Neu: Einzelne Termine lassen sich aus dem Kalenderabo entfernen{' '}
+                                        <Icon path={mdiBellMinus} size={0.8} color="red" />.
+                                    </li>
+                                    <li>
+                                        🚀 Neu: Bei abonnierten Kalendern kann können Termine über einen Link
+                                        in der Beschreibung abbestellt werden.
+                                    </li>
+                                    <li>
+                                        💅Neu: Wenn es eine Kalender-Applikation unterstützt, kann diese nun
+                                        auch einen formatierten Termin anzeigen (HTML-Version).
+                                    </li>
+                                    <li>
+                                        🐛 Fix: Fehler beim Speichern eines Termins, dass der "Speichern"
+                                        Knopf deaktiviert war, wurde behoben.
+                                    </li>
+                                </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
                                     <h4>Version: Release Candidate 1.2 (04.11.2024)</h4>
