@@ -342,10 +342,6 @@ const Home = observer(() => {
                                         in der Beschreibung abbestellt werden.
                                     </li>
                                     <li>
-                                        💅Neu: Wenn es eine Kalender-Applikation unterstützt, kann diese nun
-                                        auch einen formatierten Termin anzeigen (HTML-Version).
-                                    </li>
-                                    <li>
                                         🐛 Fix: Fehler beim Speichern eines Termins, dass der "Speichern"
                                         Knopf deaktiviert war, wurde behoben.
                                     </li>
