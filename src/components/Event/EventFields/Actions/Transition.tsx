@@ -8,6 +8,8 @@ import { EventStateActions, EventStateButton, EventStateColor } from '@site/src/
 import { translate } from '@docusaurus/Translate';
 import Edit from './Edit';
 import Event, { InvalidTransition } from '@site/src/models/Event';
+import ValidationChecker from '../../BulkActions/ValidationChecker';
+import { ApiState } from '@site/src/stores/iStore';
 
 export const InvalidTransitionMessages: Record<InvalidTransition, string> = {
     [InvalidTransition.InitialValidation]: translate({
@@ -27,6 +29,7 @@ export const InvalidTransitionMessages: Record<InvalidTransition, string> = {
 interface Props {
     event: Event;
     size?: number;
+    ensureValidation?: boolean;
 }
 
 const Transition = observer((props: Props) => {
@@ -37,6 +40,7 @@ const Transition = observer((props: Props) => {
     }
     return (
         <>
+            {props.ensureValidation && <ValidationChecker events={[event]} noLoader />}
             {event.possibleStates.map((state, idx) => {
                 const { can, reason } = event.canBeTransitioned;
                 return (
@@ -52,7 +56,11 @@ const Transition = observer((props: Props) => {
                         onClick={() => {
                             event.requestState(state);
                         }}
-                        apiState={eventStore.apiStateFor(`save-state-${state}-${event.id}`)}
+                        apiState={
+                            can || event.initialValidation
+                                ? eventStore.apiStateFor(`save-state-${state}-${event.id}`)
+                                : ApiState.LOADING
+                        }
                     />
                 );
             })}

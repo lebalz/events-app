@@ -358,7 +358,7 @@ const EventProps = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <Transition event={event} />
+                        <Transition event={event} ensureValidation />
                     </dd>
                 </>
             )}

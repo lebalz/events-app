@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import Button from '../../shared/Button';
-import { DiscardIcon, SaveIcon } from '../../shared/icons';
+import { DiscardIcon, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
 import { translate } from '@docusaurus/Translate';
@@ -83,8 +83,25 @@ const ModalFooterEventActions = observer((props: Props) => {
                 }
                 size={size}
                 disabled={!event.isDirty || !event.canSave}
-                title={event.canSave ? 'Änderungen speichern' : 'Fehler beheben vor dem Speichern'}
-                icon={<SaveIcon size={size} />}
+                title={
+                    event.canSave
+                        ? event.isDraft
+                            ? translate({
+                                  message: 'Änderungen Speichern',
+                                  id: 'button.save',
+                                  description: 'Button to save changes'
+                              })
+                            : translate({
+                                  message: 'Neue, unveröffentlichte Version Speichern',
+                                  id: 'button.save.new-version'
+                              })
+                        : translate({
+                              message: 'Fehler beheben vor dem Speichern',
+                              id: 'button.save.error',
+                              description: 'Button to save changes with error'
+                          })
+                }
+                icon={event.isDraft ? <SaveIcon size={size} /> : <SaveVersionIcon size={size} />}
                 iconSide="left"
                 noWrap
                 onClick={() => {

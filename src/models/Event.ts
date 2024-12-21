@@ -168,10 +168,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable.ref accessor _errors: Joi.ValidationError | undefined;
 
     @observable accessor affectsDepartment2: boolean;
+    @observable accessor initialValidation: boolean = false;
 
     validationDisposer: IReactionDisposer;
     validationTimeout: NodeJS.Timeout;
-    initialValidation: boolean = false;
+    _initialValidationTriggered: boolean = false;
 
     constructor(props: EventProps, store: EventStore) {
         super();
@@ -221,13 +222,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     triggerInitialValidation() {
-        if (this.initialValidation) {
+        if (this.initialValidation || this._initialValidationTriggered) {
             return;
         }
         if (!this.isDirty && (this.isPublished || this.isDeleted)) {
             return;
         }
-        this.initialValidation = true;
+        this._initialValidationTriggered = true;
         this.validationTimeout = setTimeout(
             () => {
                 this.validate();
@@ -333,12 +334,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         );
     }
 
+    @computed
     get canBeTransitioned(): TransitionState {
-        if (this.validationState === ValidState.Error) {
-            return { can: false, reason: InvalidTransition.Validation };
-        }
         if (!this.initialValidation) {
             return { can: false, reason: InvalidTransition.InitialValidation };
+        }
+        if (this.validationState === ValidState.Error) {
+            return { can: false, reason: InvalidTransition.Validation };
         }
         if (this.hasParent || this.hasOpenRegistrationPeriod) {
             return { can: true };
@@ -677,6 +679,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.selected = selected;
     }
 
+    @action
     setEditing(editing: boolean) {
         this._isEditing = editing;
         this.triggerInitialValidation();

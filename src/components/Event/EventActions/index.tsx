@@ -65,7 +65,7 @@ const DefaultActions = observer((props: Props) => {
                     id: 'button.open.title'
                 })}
             />
-            {isLoggedIn && (props.hideEdit || !event.isEditing) && (
+            {isLoggedIn && !(props.hideEdit || event.isEditing) && (
                 <EditRowMode event={event} onEdit={props.closePopup} iconSize={BTN_SIZE} />
             )}
             {isLoggedIn && (

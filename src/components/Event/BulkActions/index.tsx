@@ -30,6 +30,7 @@ import Stats from './stats';
 import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 import { InvalidTransitionMessages } from '../EventFields/Actions/Transition';
 import Loader from '../../shared/Loader';
+import ValidationChecker from './ValidationChecker';
 
 interface ActionConfig {
     stateActions: boolean;
@@ -56,35 +57,6 @@ export interface Props {
     className?: string;
     actionConfig?: Partial<ActionConfig>;
 }
-interface ValidationCheckerProps {
-    unchecked: EventModel[];
-}
-const ValidationChecker = observer((props: ValidationCheckerProps) => {
-    const [checking, setChecking] = React.useState(false);
-    const { unchecked } = props;
-    React.useEffect(() => {
-        if (unchecked.length < 1) {
-            return;
-        }
-        unchecked.forEach((event) => {
-            event.triggerInitialValidation();
-        });
-        setChecking(true);
-    }, [unchecked]);
-    React.useEffect(() => {
-        if (checking) {
-            const cancelId = setTimeout(() => {
-                setChecking(false);
-            }, 1500);
-            return () => clearTimeout(cancelId);
-        }
-    }, [checking]);
-
-    if (!checking) {
-        return null;
-    }
-    return <Loader label={translate({ id: 'event.validate.inProgress', message: 'Validieren' })} />;
-});
 
 const BulkActions = observer((props: Props) => {
     const userStore = useStore('userStore');
@@ -141,7 +113,7 @@ const BulkActions = observer((props: Props) => {
             />
             {sameState && actionConfig.stateActions && (
                 <div className={clsx(styles.stateActions)}>
-                    <ValidationChecker unchecked={selected.filter((e) => !e.initialValidation)} />
+                    <ValidationChecker events={selected} />
                     {state === EventState.Draft && (
                         <Button
                             text={translate({
