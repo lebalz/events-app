@@ -464,3 +464,7 @@ export function all<T>(ids: string[], signal: AbortSignal): AxiosPromise<Event[]
 export function updateMeta<T>(id: string, meta: any, signal: AbortSignal): AxiosPromise<Event> {
     return api.put(`events/${id}/meta`, { data: meta }, { signal });
 }
+
+export function updateBatched(events: Partial<Event>[], signal: AbortSignal): AxiosPromise<Event[]> {
+    return api.put(`events/update`, { data: events }, { signal });
+}

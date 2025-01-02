@@ -8,7 +8,8 @@ import {
     clone as apiClone,
     all as apiFetchEvents,
     updateMeta,
-    Meta
+    Meta,
+    updateBatched as apiUpdateBatched
 } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
@@ -21,7 +22,11 @@ import { EndPoint } from './EndPoint';
 
 export class EventStore extends iStore<
     EventProps,
-    'download-excel' | `clone-${string}` | `update-meta-${string}` | `load-versions-${string}`
+    | 'download-excel'
+    | `clone-${string}`
+    | `update-meta-${string}`
+    | `update-batched-${string}`
+    | `load-versions-${string}`
 > {
     readonly root: RootStore;
 
@@ -283,6 +288,20 @@ export class EventStore extends iStore<
             return updateMeta(event.id, meta, sig.signal).then(({ data }) => {
                 if (data) {
                     this.addToStore(data);
+                }
+                return data;
+            });
+        });
+    }
+
+    @action
+    updateBatched(events: (Partial<EventProps> & { id: string })[]) {
+        return this.withAbortController(`update-batched-${events.map((e) => e.id).join(':')}`, (sig) => {
+            return apiUpdateBatched(events, sig.signal).then(({ data }) => {
+                if (data) {
+                    data.forEach((d) => {
+                        this.addToStore(d);
+                    });
                 }
                 return data;
             });

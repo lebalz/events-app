@@ -5,7 +5,8 @@
         "baseUrl": ".",
         "experimentalDecorators": false,
         "module": "esnext",
-        "target": "esnext",
+        "target": "ES2023",
+        "lib": ["ES2023", "DOM"],
         // "strict": true,
         "resolveJsonModule": true
     },

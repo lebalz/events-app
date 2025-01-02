@@ -25,7 +25,6 @@ import ShiftDatesEditor from './ShiftDatesEditor';
 import AddUserPopup from './UserTable/AddUserPopup';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import EventsViewer, { View, ViewIcons } from '../EventsViewer';
-import Popup from 'reactjs-popup';
 import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 import { useStore } from '@site/src/stores/hooks';
 
@@ -149,7 +148,7 @@ const UserEventGroup = observer((props: Props) => {
                             group.eventCount > 0
                                 ? translate({
                                       id: 'group.delete.title',
-                                      message: 'Nur Gruppen ohne Termine können gelöscht werden'
+                                      message: 'Nur Gruppen ohne zugewiesene Termine können gelöscht werden'
                                   })
                                 : undefined
                         }
@@ -264,7 +263,12 @@ const UserEventGroup = observer((props: Props) => {
                             )}
                         </DefinitionList>
                         {isShiftEditorOpen && (
-                            <ShiftDatesEditor group={group} close={() => setShiftEditorOpen(false)} />
+                            <ShiftDatesEditor
+                                group={group}
+                                close={() => {
+                                    setShiftEditorOpen(false);
+                                }}
+                            />
                         )}
                     </>
                 )}

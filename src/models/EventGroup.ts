@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import { EventGroup as EventGroupProps } from '../api/event_group';
+import { EventGroup as EventGroupProps, Meta } from '../api/event_group';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { EventGroupStore } from '../stores/EventGroupStore';
@@ -15,6 +15,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     readonly store: EventGroupStore;
     readonly id: string;
     readonly createdAt: Date;
+    readonly meta: Meta;
 
     userIds = observable.set<string>([]);
     eventIds = observable.set<string>([]);
@@ -30,6 +31,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         this.store = store;
         this._pristine = props;
         this.id = props.id;
+        this.meta = props.meta;
         this.userIds.replace(props.userIds);
         this.eventIds.replace(props.eventIds);
         this.name = props.name;
@@ -87,16 +89,18 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     shiftEvents(shiftMs: number) {
-        this.events
+        const updated = this.events
             .filter((e) => e.isDraft)
-            .forEach((event) => {
+            .map((event) => {
                 const start = new Date(event.start.getTime() + shiftMs);
                 const end = new Date(event.end.getTime() + shiftMs);
-                event.update({
+                return {
+                    id: event.id,
                     start: toGlobalDate(start).toISOString(),
                     end: toGlobalDate(end).toISOString()
-                });
+                };
             });
+        return this.store.root.eventStore.updateBatched(updated);
     }
 
     @action
@@ -138,6 +142,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
             id: this.id,
             name: this.name,
             description: this.description,
+            meta: this.meta,
             userIds: [...this.userIds].sort(),
             eventIds: [...this.eventIds].sort(),
             createdAt: this.createdAt.toISOString(),

@@ -15,6 +15,9 @@ import { toGlobalDate } from '@site/src/models/helpers/time';
 import Select from 'react-select';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button from '../../shared/Button';
+import { EventStateButton, EventStateColor } from '@site/src/api/event';
+import Badge from '../../shared/Badge';
+import { ApiState } from '@site/src/stores/iStore';
 
 interface Props {
     group: EventGroup;
@@ -34,6 +37,7 @@ const ShiftDatesEditor = observer((props: Props) => {
     const [shiftedHours, setShiftedHours] = React.useState(0);
     const [event, setEvent] = React.useState<EventModel>(null);
     const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
+    const [apiState, setApiState] = React.useState(ApiState.IDLE);
     const { group } = props;
 
     React.useEffect(() => {
@@ -64,6 +68,17 @@ const ShiftDatesEditor = observer((props: Props) => {
                 <h3>
                     <Translate id="shiftDatesEditor.title">Verschiebung von Terminen</Translate>
                 </h3>
+                <div className={clsx(styles.description)}>
+                    <Badge
+                        icon={EventStateButton.DRAFT}
+                        size={0.8}
+                        color={EventStateColor.DRAFT}
+                        className={clsx(styles.draftBadge)}
+                    />
+                    <Translate id="shiftDatesEditor.description">
+                        Entwürfe können mit dem Verschiebe-Editor bearbeitet werden.
+                    </Translate>
+                </div>
                 {event && (
                     <Select
                         menuPortalTarget={document.body}
@@ -143,14 +158,15 @@ const ShiftDatesEditor = observer((props: Props) => {
                                 <Button
                                     text={translate({
                                         id: 'shiftDatesEditor.apply',
-                                        message: 'Anwenden (Vorschau)'
+                                        message: 'Anwenden'
                                     })}
                                     onClick={() => {
-                                        group.shiftEvents(shift + hoursToMs(shiftedHours));
-                                        setShift(0);
-                                        setShiftedHours(0);
-                                        props.close();
+                                        group.shiftEvents(shift + hoursToMs(shiftedHours)).then(() => {
+                                            props.close();
+                                        });
+                                        setApiState(ApiState.LOADING);
                                     }}
+                                    apiState={apiState}
                                     color="green"
                                     icon={mdiCheckCircleOutline}
                                     iconSide="left"
