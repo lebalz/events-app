@@ -10,10 +10,9 @@ import TextInput from '../shared/TextInput';
 import TextArea from '../shared/TextArea';
 import ModelActions from '../ModelActions';
 import Clone from '../shared/Button/Clone';
-import BulkActions from '../Event/BulkActions';
-import Grid, { ColumnConfig } from '../Event/Views/Grid';
+import { ColumnConfig } from '../Event/Views/Grid';
 import LazyDetails from '../shared/Details';
-import { ApiIcon, DiscardIcon, SIZE, SIZE_S, SaveIcon } from '../shared/icons';
+import { ApiIcon, DiscardIcon, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import Translate, { translate } from '@docusaurus/Translate';
 import { mdiAccount, mdiAccountGroup, mdiShareCircle } from '@mdi/js';
@@ -24,9 +23,11 @@ import UserTable from './UserTable';
 import ShiftDatesEditor from './ShiftDatesEditor';
 import AddUserPopup from './UserTable/AddUserPopup';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import EventsViewer, { View, ViewIcons } from '../EventsViewer';
+import EventsViewer, { View } from '../EventsViewer';
 import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 import { useStore } from '@site/src/stores/hooks';
+import DeleteGroup from './DeleteGroup';
+import { DestroyEventAction } from '@site/src/api/event_group';
 
 interface Props {
     group: EventGroupModel;
@@ -143,24 +144,24 @@ const UserEventGroup = observer((props: Props) => {
                     )}
                     <ModelActions
                         model={group}
-                        disableDelete={group.eventCount > 0}
-                        deleteTitle={
-                            group.eventCount > 0
-                                ? translate({
-                                      id: 'group.delete.title',
-                                      message: 'Nur Gruppen ohne zugewiesene Termine können gelöscht werden'
-                                  })
-                                : undefined
-                        }
+                        hideDelete
                         rightNodes={
                             <>
                                 {group.isEditing && (
-                                    <Clone
-                                        onClick={() => {
-                                            group.clone();
-                                        }}
-                                        apiState={group.apiStateFor(`clone-${group.id}`)}
-                                    />
+                                    <>
+                                        <DeleteGroup
+                                            onDelete={(action: DestroyEventAction) => {
+                                                group.destroy(action);
+                                            }}
+                                            hasDrafts={group.events.some((e) => e.isDraft)}
+                                        />
+                                        <Clone
+                                            onClick={() => {
+                                                group.clone();
+                                            }}
+                                            apiState={group.apiStateFor(`clone-${group.id}`)}
+                                        />
+                                    </>
                                 )}
                             </>
                         }

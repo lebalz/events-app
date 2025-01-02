@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import { EventGroup as EventGroupProps, Meta } from '../api/event_group';
+import { DestroyEventAction, EventGroup as EventGroupProps, Meta } from '../api/event_group';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { EventGroupStore } from '../stores/EventGroupStore';
@@ -191,5 +191,10 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     @computed
     get shareUrl() {
         return `/group?${this.queryParam}`;
+    }
+
+    @action
+    destroy(action: DestroyEventAction = DestroyEventAction.Unlink) {
+        return this.store.destroy(this, action);
     }
 }

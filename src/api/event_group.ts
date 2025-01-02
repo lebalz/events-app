@@ -8,6 +8,11 @@ export interface Meta {
     };
 }
 
+export enum DestroyEventAction {
+    Unlink = 'unlink',
+    DestroyDrafts = 'destroy_drafts'
+}
+
 export interface EventGroup {
     id: string;
     name: string;
