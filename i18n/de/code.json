@@ -1334,7 +1334,7 @@
     "message": "Datum Verschieben"
   },
   "group.shiftDates.description": {
-    "message": "Alle unveröffentlichten Termine um eine bestimmte Anzahl Tage verschieben"
+    "message": "Termine bearbeiten"
   },
   "group.shiftDates.closeShiftEditor": {
     "message": "Editor schliessen"
@@ -1481,7 +1481,7 @@
     "message": "Stunden"
   },
   "shiftDatesEditor.apply": {
-    "message": "Anwenden (Vorschau)"
+    "message": "Anwenden"
   },
   "shiftDatesEditor.eventSelection.new": {
     "message": "Neu (Vorschau)"
@@ -2109,5 +2109,64 @@
   },
   "subscription.content.advanced": {
     "message": "Erweiterte Abo-Einstellungen"
+  },
+  "unsubscribe.success": {
+    "message": "Der Termin wird nicht mehr im persönlichen Kalender angezeigt.",
+    "description": "Successfully unsubscribed"
+  },
+  "unsubscribe.calendarPickup.title": {
+    "message": "Zeitverzögerte Aktualisierung im Kalender (24h)"
+  },
+  "unsubscribe.calendarPickup": {
+    "message": "Bis die Änderungen vom Kalenderprogramm übernommen werden, kann es einige Zeit dauern (bis zu 24h, abhängig vom Synchronisierungsintervall)."
+  },
+  "unsubscribe.go2settings": {
+    "message": "👉 Zu den Einstellungen",
+    "description": "Go to the settings"
+  },
+  "subscription.unsubscribe": {
+    "message": "Diesen Termin wieder im persönlichen Kalender anzeigen."
+  },
+  "event.validate.inProgress": {
+    "message": "Validieren"
+  },
+  "share.button.deleteGroup.confirm": {
+    "message": "Wirklich Löschen?",
+    "description": "Text of the button confirm"
+  },
+  "share.button.deleteGroup.confirm.no": {
+    "message": "Abbrechen",
+    "description": "Text of the button confirm no"
+  },
+  "share.button.deleteGroup.confirm.groupOnly": {
+    "message": "Nur die Gruppe",
+    "description": "Text of the button confirm yes"
+  },
+  "share.button.deleteGroup.confirm.groupOnly.title": {
+    "message": "Nur die Gruppe wird gelöscht, die Termine bleiben erhalten"
+  },
+  "share.button.deleteGroup.confirm.destroyDrafts": {
+    "message": "Gruppe und Termine Löschen"
+  },
+  "share.button.deleteGroup.confirm.cascade": {
+    "message": "Gruppe Löschen"
+  },
+  "share.button.deleteGroup.confirm.cascade.title": {
+    "message": "Die Gruppe und alle unveröffentlichten Termine werden gelöscht"
+  },
+  "shiftDatesEditor.description": {
+    "message": "Entwürfe können mit dem Verschiebe-Editor bearbeitet werden."
+  },
+  "event.transition.invalid.initialValidation": {
+    "message": "Es wurde noch keine Validierung durchgeführt."
+  },
+  "event.transition.invalid.validation": {
+    "message": "Fehlerhafte Termine können nicht eingereicht werden."
+  },
+  "event.transition.invalid.noOpenRegistrationPeriod": {
+    "message": "Aktuell ist kein Anmeldefenster geöffnet."
+  },
+  "subscription.subscribe": {
+    "message": "Diesen Termin nicht mehr im persönlichen Kalender anzeigen."
   }
 }
