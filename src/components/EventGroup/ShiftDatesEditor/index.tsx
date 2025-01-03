@@ -53,7 +53,7 @@ const ShiftDatesEditor = observer((props: Props) => {
             });
             setShiftedEvent(clone);
         }
-    }, [events, shift, shiftedHours]);
+    }, [event, shift, shiftedHours]);
 
     React.useEffect(() => {
         if (events.length > 0) {
@@ -100,6 +100,7 @@ const ShiftDatesEditor = observer((props: Props) => {
                         onChange={(opt) => {
                             if (opt?.value) {
                                 const newEvent = events.find((e) => e.id === opt.value);
+                                setShiftedEvent(null);
                                 setEvent(getClone(newEvent));
                             }
                         }}

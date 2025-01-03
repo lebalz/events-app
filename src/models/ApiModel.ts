@@ -1,8 +1,7 @@
-import { action, computed, IObservableArray, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, IObservableArray, observable } from 'mobx';
 import _ from 'lodash';
 import iStore from '../stores/iStore';
 import { notEqual } from './helpers';
-import { DestroyEventAction } from '../api/event_group';
 
 type AnyExceptUndefined = string | number | boolean | symbol | object | null;
 // type ConfigType<T extends { id: string }> = { attr: keyof T };
