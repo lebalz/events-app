@@ -4,13 +4,11 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import EventGroup from '@site/src/models/EventGroup';
-// import Event from './Event';
 import DatePicker from '../../shared/DatePicker';
 import { default as EventModel } from '@site/src/models/Event';
 import Icon from '@mdi/react';
 import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
-import { DiscardIcon, SIZE, SIZE_S, SaveIcon } from '../../shared/icons';
+import { SIZE } from '../../shared/icons';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import Select from 'react-select';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -19,6 +17,7 @@ import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
 import EventOverviewSmall from '../../EventOverviewSmall';
+import DiffViewer from '../../Event/DiffViewer';
 
 interface Props {
     events: EventModel[];
@@ -33,7 +32,7 @@ const hoursToMs = (hours: number) => {
     return hours * 60 * 60 * 1000;
 };
 
-const ShiftDatesEditor = observer((props: Props) => {
+const BulkEditor = observer((props: Props) => {
     const { events } = props;
     const [shift, setShift] = React.useState(0);
     const [shiftedHours, setShiftedHours] = React.useState(0);
@@ -113,11 +112,10 @@ const ShiftDatesEditor = observer((props: Props) => {
             <div className={clsx(styles.editor, 'card__body')}>
                 {event && shiftedEvent && (
                     <>
-                        <EventOverviewSmall event={event} />
+                        <h4>
+                            <Translate id="shiftDatesEditor.shift">Verschiebung</Translate>
+                        </h4>
                         <div className={clsx(styles.actions)}>
-                            <h4>
-                                <Translate id="shiftDatesEditor.shift">Verschiebung</Translate>
-                            </h4>
                             <fieldset className={clsx(styles.dates)}>
                                 <legend>
                                     <Translate id="shiftedDatesEditor.dates">Tage</Translate>
@@ -178,7 +176,15 @@ const ShiftDatesEditor = observer((props: Props) => {
                                 />
                             )}
                         </div>
-                        <EventOverviewSmall event={shiftedEvent} compareWith={event} />
+                        <DiffViewer
+                            a={event}
+                            b={shiftedEvent}
+                            labels={{
+                                a: translate({ id: 'shiftedDatesEditor.current.label', message: 'Vorher' }),
+                                b: translate({ id: 'shiftedDatesEditor.next.label', message: 'Nachher' })
+                            }}
+                            hideHeader
+                        />
                     </>
                 )}
             </div>
@@ -186,4 +192,4 @@ const ShiftDatesEditor = observer((props: Props) => {
     );
 });
 
-export default ShiftDatesEditor;
+export default BulkEditor;

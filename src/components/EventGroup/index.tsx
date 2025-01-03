@@ -20,7 +20,7 @@ import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
 import _ from 'lodash';
 import UserTable from './UserTable';
-import ShiftDatesEditor from './ShiftDatesEditor';
+import BulkEditor from './BulkEditor';
 import AddUserPopup from './UserTable/AddUserPopup';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import EventsViewer, { View } from '../EventsViewer';
@@ -268,7 +268,7 @@ const UserEventGroup = observer((props: Props) => {
                             )}
                         </DefinitionList>
                         {isShiftEditorOpen && (
-                            <ShiftDatesEditor
+                            <BulkEditor
                                 events={toShift}
                                 close={() => {
                                     setShiftEditorOpen(false);

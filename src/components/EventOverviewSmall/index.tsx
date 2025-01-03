@@ -30,6 +30,7 @@ interface Props {
     compareWith?: Event;
     className?: string;
     showState?: boolean;
+    expandDescriptionLong?: boolean;
 }
 
 const EventOverviewSmall = observer((props: Props) => {
@@ -139,7 +140,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     />
                 </div>
             </div>
-            <div className={clsx(styles.body)}>
+            <div className={clsx(styles.body, props.expandDescriptionLong && styles.descriptionExpanded)}>
                 <Tooltip
                     title={
                         <div>
