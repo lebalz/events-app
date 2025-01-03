@@ -8,7 +8,7 @@ import DatePicker from '../../shared/DatePicker';
 import { default as EventModel } from '@site/src/models/Event';
 import Icon from '@mdi/react';
 import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
-import { SIZE } from '../../shared/icons';
+import { ArrowLeft, ArrowRight, SIZE, SIZE_S } from '../../shared/icons';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import Select from 'react-select';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -16,7 +16,6 @@ import Button from '../../shared/Button';
 import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
-import EventOverviewSmall from '../../EventOverviewSmall';
 import DiffViewer from '../../Event/DiffViewer';
 
 interface Props {
@@ -36,13 +35,16 @@ const BulkEditor = observer((props: Props) => {
     const { events } = props;
     const [shift, setShift] = React.useState(0);
     const [shiftedHours, setShiftedHours] = React.useState(0);
-    const [event, setEvent] = React.useState<EventModel>(events[0] ? getClone(events[0]) : null);
+    const [shiftedEventIdx, setShiftedEventIdx] = React.useState(0);
     const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
     const [apiState, setApiState] = React.useState(ApiState.IDLE);
     const eventStore = useStore('eventStore');
 
+    const viewed = events[shiftedEventIdx % events.length];
+
     React.useEffect(() => {
-        if (event) {
+        if (events.length > 0) {
+            const event = events[shiftedEventIdx % events.length];
             const clone = getClone(event, '---');
             const toStart = new Date(event.start.getTime() + shift + hoursToMs(shiftedHours));
             const toEnd = new Date(event.end.getTime() + shift + hoursToMs(shiftedHours));
@@ -52,17 +54,39 @@ const BulkEditor = observer((props: Props) => {
             });
             setShiftedEvent(clone);
         }
-    }, [event, shift, shiftedHours]);
+    }, [events, shiftedEventIdx, shift, shiftedHours]);
 
-    React.useEffect(() => {
-        if (events.length > 0) {
-            setEvent(getClone(events[0]));
-        }
-    }, [events]);
+    if (!viewed) {
+        return (
+            <div className={clsx('alert', 'alert--warning')}>
+                <button
+                    aria-label="Close"
+                    className="clean-btn close"
+                    type="button"
+                    onClick={() => {
+                        props.close();
+                    }}
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <Translate id="shiftDatesEditor.noEvent.alert">Keine Termine vorhanden.</Translate>
+            </div>
+        );
+    }
 
     if (events.some((e) => !e.isDraft)) {
         return (
-            <div className={clsx('alert', 'aler--warning')}>
+            <div className={clsx('alert', 'alert--warning')}>
+                <button
+                    aria-label="Close"
+                    className="clean-btn close"
+                    type="button"
+                    onClick={() => {
+                        props.close();
+                    }}
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <Translate id="shiftDatesEditor.invalidEvents.alert">
                     Der Editor kann nur Entwürfe bearbeiten. Aktuell sind auch eingereichte, zurückgewiesene
                     oder veröffentlichte Termine vorhanden.
@@ -88,26 +112,6 @@ const BulkEditor = observer((props: Props) => {
                         Entwürfe können mit dem Verschiebe-Editor bearbeitet werden.
                     </Translate>
                 </div>
-                {event && (
-                    <Select
-                        menuPortalTarget={document.body}
-                        styles={{
-                            menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
-                        }}
-                        value={{ value: event.id, label: event.description }}
-                        options={events.map((e) => ({ value: e.id, label: e.description }))}
-                        onChange={(opt) => {
-                            if (opt?.value) {
-                                const newEvent = events.find((e) => e.id === opt.value);
-                                setShiftedEvent(null);
-                                setEvent(getClone(newEvent));
-                            }
-                        }}
-                        isMulti={false}
-                        isSearchable={true}
-                        isClearable={false}
-                    />
-                )}
             </div>
             <div className={clsx(styles.editor, 'card__body')}>
                 {event && shiftedEvent && (
@@ -121,20 +125,20 @@ const BulkEditor = observer((props: Props) => {
                                     <Translate id="shiftedDatesEditor.dates">Tage</Translate>
                                 </legend>
                                 <DatePicker
-                                    date={event.start}
+                                    date={viewed.start}
                                     onChange={() => {}}
                                     time="start"
                                     disabled
-                                    id={event.id}
+                                    id={viewed.id}
                                 />
                                 <Icon path={mdiArrowRightBoldCircle} size={SIZE} />
                                 <DatePicker
                                     date={shiftedEvent.start}
                                     onChange={(date) => {
                                         const to = new Date(
-                                            `${date.toISOString().slice(0, 10)}${event.start.toISOString().slice(10)}`
+                                            `${date.toISOString().slice(0, 10)}${viewed.start.toISOString().slice(10)}`
                                         );
-                                        const diff = to.getTime() - event.start.getTime();
+                                        const diff = to.getTime() - viewed.start.getTime();
                                         setShift(diff);
                                     }}
                                     time="start"
@@ -155,29 +159,30 @@ const BulkEditor = observer((props: Props) => {
                                     }}
                                 />
                             </fieldset>
-                            {shift + hoursToMs(shiftedHours) !== 0 && (
-                                <Button
-                                    text={translate({
-                                        id: 'shiftDatesEditor.apply',
-                                        message: 'Anwenden'
-                                    })}
-                                    onClick={() => {
-                                        eventStore
-                                            .shiftEvents(events, shift + hoursToMs(shiftedHours))
-                                            .then(() => {
-                                                props.close();
-                                            });
-                                        setApiState(ApiState.LOADING);
-                                    }}
-                                    apiState={apiState}
-                                    color="green"
-                                    icon={mdiCheckCircleOutline}
-                                    iconSide="left"
-                                />
-                            )}
+                        </div>
+                        <div className={clsx(styles.eventPicker)}>
+                            <Button
+                                icon={<ArrowLeft size={SIZE_S} />}
+                                noOutline
+                                className={clsx('badge', styles.button)}
+                                onClick={() => setShiftedEventIdx(shiftedEventIdx - 1)}
+                            />
+                            <Badge
+                                text={translate({
+                                    id: 'event.singular',
+                                    message: 'Termin'
+                                })}
+                                color="primary"
+                            />
+                            <Button
+                                icon={<ArrowRight size={SIZE_S} />}
+                                noOutline
+                                className={clsx('badge', styles.button)}
+                                onClick={() => setShiftedEventIdx(shiftedEventIdx + 1)}
+                            />
                         </div>
                         <DiffViewer
-                            a={event}
+                            a={viewed}
                             b={shiftedEvent}
                             labels={{
                                 a: translate({ id: 'shiftedDatesEditor.current.label', message: 'Vorher' }),
@@ -185,6 +190,27 @@ const BulkEditor = observer((props: Props) => {
                             }}
                             hideHeader
                         />
+                        {shift + hoursToMs(shiftedHours) !== 0 && (
+                            <Button
+                                text={translate({
+                                    id: 'shiftDatesEditor.apply',
+                                    message: 'Anwenden'
+                                })}
+                                onClick={() => {
+                                    eventStore
+                                        .shiftEvents(events, shift + hoursToMs(shiftedHours))
+                                        .then(() => {
+                                            props.close();
+                                        });
+                                    setApiState(ApiState.LOADING);
+                                }}
+                                apiState={apiState}
+                                color="green"
+                                icon={mdiCheckCircleOutline}
+                                iconSide="left"
+                                className={clsx(styles.applyButton)}
+                            />
+                        )}
                     </>
                 )}
             </div>
