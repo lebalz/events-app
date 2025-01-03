@@ -17,6 +17,7 @@ import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
 import DiffViewer from '../../../Event/DiffViewer';
+import Preview from '../Preview';
 
 interface Props {
     events: EventModel[];
@@ -157,37 +158,11 @@ const ShiftEditor = observer((props: Props) => {
                         />
                     </fieldset>
                 </div>
-                <div className={clsx(styles.eventPicker)}>
-                    <Button
-                        icon={<ArrowLeft size={SIZE_S} />}
-                        noOutline
-                        className={clsx('badge', styles.button)}
-                        onClick={() => setShiftedEventIdx(shiftedEventIdx - 1)}
-                    />
-                    <Badge
-                        text={translate({
-                            id: 'event.singular',
-                            message: 'Termin'
-                        })}
-                        color="primary"
-                    />
-                    <Button
-                        icon={<ArrowRight size={SIZE_S} />}
-                        noOutline
-                        className={clsx('badge', styles.button)}
-                        onClick={() => setShiftedEventIdx(shiftedEventIdx + 1)}
-                    />
-                </div>
-                {shiftedEvent && (
-                    <DiffViewer
-                        compare={[{ a: viewed, b: shiftedEvent }]}
-                        labels={{
-                            a: translate({ id: 'shiftedDatesEditor.current.label', message: 'Vorher' }),
-                            b: translate({ id: 'shiftedDatesEditor.next.label', message: 'Nachher' })
-                        }}
-                        hideHeader
-                    />
-                )}
+                <Preview
+                    events={events}
+                    onChange={(idx) => setShiftedEventIdx(idx)}
+                    changedEvent={shiftedEvent}
+                />
                 {shift + hoursToMs(shiftedHours) !== 0 && (
                     <Button
                         text={translate({
