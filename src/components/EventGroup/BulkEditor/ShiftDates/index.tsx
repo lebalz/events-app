@@ -4,19 +4,19 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import DatePicker from '../../shared/DatePicker';
+import DatePicker from '../../../shared/DatePicker';
 import { default as EventModel } from '@site/src/models/Event';
 import Icon from '@mdi/react';
 import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
-import { ArrowLeft, ArrowRight, SIZE, SIZE_S } from '../../shared/icons';
+import { ArrowLeft, ArrowRight, SIZE, SIZE_S } from '../../../shared/icons';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import Select from 'react-select';
 import Translate, { translate } from '@docusaurus/Translate';
-import Button from '../../shared/Button';
+import Button from '../../../shared/Button';
 import { EventStateButton, EventStateColor } from '@site/src/api/event';
-import Badge from '../../shared/Badge';
+import Badge from '../../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
-import DiffViewer from '../../Event/DiffViewer';
+import DiffViewer from '../../../Event/DiffViewer';
 
 interface Props {
     events: EventModel[];
@@ -31,7 +31,7 @@ const hoursToMs = (hours: number) => {
     return hours * 60 * 60 * 1000;
 };
 
-const BulkEditor = observer((props: Props) => {
+const ShiftEditor = observer((props: Props) => {
     const { events } = props;
     const [shift, setShift] = React.useState(0);
     const [shiftedHours, setShiftedHours] = React.useState(0);
@@ -212,4 +212,4 @@ const BulkEditor = observer((props: Props) => {
     );
 });
 
-export default BulkEditor;
+export default ShiftEditor;
