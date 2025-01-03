@@ -43,8 +43,8 @@ const BulkEditor = observer((props: Props) => {
     const viewed = events[shiftedEventIdx % events.length];
 
     React.useEffect(() => {
-        if (events.length > 0) {
-            const event = events[shiftedEventIdx % events.length];
+        const event = events[shiftedEventIdx % events.length];
+        if (event) {
             const clone = getClone(event, '---');
             const toStart = new Date(event.start.getTime() + shift + hoursToMs(shiftedHours));
             const toEnd = new Date(event.end.getTime() + shift + hoursToMs(shiftedHours));
@@ -114,104 +114,98 @@ const BulkEditor = observer((props: Props) => {
                 </div>
             </div>
             <div className={clsx(styles.editor, 'card__body')}>
-                {event && shiftedEvent && (
-                    <>
-                        <h4>
-                            <Translate id="shiftDatesEditor.shift">Verschiebung</Translate>
-                        </h4>
-                        <div className={clsx(styles.actions)}>
-                            <fieldset className={clsx(styles.dates)}>
-                                <legend>
-                                    <Translate id="shiftedDatesEditor.dates">Tage</Translate>
-                                </legend>
-                                <DatePicker
-                                    date={viewed.start}
-                                    onChange={() => {}}
-                                    time="start"
-                                    disabled
-                                    id={viewed.id}
-                                />
-                                <Icon path={mdiArrowRightBoldCircle} size={SIZE} />
-                                <DatePicker
-                                    date={shiftedEvent.start}
-                                    onChange={(date) => {
-                                        const to = new Date(
-                                            `${date.toISOString().slice(0, 10)}${viewed.start.toISOString().slice(10)}`
-                                        );
-                                        const diff = to.getTime() - viewed.start.getTime();
-                                        setShift(diff);
-                                    }}
-                                    time="start"
-                                    id={shiftedEvent.id}
-                                />
-                            </fieldset>
-                            <fieldset className={clsx(styles.hours)}>
-                                <legend>
-                                    <Translate id="shiftDatesEditor.hours">Stunden</Translate>
-                                </legend>
-                                <input
-                                    id="shiftHours"
-                                    type="number"
-                                    value={shiftedHours}
-                                    onChange={(e) => {
-                                        const value = parseInt(e.target.value);
-                                        setShiftedHours(value);
-                                    }}
-                                />
-                            </fieldset>
-                        </div>
-                        <div className={clsx(styles.eventPicker)}>
-                            <Button
-                                icon={<ArrowLeft size={SIZE_S} />}
-                                noOutline
-                                className={clsx('badge', styles.button)}
-                                onClick={() => setShiftedEventIdx(shiftedEventIdx - 1)}
-                            />
-                            <Badge
-                                text={translate({
-                                    id: 'event.singular',
-                                    message: 'Termin'
-                                })}
-                                color="primary"
-                            />
-                            <Button
-                                icon={<ArrowRight size={SIZE_S} />}
-                                noOutline
-                                className={clsx('badge', styles.button)}
-                                onClick={() => setShiftedEventIdx(shiftedEventIdx + 1)}
-                            />
-                        </div>
-                        <DiffViewer
-                            a={viewed}
-                            b={shiftedEvent}
-                            labels={{
-                                a: translate({ id: 'shiftedDatesEditor.current.label', message: 'Vorher' }),
-                                b: translate({ id: 'shiftedDatesEditor.next.label', message: 'Nachher' })
-                            }}
-                            hideHeader
+                <div className={clsx(styles.actions)}>
+                    <fieldset className={clsx(styles.dates)}>
+                        <legend>
+                            <Translate id="shiftedDatesEditor.dates">Tage</Translate>
+                        </legend>
+                        <DatePicker
+                            date={viewed.start}
+                            onChange={() => {}}
+                            time="start"
+                            disabled
+                            id={viewed.id}
                         />
-                        {shift + hoursToMs(shiftedHours) !== 0 && (
-                            <Button
-                                text={translate({
-                                    id: 'shiftDatesEditor.apply',
-                                    message: 'Anwenden'
-                                })}
-                                onClick={() => {
-                                    eventStore
-                                        .shiftEvents(events, shift + hoursToMs(shiftedHours))
-                                        .then(() => {
-                                            props.close();
-                                        });
-                                    setApiState(ApiState.LOADING);
+                        <Icon path={mdiArrowRightBoldCircle} size={SIZE} />
+                        {shiftedEvent && (
+                            <DatePicker
+                                date={shiftedEvent.start}
+                                onChange={(date) => {
+                                    const to = new Date(
+                                        `${date.toISOString().slice(0, 10)}${viewed.start.toISOString().slice(10)}`
+                                    );
+                                    const diff = to.getTime() - viewed.start.getTime();
+                                    setShift(diff);
                                 }}
-                                apiState={apiState}
-                                color="green"
-                                icon={mdiCheckCircleOutline}
-                                iconSide="left"
-                                className={clsx(styles.applyButton)}
+                                time="start"
+                                id={shiftedEvent.id}
                             />
                         )}
-                    </>
+                    </fieldset>
+                    <fieldset className={clsx(styles.hours)}>
+                        <legend>
+                            <Translate id="shiftDatesEditor.hours">Stunden</Translate>
+                        </legend>
+                        <input
+                            id="shiftHours"
+                            type="number"
+                            value={shiftedHours}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                setShiftedHours(value);
+                            }}
+                        />
+                    </fieldset>
+                </div>
+                <div className={clsx(styles.eventPicker)}>
+                    <Button
+                        icon={<ArrowLeft size={SIZE_S} />}
+                        noOutline
+                        className={clsx('badge', styles.button)}
+                        onClick={() => setShiftedEventIdx(shiftedEventIdx - 1)}
+                    />
+                    <Badge
+                        text={translate({
+                            id: 'event.singular',
+                            message: 'Termin'
+                        })}
+                        color="primary"
+                    />
+                    <Button
+                        icon={<ArrowRight size={SIZE_S} />}
+                        noOutline
+                        className={clsx('badge', styles.button)}
+                        onClick={() => setShiftedEventIdx(shiftedEventIdx + 1)}
+                    />
+                </div>
+                {shiftedEvent && (
+                    <DiffViewer
+                        compare={[{ a: viewed, b: shiftedEvent }]}
+                        labels={{
+                            a: translate({ id: 'shiftedDatesEditor.current.label', message: 'Vorher' }),
+                            b: translate({ id: 'shiftedDatesEditor.next.label', message: 'Nachher' })
+                        }}
+                        hideHeader
+                    />
+                )}
+                {shift + hoursToMs(shiftedHours) !== 0 && (
+                    <Button
+                        text={translate({
+                            id: 'shiftDatesEditor.apply',
+                            message: 'Anwenden'
+                        })}
+                        onClick={() => {
+                            eventStore.shiftEvents(events, shift + hoursToMs(shiftedHours)).then(() => {
+                                props.close();
+                            });
+                            setApiState(ApiState.LOADING);
+                        }}
+                        apiState={apiState}
+                        color="green"
+                        icon={mdiCheckCircleOutline}
+                        iconSide="left"
+                        className={clsx(styles.applyButton)}
+                    />
                 )}
             </div>
         </div>

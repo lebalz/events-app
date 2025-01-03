@@ -142,6 +142,7 @@ const EventOverviewSmall = observer((props: Props) => {
             </div>
             <div className={clsx(styles.body, props.expandDescriptionLong && styles.descriptionExpanded)}>
                 <Tooltip
+                    disabled={props.expandDescriptionLong}
                     title={
                         <div>
                             <div

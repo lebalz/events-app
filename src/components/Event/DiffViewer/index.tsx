@@ -8,8 +8,7 @@ import Translate from '@docusaurus/Translate';
 import EventOverviewSmall from '../../EventOverviewSmall';
 
 interface Props {
-    a: EventModel;
-    b: EventModel;
+    compare: { a: EventModel; b: EventModel }[];
     labels?: {
         a: string;
         b: string;
@@ -18,7 +17,7 @@ interface Props {
 }
 
 const DiffViewer = observer((props: Props) => {
-    const { a, b, labels } = props;
+    const { compare, labels } = props;
     return (
         <div className={clsx(styles.diffViewer, 'card')}>
             {!props.hideHeader && (
@@ -28,16 +27,24 @@ const DiffViewer = observer((props: Props) => {
                     </h3>
                 </div>
             )}
-            <div className={clsx(styles.diff, 'card__body')}>
-                <div className={styles.event}>
-                    {labels && <h4>{labels.a}</h4>}
-                    <EventOverviewSmall event={a} expandDescriptionLong />
-                </div>
-                <div className={styles.event}>
-                    {labels && <h4>{labels.b}</h4>}
-                    <EventOverviewSmall event={b} compareWith={a} expandDescriptionLong />
-                </div>
-            </div>
+            {compare.map((comparison, idx) => {
+                return (
+                    <div className={clsx(styles.diff, 'card__body')} key={idx}>
+                        <div className={styles.event}>
+                            {idx === 0 && labels && <h4>{labels.a}</h4>}
+                            <EventOverviewSmall event={comparison.a} expandDescriptionLong />
+                        </div>
+                        <div className={styles.event}>
+                            {idx === 0 && labels && <h4>{labels.b}</h4>}
+                            <EventOverviewSmall
+                                event={comparison.b}
+                                compareWith={comparison.a}
+                                expandDescriptionLong
+                            />
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
 });

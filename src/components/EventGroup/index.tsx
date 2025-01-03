@@ -28,6 +28,8 @@ import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 import { useStore } from '@site/src/stores/hooks';
 import DeleteGroup from './DeleteGroup';
 import { DestroyEventAction } from '@site/src/api/event_group';
+import Popup from 'reactjs-popup';
+import DiffViewer from '../Event/DiffViewer';
 
 interface Props {
     group: EventGroupModel;
@@ -58,11 +60,12 @@ const UserEventGroup = observer((props: Props) => {
     const store = useStore('sessionStore');
     const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
+    const [isComparisonOpen, setComparisonOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
     const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
 
     React.useEffect(() => {
-        if ((isOpen || props.standalone) && !group.isFullyLoaded && store.isLoggedIn) {
+        if ((isOpen || props.standalone) && store.isLoggedIn) {
             group.loadEvents();
         }
     }, [isOpen, group, group.isFullyLoaded, props.standalone, store.isLoggedIn]);
@@ -232,6 +235,28 @@ const UserEventGroup = observer((props: Props) => {
                                             }
                                             onClick={() => setShiftEditorOpen(!isShiftEditorOpen)}
                                         />
+                                    </dd>
+                                </>
+                            )}
+                            {group.relatedModels.length > 0 && (
+                                <>
+                                    <dt>
+                                        <Translate id="group.showChanges.dt">Änderungen Anzeigen</Translate>
+                                    </dt>
+                                    <dd>
+                                        <Popup
+                                            trigger={
+                                                <span>
+                                                    <Button text="Öffnen" />
+                                                </span>
+                                            }
+                                            modal
+                                            nested
+                                        >
+                                            <div>
+                                                <DiffViewer compare={group.relatedModels} />
+                                            </div>
+                                        </Popup>
                                     </dd>
                                 </>
                             )}

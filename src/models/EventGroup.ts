@@ -5,7 +5,6 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 import { EventGroupStore } from '../stores/EventGroupStore';
 import Event from './Event';
 import User from './User';
-import { toGlobalDate } from './helpers/time';
 import _ from 'lodash';
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
@@ -63,14 +62,16 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     loadEvents() {
-        if (this._loadingTriggered || this.isFullyLoaded) {
+        if (this._loadingTriggered) {
             return;
         }
         this._loadingTriggered = true;
-        const missingIds = [...this.eventIds].filter((id) => !this.store.eventStore.find(id));
-        if (missingIds.length === this.eventIds.size || missingIds.length > 50) {
-            return this.store.reloadEvents(this);
-        }
+        const missingIds = [
+            ...this.eventIds,
+            ...Object.values(this.meta)
+                .map((k) => k.from)
+                .filter((k) => !!k)
+        ].filter((id) => !this.store.eventStore.find(id));
         return this.store.eventStore.loadEvents(missingIds, this.id);
     }
 
@@ -183,6 +184,21 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     @action
     destroy(action: DestroyEventAction = DestroyEventAction.Unlink) {
         return this.store.destroy(this, action);
+    }
+
+    @computed
+    get relatedModels() {
+        const from = Object.keys(this.meta);
+        if (from.length < 1) {
+            return [];
+        }
+        const relations = from
+            .map((id) => ({
+                a: this.store.eventStore.find<Event>(this.meta[id]!.from), // cloned event
+                b: this.store.eventStore.find<Event>(id) // probably modified event
+            }))
+            .filter((rel) => rel.a && rel.b);
+        return relations;
     }
 
     /**
