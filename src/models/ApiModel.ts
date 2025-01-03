@@ -1,5 +1,4 @@
 import { action, computed, IObservableArray, observable } from 'mobx';
-import _ from 'lodash';
 import iStore from '../stores/iStore';
 import { notEqual } from './helpers';
 
@@ -127,7 +126,7 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     }
 
     @action
-    cleanup() {
+    cleanup(destroyed?: boolean) {
         /** when needed, clean up */
     }
 }

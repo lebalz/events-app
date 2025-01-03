@@ -16,6 +16,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     readonly id: string;
     readonly createdAt: Date;
     readonly meta: Meta;
+    _loadingTriggered = false;
 
     userIds = observable.set<string>([]);
     eventIds = observable.set<string>([]);
@@ -62,13 +63,15 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     loadEvents() {
-        if (!this.isFullyLoaded) {
-            const missingIds = [...this.eventIds].filter((id) => !this.store.eventStore.find(id));
-            if (missingIds.length === this.eventIds.size || missingIds.length > 50) {
-                return this.store.reloadEvents(this);
-            }
-            return this.store.eventStore.loadEvents(missingIds, this.id);
+        if (this._loadingTriggered || this.isFullyLoaded) {
+            return;
         }
+        this._loadingTriggered = true;
+        const missingIds = [...this.eventIds].filter((id) => !this.store.eventStore.find(id));
+        if (missingIds.length === this.eventIds.size || missingIds.length > 50) {
+            return this.store.reloadEvents(this);
+        }
+        return this.store.eventStore.loadEvents(missingIds, this.id);
     }
 
     get apiState() {
@@ -180,5 +183,20 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     @action
     destroy(action: DestroyEventAction = DestroyEventAction.Unlink) {
         return this.store.destroy(this, action);
+    }
+
+    /**
+     * reloads the model only after 1 second of "silence" (=no triggers during this period)
+     * or after 2.5s of permanent triggering...
+     */
+    triggerReload = _.debounce(action(this._triggerReload), 500, {
+        leading: false,
+        trailing: true,
+        maxWait: 2500
+    });
+
+    @action
+    _triggerReload() {
+        return this.store.loadModel(this.id);
     }
 }

@@ -339,7 +339,7 @@ const BulkActions = observer((props: Props) => {
             {onlyMine && actionConfig.delete && (
                 <Delete
                     onClick={action(() => {
-                        selected.forEach((event) => event.destroy());
+                        eventStore.destroyMany(selected);
                     })}
                 />
             )}

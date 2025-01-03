@@ -1414,8 +1414,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
-    cleanup() {
+    cleanup(destroyed?: boolean) {
         this.validationDisposer();
         clearTimeout(this.validationTimeout);
+        if (destroyed) {
+            this.groups.forEach((eg) => eg.triggerReload());
+        }
     }
 }
