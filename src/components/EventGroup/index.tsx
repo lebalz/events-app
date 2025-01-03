@@ -254,7 +254,19 @@ const UserEventGroup = observer((props: Props) => {
                                             nested
                                         >
                                             <div>
-                                                <DiffViewer compare={group.relatedModels} />
+                                                <DiffViewer
+                                                    compare={group.relatedModels}
+                                                    labels={{
+                                                        a: translate({
+                                                            id: 'eventGroup.diff.cloned',
+                                                            message: 'Original'
+                                                        }),
+                                                        b: translate({
+                                                            id: 'eventGroup.diff.changed',
+                                                            message: 'Neu'
+                                                        })
+                                                    }}
+                                                />
                                             </div>
                                         </Popup>
                                     </dd>
