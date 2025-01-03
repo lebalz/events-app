@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import EventGroup from '@site/src/models/EventGroup';
-import Event from './Event';
+// import Event from './Event';
 import DatePicker from '../../shared/DatePicker';
 import { default as EventModel } from '@site/src/models/Event';
 import Icon from '@mdi/react';
@@ -18,9 +18,10 @@ import Button from '../../shared/Button';
 import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
+import EventOverviewSmall from '../../EventOverviewSmall';
 
 interface Props {
-    group: EventGroup;
+    events: EventModel[];
     close: () => void;
 }
 
@@ -33,12 +34,13 @@ const hoursToMs = (hours: number) => {
 };
 
 const ShiftDatesEditor = observer((props: Props) => {
+    const { events } = props;
     const [shift, setShift] = React.useState(0);
     const [shiftedHours, setShiftedHours] = React.useState(0);
-    const [event, setEvent] = React.useState<EventModel>(null);
+    const [event, setEvent] = React.useState<EventModel>(events[0] ? getClone(events[0]) : null);
     const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
     const [apiState, setApiState] = React.useState(ApiState.IDLE);
-    const { group } = props;
+    const eventStore = useStore('eventStore');
 
     React.useEffect(() => {
         if (event) {
@@ -51,16 +53,24 @@ const ShiftDatesEditor = observer((props: Props) => {
             });
             setShiftedEvent(clone);
         }
-    }, [event, group.events, shift, shiftedHours]);
+    }, [events, shift, shiftedHours]);
 
     React.useEffect(() => {
-        if (group.events.length > 0) {
-            const firstDraft = group.events.find((e) => e.isDraft);
-            if (firstDraft) {
-                setEvent(getClone(firstDraft));
-            }
+        if (events.length > 0) {
+            setEvent(getClone(events[0]));
         }
-    }, [group.events]);
+    }, [events]);
+
+    if (events.some((e) => !e.isDraft)) {
+        return (
+            <div className={clsx('alert', 'aler--warning')}>
+                <Translate id="shiftDatesEditor.invalidEvents.alert">
+                    Der Editor kann nur Entwürfe bearbeiten. Aktuell sind auch eingereichte, zurückgewiesene
+                    oder veröffentlichte Termine vorhanden.
+                </Translate>
+            </div>
+        );
+    }
 
     return (
         <div className={clsx(styles.shiftEditor, 'card')}>
@@ -86,12 +96,10 @@ const ShiftDatesEditor = observer((props: Props) => {
                             menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
                         }}
                         value={{ value: event.id, label: event.description }}
-                        options={group.events
-                            .filter((e) => e.isDraft)
-                            .map((e) => ({ value: e.id, label: e.description }))}
+                        options={events.map((e) => ({ value: e.id, label: e.description }))}
                         onChange={(opt) => {
                             if (opt?.value) {
-                                const newEvent = group.events.find((e) => e.id === opt.value);
+                                const newEvent = events.find((e) => e.id === opt.value);
                                 setEvent(getClone(newEvent));
                             }
                         }}
@@ -104,13 +112,7 @@ const ShiftDatesEditor = observer((props: Props) => {
             <div className={clsx(styles.editor, 'card__body')}>
                 {event && shiftedEvent && (
                     <>
-                        <Event
-                            event={event}
-                            title={translate({
-                                id: 'shiftDatesEditor.eventSelection.current',
-                                message: 'Aktueller Termin'
-                            })}
-                        />
+                        <EventOverviewSmall event={event} />
                         <div className={clsx(styles.actions)}>
                             <h4>
                                 <Translate id="shiftDatesEditor.shift">Verschiebung</Translate>
@@ -161,9 +163,11 @@ const ShiftDatesEditor = observer((props: Props) => {
                                         message: 'Anwenden'
                                     })}
                                     onClick={() => {
-                                        group.shiftEvents(shift + hoursToMs(shiftedHours)).then(() => {
-                                            props.close();
-                                        });
+                                        eventStore
+                                            .shiftEvents(events, shift + hoursToMs(shiftedHours))
+                                            .then(() => {
+                                                props.close();
+                                            });
                                         setApiState(ApiState.LOADING);
                                     }}
                                     apiState={apiState}
@@ -173,13 +177,7 @@ const ShiftDatesEditor = observer((props: Props) => {
                                 />
                             )}
                         </div>
-                        <Event
-                            event={shiftedEvent}
-                            title={translate({
-                                id: 'shiftDatesEditor.eventSelection.new',
-                                message: 'Neu (Vorschau)'
-                            })}
-                        />
+                        <EventOverviewSmall event={shiftedEvent} compareWith={event} />
                     </>
                 )}
             </div>

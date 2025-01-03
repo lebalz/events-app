@@ -88,22 +88,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     }
 
     @action
-    shiftEvents(shiftMs: number) {
-        const updated = this.events
-            .filter((e) => e.isDraft)
-            .map((event) => {
-                const start = new Date(event.start.getTime() + shiftMs);
-                const end = new Date(event.end.getTime() + shiftMs);
-                return {
-                    id: event.id,
-                    start: toGlobalDate(start).toISOString(),
-                    end: toGlobalDate(end).toISOString()
-                };
-            });
-        return this.store.root.eventStore.updateBatched(updated);
-    }
-
-    @action
     saveAll() {
         this.events.filter((e) => e.isDirty).forEach((event) => event.save());
     }

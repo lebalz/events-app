@@ -16,7 +16,7 @@ import { RootStore } from './stores';
 import _ from 'lodash';
 import iStore from './iStore';
 import Department from '../models/Department';
-import { HOUR_2_MS } from '../models/helpers/time';
+import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
 
@@ -292,6 +292,22 @@ export class EventStore extends iStore<
                 return data;
             });
         });
+    }
+
+    @action
+    shiftEvents(events: Event[], shiftMs: number) {
+        const updated = events
+            .filter((e) => e.isDraft)
+            .map((event) => {
+                const start = new Date(event.start.getTime() + shiftMs);
+                const end = new Date(event.end.getTime() + shiftMs);
+                return {
+                    id: event.id,
+                    start: toGlobalDate(start).toISOString(),
+                    end: toGlobalDate(end).toISOString()
+                };
+            });
+        return this.updateBatched(updated);
     }
 
     @action

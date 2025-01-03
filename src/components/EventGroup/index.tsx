@@ -81,11 +81,10 @@ const UserEventGroup = observer((props: Props) => {
             setColumnConfig([...toAdd, ...DEFAULT_COLUMN_CONFIG]);
         }
     }, [props.group.isFullyLoaded]);
-
-    const selectedEvents = props.group.events.filter((e) => e.selected);
-    const selectedDrafts = selectedEvents.filter((e) => e.isDraft);
-
     const { group } = props;
+    const drafts = group.events.filter((e) => e.isDraft);
+    const toShift = drafts.some((e) => e.selected) ? drafts.filter((e) => e.selected) : drafts;
+
     return (
         <div
             className={clsx(
@@ -207,44 +206,38 @@ const UserEventGroup = observer((props: Props) => {
                                 <AddUserPopup group={props.group} />
                                 {group.userIds.size > 1 && <UserTable group={group} />}
                             </dd>
-                            {group.eventCount > 1 &&
-                                selectedDrafts.length !== 1 &&
-                                selectedDrafts.length === selectedEvents.length && (
-                                    <>
-                                        <dt>
-                                            <Translate id="group.shiftDates.dt">Datum Verschieben</Translate>
-                                        </dt>
-                                        <dd>
-                                            <Badge
-                                                text={
-                                                    selectedEvents.length > 1
-                                                        ? `${selectedEvents.length}`
-                                                        : 'Alle'
-                                                }
-                                                color="gray"
-                                                className={clsx(styles.eventCountBadge)}
-                                            />
-                                            {translate({
-                                                id: 'group.shiftDates.description',
-                                                message: 'Termine bearbeiten'
-                                            })}
-                                            <Button
-                                                text={
-                                                    isShiftEditorOpen
-                                                        ? translate({
-                                                              id: 'group.shiftDates.closeShiftEditor',
-                                                              message: 'Editor schliessen'
-                                                          })
-                                                        : translate({
-                                                              id: 'group.shiftDates.openShiftEditor',
-                                                              message: 'Editor öffnen'
-                                                          })
-                                                }
-                                                onClick={() => setShiftEditorOpen(!isShiftEditorOpen)}
-                                            />
-                                        </dd>
-                                    </>
-                                )}
+                            {toShift.length > 1 && (
+                                <>
+                                    <dt>
+                                        <Translate id="group.shiftDates.dt">Datum Verschieben</Translate>
+                                    </dt>
+                                    <dd>
+                                        <Badge
+                                            text={`${toShift.length}`}
+                                            color="gray"
+                                            className={clsx(styles.eventCountBadge)}
+                                        />
+                                        {translate({
+                                            id: 'group.shiftDates.description',
+                                            message: 'Termine bearbeiten'
+                                        })}
+                                        <Button
+                                            text={
+                                                isShiftEditorOpen
+                                                    ? translate({
+                                                          id: 'group.shiftDates.closeShiftEditor',
+                                                          message: 'Editor schliessen'
+                                                      })
+                                                    : translate({
+                                                          id: 'group.shiftDates.openShiftEditor',
+                                                          message: 'Editor öffnen'
+                                                      })
+                                            }
+                                            onClick={() => setShiftEditorOpen(!isShiftEditorOpen)}
+                                        />
+                                    </dd>
+                                </>
+                            )}
                             {group.events.some((e) => e.isDirty) && (
                                 <>
                                     <dt>
@@ -279,7 +272,7 @@ const UserEventGroup = observer((props: Props) => {
                         </DefinitionList>
                         {isShiftEditorOpen && (
                             <ShiftDatesEditor
-                                group={group}
+                                events={toShift}
                                 close={() => {
                                     setShiftEditorOpen(false);
                                 }}
