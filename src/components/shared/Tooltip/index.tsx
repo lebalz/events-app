@@ -9,13 +9,14 @@ import Popup from 'reactjs-popup';
 interface Props {
     title?: string | JSX.Element;
     children: JSX.Element;
+    disabled?: boolean;
 }
 
 const MOUSE_ENTER_DELAY_MS = 250;
 const MOUSE_LEAVE_DELAY_MS = 200;
 
 const Tooltip = observer((props: Props) => {
-    if (!props.title) {
+    if (!props.title || props.disabled) {
         return props.children;
     }
     return (

@@ -1,11 +1,10 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import { EventGroup as EventGroupProps } from '../api/event_group';
+import { DestroyEventAction, EventGroup as EventGroupProps, Meta } from '../api/event_group';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { EventGroupStore } from '../stores/EventGroupStore';
 import Event from './Event';
 import User from './User';
-import { toGlobalDate } from './helpers/time';
 import _ from 'lodash';
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
@@ -15,6 +14,8 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     readonly store: EventGroupStore;
     readonly id: string;
     readonly createdAt: Date;
+    readonly meta: Meta;
+    _loadingTriggered = false;
 
     userIds = observable.set<string>([]);
     eventIds = observable.set<string>([]);
@@ -30,6 +31,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         this.store = store;
         this._pristine = props;
         this.id = props.id;
+        this.meta = props.meta;
         this.userIds.replace(props.userIds);
         this.eventIds.replace(props.eventIds);
         this.name = props.name;
@@ -60,13 +62,17 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     loadEvents() {
-        if (!this.isFullyLoaded) {
-            const missingIds = [...this.eventIds].filter((id) => !this.store.eventStore.find(id));
-            if (missingIds.length === this.eventIds.size || missingIds.length > 50) {
-                return this.store.reloadEvents(this);
-            }
-            return this.store.eventStore.loadEvents(missingIds, this.id);
+        if (this._loadingTriggered) {
+            return;
         }
+        this._loadingTriggered = true;
+        const missingIds = [
+            ...this.eventIds,
+            ...Object.values(this.meta)
+                .map((k) => k.from)
+                .filter((k) => !!k)
+        ].filter((id) => !this.store.eventStore.find(id));
+        return this.store.eventStore.loadEvents(missingIds, this.id);
     }
 
     get apiState() {
@@ -83,20 +89,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         if (this.isDirty) {
             this.save();
         }
-    }
-
-    @action
-    shiftEvents(shiftMs: number) {
-        this.events
-            .filter((e) => e.isDraft)
-            .forEach((event) => {
-                const start = new Date(event.start.getTime() + shiftMs);
-                const end = new Date(event.end.getTime() + shiftMs);
-                event.update({
-                    start: toGlobalDate(start).toISOString(),
-                    end: toGlobalDate(end).toISOString()
-                });
-            });
     }
 
     @action
@@ -138,6 +130,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
             id: this.id,
             name: this.name,
             description: this.description,
+            meta: this.meta,
             userIds: [...this.userIds].sort(),
             eventIds: [...this.eventIds].sort(),
             createdAt: this.createdAt.toISOString(),
@@ -186,5 +179,40 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     @computed
     get shareUrl() {
         return `/group?${this.queryParam}`;
+    }
+
+    @action
+    destroy(action: DestroyEventAction = DestroyEventAction.Unlink) {
+        return this.store.destroy(this, action);
+    }
+
+    @computed
+    get relatedModels() {
+        const from = Object.keys(this.meta);
+        if (from.length < 1) {
+            return [];
+        }
+        const relations = from
+            .map((id) => ({
+                a: this.store.eventStore.find<Event>(this.meta[id]!.from), // cloned event
+                b: this.store.eventStore.find<Event>(id) // probably modified event
+            }))
+            .filter((rel) => rel.a && rel.b);
+        return relations;
+    }
+
+    /**
+     * reloads the model only after 1 second of "silence" (=no triggers during this period)
+     * or after 2.5s of permanent triggering...
+     */
+    triggerReload = _.debounce(action(this._triggerReload), 500, {
+        leading: false,
+        trailing: true,
+        maxWait: 2500
+    });
+
+    @action
+    _triggerReload() {
+        return this.store.loadModel(this.id);
     }
 }

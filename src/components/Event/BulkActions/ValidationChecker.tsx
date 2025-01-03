@@ -17,6 +17,9 @@ const ValidationChecker = observer((props: ValidationCheckerProps) => {
         if (events.length < 1) {
             return;
         }
+        if (events.every((e) => e._initialValidationTriggered)) {
+            return;
+        }
         events.forEach(
             action((event) => {
                 event.triggerInitialValidation();

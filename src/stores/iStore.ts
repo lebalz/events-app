@@ -5,7 +5,7 @@ import {
     find as apiFind,
     create as apiCreate,
     destroy as apiDestroy,
-    update as apiUpdat
+    update as apiUpdate
 } from '../api/api_model';
 import { RootStore } from './stores';
 import { computedFn } from 'mobx-utils';
@@ -158,14 +158,14 @@ abstract class iStore<Model extends { id: string }, Api = ''>
     }
 
     @action
-    removeFromStore(id: string): ApiModel<Model, Api | ApiAction> | undefined {
+    removeFromStore(id: string, destroyed?: boolean): ApiModel<Model, Api | ApiAction> | undefined {
         /**
          * Removes the model to the store
          */
         const old = this.find<ApiModel<Model, Api | ApiAction>>(id);
         if (old) {
             this.models.remove(old);
-            old.cleanup();
+            old.cleanup(destroyed);
         }
         return old;
     }
@@ -294,7 +294,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
         if (model.isDirty) {
             const { id } = model;
             return this.withAbortController(`save-${id}`, (sig) => {
-                return apiUpdat<Model>(`${this.ApiEndpoint.Base}/${id}`, model.props, sig.signal);
+                return apiUpdate<Model>(`${this.ApiEndpoint.Base}/${id}`, model.props, sig.signal);
             }).then(
                 action(({ data }) => {
                     if (data) {
@@ -314,7 +314,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
             return apiDestroy<Model>(`${this.ApiEndpoint.Base}/${id}`, sig.signal);
         }).then(
             action(() => {
-                this.removeFromStore(id);
+                this.removeFromStore(id, true);
             })
         );
     }

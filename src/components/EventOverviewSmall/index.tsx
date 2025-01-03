@@ -30,6 +30,7 @@ interface Props {
     compareWith?: Event;
     className?: string;
     showState?: boolean;
+    expandDescriptionLong?: boolean;
 }
 
 const EventOverviewSmall = observer((props: Props) => {
@@ -47,11 +48,23 @@ const EventOverviewSmall = observer((props: Props) => {
             }}
         >
             <div className={clsx(styles.header)}>
-                <div className={clsx(styles.date, styles.dateStart, diffs.has('start') && styles.differs)}>
+                <div
+                    className={clsx(
+                        styles.date,
+                        styles.dateStart,
+                        diffs.has('start') && event.fStartDate !== compareWith?.fStartDate && styles.differs
+                    )}
+                >
                     {event.fStartDate.replace(/^0/, '')}
                 </div>
                 {!event.isOnOneDay && (
-                    <div className={clsx(styles.date, styles.dateEnd, diffs.has('end') && styles.differs)}>
+                    <div
+                        className={clsx(
+                            styles.date,
+                            styles.dateEnd,
+                            diffs.has('end') && event.fEndDate !== compareWith?.fEndDate && styles.differs
+                        )}
+                    >
                         {event.fEndDate.replace(/^0/, '')}
                     </div>
                 )}
@@ -63,7 +76,9 @@ const EventOverviewSmall = observer((props: Props) => {
                                 styles.time,
                                 styles.timeStart,
                                 event.isOnOneDay && styles.singleDayEvent,
-                                diffs.has('start') && styles.differs
+                                diffs.has('start') &&
+                                    event.fStartTime !== compareWith?.fStartTime &&
+                                    styles.differs
                             )}
                         >
                             {event.fStartTime}
@@ -74,7 +89,7 @@ const EventOverviewSmall = observer((props: Props) => {
                                 styles.time,
                                 styles.timeEnd,
                                 event.isOnOneDay && styles.singleDayEvent,
-                                diffs.has('end') && styles.differs
+                                diffs.has('end') && event.fEndTime !== compareWith?.fEndTime && styles.differs
                             )}
                         >
                             {event.isOnOneDay && (
@@ -125,8 +140,9 @@ const EventOverviewSmall = observer((props: Props) => {
                     />
                 </div>
             </div>
-            <div className={clsx(styles.body)}>
+            <div className={clsx(styles.body, props.expandDescriptionLong && styles.descriptionExpanded)}>
                 <Tooltip
+                    disabled={props.expandDescriptionLong}
                     title={
                         <div>
                             <div

@@ -112,6 +112,16 @@
                 margin-left: 0.5em;
             }
         }
+        &.descriptionExpanded {
+            white-space: unset;
+            .title {
+                display: block;
+                .small {
+                    margin-left: 0;
+                    display: block;
+                }
+            }
+        }
     }
     .footer {
         grid-area: footer;

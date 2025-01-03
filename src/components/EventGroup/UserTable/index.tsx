@@ -4,15 +4,13 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import EventGroup from '@site/src/models/EventGroup';
-import { mdiMinusCircle, mdiPlusCircleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js';
+import { mdiMinusCircle, mdiSortAscending, mdiSortDescending } from '@mdi/js';
 import Button from '../../shared/Button';
-import { DeleteIcon, SIZE_S } from '../../shared/icons';
+import { SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import _ from 'lodash';
 import Badge from '../../shared/Badge';
-import TextInput from '../../shared/TextInput';
 import { useStore } from '@site/src/stores/hooks';
-import AddUserPopup from './AddUserPopup';
 
 interface Props {
     group: EventGroup;

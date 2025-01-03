@@ -57,6 +57,10 @@
     .actions {
         display: flex;
     }
+    .eventCountBadge {
+        display: inline-block;
+        margin-right: 0.5em;
+    }
 }
 
 @media screen and (max-width: 712px) {

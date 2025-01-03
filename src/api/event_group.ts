@@ -2,10 +2,22 @@ import { AxiosPromise } from 'axios';
 import api from './base';
 import { Event } from './event';
 
+export interface Meta {
+    [id: string]: {
+        from: string;
+    };
+}
+
+export enum DestroyEventAction {
+    Unlink = 'unlink',
+    DestroyDrafts = 'destroy_drafts'
+}
+
 export interface EventGroup {
     id: string;
     name: string;
     description: string;
+    meta: Meta;
     userIds: string[];
     eventIds: string[];
     createdAt: string;

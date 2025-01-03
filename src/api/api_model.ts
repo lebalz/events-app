@@ -17,6 +17,6 @@ export function update<T>(endpoint: string, data: Partial<T>, signal: AbortSigna
     return api.put(endpoint, { data }, { signal });
 }
 
-export function destroy<T>(endpoint: string, signal: AbortSignal): AxiosPromise<any> {
+export function destroy<T>(endpoint: string, signal: AbortSignal): AxiosPromise<T> {
     return api.delete(endpoint, { signal });
 }

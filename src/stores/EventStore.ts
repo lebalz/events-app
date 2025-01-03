@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import {
     Event as EventProps,
@@ -8,20 +8,26 @@ import {
     clone as apiClone,
     all as apiFetchEvents,
     updateMeta,
-    Meta
+    Meta,
+    updateBatched as apiUpdateBatched,
+    deleteMany as apiDeleteMany
 } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import iStore from './iStore';
 import Department from '../models/Department';
-import { HOUR_2_MS } from '../models/helpers/time';
+import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
 
 export class EventStore extends iStore<
     EventProps,
-    'download-excel' | `clone-${string}` | `update-meta-${string}` | `load-versions-${string}`
+    | 'download-excel'
+    | `clone-${string}`
+    | `update-meta-${string}`
+    | `update-batched-${string}`
+    | `load-versions-${string}`
 > {
     readonly root: RootStore;
 
@@ -286,6 +292,53 @@ export class EventStore extends iStore<
                 }
                 return data;
             });
+        });
+    }
+
+    @action
+    shiftEvents(events: Event[], shiftMs: number) {
+        const updated = events
+            .filter((e) => e.isDraft)
+            .map((event) => {
+                const start = new Date(event.start.getTime() + shiftMs);
+                const end = new Date(event.end.getTime() + shiftMs);
+                return {
+                    id: event.id,
+                    start: toGlobalDate(start).toISOString(),
+                    end: toGlobalDate(end).toISOString()
+                };
+            });
+        return this.updateBatched(updated);
+    }
+
+    @action
+    updateBatched(events: (Partial<EventProps> & { id: string })[]) {
+        return this.withAbortController(`update-batched-${events.map((e) => e.id).join(':')}`, (sig) => {
+            return apiUpdateBatched(events, sig.signal).then(({ data }) => {
+                if (data) {
+                    data.forEach((d) => {
+                        this.addToStore(d);
+                    });
+                }
+                return data;
+            });
+        });
+    }
+
+    @action
+    destroyMany(toDelete: Event[]) {
+        const ids = toDelete.map((e) => e.id).sort();
+        return this.withAbortController(`destroy-${ids.join(':')}`, (sig) => {
+            return apiDeleteMany(ids, sig.signal).then(
+                action(({ data }) => {
+                    if (data) {
+                        data.forEach((id) => {
+                            this.removeFromStore(id, true);
+                        });
+                    }
+                    return data;
+                })
+            );
         });
     }
 }

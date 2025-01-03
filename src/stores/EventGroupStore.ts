@@ -8,11 +8,13 @@ import {
     EventGroup as EventGroupProps,
     create as apiCreate,
     clone as apiClone,
-    events as fetchEvents
+    events as fetchEvents,
+    DestroyEventAction
 } from '../api/event_group';
 import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
+import { destroy as apiDestroy } from '../api/api_model';
 
 export class EventGroupStore extends iStore<
     EventGroupProps,
@@ -110,5 +112,20 @@ export class EventGroupStore extends iStore<
             ids = [ids];
         }
         return ids.map((id) => this.find<EventGroup>(id)).filter((e) => !!e);
+    }
+
+    @action
+    destroy(model: EventGroup, eventAction: DestroyEventAction = DestroyEventAction.Unlink) {
+        const { id } = model;
+        this.withAbortController(`destroy-${id}`, (sig) => {
+            return apiDestroy<EventGroup>(
+                `${this.ApiEndpoint.Base}/${id}?eventAction=${eventAction}`,
+                sig.signal
+            );
+        }).then(
+            action(() => {
+                this.removeFromStore(id);
+            })
+        );
     }
 }

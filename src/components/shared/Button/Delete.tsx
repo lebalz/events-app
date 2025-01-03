@@ -30,6 +30,7 @@ const Delete = (props: DeleteProps) => {
                             size={props.size ?? SIZE_S}
                             onClick={(e) => e.preventDefault()}
                             color="red"
+                            title={props.title}
                         />
                     </span>
                 )}

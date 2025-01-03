@@ -67,7 +67,6 @@ const EventProps = observer((props: Props) => {
     const { event } = props;
     const [showAllAffectedLessons, setShowAllAffectedLessons] = React.useState(false);
     const userStore = useStore('userStore');
-    const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
     const semesterStore = useStore('semesterStore');
     React.useEffect(() => {
@@ -77,7 +76,7 @@ const EventProps = observer((props: Props) => {
     const metaRef = React.useRef<PopupActions>();
 
     const commonClasses = clsx(event?.isDeleted && sharedStyles.deleted) || '';
-    const commonProps = { event, styles: sharedStyles, className: commonClasses };
+    const commonProps = { event: event, styles: sharedStyles, className: commonClasses };
     const commonEditProps = { ...commonProps, isEditable: true };
     if (!event) {
         return null;
