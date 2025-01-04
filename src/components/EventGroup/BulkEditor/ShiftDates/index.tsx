@@ -32,7 +32,7 @@ const hoursToMs = (hours: number) => {
     return hours * 60 * 60 * 1000;
 };
 
-const ShiftEditor = observer((props: Props) => {
+const ShiftDates = observer((props: Props) => {
     const { events } = props;
     const [shift, setShift] = React.useState(0);
     const [shiftedHours, setShiftedHours] = React.useState(0);
@@ -187,4 +187,4 @@ const ShiftEditor = observer((props: Props) => {
     );
 });
 
-export default ShiftEditor;
+export default ShiftDates;
