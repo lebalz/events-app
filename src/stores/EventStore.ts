@@ -20,6 +20,9 @@ import Department from '../models/Department';
 import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
+import AudienceShifter from '../components/EventGroup/BulkEditor/ShiftAudience/AudienceShifter';
+import { classes } from '../api/untis';
+import { KlassName } from '../models/helpers/klassNames';
 
 export class EventStore extends iStore<
     EventProps,
@@ -304,7 +307,7 @@ export class EventStore extends iStore<
     }
 
     @action
-    shiftEvents(events: Event[], shiftMs: number) {
+    shiftEventDates(events: Event[], shiftMs: number) {
         const updated = events
             .filter((e) => e.isDraft)
             .map((event) => {
@@ -314,6 +317,26 @@ export class EventStore extends iStore<
                     id: event.id,
                     start: toGlobalDate(start).toISOString(),
                     end: toGlobalDate(end).toISOString()
+                };
+            });
+        return this.updateBatched(updated);
+    }
+
+    @action
+    shiftEventAudience(events: Event[], shifter: AudienceShifter) {
+        const updated = events
+            .filter((e) => e.isDraft)
+            .map((event) => {
+                const updatedClasses = [...event._selectedClassNames]
+                    .map((c) => shifter.audience.get(c))
+                    .filter((a) => !!a) as KlassName[];
+                const updatedClassGroups = [...event.classGroups]
+                    .map((c) => shifter.audience.get(c))
+                    .filter((a) => !!a);
+                return {
+                    id: event.id,
+                    classes: updatedClasses,
+                    classGroups: updatedClassGroups
                 };
             });
         return this.updateBatched(updated);

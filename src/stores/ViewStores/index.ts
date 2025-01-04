@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, observable, reaction } from 'mobx';
 import { RootStore } from '../stores';
 import Semester from '../../models/Semester';
 import User from '../../models/User';

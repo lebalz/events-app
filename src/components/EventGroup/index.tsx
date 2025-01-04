@@ -351,7 +351,7 @@ const UserEventGroup = observer((props: Props) => {
                             <ShiftAudience
                                 events={toShift}
                                 close={() => {
-                                    setShiftEditorOpen(false);
+                                    setClassEditorOpen(false);
                                 }}
                             />
                         )}

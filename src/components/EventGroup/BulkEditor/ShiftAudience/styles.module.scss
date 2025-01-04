@@ -32,3 +32,11 @@
         }
     }
 }
+
+.shift {
+    display: flex;
+    gap: 1em;
+    .audienceBadge {
+        width: 3.5em;
+    }
+}

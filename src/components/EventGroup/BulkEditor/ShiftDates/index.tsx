@@ -8,15 +8,13 @@ import DatePicker from '../../../shared/DatePicker';
 import { default as EventModel } from '@site/src/models/Event';
 import Icon from '@mdi/react';
 import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
-import { ArrowLeft, ArrowRight, SIZE, SIZE_S } from '../../../shared/icons';
+import { SIZE } from '../../../shared/icons';
 import { toGlobalDate } from '@site/src/models/helpers/time';
-import Select from 'react-select';
 import Translate, { translate } from '@docusaurus/Translate';
 import Button from '../../../shared/Button';
 import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
-import DiffViewer from '../../../Event/DiffViewer';
 import Preview from '../Preview';
 
 interface Props {
@@ -167,7 +165,7 @@ const ShiftDates = observer((props: Props) => {
                             message: 'Anwenden'
                         })}
                         onClick={() => {
-                            eventStore.shiftEvents(events, shift + hoursToMs(shiftedHours)).then(() => {
+                            eventStore.shiftEventDates(events, shift + hoursToMs(shiftedHours)).then(() => {
                                 props.close();
                             });
                             setApiState(ApiState.LOADING);

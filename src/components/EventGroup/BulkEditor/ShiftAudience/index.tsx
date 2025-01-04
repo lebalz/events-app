@@ -4,20 +4,16 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import DatePicker from '../../../shared/DatePicker';
 import { default as EventModel } from '@site/src/models/Event';
-import Icon from '@mdi/react';
-import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
-import { ArrowLeft, ArrowRight, SIZE, SIZE_S } from '../../../shared/icons';
-import { toGlobalDate } from '@site/src/models/helpers/time';
-import Select from 'react-select';
+import { SIZE } from '../../../shared/icons';
 import Translate, { translate } from '@docusaurus/Translate';
-import Button from '../../../shared/Button';
 import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
-import DiffViewer from '../../../Event/DiffViewer';
-import Preview from '../Preview';
+import AudienceShifter from './AudienceShifter';
+import Icon from '@mdi/react';
+import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
+import Button from '@site/src/components/shared/Button';
 
 interface Props {
     events: EventModel[];
@@ -28,18 +24,51 @@ const getClone = (event: EventModel, idPostFix: string = '') => {
     return new EventModel({ ...event._pristine, id: `${idPostFix}${event.id}` }, event.store);
 };
 
-const hoursToMs = (hours: number) => {
-    return hours * 60 * 60 * 1000;
+interface ShiftProps {
+    audienceShifter: AudienceShifter;
+    name: string;
+}
+
+const displayName = (name: string) => {
+    if (name.length >= 4) {
+        return name;
+    }
+    return `${name}*`;
 };
 
+const Shift = observer((props: ShiftProps) => {
+    const { audienceShifter, name } = props;
+
+    return (
+        <div className={clsx(styles.shift)}>
+            <Badge text={displayName(name)} className={clsx(styles.audienceBadge)} />
+            <Icon path={mdiArrowRightBoldCircle} size={SIZE} color="var(--ifm-color-blue)" />
+            <Badge
+                text={displayName(audienceShifter.audience.get(name))}
+                className={clsx(styles.audienceBadge)}
+            />
+        </div>
+    );
+});
+
 const ShiftAudience = observer((props: Props) => {
-    const { events } = props;
-
-    const [apiState, setApiState] = React.useState(ApiState.IDLE);
     const eventStore = useStore('eventStore');
-
-    const classes = [...new Set(events.flatMap((e) => [...e.classes]))].sort();
-    const groups = [...new Set(events.flatMap((e) => [...e.classGroups]))].sort();
+    const [shifter, setShifter] = React.useState(
+        new AudienceShifter(
+            props.events.flatMap((e) => [...e.classes]),
+            props.events.flatMap((e) => [...e.classGroups])
+        )
+    );
+    const [shiftedYears, setShiftedYears] = React.useState(0);
+    const [apiState, setApiState] = React.useState(ApiState.IDLE);
+    React.useEffect(() => {
+        const nShifter = new AudienceShifter(
+            props.events.flatMap((e) => [...e.classes]),
+            props.events.flatMap((e) => [...e.classGroups])
+        );
+        setShifter(nShifter);
+        nShifter.shiftAudience(shiftedYears);
+    }, [props.events]);
 
     return (
         <div className={clsx(styles.shiftEditor, 'card')}>
@@ -58,24 +87,45 @@ const ShiftAudience = observer((props: Props) => {
             </div>
             <div className={clsx(styles.editor, 'card__body')}>
                 <div className={clsx(styles.actions)}>
-                    <fieldset className={clsx(styles.groups)}>
+                    <fieldset className={clsx(styles.audience)}>
                         <legend>
-                            <Translate id="shiftAudienceEditor.groups">Jahrgänge</Translate>
+                            <Translate id="shiftAudienceEditor.audience">Klassen</Translate>
                         </legend>
-                        {groups.map((group) => (
-                            <Badge key={group} size={SIZE_S} text={group} />
-                        ))}
-                    </fieldset>
-                    <fieldset className={clsx(styles.classes)}>
-                        <legend>
-                            <Translate id="shiftAudienceEditor.classes">Klassen</Translate>
-                        </legend>
-                        {classes.map((klass) => (
-                            <Badge key={klass} size={SIZE_S} text={klass} />
+                        <input
+                            id="shiftHours"
+                            type="number"
+                            value={shiftedYears}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                setShiftedYears(value);
+                                shifter.shiftAudience(value);
+                            }}
+                        />
+                        {Array.from(shifter.audience.keys()).map((klass) => (
+                            <Shift key={klass} audienceShifter={shifter} name={klass} />
                         ))}
                     </fieldset>
                 </div>
             </div>
+            {shiftedYears !== 0 && (
+                <Button
+                    text={translate({
+                        id: 'shiftDatesEditor.apply',
+                        message: 'Anwenden'
+                    })}
+                    onClick={() => {
+                        eventStore.shiftEventAudience(props.events, shifter).then(() => {
+                            props.close();
+                        });
+                        setApiState(ApiState.LOADING);
+                    }}
+                    apiState={apiState}
+                    color="green"
+                    icon={mdiCheckCircleOutline}
+                    iconSide="left"
+                    className={clsx(styles.applyButton)}
+                />
+            )}
         </div>
     );
 });
