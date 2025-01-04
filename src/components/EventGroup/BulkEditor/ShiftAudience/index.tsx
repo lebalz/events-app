@@ -32,121 +32,52 @@ const hoursToMs = (hours: number) => {
     return hours * 60 * 60 * 1000;
 };
 
-const ShiftEditor = observer((props: Props) => {
+const ShiftAudience = observer((props: Props) => {
     const { events } = props;
-    const [shift, setShift] = React.useState(0);
-    const [shiftedHours, setShiftedHours] = React.useState(0);
-    const [shiftedEventIdx, setShiftedEventIdx] = React.useState(0);
-    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
+
     const [apiState, setApiState] = React.useState(ApiState.IDLE);
     const eventStore = useStore('eventStore');
-    events.flatMap((e) => e.classes);
 
-    const viewed = events[shiftedEventIdx % events.length];
-
-    React.useEffect(() => {
-        const event = events[shiftedEventIdx % events.length];
-        if (event) {
-            const clone = getClone(event, '---');
-            const toStart = new Date(event.start.getTime() + shift + hoursToMs(shiftedHours));
-            const toEnd = new Date(event.end.getTime() + shift + hoursToMs(shiftedHours));
-            clone.update({
-                start: toGlobalDate(toStart).toISOString(),
-                end: toGlobalDate(toEnd).toISOString()
-            });
-            setShiftedEvent(clone);
-        }
-    }, [events, shiftedEventIdx, shift, shiftedHours]);
+    const classes = [...new Set(events.flatMap((e) => [...e.classes]))].sort();
+    const groups = [...new Set(events.flatMap((e) => [...e.classGroups]))].sort();
 
     return (
         <div className={clsx(styles.shiftEditor, 'card')}>
             <div className={clsx('card__header')}>
                 <h3>
-                    <Translate id="shiftDatesEditor.title">Verschiebung von Terminen</Translate>
+                    <Translate id="shiftAudienceEditor.title">
+                        Neuzuordnung von Jahrgängen und Klassen
+                    </Translate>
                 </h3>
-                <div className={clsx(styles.description)}>
-                    <Badge
-                        icon={EventStateButton.DRAFT}
-                        size={0.8}
-                        color={EventStateColor.DRAFT}
-                        className={clsx(styles.draftBadge)}
-                    />
-                    <Translate id="shiftDatesEditor.description">
-                        Entwürfe können mit dem Verschiebe-Editor bearbeitet werden.
+                <div className={clsx(styles.description, 'alert', 'alert--info')} role="alert">
+                    <Badge icon={EventStateButton.DRAFT} size={0.8} color={EventStateColor.DRAFT} />
+                    <Translate id="shiftAudienceEditor.description">
+                        Nur Entwürfe können mit diesem Editor bearbeitet werden.
                     </Translate>
                 </div>
             </div>
             <div className={clsx(styles.editor, 'card__body')}>
                 <div className={clsx(styles.actions)}>
-                    <fieldset className={clsx(styles.dates)}>
+                    <fieldset className={clsx(styles.groups)}>
                         <legend>
-                            <Translate id="shiftedDatesEditor.dates">Tage</Translate>
+                            <Translate id="shiftAudienceEditor.groups">Jahrgänge</Translate>
                         </legend>
-                        <DatePicker
-                            date={viewed.start}
-                            onChange={() => {}}
-                            time="start"
-                            disabled
-                            id={viewed.id}
-                        />
-                        <Icon path={mdiArrowRightBoldCircle} size={SIZE} />
-                        {shiftedEvent && (
-                            <DatePicker
-                                date={shiftedEvent.start}
-                                onChange={(date) => {
-                                    const to = new Date(
-                                        `${date.toISOString().slice(0, 10)}${viewed.start.toISOString().slice(10)}`
-                                    );
-                                    const diff = to.getTime() - viewed.start.getTime();
-                                    setShift(diff);
-                                }}
-                                time="start"
-                                id={shiftedEvent.id}
-                            />
-                        )}
+                        {groups.map((group) => (
+                            <Badge key={group} size={SIZE_S} text={group} />
+                        ))}
                     </fieldset>
-                    <fieldset className={clsx(styles.hours)}>
+                    <fieldset className={clsx(styles.classes)}>
                         <legend>
-                            <Translate id="shiftDatesEditor.hours">Stunden</Translate>
+                            <Translate id="shiftAudienceEditor.classes">Klassen</Translate>
                         </legend>
-                        <input
-                            id="shiftHours"
-                            type="number"
-                            value={shiftedHours}
-                            onChange={(e) => {
-                                const value = parseInt(e.target.value);
-                                setShiftedHours(value);
-                            }}
-                        />
+                        {classes.map((klass) => (
+                            <Badge key={klass} size={SIZE_S} text={klass} />
+                        ))}
                     </fieldset>
                 </div>
-                <Preview
-                    events={events}
-                    onChange={(idx) => setShiftedEventIdx(idx)}
-                    changedEvent={shiftedEvent}
-                />
-                {shift + hoursToMs(shiftedHours) !== 0 && (
-                    <Button
-                        text={translate({
-                            id: 'shiftDatesEditor.apply',
-                            message: 'Anwenden'
-                        })}
-                        onClick={() => {
-                            eventStore.shiftEvents(events, shift + hoursToMs(shiftedHours)).then(() => {
-                                props.close();
-                            });
-                            setApiState(ApiState.LOADING);
-                        }}
-                        apiState={apiState}
-                        color="green"
-                        icon={mdiCheckCircleOutline}
-                        iconSide="left"
-                        className={clsx(styles.applyButton)}
-                    />
-                )}
             </div>
         </div>
     );
 });
 
-export default ShiftEditor;
+export default ShiftAudience;

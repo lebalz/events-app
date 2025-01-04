@@ -1331,7 +1331,7 @@
     "message": "Alle Mitglieder der Gruppe sind können Termine beliebig verändern."
   },
   "group.shiftDates.dt": {
-    "message": "Datum Verschieben"
+    "message": "Datum verschieben"
   },
   "group.shiftDates.description": {
     "message": "Termine bearbeiten"
@@ -2155,7 +2155,7 @@
     "message": "Die Gruppe und alle unveröffentlichten Termine werden gelöscht"
   },
   "shiftDatesEditor.description": {
-    "message": "Entwürfe können mit dem Verschiebe-Editor bearbeitet werden."
+    "message": "Nur Entwürfe können mit dem Verschiebe-Editor bearbeitet werden."
   },
   "event.transition.invalid.initialValidation": {
     "message": "Es wurde noch keine Validierung durchgeführt."
@@ -2168,5 +2168,53 @@
   },
   "subscription.subscribe": {
     "message": "Diesen Termin nicht mehr im persönlichen Kalender anzeigen."
+  },
+  "group.showChanges.dt": {
+    "message": "Änderungen Anzeigen"
+  },
+  "eventGroup.diff.cloned": {
+    "message": "Original"
+  },
+  "eventGroup.diff.changed": {
+    "message": "Neu"
+  },
+  "diffViewer.title": {
+    "message": "Unterschiede"
+  },
+  "event.NoEventsAlert.text": {
+    "message": "In der Kategorie \"{category}\" sind keine Termine vorhanden."
+  },
+  "shiftedDatesEditor.current.label": {
+    "message": "Vorher"
+  },
+  "shiftedDatesEditor.next.label": {
+    "message": "Nachher"
+  },
+  "shiftClassesEditor.title": {
+    "message": "Neuzuordnung von Jahrgängen und Klassen"
+  },
+  "shiftClassesEditor.description": {
+    "message": "Entwürfe können mit dem Editor bearbeitet werden."
+  },
+  "shiftDatesEditor.noEvent.alert": {
+    "message": "Keine Termine vorhanden."
+  },
+  "shiftDatesEditor.invalidEvents.alert": {
+    "message": "Der Editor kann nur Entwürfe bearbeiten. Aktuell sind auch eingereichte, zurückgewiesene oder veröffentlichte Termine vorhanden."
+  },
+  "group.shiftAudience.dt": {
+    "message": "Jahrgänge und Klassen verschieben"
+  },
+  "shiftAudienceEditor.title": {
+    "message": "Neuzuordnung von Jahrgängen und Klassen"
+  },
+  "shiftAudienceEditor.description": {
+    "message": "Nur Entwürfe können mit diesem Editor bearbeitet werden."
+  },
+  "shiftAudienceEditor.groups": {
+    "message": "Jahrgänge"
+  },
+  "shiftAudienceEditor.classes": {
+    "message": "Klassen"
   }
 }

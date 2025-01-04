@@ -210,11 +210,13 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         return this.classes.filter((kl) => kl.name.startsWith(startPart));
     };
 
-    hasClassesWithGroupName = (startPart?: string): boolean => {
+    hasClassesWithGroupName = (startPart?: string, referenceYear?: number): boolean => {
         if (!startPart) {
             return false;
         }
-        return this.classes.some((kl) => kl.name.startsWith(startPart));
+        return this.classes.some(
+            (kl) => kl.name.startsWith(startPart) && (!referenceYear || kl.year >= referenceYear)
+        );
     };
 
     get classesGroupedByGroupNames(): Map<string, Klass[]> {

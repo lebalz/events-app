@@ -102,16 +102,13 @@ const ShiftDates = observer((props: Props) => {
                 <h3>
                     <Translate id="shiftDatesEditor.title">Verschiebung von Terminen</Translate>
                 </h3>
-                <div className={clsx(styles.description)}>
-                    <Badge
-                        icon={EventStateButton.DRAFT}
-                        size={0.8}
-                        color={EventStateColor.DRAFT}
-                        className={clsx(styles.draftBadge)}
-                    />
-                    <Translate id="shiftDatesEditor.description">
-                        Entwürfe können mit dem Verschiebe-Editor bearbeitet werden.
-                    </Translate>
+                <div className={clsx(styles.description, 'alert', 'alert--info')} role="alert">
+                    <Badge icon={EventStateButton.DRAFT} size={0.8} color={EventStateColor.DRAFT} />
+                    <span>
+                        <Translate id="shiftDatesEditor.description">
+                            Nur Entwürfe können mit dem Verschiebe-Editor bearbeitet werden.
+                        </Translate>
+                    </span>
                 </div>
             </div>
             <div className={clsx(styles.editor, 'card__body')}>

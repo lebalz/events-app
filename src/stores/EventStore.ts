@@ -209,8 +209,8 @@ export class EventStore extends iStore<
         return _.uniqBy([...klasses, ...wildcard], 'id');
     }
 
-    hasUntisClassesInClassGroup(classGroupName: string) {
-        return this.root.untisStore.hasClassesWithGroupName(classGroupName);
+    hasUntisClassesInClassGroup(classGroupName: string, referenceYear: number) {
+        return this.root.untisStore.hasClassesWithGroupName(classGroupName, referenceYear);
     }
 
     getWildcardUntisClasses(event: Event) {

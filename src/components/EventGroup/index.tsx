@@ -30,6 +30,7 @@ import DeleteGroup from './DeleteGroup';
 import { DestroyEventAction } from '@site/src/api/event_group';
 import Popup from 'reactjs-popup';
 import DiffViewer from '../Event/DiffViewer';
+import ShiftAudience from './BulkEditor/ShiftAudience';
 
 interface Props {
     group: EventGroupModel;
@@ -58,9 +59,9 @@ const DEFAULT_COLUMN_CONFIG: ColumnConfig = [
 const UserEventGroup = observer((props: Props) => {
     const { group } = props;
     const store = useStore('sessionStore');
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpen, setIsOpen] = React.useState(true);
     const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
-    const [isComparisonOpen, setComparisonOpen] = React.useState(false);
+    const [isClassEditorOpen, setClassEditorOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
     const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
 
@@ -209,7 +210,7 @@ const UserEventGroup = observer((props: Props) => {
                             {toShift.length > 1 && (
                                 <>
                                     <dt>
-                                        <Translate id="group.shiftDates.dt">Datum Verschieben</Translate>
+                                        <Translate id="group.shiftDates.dt">Datum verschieben</Translate>
                                     </dt>
                                     <dd>
                                         <Badge
@@ -234,6 +235,40 @@ const UserEventGroup = observer((props: Props) => {
                                                       })
                                             }
                                             onClick={() => setShiftEditorOpen(!isShiftEditorOpen)}
+                                        />
+                                    </dd>
+                                </>
+                            )}
+                            {toShift.length > 1 && (
+                                <>
+                                    <dt>
+                                        <Translate id="group.shiftAudience.dt">
+                                            Jahrgänge und Klassen verschieben
+                                        </Translate>
+                                    </dt>
+                                    <dd>
+                                        <Badge
+                                            text={`${toShift.length}`}
+                                            color="gray"
+                                            className={clsx(styles.eventCountBadge)}
+                                        />
+                                        {translate({
+                                            id: 'group.shiftDates.description',
+                                            message: 'Termine bearbeiten'
+                                        })}
+                                        <Button
+                                            text={
+                                                isClassEditorOpen
+                                                    ? translate({
+                                                          id: 'group.shiftDates.closeShiftEditor',
+                                                          message: 'Editor schliessen'
+                                                      })
+                                                    : translate({
+                                                          id: 'group.shiftDates.openShiftEditor',
+                                                          message: 'Editor öffnen'
+                                                      })
+                                            }
+                                            onClick={() => setClassEditorOpen(!isClassEditorOpen)}
                                         />
                                     </dd>
                                 </>
@@ -306,6 +341,14 @@ const UserEventGroup = observer((props: Props) => {
                         </DefinitionList>
                         {isShiftEditorOpen && (
                             <ShiftDates
+                                events={toShift}
+                                close={() => {
+                                    setShiftEditorOpen(false);
+                                }}
+                            />
+                        )}
+                        {isClassEditorOpen && (
+                            <ShiftAudience
                                 events={toShift}
                                 close={() => {
                                     setShiftEditorOpen(false);
