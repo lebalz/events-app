@@ -1,0 +1,35 @@
+.shiftEditor {
+    box-shadow: var(--ifm-global-shadow-md);
+    .description {
+        .draftBadge {
+            display: inline-block;
+            margin-right: 0.5em;
+        }
+    }
+    &:last-child {
+        margin-bottom: var(--ifm-paragraph-margin-bottom);
+    }
+    .editor {
+        .actions {
+            flex-grow: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+            align-items: flex-start;
+            .dates {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+                flex-basis: 12em;
+            }
+            .hours {
+                display: flex;
+                flex-basis: 8em;
+            }
+        }
+        .applyButton {
+            margin-left: auto;
+            margin-top: 1em;
+        }
+    }
+}

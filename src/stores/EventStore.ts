@@ -269,18 +269,26 @@ export class EventStore extends iStore<
     }
 
     @action
-    loadEvents(ids: string[], sigId: string) {
-        return this.withAbortController(`load-events-${sigId}`, (sig) => {
-            return apiFetchEvents(ids, sig.signal).then(
-                action(({ data }) => {
-                    if (data) {
-                        data.map((d) => {
-                            this.addToStore(d);
-                        });
-                    }
-                })
-            );
+    loadEvents(ids: string[], sigId: string): Promise<Event[]> {
+        if (ids.length === 0) {
+            return Promise.resolve([] as Event[]);
+        }
+        // max 2048 characters in URL --> batch to 42 records per fetch
+        const res = _.chunk([...new Set(ids)], 42).map((chunkedIds, idx) => {
+            return this.withAbortController(`load-events-${sigId}-${idx}`, (sig) => {
+                return apiFetchEvents(chunkedIds, sig.signal).then(
+                    action(({ data }) => {
+                        if (data) {
+                            return data.map((d) => {
+                                return this.addToStore(d);
+                            });
+                        }
+                        return [];
+                    })
+                );
+            });
         });
+        return Promise.all(res).then((batched) => batched.flat() as Event[]);
     }
 
     @action
@@ -326,19 +334,26 @@ export class EventStore extends iStore<
     }
 
     @action
-    destroyMany(toDelete: Event[]) {
-        const ids = toDelete.map((e) => e.id).sort();
-        return this.withAbortController(`destroy-${ids.join(':')}`, (sig) => {
-            return apiDeleteMany(ids, sig.signal).then(
-                action(({ data }) => {
-                    if (data) {
-                        data.forEach((id) => {
-                            this.removeFromStore(id, true);
-                        });
-                    }
-                    return data;
-                })
-            );
+    destroyMany(toDelete: Event[]): Promise<string[]> {
+        if (toDelete.length === 0) {
+            return Promise.resolve([]);
+        }
+
+        // max 2048 characters in URL --> batch to 42 records per fetch
+        const res = _.chunk([...new Set(toDelete.map((e) => e.id).sort())], 42).map((chunkedIds, idx) => {
+            return this.withAbortController(`destroy-${chunkedIds.join(':')}`, (sig) => {
+                return apiDeleteMany(chunkedIds, sig.signal).then(
+                    action(({ data }) => {
+                        if (data) {
+                            data.forEach((id) => {
+                                this.removeFromStore(id, true);
+                            });
+                        }
+                        return data;
+                    })
+                );
+            });
         });
+        return Promise.all(res).then((batched) => batched.flat());
     }
 }
