@@ -33,9 +33,11 @@
                 }
             }
             .dirty {
-                position: absolute;
-                top: -16%;
-                right: -16%;
+                .icon {
+                    position: absolute;
+                    top: 1px;
+                    right: -4px;
+                }
             }
         }
     }

@@ -5,25 +5,16 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../../shared/Button';
-import {
-    mdiCheckboxBlankBadge,
-    mdiCheckboxBlankBadgeOutline,
-    mdiCircle,
-    mdiMinusCircleOutline,
-    mdiPlusCircleOutline,
-    mdiStar,
-    mdiStarCircle,
-    mdiStarOutline
-} from '@mdi/js';
+import { mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline, mdiStar } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import DatePicker from '../../shared/DatePicker';
-import { SIZE_S, FilterSvgPath, SIZE_XS, SIZE, SIZE_XXS } from '../../shared/icons';
+import { SIZE_S, FilterSvgPath, SIZE_XS } from '../../shared/icons';
 import Checkbox from '../../shared/Checkbox';
 import Translate, { translate } from '@docusaurus/Translate';
-import Select, { Theme, ThemeConfig } from 'react-select';
+import Select, { Theme } from 'react-select';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
-import Icon, { Stack } from '@mdi/react';
+import Icon from '@mdi/react';
 import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
 import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
 
@@ -157,14 +148,18 @@ const Filter = observer((props: Props) => {
                     />
                     {eventTable.hasAdvancedFilters && (
                         <span className={clsx(styles.dirty)}>
-                            <Stack size={SIZE_XS}>
-                                <Icon
-                                    path={mdiCircle}
-                                    size={SIZE_XS}
-                                    color="var(--ifm-background-surface-color)"
-                                />
-                                <Icon path={mdiStar} size={0.9 * SIZE_XS} color="var(--ifm-color-primary)" />
-                            </Stack>
+                            <Icon
+                                path={mdiCircle}
+                                size={SIZE_XS}
+                                color="var(--ifm-background-surface-color)"
+                                className={styles.icon}
+                            />
+                            <Icon
+                                path={mdiStar}
+                                size={0.9 * SIZE_XS}
+                                color="var(--ifm-color-primary)"
+                                className={styles.icon}
+                            />
                         </span>
                     )}
                 </div>
