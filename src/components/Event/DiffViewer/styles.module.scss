@@ -15,6 +15,17 @@
                 max-width: 40em;
                 flex-grow: 1;
             }
+            &.grouped {
+                padding: 8px;
+                border-radius: var(--ifm-global-radius);
+                box-shadow: var(--ifm-global-shadow-lw);
+                .event {
+                    h4 {
+                        font-size: var(--ifm-h5-font-size);
+                        margin-bottom: 4px;
+                    }
+                }
+            }
         }
     }
 }

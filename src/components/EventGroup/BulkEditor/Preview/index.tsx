@@ -7,10 +7,9 @@ import { default as EventModel } from '@site/src/models/Event';
 import { ArrowLeft, ArrowRight, SIZE_S } from '../../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import Button from '../../../shared/Button';
-import Badge from '../../../shared/Badge';
 import DiffViewer from '../../../Event/DiffViewer';
 import Icon from '@mdi/react';
-import { mdiEye, mdiEyeCircleOutline } from '@mdi/js';
+import { mdiEye } from '@mdi/js';
 
 interface Props {
     events: EventModel[];
