@@ -27,24 +27,26 @@ const DiffViewer = observer((props: Props) => {
                     </h3>
                 </div>
             )}
-            {compare.map((comparison, idx) => {
-                return (
-                    <div className={clsx(styles.diff, 'card__body')} key={idx}>
-                        <div className={styles.event}>
-                            {idx === 0 && labels && <h4>{labels.a}</h4>}
-                            <EventOverviewSmall event={comparison.a} expandDescriptionLong />
+            <div className={clsx(styles.content, 'card__body')}>
+                {compare.map((comparison, idx) => {
+                    return (
+                        <div className={clsx(styles.diff)} key={idx}>
+                            <div className={styles.event}>
+                                {idx === 0 && labels && <h4>{labels.a}</h4>}
+                                <EventOverviewSmall event={comparison.a} expandDescriptionLong />
+                            </div>
+                            <div className={styles.event}>
+                                {idx === 0 && labels && <h4>{labels.b}</h4>}
+                                <EventOverviewSmall
+                                    event={comparison.b}
+                                    compareWith={comparison.a}
+                                    expandDescriptionLong
+                                />
+                            </div>
                         </div>
-                        <div className={styles.event}>
-                            {idx === 0 && labels && <h4>{labels.b}</h4>}
-                            <EventOverviewSmall
-                                event={comparison.b}
-                                compareWith={comparison.a}
-                                expandDescriptionLong
-                            />
-                        </div>
-                    </div>
-                );
-            })}
+                    );
+                })}
+            </div>
         </div>
     );
 });

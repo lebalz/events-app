@@ -52,7 +52,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     className={clsx(
                         styles.date,
                         styles.dateStart,
-                        diffs.has('start') && event.fStartDate !== compareWith?.fStartDate && styles.differs
+                        diffs.has('start') && event.fStartDate !== compareWith?.fStartDate && styles.highlight
                     )}
                 >
                     {event.fStartDate.replace(/^0/, '')}
@@ -62,7 +62,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         className={clsx(
                             styles.date,
                             styles.dateEnd,
-                            diffs.has('end') && event.fEndDate !== compareWith?.fEndDate && styles.differs
+                            diffs.has('end') && event.fEndDate !== compareWith?.fEndDate && styles.highlight
                         )}
                     >
                         {event.fEndDate.replace(/^0/, '')}
@@ -78,7 +78,7 @@ const EventOverviewSmall = observer((props: Props) => {
                                 event.isOnOneDay && styles.singleDayEvent,
                                 diffs.has('start') &&
                                     event.fStartTime !== compareWith?.fStartTime &&
-                                    styles.differs
+                                    styles.highlight
                             )}
                         >
                             {event.fStartTime}
@@ -89,7 +89,9 @@ const EventOverviewSmall = observer((props: Props) => {
                                 styles.time,
                                 styles.timeEnd,
                                 event.isOnOneDay && styles.singleDayEvent,
-                                diffs.has('end') && event.fEndTime !== compareWith?.fEndTime && styles.differs
+                                diffs.has('end') &&
+                                    event.fEndTime !== compareWith?.fEndTime &&
+                                    styles.highlight
                             )}
                         >
                             {event.isOnOneDay && (
@@ -105,7 +107,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     </>
                 )}
                 {event.location.length > 0 && (
-                    <div className={clsx(styles.location, diffs.has('location') && styles.differs)}>
+                    <div className={clsx(styles.location, diffs.has('location') && styles.highlight)}>
                         {event.location.length > 20 ? (
                             <Tooltip
                                 title={
@@ -146,7 +148,10 @@ const EventOverviewSmall = observer((props: Props) => {
                     title={
                         <div>
                             <div
-                                className={clsx(styles.fieldset, diffs.has('description') && styles.differs)}
+                                className={clsx(
+                                    styles.fieldset,
+                                    diffs.has('description') && styles.highlight
+                                )}
                             >
                                 <Badge
                                     text={translate({
@@ -161,7 +166,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             <div
                                 className={clsx(
                                     styles.fieldset,
-                                    diffs.has('descriptionLong') && styles.differs
+                                    diffs.has('descriptionLong') && styles.highlight
                                 )}
                             >
                                 <Badge
@@ -177,14 +182,15 @@ const EventOverviewSmall = observer((props: Props) => {
                         </div>
                     }
                 >
-                    <span
-                        className={clsx(
-                            styles.title,
-                            (diffs.has('description') || diffs.has('descriptionLong')) && styles.differs
-                        )}
-                    >
-                        {event.description}
-                        <small className={clsx(styles.small)}>{event.descriptionLong}</small>
+                    <span className={clsx(styles.title)}>
+                        <div className={clsx(diffs.has('description') && styles.highlight)}>
+                            {event.description}
+                        </div>
+                        <small
+                            className={clsx(styles.small, diffs.has('descriptionLong') && styles.highlight)}
+                        >
+                            {event.descriptionLong}
+                        </small>
                     </span>
                 </Tooltip>
             </div>
@@ -201,7 +207,10 @@ const EventOverviewSmall = observer((props: Props) => {
                     </div>
                 )}
                 <div
-                    className={clsx(styles.teachingAffected, diffs.has('teachingAffected') && styles.differs)}
+                    className={clsx(
+                        styles.teachingAffected,
+                        diffs.has('teachingAffected') && styles.highlight
+                    )}
                 >
                     <Tooltip
                         title={
@@ -219,7 +228,11 @@ const EventOverviewSmall = observer((props: Props) => {
                     </Tooltip>
                 </div>
                 <div
-                    className={clsx(styles.target, styles.audience, diffs.has('audience') && styles.differs)}
+                    className={clsx(
+                        styles.target,
+                        styles.audience,
+                        diffs.has('audience') && styles.highlight
+                    )}
                 >
                     <Popup
                         trigger={
@@ -243,7 +256,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         className={clsx(
                             styles.departments,
                             styles.audience,
-                            diffs.has('departmentIds') && styles.differs
+                            diffs.has('departmentIds') && styles.highlight
                         )}
                     >
                         <Popup
@@ -293,7 +306,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         className={clsx(
                             styles.classGroups,
                             styles.audience,
-                            diffs.has('classGroups') && styles.differs
+                            diffs.has('classGroups') && styles.highlight
                         )}
                     >
                         <Popup
@@ -361,7 +374,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         className={clsx(
                             styles.classes,
                             styles.audience,
-                            diffs.has('classes') && styles.differs
+                            diffs.has('classes') && styles.highlight
                         )}
                     >
                         <Popup

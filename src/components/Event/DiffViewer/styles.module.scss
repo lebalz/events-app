@@ -1,13 +1,20 @@
 .diffViewer {
-    .diff {
+    max-height: 90vh;
+    .content {
+        overflow: auto;
         display: flex;
-        gap: 1em;
-        flex-wrap: wrap;
-        justify-content: center;
-        .event {
-            flex-basis: 20em;
-            max-width: 40em;
-            flex-grow: 1;
+        flex-direction: column;
+        gap: 0.5em;
+        .diff {
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+            justify-content: center;
+            .event {
+                flex-basis: 20em;
+                max-width: 40em;
+                flex-grow: 1;
+            }
         }
     }
 }
