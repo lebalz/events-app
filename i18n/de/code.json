@@ -2034,5 +2034,14 @@
   },
   "shiftAudienceEditor.resetAudience": {
     "message": "Zuordnung zurücksetzen"
+  },
+  "group.showAllChanges.dt": {
+    "message": "Alle Änderungen Anzeigen"
+  },
+  "shiftAudienceEditor.changeAudience": {
+    "message": "Zuordnung manuell ändern"
+  },
+  "shiftAudienceEditor.shiftInText": {
+    "message": "Klassenbezeichnungen im Titel und Beschreibung auch ändern"
   }
 }
