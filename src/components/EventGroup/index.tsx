@@ -60,8 +60,8 @@ const UserEventGroup = observer((props: Props) => {
     const { group } = props;
     const store = useStore('sessionStore');
     const [isOpen, setIsOpen] = React.useState(true);
-    const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
-    const [isClassEditorOpen, setClassEditorOpen] = React.useState(false);
+    const [isShiftDatesOpen, setShiftDatesOpen] = React.useState(false);
+    const [isShiftAudienceOpen, setShiftAudienceOpen] = React.useState(true);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
     const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
 
@@ -224,7 +224,7 @@ const UserEventGroup = observer((props: Props) => {
                                         })}
                                         <Button
                                             text={
-                                                isShiftEditorOpen
+                                                isShiftDatesOpen
                                                     ? translate({
                                                           id: 'group.shiftDates.closeShiftEditor',
                                                           message: 'Editor schliessen'
@@ -234,7 +234,7 @@ const UserEventGroup = observer((props: Props) => {
                                                           message: 'Editor öffnen'
                                                       })
                                             }
-                                            onClick={() => setShiftEditorOpen(!isShiftEditorOpen)}
+                                            onClick={() => setShiftDatesOpen(!isShiftDatesOpen)}
                                         />
                                     </dd>
                                 </>
@@ -258,7 +258,7 @@ const UserEventGroup = observer((props: Props) => {
                                         })}
                                         <Button
                                             text={
-                                                isClassEditorOpen
+                                                isShiftAudienceOpen
                                                     ? translate({
                                                           id: 'group.shiftDates.closeShiftEditor',
                                                           message: 'Editor schliessen'
@@ -268,7 +268,7 @@ const UserEventGroup = observer((props: Props) => {
                                                           message: 'Editor öffnen'
                                                       })
                                             }
-                                            onClick={() => setClassEditorOpen(!isClassEditorOpen)}
+                                            onClick={() => setShiftAudienceOpen(!isShiftAudienceOpen)}
                                         />
                                     </dd>
                                 </>
@@ -339,19 +339,19 @@ const UserEventGroup = observer((props: Props) => {
                                 </>
                             )}
                         </DefinitionList>
-                        {isShiftEditorOpen && (
+                        {isShiftDatesOpen && (
                             <ShiftDates
                                 events={toShift}
                                 close={() => {
-                                    setShiftEditorOpen(false);
+                                    setShiftDatesOpen(false);
                                 }}
                             />
                         )}
-                        {isClassEditorOpen && (
+                        {isShiftAudienceOpen && (
                             <ShiftAudience
                                 events={toShift}
                                 close={() => {
-                                    setClassEditorOpen(false);
+                                    setShiftAudienceOpen(false);
                                 }}
                             />
                         )}

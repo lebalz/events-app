@@ -16,7 +16,7 @@ import { PopupActions } from 'reactjs-popup/dist/types';
 interface Props {}
 
 const NavColorPicker = observer((props: Props) => {
-    const ref = React.useRef<PopupActions>();
+    const ref = React.useRef<PopupActions>(null);
     const viewStore = useStore('viewStore');
     const { colorMode, setColorMode } = useColorMode();
     React.useEffect(() => {

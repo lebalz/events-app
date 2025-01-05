@@ -5,15 +5,14 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import { default as EventModel } from '@site/src/models/Event';
-import { SIZE } from '../../../shared/icons';
 import Translate, { translate } from '@docusaurus/Translate';
 import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
 import AudienceShifter from './AudienceShifter';
-import Icon from '@mdi/react';
-import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
+import { mdiCheckCircleOutline } from '@mdi/js';
 import Button from '@site/src/components/shared/Button';
+import AudienceShift from './AudienceShift';
 
 interface Props {
     events: EventModel[];
@@ -23,33 +22,6 @@ interface Props {
 const getClone = (event: EventModel, idPostFix: string = '') => {
     return new EventModel({ ...event._pristine, id: `${idPostFix}${event.id}` }, event.store);
 };
-
-interface ShiftProps {
-    audienceShifter: AudienceShifter;
-    name: string;
-}
-
-const displayName = (name: string) => {
-    if (name.length >= 4) {
-        return name;
-    }
-    return `${name}*`;
-};
-
-const Shift = observer((props: ShiftProps) => {
-    const { audienceShifter, name } = props;
-
-    return (
-        <div className={clsx(styles.shift)}>
-            <Badge text={displayName(name)} className={clsx(styles.audienceBadge)} />
-            <Icon path={mdiArrowRightBoldCircle} size={SIZE} color="var(--ifm-color-blue)" />
-            <Badge
-                text={displayName(audienceShifter.audience.get(name))}
-                className={clsx(styles.audienceBadge)}
-            />
-        </div>
-    );
-});
 
 const ShiftAudience = observer((props: Props) => {
     const eventStore = useStore('eventStore');
@@ -102,7 +74,7 @@ const ShiftAudience = observer((props: Props) => {
                             }}
                         />
                         {Array.from(shifter.audience.keys()).map((klass) => (
-                            <Shift key={klass} audienceShifter={shifter} name={klass} />
+                            <AudienceShift key={klass} audienceShifter={shifter} name={klass} />
                         ))}
                     </fieldset>
                 </div>

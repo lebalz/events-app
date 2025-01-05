@@ -37,6 +37,14 @@
     display: flex;
     gap: 1em;
     .audienceBadge {
-        width: 3.5em;
+        min-width: 3.5em;
     }
+    .shifted {
+        display: flex;
+        gap: 0.5em;
+    }
+}
+.audienceSelector {
+    width: 20em;
+    max-width: 95vw;
 }

@@ -2019,5 +2019,20 @@
   "theme.tags.tagsPageTitle": {
     "message": "Tags",
     "description": "The title of the tag list page"
+  },
+  "shiftAudienceEditor.noAudience": {
+    "message": "Keine Zuordnung - die Klasse wird vom Termin entfernt."
+  },
+  "shiftAudienceEditor.createWhitelist": {
+    "message": "{inputValue} (Ganze Jahrgangsstufe der Abteilung)"
+  },
+  "shiftAudienceEditor.createClass": {
+    "message": "Neue Klasse: {inputValue}"
+  },
+  "shiftAudienceEditor.removeAudience": {
+    "message": "Zuordnung entfernen"
+  },
+  "shiftAudienceEditor.resetAudience": {
+    "message": "Zuordnung zurücksetzen"
   }
 }

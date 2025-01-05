@@ -1,7 +1,8 @@
 import { action, observable } from 'mobx';
 
 export default class AudienceShifter {
-    audience = observable.map<string, string>();
+    audience = observable.map<string, string | null>();
+    _currentShift = 0;
 
     constructor(classes: string[], groups: string[]) {
         this.audience.replace([...new Set([...classes, ...groups])].sort().map((c) => [c, c]));
@@ -9,13 +10,28 @@ export default class AudienceShifter {
 
     @action
     shiftAudience(shift: number) {
+        this._currentShift = shift;
         if (Math.floor(shift) !== shift) {
             console.warn('Shift must be an integer');
             return;
         }
-        this.audience.forEach((_, key, map) => {
+        this.audience.forEach((val, key, map) => {
+            if (!val) {
+                return;
+            }
             const current = parseInt(key.substring(0, 2), 10);
             map.set(key, `${current + shift}${key.substring(2)}`);
         });
+    }
+
+    @action
+    setAudienceFor(klass: string, audience: string | null) {
+        this.audience.set(klass, audience);
+    }
+
+    @action
+    reset(klass: string) {
+        const current = parseInt(klass.substring(0, 2), 10);
+        this.audience.set(klass, `${current + this._currentShift}${klass.substring(2)}`);
     }
 }
