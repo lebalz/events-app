@@ -338,10 +338,10 @@ export class EventStore extends iStore<
                     classes: updatedClasses,
                     classGroups: updatedClassGroups
                 };
-                console.log('shiftAudienceInText', shiftAudienceInText);
                 if (shiftAudienceInText) {
                     let description = event.description;
                     let descriptionLong = event.descriptionLong;
+                    let location = event.location;
                     [...event._selectedClassNames].forEach((klass) => {
                         const untisClass = this.root.untisStore.findClassByName(klass);
                         const newClass = this.root.untisStore.findClassByName(
@@ -350,22 +350,17 @@ export class EventStore extends iStore<
                         const name = untisClass?.displayName || klass;
                         const newName = newClass?.displayName || shifter.audience.get(klass) || '';
                         description = description.replace(new RegExp(name, 'g'), newName);
-                        console.log(
-                            'replace',
-                            name,
-                            newName,
-                            klass,
-                            shifter.audience.get(klass),
-                            description,
-                            event.description
-                        );
                         descriptionLong = descriptionLong.replace(new RegExp(name, 'g'), newName);
+                        location = location.replace(new RegExp(name, 'g'), newName);
                     });
                     if (description !== event.description) {
                         change.description = description;
                     }
                     if (descriptionLong !== event.descriptionLong) {
                         change.descriptionLong = descriptionLong;
+                    }
+                    if (location !== event.location) {
+                        change.location = location;
                     }
                 }
                 return change;
