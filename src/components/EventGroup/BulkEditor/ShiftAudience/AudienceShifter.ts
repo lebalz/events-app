@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 
 export default class AudienceShifter {
     audience = observable.map<string, string | null>();
-    _currentShift = 0;
+    @observable accessor _currentShift = 0;
 
     constructor(classes: string[], groups: string[]) {
         this.audience.replace([...new Set([...classes, ...groups])].sort().map((c) => [c, c]));
@@ -32,6 +32,18 @@ export default class AudienceShifter {
     @action
     reset(klass: string) {
         const current = parseInt(klass.substring(0, 2), 10);
-        this.audience.set(klass, `${current + this._currentShift}${klass.substring(2)}`);
+        const shifted = `${current + this._currentShift}${klass.substring(2)}`;
+        this.audience.set(klass, shifted);
+    }
+
+    isCustom(klass: string) {
+        const current = parseInt(klass.substring(0, 2), 10);
+        const shifted = `${current + this._currentShift}${klass.substring(2)}`;
+        return this.audience.get(klass) !== shifted;
+    }
+
+    @computed
+    get hasShifts() {
+        return this._currentShift !== 0 || Array.from(this.audience.keys()).some((v) => this.isCustom(v));
     }
 }

@@ -323,7 +323,7 @@ export class EventStore extends iStore<
     }
 
     @action
-    shiftEventAudience(events: Event[], shifter: AudienceShifter) {
+    shiftEventAudience(events: Event[], shifter: AudienceShifter, shiftAudienceInText: boolean) {
         const updated = events
             .filter((e) => e.isDraft)
             .map((event) => {
@@ -333,11 +333,42 @@ export class EventStore extends iStore<
                 const updatedClassGroups = [...event.classGroups]
                     .map((c) => shifter.audience.get(c))
                     .filter((a) => !!a);
-                return {
+                const change: Partial<EventProps> & { id: string } = {
                     id: event.id,
                     classes: updatedClasses,
                     classGroups: updatedClassGroups
                 };
+                console.log('shiftAudienceInText', shiftAudienceInText);
+                if (shiftAudienceInText) {
+                    let description = event.description;
+                    let descriptionLong = event.descriptionLong;
+                    [...event._selectedClassNames].forEach((klass) => {
+                        const untisClass = this.root.untisStore.findClassByName(klass);
+                        const newClass = this.root.untisStore.findClassByName(
+                            shifter.audience.get(klass) || ''
+                        );
+                        const name = untisClass?.displayName || klass;
+                        const newName = newClass?.displayName || shifter.audience.get(klass) || '';
+                        description = description.replace(new RegExp(name, 'g'), newName);
+                        console.log(
+                            'replace',
+                            name,
+                            newName,
+                            klass,
+                            shifter.audience.get(klass),
+                            description,
+                            event.description
+                        );
+                        descriptionLong = descriptionLong.replace(new RegExp(name, 'g'), newName);
+                    });
+                    if (description !== event.description) {
+                        change.description = description;
+                    }
+                    if (descriptionLong !== event.descriptionLong) {
+                        change.descriptionLong = descriptionLong;
+                    }
+                }
+                return change;
             });
         return this.updateBatched(updated);
     }

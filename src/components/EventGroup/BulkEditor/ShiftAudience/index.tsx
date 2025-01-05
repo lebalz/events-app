@@ -13,6 +13,7 @@ import AudienceShifter from './AudienceShifter';
 import { mdiCheckCircleOutline } from '@mdi/js';
 import Button from '@site/src/components/shared/Button';
 import AudienceShift from './AudienceShift';
+import Checkbox from '@site/src/components/shared/Checkbox';
 
 interface Props {
     events: EventModel[];
@@ -31,6 +32,7 @@ const ShiftAudience = observer((props: Props) => {
             props.events.flatMap((e) => [...e.classGroups])
         )
     );
+    const [shiftAudienceInText, setShiftAudienceInText] = React.useState(true);
     const [shiftedYears, setShiftedYears] = React.useState(0);
     const [apiState, setApiState] = React.useState(ApiState.IDLE);
     React.useEffect(() => {
@@ -76,17 +78,28 @@ const ShiftAudience = observer((props: Props) => {
                         {Array.from(shifter.audience.keys()).map((klass) => (
                             <AudienceShift key={klass} audienceShifter={shifter} name={klass} />
                         ))}
+
+                        <Checkbox
+                            checked={shiftAudienceInText}
+                            onChange={() => {
+                                setShiftAudienceInText(!shiftAudienceInText);
+                            }}
+                            label={translate({
+                                id: 'shiftAudienceEditor.shiftInText',
+                                message: 'Klassenbezeichnungen im Titel und Beschreibung auch ändern'
+                            })}
+                        />
                     </fieldset>
                 </div>
             </div>
-            {shiftedYears !== 0 && (
+            {shifter.hasShifts && (
                 <Button
                     text={translate({
                         id: 'shiftDatesEditor.apply',
                         message: 'Anwenden'
                     })}
                     onClick={() => {
-                        eventStore.shiftEventAudience(props.events, shifter).then(() => {
+                        eventStore.shiftEventAudience(props.events, shifter, shiftAudienceInText).then(() => {
                             props.close();
                         });
                         setApiState(ApiState.LOADING);

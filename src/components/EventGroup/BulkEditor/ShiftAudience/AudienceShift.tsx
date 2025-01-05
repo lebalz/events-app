@@ -58,7 +58,16 @@ const AudienceShift = observer((props: ShiftProps) => {
                     ref={ref}
                     trigger={
                         <span>
-                            <Button className="button" size={SIZE_XS} icon={mdiShuffle} color="primary" />
+                            <Button
+                                className="button"
+                                size={SIZE_XS}
+                                icon={mdiShuffle}
+                                color="blue"
+                                title={translate({
+                                    id: 'shiftAudienceEditor.changeAudience',
+                                    message: 'Zuordnung manuell ändern'
+                                })}
+                            />
                         </span>
                     }
                     modal={isMobileView}
@@ -117,19 +126,7 @@ const AudienceShift = observer((props: ShiftProps) => {
                         />
                     </div>
                 </Popup>
-                {audienceShifter.audience.get(name) ? (
-                    <Button
-                        icon={mdiClose}
-                        size={SIZE_XS}
-                        onClick={() => {
-                            audienceShifter.setAudienceFor(name, null);
-                        }}
-                        title={translate({
-                            id: 'shiftAudienceEditor.removeAudience',
-                            message: 'Zuordnung entfernen'
-                        })}
-                    />
-                ) : (
+                {audienceShifter.isCustom(name) ? (
                     <Button
                         icon={mdiRestore}
                         color="blue"
@@ -140,6 +137,18 @@ const AudienceShift = observer((props: ShiftProps) => {
                         title={translate({
                             id: 'shiftAudienceEditor.resetAudience',
                             message: 'Zuordnung zurücksetzen'
+                        })}
+                    />
+                ) : (
+                    <Button
+                        icon={mdiClose}
+                        size={SIZE_XS}
+                        onClick={() => {
+                            audienceShifter.setAudienceFor(name, null);
+                        }}
+                        title={translate({
+                            id: 'shiftAudienceEditor.removeAudience',
+                            message: 'Zuordnung entfernen'
                         })}
                     />
                 )}
