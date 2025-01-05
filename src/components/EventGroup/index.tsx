@@ -31,6 +31,7 @@ import { DestroyEventAction } from '@site/src/api/event_group';
 import Popup from 'reactjs-popup';
 import DiffViewer from '../Event/DiffViewer';
 import ShiftAudience from './BulkEditor/ShiftAudience';
+import Preview from './BulkEditor/Preview';
 
 interface Props {
     group: EventGroupModel;
@@ -207,64 +208,68 @@ const UserEventGroup = observer((props: Props) => {
                                 <AddUserPopup group={props.group} />
                                 {group.userIds.size > 1 && <UserTable group={group} />}
                             </dd>
-                            {toShift.length > 1 && (
-                                <>
-                                    <dt>
-                                        <Translate id="group.shiftDates.dt">Datum verschieben</Translate>
-                                    </dt>
-                                    <dd>
-                                        <Button
-                                            text={
-                                                isShiftDatesOpen
-                                                    ? translate({
-                                                          id: 'group.shiftDates.closeShiftEditor',
-                                                          message: 'Editor schliessen'
-                                                      })
-                                                    : translate({
-                                                          id: 'group.shiftDates.openShiftEditor',
-                                                          message: 'Editor öffnen'
-                                                      })
-                                            }
-                                            icon={mdiCalendarClock}
-                                            size={SIZE_S}
-                                            iconSide="left"
-                                            onClick={() => setShiftDatesOpen(!isShiftDatesOpen)}
-                                        />
-                                    </dd>
-                                </>
-                            )}
-                            {toShift.length > 1 && (
-                                <>
-                                    <dt>
-                                        <Translate id="group.shiftAudience.dt">
-                                            Jahrgänge und Klassen verschieben
-                                        </Translate>
-                                    </dt>
-                                    <dd>
-                                        <Button
-                                            text={
-                                                isShiftAudienceOpen
-                                                    ? translate({
-                                                          id: 'group.shiftDates.closeShiftEditor',
-                                                          message: 'Editor schliessen'
-                                                      })
-                                                    : translate({
-                                                          id: 'group.shiftDates.openShiftEditor',
-                                                          message: 'Editor öffnen'
-                                                      })
-                                            }
-                                            icon={mdiAccountGroup}
-                                            iconSide="left"
-                                            size={SIZE_S}
-                                            onClick={() => setShiftAudienceOpen(!isShiftAudienceOpen)}
-                                        />
-                                    </dd>
-                                </>
-                            )}
+                            <dt>
+                                <Translate id="group.shiftDates.dt">Datum verschieben</Translate>
+                            </dt>
+                            <dd>
+                                <Button
+                                    text={
+                                        isShiftDatesOpen
+                                            ? translate({
+                                                  id: 'group.shiftDates.closeShiftEditor',
+                                                  message: 'Editor schliessen'
+                                              })
+                                            : translate({
+                                                  id: 'group.shiftDates.openShiftEditor',
+                                                  message: 'Editor öffnen'
+                                              })
+                                    }
+                                    icon={mdiCalendarClock}
+                                    size={SIZE_S}
+                                    iconSide="left"
+                                    onClick={() => {
+                                        if (!isShiftDatesOpen && isShiftAudienceOpen) {
+                                            setShiftAudienceOpen(false);
+                                        }
+                                        setShiftDatesOpen(!isShiftDatesOpen);
+                                    }}
+                                />
+                            </dd>
+                            <dt>
+                                <Translate id="group.shiftAudience.dt">
+                                    Jahrgänge und Klassen verschieben
+                                </Translate>
+                            </dt>
+                            <dd>
+                                <Button
+                                    text={
+                                        isShiftAudienceOpen
+                                            ? translate({
+                                                  id: 'group.shiftDates.closeShiftEditor',
+                                                  message: 'Editor schliessen'
+                                              })
+                                            : translate({
+                                                  id: 'group.shiftDates.openShiftEditor',
+                                                  message: 'Editor öffnen'
+                                              })
+                                    }
+                                    icon={mdiAccountGroup}
+                                    iconSide="left"
+                                    size={SIZE_S}
+                                    onClick={() => {
+                                        if (!isShiftAudienceOpen && isShiftDatesOpen) {
+                                            setShiftDatesOpen(false);
+                                        }
+                                        setShiftAudienceOpen(!isShiftAudienceOpen);
+                                    }}
+                                />
+                            </dd>
                             {group.relatedModels.length > 0 && (
                                 <>
                                     <dt>
-                                        <Translate id="group.showChanges.dt">Änderungen Anzeigen</Translate>
+                                        <Translate id="group.showAllChanges.dt">
+                                            Alle Änderungen Anzeigen
+                                        </Translate>
                                     </dt>
                                     <dd>
                                         <Popup

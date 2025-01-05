@@ -3,9 +3,13 @@ import { action, computed, observable } from 'mobx';
 export default class AudienceShifter {
     audience = observable.map<string, string | null>();
     @observable accessor _currentShift = 0;
+    @observable accessor shiftAudienceInText = true;
+    @observable accessor shiftedEventIdx = 0;
 
-    constructor(classes: string[], groups: string[]) {
+    constructor(classes: string[], groups: string[], shiftAudienceInText: boolean, shiftedEventIdx: number) {
         this.audience.replace([...new Set([...classes, ...groups])].sort().map((c) => [c, c]));
+        this.shiftAudienceInText = shiftAudienceInText;
+        this.shiftedEventIdx = shiftedEventIdx;
     }
 
     @action
@@ -22,6 +26,16 @@ export default class AudienceShifter {
             const current = parseInt(key.substring(0, 2), 10);
             map.set(key, `${current + shift}${key.substring(2)}`);
         });
+    }
+
+    @action
+    setShiftAudienceInText(shift: boolean) {
+        this.shiftAudienceInText = shift;
+    }
+
+    @action
+    setShiftedEventIdx(idx: number) {
+        this.shiftedEventIdx = idx;
     }
 
     @action

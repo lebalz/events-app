@@ -323,7 +323,7 @@ export class EventStore extends iStore<
     }
 
     @action
-    shiftEventAudience(events: Event[], shifter: AudienceShifter, shiftAudienceInText: boolean) {
+    shiftAudiencePatch(events: Event[], shifter: AudienceShifter) {
         const updated = events
             .filter((e) => e.isDraft)
             .map((event) => {
@@ -338,7 +338,7 @@ export class EventStore extends iStore<
                     classes: updatedClasses,
                     classGroups: updatedClassGroups
                 };
-                if (shiftAudienceInText) {
+                if (shifter.shiftAudienceInText) {
                     let description = event.description;
                     let descriptionLong = event.descriptionLong;
                     let location = event.location;
@@ -365,7 +365,12 @@ export class EventStore extends iStore<
                 }
                 return change;
             });
-        return this.updateBatched(updated);
+        return updated;
+    }
+
+    @action
+    shiftEventAudience(events: Event[], shifter: AudienceShifter) {
+        return this.updateBatched(this.shiftAudiencePatch(events, shifter));
     }
 
     @action

@@ -27,6 +27,8 @@
         }
         .dropdownMenu {
             z-index: calc(var(--ifm-z-index-dropdown) + 5);
+            max-height: 12em;
+            max-width: 10em;
         }
     }
 }

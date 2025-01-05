@@ -14,6 +14,8 @@ import { mdiCheckCircleOutline } from '@mdi/js';
 import Button from '@site/src/components/shared/Button';
 import AudienceShift from './AudienceShift';
 import Checkbox from '@site/src/components/shared/Checkbox';
+import Preview from '../Preview';
+import { reaction } from 'mobx';
 
 interface Props {
     events: EventModel[];
@@ -29,19 +31,38 @@ const ShiftAudience = observer((props: Props) => {
     const [shifter, setShifter] = React.useState(
         new AudienceShifter(
             props.events.flatMap((e) => [...e.classes]),
-            props.events.flatMap((e) => [...e.classGroups])
+            props.events.flatMap((e) => [...e.classGroups]),
+            true,
+            0
         )
     );
-    const [shiftAudienceInText, setShiftAudienceInText] = React.useState(true);
     const [shiftedYears, setShiftedYears] = React.useState(0);
     const [apiState, setApiState] = React.useState(ApiState.IDLE);
+    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
     React.useEffect(() => {
         const nShifter = new AudienceShifter(
             props.events.flatMap((e) => [...e.classes]),
-            props.events.flatMap((e) => [...e.classGroups])
+            props.events.flatMap((e) => [...e.classGroups]),
+            shifter.shiftAudienceInText,
+            shifter.shiftedEventIdx
         );
         setShifter(nShifter);
         nShifter.shiftAudience(shiftedYears);
+        const disposer = reaction(
+            () => `${nShifter.audience.toJSON()}${nShifter.shiftAudienceInText}${nShifter.shiftedEventIdx}`,
+            () => {
+                const event = props.events[nShifter.shiftedEventIdx % props.events.length];
+                if (event) {
+                    const clone = getClone(event, '---');
+                    const change = eventStore.shiftAudiencePatch([clone], nShifter);
+                    clone.update(change[0]);
+                    setShiftedEvent(clone);
+                }
+            }
+        );
+        return () => {
+            disposer();
+        };
     }, [props.events]);
 
     return (
@@ -81,9 +102,9 @@ const ShiftAudience = observer((props: Props) => {
                         ))}
 
                         <Checkbox
-                            checked={shiftAudienceInText}
+                            checked={shifter.shiftAudienceInText}
                             onChange={() => {
-                                setShiftAudienceInText(!shiftAudienceInText);
+                                shifter.setShiftAudienceInText(!shifter.shiftAudienceInText);
                             }}
                             label={translate({
                                 id: 'shiftAudienceEditor.shiftInText',
@@ -93,6 +114,11 @@ const ShiftAudience = observer((props: Props) => {
                     </fieldset>
                 </div>
             </div>
+            <Preview
+                events={props.events}
+                onChange={(idx) => shifter.setShiftedEventIdx(idx)}
+                changedEvent={shiftedEvent}
+            />
             {shifter.hasShifts && (
                 <Button
                     text={translate({
@@ -100,7 +126,7 @@ const ShiftAudience = observer((props: Props) => {
                         message: 'Anwenden'
                     })}
                     onClick={() => {
-                        eventStore.shiftEventAudience(props.events, shifter, shiftAudienceInText).then(() => {
+                        eventStore.shiftEventAudience(props.events, shifter).then(() => {
                             props.close();
                         });
                         setApiState(ApiState.LOADING);
