@@ -47,3 +47,9 @@
     width: 20em;
     max-width: 95vw;
 }
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

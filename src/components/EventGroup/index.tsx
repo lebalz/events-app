@@ -15,7 +15,7 @@ import LazyDetails from '../shared/Details';
 import { ApiIcon, DiscardIcon, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import Translate, { translate } from '@docusaurus/Translate';
-import { mdiAccount, mdiAccountGroup, mdiShareCircle } from '@mdi/js';
+import { mdiAccount, mdiAccountGroup, mdiCalendar, mdiCalendarClock, mdiShareCircle } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
 import _ from 'lodash';
@@ -59,9 +59,9 @@ const DEFAULT_COLUMN_CONFIG: ColumnConfig = [
 const UserEventGroup = observer((props: Props) => {
     const { group } = props;
     const store = useStore('sessionStore');
-    const [isOpen, setIsOpen] = React.useState(true);
+    const [isOpen, setIsOpen] = React.useState(false);
     const [isShiftDatesOpen, setShiftDatesOpen] = React.useState(false);
-    const [isShiftAudienceOpen, setShiftAudienceOpen] = React.useState(true);
+    const [isShiftAudienceOpen, setShiftAudienceOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
     const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
 
@@ -213,15 +213,6 @@ const UserEventGroup = observer((props: Props) => {
                                         <Translate id="group.shiftDates.dt">Datum verschieben</Translate>
                                     </dt>
                                     <dd>
-                                        <Badge
-                                            text={`${toShift.length}`}
-                                            color="gray"
-                                            className={clsx(styles.eventCountBadge)}
-                                        />
-                                        {translate({
-                                            id: 'group.shiftDates.description',
-                                            message: 'Termine bearbeiten'
-                                        })}
                                         <Button
                                             text={
                                                 isShiftDatesOpen
@@ -234,6 +225,9 @@ const UserEventGroup = observer((props: Props) => {
                                                           message: 'Editor öffnen'
                                                       })
                                             }
+                                            icon={mdiCalendarClock}
+                                            size={SIZE_S}
+                                            iconSide="left"
                                             onClick={() => setShiftDatesOpen(!isShiftDatesOpen)}
                                         />
                                     </dd>
@@ -247,15 +241,6 @@ const UserEventGroup = observer((props: Props) => {
                                         </Translate>
                                     </dt>
                                     <dd>
-                                        <Badge
-                                            text={`${toShift.length}`}
-                                            color="gray"
-                                            className={clsx(styles.eventCountBadge)}
-                                        />
-                                        {translate({
-                                            id: 'group.shiftDates.description',
-                                            message: 'Termine bearbeiten'
-                                        })}
                                         <Button
                                             text={
                                                 isShiftAudienceOpen
@@ -268,6 +253,9 @@ const UserEventGroup = observer((props: Props) => {
                                                           message: 'Editor öffnen'
                                                       })
                                             }
+                                            icon={mdiAccountGroup}
+                                            iconSide="left"
+                                            size={SIZE_S}
                                             onClick={() => setShiftAudienceOpen(!isShiftAudienceOpen)}
                                         />
                                     </dd>

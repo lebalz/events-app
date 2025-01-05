@@ -97,8 +97,9 @@ const ShiftDates = observer((props: Props) => {
     return (
         <div className={clsx(styles.shiftEditor, 'card')}>
             <div className={clsx('card__header')}>
-                <h3>
+                <h3 className={clsx(styles.header)}>
                     <Translate id="shiftDatesEditor.title">Verschiebung von Terminen</Translate>
+                    <Badge text={`${events.length}`} color={EventStateColor.DRAFT} />
                 </h3>
                 <div className={clsx(styles.description, 'alert', 'alert--info')} role="alert">
                     <Badge icon={EventStateButton.DRAFT} size={0.8} color={EventStateColor.DRAFT} />
