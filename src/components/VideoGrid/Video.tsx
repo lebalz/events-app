@@ -21,6 +21,8 @@ interface Props {
     playbackRate?: number;
     loop?: boolean;
     steps?: Step[];
+    maxWidth?: number;
+    style?: React.CSSProperties;
 }
 
 const Video = observer((props: Props) => {
@@ -38,7 +40,7 @@ const Video = observer((props: Props) => {
         }
     };
     return (
-        <div className={clsx(styles.video, 'card')}>
+        <div className={clsx(styles.video, 'card')} style={props.style}>
             <div
                 className="card__image"
                 onMouseEnter={() => setIsHover(true)}
