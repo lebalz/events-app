@@ -64,7 +64,7 @@ const UsersEvents = observer((props: Props) => {
                 <TabItem
                     value="my-events"
                     label={translate({
-                        message: 'Unveröffentlicht',
+                        message: 'Entwürfe',
                         id: 'components.event.usersevents.index.tabitem.notpublished',
                         description: 'Text not published'
                     })}

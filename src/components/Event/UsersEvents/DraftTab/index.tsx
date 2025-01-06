@@ -53,7 +53,7 @@ const DraftTab = observer((props: Props) => {
     const regPeriodStore = useStore('registrationPeriodStore');
     const events = viewStore.draftEvents;
     const label = translate({
-        message: 'Unveröffentlicht',
+        message: 'Entwürfe (Unveröffentlicht)',
         id: 'components.event.usersevents.index.header.notpublished',
         description: 'Th: not published'
     });

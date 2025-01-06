@@ -1071,7 +1071,7 @@
     "description": "Button text for open button"
   },
   "components.event.usersevents.index.tabitem.notpublished": {
-    "message": "Unveröffentlicht",
+    "message": "Entwürfe",
     "description": "Text not published"
   },
   "components.event.usersevents.index.tabitem.reviewed": {
@@ -1462,7 +1462,7 @@
     "message": "Erstellt einen neuen, unveröffentlichten Termin"
   },
   "components.event.usersevents.index.header.notpublished": {
-    "message": "Unveröffentlicht",
+    "message": "Entwürfe (Unveröffentlicht)",
     "description": "Th: not published"
   },
   "userEvents.regPeriod.alert.title": {
@@ -2037,5 +2037,8 @@
   },
   "components.shared.loader.loading": {
     "message": "Laden..."
+  },
+  "eventGroup.createGroup": {
+    "message": "Erstellen"
   }
 }
