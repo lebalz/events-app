@@ -44,7 +44,7 @@ export class EventGroupStore extends iStore<
 
     @computed
     get eventGroups(): EventGroup[] {
-        return _.orderBy(this.models, ['_pristine.name'], ['asc']) as EventGroup[];
+        return _.orderBy(this.models, ['_pristine.name'], ['desc']) as EventGroup[];
     }
 
     create(model: EventGroupCreate) {

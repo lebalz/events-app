@@ -140,6 +140,9 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
     }
 
     deleteRecord(data: DeletedRecord) {
+        if (!data) {
+            return;
+        }
         const store = this.root[RecordStoreMap[data.type]] as iStore<any>;
         store.removeFromStore(data.id, true);
     }
@@ -149,12 +152,12 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             return;
         }
         this.socket.on('connect', () => {
-            api.defaults.headers.common['x-metadata-socketid'] = this.socket.id;
+            api.defaults.headers.common['x-metadata-socketid'] = this.socket?.id;
             this.setLiveState(true);
         });
 
         this.socket.on('disconnect', () => {
-            console.log('disconnect', this.socket.id);
+            console.log('disconnect', this.socket?.id);
             this.setLiveState(false);
         });
         this.socket.on('connect_error', (err) => {
