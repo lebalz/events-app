@@ -16,10 +16,13 @@ import AudienceShift from './AudienceShift';
 import Checkbox from '@site/src/components/shared/Checkbox';
 import Preview from '../Preview';
 import { reaction } from 'mobx';
+import EditableDrafts from '../helpers/EditeableDrafts';
+import NoDraftEventsAlert from '../helpers/NoDraftEventsAlert';
+import DraftAlert from '../helpers/DraftAlert';
 
 interface Props {
     events: EventModel[];
-    close: () => void;
+    onClose: () => void;
 }
 
 const getClone = (event: EventModel, idPostFix: string = '') => {
@@ -27,43 +30,52 @@ const getClone = (event: EventModel, idPostFix: string = '') => {
 };
 
 const ShiftAudience = observer((props: Props) => {
+    const { events } = props;
     const eventStore = useStore('eventStore');
+    const [shiftedYears, setShiftedYears] = React.useState(0);
+    const [apiState, setApiState] = React.useState(ApiState.IDLE);
+    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
     const [shifter, setShifter] = React.useState(
         new AudienceShifter(
-            props.events.flatMap((e) => [...e.classes]),
-            props.events.flatMap((e) => [...e.classGroups]),
+            events.flatMap((e) => [...e.classes]),
+            events.flatMap((e) => [...e.classGroups]),
             true,
             0
         )
     );
-    const [shiftedYears, setShiftedYears] = React.useState(0);
-    const [apiState, setApiState] = React.useState(ApiState.IDLE);
-    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
     React.useEffect(() => {
         const nShifter = new AudienceShifter(
-            props.events.flatMap((e) => [...e.classes]),
-            props.events.flatMap((e) => [...e.classGroups]),
+            events.flatMap((e) => [...e.classes]),
+            events.flatMap((e) => [...e.classGroups]),
             shifter.shiftAudienceInText,
             shifter.shiftedEventIdx
         );
         setShifter(nShifter);
         nShifter.shiftAudience(shiftedYears);
+        const onChange = () => {
+            const event = events[nShifter.shiftedEventIdx % events.length];
+            if (event) {
+                const clone = getClone(event, '---');
+                const change = eventStore.shiftAudiencePatch([clone], nShifter);
+                clone.update(change[0]);
+                setShiftedEvent(clone);
+            }
+        };
+        onChange();
         const disposer = reaction(
             () => `${nShifter.audience.toJSON()}${nShifter.shiftAudienceInText}${nShifter.shiftedEventIdx}`,
-            () => {
-                const event = props.events[nShifter.shiftedEventIdx % props.events.length];
-                if (event) {
-                    const clone = getClone(event, '---');
-                    const change = eventStore.shiftAudiencePatch([clone], nShifter);
-                    clone.update(change[0]);
-                    setShiftedEvent(clone);
-                }
-            }
+            onChange
         );
-        return () => {
-            disposer();
-        };
-    }, [props.events]);
+        return disposer;
+    }, [events]);
+
+    if (events.length === 0) {
+        return <NoDraftEventsAlert onClose={props.onClose} />;
+    }
+
+    if (events.some((e) => !e.isDraft)) {
+        return <DraftAlert onClose={props.onClose} />;
+    }
 
     return (
         <div className={clsx(styles.shiftEditor, 'card')}>
@@ -72,14 +84,8 @@ const ShiftAudience = observer((props: Props) => {
                     <Translate id="shiftAudienceEditor.title">
                         Neuzuordnung von Jahrgängen und Klassen
                     </Translate>
-                    <Badge text={`${props.events.length}`} color={EventStateColor.DRAFT} />
                 </h3>
-                <div className={clsx(styles.description, 'alert', 'alert--info')} role="alert">
-                    <Badge icon={EventStateButton.DRAFT} size={0.8} color={EventStateColor.DRAFT} />
-                    <Translate id="shiftAudienceEditor.description">
-                        Nur Entwürfe können mit diesem Editor bearbeitet werden.
-                    </Translate>
-                </div>
+                <EditableDrafts count={events.length} />
             </div>
             <div className={clsx(styles.editor, 'card__body')}>
                 <div className={clsx(styles.actions)}>
@@ -115,7 +121,7 @@ const ShiftAudience = observer((props: Props) => {
                 </div>
             </div>
             <Preview
-                events={props.events}
+                events={events}
                 onChange={(idx) => shifter.setShiftedEventIdx(idx)}
                 changedEvent={shiftedEvent}
             />
@@ -126,8 +132,8 @@ const ShiftAudience = observer((props: Props) => {
                         message: 'Anwenden'
                     })}
                     onClick={() => {
-                        eventStore.shiftEventAudience(props.events, shifter).then(() => {
-                            props.close();
+                        eventStore.shiftEventAudience(events, shifter).then(() => {
+                            props.onClose();
                         });
                         setApiState(ApiState.LOADING);
                     }}

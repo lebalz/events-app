@@ -31,6 +31,7 @@ interface Props {
     className?: string;
     showState?: boolean;
     expandDescriptionLong?: boolean;
+    showDayname?: boolean;
 }
 
 const EventOverviewSmall = observer((props: Props) => {
@@ -48,24 +49,50 @@ const EventOverviewSmall = observer((props: Props) => {
             }}
         >
             <div className={clsx(styles.header)}>
-                <div
-                    className={clsx(
-                        styles.date,
-                        styles.dateStart,
-                        diffs.has('start') && event.fStartDate !== compareWith?.fStartDate && styles.highlight
+                <div className={clsx(styles.date, styles.dateStart)}>
+                    {props.showDayname && (
+                        <span
+                            className={clsx(
+                                diffs.has('start') &&
+                                    event.dayStart !== compareWith?.dayStart &&
+                                    styles.highlight
+                            )}
+                        >
+                            {`${event.dayStart} `}
+                        </span>
                     )}
-                >
-                    {event.fStartDate.replace(/^0/, '')}
-                </div>
-                {!event.isOnOneDay && (
-                    <div
+                    <span
                         className={clsx(
-                            styles.date,
-                            styles.dateEnd,
-                            diffs.has('end') && event.fEndDate !== compareWith?.fEndDate && styles.highlight
+                            diffs.has('start') &&
+                                event.fStartDate !== compareWith?.fStartDate &&
+                                styles.highlight
                         )}
                     >
-                        {event.fEndDate.replace(/^0/, '')}
+                        {event.fStartDate.replace(/^0/, '')}
+                    </span>
+                </div>
+                {!event.isOnOneDay && (
+                    <div className={clsx(styles.date, styles.dateEnd)}>
+                        {props.showDayname && (
+                            <span
+                                className={clsx(
+                                    diffs.has('end') &&
+                                        event.dayEnd !== compareWith?.dayEnd &&
+                                        styles.highlight
+                                )}
+                            >
+                                {`${event.dayEnd} `}
+                            </span>
+                        )}
+                        <span
+                            className={clsx(
+                                diffs.has('end') &&
+                                    event.fEndDate !== compareWith?.fEndDate &&
+                                    styles.highlight
+                            )}
+                        >
+                            {event.fEndDate.replace(/^0/, '')}
+                        </span>
                     </div>
                 )}
                 {!event.isAllDay && (
@@ -76,6 +103,7 @@ const EventOverviewSmall = observer((props: Props) => {
                                 styles.time,
                                 styles.timeStart,
                                 event.isOnOneDay && styles.singleDayEvent,
+                                props.showDayname && styles.showDayname,
                                 diffs.has('start') &&
                                     event.fStartTime !== compareWith?.fStartTime &&
                                     styles.highlight
@@ -153,32 +181,18 @@ const EventOverviewSmall = observer((props: Props) => {
                                     diffs.has('description') && styles.highlight
                                 )}
                             >
-                                <Badge
-                                    text={translate({
-                                        id: 'event.description',
-                                        description: 'for a single event: description',
-                                        message: 'Titel'
-                                    })}
-                                    className={clsx(styles.label)}
-                                />
                                 <h3>{event.description}</h3>
                             </div>
-                            <div
-                                className={clsx(
-                                    styles.fieldset,
-                                    diffs.has('descriptionLong') && styles.highlight
-                                )}
-                            >
-                                <Badge
-                                    text={translate({
-                                        id: 'event.descriptionLong',
-                                        description: 'for a single event: description long',
-                                        message: 'Beschreibung'
-                                    })}
-                                    className={clsx(styles.label)}
-                                />
-                                <p className={clsx(styles.descriptionLong)}>{event.descriptionLong || '-'}</p>
-                            </div>
+                            {event.descriptionLong && (
+                                <div
+                                    className={clsx(
+                                        styles.fieldset,
+                                        diffs.has('descriptionLong') && styles.highlight
+                                    )}
+                                >
+                                    <p className={clsx(styles.descriptionLong)}>{event.descriptionLong}</p>
+                                </div>
+                            )}
                         </div>
                     }
                 >
@@ -186,11 +200,18 @@ const EventOverviewSmall = observer((props: Props) => {
                         <div className={clsx(diffs.has('description') && styles.highlight)}>
                             {event.description}
                         </div>
-                        <small
-                            className={clsx(styles.small, diffs.has('descriptionLong') && styles.highlight)}
-                        >
-                            {event.descriptionLong}
-                        </small>
+
+                        {event.descriptionLong.split('\n').map((p, idx) => (
+                            <small
+                                className={clsx(
+                                    styles.small,
+                                    diffs.has('descriptionLong') && styles.highlight
+                                )}
+                                key={idx}
+                            >
+                                {p}
+                            </small>
+                        ))}
                     </span>
                 </Tooltip>
             </div>

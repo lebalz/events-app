@@ -16,10 +16,13 @@ import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '../../../shared/Badge';
 import { ApiState } from '@site/src/stores/iStore';
 import Preview from '../Preview';
+import DraftAlert from '../helpers/DraftAlert';
+import EditableDrafts from '../helpers/EditeableDrafts';
+import NoDraftEventsAlert from '../helpers/NoDraftEventsAlert';
 
 interface Props {
     events: EventModel[];
-    close: () => void;
+    onClose: () => void;
 }
 
 const getClone = (event: EventModel, idPostFix: string = '') => {
@@ -56,42 +59,11 @@ const ShiftDates = observer((props: Props) => {
     }, [events, shiftedEventIdx, shift, shiftedHours]);
 
     if (!viewed) {
-        return (
-            <div className={clsx('alert', 'alert--warning')}>
-                <button
-                    aria-label="Close"
-                    className="clean-btn close"
-                    type="button"
-                    onClick={() => {
-                        props.close();
-                    }}
-                >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <Translate id="shiftDatesEditor.noEvent.alert">Keine Termine vorhanden.</Translate>
-            </div>
-        );
+        return <NoDraftEventsAlert onClose={props.onClose} />;
     }
 
     if (events.some((e) => !e.isDraft)) {
-        return (
-            <div className={clsx('alert', 'alert--warning')}>
-                <button
-                    aria-label="Close"
-                    className="clean-btn close"
-                    type="button"
-                    onClick={() => {
-                        props.close();
-                    }}
-                >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <Translate id="shiftDatesEditor.invalidEvents.alert">
-                    Der Editor kann nur Entwürfe bearbeiten. Aktuell sind auch eingereichte, zurückgewiesene
-                    oder veröffentlichte Termine vorhanden.
-                </Translate>
-            </div>
-        );
+        return <DraftAlert onClose={props.onClose} />;
     }
 
     return (
@@ -99,16 +71,8 @@ const ShiftDates = observer((props: Props) => {
             <div className={clsx('card__header')}>
                 <h3 className={clsx(styles.header)}>
                     <Translate id="shiftDatesEditor.title">Verschiebung von Terminen</Translate>
-                    <Badge text={`${events.length}`} color={EventStateColor.DRAFT} />
                 </h3>
-                <div className={clsx(styles.description, 'alert', 'alert--info')} role="alert">
-                    <Badge icon={EventStateButton.DRAFT} size={0.8} color={EventStateColor.DRAFT} />
-                    <span>
-                        <Translate id="shiftDatesEditor.description">
-                            Nur Entwürfe können mit dem Verschiebe-Editor bearbeitet werden.
-                        </Translate>
-                    </span>
-                </div>
+                <EditableDrafts count={events.length} />
             </div>
             <div className={clsx(styles.editor, 'card__body')}>
                 <div className={clsx(styles.actions)}>
@@ -116,28 +80,44 @@ const ShiftDates = observer((props: Props) => {
                         <legend>
                             <Translate id="shiftedDatesEditor.dates">Tage</Translate>
                         </legend>
-                        <DatePicker
-                            date={viewed.start}
-                            onChange={() => {}}
-                            time="start"
-                            disabled
-                            id={viewed.id}
-                        />
-                        <Icon path={mdiArrowRightBoldCircle} size={SIZE} />
-                        {shiftedEvent && (
-                            <DatePicker
-                                date={shiftedEvent.start}
-                                onChange={(date) => {
-                                    const to = new Date(
-                                        `${date.toISOString().slice(0, 10)}${viewed.start.toISOString().slice(10)}`
-                                    );
-                                    const diff = to.getTime() - viewed.start.getTime();
-                                    setShift(diff);
-                                }}
-                                time="start"
-                                id={shiftedEvent.id}
-                            />
-                        )}
+                        <div className={clsx(styles.inputs)}>
+                            <div className={clsx(styles.datePicker)}>
+                                <span className={clsx(styles.day)}>{viewed.dayStart}.</span>
+                                <DatePicker
+                                    date={viewed.start}
+                                    onChange={() => {}}
+                                    time="start"
+                                    disabled
+                                    id={viewed.id}
+                                />
+                            </div>
+                            <Icon path={mdiArrowRightBoldCircle} size={SIZE} />
+                            {shiftedEvent && (
+                                <div className={clsx(styles.datePicker)}>
+                                    <span className={clsx(styles.day)}>{shiftedEvent.dayStart}.</span>
+                                    <DatePicker
+                                        date={shiftedEvent.start}
+                                        onChange={(date) => {
+                                            /**
+                                             * In JS, a full day is e.g. from 1.1.2025 at 00:00 to 2.1.2025 at 00:00
+                                             * Because of this, full-day events must be shifted by 1ms to the past to get
+                                             * the correct day.
+                                             */
+                                            const changedDate = viewed.isAllDay
+                                                ? new Date(date.getTime() - 1)
+                                                : date;
+                                            const to = new Date(
+                                                `${changedDate.toISOString().slice(0, 10)}${viewed.start.toISOString().slice(10)}`
+                                            );
+                                            const diff = to.getTime() - viewed.start.getTime();
+                                            setShift(diff);
+                                        }}
+                                        time="start"
+                                        id={shiftedEvent.id}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </fieldset>
                     <fieldset className={clsx(styles.hours)}>
                         <legend>
@@ -167,7 +147,7 @@ const ShiftDates = observer((props: Props) => {
                         })}
                         onClick={() => {
                             eventStore.shiftEventDates(events, shift + hoursToMs(shiftedHours)).then(() => {
-                                props.close();
+                                props.onClose();
                             });
                             setApiState(ApiState.LOADING);
                         }}

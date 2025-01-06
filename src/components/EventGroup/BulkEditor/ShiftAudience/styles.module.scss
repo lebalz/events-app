@@ -1,10 +1,5 @@
 .shiftEditor {
     box-shadow: var(--ifm-global-shadow-md);
-    .description {
-        display: flex;
-        align-items: center;
-        gap: 0.75em;
-    }
     &:last-child {
         margin-bottom: var(--ifm-paragraph-margin-bottom);
     }

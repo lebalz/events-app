@@ -21,7 +21,7 @@ import clrStyles from '../../shared/Colors/styles.module.scss';
 import { action } from 'mobx';
 
 interface Props {
-    trigger?: JSX.Element;
+    trigger?: React.JSX.Element;
     event: Event;
     hideEdit?: boolean;
 }
@@ -86,7 +86,7 @@ export const AddToGroup = observer((props: ActionProps) => {
 });
 
 const OptionsPopup = observer((props: Props) => {
-    const ref = React.useRef<PopupActions>();
+    const ref = React.useRef<PopupActions>(null);
 
     return (
         <Popup

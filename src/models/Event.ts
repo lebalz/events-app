@@ -147,11 +147,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable accessor location: string;
 
-    @observable accessor end: Date;
+    @observable.ref accessor end: Date;
 
-    @observable accessor deletedAt: Date | undefined;
+    @observable.ref accessor deletedAt: Date | undefined;
 
-    @observable accessor start: Date;
+    @observable.ref accessor start: Date;
 
     @observable accessor allLPs: boolean;
 

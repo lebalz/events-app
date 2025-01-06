@@ -35,7 +35,7 @@ const DiffViewer = observer((props: Props) => {
                         <div className={clsx(styles.diff, isMobileView && styles.grouped)} key={idx}>
                             <div className={styles.event}>
                                 {(idx === 0 || isMobileView) && labels && <h4>{labels.a}</h4>}
-                                <EventOverviewSmall event={comparison.a} expandDescriptionLong />
+                                <EventOverviewSmall event={comparison.a} expandDescriptionLong showDayname />
                             </div>
                             <div className={styles.event}>
                                 {(idx === 0 || isMobileView) && labels && <h4>{labels.b}</h4>}
@@ -43,6 +43,7 @@ const DiffViewer = observer((props: Props) => {
                                     event={comparison.b}
                                     compareWith={comparison.a}
                                     expandDescriptionLong
+                                    showDayname
                                 />
                             </div>
                         </div>

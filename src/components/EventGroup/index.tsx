@@ -225,6 +225,7 @@ const UserEventGroup = observer((props: Props) => {
                                               })
                                     }
                                     icon={mdiCalendarClock}
+                                    active={isShiftDatesOpen}
                                     size={SIZE_S}
                                     iconSide="left"
                                     onClick={() => {
@@ -254,6 +255,7 @@ const UserEventGroup = observer((props: Props) => {
                                               })
                                     }
                                     icon={mdiAccountGroup}
+                                    active={isShiftAudienceOpen}
                                     iconSide="left"
                                     size={SIZE_S}
                                     onClick={() => {
@@ -280,6 +282,7 @@ const UserEventGroup = observer((props: Props) => {
                                             }
                                             modal
                                             nested
+                                            lockScroll
                                         >
                                             <div>
                                                 <DiffViewer
@@ -335,7 +338,7 @@ const UserEventGroup = observer((props: Props) => {
                         {isShiftDatesOpen && (
                             <ShiftDates
                                 events={toShift}
-                                close={() => {
+                                onClose={() => {
                                     setShiftDatesOpen(false);
                                 }}
                             />
@@ -343,7 +346,7 @@ const UserEventGroup = observer((props: Props) => {
                         {isShiftAudienceOpen && (
                             <ShiftAudience
                                 events={toShift}
-                                close={() => {
+                                onClose={() => {
                                     setShiftAudienceOpen(false);
                                 }}
                             />

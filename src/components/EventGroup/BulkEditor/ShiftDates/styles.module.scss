@@ -15,11 +15,20 @@
             flex-wrap: wrap;
             gap: 1em;
             align-items: flex-start;
-            .dates {
+            .inputs {
                 display: flex;
                 align-items: center;
                 gap: 1em;
                 flex-basis: 12em;
+                flex-wrap: wrap;
+                .datePicker {
+                    flex-basis: 4.5em;
+                    display: flex;
+                    gap: 0.5em;
+                    .day {
+                        width: 2em;
+                    }
+                }
             }
             .hours {
                 display: flex;

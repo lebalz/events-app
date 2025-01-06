@@ -424,9 +424,6 @@
   "group.shiftDates.dt": {
     "message": "Datum verschieben"
   },
-  "group.shiftDates.description": {
-    "message": "Termine bearbeiten"
-  },
   "group.shiftDates.closeShiftEditor": {
     "message": "Editor schliessen"
   },
@@ -435,9 +432,6 @@
   },
   "group.shiftAudience.dt": {
     "message": "Jahrgänge und Klassen verschieben"
-  },
-  "group.showChanges.dt": {
-    "message": "Änderungen Anzeigen"
   },
   "eventGroup.diff.cloned": {
     "message": "Original"
@@ -1660,26 +1654,14 @@
   "shiftAudienceEditor.title": {
     "message": "Neuzuordnung von Jahrgängen und Klassen"
   },
-  "shiftAudienceEditor.description": {
-    "message": "Nur Entwürfe können mit diesem Editor bearbeitet werden."
-  },
   "shiftAudienceEditor.audience": {
     "message": "Klassen"
   },
   "shiftDatesEditor.apply": {
     "message": "Anwenden"
   },
-  "shiftDatesEditor.noEvent.alert": {
-    "message": "Keine Termine vorhanden."
-  },
-  "shiftDatesEditor.invalidEvents.alert": {
-    "message": "Der Editor kann nur Entwürfe bearbeiten. Aktuell sind auch eingereichte, zurückgewiesene oder veröffentlichte Termine vorhanden."
-  },
   "shiftDatesEditor.title": {
     "message": "Verschiebung von Terminen"
-  },
-  "shiftDatesEditor.description": {
-    "message": "Nur Entwürfe können mit dem Verschiebe-Editor bearbeitet werden."
   },
   "shiftedDatesEditor.dates": {
     "message": "Tage"
@@ -2043,5 +2025,14 @@
   },
   "shiftAudienceEditor.shiftInText": {
     "message": "Klassenbezeichnungen im Titel und Beschreibung auch ändern"
+  },
+  "shiftEditor.noDraftEvent.alert": {
+    "message": "Der Editor kann nur Entwürfe bearbeiten. Aktuell sind keine Entwürfe vorhanden (nur eingereichte, zurückgewiesene oder veröffentlichte Termine)."
+  },
+  "shiftEditor.invalidEvents.alert": {
+    "message": "Der Editor kann nur Entwürfe bearbeiten. Aktuell sind auch eingereichte, zurückgewiesene oder veröffentlichte Termine vorhanden."
+  },
+  "shiftEditor.description": {
+    "message": "Änderungen werden nur auf Entwürfe angewandt. Betroffene Termine:"
   }
 }
