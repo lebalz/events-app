@@ -2109,5 +2109,8 @@
   },
   "subscription.content.advanced": {
     "message": "Erweiterte Abo-Einstellungen"
+  },
+  "components.shared.loader.loading": {
+    "message": "Laden..."
   }
 }

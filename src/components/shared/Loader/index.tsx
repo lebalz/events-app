@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import Icon from '@mdi/react';
 import { mdiLoading } from '@mdi/js';
+import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {
     label?: string;
@@ -27,7 +28,13 @@ const Loader = (props: Props) => {
         >
             <Icon path={mdiLoading} spin size={props.size || 1} className={styles.icon} />
             {!props.noLabel && (
-                <span className={clsx('badge', styles.badge)}>{props.label || 'Laden...'}</span>
+                <span className={clsx('badge', styles.badge)}>
+                    {props.label ||
+                        translate({
+                            message: 'Laden...',
+                            id: 'components.shared.loader.loading'
+                        })}
+                </span>
             )}
         </div>
     );
