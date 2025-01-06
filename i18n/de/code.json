@@ -1,355 +1,4 @@
 {
-  "theme.ErrorPageContent.title": {
-    "message": "Die Seite ist abgestürzt.",
-    "description": "The title of the fallback page when the page crashed"
-  },
-  "theme.NotFound.title": {
-    "message": "Seite nicht gefunden",
-    "description": "The title of the 404 page"
-  },
-  "theme.NotFound.p1": {
-    "message": "Wir konnten nicht finden, wonach Sie gesucht haben.",
-    "description": "The first paragraph of the 404 page"
-  },
-  "theme.NotFound.p2": {
-    "message": "Bitte kontaktieren Sie den Besitzer der Seite, die Sie mit der ursprünglichen URL verlinkt hat, und teilen Sie ihm mit, dass der Link nicht mehr funktioniert.",
-    "description": "The 2nd paragraph of the 404 page"
-  },
-  "theme.BackToTopButton.buttonAriaLabel": {
-    "message": "Zurück nach oben scrollen",
-    "description": "The ARIA label for the back to top button"
-  },
-  "theme.admonition.note": {
-    "message": "hinweis",
-    "description": "The default label used for the Note admonition (:::note)"
-  },
-  "theme.admonition.tip": {
-    "message": "tipp",
-    "description": "The default label used for the Tip admonition (:::tip)"
-  },
-  "theme.admonition.danger": {
-    "message": "gefahr",
-    "description": "The default label used for the Danger admonition (:::danger)"
-  },
-  "theme.admonition.info": {
-    "message": "info",
-    "description": "The default label used for the Info admonition (:::info)"
-  },
-  "theme.admonition.caution": {
-    "message": "vorsicht",
-    "description": "The default label used for the Caution admonition (:::caution)"
-  },
-  "theme.blog.archive.title": {
-    "message": "Archiv",
-    "description": "The page & hero title of the blog archive page"
-  },
-  "theme.blog.archive.description": {
-    "message": "Archiv",
-    "description": "The page & hero description of the blog archive page"
-  },
-  "theme.blog.post.paginator.navAriaLabel": {
-    "message": "Blog Post Seiten Navigation",
-    "description": "The ARIA label for the blog posts pagination"
-  },
-  "theme.blog.post.paginator.newerPost": {
-    "message": "Neuer Post",
-    "description": "The blog post button label to navigate to the newer/previous post"
-  },
-  "theme.blog.post.paginator.olderPost": {
-    "message": "Älterer Post",
-    "description": "The blog post button label to navigate to the older/next post"
-  },
-  "theme.blog.paginator.navAriaLabel": {
-    "message": "Navigation der Blog-Listenseite",
-    "description": "The ARIA label for the blog pagination"
-  },
-  "theme.blog.paginator.newerEntries": {
-    "message": "Neuere Einträge",
-    "description": "The label used to navigate to the newer blog posts page (previous page)"
-  },
-  "theme.blog.paginator.olderEntries": {
-    "message": "Ältere Einträge",
-    "description": "The label used to navigate to the older blog posts page (next page)"
-  },
-  "theme.colorToggle.ariaLabel": {
-    "message": "Umschalten zwischen dunkler und heller Ansicht (momentan {mode})",
-    "description": "The ARIA label for the navbar color mode toggle"
-  },
-  "theme.colorToggle.ariaLabel.mode.dark": {
-    "message": "dunkler Modus",
-    "description": "The name for the dark color mode"
-  },
-  "theme.colorToggle.ariaLabel.mode.light": {
-    "message": "heller Modus",
-    "description": "The name for the light color mode"
-  },
-  "theme.blog.post.plurals": {
-    "message": "Ein Post|{count} Posts",
-    "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
-  },
-  "theme.blog.tagTitle": {
-    "message": "{nPosts} getaggt mit \"{tagName}\"",
-    "description": "The title of the page for a blog tag"
-  },
-  "theme.tags.tagsPageLink": {
-    "message": "Alle Tags anzeigen",
-    "description": "The label of the link targeting the tag list page"
-  },
-  "theme.docs.breadcrumbs.navAriaLabel": {
-    "message": "Breadcrumbs",
-    "description": "The ARIA label for the breadcrumbs"
-  },
-  "theme.docs.DocCard.categoryDescription": {
-    "message": "{count} Einträge",
-    "description": "The default description for a category card in the generated index about how many items this category includes"
-  },
-  "theme.docs.paginator.navAriaLabel": {
-    "message": "Dokumentation Seiten",
-    "description": "The ARIA label for the docs pagination"
-  },
-  "theme.docs.paginator.previous": {
-    "message": "Zurück",
-    "description": "The label used to navigate to the previous doc"
-  },
-  "theme.docs.paginator.next": {
-    "message": "Weiter",
-    "description": "The label used to navigate to the next doc"
-  },
-  "theme.docs.tagDocListPageTitle.nDocsTagged": {
-    "message": "Ein doc getaggt|{count} docs getaggt",
-    "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
-  },
-  "theme.docs.tagDocListPageTitle": {
-    "message": "{nDocsTagged} mit \"{tagName}\"",
-    "description": "The title of the page for a docs tag"
-  },
-  "theme.docs.versionBadge.label": {
-    "message": "Version: {versionLabel}"
-  },
-  "theme.common.editThisPage": {
-    "message": "Diese Seite bearbeiten",
-    "description": "The link label to edit the current page"
-  },
-  "theme.common.headingLinkTitle": {
-    "message": "Direkter Link zur {heading}",
-    "description": "Title for link to heading"
-  },
-  "theme.docs.versions.unreleasedVersionLabel": {
-    "message": "Das ist die unveröffentlichte Dokumentation für {siteTitle} {versionLabel}.",
-    "description": "The label used to tell the user that he's browsing an unreleased doc version"
-  },
-  "theme.docs.versions.unmaintainedVersionLabel": {
-    "message": "Das ist die Dokumentation für {siteTitle} {versionLabel} und wird nicht weiter gewartet.",
-    "description": "The label used to tell the user that he's browsing an unmaintained doc version"
-  },
-  "theme.docs.versions.latestVersionSuggestionLabel": {
-    "message": "Für die aktuellste Dokumentation bitte auf {latestVersionLink} ({versionLabel}) gehen.",
-    "description": "The label used to tell the user to check the latest version"
-  },
-  "theme.docs.versions.latestVersionLinkLabel": {
-    "message": "letzte Version",
-    "description": "The label used for the latest version suggestion link label"
-  },
-  "theme.lastUpdated.atDate": {
-    "message": " am {date}",
-    "description": "The words used to describe on which date a page has been last updated"
-  },
-  "theme.lastUpdated.byUser": {
-    "message": " von {user}",
-    "description": "The words used to describe by who the page has been last updated"
-  },
-  "theme.lastUpdated.lastUpdatedAtBy": {
-    "message": "Letztes Update{atDate}{byUser}",
-    "description": "The sentence used to display when a page has been last updated, and by who"
-  },
-  "theme.navbar.mobileVersionsDropdown.label": {
-    "message": "Versionen",
-    "description": "The label for the navbar versions dropdown on mobile view"
-  },
-  "theme.tags.tagsListLabel": {
-    "message": "Tags:",
-    "description": "The label alongside a tag list"
-  },
-  "theme.AnnouncementBar.closeButtonAriaLabel": {
-    "message": "Schließen",
-    "description": "The ARIA label for close button of announcement bar"
-  },
-  "theme.blog.sidebar.navAriaLabel": {
-    "message": "Navigation der letzten Beiträge im Blog",
-    "description": "The ARIA label for recent posts in the blog sidebar"
-  },
-  "theme.CodeBlock.copied": {
-    "message": "Kopiert",
-    "description": "The copied button label on code blocks"
-  },
-  "theme.CodeBlock.copyButtonAriaLabel": {
-    "message": "In die Zwischenablage kopieren",
-    "description": "The ARIA label for copy code blocks button"
-  },
-  "theme.CodeBlock.copy": {
-    "message": "Kopieren",
-    "description": "The copy button label on code blocks"
-  },
-  "theme.CodeBlock.wordWrapToggle": {
-    "message": "Toggle word wrap",
-    "description": "The title attribute for toggle word wrapping button of code block lines"
-  },
-  "theme.NavBar.navAriaLabel": {
-    "message": "Main",
-    "description": "The ARIA label for the main navigation"
-  },
-  "theme.navbar.mobileLanguageDropdown.label": {
-    "message": "Sprachen",
-    "description": "The label for the mobile language switcher dropdown"
-  },
-  "theme.TOCCollapsible.toggleButtonLabel": {
-    "message": "Auf dieser Seite",
-    "description": "The label used by the button on the collapsible TOC component"
-  },
-  "theme.blog.post.readingTime.plurals": {
-    "message": "Eine Minute Lesezeit|{readingTime} Minuten Lesezeit",
-    "description": "Pluralized label for \"{readingTime} min read\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
-  },
-  "theme.blog.post.readMore": {
-    "message": "Mehr lesen",
-    "description": "The label used in blog post item excerpts to link to full blog posts"
-  },
-  "theme.blog.post.readMoreLabel": {
-    "message": "Mehr lesen über {title}",
-    "description": "The ARIA label for the link to full blog posts from excerpts"
-  },
-  "theme.docs.breadcrumbs.home": {
-    "message": "Home page",
-    "description": "The ARIA label for the home page in the breadcrumbs"
-  },
-  "theme.docs.sidebar.collapseButtonTitle": {
-    "message": "Seitenleiste einklappen",
-    "description": "The title attribute for collapse button of doc sidebar"
-  },
-  "theme.docs.sidebar.collapseButtonAriaLabel": {
-    "message": "Seitenleiste einklappen",
-    "description": "The title attribute for collapse button of doc sidebar"
-  },
-  "theme.docs.sidebar.navAriaLabel": {
-    "message": "Docs sidebar",
-    "description": "The ARIA label for the sidebar navigation"
-  },
-  "theme.docs.sidebar.closeSidebarButtonAriaLabel": {
-    "message": "Close navigation bar",
-    "description": "The ARIA label for close button of mobile sidebar"
-  },
-  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": {
-    "message": "← Zurück zum Hauptmenü",
-    "description": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
-  },
-  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": {
-    "message": "Toggle navigation bar",
-    "description": "The ARIA label for hamburger menu button of mobile navigation"
-  },
-  "theme.docs.sidebar.expandButtonTitle": {
-    "message": "Seitenleiste ausklappen",
-    "description": "The ARIA label and title attribute for expand button of doc sidebar"
-  },
-  "theme.docs.sidebar.expandButtonAriaLabel": {
-    "message": "Seitenleiste ausklappen",
-    "description": "The ARIA label and title attribute for expand button of doc sidebar"
-  },
-  "theme.ErrorPageContent.tryAgain": {
-    "message": "Nochmal versuchen",
-    "description": "The label of the button to try again rendering when the React error boundary captures an error"
-  },
-  "theme.common.skipToMainContent": {
-    "message": "Zum Hauptinhalt springen",
-    "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
-  },
-  "theme.tags.tagsPageTitle": {
-    "message": "Tags",
-    "description": "The title of the tag list page"
-  },
-  "admin.DepartmentTable.create": {
-    "message": "Neue Abteilung",
-    "description": "Create a new department"
-  },
-  "admin.DepartmentTable.th.name": {
-    "message": "Name",
-    "description": "th: name"
-  },
-  "admin.DepartmentTable.th.description": {
-    "message": "Beschreibung",
-    "description": "th: description"
-  },
-  "admin.DepartmentTable.th.color": {
-    "message": "Farbe",
-    "description": "th: color"
-  },
-  "admin.DepartmentTable.th.createdAt": {
-    "message": "Erstellt",
-    "description": "th: created At"
-  },
-  "admin.DepartmentTable.th.updatedAt": {
-    "message": "Aktualisiert",
-    "description": "th: updatedAt"
-  },
-  "admin.DepartmentTable.th.id": {
-    "message": "Id",
-    "description": "th: id"
-  },
-  "admin.DepartmentTable.th.actions": {
-    "message": "Aktionen",
-    "description": "th: actions"
-  },
-  "event.kw": {
-    "message": "KW",
-    "description": "for a single event: kw"
-  },
-  "event.weekday": {
-    "message": "Wochentag",
-    "description": "for a single event: weekday"
-  },
-  "event.location": {
-    "message": "Ort",
-    "description": "for a single event: location"
-  },
-  "event.classes": {
-    "message": "Klassen",
-    "description": "for a single event: classes"
-  },
-  "event.departments": {
-    "message": "Departemente",
-    "description": "for a single event: departments"
-  },
-  "event.affectedLessons": {
-    "message": "Betroffene Lektionen",
-    "description": "for a single event: affected lessons"
-  },
-  "event.button.showAllLessons": {
-    "message": "Alle laden",
-    "description": "for a single event: button to show all affected lessons"
-  },
-  "admin.userTable.th.email": {
-    "message": "Email",
-    "description": "th: email"
-  },
-  "admin.userTable.th.role": {
-    "message": "Rolle",
-    "description": "th: role"
-  },
-  "admin.userTable.th.shortName": {
-    "message": "Kürzel",
-    "description": "th: shortName"
-  },
-  "admin.userTable.th.createdAt": {
-    "message": "Erstellt",
-    "description": "th: createdAt"
-  },
-  "admin.userTable.th.updatedAt": {
-    "message": "Aktualisiert",
-    "description": "th: updatedAt"
-  },
-  "admin.userTable.th.id": {
-    "message": "Id",
-    "description": "th: id"
-  },
   "event.state.draft": {
     "message": "Entwurf",
     "description": "[noun] Event state draft"
@@ -382,6 +31,66 @@
     "message": "Zurückweisen",
     "description": "[verb] request event state: refused"
   },
+  "EventAudience.ALL.description": {
+    "message": "Alle",
+    "description": "This event is for everyone, no matter wheter a lesson is affected or not"
+  },
+  "EventAudience.KLP.description": {
+    "message": "KLP",
+    "description": "Only relevant (and displayed) for class teachers"
+  },
+  "EventAudience.LP.description": {
+    "message": "LP",
+    "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
+  },
+  "EventAudience.STUDENTS.description": {
+    "message": "SuS",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "EventAudience.ALL.description.long": {
+    "message": "Alle",
+    "description": "This event is for everyone, no matter wheter a lesson is affected or not"
+  },
+  "EventAudience.KLP.description.long": {
+    "message": "Klassenlehrpersonen",
+    "description": "Only relevant (and displayed) for class teachers"
+  },
+  "EventAudience.LP.description.long": {
+    "message": "Lehrpersonen",
+    "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
+  },
+  "EventAudience.STUDENTS.description.long": {
+    "message": "Schüler:innen",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "EventAudience.STUDENTS.description.overview": {
+    "message": "SuS, betroffene LP*",
+    "description": "Relevant for SuS only, their KLP will be informed aswell"
+  },
+  "EventAudience.LP.example": {
+    "message": "Noteneingabe in Evento",
+    "description": "Teachers Example"
+  },
+  "EventAudience.KLP.example": {
+    "message": "Einsammeln unterschriebener Zeugnisse",
+    "description": "KLP Example"
+  },
+  "EventAudience.ALL.example": {
+    "message": "Schulstart",
+    "description": "All Example"
+  },
+  "EventAudience.STUDENTS.LP.description": {
+    "message": "Lehrpersonen mit betroffenen Lektionen",
+    "description": "audience: students, description for LP"
+  },
+  "EventAudience.STUDENTS.KLP.description": {
+    "message": "Klassenlehrpersonen der betroffenen Klassen",
+    "description": "audience: students, description for KLP"
+  },
+  "EventAudience.STUDENTS.example": {
+    "message": "Exkursion",
+    "description": "Students Example"
+  },
   "joi.event.start": {
     "message": "Start",
     "description": "Start of event"
@@ -402,6 +111,10 @@
     "message": "Stichworte dürfen nicht leer sein",
     "description": "Description of event must not be empty"
   },
+  "joi.event.emptyAudience": {
+    "message": "Es muss mindestens eine Klasse, Klassengruppe oder Abteilung ausgewählt werden",
+    "description": "Joi validation error for empty audience"
+  },
   "joi.string.empty": {
     "message": "{{#label}} darf nicht leer sein",
     "description": "Joi validation error for empty string"
@@ -421,6 +134,14 @@
   "joi.date.base": {
     "message": "{{#label}} muss grösser oder gleich {{:#limit}} sein",
     "description": "Joi validation error for date min"
+  },
+  "admin.noadmin.titre": {
+    "message": "For administrators only",
+    "description": "the title for no administrator"
+  },
+  "admin.noadmin.text": {
+    "message": "Area reserved for administrators",
+    "description": "the description text for no admins"
   },
   "admin.tab.users": {
     "message": "Users"
@@ -446,123 +167,106 @@
   "admin.tab.import": {
     "message": "Import"
   },
-  "admin.section.import.title": {
-    "message": "Excel Import",
-    "description": "admin.section.import.title"
-  },
-  "admin.section.import.subtitle": {
-    "message": "Importiere Daten aus Excel-Dateien.",
-    "description": "admin.section.import.subtitle"
-  },
   "admin.tab.reg-periods": {
     "message": "Registrierungs Perioden"
   },
-  "calendar.button.nextWeek": {
-    "message": "Nächste",
-    "description": "button to show the next week on the calendar"
+  "admin.tab.event-reviews": {
+    "message": "Termin-Reviews"
   },
-  "calendar.button.previousWeek": {
-    "message": "Vorherige",
-    "description": "button to show the previous week on the calendar"
+  "event.title": {
+    "message": "Termine",
+    "description": "[plural] Title of the event overview"
   },
-  "calendar.button.today": {
-    "message": "Heute",
-    "description": "button to show today on the calendar"
+  "event.versions.unpublished.title": {
+    "message": "Unveröffentlichte Versionen"
   },
-  "calendar.button.month": {
-    "message": "Monat",
-    "description": "button to show the calendar by month"
+  "group.title": {
+    "message": "Gruppe"
   },
-  "calendar.button.week": {
-    "message": "Woche",
-    "description": "button to show the calendar by week"
+  "group.message.notFound": {
+    "message": "Gruppe nicht gefunden"
   },
-  "calendar.button.day": {
-    "message": "Tag",
-    "description": "button to show the calendar by day"
+  "group.message.loading": {
+    "message": "Gruppe Laden"
   },
-  "calendar.button.agenda": {
-    "message": "Agenda",
-    "description": "button to show the calendar as list"
+  "home.today.title": {
+    "message": "{day} {date}",
+    "description": "Title for the today section"
   },
-  "calendar.field.date": {
-    "message": "Datum",
-    "description": "title of the table for the date"
+  "home.today.mine": {
+    "message": "Meine",
+    "description": "Only show my events"
   },
-  "calendar.field.time": {
-    "message": "Zeit",
-    "description": "title of the table for the time"
+  "home.today.all": {
+    "message": "Alle",
+    "description": "Show all events"
   },
-  "calendar.field.event": {
-    "message": "Event",
-    "description": "title of the table for the event"
+  "home.today.noEvents": {
+    "message": "Keine Termine für heute",
+    "description": "No events for today"
   },
-  "calendar.message.noevent": {
-    "message": "Keine Events in diesem Zeitraum",
-    "description": "message if no event in time range"
+  "navcard.table.text": {
+    "message": "Tabelle",
+    "description": "Button text for navigating to the table page"
   },
-  "calendar.button.tomorrow": {
-    "message": "Morgen",
-    "description": "button label to navigate to the next day"
+  "navcard.calendar.text": {
+    "message": "Kalender",
+    "description": "Button text for navigating to the calendar page"
   },
-  "calendar.button.workWeek": {
-    "message": "Arbeitswoche",
-    "description": "button label to display a work week"
+  "navcard.gantt.text": {
+    "message": "Zeitachse",
+    "description": "Button text for navigating to the gantt page"
   },
-  "calendar.button.yesterday": {
-    "message": "Gestern",
-    "description": "button label to navigate to the previous day"
+  "navcard.subscribe.text": {
+    "message": "Abonnieren",
+    "description": "Button text for navigating to the subscribe page"
   },
-  "calendar.message.allDay": {
-    "message": "Ganzer Tag",
-    "description": "message if an event spans the whole day"
+  "navcard.docs.text": {
+    "message": "Dokumentation",
+    "description": "Button text for navigating to the documentation page"
   },
-  "import.section.title": {
-    "message": "Datei Importieren",
-    "description": "import.section.title"
+  "navcard.user.account": {
+    "message": "Account",
+    "description": "Button text for navigating to the user account page"
   },
-  "import.section.subtitle": {
-    "message": "Importiere Daten aus Excel-Dateien.",
-    "description": "import.section.subtitle"
+  "navcard.user.events": {
+    "message": "Meine Events",
+    "description": "Button text for navigating to the users events page"
   },
-  "my-events.tab.notpublished": {
-    "message": "Unveröffentlicht"
+  "navcard.admin.text": {
+    "message": "Admin",
+    "description": "Button text for navigating to the admin page"
   },
-  "my-events.unpublished": {
-    "message": "Unveröffentlicht",
-    "description": "text unpublished"
+  "login.button.with.school.account.text": {
+    "message": "Login mit Schul-Account",
+    "description": "the text of the button login with school account"
   },
-  "my-events.tab.review": {
-    "message": "Review"
+  "abo.section.title.subscribe-calendar": {
+    "message": "Kalender Abonnieren",
+    "description": "subscribe to calendars .ics file"
   },
-  "my-events.review": {
-    "message": "Im Review",
-    "description": "text In Review"
+  "abo.section.subtitle.subscribe-calendar": {
+    "message": "Abonniere Kalender in einem Kalenderprogramm wie z.B. Outlook",
+    "description": "subscribe to calendars .ics file"
   },
-  "my-events.tab.admin": {
-    "message": "Admin"
+  "subscribe.instructions.p1": {
+    "message": "In allen gängigen Kalender-Programmen können Kalender von einer Internetseite abonniert werden, indem die URL zu einer .ics-Datei angegeben wird."
   },
-  "my-events.review.furadmin": {
-    "message": "Im ReviewReview Anfragen für Admin",
-    "description": "text In Review - wait for admin"
+  "subscribe.instructions.p2": {
+    "message": "Unten sind die entsprechenden links aufgeführt und können in den Kalender-Programmen eingefügt werden. Für das Abonnieren mit Outlook kann auf einem Laptop direkt auf den \"Abonnieren in Outlook\" Knopf geklickt werden oder wie in den verlinkten Anleitungen beschrieben vorgegangen werden."
   },
-  "my-events.tab.published": {
-    "message": "Veröffentlicht"
+  "subscribe.instructions.microsoft": {
+    "message": "Anleitung für Outlook"
   },
-  "my-events.published": {
-    "message": "Veröffentlicht",
-    "description": "published"
+  "subscribe.instructions.apple": {
+    "message": "Anleitung für Apple Kalender"
   },
-  "my-events.tab.deleted": {
-    "message": "Gelöscht"
+  "event.bulk_actions.hide_select": {
+    "message": "Terminauswahl verbergen"
   },
-  "my-events.deleted": {
-    "message": "Gelöscht",
-    "description": "deleted"
-  },
-  "my-events.deleted.text": {
-    "message": "Job Löschen",
-    "description": "my-events.deleted.text"
+  "table.button.download": {
+    "message": "Download",
+    "description": "Text of the button download xlsx"
   },
   "user.section.title.personal-area": {
     "message": "Persönlicher Bereich",
@@ -571,9 +275,8 @@
   "user.tab.account": {
     "message": "Account"
   },
-  "user.button.refresh.text": {
-    "message": "Aktualisieren",
-    "description": "user.button.refresh.text"
+  "user.button.refresh": {
+    "message": "Aktualisieren"
   },
   "user.tab.events": {
     "message": "Events"
@@ -584,216 +287,9 @@
   "user.tab.time-table": {
     "message": "Stundenplan"
   },
-  "event.AddButton.text": {
-    "message": "Neues Event",
-    "description": "AddButton text"
-  },
-  "event.description": {
-    "message": "Titel",
-    "description": "for a single event: description"
-  },
-  "event.descriptionLong": {
-    "message": "Beschreibung",
-    "description": "for a single event: description long"
-  },
-  "event.versionNumber": {
-    "message": "Version",
-    "description": "for a single event: version number"
-  },
-  "event.state": {
-    "message": "Status",
-    "description": "for a single event: state"
-  },
-  "event.date": {
-    "message": "Datum",
-    "description": "for a single event: date range"
-  },
-  "event.audience": {
-    "message": "Publikum",
-    "description": "for a single event: class and department picker"
-  },
-  "event.requestState": {
-    "message": "Status Ändern",
-    "description": "Requesting the next state, eg. Draft -> Review"
-  },
-  "event.button.loadVersions": {
-    "message": "Versionen laden",
-    "description": "for a single event: button to load version history"
-  },
-  "user.ical.sync-button.text": {
-    "message": "Sync",
-    "description": "Button text for (re)syncing the calendar"
-  },
-  "user.ical.sync-button.title": {
-    "message": "Synchronisiere meinen Kalender",
-    "description": "Button (hover) title for (re)syncing the calendar"
-  },
-  "user.ical.outlook-button.text": {
-    "message": "Outlook",
-    "description": "Button text for adding the calendar to Outlook"
-  },
-  "user.ical.outlook-button.title": {
-    "message": "Abonniere den Kalender in Outlook",
-    "description": "Button text for adding the calendar to Outlook"
-  },
-  "admin.DepartmentTable.th.letter": {
-    "message": "Buchstabe",
-    "description": "th: department letter"
-  },
-  "admin.userTable.filter.placeholder": {
-    "message": "Filter",
-    "description": "filter: placeholder"
-  },
-  "button.open": {
-    "message": "Öffnen",
-    "description": "Button text for open button"
-  },
-  "button.save": {
-    "message": "Änderungen Speichern",
-    "description": "Button to save changes"
-  },
-  "button.edit": {
-    "message": "Bearbeiten",
-    "description": "Button to edit a model"
-  },
-  "eventGrid.header.state": {
-    "message": "Zustand",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.isValid": {
-    "message": "Valid",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.select": {
-    "message": "Auswählen",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.kw": {
-    "message": "KW",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.actions": {
-    "message": "Aktionen",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.author": {
-    "message": "Author",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.day": {
-    "message": "Tag",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.description": {
-    "message": "Stichworte",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.start": {
-    "message": "Start",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.end": {
-    "message": "Ende",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.location": {
-    "message": "Ort",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.userGroup": {
-    "message": "Gruppe",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.departmens": {
-    "message": "Abteilungen",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.classes": {
-    "message": "Klassen",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.descriptionLong": {
-    "message": "Beschreibung",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.isDuplicate": {
-    "message": "Duplikat",
-    "description": "Label for the Event Grid Columns"
-  },
-  "event.open.title": {
-    "message": "Öffnen",
-    "description": "Button Title (hover) to open an event view"
-  },
-  "button.close.title": {
-    "message": "Fenster Schliessen",
-    "description": "Button title to close a modal"
-  },
-  "button.close": {
-    "message": "Schliessen",
-    "description": "Button text to close a modal"
-  },
-  "TeachingAffected.YES.description": {
-    "message": "Ja",
-    "description": "Yes, the teaching is affected and the class is not present"
-  },
-  "TeachingAffected.NO.description": {
-    "message": "Nein",
-    "description": "No, the teaching happens as usual"
-  },
-  "TeachingAffected.PARTIAL.description": {
-    "message": "Teilweise",
-    "description": "Only a part of the class will be present"
-  },
-  "EventAudience.ALL.description": {
-    "message": "Alle",
-    "description": "This event is for everyone, no matter wheter a lesson is affected or not"
-  },
-  "EventAudience.KLP.description": {
-    "message": "KLP",
-    "description": "Only relevant (and displayed) for class teachers"
-  },
-  "EventAudience.LP.description": {
-    "message": "LP",
-    "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
-  },
-  "EventAudience.STUDENTS.description": {
-    "message": "SuS",
-    "description": "Relevant for SuS only, their KLP will be informed aswell"
-  },
-  "shared.AudiencePicker": {
-    "message": "Alle Schulen",
-    "description": "Button text to toggle all schools on/off"
-  },
-  "shared.audiencePicker.title.futureClasses": {
-    "message": "Künftige Klassen"
-  },
-  "shared.AudiencePicker.Department": {
-    "message": "Alle",
-    "description": "toggle all departments"
-  },
-  "theme.admonition.warning": {
-    "message": "warnung",
-    "description": "The default label used for the Warning admonition (:::warning)"
-  },
-  "theme.DocSidebarItem.expandCategoryAriaLabel": {
-    "message": "Expand sidebar category '{label}'",
-    "description": "The ARIA label to expand the sidebar category"
-  },
-  "theme.DocSidebarItem.collapseCategoryAriaLabel": {
-    "message": "Collapse sidebar category '{label}'",
-    "description": "The ARIA label to collapse the sidebar category"
-  },
-  "theme.unlistedContent.title": {
-    "message": "Unlisted page",
-    "description": "The unlisted content banner title"
-  },
-  "theme.unlistedContent.message": {
-    "message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-    "description": "The unlisted content banner message"
-  },
-  "calendar.button.plus": {
-    "message": "weitere",
-    "description": "button label to show more events"
+  "untis.lesson.ef": {
+    "message": "EF",
+    "description": "Abbreviation of the Ergänzungsfach"
   },
   "weekday.so.short": {
     "message": "So",
@@ -851,457 +347,52 @@
     "message": "Samstag",
     "description": "Weekday full name"
   },
-  "event.filter.mine": {
-    "message": "Meine",
-    "description": "Filter: Only events affecting me"
+  "colorPicker.title": {
+    "message": "Hauptfarbe Auswählen"
   },
-  "event.filter.future": {
-    "message": "Künftige",
-    "description": "Filter: Only current and future events"
+  "versions.navColorPicker.modal.title": {
+    "message": "Hauptfarbe Wählen"
   },
-  "navbar.item.label.personal": {
-    "message": "Persönlich"
+  "button.close": {
+    "message": "Schliessen",
+    "description": "Button text to close a modal"
   },
-  "navbar.item.label.admin": {
-    "message": "Admin"
+  "colorGenerator.inputs.primary.label": {
+    "message": "Hauptfarbe"
   },
-  "event.teachingAffected": {
-    "message": "Unterricht Betroffen?",
-    "description": "for a single event: teaching affected?"
+  "colorGenerator.inputs.modeToggle.label": {
+    "message": "{colorMode} Modus",
+    "description": "The label for the button that toggles color mode"
   },
-  "eventField.teachingAffected.no": {
-    "message": "Nein",
-    "description": "Label for the Event Field"
+  "colorGenerator.inputs.modeToggle.label.colorMode.light": {
+    "message": "heller"
   },
-  "eventField.teachingAffected.partial": {
-    "message": "Teilweise",
-    "description": "Label for the Event Field"
+  "colorGenerator.inputs.modeToggle.label.colorMode.dark": {
+    "message": "dunkler"
   },
-  "eventField.teachingAffected.yes": {
-    "message": "Ja",
-    "description": "Label for the Event Field"
+  "colorGenerator.inputs.resetButton.label": {
+    "message": "Reset"
   },
-  "eventField.teachingAffected.no.title": {
-    "message": "Betrifft den Unterricht nicht",
-    "description": "Label for the Event Field"
+  "colorGenerator.table.heading2": {
+    "message": "Farbe",
+    "description": "This column is the color's representation in hex"
   },
-  "eventField.teachingAffected.partial.title": {
-    "message": "Unterricht teilweise betroffen",
-    "description": "Label for the Event Field"
+  "colorGenerator.table.heading3": {
+    "message": "Justierung",
+    "description": "This column is the adjusted shades' adjustment values relative to the primary color"
   },
-  "eventField.teachingAffected.yes.title": {
-    "message": "Unterricht betroffen",
-    "description": "Label for the Event Field"
+  "colorGenerator.table.heading4": {
+    "message": "Kontrast Bewertung",
+    "description": "This column is WCAG contrast rating: AAA, AA, Fail"
   },
-  "eventGrid.header.teachingAffected.title": {
-    "message": "Sortieren nach \"Unterricht betroffen?\"",
-    "description": "Message when hovering the icon"
+  "colorGenerator.codeBlock.summary": {
+    "message": "Farben-Code anzeigen"
   },
-  "untis.lesson.ef": {
-    "message": "EF",
-    "description": "Abbreviation of the Ergänzungsfach"
+  "colorGenerator.codeBlock.Description": {
+    "message": "Farbvorschläge für die Hauptfarben, zum Senden an den Entwickler..."
   },
-  "admin.noadmin.titre": {
-    "message": "For administrators only",
-    "description": "the title for no administrator"
-  },
-  "admin.noadmin.text": {
-    "message": "Area reserved for administrators",
-    "description": "the description text for no admins"
-  },
-  "components.user.index.login": {
-    "message": "Login",
-    "description": "Button Login"
-  },
-  "components.user.index.untis.account.button": {
-    "message": "Untis Account",
-    "description": "Button Untis Account"
-  },
-  "components.user.index.calendar": {
-    "message": "Kalender Abonnieren",
-    "description": "Button Calendar"
-  },
-  "user.ical.outlook.calendar-name": {
-    "message": "GBSL",
-    "description": "Name of the calendar in Outlook"
-  },
-  "components.user.index.events": {
-    "message": "Veröffentlichte Events",
-    "description": "Button Events"
-  },
-  "components.user.index.schools": {
-    "message": "Schulen",
-    "description": "Button Schools"
-  },
-  "components.user.index.classes": {
-    "message": "Klassen",
-    "description": "Button class"
-  },
-  "components.user.index.subjects": {
-    "message": "Fächer",
-    "description": "Button subjects"
-  },
-  "components.event.usersevents.index.tabitem.notpublished": {
-    "message": "Unveröffentlicht",
-    "description": "Text not published"
-  },
-  "components.event.usersevents.index.header.notpublished": {
-    "message": "Unveröffentlicht",
-    "description": "Th: not published"
-  },
-  "components.event.usersevents.index.tabitem.reviewed": {
-    "message": "Review",
-    "description": "Events reviewed"
-  },
-  "components.event.usersevents.index.header.reviewed": {
-    "message": "Im Review",
-    "description": "Events reviewed"
-  },
-  "components.event.usersevents.index.tabitem.admin": {
-    "message": "Admin",
-    "description": "Events admin"
-  },
-  "components.event.usersevents.index.header.admin": {
-    "message": "Review Anfragen für Admins",
-    "description": "Events admin"
-  },
-  "components.event.usersevents.index.tabitem.published": {
-    "message": "Veröffentlicht",
-    "description": "Events published"
-  },
-  "components.event.usersevents.index.header.published": {
-    "message": "Veröffentlicht",
-    "description": "Th : Events published"
-  },
-  "components.event.usersevents.index.tabitem.deleted": {
-    "message": "Gelöscht",
-    "description": "Events deleted"
-  },
-  "components.event.usersevents.index.header.deleted": {
-    "message": "Gelöscht",
-    "description": "Th: Events deleted"
-  },
-  "components.event.usersevents.index.delete": {
-    "message": "Job Löschen",
-    "description": "Text to delete a job"
-  },
-  "ical.section.personal": {
-    "message": "Persönliches Kalenderabo",
-    "description": "personal ical sync address"
-  },
-  "ical.section.departments": {
-    "message": "Abteilungs-Kalender",
-    "description": "departments ical sync address"
-  },
-  "ical.section.classes": {
-    "message": "Klassen Kalender",
-    "description": "classes ical sync address"
-  },
-  "event.bulk_actions.pubslish": {
-    "message": "Veröffentlichen",
-    "description": "Publish Event"
-  },
-  "event.bulk_actions.refuse": {
-    "message": "Zurückweisen",
-    "description": "Refuse Event review"
-  },
-  "event.filter.departments": {
-    "message": "Abteilungen",
-    "description": "Filter: Departments"
-  },
-  "event.filter.classes": {
-    "message": "Klassen",
-    "description": "Filter: Classes"
-  },
-  "abo.section.title.subscribe-calendar": {
-    "message": "Kalender Abonnieren",
-    "description": "subscribe to calendars .ics file"
-  },
-  "abo.section.subtitle.subscribe-calendar": {
-    "message": "Abonniere Kalender in einem Kalenderprogramm wie z.B. Outlook",
-    "description": "subscribe to calendars .ics file"
-  },
-  "ical.section.personal.description": {
-    "message": "Die persönlichen Termine beinhalten alle für eine LP relevanten Termine",
-    "description": "text which explains, which things are included in the personal calendar"
-  },
-  "ical.user_without_untis.message": {
-    "message": "Sie müssen sich zuerst mit Untis verbinden, um einen persönlichen Kalender zu erhalten.",
-    "description": "Message for a user, that is logged in, but is not linked to a untis account"
-  },
-  "ical.link.text.settings": {
-    "message": "👉 Einstellungen",
-    "description": "Link text to navigate to the user settings"
-  },
-  "user.ical.filter.class.placeholder": {
-    "message": "Filtern nach Klasse",
-    "description": "Placeholder text for the filter input"
-  },
-  "user.ical.filter.department.placeholder": {
-    "message": "Filtern nach Schule",
-    "description": "Placeholder text for the filter input"
-  },
-  "navcard.subscribe.text": {
-    "message": "Abonnieren",
-    "description": "Button text for navigating to the subscribe page"
-  },
-  "navcard.table.text": {
-    "message": "Tabelle",
-    "description": "Button text for navigating to the table page"
-  },
-  "navcard.calendar.text": {
-    "message": "Kalender",
-    "description": "Button text for navigating to the calendar page"
-  },
-  "navcard.gantt.text": {
-    "message": "Zeitachse",
-    "description": "Button text for navigating to the gantt page"
-  },
-  "navcard.user.account": {
-    "message": "Account",
-    "description": "Button text for navigating to the user account page"
-  },
-  "navcard.user.events": {
-    "message": "Meine Events",
-    "description": "Button text for navigating to the users events page"
-  },
-  "navcard.admin.text": {
-    "message": "Admin",
-    "description": "Button text for navigating to the admin page"
-  },
-  "import.tab.gbsl": {
-    "message": "GBSL Import",
-    "description": "import.tab.gbsl"
-  },
-  "import.tab.gbjb": {
-    "message": "GBJB Import",
-    "description": "import.tab.gbjb"
-  },
-  "navbar.loginProfileButton.modal.header": {
-    "message": "Session abgelaufen",
-    "description": "When the login token must be recreated"
-  },
-  "navbar.loginProfileButton.modal.body": {
-    "message": "Die Sicherheitsvalidierung mit Office 365 muss erneuert werden.",
-    "description": "When the login token must be recreated"
-  },
-  "components.user.index.account": {
-    "message": "Account",
-    "description": "Label for the account"
-  },
-  "components.user.index.logout": {
-    "message": "Logout",
-    "description": "Button label to logout"
-  },
-  "upload.button.text": {
-    "message": "Upload",
-    "description": "text on the button upload"
-  },
-  "upload.button.title": {
-    "message": "Importiere Excel-Datei",
-    "description": "Text displayed on mouse-over over the upload button"
-  },
-  "import.tab.gbsl.label": {
-    "message": "GBSL Import",
-    "description": "import.tab.gbsl"
-  },
-  "import.tab.gbjb.label": {
-    "message": "GBJB Import",
-    "description": "import.tab.gbjb"
-  },
-  "job.delete": {
-    "message": "Job Löschen",
-    "description": "job.delete"
-  },
-  "job.summary.text": {
-    "message": "Sync Untis",
-    "description": "Text of the button to sync Untis"
-  },
-  "event.bulk_actions.request_review": {
-    "message": "Überprüfung anfordern",
-    "description": "Request Review"
-  },
-  "event.bulk_actions.editing": {
-    "message": "Bearbeiten",
-    "description": "Edit Event"
-  },
-  "event.bulk_actions.publish": {
-    "message": "Veröffentlichen",
-    "description": "Publish Event"
-  },
-  "job.SyncUntis.badge.text": {
-    "message": "Sync Untis",
-    "description": "Text of the badge for sync Untis"
-  },
-  "job.SyncUntis.button.text": {
-    "message": "Sync Untis",
-    "description": "Text of the button for sync Untis"
-  },
-  "job.SyncUntis.section.title": {
-    "message": "Stundenpläne Synchronisieren (WebUntis)",
-    "description": "Title of the section syncUntis"
-  },
-  "job.SyncUntis.section.subtitle": {
-    "message": "Synchronisiere die Stundenpläne, Klassen und Lehrpersonen von WebUntis.",
-    "description": "Subtitle of the section syncUntis"
-  },
-  "share.audiencePicker.classSelector.errorMsg.department": {
-    "message": "Abteilung \"{letter}\" nicht gefunden",
-    "description": "Error message department not found"
-  },
-  "share.audiencePicker.classSelector.errorMsg.class": {
-    "message": "Klasse \"{tok}\" nicht gefunden",
-    "description": "Error message class not found"
-  },
-  "share.audiencePicker.classSelector.errorMsg.classOrDepartment": {
-    "message": "Unbekannte Abteilung/Klasse \"{tok}\"",
-    "description": "Error message class or department not found"
-  },
-  "share.audiencePicker.placeholder.unknownClasses": {
-    "message": "Unbekannte Klassen",
-    "description": "share.audiencePicker.placeholder.unknownClasses"
-  },
-  "shared.header.concerns": {
-    "message": "Publikum",
-    "description": "The title in the window used to select the participants involved in the event"
-  },
-  "shared.text.people.concerned": {
-    "message": "Betrifft",
-    "description": "The text in the window used to select the participants involved in the event asking which people is concerned by an event"
-  },
-  "shared.text.lesson.concerned": {
-    "message": "Unterricht Betroffen?",
-    "description": "The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
-  },
-  "shared.text.bilingual.people.concerned": {
-    "message": "Bilingue Lehrpersonen betroffen?",
-    "description": "The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event"
-  },
-  "shared.button.yes": {
-    "message": "Ja",
-    "description": "Button text yes"
-  },
-  "shared.button.no": {
-    "message": "Nein",
-    "description": "Button text no"
-  },
-  "shared.header.school_departement": {
-    "message": "Schulen/Klassen",
-    "description": "The title in the window for the event."
-  },
-  "shared.button.title.expand": {
-    "message": "Erweitert",
-    "description": "Text appearing on the expand button"
-  },
-  "share.badge.error.title": {
-    "message": "Erreur",
-    "description": "share.badge.error.title"
-  },
-  "share.badge.loading.title": {
-    "message": "Laden",
-    "description": "share.badge.loading.title"
-  },
-  "share.badge.success.title": {
-    "message": "Erfolgreich",
-    "description": "share.badge.success.title"
-  },
-  "share.button.clone.title": {
-    "message": "Duplizieren",
-    "description": "Text of the button clone"
-  },
-  "share.button.copy.title": {
-    "message": "Kopieren",
-    "description": "Text of the button copy"
-  },
-  "share.button.delete.title": {
-    "message": "Löschen",
-    "description": "Text of the button delete"
-  },
-  "share.button.discard.title": {
-    "message": "Änderungen verwerfen",
-    "description": "Text of the button discard"
-  },
-  "share.button.edit.title": {
-    "message": "Bearbeiten",
-    "description": "Text of the button edit"
-  },
-  "share.button.save.title": {
-    "message": "Speichern",
-    "description": "Text of the button save"
-  },
-  "event.reduce.title": {
-    "message": "Auf eine Zeile reduzieren",
-    "description": "Button Title (hover) to reduce an expanded event in the table view"
-  },
-  "EventAudience.ALL.description.long": {
-    "message": "Alle",
-    "description": "This event is for everyone, no matter wheter a lesson is affected or not"
-  },
-  "EventAudience.KLP.description.long": {
-    "message": "Klassenlehrpersonen",
-    "description": "Only relevant (and displayed) for class teachers"
-  },
-  "EventAudience.LP.description.long": {
-    "message": "Lehrpersonen",
-    "description": "Only relevant for teachers affected of this class (no matter wheter a lesson is affected or not)"
-  },
-  "EventAudience.STUDENTS.description.long": {
-    "message": "Schüler:innen",
-    "description": "Relevant for SuS only, their KLP will be informed aswell"
-  },
-  "EventAudience.LP.example": {
-    "message": "Noteneingabe in Evento",
-    "description": "Teachers Example"
-  },
-  "EventAudience.KLP.example": {
-    "message": "Einsammeln unterschriebener Zeugnisse",
-    "description": "KLP Example"
-  },
-  "EventAudience.ALL.example": {
-    "message": "Schulstart",
-    "description": "All Example"
-  },
-  "EventAudience.STUDENTS.LP.description": {
-    "message": "Lehrpersonen mit betroffenen Lektionen",
-    "description": "audience: students, description for LP"
-  },
-  "user.button.refresh": {
-    "message": "Aktualisieren"
-  },
-  "job.cancel.text": {
-    "message": "Cancel",
-    "description": "Text of the button to cancel a job"
-  },
-  "EventAudience.forExample": {
-    "message": "z.B."
-  },
-  "share.button.delete.confirm": {
-    "message": "Wirklich Löschen?",
-    "description": "Text of the button confirm"
-  },
-  "share.button.delete.confirm.no": {
-    "message": "Nein",
-    "description": "Text of the button confirm no"
-  },
-  "share.button.delete.confirm.yes": {
-    "message": "Ja",
-    "description": "Text of the button confirm yes"
-  },
-  "components.user.index.email.notifications": {
-    "message": "Email Benachrichtigungen",
-    "description": "Notification Preferences"
-  },
-  "components.user.index.email.notifications.notifyOnEventUpdate": {
-    "message": "Benachrichtigungen für geänderte Termine erhalten",
-    "description": "Label for the notification preference"
-  },
-  "admin.userTable.th.notifyOnEventUpdate": {
-    "message": "Mail bei Event-Update",
-    "description": "th: notifyOnEventUpdate"
-  },
-  "component.event.eventprops.clone": {
-    "message": "Duplizieren",
-    "description": "Text of the button clone"
+  "event.version.current.long": {
+    "message": "Aktuelle Version"
   },
   "group.name.placeholder": {
     "message": "Name der Gruppe"
@@ -1309,8 +400,8 @@
   "group.description.placeholder": {
     "message": "Beschreibung der Gruppe"
   },
-  "group.delete.title": {
-    "message": "Nur Gruppen ohne Termine können gelöscht werden"
+  "button.group.open.title": {
+    "message": "Gruppenseite anzeigen"
   },
   "group.createdAt": {
     "message": "Erstellt Am"
@@ -1331,16 +422,22 @@
     "message": "Alle Mitglieder der Gruppe sind können Termine beliebig verändern."
   },
   "group.shiftDates.dt": {
-    "message": "Datum Verschieben"
-  },
-  "group.shiftDates.description": {
-    "message": "Alle unveröffentlichten Termine um eine bestimmte Anzahl Tage verschieben"
+    "message": "Datum verschieben"
   },
   "group.shiftDates.closeShiftEditor": {
     "message": "Editor schliessen"
   },
   "group.shiftDates.openShiftEditor": {
     "message": "Editor öffnen"
+  },
+  "group.shiftAudience.dt": {
+    "message": "Jahrgänge und Klassen verschieben"
+  },
+  "eventGroup.diff.cloned": {
+    "message": "Original"
+  },
+  "eventGroup.diff.changed": {
+    "message": "Neu"
   },
   "group.groupActions": {
     "message": "Aktionen"
@@ -1351,199 +448,65 @@
   "group.actions.discardAll": {
     "message": "Alle Verwerfen"
   },
+  "event.location": {
+    "message": "Ort",
+    "description": "for a single event: location"
+  },
+  "event.description": {
+    "message": "Titel",
+    "description": "for a single event: description"
+  },
+  "event.descriptionLong": {
+    "message": "Beschreibung",
+    "description": "for a single event: description long"
+  },
+  "event.classGroupBadgeTitle": {
+    "message": "Alle Klassen der Stufe {classGroup}",
+    "description": "EventOverviewSmall class group badge title"
+  },
+  "navcard.list.text": {
+    "message": "Liste",
+    "description": "View text for the event list"
+  },
+  "upload.button.text": {
+    "message": "Upload",
+    "description": "text on the button upload"
+  },
+  "upload.button.title": {
+    "message": "Importiere Excel-Datei",
+    "description": "Text displayed on mouse-over over the upload button"
+  },
+  "import.section.title": {
+    "message": "Datei Importieren",
+    "description": "import.section.title"
+  },
+  "import.section.subtitle": {
+    "message": "Importiere Daten aus Excel-Dateien.",
+    "description": "import.section.subtitle"
+  },
   "import.tab.v1.label": {
     "message": "V1 Import",
     "description": "import.tab.v1"
   },
-  "components.user.index.email.notifications.notifyAdminOnReviewRequest": {
-    "message": "Benachrichtigungen für review Anfragen erhalten",
-    "description": "Label for the notification preference"
+  "import.tab.gbsl.label": {
+    "message": "GBSL Import",
+    "description": "import.tab.gbsl"
   },
-  "components.user.index.email.notifications.notifyAdminOnReviewDecision": {
-    "message": "Benachrichtigungen für beantwortete Anfragen erhalten",
-    "description": "Label for the notification preference"
+  "import.tab.gbjb.label": {
+    "message": "GBJB Import",
+    "description": "import.tab.gbjb"
   },
-  "xlsx.events": {
-    "message": "Termine"
+  "job.delete": {
+    "message": "Job Löschen",
+    "description": "job.delete"
   },
-  "kw": {
-    "message": "KW",
-    "description": "Calendar week"
+  "job.summary.text": {
+    "message": "Sync Untis",
+    "description": "Text of the button to sync Untis"
   },
-  "xlsx.kw": {
-    "message": "KW"
-  },
-  "xlsx.weekday": {
-    "message": "Wochentag"
-  },
-  "xlsx.description": {
-    "message": "Titel"
-  },
-  "xlsx.dateStart": {
-    "message": "Datum Beginn"
-  },
-  "xlsx.timeStart": {
-    "message": "Zeit Beginn"
-  },
-  "xlsx.dateEnd": {
-    "message": "Datum Ende"
-  },
-  "xlsx.timeEnd": {
-    "message": "Zeit Ende"
-  },
-  "xlsx.location": {
-    "message": "Ort"
-  },
-  "xlsx.descriptionLong": {
-    "message": "Beschreibung"
-  },
-  "xlsx.bilingueLPsAffected": {
-    "message": "Bilingue LP's betroffen"
-  },
-  "xlsx.classes": {
-    "message": "Klassen"
-  },
-  "xlsx.affects": {
-    "message": "Betrifft"
-  },
-  "xlsx.teachingAffected": {
-    "message": "Unterricht Betroffen?"
-  },
-  "xlsx.deletedAt": {
-    "message": "Gelöscht am"
-  },
-  "event.bulk_actions.clear_selection": {
-    "message": "Auswahl aufheben"
-  },
-  "event.bulk_actions.stats.total_events": {
-    "message": "{num} Termine"
-  },
-  "event.options.open": {
-    "message": "Öffnen",
-    "description": "Text of the button open"
-  },
-  "event.options.open.overview": {
-    "message": "Übersicht Öffnen",
-    "description": "Text of the button open overview"
-  },
-  "event.options.share": {
-    "message": "Teilen"
-  },
-  "event.options.edit": {
-    "message": "Bearbeiten",
-    "description": "Text of the button edit"
-  },
-  "event.options.clone": {
-    "message": "Duplizieren",
-    "description": "Button Title (hover) to clone an event"
-  },
-  "event.options.group": {
-    "message": "Gruppe",
-    "description": "Text of the button group"
-  },
-  "event.options.delete": {
-    "message": "Löschen",
-    "description": "Text of the button delete"
-  },
-  "eventGrid.header.createdAt": {
-    "message": "Erstellt am",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.updatedAt": {
-    "message": "Geändert am",
-    "description": "Label for the Event Grid Columns"
-  },
-  "eventGrid.header.actions.title": {
-    "message": "Aktionen"
-  },
-  "eventGrid.header.sort.title": {
-    "message": "Sortieren nach"
-  },
-  "event.AddButton.title": {
-    "message": "Erstellt einen neuen, unveröffentlichten Termin"
-  },
-  "user.button.add-group": {
-    "message": "Gruppe hinzufügen"
-  },
-  "shiftDatesEditor.title": {
-    "message": "Verschiebung von Terminen"
-  },
-  "shiftDatesEditor.eventSelection.current": {
-    "message": "Aktueller Termin"
-  },
-  "shiftDatesEditor.shift": {
-    "message": "Verschiebung"
-  },
-  "shiftedDatesEditor.dates": {
-    "message": "Tage"
-  },
-  "shiftDatesEditor.hours": {
-    "message": "Stunden"
-  },
-  "shiftDatesEditor.apply": {
-    "message": "Anwenden (Vorschau)"
-  },
-  "shiftDatesEditor.eventSelection.new": {
-    "message": "Neu (Vorschau)"
-  },
-  "eventGroup.userTable.search": {
-    "message": "Suche",
-    "description": "search"
-  },
-  "eventGroup.userTable.th.shortName": {
-    "message": "Kürzel",
-    "description": "th: shortName"
-  },
-  "eventGroup.userTable.th.firstName": {
-    "message": "Vorname",
-    "description": "th: firstName"
-  },
-  "eventGroup.userTable.th.lastName": {
-    "message": "Nachname",
-    "description": "th: lastName"
-  },
-  "eventGroup.userTable.removeUser": {
-    "message": "Mitglied Entfernen"
-  },
-  "shared.fullscreenbutton.exitfullscreen": {
-    "message": "Verlasse Vollbildschirm",
-    "description": "Text of the button exit full screen"
-  },
-  "shared.fullscreenbutton.gofullscreen": {
-    "message": "Vollbildschirm",
-    "description": "Text of the button full screen"
-  },
-  "theme.docs.DocCard.categoryDescription.plurals": {
-    "message": "1 Eintrag|{count} Einträge",
-    "description": "The default description for a category card in the generated index about how many items this category includes"
-  },
-  "event.filter.mine.title": {
-    "message": "Nur die für mich relevanten Termine anzeigen"
-  },
-  "event.filter.future.title": {
-    "message": "Vergangene Termine ausblenden.",
-    "description": "Filter: Only current and future events"
-  },
-  "eventGrid.header.sortBy.title": {
-    "message": "Sortieren nach \"{column}\""
-  },
-  "button.open.title": {
-    "message": "Terminseite Anzeigen"
-  },
-  "user.logout.title": {
-    "message": "{mail} abmelden"
-  },
-  "joi.event.emptyAudience": {
-    "message": "Es muss mindestens eine Klasse, Klassengruppe oder Abteilung ausgewählt werden",
-    "description": "Joi validation error for empty audience"
-  },
-  "event.createdAt": {
-    "message": "Erstellt am",
-    "description": "for a single event: date of event creation"
-  },
-  "event.updatedAt": {
-    "message": "Aktualisiert am",
-    "description": "for a single event: date of update"
+  "job.cancel.text": {
+    "message": "Cancel",
+    "description": "Text of the button to cancel a job"
   },
   "registrationPeriod.open": {
     "message": "Offen"
@@ -1612,32 +575,288 @@
   "RegistrationPeriod.isOpen": {
     "message": "Eingabe Fenster offen?"
   },
+  "ical.section.personal": {
+    "message": "Persönliches Kalenderabo",
+    "description": "personal ical sync address"
+  },
+  "unsubscribe.noUser": {
+    "message": "Nicht angemeldet",
+    "description": "Nicht angemeldet"
+  },
+  "unsubscribe.noEvent": {
+    "message": "Termin nicht gefunden",
+    "description": "Kein Termin gefunden"
+  },
+  "unsubscribe.title": {
+    "message": "Termin Abbestellt"
+  },
+  "unsubscribe.success": {
+    "message": "Der Termin wird nicht mehr im persönlichen Kalender angezeigt.",
+    "description": "Successfully unsubscribed"
+  },
+  "unsubscribe.calendarPickup.title": {
+    "message": "Zeitverzögerte Aktualisierung im Kalender (24h)"
+  },
+  "unsubscribe.calendarPickup": {
+    "message": "Bis die Änderungen vom Kalenderprogramm übernommen werden, kann es einige Zeit dauern (bis zu 24h, abhängig vom Synchronisierungsintervall)."
+  },
+  "unsubscribe.go2settings": {
+    "message": "👉 Zu den Einstellungen",
+    "description": "Go to the settings"
+  },
+  "unsubscribe.undo": {
+    "message": "Rückgängig machen",
+    "description": "Rückgängig machen"
+  },
+  "subscription.unsubscribe": {
+    "message": "Diesen Termin wieder im persönlichen Kalender anzeigen."
+  },
+  "components.user.index.login": {
+    "message": "Login",
+    "description": "Button Login"
+  },
+  "components.user.index.email.notifications": {
+    "message": "Email Benachrichtigungen",
+    "description": "Notification Preferences"
+  },
+  "components.user.index.email.notifications.notifyOnEventUpdate": {
+    "message": "Benachrichtigungen für geänderte Termine erhalten",
+    "description": "Label for the notification preference"
+  },
+  "components.user.index.email.notifications.notifyAdminOnReviewRequest": {
+    "message": "Benachrichtigungen für review Anfragen erhalten",
+    "description": "Label for the notification preference"
+  },
+  "components.user.index.email.notifications.notifyAdminOnReviewDecision": {
+    "message": "Benachrichtigungen für beantwortete Anfragen erhalten",
+    "description": "Label for the notification preference"
+  },
+  "components.user.index.untis.account.button": {
+    "message": "Untis Account",
+    "description": "Button Untis Account"
+  },
+  "components.user.index.account": {
+    "message": "Account",
+    "description": "Label for the account"
+  },
+  "components.user.index.logout": {
+    "message": "Logout",
+    "description": "Button label to logout"
+  },
+  "user.logout.title": {
+    "message": "{mail} abmelden"
+  },
+  "components.user.index.events": {
+    "message": "Veröffentlichte Events",
+    "description": "Button Events"
+  },
+  "components.user.index.schools": {
+    "message": "Schulen",
+    "description": "Button Schools"
+  },
+  "components.user.index.classes": {
+    "message": "Klassen",
+    "description": "Button class"
+  },
+  "components.user.index.subjects": {
+    "message": "Fächer",
+    "description": "Button subjects"
+  },
+  "xlsx.events": {
+    "message": "Termine"
+  },
+  "kw": {
+    "message": "KW",
+    "description": "Calendar week"
+  },
+  "xlsx.kw": {
+    "message": "KW"
+  },
+  "xlsx.weekday": {
+    "message": "Wochentag"
+  },
+  "xlsx.description": {
+    "message": "Titel"
+  },
+  "xlsx.dateStart": {
+    "message": "Datum Beginn"
+  },
+  "xlsx.timeStart": {
+    "message": "Zeit Beginn"
+  },
+  "xlsx.dateEnd": {
+    "message": "Datum Ende"
+  },
+  "xlsx.timeEnd": {
+    "message": "Zeit Ende"
+  },
+  "xlsx.location": {
+    "message": "Ort"
+  },
+  "xlsx.descriptionLong": {
+    "message": "Beschreibung"
+  },
+  "xlsx.bilingueLPsAffected": {
+    "message": "Bilingue LP's betroffen"
+  },
+  "xlsx.classes": {
+    "message": "Klassen"
+  },
+  "xlsx.affects": {
+    "message": "Betrifft"
+  },
+  "xlsx.teachingAffected": {
+    "message": "Unterricht Betroffen?"
+  },
+  "xlsx.deletedAt": {
+    "message": "Gelöscht am"
+  },
+  "admin.DepartmentTable.create": {
+    "message": "Neue Abteilung",
+    "description": "Create a new department"
+  },
+  "admin.DepartmentTable.th.name": {
+    "message": "Name",
+    "description": "th: name"
+  },
+  "admin.DepartmentTable.th.description": {
+    "message": "Beschreibung",
+    "description": "th: description"
+  },
+  "admin.DepartmentTable.th.letter": {
+    "message": "Buchstabe",
+    "description": "th: department letter"
+  },
+  "admin.DepartmentTable.th.color": {
+    "message": "Farbe",
+    "description": "th: color"
+  },
+  "components.admin.department.class.letters": {
+    "message": "Klassen-Buchstaben",
+    "description": "the text of the column for the class letters"
+  },
+  "admin.DepartmentTable.th.createdAt": {
+    "message": "Erstellt",
+    "description": "th: created At"
+  },
+  "admin.DepartmentTable.th.updatedAt": {
+    "message": "Aktualisiert",
+    "description": "th: updatedAt"
+  },
+  "admin.DepartmentTable.th.id": {
+    "message": "Id",
+    "description": "th: id"
+  },
+  "admin.DepartmentTable.th.actions": {
+    "message": "Aktionen",
+    "description": "th: actions"
+  },
   "RegistrationPeriod.addButton.text": {
     "message": "Eingabefenster hinzufügen",
     "description": "Text of button to add RegistrationPeriod"
   },
-  "userEvents.regPeriod.alert.title": {
-    "message": "Eingabefenster"
+  "admin.userTable.filter.placeholder": {
+    "message": "Filter",
+    "description": "filter: placeholder"
   },
-  "EventAudience.STUDENTS.example": {
-    "message": "Exkursion",
-    "description": "Students Example"
+  "admin.userTable.th.email": {
+    "message": "Email",
+    "description": "th: email"
   },
-  "user.ical.personal-calendar.copy-button.title": {
-    "message": "Kopiere den Link zum persönlichen Kalender."
+  "admin.userTable.th.role": {
+    "message": "Rolle",
+    "description": "th: role"
   },
-  "user.ical.copy-button.title": {
-    "message": "Kopiere den Link zum Kalender {name}."
+  "admin.userTable.th.notifyOnEventUpdate": {
+    "message": "Mail bei Event-Update",
+    "description": "th: notifyOnEventUpdate"
   },
-  "components.admin.filiere.class.letters": {
-    "message": "Klassen-Buchstaben",
-    "description": "the text of the column for the class letters"
+  "admin.userTable.th.shortName": {
+    "message": "Kürzel",
+    "description": "th: shortName"
   },
-  "components.event.actions.confirm": {
-    "message": "Wirklich?",
-    "description": "Text of the button confirm delete"
+  "admin.userTable.th.createdAt": {
+    "message": "Erstellt",
+    "description": "th: createdAt"
   },
-  "components.event.actions.delete": {
+  "admin.userTable.th.updatedAt": {
+    "message": "Aktualisiert",
+    "description": "th: updatedAt"
+  },
+  "admin.userTable.th.id": {
+    "message": "Id",
+    "description": "th: id"
+  },
+  "event.bulkActions.show_select": {
+    "message": "Terminauswahl anzeigen"
+  },
+  "event.validate.inProgress": {
+    "message": "Validieren"
+  },
+  "event.bulk_actions.clear_selection": {
+    "message": "Auswahl aufheben"
+  },
+  "event.bulk_actions.request_review": {
+    "message": "Überprüfung anfordern",
+    "description": "Request Review"
+  },
+  "event.bulk_actions.editing": {
+    "message": "Bearbeiten",
+    "description": "Edit Event"
+  },
+  "event.bulk_actions.publish": {
+    "message": "Veröffentlichen",
+    "description": "Publish Event"
+  },
+  "event.bulk_actions.refuse": {
+    "message": "Zurückweisen",
+    "description": "Refuse Event review"
+  },
+  "event.bulk_actions.share": {
+    "message": "Übersicht Öffnen"
+  },
+  "event.bulk_actions.resubscribe": {
+    "message": "Wieder abonnieren"
+  },
+  "event.bulk_actions.unsubscribe": {
+    "message": "Deabonnieren"
+  },
+  "event.bulk_actions.download": {
+    "message": "Download {number} Termine als Excel"
+  },
+  "event.bulk_actions.stats.total_events": {
+    "message": "{num} Termine"
+  },
+  "diffViewer.title": {
+    "message": "Unterschiede"
+  },
+  "event.options.open": {
+    "message": "Öffnen",
+    "description": "Text of the button open"
+  },
+  "event.options.open.overview": {
+    "message": "Übersicht Öffnen",
+    "description": "Text of the button open overview"
+  },
+  "event.options.share": {
+    "message": "Teilen"
+  },
+  "button.open.title": {
+    "message": "Terminseite Anzeigen"
+  },
+  "event.options.edit": {
+    "message": "Bearbeiten",
+    "description": "Text of the button edit"
+  },
+  "event.options.clone": {
+    "message": "Duplizieren",
+    "description": "Button Title (hover) to clone an event"
+  },
+  "event.options.group": {
+    "message": "Gruppe",
+    "description": "Text of the button group"
+  },
+  "event.options.delete": {
     "message": "Löschen",
     "description": "Text of the button delete"
   },
@@ -1653,9 +872,298 @@
     "message": "Änderungen verwerfen",
     "description": "Title of the button cancel"
   },
-  "components.events.datetime.allday": {
-    "message": "Ganztägig",
-    "description": "Label of the checkbox all day"
+  "components.event.actions.close-edit.title": {
+    "message": "Editiermodus beenden"
+  },
+  "button.save": {
+    "message": "Änderungen Speichern",
+    "description": "Button to save changes"
+  },
+  "button.save.new-version": {
+    "message": "Neue, unveröffentlichte Version Speichern"
+  },
+  "button.save.error": {
+    "message": "Fehler beheben vor dem Speichern",
+    "description": "Button to save changes with error"
+  },
+  "eventField.teachingAffected.no": {
+    "message": "Nein",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial": {
+    "message": "Teilweise",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes": {
+    "message": "Ja",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.no.title": {
+    "message": "Betrifft den Unterricht nicht",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.partial.title": {
+    "message": "Unterricht teilweise betroffen",
+    "description": "Label for the Event Field"
+  },
+  "eventField.teachingAffected.yes.title": {
+    "message": "Unterricht betroffen",
+    "description": "Label for the Event Field"
+  },
+  "event.showUnpublishedVersions.singular.text": {
+    "message": "Entwurf",
+    "description": "singular"
+  },
+  "event.showUnpublishedVersions.text": {
+    "message": "Entwürfe",
+    "description": "plural"
+  },
+  "event.createdAt": {
+    "message": "Erstellt am",
+    "description": "for a single event: date of event creation"
+  },
+  "event.updatedAt": {
+    "message": "Aktualisiert am",
+    "description": "for a single event: date of update"
+  },
+  "event.showUnpublishedVersions.title": {
+    "message": "Zeige {count} {updates}"
+  },
+  "event.version.current.short": {
+    "message": "Aktuell"
+  },
+  "event.kw": {
+    "message": "KW",
+    "description": "for a single event: kw"
+  },
+  "event.weekday": {
+    "message": "Wochentag",
+    "description": "for a single event: weekday"
+  },
+  "event.date": {
+    "message": "Datum",
+    "description": "for a single event: date range"
+  },
+  "event.audience": {
+    "message": "Publikum",
+    "description": "for a single event: class and department picker"
+  },
+  "event.classes": {
+    "message": "Klassen",
+    "description": "for a single event: classes"
+  },
+  "event.departments": {
+    "message": "Departemente",
+    "description": "for a single event: departments"
+  },
+  "event.teachingAffected": {
+    "message": "Unterricht Betroffen?",
+    "description": "for a single event: teaching affected?"
+  },
+  "event.firstAuthor": {
+    "message": "Erstautor:in",
+    "description": "for a single event: author of the first version"
+  },
+  "event.firstAuthor.importedTitle": {
+    "message": "Dieser Termin wurde von {author} importiert."
+  },
+  "event.firstAuthor.title": {
+    "message": "Dieser Termin wurde ursprünglich von {author} erstellt."
+  },
+  "event.modifier": {
+    "message": "Geändert von",
+    "description": "for a single event: author of the first version"
+  },
+  "event.modifier.title": {
+    "message": "Dieser Termin wurde von {author} aktualisiert."
+  },
+  "event.requestState": {
+    "message": "Status Ändern",
+    "description": "Requesting the next state, eg. Draft -> Review"
+  },
+  "event.versionNumber": {
+    "message": "Version",
+    "description": "for a single event: version number"
+  },
+  "event.state": {
+    "message": "Status",
+    "description": "for a single event: state"
+  },
+  "event.actions": {
+    "message": "Aktionen",
+    "description": "Actions for a single event"
+  },
+  "event.affectedLessons": {
+    "message": "Betroffene Lektionen",
+    "description": "for a single event: affected lessons"
+  },
+  "event.button.showAllLessons": {
+    "message": "Alle laden",
+    "description": "for a single event: button to show all affected lessons"
+  },
+  "event.meta": {
+    "message": "Metadaten",
+    "description": "for a single event: audience long"
+  },
+  "event.button.showImportLog": {
+    "message": "Rohdaten anzeigen"
+  },
+  "event.meta.warningsReviewed": {
+    "message": "Warnung wieder anzeigen"
+  },
+  "event.meta.infosReviewed": {
+    "message": "Infos wieder anzeigen"
+  },
+  "event.filter.mine": {
+    "message": "Meine",
+    "description": "Filter: Only events affecting me"
+  },
+  "event.filter.mine.title": {
+    "message": "Nur die für mich relevanten Termine anzeigen"
+  },
+  "event.filter.future": {
+    "message": "Künftige",
+    "description": "Filter: Only current and future events"
+  },
+  "event.filter.future.title": {
+    "message": "Vergangene Termine ausblenden.",
+    "description": "Filter: Only current and future events"
+  },
+  "event.filter.search": {
+    "message": "Suche"
+  },
+  "event.filter.showAdvanced": {
+    "message": "Erweiterte Filter anzeigen",
+    "description": "Button: Show advanced filter"
+  },
+  "event.filter.departments": {
+    "message": "Abteilungen",
+    "description": "Filter: Departments"
+  },
+  "event.filter.classes": {
+    "message": "Klassen",
+    "description": "Filter: Classes"
+  },
+  "event.filter.advanced.filterAudience": {
+    "message": "Nach Zielgruppe filtern"
+  },
+  "event.filter.deleted": {
+    "message": "Gelöschte Verstecken?",
+    "description": "Filter: deleted"
+  },
+  "event.filter.show_select": {
+    "message": "Termine auswählen"
+  },
+  "event.filter.index.button.start": {
+    "message": "Start",
+    "description": "Text of button start time"
+  },
+  "event.filter.index.button.end": {
+    "message": "Ende",
+    "description": "Text of button end time"
+  },
+  "button.close.title": {
+    "message": "Fenster Schliessen",
+    "description": "Button title to close a modal"
+  },
+  "button.open": {
+    "message": "Öffnen",
+    "description": "Button text for open button"
+  },
+  "components.event.usersevents.index.tabitem.notpublished": {
+    "message": "Entwürfe",
+    "description": "Text not published"
+  },
+  "components.event.usersevents.index.tabitem.reviewed": {
+    "message": "Review",
+    "description": "Events reviewed"
+  },
+  "components.event.usersevents.index.tabitem.admin": {
+    "message": "Admin",
+    "description": "Events admin"
+  },
+  "components.event.usersevents.index.tabitem.published": {
+    "message": "Veröffentlicht",
+    "description": "Events published"
+  },
+  "components.event.usersevents.index.tabitem.deleted": {
+    "message": "Gelöscht",
+    "description": "Events deleted"
+  },
+  "event.button.versions": {
+    "message": "Versionen",
+    "description": "for a single event: button to show version history"
+  },
+  "event.button.versions.title": {
+    "message": "Versionen laden und anzeigen"
+  },
+  "versions.history.modal.title": {
+    "message": "Versionen"
+  },
+  "share.button.deleteGroup.confirm": {
+    "message": "Wirklich Löschen?",
+    "description": "Text of the button confirm"
+  },
+  "share.button.deleteGroup.confirm.no": {
+    "message": "Abbrechen",
+    "description": "Text of the button confirm no"
+  },
+  "share.button.deleteGroup.confirm.groupOnly": {
+    "message": "Nur die Gruppe",
+    "description": "Text of the button confirm yes"
+  },
+  "share.button.deleteGroup.confirm.groupOnly.title": {
+    "message": "Nur die Gruppe wird gelöscht, die Termine bleiben erhalten"
+  },
+  "share.button.deleteGroup.confirm.destroyDrafts": {
+    "message": "Gruppe und Termine Löschen"
+  },
+  "share.button.deleteGroup.confirm.cascade": {
+    "message": "Gruppe Löschen"
+  },
+  "share.button.deleteGroup.confirm.cascade.title": {
+    "message": "Die Gruppe und alle unveröffentlichten Termine werden gelöscht"
+  },
+  "event.group.add": {
+    "message": "Gruppen hinzufügen"
+  },
+  "user.button.add-group": {
+    "message": "Gruppe hinzufügen"
+  },
+  "eventGroup.userTable.search": {
+    "message": "Suche",
+    "description": "search"
+  },
+  "eventGroup.userTable.th.shortName": {
+    "message": "Kürzel",
+    "description": "th: shortName"
+  },
+  "eventGroup.userTable.th.firstName": {
+    "message": "Vorname",
+    "description": "th: firstName"
+  },
+  "eventGroup.userTable.th.lastName": {
+    "message": "Nachname",
+    "description": "th: lastName"
+  },
+  "eventGroup.userTable.removeUser": {
+    "message": "Mitglied Entfernen"
+  },
+  "job.SyncUntis.badge.text": {
+    "message": "Sync Untis",
+    "description": "Text of the badge for sync Untis"
+  },
+  "job.SyncUntis.button.text": {
+    "message": "Sync Untis",
+    "description": "Text of the button for sync Untis"
+  },
+  "job.SyncUntis.section.title": {
+    "message": "Stundenpläne Synchronisieren (WebUntis)",
+    "description": "Title of the section syncUntis"
+  },
+  "job.SyncUntis.section.subtitle": {
+    "message": "Synchronisiere die Stundenpläne, Klassen und Lehrpersonen von WebUntis.",
+    "description": "Subtitle of the section syncUntis"
   },
   "components.semestre.list.name": {
     "message": "Name",
@@ -1677,388 +1185,13 @@
     "message": "Edit",
     "description": "The name of the column for edit semester"
   },
-  "EventAudience.STUDENTS.KLP.description": {
-    "message": "Klassenlehrpersonen der betroffenen Klassen",
-    "description": "audience: students, description for KLP"
-  },
-  "event.bulk_actions.hide_select": {
-    "message": "Terminauswahl verbergen"
-  },
-  "event.bulkActions.show_select": {
-    "message": "Terminauswahl anzeigen"
-  },
-  "event.bulk_actions.share": {
-    "message": "Übersicht Öffnen"
-  },
-  "event.filter.search": {
-    "message": "Suche"
-  },
-  "event.filter.show_select": {
-    "message": "Termine auswählen"
-  },
-  "event.group.add": {
-    "message": "Gruppen hinzufügen"
-  },
-  "event.actions": {
-    "message": "Aktionen",
-    "description": "Actions for a single event"
-  },
-  "button.save.new-version": {
-    "message": "Neue, unveröffentlichte Version Speichern"
-  },
-  "button.save.error": {
-    "message": "Fehler beheben vor dem Speichern",
-    "description": "Button to save changes with error"
-  },
-  "event.show-unpublished-versions": {
-    "message": "Aktualisierungen"
-  },
-  "event.show-unpublished-versions-title": {
-    "message": "Zeige {count} {updates}"
-  },
-  "event.filter.advanced.filterAudience": {
-    "message": "Nach Zielgruppe filtern"
-  },
-  "event.button.versions": {
-    "message": "Versionen",
-    "description": "for a single event: button to show version history"
-  },
-  "versions.history.modal.title": {
-    "message": "Versionen"
-  },
-  "event.version.current.long": {
-    "message": "Aktuelle Version"
-  },
-  "event.version.current.short": {
-    "message": "Aktuell"
-  },
-  "components.event.actions.close-edit.title": {
-    "message": "Editiermodus beenden"
-  },
-  "event.showUnpublishedVersion.text": {
-    "message": "Aktualisierung",
-    "description": "singular"
-  },
-  "event.showUnpublishedVersions.text": {
-    "message": "Entwürfe",
-    "description": "plural"
-  },
-  "share.button.edit.versioned.title": {
-    "message": "Bearbeiten (Es wird eine neue Version erstellt)",
-    "description": "Text of the button edit"
-  },
-  "event.title": {
-    "message": "Termine",
-    "description": "[plural] Title of the event overview"
-  },
-  "event.versions.unpublished.title": {
-    "message": "Unveröffentlichte Versionen"
-  },
-  "event.showUnpublishedVersions.singular.text": {
-    "message": "Entwurf",
-    "description": "singular"
-  },
-  "event.showUnpublishedVersions.title": {
-    "message": "Zeige {count} {updates}"
-  },
-  "navcard.docs.text": {
-    "message": "Dokumentation",
-    "description": "Button text for navigating to the documentation page"
-  },
-  "subscribe.instructions.p1": {
-    "message": "In allen gängigen Kalender-Programmen können Kalender von einer Internetseite abonniert werden, indem die URL zu einer .ics-Datei angegeben wird."
-  },
-  "subscribe.instructions.p2": {
-    "message": "Unten sind die entsprechenden links aufgeführt und können in den Kalender-Programmen eingefügt werden. Für das Abonnieren mit Outlook kann auf einem Laptop direkt auf den \"Abonnieren in Outlook\" Knopf geklickt werden oder wie in den verlinkten Anleitungen beschrieben vorgegangen werden."
-  },
-  "subscribe.instructions.microsoft": {
-    "message": "Anleitung für Outlook"
-  },
-  "subscribe.instructions.apple": {
-    "message": "Anleitung für Apple Kalender"
-  },
-  "colorGenerator.inputs.primary.label": {
-    "message": "Hauptfarbe"
-  },
-  "colorGenerator.inputs.modeToggle.label": {
-    "message": "{colorMode} Modus",
-    "description": "The label for the button that toggles color mode"
-  },
-  "colorGenerator.inputs.modeToggle.label.colorMode.light": {
-    "message": "heller"
-  },
-  "colorGenerator.inputs.modeToggle.label.colorMode.dark": {
-    "message": "dunkler"
-  },
-  "colorGenerator.inputs.resetButton.label": {
-    "message": "Reset"
-  },
-  "colorGenerator.table.heading2": {
-    "message": "Farbe",
-    "description": "This column is the color's representation in hex"
-  },
-  "colorGenerator.table.heading3": {
-    "message": "Justierung",
-    "description": "This column is the adjusted shades' adjustment values relative to the primary color"
-  },
-  "colorGenerator.table.heading4": {
-    "message": "Kontrast Bewertung",
-    "description": "This column is WCAG contrast rating: AAA, AA, Fail"
-  },
-  "colorGenerator.codeBlock.summary": {
-    "message": "Farben-Code anzeigen"
-  },
-  "colorGenerator.codeBlock.Description": {
-    "message": "Farbvorschläge für die Hauptfarben, zum Senden an den Entwickler..."
-  },
-  "event.author": {
-    "message": "Autor",
-    "description": "for a single event: author"
-  },
-  "event.author.importJob": {
-    "message": "Terminimport"
-  },
-  "event.author.importJob.title": {
-    "message": "Termin wurde aus einem Datenimport erstellt."
-  },
-  "user.navbar.profile.title": {
-    "message": "Persönlicher Bereich"
-  },
-  "event.firstAuthor": {
-    "message": "Erstautor:in",
-    "description": "for a single event: author of the first version"
-  },
-  "EventAudience.STUDENTS.description.overview": {
-    "message": "SuS, betroffene LP*",
-    "description": "Relevant for SuS only, their KLP will be informed aswell"
-  },
-  "event.filter.deleted": {
-    "message": "Gelöschte Verstecken?",
-    "description": "Filter: deleted"
-  },
-  "group.title": {
-    "message": "Gruppe"
-  },
-  "group.message.notFound": {
-    "message": "Gruppe nicht gefunden"
-  },
-  "group.message.loading": {
-    "message": "Gruppe Laden"
-  },
-  "colorPicker.title": {
-    "message": "Hauptfarbe Auswählen"
-  },
-  "versions.navColorPicker.modal.title": {
-    "message": "Hauptfarbe Wählen"
-  },
-  "event.firstAuthor.title": {
-    "message": "Dieser Termin wurde ursprünglich von {author} erstellt."
-  },
-  "event.firstAuthor.importedTitle": {
-    "message": "Dieser Termin wurde von {author} importiert."
-  },
-  "event.modifier": {
-    "message": "Geändert von",
-    "description": "for a single event: author of the first version"
-  },
-  "event.modifier.title": {
-    "message": "Dieser Termin wurde von {author} aktualisiert."
-  },
-  "event.meta": {
-    "message": "Metadaten",
-    "description": "for a single event: audience long"
-  },
-  "event.button.showImportLog": {
-    "message": "Rohdaten anzeigen"
-  },
-  "event.meta.warningsReviewed": {
-    "message": "Warnung wieder anzeigen"
-  },
-  "button.group.open.title": {
-    "message": "Gruppenseite anzeigen"
-  },
-  "navcard.list.text": {
-    "message": "Liste",
-    "description": "View text for the event list"
-  },
-  "components.admin.department.class.letters": {
-    "message": "Klassen-Buchstaben",
-    "description": "the text of the column for the class letters"
-  },
-  "event.button.versions.title": {
-    "message": "Versionen laden und anzeigen"
-  },
-  "eventGrid.header.nr": {
-    "message": "Nr",
-    "description": "Label for the Event Grid Row Number"
-  },
-  "theme.PwaReloadPopup.info": {
-    "message": "Neue Version verfügbar",
-    "description": "The text for PWA reload popup"
-  },
-  "theme.PwaReloadPopup.refreshButtonText": {
-    "message": "Aktualisieren",
-    "description": "The text for PWA reload button"
-  },
-  "theme.PwaReloadPopup.closeButtonAriaLabel": {
-    "message": "Schließen",
-    "description": "The ARIA label for close button of PWA reload popup"
-  },
-  "login.button.with.school.account.text": {
-    "message": "Login mit Schul-Account",
-    "description": "the text of the button login with school account"
-  },
-  "table.button.download": {
-    "message": "Download",
-    "description": "Text of the button download xlsx"
-  },
-  "event.meta.infosReviewed": {
-    "message": "Infos wieder anzeigen"
-  },
-  "event.bulk_actions.download": {
-    "message": "Download {number} Termine als Excel"
-  },
-  "event.filter.showAdvanced": {
-    "message": "Erweiterte Filter anzeigen",
-    "description": "Button: Show advanced filter"
-  },
-  "event.filter.index.button.start": {
-    "message": "Start",
-    "description": "Text of button start time"
-  },
-  "event.filter.index.button.end": {
-    "message": "Ende",
-    "description": "Text of button end time"
-  },
-  "eventGrid.header.description.expand.title:expanded": {
-    "message": "Beschreibung Verkleinern",
-    "description": "Message when hovering the expand button when it is expanded"
-  },
-  "eventGrid.header.description.expand.title:collapsed": {
-    "message": "Beschreibung Vergrössern",
-    "description": "Message when hovering the expand button when it is collapsed"
-  },
-  "theme.blog.author.pageTitle": {
-    "message": "{authorName} - {nPosts}",
-    "description": "The title of the page for a blog author"
-  },
-  "theme.blog.authorsList.pageTitle": {
-    "message": "Authors",
-    "description": "The title of the authors page"
-  },
-  "theme.blog.authorsList.viewAll": {
-    "message": "View All Authors",
-    "description": "The label of the link targeting the blog authors page"
-  },
-  "theme.contentVisibility.unlistedBanner.title": {
-    "message": "Unlisted page",
-    "description": "The unlisted content banner title"
-  },
-  "theme.contentVisibility.unlistedBanner.message": {
-    "message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
-    "description": "The unlisted content banner message"
-  },
-  "theme.contentVisibility.draftBanner.title": {
-    "message": "Draft page",
-    "description": "The draft content banner title"
-  },
-  "theme.contentVisibility.draftBanner.message": {
-    "message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
-    "description": "The draft content banner message"
-  },
-  "admin.tab.event-reviews": {
-    "message": "Termin-Reviews"
-  },
-  "event.isValid.conflicts": {
-    "message": "{count} Konflikte",
-    "description": "Conflicts between events that are overlapping and concerning the same event"
-  },
-  "event.classGroupBadgeTitle": {
-    "message": "Alle Klassen der Stufe {classGroup}",
-    "description": "EventOverviewSmall class group badge title"
-  },
-  "home.today.title": {
-    "message": "{day} {date}",
-    "description": "Title for the today section"
-  },
-  "home.today.mine": {
-    "message": "Meine",
-    "description": "Only show my events"
-  },
-  "home.today.all": {
-    "message": "Alle",
-    "description": "Show all events"
-  },
-  "home.today.noEvents": {
-    "message": "Keine Termine für heute",
-    "description": "No events for today"
-  },
-  "subscription.no_untis_account": {
-    "message": "Sie haben keinen Untis Account verknüpft, weshalb Ihre Termine nicht mit Ihrem Stundenplan abgegelichen werden können.",
-    "description": "Message for a user, that is not linked to a untis account"
-  },
-  "event.bulk_actions.request_review_disabled": {
-    "message": "Entweder ist aktuell kein Terminfenster offen, oder ein Termin weist Fehler auf."
-  },
-  "event.isValid.noRegistrationPeriod.title": {
-    "message": "Kein Anmeldefenster",
-    "description": "Alert message for event without open registration period"
-  },
-  "event.isValid.noRegistrationPeriod.text": {
-    "message": "Es gibt keinen offenen Anmeldezeitraum für dieses Event.",
-    "description": "Alert message for event without open registration period"
-  },
-  "theme.blog.author.noPosts": {
-    "message": "This author has not written any posts yet.",
-    "description": "The text for authors with 0 blog post"
-  },
-  "subscriptions.subscribed.subscribePersonal": {
-    "message": "Persönliche Termine?"
-  },
-  "subscriptions.subscribed.subscribePersonal.label": {
-    "message": "Abonniert"
-  },
-  "ical.personal.description.affectsLessons": {
-    "message": "Termine, die zu Stundenausfällen führen."
-  },
-  "subscriptions.subscribed.classes": {
-    "message": "Abonnierte Klassen"
-  },
-  "subscriptions.subscribed.departments": {
-    "message": "Abonnierte Abteilungen"
-  },
-  "subscriptions.subscribed.ignoredEvents": {
-    "message": "Ignorierte Termine"
-  },
-  "subscriptions.ical.openOutlook": {
-    "message": "In Outlook öffnen"
-  },
-  "subscriptions.ical.url": {
-    "message": "Kalender URL"
-  },
-  "unsubscribe.noUser": {
-    "message": "Nicht angemeldet",
-    "description": "Nicht angemeldet"
-  },
-  "unsubscribe.noEvent": {
-    "message": "Termin nicht gefunden",
-    "description": "Kein Termin gefunden"
-  },
-  "unsubscribe.title": {
-    "message": "Termin Abbestellt"
-  },
-  "unsubscribe.undo": {
-    "message": "Rückgängig machen",
-    "description": "Rückgängig machen"
-  },
-  "unsubscribe.description": {
-    "message": "Einen Termin abbestellen"
-  },
-  "event.bulk_actions.resubscribe": {
-    "message": "Wieder abonnieren"
-  },
-  "event.bulk_actions.unsubscribe": {
-    "message": "Deabonnieren"
+  "ical.section.classes": {
+    "message": "Klassen Kalender",
+    "description": "classes ical sync address"
+  },
+  "user.ical.filter.class.placeholder": {
+    "message": "Filtern nach Klasse",
+    "description": "Placeholder text for the filter input"
   },
   "user.ical.already-subscribed-button.text": {
     "message": "Abonniert",
@@ -2076,15 +1209,54 @@
     "message": "Zum persönlichen Kalenderabo hinzufügen",
     "description": "Button title for subscribing to the calendar"
   },
+  "user.ical.outlook-button.title": {
+    "message": "Abonniere den Kalender in Outlook",
+    "description": "Button text for adding the calendar to Outlook"
+  },
   "user.ical.download-button.title": {
     "message": "ICS Date herunterladen",
     "description": "Button text for downloading the ics calendar file"
   },
-  "subscriptionPanel.configure.title": {
-    "message": "Abonnement Konfigurieren"
+  "user.ical.copy-button.title": {
+    "message": "Kopiere den Link zum Kalender {name}."
   },
-  "event.ignored": {
-    "message": "Ignorierte Termine"
+  "ical.section.departments": {
+    "message": "Abteilungs-Kalender",
+    "description": "departments ical sync address"
+  },
+  "user.ical.filter.department.placeholder": {
+    "message": "Filtern nach Schule",
+    "description": "Placeholder text for the filter input"
+  },
+  "subscriptions.ical.openOutlook": {
+    "message": "In Outlook öffnen"
+  },
+  "user.ical.outlook.calendar-name": {
+    "message": "GBSL",
+    "description": "Name of the calendar in Outlook"
+  },
+  "user.ical.outlook-button.text": {
+    "message": "Outlook",
+    "description": "Button text for adding the calendar to Outlook"
+  },
+  "subscriptions.ical.url": {
+    "message": "Kalender URL"
+  },
+  "user.ical.personal-calendar.copy-button.title": {
+    "message": "Kopiere den Link zum persönlichen Kalender."
+  },
+  "subscriptions.subscribed.subscribePersonal": {
+    "message": "Persönliche Termine?"
+  },
+  "subscriptions.subscribed.subscribePersonal.label": {
+    "message": "Abonniert"
+  },
+  "ical.section.personal.description": {
+    "message": "Die persönlichen Termine beinhalten alle für eine LP relevanten Termine",
+    "description": "text which explains, which things are included in the personal calendar"
+  },
+  "ical.personal.description.affectsLessons": {
+    "message": "Termine, die zu Stundenausfällen führen."
   },
   "ical.personal.description.forTeachers": {
     "message": "Termine für Lehrpersonen."
@@ -2095,11 +1267,20 @@
   "ical.personal.description.forClass": {
     "message": "Termine welche die eigene Klasse betreffen."
   },
+  "subscriptions.subscribed.ignoredEvents": {
+    "message": "Ignorierte Termine"
+  },
+  "subscriptions.subscribed.classes": {
+    "message": "Abonnierte Klassen"
+  },
   "subscriptions.subscribed.classes.description": {
     "message": "Werden die Termine einer Klasse abonniert, erscheinen diese auch im persönlichen Kalender. Doppelte Termine werden nicht angezeigt."
   },
   "subscriptions.subscribed.classes.hint": {
     "message": "Die eigene Klasse (für KLP's) muss nicht abonniert werden - diese Termine sind bereits enthalten."
+  },
+  "subscriptions.subscribed.departments": {
+    "message": "Abonnierte Abteilungen"
   },
   "subscriptions.subscribed.departments.description": {
     "message": "Werden die Termine einer Abteilung abonniert, erscheinen diese auch im persönlichen Kalender. Doppelte Termine werden nicht angezeigt."
@@ -2107,10 +1288,757 @@
   "subscriptions.departments.classes.hint": {
     "message": "Die Abteilungen unterrichteter Klassen sind bereits im persönlichen Kalender abonniert."
   },
+  "subscription.no_untis_account": {
+    "message": "Sie haben keinen Untis Account verknüpft, weshalb Ihre Termine nicht mit Ihrem Stundenplan abgegelichen werden können.",
+    "description": "Message for a user, that is not linked to a untis account"
+  },
+  "ical.link.text.settings": {
+    "message": "👉 Einstellungen",
+    "description": "Link text to navigate to the user settings"
+  },
+  "subscriptionPanel.configure.title": {
+    "message": "Abonnement Konfigurieren"
+  },
+  "navbar.item.label.admin": {
+    "message": "Admin"
+  },
+  "user.navbar.profile.title": {
+    "message": "Persönlicher Bereich"
+  },
+  "navbar.item.label.personal": {
+    "message": "Persönlich"
+  },
+  "EventAudience.forExample": {
+    "message": "z.B."
+  },
+  "share.audiencePicker.classSelector.errorMsg.department": {
+    "message": "Abteilung \"{letter}\" nicht gefunden",
+    "description": "Error message department not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.class": {
+    "message": "Klasse \"{tok}\" nicht gefunden",
+    "description": "Error message class not found"
+  },
+  "share.audiencePicker.classSelector.errorMsg.classOrDepartment": {
+    "message": "Unbekannte Abteilung/Klasse \"{tok}\"",
+    "description": "Error message class or department not found"
+  },
+  "share.audiencePicker.placeholder.unknownClasses": {
+    "message": "Unbekannte Klassen",
+    "description": "share.audiencePicker.placeholder.unknownClasses"
+  },
+  "TeachingAffected.YES.description": {
+    "message": "Ja",
+    "description": "Yes, the teaching is affected and the class is not present"
+  },
+  "TeachingAffected.NO.description": {
+    "message": "Nein",
+    "description": "No, the teaching happens as usual"
+  },
+  "TeachingAffected.PARTIAL.description": {
+    "message": "Teilweise",
+    "description": "Only a part of the class will be present"
+  },
+  "shared.text.people.concerned": {
+    "message": "Betrifft",
+    "description": "The text in the window used to select the participants involved in the event asking which people is concerned by an event"
+  },
+  "shared.text.lesson.concerned": {
+    "message": "Unterricht Betroffen?",
+    "description": "The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
+  },
+  "shared.text.bilingual.people.concerned": {
+    "message": "Bilingue Lehrpersonen betroffen?",
+    "description": "The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event"
+  },
+  "shared.button.yes": {
+    "message": "Ja",
+    "description": "Button text yes"
+  },
+  "shared.button.no": {
+    "message": "Nein",
+    "description": "Button text no"
+  },
+  "shared.header.school_departement": {
+    "message": "Schulen/Klassen",
+    "description": "The title in the window for the event."
+  },
+  "shared.AudiencePicker": {
+    "message": "Alle Schulen",
+    "description": "Button text to toggle all schools on/off"
+  },
+  "shared.button.title.expand": {
+    "message": "Erweitert",
+    "description": "Text appearing on the expand button"
+  },
+  "shared.audiencePicker.title.futureClasses": {
+    "message": "Künftige Klassen"
+  },
+  "share.badge.error.title": {
+    "message": "Erreur",
+    "description": "share.badge.error.title"
+  },
+  "share.badge.loading.title": {
+    "message": "Laden",
+    "description": "share.badge.loading.title"
+  },
+  "share.badge.success.title": {
+    "message": "Erfolgreich",
+    "description": "share.badge.success.title"
+  },
+  "share.button.clone.title": {
+    "message": "Duplizieren",
+    "description": "Text of the button clone"
+  },
+  "share.button.copy.title": {
+    "message": "Kopieren",
+    "description": "Text of the button copy"
+  },
+  "share.button.delete.confirm": {
+    "message": "Wirklich Löschen?",
+    "description": "Text of the button confirm"
+  },
+  "share.button.delete.confirm.no": {
+    "message": "Nein",
+    "description": "Text of the button confirm no"
+  },
+  "share.button.delete.confirm.yes": {
+    "message": "Ja",
+    "description": "Text of the button confirm yes"
+  },
+  "share.button.discard.title": {
+    "message": "Änderungen verwerfen",
+    "description": "Text of the button discard"
+  },
+  "share.button.edit.versioned.title": {
+    "message": "Bearbeiten (Es wird eine neue Version erstellt)",
+    "description": "Text of the button edit"
+  },
+  "share.button.edit.title": {
+    "message": "Bearbeiten",
+    "description": "Text of the button edit"
+  },
+  "share.button.save.title": {
+    "message": "Speichern",
+    "description": "Text of the button save"
+  },
+  "shared.fullscreenbutton.exitfullscreen": {
+    "message": "Verlasse Vollbildschirm",
+    "description": "Text of the button exit full screen"
+  },
+  "shared.fullscreenbutton.gofullscreen": {
+    "message": "Vollbildschirm",
+    "description": "Text of the button full screen"
+  },
+  "event.transition.invalid.initialValidation": {
+    "message": "Es wurde noch keine Validierung durchgeführt."
+  },
+  "event.transition.invalid.validation": {
+    "message": "Fehlerhafte Termine können nicht eingereicht werden."
+  },
+  "event.transition.invalid.noOpenRegistrationPeriod": {
+    "message": "Aktuell ist kein Anmeldefenster geöffnet."
+  },
+  "subscription.subscribe": {
+    "message": "Diesen Termin nicht mehr im persönlichen Kalender anzeigen."
+  },
+  "event.reduce.title": {
+    "message": "Auf eine Zeile reduzieren",
+    "description": "Button Title (hover) to reduce an expanded event in the table view"
+  },
+  "components.events.datetime.allday": {
+    "message": "Ganztägig",
+    "description": "Label of the checkbox all day"
+  },
+  "components.event.usersevents.index.header.deleted": {
+    "message": "Gelöscht",
+    "description": "Th: Events deleted"
+  },
+  "event.AddButton.text": {
+    "message": "Neues Event",
+    "description": "AddButton text"
+  },
+  "event.AddButton.title": {
+    "message": "Erstellt einen neuen, unveröffentlichten Termin"
+  },
+  "components.event.usersevents.index.header.notpublished": {
+    "message": "Entwürfe (Unveröffentlicht)",
+    "description": "Th: not published"
+  },
+  "userEvents.regPeriod.alert.title": {
+    "message": "Eingabefenster"
+  },
+  "components.event.usersevents.index.header.reviewed": {
+    "message": "Im Review",
+    "description": "Events reviewed"
+  },
+  "components.event.usersevents.index.delete": {
+    "message": "Job Löschen",
+    "description": "Text to delete a job"
+  },
+  "event.NoEventsAlert.text": {
+    "message": "In der Kategorie \"{category}\" sind keine Termine vorhanden."
+  },
+  "components.event.usersevents.index.header.published": {
+    "message": "Veröffentlicht",
+    "description": "Th : Events published"
+  },
+  "components.event.usersevents.index.header.admin": {
+    "message": "Review Anfragen für Admins",
+    "description": "Events admin"
+  },
+  "eventGrid.header.state": {
+    "message": "Zustand",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.createdAt": {
+    "message": "Erstellt am",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.updatedAt": {
+    "message": "Geändert am",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.isValid": {
+    "message": "Valid",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.select": {
+    "message": "Auswählen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.kw": {
+    "message": "KW",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.nr": {
+    "message": "Nr",
+    "description": "Label for the Event Grid Row Number"
+  },
+  "eventGrid.header.actions": {
+    "message": "Aktionen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.author": {
+    "message": "Author",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.day": {
+    "message": "Tag",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.description": {
+    "message": "Stichworte",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.start": {
+    "message": "Start",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.end": {
+    "message": "Ende",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.location": {
+    "message": "Ort",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.userGroup": {
+    "message": "Gruppe",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.departmens": {
+    "message": "Abteilungen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.classes": {
+    "message": "Klassen",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.descriptionLong": {
+    "message": "Beschreibung",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.isDuplicate": {
+    "message": "Duplikat",
+    "description": "Label for the Event Grid Columns"
+  },
+  "eventGrid.header.actions.title": {
+    "message": "Aktionen"
+  },
+  "eventGrid.header.teachingAffected.title": {
+    "message": "Sortieren nach \"Unterricht betroffen?\"",
+    "description": "Message when hovering the icon"
+  },
+  "eventGrid.header.description.expand.title:expanded": {
+    "message": "Beschreibung Verkleinern",
+    "description": "Message when hovering the expand button when it is expanded"
+  },
+  "eventGrid.header.description.expand.title:collapsed": {
+    "message": "Beschreibung Vergrössern",
+    "description": "Message when hovering the expand button when it is collapsed"
+  },
+  "eventGrid.header.sortBy.title": {
+    "message": "Sortieren nach \"{column}\""
+  },
+  "calendar.button.nextWeek": {
+    "message": "Nächste",
+    "description": "button to show the next week on the calendar"
+  },
+  "calendar.button.previousWeek": {
+    "message": "Vorherige",
+    "description": "button to show the previous week on the calendar"
+  },
+  "calendar.button.today": {
+    "message": "Heute",
+    "description": "button to show today on the calendar"
+  },
+  "calendar.button.month": {
+    "message": "Monat",
+    "description": "button to show the calendar by month"
+  },
+  "calendar.button.week": {
+    "message": "Woche",
+    "description": "button to show the calendar by week"
+  },
+  "calendar.button.day": {
+    "message": "Tag",
+    "description": "button to show the calendar by day"
+  },
+  "calendar.button.agenda": {
+    "message": "Agenda",
+    "description": "button to show the calendar as list"
+  },
+  "calendar.field.date": {
+    "message": "Datum",
+    "description": "title of the table for the date"
+  },
+  "calendar.field.time": {
+    "message": "Zeit",
+    "description": "title of the table for the time"
+  },
+  "calendar.field.event": {
+    "message": "Event",
+    "description": "title of the table for the event"
+  },
+  "calendar.message.noevent": {
+    "message": "Keine Events in diesem Zeitraum",
+    "description": "message if no event in time range"
+  },
+  "calendar.button.tomorrow": {
+    "message": "Morgen",
+    "description": "button label to navigate to the next day"
+  },
+  "calendar.button.workWeek": {
+    "message": "Arbeitswoche",
+    "description": "button label to display a work week"
+  },
+  "calendar.button.yesterday": {
+    "message": "Gestern",
+    "description": "button label to navigate to the previous day"
+  },
+  "calendar.message.allDay": {
+    "message": "Ganzer Tag",
+    "description": "message if an event spans the whole day"
+  },
+  "calendar.button.plus": {
+    "message": "weitere",
+    "description": "button label to show more events"
+  },
+  "shiftedDatesEditor.current.label": {
+    "message": "Vorher"
+  },
+  "shiftedDatesEditor.next.label": {
+    "message": "Nachher"
+  },
+  "shiftAudienceEditor.title": {
+    "message": "Neuzuordnung von Jahrgängen und Klassen"
+  },
+  "shiftAudienceEditor.audience": {
+    "message": "Klassen"
+  },
+  "shiftDatesEditor.apply": {
+    "message": "Anwenden"
+  },
+  "shiftDatesEditor.title": {
+    "message": "Verschiebung von Terminen"
+  },
+  "shiftedDatesEditor.dates": {
+    "message": "Tage"
+  },
+  "shiftDatesEditor.hours": {
+    "message": "Stunden"
+  },
+  "event.ignored": {
+    "message": "Ignorierte Termine"
+  },
   "subscription.content.advanced": {
     "message": "Erweiterte Abo-Einstellungen"
   },
+  "shared.AudiencePicker.Department": {
+    "message": "Alle",
+    "description": "toggle all departments"
+  },
+  "event.isValid.conflicts": {
+    "message": "{count} Konflikte",
+    "description": "Conflicts between events that are overlapping and concerning the same event"
+  },
+  "event.isValid.noRegistrationPeriod.title": {
+    "message": "Kein Anmeldefenster",
+    "description": "Alert message for event without open registration period"
+  },
+  "event.isValid.noRegistrationPeriod.text": {
+    "message": "Es gibt keinen offenen Anmeldezeitraum für dieses Event.",
+    "description": "Alert message for event without open registration period"
+  },
+  "theme.ErrorPageContent.title": {
+    "message": "Die Seite ist abgestürzt.",
+    "description": "The title of the fallback page when the page crashed"
+  },
+  "theme.BackToTopButton.buttonAriaLabel": {
+    "message": "Zurück nach oben scrollen",
+    "description": "The ARIA label for the back to top button"
+  },
+  "theme.blog.archive.title": {
+    "message": "Archiv",
+    "description": "The page & hero title of the blog archive page"
+  },
+  "theme.blog.archive.description": {
+    "message": "Archiv",
+    "description": "The page & hero description of the blog archive page"
+  },
+  "theme.blog.paginator.navAriaLabel": {
+    "message": "Navigation der Blog-Listenseite",
+    "description": "The ARIA label for the blog pagination"
+  },
+  "theme.blog.paginator.newerEntries": {
+    "message": "Neuere Einträge",
+    "description": "The label used to navigate to the newer blog posts page (previous page)"
+  },
+  "theme.blog.paginator.olderEntries": {
+    "message": "Ältere Einträge",
+    "description": "The label used to navigate to the older blog posts page (next page)"
+  },
+  "theme.blog.post.paginator.navAriaLabel": {
+    "message": "Blog Post Seiten Navigation",
+    "description": "The ARIA label for the blog posts pagination"
+  },
+  "theme.blog.post.paginator.newerPost": {
+    "message": "Neuer Post",
+    "description": "The blog post button label to navigate to the newer/previous post"
+  },
+  "theme.blog.post.paginator.olderPost": {
+    "message": "Älterer Post",
+    "description": "The blog post button label to navigate to the older/next post"
+  },
+  "theme.tags.tagsPageLink": {
+    "message": "Alle Tags anzeigen",
+    "description": "The label of the link targeting the tag list page"
+  },
+  "theme.colorToggle.ariaLabel": {
+    "message": "Umschalten zwischen dunkler und heller Ansicht (momentan {mode})",
+    "description": "The ARIA label for the navbar color mode toggle"
+  },
+  "theme.colorToggle.ariaLabel.mode.dark": {
+    "message": "dunkler Modus",
+    "description": "The name for the dark color mode"
+  },
+  "theme.colorToggle.ariaLabel.mode.light": {
+    "message": "heller Modus",
+    "description": "The name for the light color mode"
+  },
+  "theme.docs.breadcrumbs.navAriaLabel": {
+    "message": "Breadcrumbs",
+    "description": "The ARIA label for the breadcrumbs"
+  },
+  "theme.docs.DocCard.categoryDescription.plurals": {
+    "message": "1 Eintrag|{count} Einträge",
+    "description": "The default description for a category card in the generated index about how many items this category includes"
+  },
+  "theme.docs.paginator.navAriaLabel": {
+    "message": "Dokumentation Seiten",
+    "description": "The ARIA label for the docs pagination"
+  },
+  "theme.docs.paginator.previous": {
+    "message": "Zurück",
+    "description": "The label used to navigate to the previous doc"
+  },
+  "theme.docs.paginator.next": {
+    "message": "Weiter",
+    "description": "The label used to navigate to the next doc"
+  },
+  "theme.docs.tagDocListPageTitle.nDocsTagged": {
+    "message": "Ein doc getaggt|{count} docs getaggt",
+    "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.docs.tagDocListPageTitle": {
+    "message": "{nDocsTagged} mit \"{tagName}\"",
+    "description": "The title of the page for a docs tag"
+  },
+  "theme.docs.versionBadge.label": {
+    "message": "Version: {versionLabel}"
+  },
+  "theme.docs.versions.unreleasedVersionLabel": {
+    "message": "Das ist die unveröffentlichte Dokumentation für {siteTitle} {versionLabel}.",
+    "description": "The label used to tell the user that he's browsing an unreleased doc version"
+  },
+  "theme.docs.versions.unmaintainedVersionLabel": {
+    "message": "Das ist die Dokumentation für {siteTitle} {versionLabel} und wird nicht weiter gewartet.",
+    "description": "The label used to tell the user that he's browsing an unmaintained doc version"
+  },
+  "theme.docs.versions.latestVersionSuggestionLabel": {
+    "message": "Für die aktuellste Dokumentation bitte auf {latestVersionLink} ({versionLabel}) gehen.",
+    "description": "The label used to tell the user to check the latest version"
+  },
+  "theme.docs.versions.latestVersionLinkLabel": {
+    "message": "letzte Version",
+    "description": "The label used for the latest version suggestion link label"
+  },
+  "theme.common.editThisPage": {
+    "message": "Diese Seite bearbeiten",
+    "description": "The link label to edit the current page"
+  },
+  "theme.common.headingLinkTitle": {
+    "message": "Direkter Link zur {heading}",
+    "description": "Title for link to heading"
+  },
+  "theme.lastUpdated.atDate": {
+    "message": " am {date}",
+    "description": "The words used to describe on which date a page has been last updated"
+  },
+  "theme.lastUpdated.byUser": {
+    "message": " von {user}",
+    "description": "The words used to describe by who the page has been last updated"
+  },
+  "theme.lastUpdated.lastUpdatedAtBy": {
+    "message": "Letztes Update{atDate}{byUser}",
+    "description": "The sentence used to display when a page has been last updated, and by who"
+  },
+  "theme.navbar.mobileVersionsDropdown.label": {
+    "message": "Versionen",
+    "description": "The label for the navbar versions dropdown on mobile view"
+  },
+  "theme.NotFound.title": {
+    "message": "Seite nicht gefunden",
+    "description": "The title of the 404 page"
+  },
+  "theme.tags.tagsListLabel": {
+    "message": "Tags:",
+    "description": "The label alongside a tag list"
+  },
+  "theme.admonition.caution": {
+    "message": "vorsicht",
+    "description": "The default label used for the Caution admonition (:::caution)"
+  },
+  "theme.admonition.danger": {
+    "message": "gefahr",
+    "description": "The default label used for the Danger admonition (:::danger)"
+  },
+  "theme.admonition.info": {
+    "message": "info",
+    "description": "The default label used for the Info admonition (:::info)"
+  },
+  "theme.admonition.note": {
+    "message": "hinweis",
+    "description": "The default label used for the Note admonition (:::note)"
+  },
+  "theme.admonition.tip": {
+    "message": "tipp",
+    "description": "The default label used for the Tip admonition (:::tip)"
+  },
+  "theme.admonition.warning": {
+    "message": "warnung",
+    "description": "The default label used for the Warning admonition (:::warning)"
+  },
+  "theme.AnnouncementBar.closeButtonAriaLabel": {
+    "message": "Schließen",
+    "description": "The ARIA label for close button of announcement bar"
+  },
+  "theme.blog.sidebar.navAriaLabel": {
+    "message": "Navigation der letzten Beiträge im Blog",
+    "description": "The ARIA label for recent posts in the blog sidebar"
+  },
+  "theme.CodeBlock.copied": {
+    "message": "Kopiert",
+    "description": "The copied button label on code blocks"
+  },
+  "theme.CodeBlock.copyButtonAriaLabel": {
+    "message": "In die Zwischenablage kopieren",
+    "description": "The ARIA label for copy code blocks button"
+  },
+  "theme.CodeBlock.copy": {
+    "message": "Kopieren",
+    "description": "The copy button label on code blocks"
+  },
+  "theme.CodeBlock.wordWrapToggle": {
+    "message": "Toggle word wrap",
+    "description": "The title attribute for toggle word wrapping button of code block lines"
+  },
+  "theme.DocSidebarItem.expandCategoryAriaLabel": {
+    "message": "Expand sidebar category '{label}'",
+    "description": "The ARIA label to expand the sidebar category"
+  },
+  "theme.DocSidebarItem.collapseCategoryAriaLabel": {
+    "message": "Collapse sidebar category '{label}'",
+    "description": "The ARIA label to collapse the sidebar category"
+  },
+  "theme.NavBar.navAriaLabel": {
+    "message": "Main",
+    "description": "The ARIA label for the main navigation"
+  },
+  "theme.navbar.mobileLanguageDropdown.label": {
+    "message": "Sprachen",
+    "description": "The label for the mobile language switcher dropdown"
+  },
+  "theme.NotFound.p1": {
+    "message": "Wir konnten nicht finden, wonach Sie gesucht haben.",
+    "description": "The first paragraph of the 404 page"
+  },
+  "theme.NotFound.p2": {
+    "message": "Bitte kontaktieren Sie den Besitzer der Seite, die Sie mit der ursprünglichen URL verlinkt hat, und teilen Sie ihm mit, dass der Link nicht mehr funktioniert.",
+    "description": "The 2nd paragraph of the 404 page"
+  },
+  "theme.TOCCollapsible.toggleButtonLabel": {
+    "message": "Auf dieser Seite",
+    "description": "The label used by the button on the collapsible TOC component"
+  },
+  "theme.blog.post.readMore": {
+    "message": "Mehr lesen",
+    "description": "The label used in blog post item excerpts to link to full blog posts"
+  },
+  "theme.blog.post.readMoreLabel": {
+    "message": "Mehr lesen über {title}",
+    "description": "The ARIA label for the link to full blog posts from excerpts"
+  },
+  "theme.blog.post.readingTime.plurals": {
+    "message": "Eine Minute Lesezeit|{readingTime} Minuten Lesezeit",
+    "description": "Pluralized label for \"{readingTime} min read\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.docs.breadcrumbs.home": {
+    "message": "Home page",
+    "description": "The ARIA label for the home page in the breadcrumbs"
+  },
+  "theme.docs.sidebar.collapseButtonTitle": {
+    "message": "Seitenleiste einklappen",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.collapseButtonAriaLabel": {
+    "message": "Seitenleiste einklappen",
+    "description": "The title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.navAriaLabel": {
+    "message": "Docs sidebar",
+    "description": "The ARIA label for the sidebar navigation"
+  },
+  "theme.docs.sidebar.closeSidebarButtonAriaLabel": {
+    "message": "Close navigation bar",
+    "description": "The ARIA label for close button of mobile sidebar"
+  },
+  "theme.navbar.mobileSidebarSecondaryMenu.backButtonLabel": {
+    "message": "← Zurück zum Hauptmenü",
+    "description": "The label of the back button to return to main menu, inside the mobile navbar sidebar secondary menu (notably used to display the docs sidebar)"
+  },
+  "theme.docs.sidebar.toggleSidebarButtonAriaLabel": {
+    "message": "Toggle navigation bar",
+    "description": "The ARIA label for hamburger menu button of mobile navigation"
+  },
+  "theme.docs.sidebar.expandButtonTitle": {
+    "message": "Seitenleiste ausklappen",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.docs.sidebar.expandButtonAriaLabel": {
+    "message": "Seitenleiste ausklappen",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.blog.post.plurals": {
+    "message": "Ein Post|{count} Posts",
+    "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
+  },
+  "theme.blog.tagTitle": {
+    "message": "{nPosts} getaggt mit \"{tagName}\"",
+    "description": "The title of the page for a blog tag"
+  },
+  "theme.blog.author.pageTitle": {
+    "message": "{authorName} - {nPosts}",
+    "description": "The title of the page for a blog author"
+  },
+  "theme.blog.authorsList.pageTitle": {
+    "message": "Authors",
+    "description": "The title of the authors page"
+  },
+  "theme.blog.authorsList.viewAll": {
+    "message": "View All Authors",
+    "description": "The label of the link targeting the blog authors page"
+  },
+  "theme.blog.author.noPosts": {
+    "message": "This author has not written any posts yet.",
+    "description": "The text for authors with 0 blog post"
+  },
+  "theme.contentVisibility.unlistedBanner.title": {
+    "message": "Unlisted page",
+    "description": "The unlisted content banner title"
+  },
+  "theme.contentVisibility.unlistedBanner.message": {
+    "message": "This page is unlisted. Search engines will not index it, and only users having a direct link can access it.",
+    "description": "The unlisted content banner message"
+  },
+  "theme.contentVisibility.draftBanner.title": {
+    "message": "Draft page",
+    "description": "The draft content banner title"
+  },
+  "theme.contentVisibility.draftBanner.message": {
+    "message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+    "description": "The draft content banner message"
+  },
+  "theme.ErrorPageContent.tryAgain": {
+    "message": "Nochmal versuchen",
+    "description": "The label of the button to try again rendering when the React error boundary captures an error"
+  },
+  "theme.common.skipToMainContent": {
+    "message": "Zum Hauptinhalt springen",
+    "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
+  },
+  "theme.tags.tagsPageTitle": {
+    "message": "Tags",
+    "description": "The title of the tag list page"
+  },
+  "shiftAudienceEditor.noAudience": {
+    "message": "Keine Zuordnung - die Klasse wird vom Termin entfernt."
+  },
+  "shiftAudienceEditor.createWhitelist": {
+    "message": "{inputValue} (Ganze Jahrgangsstufe der Abteilung)"
+  },
+  "shiftAudienceEditor.createClass": {
+    "message": "Neue Klasse: {inputValue}"
+  },
+  "shiftAudienceEditor.removeAudience": {
+    "message": "Zuordnung entfernen"
+  },
+  "shiftAudienceEditor.resetAudience": {
+    "message": "Zuordnung zurücksetzen"
+  },
+  "group.showAllChanges.dt": {
+    "message": "Alle Änderungen Anzeigen"
+  },
+  "shiftAudienceEditor.changeAudience": {
+    "message": "Zuordnung manuell ändern"
+  },
+  "shiftAudienceEditor.shiftInText": {
+    "message": "Klassenbezeichnungen im Titel und Beschreibung auch ändern"
+  },
+  "shiftEditor.noDraftEvent.alert": {
+    "message": "Der Editor kann nur Entwürfe bearbeiten. Aktuell sind keine Entwürfe vorhanden (nur eingereichte, zurückgewiesene oder veröffentlichte Termine)."
+  },
+  "shiftEditor.invalidEvents.alert": {
+    "message": "Der Editor kann nur Entwürfe bearbeiten. Aktuell sind auch eingereichte, zurückgewiesene oder veröffentlichte Termine vorhanden."
+  },
+  "shiftEditor.description": {
+    "message": "Änderungen werden nur auf Entwürfe angewandt. Betroffene Termine:"
+  },
   "components.shared.loader.loading": {
     "message": "Laden..."
+  },
+  "eventGroup.createGroup": {
+    "message": "Erstellen"
   }
 }

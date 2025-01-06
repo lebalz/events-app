@@ -20,6 +20,7 @@ import {
     mdiCalendarMonth,
     mdiCalendarSync,
     mdiPalette,
+    mdiPen,
     mdiSecurity,
     mdiViewList
 } from '@mdi/js';
@@ -162,6 +163,7 @@ const Home = observer(() => {
                                         key={event.id}
                                         event={event}
                                         className={clsx(styles.eventOverview)}
+                                        showDayname
                                     />
                                 ))}
                             </>
@@ -312,42 +314,120 @@ const Home = observer(() => {
                                 />
                             </div>
                             <div className="card__body">
-                                <h4>Version: Release Candidate 1.3 (20.12.2024)</h4>
+                                <h4>Version: Release Candidate 1.4 (6.1.2025)</h4>
                                 <ul>
                                     <li>
-                                        🚀 Neu: Es kann nun ein persönliches Kalender-Abo erzeugt werden.
-                                        Hinzufügen lassen sich:
+                                        🚀 Neu: Termine können selbst erzeugten Gruppen hinzugefügt werden.
                                         <ul>
                                             <li>
-                                                <Icon path={mdiBellPlusOutline} size={0.8} color="green" />{' '}
-                                                Die persönlichen Termine
+                                                Gruppen sind wie <b>Ordner</b>, die wahlweise mit anderen
+                                                Personen geteilt werden.
                                             </li>
                                             <li>
-                                                <Icon path={mdiBellPlusOutline} size={0.8} color="green" />{' '}
-                                                Die Termine einer Klasse
+                                                Gruppen können kopiert werden - alle enthaltenen Termine
+                                                werden ebenfalls kopiert, wobei deren Status auf "Entwurf"{' '}
+                                                <Icon
+                                                    path={mdiPen}
+                                                    size={0.8}
+                                                    color="var(--ifm-color-blue)"
+                                                />{' '}
+                                                gesetzt wird.
                                             </li>
                                             <li>
-                                                <Icon path={mdiBellPlusOutline} size={0.8} color="green" />{' '}
-                                                Die Termine einer Abteilung
+                                                Alle Entwürfe in einer Gruppe lassen sich Verschieben:
+                                                <ul>
+                                                    <li>
+                                                        <b>Datum-Editor</b>: Alle Termine können bspw. um ein
+                                                        Jahr verschoben werden.
+                                                    </li>
+                                                    <li>
+                                                        <b>Klassen-Editor</b>: Die Klassen der Termine können
+                                                        wahlweise individuell neu zugeordnet werden oder alle
+                                                        um bspw. ein Jahr verschoben werden.
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                Änderungen zwischen den Terminen kopierter Gruppen können
+                                                nachverfolgt werden.
+                                            </li>
+                                            <li>
+                                                📚 Anleitung:
+                                                <Link to="/docs/events/shift">
+                                                    👉 Termine aufs nächste Jahr übertragen
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/user?user-tab=groups">
+                                                    👉 Ausprobieren: Zu den Termin-Gruppen
+                                                </Link>
                                             </li>
                                         </ul>
-                                        wobei <b>doppelte Termine automatisch entfernt werden 🥳</b>.
                                     </li>
                                     <li>
-                                        🚀 Neu: Einzelne Termine lassen sich aus dem Kalenderabo entfernen{' '}
-                                        <Icon path={mdiBellMinus} size={0.8} color="red" />.
+                                        🚀 Leistungsverbesserung: Die persönliche Übersicht bei den Terminen
+                                        wird nun schneller geladen.
                                     </li>
                                     <li>
-                                        🚀 Neu: Bei abonnierten Kalendern kann können Termine über einen Link
-                                        in der Beschreibung abbestellt werden.
-                                    </li>
-                                    <li>
-                                        🐛 Fix: Fehler beim Speichern eines Termins, dass der "Speichern"
-                                        Knopf deaktiviert war, wurde behoben.
+                                        🔧 Teachnologie-Upgrade (im Hintergrund): Es werden nun{' '}
+                                        <a href="https://nodejs.org/en/blog/release/v22.12.0" target="_blank">
+                                            👉 Node 22
+                                        </a>{' '}
+                                        und
+                                        <a href="https://react.dev/blog/2024/12/05/react-19" target="_blank">
+                                            👉 React 19
+                                        </a>{' '}
+                                        verwedet.
                                     </li>
                                 </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: Release Candidate 1.3 (20.12.2024)</h4>
+                                    <ul>
+                                        <li>
+                                            🚀 Neu: Es kann nun ein persönliches Kalender-Abo erzeugt werden.
+                                            Hinzufügen lassen sich:
+                                            <ul>
+                                                <li>
+                                                    <Icon
+                                                        path={mdiBellPlusOutline}
+                                                        size={0.8}
+                                                        color="green"
+                                                    />{' '}
+                                                    Die persönlichen Termine
+                                                </li>
+                                                <li>
+                                                    <Icon
+                                                        path={mdiBellPlusOutline}
+                                                        size={0.8}
+                                                        color="green"
+                                                    />{' '}
+                                                    Die Termine einer Klasse
+                                                </li>
+                                                <li>
+                                                    <Icon
+                                                        path={mdiBellPlusOutline}
+                                                        size={0.8}
+                                                        color="green"
+                                                    />{' '}
+                                                    Die Termine einer Abteilung
+                                                </li>
+                                            </ul>
+                                            wobei <b>doppelte Termine automatisch entfernt werden 🥳</b>.
+                                        </li>
+                                        <li>
+                                            🚀 Neu: Einzelne Termine lassen sich aus dem Kalenderabo entfernen{' '}
+                                            <Icon path={mdiBellMinus} size={0.8} color="red" />.
+                                        </li>
+                                        <li>
+                                            🚀 Neu: Bei abonnierten Kalendern kann können Termine über einen
+                                            Link in der Beschreibung abbestellt werden.
+                                        </li>
+                                        <li>
+                                            🐛 Fix: Fehler beim Speichern eines Termins, dass der "Speichern"
+                                            Knopf deaktiviert war, wurde behoben.
+                                        </li>
+                                    </ul>
                                     <h4>Version: Release Candidate 1.2 (04.11.2024)</h4>
                                     <ul>
                                         <li>

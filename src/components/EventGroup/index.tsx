@@ -10,24 +10,28 @@ import TextInput from '../shared/TextInput';
 import TextArea from '../shared/TextArea';
 import ModelActions from '../ModelActions';
 import Clone from '../shared/Button/Clone';
-import BulkActions from '../Event/BulkActions';
-import Grid, { ColumnConfig } from '../Event/Views/Grid';
+import { ColumnConfig } from '../Event/Views/Grid';
 import LazyDetails from '../shared/Details';
-import { ApiIcon, DiscardIcon, SIZE, SIZE_S, SaveIcon } from '../shared/icons';
+import { ApiIcon, DiscardIcon, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import Translate, { translate } from '@docusaurus/Translate';
-import { mdiAccount, mdiAccountGroup, mdiShareCircle } from '@mdi/js';
+import { mdiAccount, mdiAccountGroup, mdiCalendar, mdiCalendarClock, mdiShareCircle } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
 import _ from 'lodash';
 import UserTable from './UserTable';
-import ShiftDatesEditor from './ShiftDatesEditor';
+import ShiftDates from './BulkEditor/ShiftDates';
 import AddUserPopup from './UserTable/AddUserPopup';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import EventsViewer, { View, ViewIcons } from '../EventsViewer';
-import Popup from 'reactjs-popup';
+import EventsViewer, { View } from '../EventsViewer';
 import ChangeViewAction from '../EventsViewer/ChangeViewAction';
 import { useStore } from '@site/src/stores/hooks';
+import DeleteGroup from './DeleteGroup';
+import { DestroyEventAction } from '@site/src/api/event_group';
+import Popup from 'reactjs-popup';
+import DiffViewer from '../Event/DiffViewer';
+import ShiftAudience from './BulkEditor/ShiftAudience';
+import Preview from './BulkEditor/Preview';
 
 interface Props {
     group: EventGroupModel;
@@ -54,35 +58,35 @@ const DEFAULT_COLUMN_CONFIG: ColumnConfig = [
 ] as const;
 
 const UserEventGroup = observer((props: Props) => {
+    const { group } = props;
     const store = useStore('sessionStore');
     const [isOpen, setIsOpen] = React.useState(false);
-    const [isShiftEditorOpen, setShiftEditorOpen] = React.useState(false);
+    const [isShiftDatesOpen, setShiftDatesOpen] = React.useState(false);
+    const [isShiftAudienceOpen, setShiftAudienceOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
     const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
 
     React.useEffect(() => {
-        if ((isOpen || props.standalone) && !group.isFullyLoaded && store.isLoggedIn) {
+        if ((isOpen || props.standalone) && store.isLoggedIn) {
             group.loadEvents();
         }
-    }, [isOpen, props.group, props.group.isFullyLoaded, props.standalone, store.isLoggedIn]);
+    }, [isOpen, group, group.isFullyLoaded, props.standalone, store.isLoggedIn]);
 
     React.useEffect(() => {
         const toAdd: ('nr' | 'author')[] = [];
-        if (props.group.isFullyLoaded && props.group.events.some((e) => e.nr > 0)) {
+        if (group.isFullyLoaded && group.events.some((e) => e.nr > 0)) {
             toAdd.push('nr');
         }
-        if (
-            props.group.isFullyLoaded &&
-            props.group.events.some((e) => e.author.id !== props.group.events[0].author.id)
-        ) {
+        if (group.isFullyLoaded && group.events.some((e) => e.author.id !== group.events[0].author.id)) {
             toAdd.push('author');
         }
         if (toAdd.length > 0) {
             setColumnConfig([...toAdd, ...DEFAULT_COLUMN_CONFIG]);
         }
-    }, [props.group.isFullyLoaded]);
+    }, [group.isFullyLoaded]);
+    const drafts = group.events.filter((e) => e.isDraft);
+    const toShift = drafts.some((e) => e.selected) ? drafts.filter((e) => e.selected) : drafts;
 
-    const { group } = props;
     return (
         <div
             className={clsx(
@@ -144,24 +148,24 @@ const UserEventGroup = observer((props: Props) => {
                     )}
                     <ModelActions
                         model={group}
-                        disableDelete={group.eventCount > 0}
-                        deleteTitle={
-                            group.eventCount > 0
-                                ? translate({
-                                      id: 'group.delete.title',
-                                      message: 'Nur Gruppen ohne Termine können gelöscht werden'
-                                  })
-                                : undefined
-                        }
+                        hideDelete
                         rightNodes={
                             <>
                                 {group.isEditing && (
-                                    <Clone
-                                        onClick={() => {
-                                            group.clone();
-                                        }}
-                                        apiState={group.apiStateFor(`clone-${group.id}`)}
-                                    />
+                                    <>
+                                        <DeleteGroup
+                                            onDelete={(action: DestroyEventAction) => {
+                                                group.destroy(action);
+                                            }}
+                                            hasDrafts={group.events.some((e) => e.isDraft)}
+                                        />
+                                        <Clone
+                                            onClick={() => {
+                                                group.clone();
+                                            }}
+                                            apiState={group.apiStateFor(`clone-${group.id}`)}
+                                        />
+                                    </>
                                 )}
                             </>
                         }
@@ -204,30 +208,98 @@ const UserEventGroup = observer((props: Props) => {
                                 <AddUserPopup group={props.group} />
                                 {group.userIds.size > 1 && <UserTable group={group} />}
                             </dd>
-                            {group.eventCount > 0 && (
+                            <dt>
+                                <Translate id="group.shiftDates.dt">Datum verschieben</Translate>
+                            </dt>
+                            <dd>
+                                <Button
+                                    text={
+                                        isShiftDatesOpen
+                                            ? translate({
+                                                  id: 'group.shiftDates.closeShiftEditor',
+                                                  message: 'Editor schliessen'
+                                              })
+                                            : translate({
+                                                  id: 'group.shiftDates.openShiftEditor',
+                                                  message: 'Editor öffnen'
+                                              })
+                                    }
+                                    icon={mdiCalendarClock}
+                                    active={isShiftDatesOpen}
+                                    size={SIZE_S}
+                                    iconSide="left"
+                                    onClick={() => {
+                                        if (!isShiftDatesOpen && isShiftAudienceOpen) {
+                                            setShiftAudienceOpen(false);
+                                        }
+                                        setShiftDatesOpen(!isShiftDatesOpen);
+                                    }}
+                                />
+                            </dd>
+                            <dt>
+                                <Translate id="group.shiftAudience.dt">
+                                    Jahrgänge und Klassen verschieben
+                                </Translate>
+                            </dt>
+                            <dd>
+                                <Button
+                                    text={
+                                        isShiftAudienceOpen
+                                            ? translate({
+                                                  id: 'group.shiftDates.closeShiftEditor',
+                                                  message: 'Editor schliessen'
+                                              })
+                                            : translate({
+                                                  id: 'group.shiftDates.openShiftEditor',
+                                                  message: 'Editor öffnen'
+                                              })
+                                    }
+                                    icon={mdiAccountGroup}
+                                    active={isShiftAudienceOpen}
+                                    iconSide="left"
+                                    size={SIZE_S}
+                                    onClick={() => {
+                                        if (!isShiftAudienceOpen && isShiftDatesOpen) {
+                                            setShiftDatesOpen(false);
+                                        }
+                                        setShiftAudienceOpen(!isShiftAudienceOpen);
+                                    }}
+                                />
+                            </dd>
+                            {group.relatedModels.length > 0 && (
                                 <>
                                     <dt>
-                                        <Translate id="group.shiftDates.dt">Datum Verschieben</Translate>
+                                        <Translate id="group.showAllChanges.dt">
+                                            Alle Änderungen Anzeigen
+                                        </Translate>
                                     </dt>
                                     <dd>
-                                        <Translate id="group.shiftDates.description">
-                                            Alle unveröffentlichten Termine um eine bestimmte Anzahl Tage
-                                            verschieben
-                                        </Translate>
-                                        <Button
-                                            text={
-                                                isShiftEditorOpen
-                                                    ? translate({
-                                                          id: 'group.shiftDates.closeShiftEditor',
-                                                          message: 'Editor schliessen'
-                                                      })
-                                                    : translate({
-                                                          id: 'group.shiftDates.openShiftEditor',
-                                                          message: 'Editor öffnen'
-                                                      })
+                                        <Popup
+                                            trigger={
+                                                <span>
+                                                    <Button text="Öffnen" />
+                                                </span>
                                             }
-                                            onClick={() => setShiftEditorOpen(!isShiftEditorOpen)}
-                                        />
+                                            modal
+                                            nested
+                                            lockScroll
+                                        >
+                                            <div>
+                                                <DiffViewer
+                                                    compare={group.relatedModels}
+                                                    labels={{
+                                                        a: translate({
+                                                            id: 'eventGroup.diff.cloned',
+                                                            message: 'Original'
+                                                        }),
+                                                        b: translate({
+                                                            id: 'eventGroup.diff.changed',
+                                                            message: 'Neu'
+                                                        })
+                                                    }}
+                                                />
+                                            </div>
+                                        </Popup>
                                     </dd>
                                 </>
                             )}
@@ -263,8 +335,21 @@ const UserEventGroup = observer((props: Props) => {
                                 </>
                             )}
                         </DefinitionList>
-                        {isShiftEditorOpen && (
-                            <ShiftDatesEditor group={group} close={() => setShiftEditorOpen(false)} />
+                        {isShiftDatesOpen && (
+                            <ShiftDates
+                                events={toShift}
+                                onClose={() => {
+                                    setShiftDatesOpen(false);
+                                }}
+                            />
+                        )}
+                        {isShiftAudienceOpen && (
+                            <ShiftAudience
+                                events={toShift}
+                                onClose={() => {
+                                    setShiftAudienceOpen(false);
+                                }}
+                            />
                         )}
                     </>
                 )}

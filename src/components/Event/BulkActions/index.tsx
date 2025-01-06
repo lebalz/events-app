@@ -31,6 +31,9 @@ import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 import { InvalidTransitionMessages } from '../EventFields/Actions/Transition';
 import Loader from '../../shared/Loader';
 import ValidationChecker from './ValidationChecker';
+import Popup from 'reactjs-popup';
+import NewGroup from '../../EventGroup/NewGroup';
+import { PopupActions } from 'reactjs-popup/dist/types';
 
 interface ActionConfig {
     stateActions: boolean;
@@ -65,6 +68,8 @@ const BulkActions = observer((props: Props) => {
     const departmentStore = useStore('departmentStore');
     const viewStore = useStore('viewStore');
     const { current } = userStore;
+    const ref = React.useRef<PopupActions>(null);
+
     const selected = props.events?.filter((e) => e.selected) || [];
     if (selected.length < 1) {
         return (
@@ -213,23 +218,35 @@ const BulkActions = observer((props: Props) => {
             )}
             {actionConfig.groups && (
                 <>
-                    <Button
-                        text="Neue Gruppe"
-                        icon={mdiTag}
-                        size={SIZE_XS}
-                        iconSide="left"
-                        onClick={action(() => {
-                            const ids = selected.map((event) => event.id);
-                            eventGroupStore.create({ event_ids: ids, name: 'Neue Gruppe' });
-                        })}
-                    />
+                    <Popup
+                        ref={ref}
+                        trigger={
+                            <span>
+                                <Button text="Neue Gruppe" icon={mdiTag} size={SIZE_XS} iconSide="left" />
+                            </span>
+                        }
+                        modal
+                        lockScroll
+                        nested
+                        overlayStyle={{ background: 'rgba(0, 0, 0, 0.2)' }}
+                    >
+                        <div>
+                            <NewGroup
+                                onDone={() => {
+                                    ref.current?.close();
+                                }}
+                                eventIds={selected.map((e) => e.id)}
+                            />
+                        </div>
+                    </Popup>
                     <Select
                         isMulti={true}
                         isSearchable={true}
                         isClearable={true}
                         menuPortalTarget={document.body}
                         styles={{
-                            menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' })
+                            menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' }),
+                            container: (base) => ({ ...base, minWidth: '15em' })
                         }}
                         onChange={(options, meta) => {
                             switch (meta.action) {
@@ -339,7 +356,7 @@ const BulkActions = observer((props: Props) => {
             {onlyMine && actionConfig.delete && (
                 <Delete
                     onClick={action(() => {
-                        selected.forEach((event) => event.destroy());
+                        eventStore.destroyMany(selected);
                     })}
                 />
             )}

@@ -13,6 +13,14 @@
     &:hover {
         box-shadow: var(--ifm-global-shadow-md);
     }
+    .highlight {
+        background-color: rgba(255, 255, 0, 0.591);
+        border-radius: var(--ifm-global-radius);
+        &:not(.date) {
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+    }
     .header {
         grid-area: header;
         display: grid;
@@ -29,6 +37,10 @@
         .date {
             font-weight: 700;
             position: relative;
+            .highlight {
+                padding-left: 0;
+                padding-right: 0;
+            }
             &.dateStart {
                 grid-area: d-start;
                 margin-right: 4px;
@@ -45,7 +57,7 @@
             }
             &.timeEnd {
                 grid-area: t-end;
-                justify-self: flex-end;
+                justify-self: flex-start;
                 &.singleDayEvent {
                     justify-self: flex-start;
                 }
@@ -79,6 +91,11 @@
                     height: 2px; /* thickness of the line */
                     background-color: var(--ifm-color-success-lightest);
                 }
+                &.showDayname {
+                    &::after {
+                        width: calc(2em + 1.5px); /* dateStart has a marginRight of 0.5rem*/
+                    }
+                }
                 &.timeEnd {
                     /* line */
                     &::after {
@@ -110,6 +127,16 @@
         .title {
             .small {
                 margin-left: 0.5em;
+            }
+        }
+        &.descriptionExpanded {
+            white-space: unset;
+            .title {
+                display: block;
+                .small {
+                    margin-left: 0;
+                    display: block;
+                }
             }
         }
     }
@@ -148,10 +175,6 @@
         font-size: inherit;
         padding: 2px 4px;
     }
-    .differs {
-        background-color: rgba(255, 255, 0, 0.591);
-        border-radius: var(--ifm-global-radius);
-    }
 }
 .spacer {
     flex-grow: 1;
@@ -179,15 +202,7 @@
 // }
 
 .fieldset {
-    position: relative;
-    padding-right: 5em;
-    .label {
-        position: absolute;
-        top: -1em;
-        right: -1em;
-        font-weight: 400;
-        opacity: 0.9;
-    }
+    padding: 0 1em;
     h3 {
         margin-bottom: 0.15em;
     }

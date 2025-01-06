@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import {
     Event as EventProps,
@@ -8,20 +8,29 @@ import {
     clone as apiClone,
     all as apiFetchEvents,
     updateMeta,
-    Meta
+    Meta,
+    updateBatched as apiUpdateBatched,
+    deleteMany as apiDeleteMany
 } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
 import _ from 'lodash';
 import iStore from './iStore';
 import Department from '../models/Department';
-import { HOUR_2_MS } from '../models/helpers/time';
+import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
+import AudienceShifter from '../components/EventGroup/BulkEditor/ShiftAudience/AudienceShifter';
+import { classes } from '../api/untis';
+import { KlassName } from '../models/helpers/klassNames';
 
 export class EventStore extends iStore<
     EventProps,
-    'download-excel' | `clone-${string}` | `update-meta-${string}` | `load-versions-${string}`
+    | 'download-excel'
+    | `clone-${string}`
+    | `update-meta-${string}`
+    | `update-batched-${string}`
+    | `load-versions-${string}`
 > {
     readonly root: RootStore;
 
@@ -203,8 +212,8 @@ export class EventStore extends iStore<
         return _.uniqBy([...klasses, ...wildcard], 'id');
     }
 
-    hasUntisClassesInClassGroup(classGroupName: string) {
-        return this.root.untisStore.hasClassesWithGroupName(classGroupName);
+    hasUntisClassesInClassGroup(classGroupName: string, referenceYear: number) {
+        return this.root.untisStore.hasClassesWithGroupName(classGroupName, referenceYear);
     }
 
     getWildcardUntisClasses(event: Event) {
@@ -263,18 +272,26 @@ export class EventStore extends iStore<
     }
 
     @action
-    loadEvents(ids: string[], sigId: string) {
-        return this.withAbortController(`load-events-${sigId}`, (sig) => {
-            return apiFetchEvents(ids, sig.signal).then(
-                action(({ data }) => {
-                    if (data) {
-                        data.map((d) => {
-                            this.addToStore(d);
-                        });
-                    }
-                })
-            );
+    loadEvents(ids: string[], sigId: string): Promise<Event[]> {
+        if (ids.length === 0) {
+            return Promise.resolve([] as Event[]);
+        }
+        // max 2048 characters in URL --> batch to 42 records per fetch
+        const res = _.chunk([...new Set(ids)], 42).map((chunkedIds, idx) => {
+            return this.withAbortController(`load-events-${sigId}-${idx}`, (sig) => {
+                return apiFetchEvents(chunkedIds, sig.signal).then(
+                    action(({ data }) => {
+                        if (data) {
+                            return data.map((d) => {
+                                return this.addToStore(d);
+                            });
+                        }
+                        return [];
+                    })
+                );
+            });
         });
+        return Promise.all(res).then((batched) => batched.flat() as Event[]);
     }
 
     @action
@@ -287,5 +304,110 @@ export class EventStore extends iStore<
                 return data;
             });
         });
+    }
+
+    @action
+    shiftEventDates(events: Event[], shiftMs: number) {
+        const updated = events
+            .filter((e) => e.isDraft)
+            .map((event) => {
+                const start = new Date(event.start.getTime() + shiftMs);
+                const end = new Date(event.end.getTime() + shiftMs);
+                return {
+                    id: event.id,
+                    start: toGlobalDate(start).toISOString(),
+                    end: toGlobalDate(end).toISOString()
+                };
+            });
+        return this.updateBatched(updated);
+    }
+
+    @action
+    shiftAudiencePatch(events: Event[], shifter: AudienceShifter) {
+        const updated = events
+            .filter((e) => e.isDraft)
+            .map((event) => {
+                const updatedClasses = [...event._selectedClassNames]
+                    .map((c) => shifter.audience.get(c))
+                    .filter((a) => !!a) as KlassName[];
+                const updatedClassGroups = [...event.classGroups]
+                    .map((c) => shifter.audience.get(c))
+                    .filter((a) => !!a);
+                const change: Partial<EventProps> & { id: string } = {
+                    id: event.id,
+                    classes: updatedClasses,
+                    classGroups: updatedClassGroups
+                };
+                if (shifter.shiftAudienceInText) {
+                    let description = event.description;
+                    let descriptionLong = event.descriptionLong;
+                    let location = event.location;
+                    [...event._selectedClassNames].forEach((klass) => {
+                        const untisClass = this.root.untisStore.findClassByName(klass);
+                        const newClass = this.root.untisStore.findClassByName(
+                            shifter.audience.get(klass) || ''
+                        );
+                        const name = untisClass?.displayName || klass;
+                        const newName = newClass?.displayName || shifter.audience.get(klass) || '';
+                        description = description.replace(new RegExp(name, 'g'), newName);
+                        descriptionLong = descriptionLong.replace(new RegExp(name, 'g'), newName);
+                        location = location.replace(new RegExp(name, 'g'), newName);
+                    });
+                    if (description !== event.description) {
+                        change.description = description;
+                    }
+                    if (descriptionLong !== event.descriptionLong) {
+                        change.descriptionLong = descriptionLong;
+                    }
+                    if (location !== event.location) {
+                        change.location = location;
+                    }
+                }
+                return change;
+            });
+        return updated;
+    }
+
+    @action
+    shiftEventAudience(events: Event[], shifter: AudienceShifter) {
+        return this.updateBatched(this.shiftAudiencePatch(events, shifter));
+    }
+
+    @action
+    updateBatched(events: (Partial<EventProps> & { id: string })[]) {
+        return this.withAbortController(`update-batched-${events.map((e) => e.id).join(':')}`, (sig) => {
+            return apiUpdateBatched(events, sig.signal).then(({ data }) => {
+                if (data) {
+                    data.forEach((d) => {
+                        this.addToStore(d);
+                    });
+                }
+                return data;
+            });
+        });
+    }
+
+    @action
+    destroyMany(toDelete: Event[]): Promise<string[]> {
+        if (toDelete.length === 0) {
+            return Promise.resolve([]);
+        }
+
+        // max 2048 characters in URL --> batch to 42 records per fetch
+        const res = _.chunk([...new Set(toDelete.map((e) => e.id).sort())], 42).map((chunkedIds, idx) => {
+            return this.withAbortController(`destroy-${chunkedIds.join(':')}`, (sig) => {
+                return apiDeleteMany(chunkedIds, sig.signal).then(
+                    action(({ data }) => {
+                        if (data) {
+                            data.forEach((id) => {
+                                this.removeFromStore(id, true);
+                            });
+                        }
+                        return data;
+                    })
+                );
+            });
+        });
+        return Promise.all(res).then((batched) => batched.flat());
     }
 }

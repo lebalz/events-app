@@ -1,0 +1,48 @@
+.shiftEditor {
+    box-shadow: var(--ifm-global-shadow-md);
+    .description {
+        display: flex;
+        align-items: center;
+        gap: 0.75em;
+    }
+    &:last-child {
+        margin-bottom: var(--ifm-paragraph-margin-bottom);
+    }
+    .editor {
+        .actions {
+            flex-grow: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+            align-items: flex-start;
+            .inputs {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+                flex-basis: 12em;
+                flex-wrap: wrap;
+                .datePicker {
+                    flex-basis: 4.5em;
+                    display: flex;
+                    gap: 0.5em;
+                    .day {
+                        width: 2em;
+                    }
+                }
+            }
+            .hours {
+                display: flex;
+                flex-basis: 8em;
+            }
+        }
+        .applyButton {
+            margin-left: auto;
+            margin-top: 1em;
+        }
+    }
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -1,0 +1,31 @@
+.diffViewer {
+    max-height: 90vh;
+    .content {
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        .diff {
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+            justify-content: center;
+            .event {
+                flex-basis: 20em;
+                max-width: 40em;
+                flex-grow: 1;
+            }
+            &.grouped {
+                padding: 8px;
+                border-radius: var(--ifm-global-radius);
+                box-shadow: var(--ifm-global-shadow-lw);
+                .event {
+                    h4 {
+                        font-size: var(--ifm-h5-font-size);
+                        margin-bottom: 4px;
+                    }
+                }
+            }
+        }
+    }
+}

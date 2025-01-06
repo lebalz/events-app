@@ -18,6 +18,7 @@ interface Props {
      *   (and is not applied by default because an infinite update-cycle would be triggered otherwise)
      */
     id?: string;
+    className?: string;
 }
 
 const toDate = (date: Date | string, time: 'start' | 'end') => {
@@ -50,32 +51,32 @@ const DatePicker = observer((props: Props) => {
     );
     const [_id, _setId] = React.useState<string>(props.id);
 
-    React.useEffect(
-        action(() => {
-            try {
-                props.onChange(toDate(date, props.time));
-            } catch (e) {
-                /** invalid date - ignore */
-            }
-        }),
-        [date, props.time]
-    );
-
     React.useEffect(() => {
         if (props.id !== _id) {
             _setId(props.id);
-            setDate(initDate(props.date, props.time).toISOString().substring(0, 10));
+            const newDate = initDate(props.date, props.time).toISOString().substring(0, 10);
+            setDate(newDate);
+            try {
+                props.onChange(toDate(newDate, props.time));
+            } catch (e) {
+                /** invalid date - ignore */
+            }
         }
     }, [_id, props.id, props.date, props.time]);
 
     return (
-        <div>
+        <div className={clsx(props.className)}>
             <input
                 type={'date'}
                 value={date}
                 disabled={props.disabled}
                 onChange={(e) => {
                     setDate(e.currentTarget.value);
+                    try {
+                        props.onChange(toDate(e.currentTarget.value, props.time));
+                    } catch (e) {
+                        /** invalid date - ignore */
+                    }
                 }}
             />
         </div>

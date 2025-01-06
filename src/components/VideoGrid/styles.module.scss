@@ -13,3 +13,20 @@
         grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); /* see notes below */
     }
 }
+
+.video {
+    .steps {
+        list-style: none;
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+                box-shadow: var(--ifm-global-shadow-md);
+                border-radius: var(--ifm-global-radius);
+            }
+        }
+    }
+}

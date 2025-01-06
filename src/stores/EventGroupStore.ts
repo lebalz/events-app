@@ -8,11 +8,13 @@ import {
     EventGroup as EventGroupProps,
     create as apiCreate,
     clone as apiClone,
-    events as fetchEvents
+    events as fetchEvents,
+    DestroyEventAction
 } from '../api/event_group';
 import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
+import { destroy as apiDestroy } from '../api/api_model';
 
 export class EventGroupStore extends iStore<
     EventGroupProps,
@@ -42,7 +44,7 @@ export class EventGroupStore extends iStore<
 
     @computed
     get eventGroups(): EventGroup[] {
-        return _.orderBy(this.models, ['_pristine.name'], ['asc']) as EventGroup[];
+        return _.orderBy(this.models, ['_pristine.name'], ['desc']) as EventGroup[];
     }
 
     create(model: EventGroupCreate) {
@@ -53,8 +55,11 @@ export class EventGroupStore extends iStore<
             return apiCreate(model, sig.signal);
         }).then(
             action(({ data }) => {
-                const model = this.addToStore(data, 'create');
-                if (model._pristine.eventIds.length > 0) {
+                const model = this.addToStore(data, 'create') as EventGroup;
+                if (
+                    model._pristine.eventIds.length > 0 &&
+                    model.events.length !== model._pristine.eventIds.length
+                ) {
                     return this.reloadEvents(model).then(() => model);
                 } else {
                     return model;
@@ -110,5 +115,20 @@ export class EventGroupStore extends iStore<
             ids = [ids];
         }
         return ids.map((id) => this.find<EventGroup>(id)).filter((e) => !!e);
+    }
+
+    @action
+    destroy(model: EventGroup, eventAction: DestroyEventAction = DestroyEventAction.Unlink) {
+        const { id } = model;
+        this.withAbortController(`destroy-${id}`, (sig) => {
+            return apiDestroy<EventGroup>(
+                `${this.ApiEndpoint.Base}/${id}?eventAction=${eventAction}`,
+                sig.signal
+            );
+        }).then(
+            action(() => {
+                this.removeFromStore(id);
+            })
+        );
     }
 }

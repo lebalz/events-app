@@ -25,6 +25,9 @@ const Klasses = observer((props: Props) => {
             )}
         >
             <div className={clsx(styles.tags)}>
+                {event._unknownClassGroups.map((cg) => {
+                    return <Badge key={cg} text={`${cg}*`} color="red" />;
+                })}
                 {event.fClasses.map((c, idx) => {
                     const color = c.classes.length === 0 ? 'red' : 'gray';
                     return (
@@ -35,9 +38,6 @@ const Klasses = observer((props: Props) => {
                             color={color}
                         />
                     );
-                })}
-                {event._unknownClassGroups.map((cg) => {
-                    return <Badge key={cg} text={`${cg}*`} color="red" />;
                 })}
             </div>
         </div>

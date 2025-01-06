@@ -1,12 +1,11 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_S, SIZE_XS } from '../icons';
+import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_XS } from '../icons';
 import Button from '../Button';
-import { ApiState } from '@site/src/stores/iStore';
 import { useWindowSize } from '@docusaurus/theme-common';
 
 const SemesterSelector = observer(() => {

@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, computed, observable, reaction } from 'mobx';
 import { RootStore } from '../stores';
 import Semester from '../../models/Semester';
 import User from '../../models/User';
@@ -138,6 +138,32 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         }
         return events;
     };
+
+    @computed
+    get adminReviewEvents() {
+        if (!this.root.userStore.current?.isAdmin) {
+            return [];
+        }
+        return this.allEvents({ states: [EventState.Review] });
+    }
+
+    @computed
+    get inReviewEvents() {
+        return this.usersEvents({
+            ignoreImported: true,
+            ignoreDeleted: true,
+            states: [EventState.Review, EventState.Refused]
+        });
+    }
+
+    @computed
+    get draftEvents() {
+        return this.usersEvents({
+            ignoreImported: true,
+            ignoreDeleted: true,
+            states: [EventState.Draft]
+        });
+    }
 
     @computed
     get todayEvents() {

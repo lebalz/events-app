@@ -118,3 +118,20 @@ export const getLastMonday = (date: Date = new Date()) => {
 export const dateBetween = (date: Date, start: Date, end: Date) => {
     return date.getTime() >= start.getTime() && date.getTime() <= end.getTime();
 };
+
+export const formatSeconds = (_seconds: number) => {
+    const seconds = Math.floor(_seconds);
+    if (seconds < 60) {
+        const padded = `${seconds}`.padStart(2, '0');
+        return `00:${padded}`;
+    }
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = `${seconds % 60}`.padStart(2, '0');
+    if (minutes < 60) {
+        const padded = `${minutes}`.padStart(2, '0');
+        return `${padded}:${remainingSeconds}`;
+    }
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = `${minutes % 60}`.padStart(2, '0');
+    return `${hours}:${remainingMinutes}:${remainingSeconds}`;
+};

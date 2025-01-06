@@ -147,11 +147,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable accessor location: string;
 
-    @observable accessor end: Date;
+    @observable.ref accessor end: Date;
 
-    @observable accessor deletedAt: Date | undefined;
+    @observable.ref accessor deletedAt: Date | undefined;
 
-    @observable accessor start: Date;
+    @observable.ref accessor start: Date;
 
     @observable accessor allLPs: boolean;
 
@@ -812,7 +812,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             classes: kls[year]
         }));
 
-        return [...composed, ...this._unknownClassNames.map((c) => ({ text: c, classes: [] }))];
+        return [...this._unknownClassNames.map((c) => ({ text: c, classes: [] })), ...composed];
     }
 
     @computed
@@ -1001,13 +1001,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get _unknownClassNames(): KlassName[] {
-        const known = new Set(this.untisClasses.map((c) => c.name));
+        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
+        const known = new Set(this.untisClasses.filter((c) => c.year >= refYear).map((c) => c.name));
         return [...this.classes].filter((c) => !known.has(c));
     }
 
     @computed
     get _unknownClassGroups(): string[] {
-        return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c));
+        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
+        return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c, refYear));
     }
 
     @computed
@@ -1414,8 +1416,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         }
     }
 
-    cleanup() {
+    cleanup(destroyed?: boolean) {
         this.validationDisposer();
         clearTimeout(this.validationTimeout);
+        if (destroyed) {
+            this.groups.forEach((eg) => eg.triggerReload());
+        }
     }
 }

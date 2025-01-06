@@ -22,7 +22,8 @@ const GroupSelect = observer((props: Props) => {
             isClearable={true}
             menuPortalTarget={document.body}
             styles={{
-                menuPortal: (base) => ({ ...base, zIndex: '1000' })
+                menuPortal: (base) => ({ ...base, zIndex: '1000' }),
+                container: (base) => ({ ...base, minWidth: '20em' })
             }}
             onChange={(options, meta) => {
                 switch (meta.action) {
