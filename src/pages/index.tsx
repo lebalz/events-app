@@ -164,7 +164,6 @@ const Home = observer(() => {
                                         event={event}
                                         className={clsx(styles.eventOverview)}
                                         showDayname
-                                        expandDescriptionLong
                                     />
                                 ))}
                             </>
