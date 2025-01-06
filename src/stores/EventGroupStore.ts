@@ -55,8 +55,11 @@ export class EventGroupStore extends iStore<
             return apiCreate(model, sig.signal);
         }).then(
             action(({ data }) => {
-                const model = this.addToStore(data, 'create');
-                if (model._pristine.eventIds.length > 0) {
+                const model = this.addToStore(data, 'create') as EventGroup;
+                if (
+                    model._pristine.eventIds.length > 0 &&
+                    model.events.length !== model._pristine.eventIds.length
+                ) {
                     return this.reloadEvents(model).then(() => model);
                 } else {
                     return model;
