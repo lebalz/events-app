@@ -1978,15 +1978,15 @@
     "description": "The title of the page for a blog author"
   },
   "theme.blog.authorsList.pageTitle": {
-    "message": "Authors",
+    "message": "Auteur·rices",
     "description": "The title of the authors page"
   },
   "theme.blog.authorsList.viewAll": {
-    "message": "View All Authors",
+    "message": "Voir tous·tes les auteur·rices",
     "description": "The label of the link targeting the blog authors page"
   },
   "theme.blog.author.noPosts": {
-    "message": "This author has not written any posts yet.",
+    "message": "Cet·te auteur·rice n'a encore rien posté.",
     "description": "The text for authors with 0 blog post"
   },
   "theme.contentVisibility.unlistedBanner.title": {
@@ -1998,11 +1998,153 @@
     "description": "The unlisted content banner message"
   },
   "theme.contentVisibility.draftBanner.title": {
-    "message": "Draft page",
+    "message": "Projet de page",
     "description": "The draft content banner title"
   },
   "theme.contentVisibility.draftBanner.message": {
-    "message": "This page is a draft. It will only be visible in dev and be excluded from the production build.",
+    "message": "Cette page est un projet. Elle ne sera visible que dans la version de développement et sera exclue de la version de production.",
     "description": "The draft content banner message"
+  },
+  "unsubscribe.noUser": {
+    "message": "Non connecté·e",
+    "description": "Nicht angemeldet"
+  },
+  "unsubscribe.noEvent": {
+    "message": "Évènement non trouvé",
+    "description": "Kein Termin gefunden"
+  },
+  "unsubscribe.title": {
+    "message": "Évènement annulé"
+  },
+  "unsubscribe.success": {
+    "message": "L'évènement n'apparaît plus dans le calendrier personnel.",
+    "description": "Successfully unsubscribed"
+  },
+  "unsubscribe.calendarPickup.title": {
+    "message": "Mise à jour différée dans le calendrier (24h)"
+  },
+  "unsubscribe.calendarPickup": {
+    "message": "« Il peut s'écouler un certain temps avant que les modifications soient prises en compte par le programme de calendrier (jusqu'à 24h, en fonction de l'intervalle de synchronisation)."
+  },
+  "unsubscribe.go2settings": {
+    "message": "👉 Vers les réglages",
+    "description": "Go to the settings"
+  },
+  "unsubscribe.undo": {
+    "message": "Annuler",
+    "description": "Rückgängig machen"
+  },
+  "subscription.unsubscribe": {
+    "message": "Afficher à nouveau ce rendez-vous dans le calendrier personnel."
+  },
+  "event.validate.inProgress": {
+    "message": "Valider"
+  },
+  "event.bulk_actions.resubscribe": {
+    "message": "S'abonner à nouveau"
+  },
+  "event.bulk_actions.unsubscribe": {
+    "message": "Se désabonner"
+  },
+  "user.ical.already-subscribed-button.text": {
+    "message": "Abonné·e",
+    "description": "Button text for subscribing to the calendar"
+  },
+  "user.ical.subscribe-button.text": {
+    "message": "S'abonner",
+    "description": "Button text for subscribing to the calendar"
+  },
+  "user.ical.already-subscribe-button.title": {
+    "message": "Déjà ajouté à l'abonnement personnel au calendrier",
+    "description": "Button title for subscribing to the calendar"
+  },
+  "user.ical.subscribe-button.title": {
+    "message": "Ajouter au calendrier personnel",
+    "description": "Button title for subscribing to the calendar"
+  },
+  "user.ical.download-button.title": {
+    "message": "Télécharger les données ICS",
+    "description": "Button text for downloading the ics calendar file"
+  },
+  "subscriptions.ical.openOutlook": {
+    "message": "Ouvrir dans Outlook"
+  },
+  "subscriptions.ical.url": {
+    "message": "URL du calendrier"
+  },
+  "subscriptions.subscribed.subscribePersonal": {
+    "message": "Évènement personnel?"
+  },
+  "subscriptions.subscribed.subscribePersonal.label": {
+    "message": "Abonné·e"
+  },
+  "ical.personal.description.affectsLessons": {
+    "message": "Évènements qui impactent les cours"
+  },
+  "ical.personal.description.forTeachers": {
+    "message": "Évènement pour les enseignant·e·s"
+  },
+  "ical.personal.description.forSchool": {
+    "message": "Évènement pour toute l'école."
+  },
+  "ical.personal.description.forClass": {
+    "message": "Évènement qui concerne sa classe."
+  },
+  "subscriptions.subscribed.ignoredEvents": {
+    "message": "Évènement ignoré"
+  },
+  "subscriptions.subscribed.classes": {
+    "message": "Classes abonnées"
+  },
+  "subscriptions.subscribed.classes.description": {
+    "message": "Les évènements d'une classe abonnée apparaissent également dans le calendrier personnel. Les évènements à double ne sont pas affichés."
+  },
+  "subscriptions.subscribed.classes.hint": {
+    "message": "Il n'est pas nécessaire de s'abonner à sa propre classe (pour les MC) - ces dates sont déjà incluses."
+  },
+  "subscriptions.subscribed.departments": {
+    "message": "Filières abonnées"
+  },
+  "subscriptions.subscribed.departments.description": {
+    "message": "Les évènements d'une filière abonnée apparaissent également dans le calendrier personnel. Les évènements à double ne sont pas affichés."
+  },
+  "subscriptions.departments.classes.hint": {
+    "message": "Les filières des classes où on enseigne sont déjà abonnés dans le calendrier personnel."
+  },
+  "subscription.no_untis_account": {
+    "message": "Vous n'avez pas de compte Untis lié, c'est pourquoi vos évènements ne peuvent pas être mis en relation avec votre emploi du temps.",
+    "description": "Message for a user, that is not linked to a untis account"
+  },
+  "subscriptionPanel.configure.title": {
+    "message": "Configurer l'abonnement"
+  },
+  "event.transition.invalid.initialValidation": {
+    "message": "Aucune validation n'a encore été effectuée"
+  },
+  "event.transition.invalid.validation": {
+    "message": "Les dates erronées ne peuvent pas être soumises."
+  },
+  "event.transition.invalid.noOpenRegistrationPeriod": {
+    "message": "Actuellement, aucune fenêtre d'inscription n'est ouverte."
+  },
+  "subscription.subscribe": {
+    "message": "Ne plus afficher cet événement dans le calendrier personnel."
+  },
+  "event.ignored": {
+    "message": "Événements ignorés"
+  },
+  "subscription.content.advanced": {
+    "message": "Paramètres d'abonnement avancés"
+  },
+  "event.isValid.noRegistrationPeriod.title": {
+    "message": "Pas de fenêtre d'inscription",
+    "description": "Alert message for event without open registration period"
+  },
+  "event.isValid.noRegistrationPeriod.text": {
+    "message": "Il n'y a pas de période d'inscription ouverte pour cet événement.",
+    "description": "Alert message for event without open registration period"
+  },
+  "components.shared.loader.loading": {
+    "message": "Chargement ..."
   }
 }

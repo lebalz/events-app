@@ -2034,5 +2034,8 @@
   },
   "shiftEditor.description": {
     "message": "Änderungen werden nur auf Entwürfe angewandt. Betroffene Termine:"
+  },
+  "components.shared.loader.loading": {
+    "message": "Laden..."
   }
 }
