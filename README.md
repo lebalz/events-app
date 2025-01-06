@@ -36,7 +36,11 @@ $ yarn run start
 #### First time
 
 1. Edit the `.env` file and fill in at least the the values that are relevant for development (see above).
-2. Run
+2. Make sure you have Node Version `>=22.12.0` installed. With `nvm` you can
+   - check your version with `nvm version`
+   - install a new version with `nvm install --default v22.12.0` 
+   - and then switch to the correct version with `nvm use v22.12.0` (or restart your computer/login shell).
+3. Run
 ```bash
 yarn install
 yarn run start
