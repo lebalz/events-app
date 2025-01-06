@@ -2110,39 +2110,7 @@
   "subscription.content.advanced": {
     "message": "Erweiterte Abo-Einstellungen"
   },
-  "unsubscribe.success": {
-    "message": "Der Termin wird nicht mehr im persönlichen Kalender angezeigt.",
-    "description": "Successfully unsubscribed"
-  },
-  "unsubscribe.calendarPickup.title": {
-    "message": "Zeitverzögerte Aktualisierung im Kalender (24h)"
-  },
-  "unsubscribe.calendarPickup": {
-    "message": "Bis die Änderungen vom Kalenderprogramm übernommen werden, kann es einige Zeit dauern (bis zu 24h, abhängig vom Synchronisierungsintervall)."
-  },
-  "unsubscribe.go2settings": {
-    "message": "👉 Zu den Einstellungen",
-    "description": "Go to the settings"
-  },
-  "subscription.unsubscribe": {
-    "message": "Diesen Termin wieder im persönlichen Kalender anzeigen."
-  },
-  "event.validate.inProgress": {
-    "message": "Validieren"
-  },
   "components.shared.loader.loading": {
     "message": "Laden..."
-  },
-  "event.transition.invalid.initialValidation": {
-    "message": "Es wurde noch keine Validierung durchgeführt."
-  },
-  "event.transition.invalid.validation": {
-    "message": "Fehlerhafte Termine können nicht eingereicht werden."
-  },
-  "event.transition.invalid.noOpenRegistrationPeriod": {
-    "message": "Aktuell ist kein Anmeldefenster geöffnet."
-  },
-  "subscription.subscribe": {
-    "message": "Diesen Termin nicht mehr im persönlichen Kalender anzeigen."
   }
 }
