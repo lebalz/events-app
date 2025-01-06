@@ -1,0 +1,86 @@
+import Video from '@site/src/components/VideoGrid/Video';
+
+# Termine aufs nächste Jahr Übertragen
+
+Um die Terminplanung für das nächste Schuljahr vorzunehmen, sollte mit Termin-Gruppen gearbeitet werden.
+
+Termingruppen 
+- enthalten Termine (sowohl veröffentlichte wie auch nicht veröffentlichte)
+- können mit anderen Personen **geteilt** werden - diese Personen haben dann auch Bearbeitungs-Rechte für unveröffentlichte Termine dieser Gruppe.
+- können **dupliziert** werden - so können Termine für das nächste Schuljahr einfach übernommen werden.
+- ermöglichen die **gleichzeitige Bearbeitung aller Termine** in der Gruppe.
+    - alle Termine z.B. um ein **Jahr verschieben**.
+    - Klassen um eine **Jahrgangsstufe verschieben**.
+- ermöglicht das **Anzeigen aller Änderungen** im Vergleich zur duplizierten Planung. (Achtung: nachträglich hinzugefügte Termine werden bei den Änderungen nicht berücksichtigt)
+
+
+:::info[Gruppenübersicht]
+Die Gruppenübersicht zeigt die Termingruppen geordnet nach dem Gruppennamen an.
+:::
+:::tip[Gruppennamen]
+Am besten wird der Gruppenname nach dem Schema
+```
+{Schuljahr} {Abteilung} {evtl. Beschreibung}
+```
+benannt, z.B. 
+- `2024/25 GYMD` oder `2024HS GYMD`
+- `2024/25 GYMD Maturprüfungen`.
+:::
+
+Eine sorgfältige Aufteilung der Termine in Gruppen lohnt sich, da die Bearbeitung und Arbeitsteilung in Zuständigkeitsbereiche dadurch vereinfacht wird.
+
+
+<Video
+    src="/videos/Events-Shift-Editor.mp4"
+    title="Termine aufs nächste Jahr übertragen"
+    autoplay
+    steps={[
+        { time: 0, label: 'Start' },
+        { time: 7, label: 'Auswahlmenü anzeigen' },
+        { time: 22, label: 'Ausgwählte Termine einer Gruppe hinzufügen' },
+        { time: 36, label: 'Zu den Termingruppen navigieren' },
+        { time: 51, label: 'Termine von einer Gruppe entfernen' },
+        { time: 58, label: 'Gruppe duplizieren/kopieren' },
+        { time: 65.7, label: 'Gruppenname anpassen und speichern' },
+        { time: 83, label: 'Alle Termine um ein Jahr verschieben' },
+        { time: 109, label: 'Klassen um eine Jahrgangsstufe verschieben' },
+        { time: 121, label: 'Einzelne Klassen neu zuweisen', indentLevel: 1 },
+        { time: 135, label: 'Einzelne Klassen nicht mehr zuweisen', indentLevel: 1 },
+        { time: 152, label: 'Klassenbezeichnungen automatisch in Texten anpassen', indentLevel: 1 },
+        { time: 159, label: 'Alle Änderungen anzeigen' }
+    ]}
+/>
+
+## Termine in mehreren Gruppen
+
+Termine können in mehreren Gruppen gleichzeitig enthalten sein, was eine effiziente Übersicht bspw. über das gesamte SJ 2025/26 bieten kann:
+
+Termingruppen nach Abteilung
+: 2025/26 GYMD
+: 2025/26 GYMD Bilingue
+: 2025/26 FMS
+: 2025/26 WMS
+
+Terminübersicht nach Schule
+: 2025/26 GBSL - die Termine aus obiger Gruppe werden jeweils auch dieser Gruppe zugewiesen.
+
+
+<Video
+    src="/videos/Events-Groups-Multiassign.mp4"
+    title="Termine mehreren Gruppen zuweisen"
+    autoplay
+    steps={[
+        { time: 0, label: 'Termine aus "2025/26 FMS" der Gruppe "2025/26" hinzufügen' },
+        { time: 12, label: 'Termine aus "2025/26 GYMD" der Gruppe "2025/26" hinzufügen' },
+        { time: 21, label: 'Termine aus "2025/26 WMS" der Gruppe "2025/26" hinzufügen' },
+        { time: 44, label: 'Termine in Zeitachse anzeigen' },
+    ]}
+/>
+
+:::info[Termine ändern]
+Da die Termine der Gruppe `2025/26` nur hinzugefügt wurden (nicht dupliziert), sind Änderungen immer in allen zugewiesenen Gruppen sichtbar.
+:::
+
+:::warning[Doppelte Termine]
+In Beispiel im Video wurde die Zuweisung der Termine zu den Gruppen unsorgältig gemacht, weshalb nun viele doppelte Termine in der Gruppe `2025/26` vorhanden sind. Dies führt zu einem Mehraufwand.
+:::

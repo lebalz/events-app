@@ -352,8 +352,14 @@ const Home = observer(() => {
                                                 nachverfolgt werden.
                                             </li>
                                             <li>
+                                                📚 Anleitung:
+                                                <Link to="/docs/events/shift">
+                                                    👉 Termine aufs nächste Jahr übertragen
+                                                </Link>
+                                            </li>
+                                            <li>
                                                 <Link to="/user?user-tab=groups">
-                                                    👉 Gruppen Ausprobieren
+                                                    👉 Ausprobieren: Zu den Termin-Gruppen
                                                 </Link>
                                             </li>
                                         </ul>

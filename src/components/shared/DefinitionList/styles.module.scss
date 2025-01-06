@@ -46,6 +46,10 @@ dl.definitionList {
             display: block;
         }
     }
+    > dd > p {
+        display: block;
+        margin-left: 0;
+    }
 }
 
 @media screen and (max-width: 620px) {

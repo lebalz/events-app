@@ -6,7 +6,13 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
-
+import Badge from '../shared/Badge';
+import { formatSeconds } from '@site/src/models/helpers/time';
+interface Step {
+    time: number;
+    label: string;
+    indentLevel?: number;
+}
 interface Props {
     src: string;
     title: string;
@@ -14,21 +20,33 @@ interface Props {
     href?: string;
     playbackRate?: number;
     loop?: boolean;
+    steps?: Step[];
 }
 
 const Video = observer((props: Props) => {
     const ref = React.useRef<HTMLVideoElement>(null);
+    const [isHover, setIsHover] = React.useState(false);
     React.useEffect(() => {
         if (ref.current) {
             ref.current.playbackRate = props.playbackRate || 1;
         }
     }, [ref]);
+    const handleStepClick = (time: number) => {
+        if (ref.current) {
+            ref.current.currentTime = time;
+            ref.current.pause();
+        }
+    };
     return (
         <div className={clsx(styles.video, 'card')}>
-            <div className="card__image">
+            <div
+                className="card__image"
+                onMouseEnter={() => setIsHover(true)}
+                onMouseLeave={() => setIsHover(false)}
+            >
                 <video
                     autoPlay={props.autoplay}
-                    controls
+                    controls={isHover}
                     muted
                     loop={props.loop}
                     ref={ref}
@@ -45,6 +63,25 @@ const Video = observer((props: Props) => {
                     </Link>
                 ) : (
                     <h3>{props.title}</h3>
+                )}
+                {props.steps && (
+                    <ul className={clsx(styles.steps)}>
+                        {props.steps.map((step, index) => (
+                            <li
+                                key={index}
+                                onClick={() => handleStepClick(step.time)}
+                                className={clsx(styles.step)}
+                                style={{
+                                    marginLeft: step.indentLevel
+                                        ? `${step.indentLevel * 3 || 0}em`
+                                        : undefined
+                                }}
+                            >
+                                <Badge color="primary" text={`${formatSeconds(step.time)}`} />
+                                {step.label}
+                            </li>
+                        ))}
+                    </ul>
                 )}
             </div>
         </div>
