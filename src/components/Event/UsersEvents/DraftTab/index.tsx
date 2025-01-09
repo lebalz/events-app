@@ -58,7 +58,15 @@ const DraftTab = observer((props: Props) => {
         description: 'Th: not published'
     });
     if (events.length === 0) {
-        return <NoEventsAlert category={label} />;
+        return (
+            <div className={clsx(styles.card, 'card')}>
+                <div className={clsx('card__header')}>
+                    <h3>{label}</h3>
+                </div>
+                <NoEventsAlert category={label} />
+                <AddEventButton />
+            </div>
+        );
     }
 
     return (
