@@ -295,6 +295,7 @@ export interface PrismaEvent {
     classGroups: string[];
     audience: EventAudience;
     parentId: string | null;
+    clonedFromId: string | null;
     teachingAffected: TeachingAffected;
     affectsDepartment2: boolean;
     createdAt: string;
@@ -369,7 +370,8 @@ export const JoiEvent = Joi.object<Event>({
     createdAt: Joi.date().iso().required(),
     updatedAt: Joi.date().iso().required(),
     deletedAt: Joi.date().iso().allow(null),
-    meta: Joi.object().allow(null)
+    meta: Joi.object().allow(null),
+    clonedFromId: Joi.string().allow(null)
 }).custom((value: Event, helpers: CustomHelpers<Event>) => {
     if (value.classes.length + value.classGroups.length + value.departmentIds.length === 0) {
         return helpers.error('custom.event.emptyAudience', {

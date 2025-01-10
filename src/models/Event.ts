@@ -129,6 +129,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     /** this contains only! the published child versions! */
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
+    readonly clonedFromId: string | null;
 
     @observable.ref accessor updatedAt: Date;
 
@@ -195,6 +196,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.cloned = props.cloned;
         this.publishedVersionIds = props.publishedVersionIds;
         this.affectsDepartment2 = props.affectsDepartment2;
+        this.clonedFromId = props.clonedFromId;
 
         this.parentId = props.parentId;
 
@@ -243,6 +245,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             return [];
         }
         return this.meta.warnings || [];
+    }
+
+    @computed
+    get clonedFrom() {
+        if (!this.clonedFromId) {
+            return;
+        }
+        return this.store.find<Event>(this.clonedFromId);
     }
 
     @computed
@@ -1173,6 +1183,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
             deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null,
+            clonedFromId: this.clonedFromId,
             meta: this.meta
         };
     }

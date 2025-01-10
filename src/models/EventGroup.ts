@@ -83,6 +83,18 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         return true;
     }
 
+    @computed
+    get relatedModels() {
+        return this.events
+            .filter((e) => e.clonedFrom)
+            .map((e) => {
+                return {
+                    a: e,
+                    b: e.clonedFrom!
+                };
+            });
+    }
+
     @action
     addEvents(events: Event[]) {
         events.forEach((event) => this.eventIds.add(event.id));
@@ -184,21 +196,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     @action
     destroy(action: DestroyEventAction = DestroyEventAction.Unlink) {
         return this.store.destroy(this, action);
-    }
-
-    @computed
-    get relatedModels() {
-        const from = Object.keys(this.meta);
-        if (from.length < 1) {
-            return [];
-        }
-        const relations = from
-            .map((id) => ({
-                a: this.store.eventStore.find<Event>(this.meta[id]!.from), // cloned event
-                b: this.store.eventStore.find<Event>(id) // probably modified event
-            }))
-            .filter((rel) => rel.a && rel.b);
-        return relations;
     }
 
     /**
