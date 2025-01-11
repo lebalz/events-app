@@ -8,7 +8,7 @@ import User from './User';
 import _ from 'lodash';
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
-    readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = ['name', 'description'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = ['name', 'description', 'collection'];
     readonly _pristine: EventGroupProps;
     readonly isUserModel = true;
     readonly store: EventGroupStore;
@@ -24,6 +24,8 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @observable accessor description: string;
 
+    @observable accessor collection: string;
+
     @observable.ref accessor updatedAt: Date;
 
     constructor(props: EventGroupProps, store: EventGroupStore) {
@@ -32,6 +34,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         this._pristine = props;
         this.id = props.id;
         this.meta = props.meta;
+        this.collection = props.collection;
         this.userIds.replace(props.userIds);
         this.eventIds.replace(props.eventIds);
         this.name = props.name;
@@ -142,6 +145,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
             id: this.id,
             name: this.name,
             description: this.description,
+            collection: this.collection,
             meta: this.meta,
             userIds: [...this.userIds].sort(),
             eventIds: [...this.eventIds].sort(),

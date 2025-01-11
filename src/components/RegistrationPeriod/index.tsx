@@ -45,7 +45,7 @@ const EditRegPeriod = observer((props: Props) => {
     const { period } = props;
     const departmentStore = useStore('departmentStore');
     const semesterStore = useStore('semesterStore');
-    const ref = React.useRef<PopupActions>();
+    const ref = React.useRef<PopupActions>(null);
     return (
         <div className={clsx('card', styles.regPeriod)}>
             <div className={clsx('card__header', styles.header)}>

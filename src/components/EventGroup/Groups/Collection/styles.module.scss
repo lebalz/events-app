@@ -1,0 +1,22 @@
+.collection {
+    border-radius: var(--ifm-global-radius);
+    border: 1px solid var(--ifm-color-gray-600);
+    margin: var(--ifm-global-spacing)
+        calc(-1 * (var(--ifm-section-padding-horizontal) + var(--ifm-spacing-horizontal)));
+    .name {
+        background: var(--ifm-color-secondary);
+        border-top-left-radius: var(--ifm-global-radius);
+        border-top-right-radius: var(--ifm-global-radius);
+        padding: var(--ifm-global-spacing);
+        border-width: var(--ifm-global-border-width);
+        h4 {
+            margin: 0;
+        }
+    }
+    .groups {
+        gap: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+}

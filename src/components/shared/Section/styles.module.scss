@@ -1,6 +1,10 @@
 .section {
-    padding: 2rem 1rem;
-    margin: 2rem;
+    --ifm-section-padding-vertical: 2rem;
+    --ifm-section-padding-horizontal: 1rem;
+    --ifm-section-margin-horizontal: 2rem;
+    --ifm-section-margin-vertical: 2rem;
+    padding: var(--ifm-section-padding-vertical) var(--ifm-section-padding-horizontal);
+    margin: var(--ifm-section-margin-vertical) var(--ifm-section-margin-horizontal);
     h1:global(.hero__title) {
         font-size: 2rem;
     }
@@ -11,12 +15,12 @@
 
 @media screen and (max-width: 996px) {
     .section {
-        padding: 2rem 0.2rem;
-        margin: 2rem var(--ifm-navbar-padding-horizontal);
+        --ifm-section-padding-horizontal: 0.2rem;
+        --ifm-section-margin-horizontal: var(--ifm-navbar-padding-horizontal);
     }
 }
 @media screen and (max-width: 768px) {
     .section {
-        margin: 2rem 0;
+        --ifm-section-margin-horizontal: 0;
     }
 }

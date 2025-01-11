@@ -9,12 +9,15 @@ import {
     create as apiCreate,
     clone as apiClone,
     events as fetchEvents,
-    DestroyEventAction
+    DestroyEventAction,
+    DEFAULT_COLLECTION
 } from '../api/event_group';
 import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
 import { destroy as apiDestroy } from '../api/api_model';
+import { translate } from '@docusaurus/Translate';
+import { computedFn } from 'mobx-utils';
 
 export class EventGroupStore extends iStore<
     EventGroupProps,
@@ -47,11 +50,21 @@ export class EventGroupStore extends iStore<
         return _.orderBy(this.models, ['_pristine.name'], ['desc']) as EventGroup[];
     }
 
+    byCollection = computedFn(function (this: EventGroupStore, name?: string): EventGroup[] {
+        if (name === undefined) {
+            return [];
+        }
+        return this.eventGroups.filter((eg) => eg.collection === name);
+    });
+
     create(model: EventGroupCreate) {
         /**
          * Save the model to the api
          */
         return this.withAbortController('create', (sig) => {
+            if (model.collection === DEFAULT_COLLECTION) {
+                delete model.collection;
+            }
             return apiCreate(model, sig.signal);
         }).then(
             action(({ data }) => {
@@ -87,6 +100,11 @@ export class EventGroupStore extends iStore<
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    @computed
+    get collections() {
+        return [...new Set(this.eventGroups.map((e) => e.collection))].sort();
     }
 
     @action

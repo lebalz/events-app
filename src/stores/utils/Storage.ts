@@ -9,7 +9,8 @@ export type PersistedData = {
 
 export enum StorageKey {
     SessionStore = 'SessionStore',
-    ColorPrefs = 'ColorPrefs'
+    ColorPrefs = 'ColorPrefs',
+    EventGroupCollection = 'docusaurus.tab.EventGroup.Collection'
 }
 
 /**
@@ -37,12 +38,12 @@ class Storage {
      * @param key The key to set under.
      * @param value The value to set
      */
-    public set<T>(key: string, value: T) {
+    public set<T>(key: string, value: T, transformer: (val: T) => string = (val) => JSON.stringify(val)) {
         try {
             if (value === undefined) {
                 this.remove(key);
             } else {
-                this.interface.setItem(key, JSON.stringify(value));
+                this.interface.setItem(key, transformer(value));
             }
         } catch (_err) {
             // Ignore errors
@@ -56,11 +57,15 @@ class Storage {
      * @param fallback The fallback value if the key doesn't exist.
      * @returns The value or undefined if it doesn't exist.
      */
-    public get<T>(key: StorageKey, fallback?: T): T {
+    public get<T>(
+        key: StorageKey,
+        fallback?: T,
+        transformer: (raw: string) => T = (raw) => JSON.parse(raw)
+    ): T {
         try {
             const value = this.interface.getItem(key);
             if (typeof value === 'string') {
-                return JSON.parse(value);
+                return transformer(value);
             }
         } catch (_err) {
             // Ignore errors

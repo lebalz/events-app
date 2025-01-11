@@ -1,6 +1,7 @@
 import { AxiosPromise } from 'axios';
 import api from './base';
 import { Event } from './event';
+import { translate } from '@docusaurus/Translate';
 
 export interface Meta {}
 
@@ -13,12 +14,18 @@ export interface EventGroup {
     id: string;
     name: string;
     description: string;
+    collection: string;
     meta: Meta;
     userIds: string[];
     eventIds: string[];
     createdAt: string;
     updatedAt: string;
 }
+
+export const DEFAULT_COLLECTION = translate({
+    id: 'group.collection.default',
+    message: 'Standard'
+});
 
 export interface EventGroupCreate extends Partial<EventGroup> {
     event_ids: string[];
