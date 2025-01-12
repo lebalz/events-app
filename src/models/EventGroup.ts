@@ -97,8 +97,8 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
             .filter((e) => e.clonedFrom)
             .map((e) => {
                 return {
-                    a: e,
-                    b: e.clonedFrom!
+                    a: e.clonedFrom!,
+                    b: e
                 };
             });
     }
