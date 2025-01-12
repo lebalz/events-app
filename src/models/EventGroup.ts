@@ -1,5 +1,10 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import { DestroyEventAction, EventGroup as EventGroupProps, Meta } from '../api/event_group';
+import {
+    DEFAULT_COLLECTION,
+    DestroyEventAction,
+    EventGroup as EventGroupProps,
+    Meta
+} from '../api/event_group';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { EventGroupStore } from '../stores/EventGroupStore';
@@ -8,7 +13,7 @@ import User from './User';
 import _ from 'lodash';
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
-    readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = ['name', 'description'];
+    readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = ['name', 'description', 'collection'];
     readonly _pristine: EventGroupProps;
     readonly isUserModel = true;
     readonly store: EventGroupStore;
@@ -24,6 +29,8 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @observable accessor description: string;
 
+    @observable accessor collection: string;
+
     @observable.ref accessor updatedAt: Date;
 
     constructor(props: EventGroupProps, store: EventGroupStore) {
@@ -32,6 +39,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         this._pristine = props;
         this.id = props.id;
         this.meta = props.meta;
+        this.collection = props.collection;
         this.userIds.replace(props.userIds);
         this.eventIds.replace(props.eventIds);
         this.name = props.name;
@@ -83,6 +91,24 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
         return true;
     }
 
+    @computed
+    get relatedModels() {
+        return this.events
+            .filter((e) => e.clonedFrom)
+            .map((e) => {
+                return {
+                    a: e,
+                    b: e.clonedFrom!
+                };
+            });
+    }
+
+    @action
+    setCollection(name: string) {
+        this.collection = name === DEFAULT_COLLECTION ? '' : name;
+        this.save();
+    }
+
     @action
     addEvents(events: Event[]) {
         events.forEach((event) => this.eventIds.add(event.id));
@@ -130,6 +156,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
             id: this.id,
             name: this.name,
             description: this.description,
+            collection: this.collection,
             meta: this.meta,
             userIds: [...this.userIds].sort(),
             eventIds: [...this.eventIds].sort(),
@@ -184,21 +211,6 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     @action
     destroy(action: DestroyEventAction = DestroyEventAction.Unlink) {
         return this.store.destroy(this, action);
-    }
-
-    @computed
-    get relatedModels() {
-        const from = Object.keys(this.meta);
-        if (from.length < 1) {
-            return [];
-        }
-        const relations = from
-            .map((id) => ({
-                a: this.store.eventStore.find<Event>(this.meta[id]!.from), // cloned event
-                b: this.store.eventStore.find<Event>(id) // probably modified event
-            }))
-            .filter((rel) => rel.a && rel.b);
-        return relations;
     }
 
     /**

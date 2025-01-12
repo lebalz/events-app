@@ -15,7 +15,7 @@ import LazyDetails from '../shared/Details';
 import { ApiIcon, DiscardIcon, SIZE_S, SaveIcon } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 import Translate, { translate } from '@docusaurus/Translate';
-import { mdiAccount, mdiAccountGroup, mdiCalendar, mdiCalendarClock, mdiShareCircle } from '@mdi/js';
+import { mdiAccount, mdiAccountGroup, mdiCalendarClock, mdiShareCircle } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
 import _ from 'lodash';
@@ -31,11 +31,12 @@ import { DestroyEventAction } from '@site/src/api/event_group';
 import Popup from 'reactjs-popup';
 import DiffViewer from '../Event/DiffViewer';
 import ShiftAudience from './BulkEditor/ShiftAudience';
-import Preview from './BulkEditor/Preview';
+import Selector from './Groups/Collection/Selector';
 
 interface Props {
     group: EventGroupModel;
     standalone?: boolean;
+    onChangeCollection?: (collection: string) => void;
 }
 const BTN_SIZE = SIZE_S;
 
@@ -176,6 +177,28 @@ const UserEventGroup = observer((props: Props) => {
                 {(group.isEditing || isOpen || props.standalone) && (
                     <>
                         <DefinitionList>
+                            <dt>
+                                <Translate id="group.collection">Sammlung</Translate>
+                            </dt>
+                            <dd>
+                                {group.isEditing ? (
+                                    <Selector
+                                        group={group}
+                                        onSelect={(name) => {
+                                            group.setCollection(name);
+                                            props.onChangeCollection?.(name);
+                                        }}
+                                    />
+                                ) : (
+                                    <>
+                                        {group.collection ||
+                                            translate({
+                                                id: 'group.collection.default',
+                                                message: 'Standard'
+                                            })}
+                                    </>
+                                )}
+                            </dd>
                             <dt>
                                 <Translate id="group.createdAt">Erstellt Am</Translate>
                             </dt>
