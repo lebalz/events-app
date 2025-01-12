@@ -50,6 +50,11 @@ export class EventGroupStore extends iStore<
         return _.orderBy(this.models, ['_pristine.name'], ['desc']) as EventGroup[];
     }
 
+    @computed
+    get collections() {
+        return [...new Set(['', ...this.eventGroups.map((e) => e.collection)])].sort();
+    }
+
     byCollection = computedFn(function (this: EventGroupStore, name?: string): EventGroup[] {
         if (name === undefined) {
             return [];
@@ -100,11 +105,6 @@ export class EventGroupStore extends iStore<
             .catch((err) => {
                 console.log(err);
             });
-    }
-
-    @computed
-    get collections() {
-        return [...new Set(this.eventGroups.map((e) => e.collection))].sort();
     }
 
     @action

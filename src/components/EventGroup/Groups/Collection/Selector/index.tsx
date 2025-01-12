@@ -22,7 +22,7 @@ const Selector = observer((props: Props) => {
     return (
         <div>
             <CreatableSelect
-                isClearable
+                isClearable={false}
                 isSearchable
                 closeMenuOnSelect
                 formatCreateLabel={(inputValue) => {
@@ -36,7 +36,10 @@ const Selector = observer((props: Props) => {
                 }}
                 name="group.collection"
                 menuPortalTarget={document.body}
-                options={eventGroupStore.collections.map((c) => ({ label: c, value: c }))}
+                options={eventGroupStore.collections.map((c) => ({
+                    label: c || DEFAULT_COLLECTION,
+                    value: c
+                }))}
                 styles={{
                     menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' }),
                     container: (base) => ({ ...base, minWidth: '15em' })

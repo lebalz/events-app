@@ -184,12 +184,9 @@ const UserEventGroup = observer((props: Props) => {
                                 {group.isEditing ? (
                                     <Selector
                                         group={group}
-                                        onSelect={(option) => {
-                                            group.update({ collection: option });
-                                            group.save();
-                                            if (props.onChangeCollection) {
-                                                props.onChangeCollection(option);
-                                            }
+                                        onSelect={(name) => {
+                                            group.setCollection(name);
+                                            props.onChangeCollection?.(name);
                                         }}
                                     />
                                 ) : (

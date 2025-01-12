@@ -1,5 +1,10 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import { DestroyEventAction, EventGroup as EventGroupProps, Meta } from '../api/event_group';
+import {
+    DEFAULT_COLLECTION,
+    DestroyEventAction,
+    EventGroup as EventGroupProps,
+    Meta
+} from '../api/event_group';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import { EventGroupStore } from '../stores/EventGroupStore';
@@ -96,6 +101,12 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
                     b: e.clonedFrom!
                 };
             });
+    }
+
+    @action
+    setCollection(name: string) {
+        this.collection = name === DEFAULT_COLLECTION ? '' : name;
+        this.save();
     }
 
     @action
