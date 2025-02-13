@@ -831,40 +831,46 @@ const Home = observer(() => {
                                         }
                                     ]}
                                 />
-                            <div className="card__body">
-                                <h4>Version: Release Candidate 1.4 (6.1.2025)</h4>
+                                <div className="card__body">
+                                    <h4>Version: Release Candidate 1.4 (6.1.2025)</h4>
                                     <ul>
                                         <li>
-                                            🚀 Nouveauté : Les évènements peuvent être ajoutés à des groupes créés par l'utilisateur..
+                                            🚀 Nouveauté : Les évènements peuvent être ajoutés à des groupes
+                                            créés par l'utilisateur..
                                             <ul>
                                                 <li>
-                                                    Les groupes sont comme des <b>dossiers</b> qui peuvent être partagés au choix avec
-                                                    d'autres personnes.
+                                                    Les groupes sont comme des <b>dossiers</b> qui peuvent
+                                                    être partagés au choix avec d'autres personnes.
                                                 </li>
                                                 <li>
-                                                    Les groupes peuvent être copiés - tous les évèmements qu'ils contiennent
-                                                    sont également copiés, avec leur statut de « brouillon »{' '}
+                                                    Les groupes peuvent être copiés - tous les évèmements
+                                                    qu'ils contiennent sont également copiés, avec leur statut
+                                                    de « brouillon »{' '}
                                                     <Icon
                                                         path={mdiPen}
                                                         size={0.8}
                                                         color="var(--ifm-color-blue)"
                                                     />{' '}
-                                                activé.
+                                                    activé.
                                                 </li>
                                                 <li>
                                                     Tous les projets d'un groupe peuvent être déplacés :
                                                     <ul>
                                                         <li>
-                                                            <b>Éditeur de dates</b>: toutes les dates peuvent être reportées d'un an, par exemple.
+                                                            <b>Éditeur de dates</b>: toutes les dates peuvent
+                                                            être reportées d'un an, par exemple.
                                                         </li>
                                                         <li>
-                                                            <b>Éditeur de classes</b>: les classes des évènements peuvent être réaffectées
-                                                            individuellement ou être déplacées par exemple d'un an.
+                                                            <b>Éditeur de classes</b>: les classes des
+                                                            évènements peuvent être réaffectées
+                                                            individuellement ou être déplacées par exemple
+                                                            d'un an.
                                                         </li>
                                                     </ul>
                                                 </li>
                                                 <li>
-                                                    Les modifications entre les dates des groupes copiés peuvent être suivies.
+                                                    Les modifications entre les dates des groupes copiés
+                                                    peuvent être suivies.
                                                 </li>
                                                 <li>
                                                     📚 Documentation :
@@ -880,16 +886,22 @@ const Home = observer(() => {
                                             </ul>
                                         </li>
                                         <li>
-                                            🚀 Amélioration des performances : l'aperçu personnel des évènements est plus rapide
-                                                et se charge désormais plus rapidement.
+                                            🚀 Amélioration des performances : l'aperçu personnel des
+                                            évènements est plus rapide et se charge désormais plus rapidement.
                                         </li>
                                         <li>
-                                            🔧 Mise à niveau technologique (en arrière-plan): {' '}
-                                            <a href="https://nodejs.org/en/blog/release/v22.12.0" target="_blank">
+                                            🔧 Mise à niveau technologique (en arrière-plan):{' '}
+                                            <a
+                                                href="https://nodejs.org/en/blog/release/v22.12.0"
+                                                target="_blank"
+                                            >
                                                 👉 Node 22 et
                                             </a>{' '}
                                             und
-                                            <a href="https://react.dev/blog/2024/12/05/react-19" target="_blank">
+                                            <a
+                                                href="https://react.dev/blog/2024/12/05/react-19"
+                                                target="_blank"
+                                            >
                                                 👉 React 19
                                             </a>{' '}
                                             .

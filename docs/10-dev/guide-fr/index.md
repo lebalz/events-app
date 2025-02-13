@@ -156,6 +156,12 @@ yarn write-translations --locale fr
 
 pour ajouter automatiquement les entrées dans le fichier code.json.
 
+## Mettre à jour les traductions
+S'assurer le code est bien mis en forme avec 
+```bash
+yarn prettier chemin/du/fichier --write
+```
+
 ## Gestion des branches de traduction
 
 ### Travailler sur une nouvelle branche sur le dépôt original
