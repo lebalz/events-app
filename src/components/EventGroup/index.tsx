@@ -384,7 +384,11 @@ const UserEventGroup = observer((props: Props) => {
                 summary={
                     <summary className={clsx(styles.summary)}>
                         <div className={clsx(styles.summaryContent)}>
-                            Events
+                            {translate({
+                                message: 'Events',
+                                id: 'components.eventgroup.events',
+                                description: 'text to scroll down the list of events'
+                            })}
                             <div className={clsx(styles.badges)}>
                                 {group.apiState !== ApiState.IDLE && <ApiIcon state={group.apiState} />}
                                 <Badge text={`${group.eventCount}`} color="primary" />

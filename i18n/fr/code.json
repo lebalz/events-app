@@ -986,7 +986,7 @@
     "description": "personal ical sync address"
   },
   "ical.section.personal.description": {
-    "message": "Le calendrier personnel n'affiche que les rendez-vous qui vous concernent. Les délais administratifs (comme la saisie des notes), les rendez-vous qui concernent vos propres leçons et, pour les MC, également tous les rendez-vous de votre classe.",
+    "message": "Le calendrier personnel n'affiche que les évènement qui vous concernent. Les délais administratifs (comme la saisie des notes), les évènements qui concernent vos propres leçons et, pour les MC, également tous les évènements de votre classe.",
     "description": "text which explains, which things are included in the personal calendar"
   },
   "ical.user_without_untis.message": {
@@ -2082,13 +2082,13 @@
     "message": "Évènements qui impactent les cours"
   },
   "ical.personal.description.forTeachers": {
-    "message": "Évènement pour les enseignant·e·s"
+    "message": "Évènements pour les enseignant·e·s"
   },
   "ical.personal.description.forSchool": {
-    "message": "Évènement pour toute l'école."
+    "message": "Évènements pour toute l'école."
   },
   "ical.personal.description.forClass": {
-    "message": "Évènement qui concerne sa classe."
+    "message": "Évènements qui concernent sa classe."
   },
   "subscriptions.subscribed.ignoredEvents": {
     "message": "Évènement ignoré"
@@ -2146,5 +2146,108 @@
   },
   "components.shared.loader.loading": {
     "message": "Chargement ..."
+  },
+  "group.collection.default": {
+    "message": "Standard"
+  },
+  "group.collection": {
+    "message": "Collection"
+  },
+  "group.shiftAudience.dt": {
+    "message": "Déplacer les années et les classes"
+  },
+  "group.showAllChanges.dt": {
+    "message": "Afficher tous les changements"
+  },
+  "eventGroup.diff.cloned": {
+    "message": "Original"
+  },
+  "eventGroup.diff.changed": {
+    "message": "Nouveau"
+  },
+  "diffViewer.title": {
+    "message": "Différences"
+  },
+  "share.button.deleteGroup.confirm": {
+    "message": "Vraiment supprimer ?",
+    "description": "Text of the button confirm"
+  },
+  "share.button.deleteGroup.confirm.no": {
+    "message": "Annuler",
+    "description": "Text of the button confirm no"
+  },
+  "share.button.deleteGroup.confirm.groupOnly": {
+    "message": "Seulement le groupe",
+    "description": "Text of the button confirm yes"
+  },
+  "share.button.deleteGroup.confirm.groupOnly.title": {
+    "message": "Seul le groupe est supprimé, les évènements sont conservés"
+  },
+  "share.button.deleteGroup.confirm.destroyDrafts": {
+    "message": "Supprimer le groupe et les évènements"
+  },
+  "share.button.deleteGroup.confirm.cascade": {
+    "message": "Supprimer le groupe"
+  },
+  "share.button.deleteGroup.confirm.cascade.title": {
+    "message": "Le groupe et tous les évènements non publiés sont supprimés"
+  },
+  "eventGroup.createGroup": {
+    "message": "Créer"
+  },
+  "event.NoEventsAlert.text": {
+    "message": "Aucun évènement dans la catégorie \"{category}\"."
+  },
+  "shiftedDatesEditor.current.label": {
+    "message": "Avant"
+  },
+  "shiftedDatesEditor.next.label": {
+    "message": "Après"
+  },
+  "shiftAudienceEditor.noAudience": {
+    "message": "Pas d'affectation - la classe est supprimée de l'évènement."
+  },
+  "shiftAudienceEditor.changeAudience": {
+    "message": "Modifier manuellement l'affectation"
+  },
+  "shiftAudienceEditor.createWhitelist": {
+    "message": "{inputValue} (Toute l'année de la filière)"
+  },
+  "shiftAudienceEditor.createClass": {
+    "message": "Nouvelle classe : {inputValue}"
+  },
+  "shiftAudienceEditor.resetAudience": {
+    "message": "Réinitialiser l'affectation"
+  },
+  "shiftAudienceEditor.removeAudience": {
+    "message": "Supprimer l'affectation"
+  },
+  "shiftAudienceEditor.title": {
+    "message": "Réaffectation des années et des classes"
+  },
+  "shiftAudienceEditor.audience": {
+    "message": "Classes"
+  },
+  "shiftAudienceEditor.shiftInText": {
+    "message": "Modifier également les noms des classes dans le titre et la description"
+  },
+  "shiftEditor.invalidEvents.alert": {
+    "message": "L'éditeur ne peut modifier que les brouillons. Actuellement, il existe également des évènements non-soumis, refusés ou publiés."
+  },
+  "shiftEditor.description": {
+    "message": "Les modifications ne sont appliquées qu'aux brouillons. Dates concernées :"
+  },
+  "shiftEditor.noDraftEvent.alert": {
+    "message": "L'éditeur ne peut modifier que les brouillons. Actuellement, il n'y a pas de brouillons (uniquement des dates soumises, refusées ou publiées)."
+  },
+  "collection.NoGroupsAlert.text": {
+    "message": "La collection  \"{collection}\" ne contient aucun groupe"
+  },
+  "group.collection.new": {
+    "message": "Nouvelle collection : {inputValue}"
+  },
+  "components.eventgroup.events": {
+    "message": "Évènements",
+    "description": "text to scroll down the list of events"
   }
 }
