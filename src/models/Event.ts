@@ -603,14 +603,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setDepartment(department: Department, value: boolean) {
+    setDepartment(department: Department, setActive: boolean) {
         if (!department) {
             return;
         }
         const currentActive = this.departmentIds.has(department.id);
-        if (currentActive && !value) {
+        if (currentActive && !setActive) {
             this.departmentIds.delete(department.id);
-        } else if (!currentActive && value) {
+        } else if (!currentActive && setActive) {
             this.departmentIds.add(department.id);
         }
         this.normalizeAffectedClasses();

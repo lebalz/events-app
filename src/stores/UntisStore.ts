@@ -1,11 +1,10 @@
-import { action, computed, makeObservable, observable, override, reaction } from 'mobx';
+import { action, computed, observable, reaction } from 'mobx';
 import {
     teachers as fetchTeachers,
     classes as fetchClasses,
     subjects as fetchSubjects,
     teacher as fetchTeacher,
     UntisTeacher,
-    UntisLesson,
     CheckedUntisLesson
 } from '../api/untis';
 import _ from 'lodash';
@@ -21,7 +20,6 @@ import { replaceOrAdd } from './helpers/replaceOrAdd';
 import Department from '../models/Department';
 import Subject from '../models/Untis/Subjet';
 import Semester from '../models/Semester';
-import Storage, { PersistedData, StorageKey } from './utils/Storage';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;
@@ -291,6 +289,21 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @computed
     get sortedClasses() {
         return this.classes.slice().sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    /**
+     * only classes with graduation year >= current year
+     */
+    @computed
+    get currentClasses() {
+        const now = new Date();
+        const minYear = now.getFullYear() + (now.getMonth() < 7 ? 0 : 1);
+        return this.sortedClasses.filter((c) => c.year >= minYear);
+    }
+
+    @computed
+    get classGroups() {
+        return [...new Set(this.currentClasses.map((c) => c.groupName))];
     }
 
     @action

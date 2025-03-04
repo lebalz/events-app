@@ -12,7 +12,7 @@ interface Props extends CommonProps {
 
 const Audience = observer((props: Props) => {
     const { event } = props;
-    if (event.isEditable && event.isEditing) {
+    if ((event.isEditable && event.isEditing) || true) {
         return <Edit {...props} />;
     }
     return (

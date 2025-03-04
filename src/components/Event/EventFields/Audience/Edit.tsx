@@ -12,9 +12,9 @@ interface Props extends CommonProps {
 
 const Edit = observer((props: Props) => {
     const { event } = props;
-    if (!event.isEditable || !event.isEditing) {
-        return null;
-    }
+    // if (!event.isEditable || !event.isEditing) {
+    //     return null;
+    // }
     return (
         <div
             style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}

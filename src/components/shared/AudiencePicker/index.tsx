@@ -41,24 +41,24 @@ const TranslationsTA: { [key in TeachingAffected]: string } = {
 
 const AudiencePicker = observer((props: Props) => {
     const [showOptions, setShowOptions] = React.useState(false);
-    const departmentStore = useStore('departmentStore');
+    // const departmentStore = useStore('departmentStore');
     const userStore = useStore('userStore');
     const { current } = userStore;
     if (!current) {
         return null;
     }
 
-    const departments = departmentStore.groupedByLetter;
+    // const departments = departmentStore.groupedByLetter;
     const { event } = props;
     const error = event.errorFor('audience');
-    const {
-        someDepartments,
-        allDepartments,
-        allDepartmentsDe,
-        allDepartmentsFr,
-        someDepartmentsDe,
-        someDepartmentsFr
-    } = event.departmentState;
+    // const {
+    //     someDepartments,
+    //     allDepartments,
+    //     allDepartmentsDe,
+    //     allDepartmentsFr,
+    //     someDepartmentsDe,
+    //     someDepartmentsFr
+    // } = event.departmentState;
 
     return (
         <div className={clsx(styles.audience)}>
@@ -149,7 +149,8 @@ const AudiencePicker = observer((props: Props) => {
                     )}
             </div>
             <div className={clsx(error && styles.error)}>
-                <h4>
+                <ClassSelector event={event} />
+                {/* <h4>
                     <Translate
                         id="shared.header.school_departement"
                         description="The title in the window for the event."
@@ -246,7 +247,7 @@ const AudiencePicker = observer((props: Props) => {
                             <ClassSelector event={event} />
                         </div>
                     )}
-                </div>
+                </div> */}
                 {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
         </div>

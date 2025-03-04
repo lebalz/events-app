@@ -13,6 +13,13 @@ import { EventState } from '@site/src/api/event';
 import Klass from '@site/src/models/Untis/Klass';
 import Department from '@site/src/models/Department';
 import Colors from './Colors';
+import {
+    ClassGroupOption,
+    ClassOption,
+    DepartmentOption,
+    Option
+} from '@site/src/components/shared/AudiencePicker/ClassSelector';
+import { GroupBase } from 'react-select';
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
@@ -322,5 +329,55 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     get icalListClassesFiltered() {
         const match = (klass: Klass, s: string) => klass.legacyName?.includes(s) || klass.name.includes(s);
         return this.root.untisStore.classes.filter((c) => match(c, this.icalListClassFilter));
+    }
+
+    @computed
+    get audienceOptions(): GroupBase<Option>[] {
+        return [
+            {
+                label: 'Abteilungen',
+                options: this.root.departmentStore.departments.map((d) => {
+                    return {
+                        label: d.name,
+                        value: d.id,
+                        type: 'departmentType',
+                        model: d
+                    } as DepartmentOption;
+                })
+            },
+            {
+                label: 'Stufen',
+                options: _.orderBy(
+                    [
+                        ...this.root.untisStore.classGroups.map((g) => {
+                            return {
+                                label: `${g}*`,
+                                value: g,
+                                type: 'classGroup'
+                            } as ClassGroupOption;
+                        })
+                    ],
+                    ['label'],
+                    ['asc']
+                )
+            },
+            {
+                label: 'Klassen',
+                options: _.orderBy(
+                    [
+                        ...this.root.untisStore.currentClasses.map((c) => {
+                            return {
+                                label: c.displayName,
+                                value: c.name,
+                                type: 'classType',
+                                model: c
+                            } as ClassOption;
+                        })
+                    ],
+                    ['label'],
+                    ['asc']
+                )
+            }
+        ];
     }
 }

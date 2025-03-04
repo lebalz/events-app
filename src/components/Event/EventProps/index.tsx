@@ -73,7 +73,7 @@ const EventProps = observer((props: Props) => {
         event?.loadVersions();
     }, [event]);
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
-    const metaRef = React.useRef<PopupActions>();
+    const metaRef = React.useRef<PopupActions>(null);
 
     const commonClasses = clsx(event?.isDeleted && sharedStyles.deleted) || '';
     const commonProps = { event: event, styles: sharedStyles, className: commonClasses };
@@ -195,7 +195,7 @@ const EventProps = observer((props: Props) => {
             <dd>
                 <Location {...commonEditProps} />
             </dd>
-            {event.isEditing ? (
+            {event.isEditing || true ? (
                 <>
                     <dt>
                         <Translate

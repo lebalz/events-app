@@ -80,3 +80,27 @@
     margin: 0;
     padding: 0;
 }
+
+.multiValue {
+    display: flex;
+    align-items: center;
+    .icon {
+        color: white;
+        align-self: stretch;
+        padding: 0 3px;
+        padding-right: 2px;
+        line-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &.departmentType {
+            background-color: var(--ifm-color-info);
+        }
+        &.classType {
+            background-color: var(--ifm-color-warning);
+        }
+        &.classGroup {
+            background-color: var(--ifm-color-blue);
+        }
+    }
+}
