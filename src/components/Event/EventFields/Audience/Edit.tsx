@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import sharedStyles from '../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Props as CommonProps } from '../iEventField';
+import AudienceSelector from '@site/src/components/shared/AudienceSelector';
 import AudiencePicker from '@site/src/components/shared/AudiencePicker';
 
 interface Props extends CommonProps {
@@ -20,6 +21,7 @@ const Edit = observer((props: Props) => {
             style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}
             className={clsx(sharedStyles.audience, 'grid-audience', props.className)}
         >
+            <AudienceSelector event={event} />
             <AudiencePicker event={event} />
         </div>
     );

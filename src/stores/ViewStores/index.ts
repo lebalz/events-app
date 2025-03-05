@@ -18,7 +18,7 @@ import {
     ClassOption,
     DepartmentOption,
     Option
-} from '@site/src/components/shared/AudiencePicker/ClassSelector';
+} from '@site/src/components/shared/AudienceSelector/ClassSelector';
 import { GroupBase } from 'react-select';
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {

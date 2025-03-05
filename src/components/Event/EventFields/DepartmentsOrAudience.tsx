@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Props as CommonProps } from './iEventField';
 import Badge from '@site/src/components/shared/Badge';
 import Departments from './Departments';
+import AudienceSelector from '../../shared/AudienceSelector';
 import AudiencePicker from '../../shared/AudiencePicker';
 
 interface Props extends CommonProps {
@@ -15,7 +16,12 @@ interface Props extends CommonProps {
 const DepartmentsOrAudiencePicker = observer((props: Props) => {
     const { event } = props;
     if (event.isEditing) {
-        return <AudiencePicker event={event} />;
+        return (
+            <>
+                <AudienceSelector event={event} />
+                <AudiencePicker event={event} />
+            </>
+        );
     }
     return <Departments {...props} />;
 });

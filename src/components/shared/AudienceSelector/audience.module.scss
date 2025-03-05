@@ -1,0 +1,21 @@
+.info {
+    text-wrap: wrap;
+    font-size: 90%;
+    font-style: italic;
+    font-weight: var(--ifm-font-weight-light);
+    color: var(--ifm-color-emphasis-700);
+    .audience {
+        display: flex;
+        gap: 0.5em;
+        .audienceIcon {
+            flex-shrink: 0;
+            flex-grow: 0;
+            transform: translateY(5px);
+        }
+        .audienceDescription {
+            svg {
+                transform: translateY(5px);
+            }
+        }
+    }
+}

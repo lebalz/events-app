@@ -5,20 +5,8 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import CreatableSelect from 'react-select/creatable';
-import { ActionMeta, type MultiValueGenericProps, OptionProps, components } from 'react-select';
 import { KlassName } from '@site/src/models/helpers/klassNames';
 import Translate, { translate } from '@docusaurus/Translate';
-import Tooltip from '../Tooltip';
-import Department from '@site/src/models/Department';
-import Klass from '@site/src/models/Untis/Klass';
-import Icon from '@mdi/react';
-import {
-    mdiAccountMultiple,
-    mdiAccountMultipleOutline,
-    mdiAccountOutline,
-    mdiAccountTagOutline,
-    mdiOfficeBuilding
-} from '@mdi/js';
 
 const createOption = (label: string) => ({
     label,
@@ -29,67 +17,10 @@ interface Props {
     event: EventModel;
 }
 
-interface BaseOption {
-    label: string;
-    value: string;
-}
-
-export interface DepartmentOption extends BaseOption {
-    type: 'departmentType';
-    model: Department;
-}
-
-export interface ClassOption extends BaseOption {
-    type: 'classType';
-    model: Klass;
-}
-
-export interface ClassGroupOption extends BaseOption {
-    type: 'classGroup';
-}
-
-export type Option = DepartmentOption | ClassOption | ClassGroupOption;
-
-const I18n_LABELS = {
-    classType: translate({ id: 'basic.class', message: 'Klasse' }),
-    departmentType: translate({ id: 'basic.department', message: 'Abteilung' }),
-    levelType: translate({ id: 'basic.level', message: 'Stufe' })
-};
-
-const IconMap = {
-    departmentType: mdiOfficeBuilding,
-    classType: mdiAccountOutline,
-    classGroup: mdiAccountMultiple
-};
-
-const MultiValueLabel = (props: MultiValueGenericProps<Option>) => {
-    return (
-        <div className={clsx(styles.multiValue)}>
-            <div className={clsx(styles.icon, styles[props.data.type])}>
-                <Icon path={IconMap[props.data.type]} size={0.6} />
-            </div>
-            <components.MultiValueLabel {...props} />
-        </div>
-    );
-};
-
-const OptionComponent = (props: OptionProps<Option>) => {
-    return (
-        <div className={clsx(styles.multiValue)}>
-            <div className={clsx(styles.icon, styles[props.data.type])}>
-                <Icon path={IconMap[props.data.type]} size={0.6} />
-            </div>
-            <components.Option {...props} />
-        </div>
-    );
-};
-
 const ClassSelector = observer((props: Props) => {
     const [errorMessages, setErrorMessages] = React.useState<string[]>([]);
     const [inputValue, setInputValue] = React.useState('');
-    const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
-    const untisStore = useStore('untisStore');
     const { event } = props;
 
     const handleToken = (token: string, action: 'add' | 'remove') => {
@@ -158,64 +89,24 @@ const ClassSelector = observer((props: Props) => {
                 break;
         }
     };
-
-    const selected = React.useMemo<Option[]>(() => {
-        console.log('rerun selected');
-        return [
-            ...event.departments.map((d) => {
-                return {
-                    label: d.shortName,
-                    value: d.id,
-                    type: 'departmentType',
-                    model: d
-                } as DepartmentOption;
-            }),
-            ...[...event.classes].map((c) => {
-                console.log('class', c);
-                return {
-                    label: c,
-                    value: c,
-                    type: 'classType',
-                    model: untisStore.classes.find((klass) => klass.name === c)
-                } as ClassOption;
-            }),
-            ...[...event.classGroups].map((c) => {
-                return {
-                    label: `${c}*`,
-                    value: c,
-                    type: 'classGroup'
-                } as ClassGroupOption;
-            })
-        ];
-    }, [event.departments, [...event.classes].join(','), [...event.classGroups].join(',')]);
-
     return (
         <div>
             <CreatableSelect
-                components={{
-                    DropdownIndicator: null,
-                    MultiValueLabel: MultiValueLabel,
-                    Option: OptionComponent
-                }}
+                components={{ DropdownIndicator: null }}
                 inputValue={inputValue} /** used for the current typed input */
                 isClearable
                 isMulti
-                onChange={(newValue, meta: ActionMeta<Option>) => {
-                    console.log(meta.action, newValue, meta);
+                menuIsOpen={false}
+                onChange={(newValue, meta) => {
                     /** triggered, when values are removed */
                     switch (meta.action) {
                         case 'remove-value':
                         case 'pop-value':
-                            switch (meta.removedValue.type) {
-                                case 'departmentType':
-                                    event.setDepartment(meta.removedValue.model, false);
-                                    break;
-                                case 'classType':
-                                    event.setClass(meta.removedValue.value as KlassName, false);
-                                    break;
-                                case 'classGroup':
-                                    event.setClassGroup(meta.removedValue.value, false);
-                                    break;
+                            const toRemove = meta.removedValue.value;
+                            if (toRemove.length === 3) {
+                                event.setClassGroup(toRemove, false);
+                            } else if (toRemove.length === 4) {
+                                event.setClass(toRemove as KlassName, false);
                             }
                             break;
                         case 'clear':
@@ -228,53 +119,10 @@ const ClassSelector = observer((props: Props) => {
                                 }
                             });
                             break;
-                        case 'select-option':
-                            switch (meta.option.type) {
-                                case 'departmentType':
-                                    event.setDepartment(meta.option.model, true);
-                                    break;
-                                case 'classType':
-                                    event.setClass(meta.option.value as KlassName, true);
-                                    break;
-                                case 'classGroup':
-                                    event.setClassGroup(meta.option.value, true);
-                                    break;
-                            }
-                            handleToken(meta.option.value, 'add');
-                            break;
-                        case 'deselect-option':
-                            switch (meta.option.type) {
-                                case 'departmentType':
-                                    event.setDepartment(meta.option.model, false);
-                                    break;
-                                case 'classType':
-                                    event.setClass(meta.option.value as KlassName, false);
-                                    break;
-                                case 'classGroup':
-                                    event.setClassGroup(meta.option.value, false);
-                                    break;
-                            }
-                            break;
-                        case 'create-option':
-                            if (meta.option.value.length === 3 || meta.option.value.endsWith('*')) {
-                                event.setClassGroup(meta.option.value.replace(/\*$/, ''), true);
-                            } else if (meta.option.value.length === 4) {
-                                event.setClass(meta.option.value as KlassName, true);
-                            }
-                            handleToken(meta.option.value, 'add');
-                            break;
                     }
                 }}
                 onInputChange={(newValue) => {
                     setInputValue(newValue);
-                }}
-                styles={{
-                    menu: (base) => ({ ...base, zIndex: 'calc(var(--ifm-z-index-dropdown) + 10)' }),
-                    container: (base) => ({ ...base, minWidth: '15em' }),
-                    multiValueLabel: (base) => ({
-                        ...base,
-                        paddingLeft: '3px'
-                    })
                 }}
                 onKeyDown={handleKeyDown}
                 placeholder={translate({
@@ -282,9 +130,7 @@ const ClassSelector = observer((props: Props) => {
                     id: 'share.audiencePicker.placeholder.unknownClasses',
                     description: 'share.audiencePicker.placeholder.unknownClasses'
                 })}
-                options={viewStore.audienceOptions}
-                isSearchable
-                value={selected}
+                value={event.unknownClassIdentifiers.map(createOption)}
             />
             {errorMessages.map((errorMessage, idx) => (
                 <div key={idx} style={{ color: 'red' }}>
