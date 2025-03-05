@@ -28,6 +28,8 @@ interface Props {
 const Video = observer((props: Props) => {
     const ref = React.useRef<HTMLVideoElement>(null);
     const [isHover, setIsHover] = React.useState(false);
+    const vidSrc = useBaseUrl(props.src);
+    const href = useBaseUrl(props.href);
     React.useEffect(() => {
         if (ref.current) {
             ref.current.playbackRate = props.playbackRate || 1;
@@ -54,13 +56,13 @@ const Video = observer((props: Props) => {
                     ref={ref}
                     style={{ width: '100%', height: '100%', maxHeight: '1200px' }}
                 >
-                    <source src={useBaseUrl(props.src)} type="video/mp4" />
+                    <source src={vidSrc} type="video/mp4" />
                 </video>
             </div>
 
             <div className="card__footer">
                 {props.href ? (
-                    <Link className="button button--primary button--block" to={useBaseUrl(props.href)}>
+                    <Link className="button button--primary button--block" to={href}>
                         {props.title}
                     </Link>
                 ) : (

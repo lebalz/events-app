@@ -13,12 +13,12 @@ import { EventState } from '@site/src/api/event';
 import Klass from '@site/src/models/Untis/Klass';
 import Department from '@site/src/models/Department';
 import Colors from './Colors';
-import {
+import type {
     ClassGroupOption,
     ClassOption,
     DepartmentOption,
     Option
-} from '@site/src/components/shared/AudienceSelector/ClassSelector';
+} from '@site/src/components/shared/AudiencePicker/AudienceSelector';
 import { GroupBase } from 'react-select';
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {

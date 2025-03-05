@@ -73,7 +73,7 @@ const UserPage = observer(() => {
                                         onClick={() => {
                                             localStorage.clear();
                                             setTimeout(() => {
-                                                window.location.replace(useBaseUrl('/login'));
+                                                window.location.replace(loginRoute);
                                             }, 1);
                                         }}
                                         color="orange"

@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../../shared/DefinitionList';
-import { default as ShowAffectedAudience } from '../../shared/AudienceSelector/Audience';
+import { default as ShowAffectedAudience } from '../../shared/AudiencePicker/Audience';
 import Badge from '../../shared/Badge';
 import {
     mdiArrowLeftBoldCircleOutline,

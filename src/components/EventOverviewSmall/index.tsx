@@ -13,7 +13,6 @@ import {
 } from '@site/src/api/event';
 import Badge from '../shared/Badge';
 import Popup from 'reactjs-popup';
-import Audience from '../shared/AudienceSelector/Audience';
 import { IfmColors } from '../shared/Colors';
 import Translate, { translate } from '@docusaurus/Translate';
 import Tooltip from '../shared/Tooltip';
@@ -24,6 +23,7 @@ import {
 import { mdiCircle, mdiMinusThick } from '@mdi/js';
 import Icon from '@mdi/react';
 import { getDifferences } from '@site/src/models/helpers';
+import Audience from '../shared/AudiencePicker/Audience';
 
 interface Props {
     event: Event;

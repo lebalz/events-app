@@ -78,12 +78,14 @@ export default class Subscription extends ApiModel<SubscriptionProps, ApiAction>
 
     @computed
     get ignoredEvents() {
-        return this.store.root.eventStore?.events.filter((event) => this.ignoredEventIds.has(event.id));
+        return this.store.root.eventStore?.events?.filter((event) => this.ignoredEventIds.has(event.id));
     }
 
     @computed
     get semestersIgnoredEvents() {
-        return this.store.root.viewStore.semester.events.filter((e) => this.ignoredEventIds.has(e.id));
+        return (
+            this.store.root.viewStore.semester?.events?.filter((e) => this.ignoredEventIds.has(e.id)) || []
+        );
     }
 
     @action

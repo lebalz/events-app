@@ -84,6 +84,8 @@
 .multiValue {
     display: flex;
     align-items: center;
+    // background-color: var(--events-options-background-color);
+
     .icon {
         color: white;
         align-self: stretch;
@@ -101,6 +103,9 @@
         }
         &.classGroup {
             background-color: var(--ifm-color-blue);
+        }
+        &.unknwon {
+            background-color: var(--ifm-color-danger);
         }
     }
 }

@@ -32,6 +32,7 @@ const DefaultActions = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const sessionStore = useStore('sessionStore');
+    const shareUrl = useBaseUrl(event.shareUrl);
     const { isLoggedIn } = sessionStore;
     return (
         <div className={clsx(styles.defaultButtons, props.className)}>
@@ -58,7 +59,7 @@ const DefaultActions = observer((props: Props) => {
             <Button
                 color="blue"
                 icon={mdiShareCircle}
-                href={useBaseUrl(event.shareUrl)}
+                href={shareUrl}
                 size={BTN_SIZE}
                 title={translate({
                     message: 'Terminseite Anzeigen',

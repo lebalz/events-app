@@ -11,11 +11,10 @@ import { default as DepartmentModel } from '@site/src/models/Department';
 import Department from './Department';
 import Button from '../Button';
 import _ from 'lodash';
-import ClassSelector from './ClassSelector';
 import Translate, { translate } from '@docusaurus/Translate';
 import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
-import { mdiDotsHorizontalCircleOutline } from '@mdi/js';
 import Audience from './Audience';
+import AudienceSelector from './AudienceSelector';
 
 interface Props {
     event: EventModel;
@@ -40,7 +39,6 @@ const TranslationsTA: { [key in TeachingAffected]: string } = {
 };
 
 const AudiencePicker = observer((props: Props) => {
-    const [showOptions, setShowOptions] = React.useState(false);
     const departmentStore = useStore('departmentStore');
     const userStore = useStore('userStore');
     const { current } = userStore;
@@ -157,6 +155,7 @@ const AudiencePicker = observer((props: Props) => {
                         Schulen/Klassen
                     </Translate>
                 </h4>
+                <AudienceSelector event={event} />
                 <div className={clsx(styles.flex)}>
                     <Button
                         text={translate({
@@ -222,31 +221,6 @@ const AudiencePicker = observer((props: Props) => {
                             );
                         })}
                 </Tabs>
-                <div className={clsx(styles.options)}>
-                    <Button
-                        icon={mdiDotsHorizontalCircleOutline}
-                        title={translate({
-                            message: 'Erweitert',
-                            id: 'shared.button.title.expand',
-                            description: 'Text appearing on the expand button'
-                        })}
-                        onClick={() => setShowOptions(!showOptions)}
-                        className={clsx(
-                            styles.optionsBtn,
-                            (showOptions || event.unknownClassIdentifiers.length > 0) && styles.showOptions
-                        )}
-                    />
-                    {(showOptions || event.unknownClassIdentifiers.length > 0) && (
-                        <div>
-                            <h4>
-                                <Translate id="shared.audiencePicker.title.futureClasses">
-                                    Künftige Klassen
-                                </Translate>
-                            </h4>
-                            <ClassSelector event={event} />
-                        </div>
-                    )}
-                </div>
                 {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
         </div>

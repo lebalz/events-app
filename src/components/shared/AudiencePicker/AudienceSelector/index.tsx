@@ -7,19 +7,11 @@ import { useStore } from '@site/src/stores/hooks';
 import CreatableSelect from 'react-select/creatable';
 import { ActionMeta, type MultiValueGenericProps, OptionProps, components } from 'react-select';
 import { KlassName } from '@site/src/models/helpers/klassNames';
-import Translate, { translate } from '@docusaurus/Translate';
-import Tooltip from '../Tooltip';
+import { translate } from '@docusaurus/Translate';
 import Department from '@site/src/models/Department';
 import Klass from '@site/src/models/Untis/Klass';
 import Icon from '@mdi/react';
-import {
-    mdiAccountMultiple,
-    mdiAccountMultipleOutline,
-    mdiAccountOutline,
-    mdiAccountTagOutline,
-    mdiGoogleClassroom,
-    mdiOfficeBuilding
-} from '@mdi/js';
+import { mdiAccountMultiple, mdiAccountQuestion, mdiGoogleClassroom, mdiOfficeBuilding } from '@mdi/js';
 
 const createOption = (label: string) => ({
     label,
@@ -47,6 +39,7 @@ export interface ClassOption extends BaseOption {
 
 export interface ClassGroupOption extends BaseOption {
     type: 'classGroup';
+    model: Department | undefined;
 }
 
 export type Option = DepartmentOption | ClassOption | ClassGroupOption;
@@ -59,15 +52,17 @@ const I18n_LABELS = {
 
 const IconMap = {
     departmentType: mdiOfficeBuilding,
+    classGroup: mdiAccountMultiple,
     classType: mdiGoogleClassroom,
-    classGroup: mdiAccountMultiple
+    unknwon: mdiAccountQuestion
 };
 
 const MultiValueLabel = (props: MultiValueGenericProps<Option>) => {
+    const valType = !!props.data.model ? props.data.type : 'unknwon';
     return (
         <div className={clsx(styles.multiValue)}>
-            <div className={clsx(styles.icon, styles[props.data.type])}>
-                <Icon path={IconMap[props.data.type]} size={0.6} />
+            <div className={clsx(styles.icon, styles[valType])}>
+                <Icon path={IconMap[valType]} size={0.6} />
             </div>
             <components.MultiValueLabel {...props} />
         </div>
@@ -75,17 +70,19 @@ const MultiValueLabel = (props: MultiValueGenericProps<Option>) => {
 };
 
 const OptionComponent = (props: OptionProps<Option>) => {
+    const valType = !!props.data.model ? props.data.type : 'unknwon';
+
     return (
         <div className={clsx(styles.multiValue)}>
-            <div className={clsx(styles.icon, styles[props.data.type])}>
-                <Icon path={IconMap[props.data.type]} size={0.6} />
+            <div className={clsx(styles.icon, styles[valType])}>
+                <Icon path={IconMap[valType]} size={0.6} />
             </div>
             <components.Option {...props} />
         </div>
     );
 };
 
-const ClassSelector = observer((props: Props) => {
+const AuienceSelector = observer((props: Props) => {
     const [errorMessages, setErrorMessages] = React.useState<string[]>([]);
     const [inputValue, setInputValue] = React.useState('');
     const viewStore = useStore('viewStore');
@@ -93,73 +90,95 @@ const ClassSelector = observer((props: Props) => {
     const untisStore = useStore('untisStore');
     const { event } = props;
 
-    const handleToken = (_token: string, action: 'add' | 'remove') => {
-        const token = (_token || '').replace(/\*$/, '');
-        if (token.length === 3) {
-            const isValid = departmentStore.isValidClassGroup(token);
-            if (isValid) {
-                props.event.setClassGroup(token, action === 'add');
-                setErrorMessages([]);
-                return true;
+    const isValidNewOption = React.useCallback(
+        (_token: string) => {
+            const token = (_token || '').replace(/\*$/, '');
+            if (token.length === 3) {
+                return departmentStore.isValidClassGroup(token);
+            } else if (token.length === 4) {
+                return departmentStore.isValidClass(token);
             }
-            setErrorMessages([
-                translate(
-                    {
-                        message: `Abteilung "{letter}" nicht gefunden`,
-                        id: 'share.audiencePicker.classSelector.errorMsg.department',
-                        description: 'Error message department not found'
-                    },
-                    { letter: token.charAt(2) }
-                )
-            ]);
-        } else if (token.length === 4) {
-            const isValid = departmentStore.isValidClass(token);
-            if (isValid) {
-                props.event.setClass(token as KlassName, action === 'add');
-                setErrorMessages([]);
-                return true;
-            }
-            setErrorMessages([
-                translate(
-                    {
-                        message: `Klasse "{tok}" nicht gefunden`,
-                        id: 'share.audiencePicker.classSelector.errorMsg.class',
-                        description: 'Error message class not found'
-                    },
-                    { tok: token }
-                )
-            ]);
-        } else {
-            setErrorMessages([
-                translate(
-                    {
-                        message: `Unbekannte Abteilung/Klasse "{tok}"`,
-                        id: 'share.audiencePicker.classSelector.errorMsg.classOrDepartment',
-                        description: 'Error message class or department not found'
-                    },
-                    { tok: token }
-                )
-            ]);
-        }
-        return false;
-    };
+            return false;
+        },
+        [departmentStore]
+    );
 
-    const handleKeyDown: KeyboardEventHandler = (event) => {
-        if (!inputValue) {
-            return;
-        }
-        switch (event.key) {
-            case 'Space':
-            case 'Enter':
-            case 'Tab':
-                const added = handleToken(inputValue, 'add');
-                if (added) {
-                    setInputValue('');
+    const handleToken = React.useCallback(
+        (_token: string, action: 'add' | 'remove') => {
+            const token = (_token || '').replace(/\*$/, '');
+            if (token.length === 3) {
+                const isValid = departmentStore.isValidClassGroup(token);
+                if (isValid) {
+                    props.event.setClassGroup(token, action === 'add');
+                    setErrorMessages([]);
+                    return true;
                 }
-                event.preventDefault();
-                break;
-        }
-    };
+                setErrorMessages([
+                    translate(
+                        {
+                            message: `Abteilung "{letter}" nicht gefunden`,
+                            id: 'share.audiencePicker.classSelector.errorMsg.department',
+                            description: 'Error message department not found'
+                        },
+                        { letter: token.charAt(2) }
+                    )
+                ]);
+            } else if (token.length === 4) {
+                const isValid = departmentStore.isValidClass(token);
+                if (isValid) {
+                    props.event.setClass(token as KlassName, action === 'add');
+                    setErrorMessages([]);
+                    return true;
+                }
+                setErrorMessages([
+                    translate(
+                        {
+                            message: `Klasse "{tok}" nicht gefunden`,
+                            id: 'share.audiencePicker.classSelector.errorMsg.class',
+                            description: 'Error message class not found'
+                        },
+                        { tok: token }
+                    )
+                ]);
+            } else if (token.length === 36) {
+                // it is a uuid
+                return true;
+            } else {
+                setErrorMessages([
+                    translate(
+                        {
+                            message: `Unbekannte Abteilung/Klasse "{tok}"`,
+                            id: 'share.audiencePicker.classSelector.errorMsg.classOrDepartment',
+                            description: 'Error message class or department not found'
+                        },
+                        { tok: token }
+                    )
+                ]);
+            }
+            return false;
+        },
+        [departmentStore, props.event]
+    );
+
+    const handleKeyDown: KeyboardEventHandler = React.useCallback(
+        (event) => {
+            if (!inputValue) {
+                return;
+            }
+            switch (event.key) {
+                case 'Space':
+                case 'Enter':
+                case 'Tab':
+                    const added = handleToken(inputValue, 'add');
+                    if (added) {
+                        setInputValue('');
+                    }
+                    event.preventDefault();
+                    break;
+            }
+        },
+        [handleToken, inputValue]
+    );
 
     const selected = React.useMemo<Option[]>(() => {
         return [
@@ -172,7 +191,6 @@ const ClassSelector = observer((props: Props) => {
                 } as DepartmentOption;
             }),
             ...[...event.classes].map((c) => {
-                console.log('class', c);
                 return {
                     label: c,
                     value: c,
@@ -184,11 +202,16 @@ const ClassSelector = observer((props: Props) => {
                 return {
                     label: `${c}*`,
                     value: c,
-                    type: 'classGroup'
+                    type: 'classGroup',
+                    model: departmentStore.findByClassGroupName(c)
                 } as ClassGroupOption;
             })
         ];
     }, [event.departments, [...event.classes].join(','), [...event.classGroups].join(',')]);
+
+    if (viewStore.audienceOptions.length === 0) {
+        return null;
+    }
 
     return (
         <div>
@@ -198,12 +221,12 @@ const ClassSelector = observer((props: Props) => {
                     MultiValueLabel: MultiValueLabel,
                     Option: OptionComponent
                 }}
-                menuPortalTarget={document.body}
                 inputValue={inputValue} /** used for the current typed input */
                 isClearable
                 isMulti
+                openMenuOnClick
+                openMenuOnFocus
                 onChange={(newValue, meta: ActionMeta<Option>) => {
-                    console.log(meta.action, newValue, meta);
                     /** triggered, when values are removed */
                     switch (meta.action) {
                         case 'remove-value':
@@ -283,10 +306,31 @@ const ClassSelector = observer((props: Props) => {
                 }}
                 onKeyDown={handleKeyDown}
                 placeholder={translate({
-                    message: 'Unbekannte Klassen',
+                    message: 'Klassen oder Abteilungen auswählen',
                     id: 'share.audiencePicker.placeholder.unknownClasses',
                     description: 'share.audiencePicker.placeholder.unknownClasses'
                 })}
+                formatCreateLabel={(inputValue) => {
+                    return translate(
+                        {
+                            message: 'Künftige Klasse erstellen: {inputValue}',
+                            id: 'share.audiencePicker.createLabel',
+                            description: 'share.audiencePicker.createLabel'
+                        },
+                        { inputValue: inputValue }
+                    );
+                }}
+                noOptionsMessage={(val) => {
+                    return translate(
+                        {
+                            message: 'Unbekannte Option: "{val}"',
+                            id: 'share.audiencePicker.noOptions',
+                            description: 'share.audiencePicker.noOptions'
+                        },
+                        { val: val.inputValue }
+                    );
+                }}
+                isValidNewOption={isValidNewOption}
                 options={viewStore.audienceOptions}
                 isSearchable
                 value={selected}
@@ -300,4 +344,4 @@ const ClassSelector = observer((props: Props) => {
     );
 });
 
-export default ClassSelector;
+export default AuienceSelector;
