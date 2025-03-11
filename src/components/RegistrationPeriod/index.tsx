@@ -208,7 +208,7 @@ const EditRegPeriod = observer((props: Props) => {
                             })}
                             name="regPeriods.departments"
                             menuPortalTarget={document.body}
-                            options={_.orderBy(departmentStore.usedDepartments, ['name']).map((d) => ({
+                            options={_.orderBy(departmentStore.departments, ['name']).map((d) => ({
                                 value: d.id,
                                 label: d.name,
                                 color: d?.color

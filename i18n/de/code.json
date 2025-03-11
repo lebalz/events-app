@@ -1685,7 +1685,7 @@
     "description": "Alert message for event without open registration period"
   },
   "event.isValid.noRegistrationPeriod.text": {
-    "message": "Es gibt keinen offenen Anmeldezeitraum für dieses Event.",
+    "message": "Es gibt keinen offenen Anmeldezeitraum für diesen Termin. Ein Termin kann nur während einem offenen Anmeldefenster eingereicht werden.",
     "description": "Alert message for event without open registration period"
   },
   "theme.ErrorPageContent.title": {
@@ -2058,13 +2058,13 @@
     "message": "In der Sammlung \"{collection}\" sind keine Gruppen vorhanden."
   },
   "basic.class": {
-    "message": "Klasse"
+    "message": "Klassen"
   },
   "basic.department": {
-    "message": "Abteilung"
+    "message": "Abteilungen"
   },
   "basic.level": {
-    "message": "Stufe"
+    "message": "Stufen"
   },
   "share.audiencePicker.createLabel": {
     "message": "Künftige Klasse erstellen: {inputValue}",
@@ -2133,5 +2133,15 @@
   },
   "teachingAffected.exampleBox.label": {
     "message": "Beispiel"
+  },
+  "event.audienceOptions": {
+    "message": "Betrifft",
+    "description": "for a single event: who is concerned?"
+  },
+  "event.transition.invalid.notAllowed": {
+    "message": "Nicht erlaubter Terminübergang."
+  },
+  "shared.audiencePicker.infobox": {
+    "message": "Info"
   }
 }

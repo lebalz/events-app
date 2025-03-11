@@ -16,6 +16,10 @@ export const InvalidTransitionMessages: Record<InvalidTransition, string> = {
         id: 'event.transition.invalid.initialValidation',
         message: 'Es wurde noch keine Validierung durchgeführt.'
     }),
+    [InvalidTransition.NotAllowed]: translate({
+        id: 'event.transition.invalid.notAllowed',
+        message: 'Nicht erlaubter Terminübergang.'
+    }),
     [InvalidTransition.Validation]: translate({
         id: 'event.transition.invalid.validation',
         message: 'Fehlerhafte Termine können nicht eingereicht werden.'
@@ -42,7 +46,7 @@ const Transition = observer((props: Props) => {
         <>
             {props.ensureValidation && <ValidationChecker events={[event]} noLoader />}
             {event.possibleStates.map((state, idx) => {
-                const { can, reason } = event.canBeTransitioned;
+                const { allowed: can, reason } = event.transitionAllowed;
                 return (
                     <Button
                         key={state}

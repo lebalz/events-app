@@ -30,7 +30,7 @@ const IsValid = observer((props: ReadonlyProps) => {
     const { event } = props;
     React.useEffect(() => {
         event.triggerInitialValidation();
-    }, [event.id]);
+    }, [event.componentKey]);
     return (
         <div
             style={{ gridColumn: 'isValid' }}
@@ -38,7 +38,33 @@ const IsValid = observer((props: ReadonlyProps) => {
             onClick={() => console.log(event.id, event._errors)}
         >
             {props.event.isValid ? (
-                ''
+                <>
+                    {event.canTransition && !event.transitionAllowed.allowed && (
+                        <Popup
+                            closeOnEscape
+                            closeOnDocumentClick
+                            nested
+                            trigger={
+                                <span>
+                                    <Button
+                                        icon={
+                                            <Icon
+                                                path={StateIcon.INFO}
+                                                color={StateColor.INFO}
+                                                size={SIZE_S}
+                                            />
+                                        }
+                                        size={SIZE_S}
+                                    />
+                                </span>
+                            }
+                            position="right center"
+                            on="hover"
+                        >
+                            <PopupContent event={event} />
+                        </Popup>
+                    )}
+                </>
             ) : (
                 <Popup
                     closeOnEscape
@@ -59,7 +85,7 @@ const IsValid = observer((props: ReadonlyProps) => {
                         </span>
                     }
                     position="right center"
-                    on="click"
+                    on="hover"
                 >
                     <PopupContent event={event} />
                 </Popup>

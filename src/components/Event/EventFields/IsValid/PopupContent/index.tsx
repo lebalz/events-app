@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import sharedStyles from '../../styles.module.scss';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -62,7 +61,7 @@ const PopupContent = observer((props: Props) => {
                 </div>
             )}
             {!event.hasOpenRegistrationPeriod && (
-                <div className={clsx(styles.alert, 'alert', 'alert--warning')} role="alert">
+                <div className={clsx(styles.alert, 'alert', 'alert--info')} role="alert">
                     <h4 className={clsx(styles.title)}>
                         <Translate
                             id="event.isValid.noRegistrationPeriod.title"
@@ -75,7 +74,8 @@ const PopupContent = observer((props: Props) => {
                         id="event.isValid.noRegistrationPeriod.text"
                         description="Alert message for event without open registration period"
                     >
-                        Es gibt keinen offenen Anmeldezeitraum für dieses Event.
+                        Es gibt keinen offenen Anmeldezeitraum für diesen Termin. Ein Termin kann nur während
+                        einem offenen Anmeldefenster eingereicht werden.
                     </Translate>
                 </div>
             )}
