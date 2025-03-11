@@ -7,7 +7,7 @@ import AudiencePicker from '../../shared/AudiencePicker';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-import AudienceOptions from '../../shared/AudiencePicker/AudienceOptions';
+import AudienceOptions from '../EventFields/AudienceOptions';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean /** true when at least one element of the grid is edited */;

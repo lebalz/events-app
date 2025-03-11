@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import styles from './audience.module.scss';
+import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import {
     AffectedAudience,
@@ -9,7 +9,7 @@ import {
     EventAudienceIcons,
     EventAudienceTranslationLong
 } from '@site/src/api/event';
-import { Icon, SIZE_S } from '../icons';
+import { Icon, SIZE_S } from '../../../../shared/icons';
 import Event from '@site/src/models/Event';
 import { translate } from '@docusaurus/Translate';
 
@@ -19,7 +19,7 @@ interface Props {
     marginLeft?: string;
 }
 
-const Audience = observer((props: Props) => {
+const Info = observer((props: Props) => {
     const { event } = props;
     return (
         <div className={clsx(styles.info)}>
@@ -61,4 +61,4 @@ const Audience = observer((props: Props) => {
     );
 });
 
-export default Audience;
+export default Info;

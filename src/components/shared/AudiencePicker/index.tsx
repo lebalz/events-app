@@ -12,7 +12,7 @@ import Department from './Department';
 import Button from '../Button';
 import _ from 'lodash';
 import Translate, { translate } from '@docusaurus/Translate';
-import Audience from './Audience';
+import Info from '../../Event/EventFields/AudienceOptions/Info';
 import AudienceSelector from './AuienceDropdownSelector';
 
 interface Props {

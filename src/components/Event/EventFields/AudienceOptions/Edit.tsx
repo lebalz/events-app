@@ -4,17 +4,13 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import styles from './styles.module.scss';
 import Button from '@site/src/components/shared/Button';
-import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
+import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
 import Translate, { translate } from '@docusaurus/Translate';
-import Badge from '@site/src/components/shared/Badge';
-import Event from '@site/src/models/Event';
-import Audience from '../Audience';
-import LabeledBox from '../../LabeledBox';
-interface Props {
-    event: Event;
-}
+import LabeledBox from '@site/src/components/shared/LabeledBox';
+import Info from './Info';
+import { Props } from '.';
 
-const AudienceOptions = observer((props: Props) => {
+const Edit = observer((props: Props) => {
     const { event } = props;
     if (!event.isEditable || !event.isEditing) {
         return null;
@@ -22,14 +18,16 @@ const AudienceOptions = observer((props: Props) => {
     return (
         <div className={clsx(styles.affects)}>
             <div className={clsx(styles.control)}>
-                <span className={clsx(styles.label)}>
-                    <Translate
-                        id="shared.text.people.concerned"
-                        description="The text in the window used to select the participants involved in the event asking which people is concerned by an event"
-                    >
-                        Betrifft
-                    </Translate>
-                </span>
+                {!props.hideLabel && (
+                    <span className={clsx(styles.label)}>
+                        <Translate
+                            id="shared.text.people.concerned"
+                            description="The text in the window used to select the participants involved in the event asking which people is concerned by an event"
+                        >
+                            Betrifft
+                        </Translate>
+                    </span>
+                )}
                 <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
                     {Object.keys(EventAudience).map((audience) => {
                         return (
@@ -47,7 +45,7 @@ const AudienceOptions = observer((props: Props) => {
                     label={translate({ message: 'Info', id: 'shared.audiencePicker.infobox' })}
                     color="info"
                 >
-                    <Audience event={event} showExample />
+                    <Info event={event} showExample />
                 </LabeledBox>
             </div>
             {[EventAudience.ALL, EventAudience.LP].includes(event.audience) &&
@@ -89,4 +87,4 @@ const AudienceOptions = observer((props: Props) => {
     );
 });
 
-export default AudienceOptions;
+export default Edit;

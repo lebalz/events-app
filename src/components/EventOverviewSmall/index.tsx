@@ -23,7 +23,7 @@ import {
 import { mdiCircle, mdiMinusThick } from '@mdi/js';
 import Icon from '@mdi/react';
 import { getDifferences } from '@site/src/models/helpers';
-import Audience from '../shared/AudiencePicker/Audience';
+import Info from '../Event/EventFields/AudienceOptions/Info';
 
 interface Props {
     event: Event;
@@ -269,7 +269,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         nested
                         repositionOnResize
                     >
-                        <Audience event={event} />
+                        <Info event={event} />
                     </Popup>
                 </div>
                 {event.departmentIds.size > 0 && (

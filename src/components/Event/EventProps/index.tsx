@@ -6,7 +6,6 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../../shared/DefinitionList';
-import { default as ShowAffectedAudience } from '../../shared/AudiencePicker/Audience';
 import Badge from '../../shared/Badge';
 import {
     mdiArrowLeftBoldCircleOutline,
@@ -47,6 +46,7 @@ import MetaInfoAlert from '../MetaAlert/info';
 import IsValid from '../EventFields/IsValid';
 import Transition from '../EventFields/Actions/Transition';
 import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
+import AudienceOptions from '../EventFields/AudienceOptions';
 
 interface Props {
     event: EventModel;
@@ -189,7 +189,33 @@ const EventProps = observer((props: Props) => {
             <dd>
                 <Location {...commonEditProps} />
             </dd>
-            {event.isEditing || true ? (
+            <dt>
+                <Translate id="event.teachingAffected" description="for a single event: teaching affected?">
+                    Unterricht Betroffen?
+                </Translate>
+            </dt>
+            <dd>
+                <span style={{ display: 'inline-block' }}>
+                    <TeachingAffected
+                        event={event}
+                        align="left"
+                        isEditable
+                        hideLabel
+                        className={clsx(sharedStyles.teachingAffected)}
+                    />
+                </span>
+            </dd>
+            <dt>
+                <Translate id="event.audienceOptions" description="for a single event: who is concerned?">
+                    Betrifft
+                </Translate>
+            </dt>
+            <dd>
+                <span style={{ display: 'inline-block' }}>
+                    <AudienceOptions event={event} hideLabel />
+                </span>
+            </dd>
+            {event.isEditing ? (
                 <>
                     <dt>
                         <Translate
@@ -213,24 +239,7 @@ const EventProps = observer((props: Props) => {
                             Publikum
                         </Translate>
                     </dt>
-                    <dd>
-                        <Popup
-                            trigger={
-                                <span
-                                    style={{ display: 'inline-block' }}
-                                    className={clsx(styles.lighterFont)}
-                                >
-                                    <Badge text={EventAudienceOverviewTranslation[event.audience]} />
-                                </span>
-                            }
-                            on="hover"
-                            position={['top center', 'top right', 'top left']}
-                            nested
-                            repositionOnResize
-                        >
-                            <ShowAffectedAudience event={event} />
-                        </Popup>
-                    </dd>
+                    <dd></dd>
                     {event.classes.size + event.classGroups.size > 0 && (
                         <>
                             <dt>
@@ -260,22 +269,6 @@ const EventProps = observer((props: Props) => {
                     )}
                 </>
             )}
-            <dt>
-                <Translate id="event.teachingAffected" description="for a single event: teaching affected?">
-                    Unterricht Betroffen?
-                </Translate>
-            </dt>
-            <dd>
-                <span style={{ display: 'inline-block' }}>
-                    <TeachingAffected
-                        event={event}
-                        align="left"
-                        isEditable
-                        hideLabel
-                        className={clsx(sharedStyles.teachingAffected)}
-                    />
-                </span>
-            </dd>
             {event.firstAuthor && (
                 <>
                     <dt>

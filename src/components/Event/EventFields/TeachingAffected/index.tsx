@@ -64,31 +64,30 @@ const TeachingAffected = observer((props: Props) => {
         return <Edit {...props} />;
     }
     return (
-        <>
-            <Tooltip title={TitleMap[event.teachingAffected]}>
-                <div
-                    style={{ gridColumn: 'teachingAffected' }}
-                    className={clsx(
-                        styles.teachingAffected,
-                        props.className,
-                        styles[props.align ?? 'center']
-                    )}
-                >
-                    <Button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            event.setExpanded(!event.isExpanded);
-                        }}
-                        icon={mdiCircle}
-                        size={SIZE_XXS}
-                        color={TeachingAffectedColors[event.teachingAffected]}
-                        className={clsx(styles.teachingAffectedBtn)}
-                    />
-                    <span style={{ display: 'inline-block' }}>{DescriptionMap[event.teachingAffected]}</span>
-                </div>
-            </Tooltip>
-        </>
+        <Tooltip title={TitleMap[event.teachingAffected]}>
+            <div
+                style={{ gridColumn: 'teachingAffected' }}
+                className={clsx(
+                    styles.teachingAffected,
+                    styles.readOnly,
+                    props.className,
+                    styles[props.align ?? 'center']
+                )}
+            >
+                <Button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        event.setExpanded(!event.isExpanded);
+                    }}
+                    icon={mdiCircle}
+                    size={SIZE_XXS}
+                    color={TeachingAffectedColors[event.teachingAffected]}
+                    className={clsx(styles.teachingAffectedBtn)}
+                />
+                <span style={{ display: 'inline-block' }}>{DescriptionMap[event.teachingAffected]}</span>
+            </div>
+        </Tooltip>
     );
 });
 
