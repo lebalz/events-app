@@ -46,7 +46,7 @@ const Transition = observer((props: Props) => {
         <>
             {props.ensureValidation && <ValidationChecker events={[event]} noLoader />}
             {event.possibleStates.map((state, idx) => {
-                const { allowed: can, reason } = event.transitionAllowed;
+                const { allowed, reason } = event.transitionAllowed;
                 return (
                     <Button
                         key={state}
@@ -55,13 +55,13 @@ const Transition = observer((props: Props) => {
                         color={EventStateColor[state]}
                         size={size || SIZE_S}
                         iconSide="left"
-                        disabled={!can}
+                        disabled={!allowed}
                         title={reason ? `⚠️ ${InvalidTransitionMessages[reason]}` : undefined}
                         onClick={() => {
                             event.requestState(state);
                         }}
                         apiState={
-                            can || event.initialValidation
+                            allowed || event.initialValidation
                                 ? eventStore.apiStateFor(`save-state-${state}-${event.id}`)
                                 : ApiState.LOADING
                         }
