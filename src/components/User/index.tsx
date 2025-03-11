@@ -11,14 +11,13 @@ import {
     mdiAccountGroup,
     mdiCalendarBlankMultiple,
     mdiEmail,
-    mdiEmailAlert,
     mdiLink,
     mdiLogout,
     mdiOfficeBuilding,
     mdiSchool
 } from '@mdi/js';
 import UntisLinker from './UntisLinker';
-import { ApiIcon, Calendar, SIZE_S } from '../shared/icons';
+import { ApiIcon, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -27,10 +26,7 @@ import Subscription from '../Subscription';
 import Checkbox from '../shared/Checkbox';
 import { ApiState } from '@site/src/stores/iStore';
 import { useStore } from '@site/src/stores/hooks';
-import ClassSubscriptions from '../Subscription/ClassSubscriptions';
-import DepartmentSubscriptions from '../Subscription/DepartmentSubscription';
-import SubscriptionPanel from '../Subscription/SubscriptionPanel';
-import Section from '../shared/Section';
+import Admonition from '@theme/Admonition';
 
 interface Props {
     user: UserModel;
@@ -144,6 +140,24 @@ const User = observer((props: Props) => {
                 </dt>
                 <dd>
                     <UntisLinker user={current} />
+                    {!user.untisId && (
+                        <Admonition
+                            type="info"
+                            title={translate({
+                                message: 'Untis Account verknüpfen',
+                                id: 'components.user.index.untis.account.link.title',
+                                description: 'Title for the Untis Account linking'
+                            })}
+                        >
+                            <Translate
+                                id="components.user.index.untis.account.link.text"
+                                description="Text for linking"
+                            >
+                                Um die Termine mit dem persönlichen Stundenplan abzugleichen, muss ein Untis
+                                Account verknüpft werden.
+                            </Translate>
+                        </Admonition>
+                    )}
                 </dd>
                 <dt>
                     <Badge

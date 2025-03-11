@@ -15,7 +15,7 @@ interface Step {
 }
 interface Props {
     src: string;
-    title: string;
+    title?: string;
     autoplay?: boolean;
     href?: string;
     playbackRate?: number;
@@ -30,6 +30,7 @@ const Video = observer((props: Props) => {
     const [isHover, setIsHover] = React.useState(false);
     const vidSrc = useBaseUrl(props.src);
     const href = useBaseUrl(props.href);
+    const hasFooter = props.href || props.title || props.steps;
     React.useEffect(() => {
         if (ref.current) {
             ref.current.playbackRate = props.playbackRate || 1;
@@ -42,7 +43,7 @@ const Video = observer((props: Props) => {
         }
     };
     return (
-        <div className={clsx(styles.video, 'card')} style={props.style}>
+        <div className={clsx(styles.video, 'card', !hasFooter && styles.noFooter)} style={props.style}>
             <div
                 className="card__image"
                 onMouseEnter={() => setIsHover(true)}
@@ -59,35 +60,36 @@ const Video = observer((props: Props) => {
                     <source src={vidSrc} type="video/mp4" />
                 </video>
             </div>
-
-            <div className="card__footer">
-                {props.href ? (
-                    <Link className="button button--primary button--block" to={href}>
-                        {props.title}
-                    </Link>
-                ) : (
-                    <h3>{props.title}</h3>
-                )}
-                {props.steps && (
-                    <ul className={clsx(styles.steps)}>
-                        {props.steps.map((step, index) => (
-                            <li
-                                key={index}
-                                onClick={() => handleStepClick(step.time)}
-                                className={clsx(styles.step)}
-                                style={{
-                                    marginLeft: step.indentLevel
-                                        ? `${step.indentLevel * 3 || 0}em`
-                                        : undefined
-                                }}
-                            >
-                                <Badge color="primary" text={`${formatSeconds(step.time)}`} />
-                                {step.label}
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
+            {hasFooter && (
+                <div className="card__footer">
+                    {props.href ? (
+                        <Link className="button button--primary button--block" to={href}>
+                            {props.title || href}
+                        </Link>
+                    ) : (
+                        <>{props.title && <h3>{props.title}</h3>}</>
+                    )}
+                    {props.steps && (
+                        <ul className={clsx(styles.steps)}>
+                            {props.steps.map((step, index) => (
+                                <li
+                                    key={index}
+                                    onClick={() => handleStepClick(step.time)}
+                                    className={clsx(styles.step)}
+                                    style={{
+                                        marginLeft: step.indentLevel
+                                            ? `${step.indentLevel * 3 || 0}em`
+                                            : undefined
+                                    }}
+                                >
+                                    <Badge color="primary" text={`${formatSeconds(step.time)}`} />
+                                    {step.label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            )}
         </div>
     );
 });

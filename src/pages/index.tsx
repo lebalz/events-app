@@ -13,7 +13,6 @@ import {
     mdiAccountCircleOutline,
     mdiArrowExpandHorizontal,
     mdiBellMinus,
-    mdiBellPlus,
     mdiBellPlusOutline,
     mdiBookOpenVariantOutline,
     mdiCalendarAccount,
@@ -32,6 +31,7 @@ import Details from '@theme/Details';
 import VideoGrid from '@site/src/components/VideoGrid';
 import EventOverviewSmall from '../components/EventOverviewSmall';
 import { DAYS_LONG, formatDate } from '../models/helpers/time';
+import Video from '../components/VideoGrid/Video';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -314,74 +314,120 @@ const Home = observer(() => {
                                 />
                             </div>
                             <div className="card__body">
-                                <h4>Version: Release Candidate 1.4 (6.1.2025)</h4>
+                                <h4>Version: Release Candidate 1.5 (11.3.2025)</h4>
                                 <ul>
                                     <li>
-                                        🚀 Neu: Termine können selbst erzeugten Gruppen hinzugefügt werden.
+                                        🚀 Neu: Bei der Termineingabe lassen sich Klassen, Klassengruppen und
+                                        Abteilungen auch per Drow-Down hinzufügen.
+                                    </li>
+                                    <li>
+                                        🚀 Neu: Für das Feld "Unterricht betroffen" wird nun eine Erklärung
+                                        mit Beispielen angezeigt.
                                         <ul>
                                             <li>
-                                                Gruppen sind wie <b>Ordner</b>, die wahlweise mit anderen
-                                                Personen geteilt werden.
+                                                Die Beispiele werden standardmässig angezeigt, können aber
+                                                auch ausgeblendet werden.
                                             </li>
                                             <li>
-                                                Gruppen können kopiert werden - alle enthaltenen Termine
-                                                werden ebenfalls kopiert, wobei deren Status auf "Entwurf"{' '}
-                                                <Icon
-                                                    path={mdiPen}
-                                                    size={0.8}
-                                                    color="var(--ifm-color-blue)"
-                                                />{' '}
-                                                gesetzt wird.
-                                            </li>
-                                            <li>
-                                                Alle Entwürfe in einer Gruppe lassen sich Verschieben:
-                                                <ul>
-                                                    <li>
-                                                        <b>Datum-Editor</b>: Alle Termine können bspw. um ein
-                                                        Jahr verschoben werden.
-                                                    </li>
-                                                    <li>
-                                                        <b>Klassen-Editor</b>: Die Klassen der Termine können
-                                                        wahlweise individuell neu zugeordnet werden oder alle
-                                                        um bspw. ein Jahr verschoben werden.
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                Änderungen zwischen den Terminen kopierter Gruppen können
-                                                nachverfolgt werden.
-                                            </li>
-                                            <li>
-                                                📚 Anleitung:
-                                                <Link to="/docs/events/shift">
-                                                    👉 Termine aufs nächste Jahr übertragen
-                                                </Link>
-                                            </li>
-                                            <li>
-                                                <Link to="/user?user-tab=groups">
-                                                    👉 Ausprobieren: Zu den Termin-Gruppen
-                                                </Link>
+                                                <Video
+                                                    src="/videos/Events-Demo-teachingAffected.mp4"
+                                                    autoplay
+                                                    loop
+                                                    style={{ maxWidth: '40em' }}
+                                                />
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        🚀 Leistungsverbesserung: Die persönliche Übersicht bei den Terminen
-                                        wird nun schneller geladen.
+                                        💅 Verbesserung: Ist kein Anmeldefenster offen, wird dies als
+                                        Information angezeigt, der Termin erscheint aber nicht mehr als
+                                        invalid.
                                     </li>
                                     <li>
-                                        🔧 Teachnologie-Upgrade (im Hintergrund): Es werden nun{' '}
-                                        <a href="https://nodejs.org/en/blog/release/v22.12.0" target="_blank">
-                                            👉 Node 22
-                                        </a>{' '}
-                                        und
-                                        <a href="https://react.dev/blog/2024/12/05/react-19" target="_blank">
-                                            👉 React 19
-                                        </a>{' '}
-                                        verwedet.
+                                        💅: Verbesserung: Um Warnungen und Hinweise bei neuen Terminen
+                                        anzuzeigen, muss das Symbol nicht mehr angeklickt werden - das
+                                        drüberfahren mit der Maus reicht.
+                                    </li>
+                                    <li>
+                                        🐛 Fix: Bei fehlerhaften Login-Versuchen sollte nun ein Hinweis
+                                        erscheinen, wie das Problem behoben werden kann.
                                     </li>
                                 </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: Release Candidate 1.4 (6.1.2025)</h4>
+                                    <ul>
+                                        <li>
+                                            🚀 Neu: Termine können selbst erzeugten Gruppen hinzugefügt
+                                            werden.
+                                            <ul>
+                                                <li>
+                                                    Gruppen sind wie <b>Ordner</b>, die wahlweise mit anderen
+                                                    Personen geteilt werden.
+                                                </li>
+                                                <li>
+                                                    Gruppen können kopiert werden - alle enthaltenen Termine
+                                                    werden ebenfalls kopiert, wobei deren Status auf "Entwurf"{' '}
+                                                    <Icon
+                                                        path={mdiPen}
+                                                        size={0.8}
+                                                        color="var(--ifm-color-blue)"
+                                                    />{' '}
+                                                    gesetzt wird.
+                                                </li>
+                                                <li>
+                                                    Alle Entwürfe in einer Gruppe lassen sich Verschieben:
+                                                    <ul>
+                                                        <li>
+                                                            <b>Datum-Editor</b>: Alle Termine können bspw. um
+                                                            ein Jahr verschoben werden.
+                                                        </li>
+                                                        <li>
+                                                            <b>Klassen-Editor</b>: Die Klassen der Termine
+                                                            können wahlweise individuell neu zugeordnet werden
+                                                            oder alle um bspw. ein Jahr verschoben werden.
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    Änderungen zwischen den Terminen kopierter Gruppen können
+                                                    nachverfolgt werden.
+                                                </li>
+                                                <li>
+                                                    📚 Anleitung:
+                                                    <Link to="/docs/events/shift">
+                                                        👉 Termine aufs nächste Jahr übertragen
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/user?user-tab=groups">
+                                                        👉 Ausprobieren: Zu den Termin-Gruppen
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            🚀 Leistungsverbesserung: Die persönliche Übersicht bei den
+                                            Terminen wird nun schneller geladen.
+                                        </li>
+                                        <li>
+                                            🔧 Teachnologie-Upgrade (im Hintergrund): Es werden nun{' '}
+                                            <a
+                                                href="https://nodejs.org/en/blog/release/v22.12.0"
+                                                target="_blank"
+                                            >
+                                                👉 Node 22
+                                            </a>{' '}
+                                            und
+                                            <a
+                                                href="https://react.dev/blog/2024/12/05/react-19"
+                                                target="_blank"
+                                            >
+                                                👉 React 19
+                                            </a>{' '}
+                                            verwedet.
+                                        </li>
+                                    </ul>
                                     <h4>Version: Release Candidate 1.3 (20.12.2024)</h4>
                                     <ul>
                                         <li>

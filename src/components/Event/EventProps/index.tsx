@@ -191,7 +191,7 @@ const EventProps = observer((props: Props) => {
             </dd>
             <dt>
                 <Translate id="event.teachingAffected" description="for a single event: teaching affected?">
-                    Unterricht Betroffen?
+                    Unterricht betroffen?
                 </Translate>
             </dt>
             <dd>
@@ -227,15 +227,6 @@ const EventProps = observer((props: Props) => {
                 </>
             ) : (
                 <>
-                    <dt>
-                        <Translate
-                            id="event.audience"
-                            description="for a single event: class and department picker"
-                        >
-                            Publikum
-                        </Translate>
-                    </dt>
-                    <dd></dd>
                     {event.classes.size + event.classGroups.size > 0 && (
                         <>
                             <dt>

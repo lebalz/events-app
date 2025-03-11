@@ -706,7 +706,7 @@
     "message": "Betrifft"
   },
   "xlsx.teachingAffected": {
-    "message": "Unterricht Betroffen?"
+    "message": "Unterricht betroffen?"
   },
   "xlsx.deletedAt": {
     "message": "Gelöscht am"
@@ -954,7 +954,7 @@
     "description": "for a single event: departments"
   },
   "event.teachingAffected": {
-    "message": "Unterricht Betroffen?",
+    "message": "Unterricht betroffen?",
     "description": "for a single event: teaching affected?"
   },
   "event.firstAuthor": {
@@ -2149,5 +2149,20 @@
   },
   "labeledBox.show.title": {
     "message": "{box} einblenden?"
+  },
+  "user.error.login": {
+    "message": "Fehler beim Anmelden."
+  },
+  "user.error.login.text": {
+    "message": "Aktualisieren Sie die Anmelde-Daten (Klicken Sie auf auf den orangen Knopf \"Aktualisieren\"), und melden Sie sich erneut an. Sollte das Problem weiterhin bestehen, dürfen Sie gerne eine Fehlermeldung erfassen. Danke ☺️.",
+    "description": "Text for user login error"
+  },
+  "components.user.index.untis.account.link.title": {
+    "message": "Untis Account verknüpfen",
+    "description": "Title for the Untis Account linking"
+  },
+  "components.user.index.untis.account.link.text": {
+    "message": "Um die Termine mit dem persönlichen Stundenplan abzugleichen, muss ein Untis Account verknüpft werden.",
+    "description": "Text for linking"
   }
 }
