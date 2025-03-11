@@ -21,7 +21,7 @@ import clrStyles from '../../shared/Colors/styles.module.scss';
 import { action } from 'mobx';
 
 interface Props {
-    trigger?: React.JSX.Element;
+    trigger?: React.ReactNode;
     event: Event;
     hideEdit?: boolean;
 }

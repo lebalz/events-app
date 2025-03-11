@@ -13,11 +13,6 @@ import Klass from '@site/src/models/Untis/Klass';
 import Icon from '@mdi/react';
 import { mdiAccountMultiple, mdiAccountQuestion, mdiGoogleClassroom, mdiOfficeBuilding } from '@mdi/js';
 
-const createOption = (label: string) => ({
-    label,
-    value: label
-});
-
 interface Props {
     event: EventModel;
 }
@@ -43,12 +38,6 @@ export interface ClassGroupOption extends BaseOption {
 }
 
 export type Option = DepartmentOption | ClassOption | ClassGroupOption;
-
-const I18n_LABELS = {
-    classType: translate({ id: 'basic.class', message: 'Klasse' }),
-    departmentType: translate({ id: 'basic.department', message: 'Abteilung' }),
-    levelType: translate({ id: 'basic.level', message: 'Stufe' })
-};
 
 const IconMap = {
     departmentType: mdiOfficeBuilding,
@@ -82,7 +71,7 @@ const OptionComponent = (props: OptionProps<Option>) => {
     );
 };
 
-const AuienceSelector = observer((props: Props) => {
+const AuienceDropdownSelector = observer((props: Props) => {
     const [errorMessages, setErrorMessages] = React.useState<string[]>([]);
     const [inputValue, setInputValue] = React.useState('');
     const viewStore = useStore('viewStore');
@@ -344,4 +333,4 @@ const AuienceSelector = observer((props: Props) => {
     );
 });
 
-export default AuienceSelector;
+export default AuienceDropdownSelector;

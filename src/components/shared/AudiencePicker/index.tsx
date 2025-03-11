@@ -14,7 +14,7 @@ import _ from 'lodash';
 import Translate, { translate } from '@docusaurus/Translate';
 import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
 import Audience from './Audience';
-import AudienceSelector from './AudienceSelector';
+import AudienceSelector from './AuienceDropdownSelector';
 
 interface Props {
     event: EventModel;

@@ -3,12 +3,11 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Popup from 'reactjs-popup';
 
 interface Props {
-    title?: string | JSX.Element;
-    children: JSX.Element;
+    title?: React.ReactNode;
+    children: React.ReactNode;
     disabled?: boolean;
 }
 

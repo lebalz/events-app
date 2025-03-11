@@ -18,8 +18,14 @@ import type {
     ClassOption,
     DepartmentOption,
     Option
-} from '@site/src/components/shared/AudiencePicker/AudienceSelector';
+} from '@site/src/components/shared/AudiencePicker/AuienceDropdownSelector';
 import { GroupBase } from 'react-select';
+import { translate } from '@docusaurus/Translate';
+const I18n_LABELS = {
+    classType: translate({ id: 'basic.class', message: 'Klassen' }),
+    departmentType: translate({ id: 'basic.department', message: 'Abteilungen' }),
+    levelType: translate({ id: 'basic.level', message: 'Stufen' })
+};
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
@@ -335,7 +341,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     get audienceOptions(): GroupBase<Option>[] {
         return [
             {
-                label: 'Abteilungen',
+                label: I18n_LABELS.departmentType,
                 options: this.root.departmentStore.departments.map((d) => {
                     return {
                         label: d.name,
@@ -346,7 +352,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                 })
             },
             {
-                label: 'Stufen',
+                label: I18n_LABELS.levelType,
                 options: _.orderBy(
                     [
                         ...this.root.untisStore.classGroups.map((g) => {
@@ -362,7 +368,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                 )
             },
             {
-                label: 'Klassen',
+                label: I18n_LABELS.classType,
                 options: _.orderBy(
                     [
                         ...this.root.untisStore.currentClasses.map((c) => {

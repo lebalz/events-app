@@ -18,7 +18,6 @@ const DepartmentsOrAudiencePicker = observer((props: Props) => {
         return (
             <div className={clsx(styles.departmentsOrAudience)}>
                 <span className={clsx(styles.teachingAffected)}>
-                    Unterricht betroffen?
                     <TeachingAffected event={props.event} isEditable />
                 </span>
                 <AudiencePicker event={event} />

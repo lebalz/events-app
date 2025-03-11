@@ -34,13 +34,7 @@ import { default as AudiencePicker } from '../EventFields/Audience';
 import State from '../EventFields/State';
 import Departments from '../EventFields/Departments';
 import Klasses from '../EventFields/Klasses';
-import {
-    EventAudienceOverviewTranslation,
-    EventState,
-    EventStateActions,
-    EventStateButton,
-    EventStateColor
-} from '@site/src/api/event';
+import { EventAudienceOverviewTranslation, EventState } from '@site/src/api/event';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import Version from '../EventFields/Version';
 import HistoryPopup from '../VersionHistory/HistoryPopup';
@@ -277,6 +271,7 @@ const EventProps = observer((props: Props) => {
                         event={event}
                         align="left"
                         isEditable
+                        hideLabel
                         className={clsx(sharedStyles.teachingAffected)}
                     />
                 </span>

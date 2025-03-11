@@ -2121,5 +2121,17 @@
   },
   "teachingAffected.yes.example.description.2": {
     "message": "Der Regelunterricht fällt aus - die Klasse hat zur gegebenen Zeit ein Spezialprogramm."
+  },
+  "TeachingAffected.label": {
+    "message": "Unterricht betroffen?"
+  },
+  "teachingAffected.example.nr": {
+    "message": "Beispiel {nr} von {total}"
+  },
+  "teachingAffected.example.tooltip": {
+    "message": "Terminbeispiel"
+  },
+  "teachingAffected.exampleBox.label": {
+    "message": "Beispiel"
   }
 }

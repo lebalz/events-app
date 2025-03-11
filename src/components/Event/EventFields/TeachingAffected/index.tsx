@@ -16,6 +16,7 @@ import Example from './Example';
 export interface Props extends ReadonlyProps {
     align?: 'left' | 'center' | 'right';
     toggleExpanded?: boolean;
+    hideLabel?: boolean;
 }
 
 export const TeachingAffectedColors: { [key in TeachingAffectedType]: string } = {

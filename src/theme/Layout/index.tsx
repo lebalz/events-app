@@ -6,7 +6,7 @@ import EventModal from '@site/src/components/Event/Modal';
 
 type Props = WrapperProps<typeof LayoutType>;
 
-export default function LayoutWrapper(props: Props & { children?: ReactNode }): JSX.Element {
+export default function LayoutWrapper(props: Props & { children?: ReactNode }): React.ReactNode {
     return (
         <>
             <Layout
