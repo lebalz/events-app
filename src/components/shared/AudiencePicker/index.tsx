@@ -20,24 +20,6 @@ interface Props {
     event: EventModel;
 }
 
-const TranslationsTA: { [key in TeachingAffected]: string } = {
-    [TeachingAffected.YES]: translate({
-        message: 'Ja',
-        description: 'Yes, the teaching is affected and the class is not present',
-        id: 'TeachingAffected.YES.description'
-    }),
-    [TeachingAffected.NO]: translate({
-        message: 'Nein',
-        description: 'No, the teaching happens as usual',
-        id: 'TeachingAffected.NO.description'
-    }),
-    [TeachingAffected.PARTIAL]: translate({
-        message: 'Teilweise',
-        description: 'Only a part of the class will be present',
-        id: 'TeachingAffected.PARTIAL.description'
-    })
-};
-
 const AudiencePicker = observer((props: Props) => {
     const departmentStore = useStore('departmentStore');
     const userStore = useStore('userStore');
@@ -84,31 +66,6 @@ const AudiencePicker = observer((props: Props) => {
                         })}
                     </div>
                     <Audience event={event} showExample marginLeft="2em" />
-                </div>
-                <div className={clsx(styles.toggle)}>
-                    <span className={clsx(styles.label)}>
-                        <Translate
-                            id="shared.text.lesson.concerned"
-                            description="The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
-                        >
-                            Unterricht Betroffen?
-                        </Translate>
-                    </span>
-                    <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                        {Object.keys(TeachingAffected).map((affected) => {
-                            return (
-                                <Button
-                                    text={TranslationsTA[affected]}
-                                    onClick={() =>
-                                        event.update({ teachingAffected: TeachingAffected[affected] })
-                                    }
-                                    active={event.teachingAffected === affected}
-                                    key={affected}
-                                    noWrap
-                                />
-                            );
-                        })}
-                    </div>
                 </div>
                 {[EventAudience.ALL, EventAudience.LP].includes(event.audience) &&
                     event.affectedDepartments.some((d) => d.isSubDepartment && !!d.department2_Id) && (

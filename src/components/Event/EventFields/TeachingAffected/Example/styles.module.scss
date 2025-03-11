@@ -1,0 +1,11 @@
+.stacked {
+    position: relative;
+    .bottomRight {
+        position: absolute;
+        right: 0;
+        bottom: 2px;
+    }
+}
+.icon {
+    margin-top: 5px;
+}

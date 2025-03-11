@@ -275,8 +275,8 @@ const EventProps = observer((props: Props) => {
                 <span style={{ display: 'inline-block' }}>
                     <TeachingAffected
                         event={event}
-                        show="both"
                         align="left"
+                        isEditable
                         className={clsx(sharedStyles.teachingAffected)}
                     />
                 </span>

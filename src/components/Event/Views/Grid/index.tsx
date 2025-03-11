@@ -46,8 +46,7 @@ export const DefaultConfig: { [key: string]: ConfigOptions } = {
     teachingAffected: {
         width: '2.1em',
         sortable: true,
-        minWidthWhenActive: '4em',
-        componentProps: { toggleExpanded: true }
+        minWidthWhenActive: '4em'
     },
     author: { width: '5em', sortable: true, minWidthWhenActive: '6em' },
     day: { width: '2.8em' },

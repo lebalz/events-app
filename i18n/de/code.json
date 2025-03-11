@@ -899,16 +899,13 @@
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.no.title": {
-    "message": "Betrifft den Unterricht nicht",
-    "description": "Label for the Event Field"
+    "message": "Betrifft den Regelunterricht nicht."
   },
   "eventField.teachingAffected.partial.title": {
-    "message": "Unterricht teilweise betroffen",
-    "description": "Label for the Event Field"
+    "message": "Regelunterricht teilweise betroffen."
   },
   "eventField.teachingAffected.yes.title": {
-    "message": "Unterricht betroffen",
-    "description": "Label for the Event Field"
+    "message": "Regelunterricht findet nicht statt."
   },
   "event.showUnpublishedVersions.singular.text": {
     "message": "Entwurf",
@@ -1324,7 +1321,7 @@
     "description": "Error message class or department not found"
   },
   "share.audiencePicker.placeholder.unknownClasses": {
-    "message": "Unbekannte Klassen",
+    "message": "Klassen oder Abteilungen auswählen",
     "description": "share.audiencePicker.placeholder.unknownClasses"
   },
   "TeachingAffected.YES.description": {
@@ -2040,5 +2037,89 @@
   },
   "eventGroup.createGroup": {
     "message": "Erstellen"
+  },
+  "group.collection.default": {
+    "message": "Standard"
+  },
+  "group.collection": {
+    "message": "Sammlung"
+  },
+  "eventField.teachingAffected.no.example": {
+    "message": "Noteneingabe in Evento. Der Unterricht findet normal statt"
+  },
+  "eventField.teachingAffected.partial.example": {
+    "message": "Exkursion im EF-IN. Der Unterricht findet für andere LP's normal statt, die EF-IN Schüler:innen fehlen aber."
+  },
+  "eventField.teachingAffected.yes.example": {
+    "message": "\"Exkursion mit der Klasse 28Gj\" oder \"Klassenstunde: Zeugnisse\". Der Regelunterricht fällt aus - die Klasse ist nicht da oder es gibt Spezialprogramm.",
+    "description": "Label for the Event Field"
+  },
+  "collection.NoGroupsAlert.text": {
+    "message": "In der Sammlung \"{collection}\" sind keine Gruppen vorhanden."
+  },
+  "basic.class": {
+    "message": "Klasse"
+  },
+  "basic.department": {
+    "message": "Abteilung"
+  },
+  "basic.level": {
+    "message": "Stufe"
+  },
+  "share.audiencePicker.createLabel": {
+    "message": "Künftige Klasse erstellen: {inputValue}",
+    "description": "share.audiencePicker.createLabel"
+  },
+  "share.audiencePicker.noOptions": {
+    "message": "Unbekannte Option: \"{val}\"",
+    "description": "share.audiencePicker.noOptions"
+  },
+  "group.collection.new": {
+    "message": "Neue Sammlung: {inputValue}"
+  },
+  "teachingAffected.no.example.1": {
+    "message": "Noteneingabe in Evento."
+  },
+  "teachingAffected.no.example.description.1": {
+    "message": "Dieser Termin betrifft den Regelunterricht nicht."
+  },
+  "teachingAffected.no.example.2": {
+    "message": "Termin: Abgabe Sonderwochenprogramm"
+  },
+  "teachingAffected.no.example.description.2": {
+    "message": "Der Unterricht findet normal statt."
+  },
+  "teachingAffected.partial.example.1": {
+    "message": "Exkursion im EF-IN."
+  },
+  "teachingAffected.partial.example.description.1": {
+    "message": "Der Regelunterricht findet normal statt, die EF-IN Schüler:innen fehlen aber."
+  },
+  "teachingAffected.partial.example.hint.1": {
+    "message": "Proben sollten nicht geplant werden, da nicht die ganze Klasse anwesend ist."
+  },
+  "teachingAffected.partial.example.2": {
+    "message": "Orchesterprobe."
+  },
+  "teachingAffected.partial.example.description.2": {
+    "message": "Der Regelunterricht findet normal statt, die mitwirkenden Schüler:innen 🎻🎵🎸 einer Klasse fehlen aber."
+  },
+  "teachingAffected.partial.example.3": {
+    "message": "GYM4: Besuchstag ETH."
+  },
+  "teachingAffected.partial.example.description.3": {
+    "message": "Der Regelunterricht findet normal statt, die am Besuchstag angemeldeten Schüler:iunnen fehlen aber."
+  },
+  "teachingAffected.yes.example.1": {
+    "message": "Exkursion mit der Klasse 28Gj"
+  },
+  "teachingAffected.yes.example.description.1": {
+    "message": "Der Regelunterricht fällt aus - die Klasse ist nicht da."
+  },
+  "teachingAffected.yes.example.2": {
+    "message": "Klassenstunde: Zeugnisse"
+  },
+  "teachingAffected.yes.example.description.2": {
+    "message": "Der Regelunterricht fällt aus - die Klasse hat zur gegebenen Zeit ein Spezialprogramm."
   }
 }
