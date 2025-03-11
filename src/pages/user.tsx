@@ -13,7 +13,7 @@ import User from '../components/User';
 import Section from '../components/shared/Section';
 import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import Groups from '../components/EventGroup/Groups';
 import { useMsal } from '@azure/msal-react';
 import { useIsAuthenticated } from '@azure/msal-react';
@@ -21,6 +21,7 @@ import { InteractionStatus } from '@azure/msal-browser';
 import { Loading } from '../components/shared/icons';
 import siteConfig from '@generated/docusaurus.config';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import Admonition from '@theme/Admonition';
 const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
 
 const UserPage = observer(() => {
@@ -73,12 +74,29 @@ const UserPage = observer(() => {
                                         onClick={() => {
                                             localStorage.clear();
                                             setTimeout(() => {
-                                                window.location.replace(useBaseUrl('/login'));
+                                                window.location.replace(loginRoute);
                                             }, 1);
                                         }}
                                         color="orange"
                                         noOutline
                                     />
+                                    <Admonition
+                                        type="danger"
+                                        title={translate({
+                                            message: 'Fehler beim Anmelden.',
+                                            id: 'user.error.login'
+                                        })}
+                                    >
+                                        <Translate
+                                            id="user.error.login.text"
+                                            description="Text for user login error"
+                                        >
+                                            Aktualisieren Sie die Anmelde-Daten (Klicken Sie auf auf den
+                                            orangen Knopf "Aktualisieren"), und melden Sie sich erneut an.
+                                            Sollte das Problem weiterhin bestehen, dürfen Sie gerne eine
+                                            Fehlermeldung erfassen. Danke ☺️.
+                                        </Translate>
+                                    </Admonition>
                                 </div>
                             )}
                         </TabItem>
@@ -97,7 +115,6 @@ const UserPage = observer(() => {
                                 message: 'Gruppen',
                                 id: 'user.tab.groups'
                             })}
-                            className="full-width"
                         >
                             <Groups />
                         </TabItem>

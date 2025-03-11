@@ -62,15 +62,16 @@ export enum ValidState {
 export enum InvalidTransition {
     Validation = 'validation',
     InitialValidation = 'initialValidation',
-    NoOpenRegistrationPeriod = 'noOpenRegistrationPeriod'
+    NoOpenRegistrationPeriod = 'noOpenRegistrationPeriod',
+    NotAllowed = 'notAllowed'
 }
 
 interface InvalidTransitionState {
-    can: false;
+    allowed: false;
     reason: InvalidTransition;
 }
 interface ValidTransitionState {
-    can: true;
+    allowed: true;
     reason?: undefined;
 }
 
@@ -130,6 +131,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly publishedVersionIds: string[];
     readonly meta: Meta;
     readonly clonedFromId: string | null;
+    readonly _initializedAt: number;
 
     @observable.ref accessor updatedAt: Date;
 
@@ -177,6 +179,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     constructor(props: EventProps, store: EventStore) {
         super();
+        this._initializedAt = Date.now();
         this._pristine = props;
         this.isUserModel = props.state !== EventState.Published || !props.parentId;
         this.store = store;
@@ -220,6 +223,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
                 }
             }
         );
+    }
+
+    @computed
+    get componentKey() {
+        return `${this.id}@${this._initializedAt}`;
     }
 
     @action
@@ -316,13 +324,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.overlappingEvents.length > 0) {
             return ValidState.Warning;
         }
-        if (
-            !this.hasOpenRegistrationPeriod &&
-            !this.hasParent &&
-            [EventState.Draft, EventState.Review].includes(this.state)
-        ) {
-            return ValidState.Warning;
-        }
         return ValidState.Valid;
     }
 
@@ -344,18 +345,35 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         );
     }
 
+    /**
+     * This only! returns wheter this event can be further transitioned from
+     * its current state. It makes **no** statement about wheter it's allowed
+     * to transition or not.
+     */
     @computed
-    get canBeTransitioned(): TransitionState {
+    get canTransition(): boolean {
+        if (this.isDraft || this.isReview) {
+            return true;
+        }
+        return false;
+    }
+
+    @computed
+    get transitionAllowed(): TransitionState {
         if (!this.initialValidation) {
-            return { can: false, reason: InvalidTransition.InitialValidation };
+            return { allowed: false, reason: InvalidTransition.InitialValidation };
         }
         if (this.validationState === ValidState.Error) {
-            return { can: false, reason: InvalidTransition.Validation };
+            return { allowed: false, reason: InvalidTransition.Validation };
         }
-        if (this.hasParent || this.hasOpenRegistrationPeriod) {
-            return { can: true };
+
+        if (
+            this.hasOpenRegistrationPeriod ||
+            (this.hasParent && (this.parent?.isPublished || this.parent?.isReview))
+        ) {
+            return { allowed: true };
         }
-        return { can: false, reason: InvalidTransition.NoOpenRegistrationPeriod };
+        return { allowed: false, reason: InvalidTransition.NoOpenRegistrationPeriod };
     }
 
     errorFor(attr: keyof EventProps) {
@@ -603,14 +621,14 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setDepartment(department: Department, value: boolean) {
+    setDepartment(department: Department, setActive: boolean) {
         if (!department) {
             return;
         }
         const currentActive = this.departmentIds.has(department.id);
-        if (currentActive && !value) {
+        if (currentActive && !setActive) {
             this.departmentIds.delete(department.id);
-        } else if (!currentActive && value) {
+        } else if (!currentActive && setActive) {
             this.departmentIds.add(department.id);
         }
         this.normalizeAffectedClasses();

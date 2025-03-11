@@ -706,7 +706,7 @@
     "message": "Betrifft"
   },
   "xlsx.teachingAffected": {
-    "message": "Unterricht Betroffen?"
+    "message": "Unterricht betroffen?"
   },
   "xlsx.deletedAt": {
     "message": "Gelöscht am"
@@ -899,16 +899,13 @@
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.no.title": {
-    "message": "Betrifft den Unterricht nicht",
-    "description": "Label for the Event Field"
+    "message": "Betrifft den Regelunterricht nicht."
   },
   "eventField.teachingAffected.partial.title": {
-    "message": "Unterricht teilweise betroffen",
-    "description": "Label for the Event Field"
+    "message": "Regelunterricht teilweise betroffen."
   },
   "eventField.teachingAffected.yes.title": {
-    "message": "Unterricht betroffen",
-    "description": "Label for the Event Field"
+    "message": "Regelunterricht findet nicht statt."
   },
   "event.showUnpublishedVersions.singular.text": {
     "message": "Entwurf",
@@ -957,7 +954,7 @@
     "description": "for a single event: departments"
   },
   "event.teachingAffected": {
-    "message": "Unterricht Betroffen?",
+    "message": "Unterricht betroffen?",
     "description": "for a single event: teaching affected?"
   },
   "event.firstAuthor": {
@@ -1324,7 +1321,7 @@
     "description": "Error message class or department not found"
   },
   "share.audiencePicker.placeholder.unknownClasses": {
-    "message": "Unbekannte Klassen",
+    "message": "Klassen oder Abteilungen auswählen",
     "description": "share.audiencePicker.placeholder.unknownClasses"
   },
   "TeachingAffected.YES.description": {
@@ -1684,11 +1681,11 @@
     "description": "Conflicts between events that are overlapping and concerning the same event"
   },
   "event.isValid.noRegistrationPeriod.title": {
-    "message": "Kein Anmeldefenster",
+    "message": "Kein offenes Anmeldefenster",
     "description": "Alert message for event without open registration period"
   },
   "event.isValid.noRegistrationPeriod.text": {
-    "message": "Es gibt keinen offenen Anmeldezeitraum für dieses Event.",
+    "message": "Ein Termin kann nur während einem offenen Anmeldefenster eingereicht werden.",
     "description": "Alert message for event without open registration period"
   },
   "theme.ErrorPageContent.title": {
@@ -2040,5 +2037,132 @@
   },
   "eventGroup.createGroup": {
     "message": "Erstellen"
+  },
+  "group.collection.default": {
+    "message": "Standard"
+  },
+  "group.collection": {
+    "message": "Sammlung"
+  },
+  "eventField.teachingAffected.no.example": {
+    "message": "Noteneingabe in Evento. Der Unterricht findet normal statt"
+  },
+  "eventField.teachingAffected.partial.example": {
+    "message": "Exkursion im EF-IN. Der Unterricht findet für andere LP's normal statt, die EF-IN Schüler:innen fehlen aber."
+  },
+  "eventField.teachingAffected.yes.example": {
+    "message": "\"Exkursion mit der Klasse 28Gj\" oder \"Klassenstunde: Zeugnisse\". Der Regelunterricht fällt aus - die Klasse ist nicht da oder es gibt Spezialprogramm.",
+    "description": "Label for the Event Field"
+  },
+  "collection.NoGroupsAlert.text": {
+    "message": "In der Sammlung \"{collection}\" sind keine Gruppen vorhanden."
+  },
+  "basic.class": {
+    "message": "Klassen"
+  },
+  "basic.department": {
+    "message": "Abteilungen"
+  },
+  "basic.level": {
+    "message": "Stufen"
+  },
+  "share.audiencePicker.createLabel": {
+    "message": "Künftige Klasse erstellen: {inputValue}",
+    "description": "share.audiencePicker.createLabel"
+  },
+  "share.audiencePicker.noOptions": {
+    "message": "Unbekannte Option: \"{val}\"",
+    "description": "share.audiencePicker.noOptions"
+  },
+  "group.collection.new": {
+    "message": "Neue Sammlung: {inputValue}"
+  },
+  "teachingAffected.no.example.1": {
+    "message": "Noteneingabe in Evento."
+  },
+  "teachingAffected.no.example.description.1": {
+    "message": "Dieser Termin betrifft den Regelunterricht nicht."
+  },
+  "teachingAffected.no.example.2": {
+    "message": "Termin: Abgabe Sonderwochenprogramm"
+  },
+  "teachingAffected.no.example.description.2": {
+    "message": "Der Unterricht findet normal statt."
+  },
+  "teachingAffected.partial.example.1": {
+    "message": "Exkursion im EF-IN."
+  },
+  "teachingAffected.partial.example.description.1": {
+    "message": "Der Regelunterricht findet normal statt, die EF-IN Schüler:innen fehlen aber."
+  },
+  "teachingAffected.partial.example.hint.1": {
+    "message": "Proben sollten nicht geplant werden, da nicht die ganze Klasse anwesend ist."
+  },
+  "teachingAffected.partial.example.2": {
+    "message": "Orchesterprobe."
+  },
+  "teachingAffected.partial.example.description.2": {
+    "message": "Der Regelunterricht findet normal statt, die mitwirkenden Schüler:innen 🎻🎵🎸 einer Klasse fehlen aber."
+  },
+  "teachingAffected.partial.example.3": {
+    "message": "GYM4: Besuchstag ETH."
+  },
+  "teachingAffected.partial.example.description.3": {
+    "message": "Der Regelunterricht findet normal statt, die am Besuchstag angemeldeten Schüler:iunnen fehlen aber."
+  },
+  "teachingAffected.yes.example.1": {
+    "message": "Exkursion mit der Klasse 28Gj"
+  },
+  "teachingAffected.yes.example.description.1": {
+    "message": "Der Regelunterricht fällt aus - die Klasse ist nicht da."
+  },
+  "teachingAffected.yes.example.2": {
+    "message": "Klassenstunde: Zeugnisse"
+  },
+  "teachingAffected.yes.example.description.2": {
+    "message": "Der Regelunterricht fällt aus - die Klasse hat zur gegebenen Zeit ein Spezialprogramm."
+  },
+  "TeachingAffected.label": {
+    "message": "Unterricht betroffen?"
+  },
+  "teachingAffected.example.nr": {
+    "message": "Beispiel {nr} von {total}"
+  },
+  "teachingAffected.example.tooltip": {
+    "message": "Terminbeispiel"
+  },
+  "teachingAffected.exampleBox.label": {
+    "message": "Beispiel"
+  },
+  "event.audienceOptions": {
+    "message": "Betrifft",
+    "description": "for a single event: who is concerned?"
+  },
+  "event.transition.invalid.notAllowed": {
+    "message": "Nicht erlaubter Terminübergang."
+  },
+  "shared.audiencePicker.infobox": {
+    "message": "Info"
+  },
+  "labeledBox.hide.title": {
+    "message": "{box} ausblenden?"
+  },
+  "labeledBox.show.title": {
+    "message": "{box} einblenden?"
+  },
+  "user.error.login": {
+    "message": "Fehler beim Anmelden."
+  },
+  "user.error.login.text": {
+    "message": "Aktualisieren Sie die Anmelde-Daten (Klicken Sie auf auf den orangen Knopf \"Aktualisieren\"), und melden Sie sich erneut an. Sollte das Problem weiterhin bestehen, dürfen Sie gerne eine Fehlermeldung erfassen. Danke ☺️.",
+    "description": "Text for user login error"
+  },
+  "components.user.index.untis.account.link.title": {
+    "message": "Untis Account verknüpfen",
+    "description": "Title for the Untis Account linking"
+  },
+  "components.user.index.untis.account.link.text": {
+    "message": "Um die Termine mit dem persönlichen Stundenplan abzugleichen, muss ein Untis Account verknüpft werden.",
+    "description": "Text for linking"
   }
 }

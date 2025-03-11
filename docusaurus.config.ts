@@ -14,7 +14,7 @@ import mdiPlugin from './src/plugins/remark-mdi/plugin';
 import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
 
 
-const VERSION = 'rc-1.4';
+const VERSION = 'rc-1.5';
 
 const defaultLocale = 'de';
 

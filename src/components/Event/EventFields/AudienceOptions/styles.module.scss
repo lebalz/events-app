@@ -1,0 +1,12 @@
+.control {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    &.hideLabel {
+        justify-content: flex-start;
+    }
+    .label {
+        font-weight: var(--ifm-font-weight-semibold);
+    }
+}

@@ -1,12 +1,15 @@
 import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed, makeObservable } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
-import Department from '../Department';
+import Department, { Duration4Years } from '../Department';
 import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import Teacher from './Teacher';
 import { DepartmentLetter } from '@site/src/api/department';
 import _ from 'lodash';
+
+const now = new Date();
+const CurrentGradeYear = now.getFullYear() + (now.getMonth() < 7 ? 0 : 1);
 
 export default class Klass {
     readonly id: number;
@@ -105,5 +108,17 @@ export default class Klass {
     @computed
     get groupName(): string {
         return this.name.slice(0, 3);
+    }
+
+    /**
+     * the grade year name, for 2025
+     * @example '25Gh' -> 'GYM 4'
+     *          '28Gj' -> 'GYM 1'
+     *          '26Fa' -> 'FMS 2'
+     */
+    @computed
+    get gradeYearName(): string {
+        const duration = Duration4Years.has(this.departmentLetter) ? 4 : 3;
+        return `${this.departmentName} ${duration - (this.year - CurrentGradeYear)}`;
     }
 }

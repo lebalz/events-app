@@ -55,10 +55,10 @@ dl.definitionList {
 @media screen and (max-width: 620px) {
     dl.definitionList:not(.ignoreMediaQueries) {
         grid-template-columns: 1fr;
-        dt {
+        > dt {
             justify-content: left;
         }
-        dd {
+        > dd {
             grid-column: 1;
             margin-left: 1.5rem;
             display: block;

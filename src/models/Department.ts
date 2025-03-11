@@ -10,6 +10,13 @@ import Klass from './Untis/Klass';
 export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
 
+export const Duration4Years = new Set([
+    DepartmentLetter.GYMD,
+    DepartmentLetter.GYMF,
+    DepartmentLetter.WMS,
+    DepartmentLetter.ESC
+]);
+
 export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<DepartmentProps>[] = [
         'name',
@@ -155,6 +162,14 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @computed
     get lang(): 'de' | 'fr' {
         return this.isCapitalLetter ? 'de' : 'fr';
+    }
+
+    @computed
+    get schoolDuration(): number {
+        if (Duration4Years.has(this.letter as DepartmentLetter)) {
+            return 4;
+        }
+        return 3;
     }
 
     get props(): DepartmentProps {

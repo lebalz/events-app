@@ -107,7 +107,7 @@ export const toExcel = async (events: Event[], departments: Department[]) => {
             outlineLevel: 1
         },
         {
-            header: translate({ id: 'xlsx.teachingAffected', message: 'Unterricht Betroffen?' }),
+            header: translate({ id: 'xlsx.teachingAffected', message: 'Unterricht betroffen?' }),
             key: 'teachingAffected',
             width: 10,
             outlineLevel: 1

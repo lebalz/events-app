@@ -26,9 +26,7 @@ interface Message {
 const withParsedMessage = <T>(fn: (data: T) => void) => {
     return (data: T) => {
         try {
-            console.log('wp', data);
             const parsed = JSON.parse(data as string);
-            console.log('wp', parsed);
             return fn(parsed as T);
         } catch (e) {
             console.warn('Failed to parse message', e, data);

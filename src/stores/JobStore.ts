@@ -34,7 +34,7 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     }
 
     addToStore(data: JobProps, state?: 'load' | 'create', reloadStores?: boolean): Job;
-
+    @action
     addToStore(data: JobAndEventsProps, state?: 'load' | 'create', reloadStores?: boolean): Job {
         const job = this.createModel(data);
         if (job.state === JobState.DONE) {

@@ -1,0 +1,30 @@
+.labeledBox {
+    --events-boxed-color: var(--ifm-color-blue);
+    width: 100%;
+    .header {
+        display: flex;
+        .label {
+            transform: translateY(1px);
+            margin: 0;
+        }
+        .actions {
+            flex-grow: 1;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 0.25em;
+            justify-content: flex-end;
+        }
+    }
+    &.showContent {
+        .label {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+    .content {
+        border: 1px solid var(--events-boxed-color);
+        border-left-width: 4px;
+        border-radius: var(--ifm-global-radius);
+        border-top-left-radius: 0;
+    }
+}

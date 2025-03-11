@@ -29,7 +29,7 @@ export type DetailsProps = {
     onOpenChange?: (open: boolean) => void;
 } & ComponentProps<'details'>;
 
-const LazyDetails = ({ summary, children, onOpenChange, ...props }: DetailsProps): JSX.Element => {
+const LazyDetails = ({ summary, children, onOpenChange, ...props }: DetailsProps): React.ReactNode => {
     const isBrowser = useIsBrowser();
     const detailsRef = useRef<HTMLDetailsElement>(null);
 

@@ -128,7 +128,7 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
 
 const ColumnHeader = observer((props: Props) => {
     const viewStore = useStore('viewStore');
-    let content: JSX.Element | string = HeaderTitles[props.name];
+    let content: React.ReactNode = HeaderTitles[props.name];
     let title: string | undefined = undefined;
     switch (props.name) {
         case 'actions':

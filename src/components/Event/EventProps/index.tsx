@@ -6,7 +6,6 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import DefinitionList from '../../shared/DefinitionList';
-import { default as ShowAffectedAudience } from '../../shared/AudiencePicker/Audience';
 import Badge from '../../shared/Badge';
 import {
     mdiArrowLeftBoldCircleOutline,
@@ -34,13 +33,7 @@ import { default as AudiencePicker } from '../EventFields/Audience';
 import State from '../EventFields/State';
 import Departments from '../EventFields/Departments';
 import Klasses from '../EventFields/Klasses';
-import {
-    EventAudienceOverviewTranslation,
-    EventState,
-    EventStateActions,
-    EventStateButton,
-    EventStateColor
-} from '@site/src/api/event';
+import { EventAudienceOverviewTranslation, EventState } from '@site/src/api/event';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import Version from '../EventFields/Version';
 import HistoryPopup from '../VersionHistory/HistoryPopup';
@@ -53,6 +46,7 @@ import MetaInfoAlert from '../MetaAlert/info';
 import IsValid from '../EventFields/IsValid';
 import Transition from '../EventFields/Actions/Transition';
 import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
+import AudienceOptions from '../EventFields/AudienceOptions';
 
 interface Props {
     event: EventModel;
@@ -73,7 +67,7 @@ const EventProps = observer((props: Props) => {
         event?.loadVersions();
     }, [event]);
     const semester = event?.affectedSemesters[0] || semesterStore.currentSemester;
-    const metaRef = React.useRef<PopupActions>();
+    const metaRef = React.useRef<PopupActions>(null);
 
     const commonClasses = clsx(event?.isDeleted && sharedStyles.deleted) || '';
     const commonProps = { event: event, styles: sharedStyles, className: commonClasses };
@@ -195,6 +189,28 @@ const EventProps = observer((props: Props) => {
             <dd>
                 <Location {...commonEditProps} />
             </dd>
+            <dt>
+                <Translate id="event.teachingAffected" description="for a single event: teaching affected?">
+                    Unterricht betroffen?
+                </Translate>
+            </dt>
+            <dd>
+                <TeachingAffected
+                    event={event}
+                    align="left"
+                    isEditable
+                    hideLabel
+                    className={clsx(sharedStyles.teachingAffected)}
+                />
+            </dd>
+            <dt>
+                <Translate id="event.audienceOptions" description="for a single event: who is concerned?">
+                    Betrifft
+                </Translate>
+            </dt>
+            <dd>
+                <AudienceOptions event={event} hideLabel />
+            </dd>
             {event.isEditing ? (
                 <>
                     <dt>
@@ -211,32 +227,6 @@ const EventProps = observer((props: Props) => {
                 </>
             ) : (
                 <>
-                    <dt>
-                        <Translate
-                            id="event.audience"
-                            description="for a single event: class and department picker"
-                        >
-                            Publikum
-                        </Translate>
-                    </dt>
-                    <dd>
-                        <Popup
-                            trigger={
-                                <span
-                                    style={{ display: 'inline-block' }}
-                                    className={clsx(styles.lighterFont)}
-                                >
-                                    <Badge text={EventAudienceOverviewTranslation[event.audience]} />
-                                </span>
-                            }
-                            on="hover"
-                            position={['top center', 'top right', 'top left']}
-                            nested
-                            repositionOnResize
-                        >
-                            <ShowAffectedAudience event={event} />
-                        </Popup>
-                    </dd>
                     {event.classes.size + event.classGroups.size > 0 && (
                         <>
                             <dt>
@@ -266,21 +256,6 @@ const EventProps = observer((props: Props) => {
                     )}
                 </>
             )}
-            <dt>
-                <Translate id="event.teachingAffected" description="for a single event: teaching affected?">
-                    Unterricht Betroffen?
-                </Translate>
-            </dt>
-            <dd>
-                <span style={{ display: 'inline-block' }}>
-                    <TeachingAffected
-                        event={event}
-                        show="both"
-                        align="left"
-                        className={clsx(sharedStyles.teachingAffected)}
-                    />
-                </span>
-            </dd>
             {event.firstAuthor && (
                 <>
                     <dt>

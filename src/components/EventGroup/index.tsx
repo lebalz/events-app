@@ -66,6 +66,7 @@ const UserEventGroup = observer((props: Props) => {
     const [isShiftAudienceOpen, setShiftAudienceOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
     const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
+    const shareUrl = useBaseUrl(group.shareUrl);
 
     React.useEffect(() => {
         if ((isOpen || props.standalone) && store.isLoggedIn) {
@@ -129,7 +130,7 @@ const UserEventGroup = observer((props: Props) => {
                         <Button
                             icon={mdiShareCircle}
                             color="blue"
-                            href={useBaseUrl(group.shareUrl)}
+                            href={shareUrl}
                             size={BTN_SIZE}
                             title={translate({
                                 message: 'Gruppenseite anzeigen',

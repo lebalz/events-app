@@ -1,5 +1,4 @@
 .audience {
-    max-width: 375px;
     h4 {
         margin-bottom: 0.3rem;
     }
@@ -65,9 +64,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0 0.5em;
-    // .label {
-    //     font-weight: bold;
-    // }
+    justify-content: space-between;
 }
 
 .error {

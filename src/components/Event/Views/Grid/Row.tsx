@@ -19,13 +19,14 @@ import EventGroup from '../../EventFields/EventGroup';
 import Departments from '../../EventFields/Departments';
 import Klasses from '../../EventFields/Klasses';
 import DescriptionLong from '../../EventFields/DescriptionLong';
-import DepartmentsOrAudiencePicker from '../../EventFields/DepartmentsOrAudience';
+import DepartmentsOrAudiencePicker from '../../DepartmentsOrAudiencePicker';
 import IsDuplicate from '../../EventFields/IsDuplicate';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 import TeachingAffected from '../../EventFields/TeachingAffected';
 import CreatedAt from '../../EventFields/CreatedAt';
 import UpdatedAt from '../../EventFields/UpdatedAt';
 import Nr from '../../EventFields/Nr';
+import TeachingAffectedIndicator from '../../EventFields/TeachingAffected/TeachingAffectedIndicator';
 
 interface Props {
     event: Event;
@@ -42,7 +43,7 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     select: Select,
     nr: Nr,
     kw: KW,
-    teachingAffected: TeachingAffected,
+    teachingAffected: TeachingAffectedIndicator,
     actions: Actions,
     author: Author,
     day: Day,

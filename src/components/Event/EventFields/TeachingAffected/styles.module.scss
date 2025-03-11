@@ -1,0 +1,46 @@
+.teachingAffected {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    width: 100%;
+    &.readOnly {
+        flex-direction: row;
+        gap: 0.25em;
+        align-items: center;
+    }
+    &.center {
+        justify-content: space-evenly;
+    }
+    &.left {
+        justify-content: flex-start;
+    }
+    &.right {
+        justify-content: flex-end;
+    }
+    &.iconOnly {
+        height: calc(var(--ifm-line-height-base) * 1em);
+        align-items: center;
+    }
+    .teachingAffectedBtn {
+        border-width: 0;
+        span[class^='icon'] {
+            transform: translateY(0);
+        }
+    }
+    .control {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5em;
+        flex-wrap: wrap;
+        width: 100%;
+        &.hideLabel {
+            justify-content: flex-start;
+        }
+        .label {
+            font-weight: var(--ifm-font-weight-semibold);
+        }
+    }
+    .example {
+        width: 100%;
+    }
+}

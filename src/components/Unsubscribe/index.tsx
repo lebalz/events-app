@@ -169,7 +169,7 @@ const WithSubscription = observer((props: WithSubscriptionProps) => {
     return <UnsubscribeComponent event={unsubscribeEvent} subscription={user.subscription} />;
 });
 
-const WithUser = observer((props: WithParentRootProps): JSX.Element => {
+const WithUser = observer((props: WithParentRootProps): React.ReactNode => {
     const routeParams = matchPath<PathParams>(props.path, PATHNAME_PATTERN);
     const { eventId } = routeParams?.params || {};
     const userStore = useStore('userStore');

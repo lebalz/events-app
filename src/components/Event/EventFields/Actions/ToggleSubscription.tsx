@@ -5,23 +5,8 @@ import Button from '@site/src/components/shared/Button';
 import { SIZE } from '@site/src/components/shared/icons';
 import { useStore } from '@site/src/stores/hooks';
 import { translate } from '@docusaurus/Translate';
-import Event, { InvalidTransition } from '@site/src/models/Event';
+import Event from '@site/src/models/Event';
 import { mdiBellPlus, mdiBellRemove } from '@mdi/js';
-
-export const InvalidTransitionMessages: Record<InvalidTransition, string> = {
-    [InvalidTransition.InitialValidation]: translate({
-        id: 'event.transition.invalid.initialValidation',
-        message: 'Es wurde noch keine Validierung durchgeführt.'
-    }),
-    [InvalidTransition.Validation]: translate({
-        id: 'event.transition.invalid.validation',
-        message: 'Fehlerhafte Termine können nicht eingereicht werden.'
-    }),
-    [InvalidTransition.NoOpenRegistrationPeriod]: translate({
-        id: 'event.transition.invalid.noOpenRegistrationPeriod',
-        message: 'Aktuell ist kein Anmeldefenster geöffnet.'
-    })
-};
 
 interface Props {
     event: Event;

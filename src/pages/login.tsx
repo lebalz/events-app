@@ -30,9 +30,11 @@ function HomepageHeader() {
 const Login = observer(() => {
     const sessionStore = useStore('sessionStore');
     const { instance } = useMsal();
-    const isAuthenticated = sessionStore.isLoggedIn || useIsAuthenticated();
+    const isMsalAuthenticated = useIsAuthenticated();
+    const isAuthenticated = sessionStore.isLoggedIn || isMsalAuthenticated;
+    const homeRoute = useBaseUrl('/user?user-tab=account');
     if (isAuthenticated || NO_AUTH) {
-        return <Redirect to={useBaseUrl('/user?user-tab=account')} />;
+        return <Redirect to={homeRoute} />;
     }
     return (
         <Layout>

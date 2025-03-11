@@ -13,6 +13,20 @@ import { EventState } from '@site/src/api/event';
 import Klass from '@site/src/models/Untis/Klass';
 import Department from '@site/src/models/Department';
 import Colors from './Colors';
+import type {
+    ClassGroupOption,
+    ClassOption,
+    DepartmentOption,
+    Option
+} from '@site/src/components/shared/AudiencePicker/AuienceDropdownSelector';
+import { GroupBase } from 'react-select';
+import { translate } from '@docusaurus/Translate';
+import LocalUserSettings from './LocaUserSettings';
+const I18n_LABELS = {
+    classType: translate({ id: 'basic.class', message: 'Klassen' }),
+    departmentType: translate({ id: 'basic.department', message: 'Abteilungen' }),
+    levelType: translate({ id: 'basic.level', message: 'Stufen' })
+};
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
@@ -29,6 +43,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable.ref accessor adminUserTable: AdminUserTable;
     @observable.ref accessor adminDepartmentTable: AdminDepartmentTable;
     @observable.ref accessor colors: Colors;
+    @observable.ref accessor userSettings: LocalUserSettings;
     @observable accessor openEventModalId: string | undefined;
 
     @observable accessor initialAuthorizedLoadPerformed = false;
@@ -53,6 +68,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         this.root = store;
         this.eventTable = new EventTable(this);
         this.colors = new Colors(this);
+        this.userSettings = new LocalUserSettings(this);
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
 
@@ -322,5 +338,55 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     get icalListClassesFiltered() {
         const match = (klass: Klass, s: string) => klass.legacyName?.includes(s) || klass.name.includes(s);
         return this.root.untisStore.classes.filter((c) => match(c, this.icalListClassFilter));
+    }
+
+    @computed
+    get audienceOptions(): GroupBase<Option>[] {
+        return [
+            {
+                label: I18n_LABELS.departmentType,
+                options: this.root.departmentStore.departments.map((d) => {
+                    return {
+                        label: d.name,
+                        value: d.id,
+                        type: 'departmentType',
+                        model: d
+                    } as DepartmentOption;
+                })
+            },
+            {
+                label: I18n_LABELS.levelType,
+                options: _.orderBy(
+                    [
+                        ...this.root.untisStore.classGroups.map((g) => {
+                            return {
+                                label: `${g}*`,
+                                value: g,
+                                type: 'classGroup'
+                            } as ClassGroupOption;
+                        })
+                    ],
+                    ['label'],
+                    ['asc']
+                )
+            },
+            {
+                label: I18n_LABELS.classType,
+                options: _.orderBy(
+                    [
+                        ...this.root.untisStore.currentClasses.map((c) => {
+                            return {
+                                label: c.displayName,
+                                value: c.name,
+                                type: 'classType',
+                                model: c
+                            } as ClassOption;
+                        })
+                    ],
+                    ['label'],
+                    ['asc']
+                )
+            }
+        ];
     }
 }

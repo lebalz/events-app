@@ -34,6 +34,8 @@ import ValidationChecker from './ValidationChecker';
 import Popup from 'reactjs-popup';
 import NewGroup from '../../EventGroup/NewGroup';
 import { PopupActions } from 'reactjs-popup/dist/types';
+import { useHistory } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface ActionConfig {
     stateActions: boolean;
@@ -69,6 +71,8 @@ const BulkActions = observer((props: Props) => {
     const viewStore = useStore('viewStore');
     const { current } = userStore;
     const ref = React.useRef<PopupActions>(null);
+    const history = useHistory();
+    const reviewedEventsUrl = useBaseUrl('/user?user-tab=events&events-tab=reviewed');
 
     const selected = props.events?.filter((e) => e.selected) || [];
     if (selected.length < 1) {
@@ -86,9 +90,9 @@ const BulkActions = observer((props: Props) => {
 
     const state = selected[0]?.state;
     const sameState = selected.every((event) => event.state === state);
-    const allTransitionable = selected.every((event) => event.canBeTransitioned.can);
+    const allTransitionable = selected.every((event) => event.transitionAllowed.allowed);
     const transitionIssues = new Set(
-        selected.flatMap((event) => event.canBeTransitioned.reason).filter((x) => !!x)
+        selected.flatMap((event) => event.transitionAllowed.reason).filter((x) => !!x)
     );
     const onlyMine = selected.every((event) => event.authorId === current.id);
     const actionConfig: ActionConfig = { ...DEFAULT_CONFIG, ...(props.actionConfig || {}) };
@@ -130,10 +134,14 @@ const BulkActions = observer((props: Props) => {
                             className={clsx(styles.blue)}
                             iconSide="left"
                             onClick={() => {
-                                eventStore.requestState(
-                                    selected.map((e) => e.id),
-                                    EventState.Review
-                                );
+                                eventStore
+                                    .requestState(
+                                        selected.map((e) => e.id),
+                                        EventState.Review
+                                    )
+                                    .then(() => {
+                                        history.push(reviewedEventsUrl);
+                                    });
                             }}
                             title={
                                 transitionIssues.size > 0

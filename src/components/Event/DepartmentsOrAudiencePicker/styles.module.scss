@@ -1,0 +1,19 @@
+.departmentsOrAudience {
+    display: flex;
+    gap: 1em;
+    width: 100%;
+    justify-content: space-between;
+    .teachingAffected {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .left {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+    .right {
+        min-width: 25em;
+    }
+}

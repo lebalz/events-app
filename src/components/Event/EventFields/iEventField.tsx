@@ -7,7 +7,7 @@ interface CommonProps {
     className?: string;
 }
 export interface ReadonlyProps extends CommonProps {
-    isEditable?: false;
+    isEditable?: boolean;
 }
 
 export interface Props extends CommonProps {

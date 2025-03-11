@@ -52,31 +52,6 @@ dd {
         }
     }
 }
-.teachingAffected {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    cursor: pointer;
-    &.center {
-        justify-content: space-evenly;
-    }
-    &.left {
-        justify-content: flex-start;
-    }
-    &.right {
-        justify-content: flex-end;
-    }
-    &.iconOnly {
-        height: calc(var(--ifm-line-height-base) * 1em);
-        align-items: center;
-    }
-    .teachingAffectedBtn {
-        border-width: 0;
-        span[class^='icon'] {
-            transform: translateY(0);
-        }
-    }
-}
 .startDate {
     text-align: end;
 }
