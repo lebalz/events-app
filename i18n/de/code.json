@@ -2143,5 +2143,11 @@
   },
   "shared.audiencePicker.infobox": {
     "message": "Info"
+  },
+  "labeledBox.hide.title": {
+    "message": "{box} ausblenden?"
+  },
+  "labeledBox.show.title": {
+    "message": "{box} einblenden?"
   }
 }
