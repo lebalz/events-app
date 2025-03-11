@@ -1681,11 +1681,11 @@
     "description": "Conflicts between events that are overlapping and concerning the same event"
   },
   "event.isValid.noRegistrationPeriod.title": {
-    "message": "Kein Anmeldefenster",
+    "message": "Kein offenes Anmeldefenster",
     "description": "Alert message for event without open registration period"
   },
   "event.isValid.noRegistrationPeriod.text": {
-    "message": "Es gibt keinen offenen Anmeldezeitraum für diesen Termin. Ein Termin kann nur während einem offenen Anmeldefenster eingereicht werden.",
+    "message": "Ein Termin kann nur während einem offenen Anmeldefenster eingereicht werden.",
     "description": "Alert message for event without open registration period"
   },
   "theme.ErrorPageContent.title": {

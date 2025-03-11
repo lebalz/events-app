@@ -67,15 +67,14 @@ const PopupContent = observer((props: Props) => {
                             id="event.isValid.noRegistrationPeriod.title"
                             description="Alert message for event without open registration period"
                         >
-                            Kein Anmeldefenster
+                            Kein offenes Anmeldefenster
                         </Translate>
                     </h4>
                     <Translate
                         id="event.isValid.noRegistrationPeriod.text"
                         description="Alert message for event without open registration period"
                     >
-                        Es gibt keinen offenen Anmeldezeitraum für diesen Termin. Ein Termin kann nur während
-                        einem offenen Anmeldefenster eingereicht werden.
+                        Ein Termin kann nur während einem offenen Anmeldefenster eingereicht werden.
                     </Translate>
                 </div>
             )}
