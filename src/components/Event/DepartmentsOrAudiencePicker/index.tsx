@@ -1,12 +1,13 @@
 import React, { type ReactNode } from 'react';
 
 import { observer } from 'mobx-react-lite';
-import { Props as CommonProps } from './iEventField';
-import Departments from './Departments';
+import { Props as CommonProps } from '../EventFields/iEventField';
+import Departments from '../EventFields/Departments';
 import AudiencePicker from '../../shared/AudiencePicker';
-import TeachingAffected from './TeachingAffected';
+import TeachingAffected from '../EventFields/TeachingAffected';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
+import AudienceOptions from '../../shared/AudiencePicker/AudienceOptions';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean /** true when at least one element of the grid is edited */;
@@ -17,10 +18,11 @@ const DepartmentsOrAudiencePicker = observer((props: Props) => {
     if (event.isEditing) {
         return (
             <div className={clsx(styles.departmentsOrAudience)}>
-                <span className={clsx(styles.teachingAffected)}>
+                <div className={clsx(styles.left)}>
                     <TeachingAffected event={props.event} isEditable />
-                </span>
-                <AudiencePicker event={event} />
+                    <AudienceOptions event={props.event} />
+                </div>
+                <AudiencePicker event={event} className={clsx(styles.right)} />
             </div>
         );
     }

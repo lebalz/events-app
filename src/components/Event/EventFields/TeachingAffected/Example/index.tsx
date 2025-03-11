@@ -19,6 +19,7 @@ import DefinitionList from '@site/src/components/shared/DefinitionList';
 import Tooltip from '@site/src/components/shared/Tooltip';
 import Button from '@site/src/components/shared/Button';
 import Badge from '@site/src/components/shared/Badge';
+import LabeledBox from '@site/src/components/shared/LabeledBox';
 
 interface Example {
     example: string;
@@ -118,71 +119,73 @@ const Example = observer((props: Props) => {
     }, [_idx, exampleSize]);
     return (
         <div className={clsx(styles.container)}>
-            <div className={clsx(styles.header)}>
-                <Badge
-                    color="blue"
-                    text={translate({ message: 'Beispiel', id: 'teachingAffected.exampleBox.label' })}
-                    className={clsx(styles.labelBadge)}
-                />
-                {exampleSize > 1 && (
-                    <div className={clsx(styles.selector)}>
-                        <Button
-                            icon={<ArrowLeft size={SIZE_XS} />}
-                            noOutline
-                            className={clsx('badge', styles.button)}
-                            onClick={() => setIdx((curr) => (curr < 1 ? exampleSize - 1 : curr - 1))}
-                        />
-                        <Badge
-                            text={`${idx + 1} / ${exampleSize}`}
-                            title={translate(
-                                {
-                                    message: 'Beispiel {nr} von {total}',
-                                    id: 'teachingAffected.example.nr'
-                                },
-                                { nr: idx + 1, total: exampleSize }
-                            )}
-                        />
-                        <Button
-                            icon={<ArrowRight size={SIZE_XS} />}
-                            noOutline
-                            className={clsx('badge', styles.button)}
-                            onClick={() => setIdx((curr) => curr + 1)}
-                        />
-                    </div>
-                )}
-            </div>
-            <DefinitionList gridTemplateColumns="2em minmax(4em, 1fr)" className={clsx(styles.example)}>
-                <dt>
-                    <span className={clsx(styles.stacked, styles.icon)}>
-                        <Tooltip
-                            title={translate({
-                                message: 'Terminbeispiel',
-                                id: 'teachingAffected.example.tooltip'
-                            })}
-                        >
-                            <Icon path={mdiCalendarBlankOutline} size={SIZE_S} />
-                        </Tooltip>
+            <LabeledBox
+                color="blue"
+                label={translate({ message: 'Beispiel', id: 'teachingAffected.exampleBox.label' })}
+                actions={
+                    exampleSize > 1 ? (
+                        <div className={clsx(styles.selector)}>
+                            <Button
+                                icon={<ArrowLeft size={SIZE_XS} />}
+                                noOutline
+                                className={clsx('badge', styles.button)}
+                                onClick={() => setIdx((curr) => (curr < 1 ? exampleSize - 1 : curr - 1))}
+                            />
+                            <Badge
+                                text={`${idx + 1} / ${exampleSize}`}
+                                title={translate(
+                                    {
+                                        message: 'Beispiel {nr} von {total}',
+                                        id: 'teachingAffected.example.nr'
+                                    },
+                                    { nr: idx + 1, total: exampleSize }
+                                )}
+                            />
+                            <Button
+                                icon={<ArrowRight size={SIZE_XS} />}
+                                noOutline
+                                className={clsx('badge', styles.button)}
+                                onClick={() => setIdx((curr) => curr + 1)}
+                            />
+                        </div>
+                    ) : undefined
+                }
+            >
+                <DefinitionList gridTemplateColumns="2em minmax(4em, 1fr)" className={clsx(styles.example)}>
+                    <dt>
+                        <span className={clsx(styles.stacked, styles.icon)}>
+                            <Tooltip
+                                title={translate({
+                                    message: 'Terminbeispiel',
+                                    id: 'teachingAffected.example.tooltip'
+                                })}
+                            >
+                                <Icon path={mdiCalendarBlankOutline} size={SIZE_S} />
+                            </Tooltip>
+                            <Icon
+                                path={mdiCircle}
+                                color={TeachingAffectedColors[event.teachingAffected]}
+                                size={SIZE_XXS}
+                                className={clsx(styles.bottomRight)}
+                            />
+                        </span>
+                    </dt>
+                    <dd className={clsx(styles.scenario)}>
+                        {ExampleMap[event.teachingAffected][idx].example}
+                    </dd>
+                    <dt>
                         <Icon
-                            path={mdiCircle}
-                            color={TeachingAffectedColors[event.teachingAffected]}
-                            size={SIZE_XXS}
-                            className={clsx(styles.bottomRight)}
+                            path={mdiInformationVariantCircle}
+                            color="blue"
+                            size={SIZE_S}
+                            className={clsx(styles.icon)}
                         />
-                    </span>
-                </dt>
-                <dd className={clsx(styles.scenario)}>{ExampleMap[event.teachingAffected][idx].example}</dd>
-                <dt>
-                    <Icon
-                        path={mdiInformationVariantCircle}
-                        color="blue"
-                        size={SIZE_S}
-                        className={clsx(styles.icon)}
-                    />
-                </dt>
-                <dd className={clsx(styles.description)}>
-                    {ExampleMap[event.teachingAffected][idx].description}
-                </dd>
-            </DefinitionList>
+                    </dt>
+                    <dd className={clsx(styles.description)}>
+                        {ExampleMap[event.teachingAffected][idx].description}
+                    </dd>
+                </DefinitionList>
+            </LabeledBox>
         </div>
     );
 });

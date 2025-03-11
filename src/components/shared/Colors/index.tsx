@@ -9,6 +9,7 @@ export const Colors = {
     red: styles.red,
     orange: styles.orange,
     gray: styles.gray,
+    info: styles.lightBlue,
     lightBlue: styles.lightBlue,
     black: styles.black
 };
@@ -21,6 +22,7 @@ export const IfmColors = {
     red: 'var(--ifm-color-danger)',
     orange: 'var(--ifm-color-warning)',
     gray: 'var(--ifm-color-secondary)',
+    info: 'var(--ifm-color-info)',
     lightBlue: 'var(--ifm-color-info)',
     black: 'var(--ifm-font-color-base)'
 };
@@ -33,6 +35,7 @@ export const ButtonColors = {
     red: 'button--danger',
     orange: 'button--warning',
     gray: 'button--secondary',
+    info: 'button--info',
     lightBlue: 'button--info',
     black: 'button--primary'
 };

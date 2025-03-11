@@ -19,7 +19,7 @@ import EventGroup from '../../EventFields/EventGroup';
 import Departments from '../../EventFields/Departments';
 import Klasses from '../../EventFields/Klasses';
 import DescriptionLong from '../../EventFields/DescriptionLong';
-import DepartmentsOrAudiencePicker from '../../EventFields/DepartmentsOrAudience';
+import DepartmentsOrAudiencePicker from '../../DepartmentsOrAudiencePicker';
 import IsDuplicate from '../../EventFields/IsDuplicate';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 import TeachingAffected from '../../EventFields/TeachingAffected';

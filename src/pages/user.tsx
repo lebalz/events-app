@@ -97,7 +97,6 @@ const UserPage = observer(() => {
                                 message: 'Gruppen',
                                 id: 'user.tab.groups'
                             })}
-                            className="full-width"
                         >
                             <Groups />
                         </TabItem>

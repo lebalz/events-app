@@ -10,19 +10,7 @@
     .icon {
         transform: translateY(10%);
     }
-    .header {
-        display: flex;
-        .labelBadge {
-            transform: translateY(1px);
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-    }
     dl.example {
-        border: 1px solid var(--ifm-color-blue);
-        border-left-width: 4px;
-        border-radius: var(--ifm-global-radius);
-        border-top-left-radius: 0;
         margin: 0;
         dd,
         dt {

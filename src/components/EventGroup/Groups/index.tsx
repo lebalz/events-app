@@ -40,6 +40,7 @@ const Groups = observer((props: Props) => {
                     lazy
                     groupId={StorageKey.EventGroupCollection.replace('docusaurus.tab.', '')}
                     defaultValue={DEFAULT_COLLECTION}
+                    className="full-width"
                 >
                     {eventGroupStore.collections.map((name, idx) => {
                         return (

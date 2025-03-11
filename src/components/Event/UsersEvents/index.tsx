@@ -51,8 +51,8 @@ const UsersEvents = observer((props: Props) => {
     }
 
     return (
-        <div className="full-width">
-            <Tabs lazy queryString groupId="events-tab">
+        <div>
+            <Tabs lazy queryString groupId="events-tab" className="full-width">
                 <TabItem
                     value="my-events"
                     label={translate({

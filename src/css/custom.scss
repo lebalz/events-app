@@ -223,32 +223,21 @@ span.translator-de {
 }
 
 @media screen and (max-width: 1200px) {
-    div.full-width {
-        div[role='tabpanel'] {
-            margin-left: -1.5rem;
-            margin-right: -1.5rem;
-        }
+    ul[role='tablist'].full-width + div[role='tabpanel'] {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
     }
 }
 
 @media screen and (max-width: 996px) {
-    div.full-width {
-        div[role='tabpanel'] {
-            margin-left: -0.8rem;
-            margin-right: -0.8rem;
-        }
+    ul[role='tablist'].full-width + div[role='tabpanel'] {
+        margin-left: -0.8rem;
+        margin-right: -0.8rem;
     }
 }
 
 @media screen and (max-width: 768px) {
-    div.full-width {
-        div[role='tabpanel'] {
-            margin-left: -0.8rem;
-            margin-right: -0.8rem;
-        }
-    }
-
-    div[role='tabpanel'].full-width {
+    ul[role='tablist'].full-width + div[role='tabpanel'] {
         margin-left: -0.2rem;
         margin-right: -0.2rem;
     }
