@@ -21,6 +21,7 @@ import type {
 } from '@site/src/components/shared/AudiencePicker/AuienceDropdownSelector';
 import { GroupBase } from 'react-select';
 import { translate } from '@docusaurus/Translate';
+import LocalUserSettings from './LocaUserSettings';
 const I18n_LABELS = {
     classType: translate({ id: 'basic.class', message: 'Klassen' }),
     departmentType: translate({ id: 'basic.department', message: 'Abteilungen' }),
@@ -42,6 +43,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable.ref accessor adminUserTable: AdminUserTable;
     @observable.ref accessor adminDepartmentTable: AdminDepartmentTable;
     @observable.ref accessor colors: Colors;
+    @observable.ref accessor userSettings: LocalUserSettings;
     @observable accessor openEventModalId: string | undefined;
 
     @observable accessor initialAuthorizedLoadPerformed = false;
@@ -66,6 +68,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         this.root = store;
         this.eventTable = new EventTable(this);
         this.colors = new Colors(this);
+        this.userSettings = new LocalUserSettings(this);
         this.adminUserTable = new AdminUserTable(this);
         this.adminDepartmentTable = new AdminDepartmentTable(this);
 

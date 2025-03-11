@@ -9,8 +9,12 @@ import Translate, { translate } from '@docusaurus/Translate';
 import LabeledBox from '@site/src/components/shared/LabeledBox';
 import Info from './Info';
 import { Props } from '.';
+import { StorageKey } from '@site/src/stores/utils/Storage';
+import { useStore } from '@site/src/stores/hooks';
+import { action } from 'mobx';
 
 const Edit = observer((props: Props) => {
+    const viewStore = useStore('viewStore');
     const { event } = props;
     if (!event.isEditable || !event.isEditing) {
         return null;
@@ -44,6 +48,8 @@ const Edit = observer((props: Props) => {
                 <LabeledBox
                     label={translate({ message: 'Info', id: 'shared.audiencePicker.infobox' })}
                     color="info"
+                    showContent={viewStore.userSettings.showEventAudienceInfo}
+                    onChangeVisibility={action((val) => viewStore.userSettings.setShowEventAudienceInfo(val))}
                 >
                     <Info event={event} showExample />
                 </LabeledBox>

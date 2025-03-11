@@ -20,6 +20,8 @@ import Tooltip from '@site/src/components/shared/Tooltip';
 import Button from '@site/src/components/shared/Button';
 import Badge from '@site/src/components/shared/Badge';
 import LabeledBox from '@site/src/components/shared/LabeledBox';
+import { StorageKey } from '@site/src/stores/utils/Storage';
+import { action } from 'mobx';
 
 interface Example {
     example: string;
@@ -110,6 +112,7 @@ export const ExampleMap: { [key in TeachingAffected]: Example[] } = {
 
 const Example = observer((props: Props) => {
     const { event } = props;
+    const viewStore = useStore('viewStore');
     const exampleSize = React.useMemo(() => {
         return ExampleMap[event.teachingAffected].length;
     }, [event.teachingAffected]);
@@ -150,6 +153,10 @@ const Example = observer((props: Props) => {
                         </div>
                     ) : undefined
                 }
+                showContent={viewStore.userSettings.showTeachingAffectedExample}
+                onChangeVisibility={action((val) =>
+                    viewStore.userSettings.setShowTeachingAffectedExample(val)
+                )}
             >
                 <DefinitionList gridTemplateColumns="2em minmax(4em, 1fr)" className={clsx(styles.example)}>
                     <dt>

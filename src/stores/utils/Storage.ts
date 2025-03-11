@@ -10,7 +10,9 @@ export type PersistedData = {
 export enum StorageKey {
     SessionStore = 'SessionStore',
     ColorPrefs = 'ColorPrefs',
-    EventGroupCollection = 'docusaurus.tab.EventGroup.Collection'
+    EventGroupCollection = 'docusaurus.tab.EventGroup.Collection',
+    PreferenceEventAudienceInfoShow = 'preference.event.audience.info.show',
+    PreferenceEventTeachingAffectedExampleShow = 'preference.event.teachingAffected.example.show'
 }
 
 /**
@@ -48,6 +50,17 @@ class Storage {
         } catch (_err) {
             // Ignore errors
         }
+    }
+
+    /**
+     * Sets a value in the storage asynchronous.
+     * @param key The key to set under.
+     * @param value The value to set
+     */
+    public sync<T>(key: string, value: T, transformer?: (val: T) => string) {
+        setTimeout(() => {
+            this.set(key, value, transformer);
+        }, 0);
     }
 
     /**
@@ -101,6 +114,10 @@ class MemoryStorage {
 
     setItem(key: string, value: Primitive) {
         return (this.data[key] = String(value));
+    }
+
+    syncItem(key: string, value: Primitive) {
+        return this.setItem(key, value);
     }
 
     removeItem(key: string) {

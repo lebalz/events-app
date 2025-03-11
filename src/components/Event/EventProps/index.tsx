@@ -195,15 +195,13 @@ const EventProps = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <span style={{ display: 'inline-block' }}>
-                    <TeachingAffected
-                        event={event}
-                        align="left"
-                        isEditable
-                        hideLabel
-                        className={clsx(sharedStyles.teachingAffected)}
-                    />
-                </span>
+                <TeachingAffected
+                    event={event}
+                    align="left"
+                    isEditable
+                    hideLabel
+                    className={clsx(sharedStyles.teachingAffected)}
+                />
             </dd>
             <dt>
                 <Translate id="event.audienceOptions" description="for a single event: who is concerned?">
@@ -211,9 +209,7 @@ const EventProps = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <span style={{ display: 'inline-block' }}>
-                    <AudienceOptions event={event} hideLabel />
-                </span>
+                <AudienceOptions event={event} hideLabel />
             </dd>
             {event.isEditing ? (
                 <>
