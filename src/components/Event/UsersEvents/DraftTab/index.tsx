@@ -17,14 +17,14 @@ interface Props {
     onChangeView: (view: View) => void;
 }
 
-const AddEventButton = observer(() => {
+const AddEventButton = observer(({ addMarginTop }: { addMarginTop?: boolean }) => {
     const eventStore = useStore('eventStore');
     const windowSize = useWindowSize();
     const viewStore = useStore('viewStore');
     return (
         <AddButton
             text={translate({
-                message: 'Neues Event',
+                message: 'Neuer Termin',
                 description: 'AddButton text',
                 id: 'event.AddButton.text'
             })}
@@ -43,14 +43,28 @@ const AddEventButton = observer(() => {
                 message: 'Erstellt einen neuen, unveröffentlichten Termin',
                 id: 'event.AddButton.title'
             })}
+            className={clsx(styles.addButton, addMarginTop && styles.addMargin)}
         />
+    );
+});
+
+const RegPeriodInfo = observer(() => {
+    const regPeriodStore = useStore('registrationPeriodStore');
+    return (
+        <div className={clsx(styles.alert, 'alert', 'alert--secondary')} role="alert">
+            <h4>
+                <Translate id="userEvents.regPeriod.alert.title">Eingabefenster</Translate>
+            </h4>
+            {regPeriodStore.registrationPeriods.map((regPeriod) => {
+                return <RegPeriodBadge key={regPeriod.id} period={regPeriod} />;
+            })}
+        </div>
     );
 });
 
 const DraftTab = observer((props: Props) => {
     const { viewType } = props;
     const viewStore = useStore('viewStore');
-    const regPeriodStore = useStore('registrationPeriodStore');
     const events = viewStore.draftEvents;
     const label = translate({
         message: 'Entwürfe (Unveröffentlicht)',
@@ -63,8 +77,11 @@ const DraftTab = observer((props: Props) => {
                 <div className={clsx('card__header')}>
                     <h3>{label}</h3>
                 </div>
-                <NoEventsAlert category={label} />
-                <AddEventButton />
+                <div className={clsx('card__body', styles.bulk)}>
+                    <RegPeriodInfo />
+                    <NoEventsAlert category={label} />
+                    <AddEventButton addMarginTop />
+                </div>
             </div>
         );
     }
@@ -74,16 +91,7 @@ const DraftTab = observer((props: Props) => {
             <div className={clsx('card__header')}>
                 <h3>{label}</h3>
             </div>
-            <div className={clsx('card__body', styles.bulk)}>
-                <div className={clsx(styles.alert, 'alert', 'alert--secondary')} role="alert">
-                    <h4>
-                        <Translate id="userEvents.regPeriod.alert.title">Eingabefenster</Translate>
-                    </h4>
-                    {regPeriodStore.registrationPeriods.map((regPeriod) => {
-                        return <RegPeriodBadge key={regPeriod.id} period={regPeriod} />;
-                    })}
-                </div>
-            </div>
+            <RegPeriodInfo />
             <EventsViewer
                 events={events}
                 gridConfig={{ columns: COLUMN_CONFIG }}

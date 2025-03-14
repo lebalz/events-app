@@ -1,6 +1,8 @@
-# Neue Termine
+# Termine Erfassen
 
-Termine können jederzeit über __Persönlich > :mdi[plus-circle-outline] Neues Event__ erstellt werden:
+Termine lassen sich 
+
+Termine können jederzeit über __Persönlich > :mdi[plus-circle-outline] Neuer Termin__ erstellt werden:
 
 [👉 Persönlich](/user?user-tab=events)
 

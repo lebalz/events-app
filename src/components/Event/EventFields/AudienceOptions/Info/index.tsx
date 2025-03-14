@@ -7,11 +7,15 @@ import {
     AffectedAudience,
     EventAudience,
     EventAudienceIcons,
-    EventAudienceTranslationLong
+    EventAudienceTranslationLong,
+    TeachingAffected
 } from '@site/src/api/event';
 import { Icon, SIZE_S } from '../../../../shared/icons';
 import Event from '@site/src/models/Event';
 import { translate } from '@docusaurus/Translate';
+import DefinitionList from '@site/src/components/shared/DefinitionList';
+import Tooltip from '@site/src/components/shared/Tooltip';
+import { mdiInformationVariantCircle } from '@mdi/js';
 
 interface Props {
     event: Event;
@@ -19,45 +23,75 @@ interface Props {
     marginLeft?: string;
 }
 
+const TeachingAffectedTranslation: { [color: string]: string } = {
+    red: translate({
+        message: 'nicht',
+        id: 'audienceInfo.teachingAffected.no'
+    }),
+    orange: translate({
+        message: 'nur teilweise',
+        id: 'audienceInfo.teachingAffected.no'
+    }),
+    green: ''
+};
+
+const AudienceInfo = observer(
+    ({ scenario, audience }: { audience: EventAudience; scenario: EventAudience }) => {
+        const color = AffectedAudience[audience][scenario].color;
+        return (
+            <>
+                <dt>
+                    <span className={clsx(styles.audience)}>
+                        <Tooltip title={EventAudienceTranslationLong[scenario]}>
+                            <Icon
+                                path={EventAudienceIcons[scenario]}
+                                size={SIZE_S}
+                                className={clsx(styles.icon)}
+                                color="var(--ifm-color-emphasis-700)"
+                            />
+                        </Tooltip>
+                    </span>
+                </dt>
+                <dd className={clsx(styles.scenario)}>
+                    <Tooltip
+                        title={`Betrifft ${EventAudienceTranslationLong[scenario]} ${TeachingAffectedTranslation[color]}`}
+                    >
+                        <Icon
+                            path={AffectedAudience[audience][scenario].icon}
+                            color={color}
+                            size={SIZE_S}
+                            className={clsx(styles.icon)}
+                        />
+                    </Tooltip>
+                    {AffectedAudience[audience][scenario].description ||
+                        EventAudienceTranslationLong[scenario]}
+                </dd>
+            </>
+        );
+    }
+);
+
 const Info = observer((props: Props) => {
     const { event } = props;
     return (
-        <div className={clsx(styles.info)}>
-            {[EventAudience.LP, EventAudience.KLP, EventAudience.STUDENTS].map((audience) => {
-                if (!(audience in AffectedAudience[event.audience])) {
-                    return null;
-                }
-                return (
-                    <div
-                        className={clsx(styles.audience)}
-                        key={audience}
-                        style={{ marginLeft: props.marginLeft }}
-                    >
-                        <div className={clsx(styles.audienceIcon)}>
-                            <Icon path={EventAudienceIcons[audience]} size={SIZE_S} />
-                        </div>
-                        <div className={clsx(styles.audienceDescription)}>
-                            <Icon
-                                path={AffectedAudience[event.audience][audience].icon}
-                                color={AffectedAudience[event.audience][audience].color}
-                                size={SIZE_S}
-                            />
-                            {AffectedAudience[event.audience][audience].description ||
-                                EventAudienceTranslationLong[audience]}
-                            {props.showExample && audience === event.audience && (
-                                <>
-                                    <br />
-                                    {`${translate({
-                                        message: 'z.B.',
-                                        id: 'EventAudience.forExample'
-                                    })} ${AffectedAudience[event.audience].example}`}
-                                </>
-                            )}
-                        </div>
-                    </div>
-                );
-            })}
-        </div>
+        <DefinitionList gridTemplateColumns="2em minmax(4em, 20em)" className={clsx(styles.info)}>
+            <AudienceInfo audience={event.audience} scenario={EventAudience.LP} />
+            <AudienceInfo audience={event.audience} scenario={EventAudience.KLP} />
+            <AudienceInfo audience={event.audience} scenario={EventAudience.STUDENTS} />
+            {props.showExample && (
+                <>
+                    <dt>
+                        <Icon
+                            path={mdiInformationVariantCircle}
+                            color="blue"
+                            size={SIZE_S}
+                            className={clsx(styles.audience)}
+                        />
+                    </dt>
+                    <dd className={clsx(styles.example)}>{AffectedAudience[event.audience].example}</dd>
+                </>
+            )}
+        </DefinitionList>
     );
 });
 

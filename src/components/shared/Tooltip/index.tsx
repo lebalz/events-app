@@ -9,6 +9,7 @@ interface Props {
     title?: React.ReactNode;
     children: React.ReactNode;
     disabled?: boolean;
+    wrapTrigger?: boolean;
 }
 
 const MOUSE_ENTER_DELAY_MS = 250;
@@ -20,7 +21,7 @@ const Tooltip = observer((props: Props) => {
     }
     return (
         <Popup
-            trigger={props.children}
+            trigger={props.wrapTrigger ? <span>{props.children}</span> : props.children}
             mouseEnterDelay={MOUSE_ENTER_DELAY_MS}
             mouseLeaveDelay={MOUSE_LEAVE_DELAY_MS}
             on="hover"

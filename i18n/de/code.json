@@ -68,15 +68,15 @@
     "description": "Relevant for SuS only, their KLP will be informed aswell"
   },
   "EventAudience.LP.example": {
-    "message": "Noteneingabe in Evento",
+    "message": "Noteneingabe in Evento.",
     "description": "Teachers Example"
   },
   "EventAudience.KLP.example": {
-    "message": "Einsammeln unterschriebener Zeugnisse",
+    "message": "Einsammeln unterschriebener Zeugnisse.",
     "description": "KLP Example"
   },
   "EventAudience.ALL.example": {
-    "message": "Schulstart",
+    "message": "Schulstart nach den Sommerferien",
     "description": "All Example"
   },
   "EventAudience.STUDENTS.LP.description": {
@@ -88,7 +88,7 @@
     "description": "audience: students, description for KLP"
   },
   "EventAudience.STUDENTS.example": {
-    "message": "Exkursion",
+    "message": "Exkursion mit der Klasse 28Gj",
     "description": "Students Example"
   },
   "joi.event.start": {
@@ -1452,7 +1452,7 @@
     "description": "Th: Events deleted"
   },
   "event.AddButton.text": {
-    "message": "Neues Event",
+    "message": "Neuer Termin",
     "description": "AddButton text"
   },
   "event.AddButton.title": {
@@ -2164,5 +2164,12 @@
   "components.user.index.untis.account.link.text": {
     "message": "Um die Termine mit dem persönlichen Stundenplan abzugleichen, muss ein Untis Account verknüpft werden.",
     "description": "Text for linking"
+  },
+  "components.eventgroup.events": {
+    "message": "Events",
+    "description": "text to scroll down the list of events"
+  },
+  "audienceInfo.teachingAffected.no": {
+    "message": "nur teilweise"
   }
 }

@@ -185,7 +185,7 @@ const Button = observer((props: Props) => {
     }
     return (
         <Tooltip title={props.title}>
-            <span>
+            <span style={{ display: 'inline-block' }}>
                 <button
                     type="button"
                     className={clsx(commonCls)}

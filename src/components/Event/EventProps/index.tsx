@@ -321,7 +321,7 @@ const EventProps = observer((props: Props) => {
                     </dd>
                 </>
             )}
-            {event.canChangeState && (
+            {event.canChangeState && !event.isEditing && (
                 <>
                     <dt>
                         <Translate

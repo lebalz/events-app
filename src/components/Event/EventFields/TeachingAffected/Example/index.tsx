@@ -158,7 +158,7 @@ const Example = observer((props: Props) => {
                     viewStore.userSettings.setShowTeachingAffectedExample(val)
                 )}
             >
-                <DefinitionList gridTemplateColumns="2em minmax(4em, 1fr)" className={clsx(styles.example)}>
+                <DefinitionList gridTemplateColumns="2em minmax(4em, 20em)" className={clsx(styles.example)}>
                     <dt>
                         <span className={clsx(styles.stacked, styles.icon)}>
                             <Tooltip
@@ -167,7 +167,11 @@ const Example = observer((props: Props) => {
                                     id: 'teachingAffected.example.tooltip'
                                 })}
                             >
-                                <Icon path={mdiCalendarBlankOutline} size={SIZE_S} />
+                                <Icon
+                                    path={mdiCalendarBlankOutline}
+                                    size={SIZE_S}
+                                    color="var(--ifm-color-emphasis-700)"
+                                />
                             </Tooltip>
                             <Icon
                                 path={mdiCircle}

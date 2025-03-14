@@ -11,7 +11,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import Example from './Example';
 import Badge from '@site/src/components/shared/Badge';
 
-const TranslationsTA: { [key in TeachingAffected]: string } = {
+export const TranslationsTA: { [key in TeachingAffected]: string } = {
     [TeachingAffected.YES]: translate({
         message: 'Ja',
         description: 'Yes, the teaching is affected and the class is not present',

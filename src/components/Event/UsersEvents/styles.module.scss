@@ -32,3 +32,9 @@
 .indent {
     margin: 0 var(--ifm-card-horizontal-spacing);
 }
+
+.addButton {
+    &.addMargin {
+        margin-top: 1rem;
+    }
+}

@@ -183,12 +183,16 @@ export const AffectedAudience: { [key in EventAudience]: AffectedAudienceConfig 
             icon: mdiCalendarCheck,
             color: 'green'
         },
+        [EventAudience.KLP]: {
+            icon: mdiCalendarCheck,
+            color: 'green'
+        },
         [EventAudience.STUDENTS]: {
             icon: mdiCalendarRemove,
             color: 'red'
         },
         example: translate({
-            message: 'Noteneingabe in Evento',
+            message: 'Noteneingabe in Evento.',
             id: 'EventAudience.LP.example',
             description: 'Teachers Example'
         })
@@ -207,7 +211,7 @@ export const AffectedAudience: { [key in EventAudience]: AffectedAudienceConfig 
             color: 'red'
         },
         example: translate({
-            message: 'Einsammeln unterschriebener Zeugnisse',
+            message: 'Einsammeln unterschriebener Zeugnisse.',
             id: 'EventAudience.KLP.example',
             description: 'KLP Example'
         })
@@ -226,7 +230,7 @@ export const AffectedAudience: { [key in EventAudience]: AffectedAudienceConfig 
             color: 'green'
         },
         example: translate({
-            message: 'Schulstart',
+            message: 'Schulstart nach den Sommerferien',
             id: 'EventAudience.ALL.example',
             description: 'All Example'
         })
@@ -255,7 +259,7 @@ export const AffectedAudience: { [key in EventAudience]: AffectedAudienceConfig 
             color: 'green'
         },
         example: translate({
-            message: 'Exkursion',
+            message: 'Exkursion mit der Klasse 28Gj',
             id: 'EventAudience.STUDENTS.example',
             description: 'Students Example'
         })
