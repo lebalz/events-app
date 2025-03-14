@@ -242,3 +242,10 @@ span.translator-de {
         margin-right: -0.2rem;
     }
 }
+
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+    z-index: 999;
+    box-shadow: var(--ifm-global-shadow-md);
+    border-radius: var(--ifm-global-radius);
+}

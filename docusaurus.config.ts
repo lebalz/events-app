@@ -8,10 +8,11 @@ const { themes } = require('prism-react-renderer');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 import ConfigLocalized from './docusaurus.config.localized.json';
-import strongPlugin from './src/plugins/remark-strong/plugin';
+import strongPlugin, { transformer as captionVisitor } from './src/plugins/remark-strong/plugin';
 import deflistPlugin from './src/plugins/remark-deflist/plugin';
 import mdiPlugin from './src/plugins/remark-mdi/plugin';
 import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
+import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
 
 
 const VERSION = 'rc-1.5';
@@ -192,6 +193,27 @@ const config: Config = {
                         }
                         return `https://github.com/lebalz/events-app/edit/main/${params.docPath}`
                     },
+                    beforeDefaultRemarkPlugins: [
+                        [
+                            imagePlugin,
+                            { 
+                              tagNames: { 
+                                sourceRef: 'SourceRef', 
+                                figure: 'Figure'
+                              },
+                              captionVisitors: [
+                                (ast, caption) => captionVisitor(ast, caption, (children) => {
+                                            return {
+                                                type: 'mdxJsxTextElement',
+                                                name: 'strong',
+                                                attributes: [{ type: 'mdxJsxAttribute', name: 'className', value: 'boxed' }],
+                                                children: children
+                                            };
+                                        })
+                              ] satisfies CaptionVisitor[]
+                            }
+                          ],
+                    ],
                     remarkPlugins: [
                         [strongPlugin, { className: 'boxed' }],
                         [
@@ -352,12 +374,24 @@ const config: Config = {
             darkTheme: darkCodeTheme,
             additionalLanguages: ['bash', 'diff', 'json']
         },
+        zoom: {
+            selector: '.markdown :not(em) > img',
+            background: {
+                light: 'rgba(255, 255, 255, 0.9)',
+                dark: 'rgba(50, 50, 50, 0.9)'
+            },
+            config: {
+                margin: 4,
+              // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
+            }
+          }
     } satisfies Preset.ThemeConfig,
     scripts: [
         ...scripts
     ],
     plugins: [
         'docusaurus-plugin-sass',
+        require.resolve('docusaurus-plugin-image-zoom'),
         [
             '@docusaurus/plugin-pwa',
             {

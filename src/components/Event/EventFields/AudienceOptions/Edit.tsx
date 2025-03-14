@@ -9,7 +9,6 @@ import Translate, { translate } from '@docusaurus/Translate';
 import LabeledBox from '@site/src/components/shared/LabeledBox';
 import Info from './Info';
 import { Props } from '.';
-import { StorageKey } from '@site/src/stores/utils/Storage';
 import { useStore } from '@site/src/stores/hooks';
 import { action } from 'mobx';
 

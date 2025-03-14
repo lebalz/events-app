@@ -7,8 +7,7 @@ import {
     AffectedAudience,
     EventAudience,
     EventAudienceIcons,
-    EventAudienceTranslationLong,
-    TeachingAffected
+    EventAudienceTranslationLong
 } from '@site/src/api/event';
 import { Icon, SIZE_S } from '../../../../shared/icons';
 import Event from '@site/src/models/Event';

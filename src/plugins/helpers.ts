@@ -24,6 +24,11 @@ export const captialize = (s: string) => {
     return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
+export interface ParsedOptions {
+    className?: string;
+    [key: string]: string | boolean | number | undefined;
+}
+
 type ExpressionType =
     | { type: string; value: any; raw: string }
     | { type: 'Identifier'; name: string }
@@ -220,7 +225,7 @@ export const parseOptions = (
     transform2CamelCase = false,
     keyAliases: { [key: string]: string } = {}
 ) => {
-    const css = {};
+    const options: ParsedOptions = {};
     let raw = rawText;
     const optKey = (key: string) => {
         let k = key;
@@ -235,18 +240,18 @@ export const parseOptions = (
     while (OPTION_REGEX.test(raw)) {
         const match = raw.match(OPTION_REGEX);
         raw = raw.replace(OPTION_REGEX, '');
-        const { key, value } = match.groups;
+        const { key, value } = match?.groups || {};
         if (key) {
-            css[optKey(key)] = value;
+            (options as any)[optKey(key)] = value;
         }
     }
     while (BOOLEAN_REGEX.test(raw)) {
         const match = raw.match(BOOLEAN_REGEX);
         raw = raw.replace(BOOLEAN_REGEX, '');
-        const { key } = match.groups;
+        const { key } = match?.groups || {};
         if (key) {
-            css[optKey(key)] = true;
+            (options as any)[optKey(key)] = true;
         }
     }
-    return css;
+    return options;
 };
