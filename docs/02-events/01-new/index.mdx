@@ -36,7 +36,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
 ## Felder
 
 <Dl>
-    <dt>Titel\*</dt>
+    <dt>Titel</dt>
     <dd>Kurze Beschreibung des Termins, in der Regel weniger als 80 Zeichen.</dd>
     <dt>Beschreibung</dt>
     <dd>Detaillierte Beschreibung des Termins. Kann auch mehrere Absätze enthalten.</dd>
@@ -46,7 +46,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
     <dd>Datum und Uhrzeit, wann der Termin endet. Der Termin kann auch ganztägig sein.</dd>
     <dt>Ort</dt>
     <dd>Wo findet der Termin statt? Darf auch leer bleiben.</dd>
-    <dt>Publikum\*</dt>
+    <dt>Publikum</dt>
     <dd>
         Wer ist vom Termin betroffen?
     </dd>
@@ -74,7 +74,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
             text={EventStateTranslation.DRAFT}
             iconSide='left'
             className={styles.badge}
-        />  *Ein Termin, der noch nicht veröffentlicht wurde. Er ist nur für die Author\:in sichtbar.*
+        />  *Ein Termin, der noch nicht veröffentlicht wurde. Er ist nur für die Autor\:in sichtbar.*
     </dd>
     <dd>
         <Badge 
@@ -84,7 +84,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
             text={EventStateTranslation.REVIEW}
             iconSide='left'
             className={styles.badge}
-        /> *Ein Termin, der zur Überprüfung eingereicht wurde. Er ist nur für die Author\:in und die Administratoren sichtbar.*
+        /> *Ein Termin, der zur Überprüfung eingereicht wurde. Er ist nur für die Autor\:in und die Admins sichtbar.*
     </dd>
     <dd>
         <Badge 
@@ -94,7 +94,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
             text={EventStateTranslation.PUBLISHED}
             iconSide='left'
             className={styles.badge}
-        /> *Ein veröffentlichter Termin der für alle sichtbar ist.*
+        /> *Ein veröffentlichter Termin, der für alle sichtbar ist.*
     </dd>
     <dd>
         <Badge 
@@ -104,7 +104,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
             text={EventStateTranslation.REFUSED}
             iconSide='left'
             className={styles.badge}
-        /> *Ein Termin, der abgelehnt wurde. Ist nur für die Author\:in und die Administratoren sichtbar.*
+        /> *Ein Termin, der abgelehnt wurde. Ist nur für die Autor\:in und die Admins sichtbar.*
     </dd>
     <dd>
         :::warning[Veröffentlichte Termine]
@@ -120,7 +120,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
 
 ## Zur Überprüfung einreichen
 
-Ein **neuer Termin** kann während einem offenen Eingabefenster zur Überprüfung eingereicht werden. Die Administrator\:innen werden benachrichtigt und prüfen den Termin. Nach der Veröffentlichung wird der Termin im Kalender angezeigt.
+Ein **neuer Termin** kann während einem offenen Eingabefenster zur Überprüfung eingereicht werden. Die Admins werden benachrichtigt und prüfen den Termin. Nach der Veröffentlichung wird der Termin im Kalender angezeigt.
 
 ![](./images/event-window.png)
 
@@ -128,7 +128,7 @@ Ein **neuer Termin** kann während einem offenen Eingabefenster zur Überprüfun
     <dt><Badge text="1" color="red" /></dt>
     <dd>Offene Eingabefenster sind farbig hinterlegt.</dd>
     <dt><Badge text="2" color="red" /></dt>
-    <dd>In dieser Zeitspanne können neue Termine zur Überprüfung eingereicht werden</dd>
+    <dd>In dieser Zeitspanne können neue Termine zur Überprüfung eingereicht werden.</dd>
     <dt><Badge text="3" color="red" /></dt>
     <dd>Für diese Zeitspanne können die neuen Termine eingereicht werden.</dd>
     <dt><Badge text="4" color="red" /></dt>
@@ -138,7 +138,7 @@ Ein **neuer Termin** kann während einem offenen Eingabefenster zur Überprüfun
 Die Eingabefenster werden von der Administration festgelegt und wie bisher in einer Orientierung kommuniziert.
 Ein Eingabefenster ist vom Start- bis zum Enddatum offen und ermöglicht in dieser Zeit, **neue Termine** einzureichen. 
 
-**Bestehende Termine** können auch ausserhalb der Eingabefenster aktualisiert werden, wobei Änderungen auch wieder von der Administration geprüft und veröffentlicht wird.
+**Bestehende Termine** können auch ausserhalb der Eingabefenster aktualisiert werden, wobei Änderungen auch wieder von der Administration geprüft und veröffentlicht werden.
 
 :::tip[Fehlerhafte Termine]
 Wer fehlerhafte Angaben entdeckt, kann diese selber korrigieren und den Vorschlag zur Prüfung einreichen.
@@ -146,20 +146,20 @@ Wer fehlerhafte Angaben entdeckt, kann diese selber korrigieren und den Vorschla
 
 
 ## Betrifft
-Schulische Termine betreffen __Lehrpersonen__, __Klassenlehrpersonen__, die __Schülerschaft__ oder __Alle__. Abhängig davon, für wen die Terimine erfasst wurden und ob der Stundenplanmässige Unterricht betroffen ist, werden sie im Terminplan angezeigt.
+Schulische Termine betreffen __Lehrpersonen__, __Klassenlehrpersonen__, die __Schülerschaft__ oder __Alle__. Abhängig davon, für wen die Termine erfasst wurden und ob der stundenplanmässige Unterricht betroffen ist, werden sie im Terminplan angezeigt.
 
-In der folgenden Tabelle ist eine Übersicht, wann ein Termin für die verschiedenen Zielgruppen angezeigt wird.
+Die folgende Tabelle zeigt eine Übersicht, wann ein Termin für die verschiedenen Zielgruppen angezeigt wird.
 
 <table className={styles.audience}>
 	<tbody>
 		<tr>
 			<td rowSpan="2" className={styles.left}><b>Der Termin...</b></td>
-			<td colSpan="4">Wird der Termin für ... Angezeigt?</td>
+			<td colSpan="4">wird angezeigt für:</td>
 		</tr>
 		<tr>
-			<td colSpan="2">Lehrperson</td>
-			<td rowSpan="2">KLP der <br />betroffenen <br />Klasse</td>
-			<td rowSpan="2">Schüler\:in</td>
+			<td colSpan="2">Lehrpersonen</td>
+			<td rowSpan="2">KLP, der <br />betroffenen <br />Klasse</td>
+			<td rowSpan="2">Schüler\:innen</td>
 		</tr>
 		<tr>
             <td className={styles.left}>...ist während der Lektion?\*</td>
@@ -197,11 +197,11 @@ In der folgenden Tabelle ist eine Übersicht, wann ein Termin für die verschied
 	</tbody>
 </table>
 
-\* Wenn ein Termin während einer Lektion im Regelstundenplan stattfindet (auch, wenn er während der Lektion Beginnt oder Endet), wird er für betroffene Lehrpersonen angezeigt.
+\* Wenn ein Termin während einer Lektion im Regelstundenplan stattfindet (auch, wenn er während der Lektion beginnt oder endet), wird er für betroffene Lehrpersonen angezeigt.
 
 ## Künftige Klassen
 
-Für Klassen oder Klassengruppen, die noch nicht in WebUntis geführt werden, können entsprechende Klassen bereits im Voraus hinterlegt werden.
+Für Klassen oder Jahrgänge, die noch nicht in WebUntis geführt werden, können entsprechende Klassen bereits im Voraus hinterlegt werden.
 
 <VideoGrid
     videos={[
@@ -213,9 +213,13 @@ Für Klassen oder Klassengruppen, die noch nicht in WebUntis geführt werden, k�
         },
         {
             src: require('./images/event-new-class-group.mp4').default,
-            title: 'Zukünftige Klassengruppe erfassen',
+            title: 'Zukünftigen Jahrgang erfassen',
             autoplay: true,
             loop: true
         }
     ]}
 />
+
+:::info[Jahrgang]
+Ein Klassenjahrgang betrifft alle Klassen eines ganzen Jahrgangs. Dies wird mit einem `*` angezeigt. Z.B. <Badge text="29G*" inline /> für alle 29er Klassen des Gymnasiums oder <Badge text="29F*" inline/> für alle 29er Klassen der FMS.
+:::

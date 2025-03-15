@@ -6,6 +6,9 @@
     white-space: nowrap;
     font-size: calc(0.875rem * var(--ifm-button-size-multiplier));
     width: fit-content;
+    &.inline {
+        display: inline-flex;
+    }
     &.soloIcon {
         padding: 0 0.04rem;
     }

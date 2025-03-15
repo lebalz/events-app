@@ -15,6 +15,7 @@ export interface Base {
     className?: string;
     disabled?: boolean;
     size?: number;
+    inline?: boolean;
 }
 interface IconProps extends Base {
     icon: ReactNode | string;
@@ -100,7 +101,7 @@ const Badge = (props: Props) => {
     );
     return (
         <Tooltip title={props.title}>
-            <span className={clsx(commonCls, styles.tooltiped)} style={style}>
+            <span className={clsx(commonCls, styles.tooltiped, props.inline && styles.inline)} style={style}>
                 <BadgeInner {...props} />
             </span>
         </Tooltip>
