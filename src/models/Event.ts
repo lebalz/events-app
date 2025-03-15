@@ -295,6 +295,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     validate() {
+        if (!this.id) {
+            return;
+        }
         const result = JoiEvent.validate(this.props, {
             abortEarly: false,
             messages: JoiMessages

@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import { Props, TeachingAffectedColors } from '..';
+import { TeachingAffectedColors } from '..';
+import { Props } from '../Edit';
 import Translate, { translate } from '@docusaurus/Translate';
 import { TeachingAffected } from '@site/src/api/event';
 import { Stack } from '@mdi/react';
@@ -154,9 +155,11 @@ const Example = observer((props: Props) => {
                     ) : undefined
                 }
                 showContent={viewStore.userSettings.showTeachingAffectedExample}
-                onChangeVisibility={action((val) =>
-                    viewStore.userSettings.setShowTeachingAffectedExample(val)
-                )}
+                onChangeVisibility={
+                    props.preventHideExample
+                        ? undefined
+                        : action((val) => viewStore.userSettings.setShowTeachingAffectedExample(val))
+                }
             >
                 <DefinitionList gridTemplateColumns="2em minmax(4em, 20em)" className={clsx(styles.example)}>
                     <dt>

@@ -29,7 +29,9 @@ export const TranslationsTA: { [key in TeachingAffected]: string } = {
     })
 };
 
-interface Props extends DefaultProps {}
+export interface Props extends DefaultProps {
+    preventHideExample?: boolean;
+}
 
 const Edit = observer((props: Props) => {
     const { event } = props;
@@ -62,10 +64,8 @@ const Edit = observer((props: Props) => {
                 </div>
             </div>
             <div className={clsx(styles.example)}>
-                <Example event={event} />
+                <Example event={event} preventHideExample={props.preventHideExample} />
             </div>
-
-            {/* <div>{ExampleMap[event.teachingAffected]}</div> */}
         </div>
     );
 });

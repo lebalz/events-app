@@ -8,9 +8,13 @@ import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/even
 import Translate, { translate } from '@docusaurus/Translate';
 import LabeledBox from '@site/src/components/shared/LabeledBox';
 import Info from './Info';
-import { Props } from '.';
+import { Props as DefaultProps } from '.';
 import { useStore } from '@site/src/stores/hooks';
 import { action } from 'mobx';
+
+interface Props extends DefaultProps {
+    preventHideInfo?: boolean;
+}
 
 const Edit = observer((props: Props) => {
     const viewStore = useStore('viewStore');
@@ -48,7 +52,11 @@ const Edit = observer((props: Props) => {
                     label={translate({ message: 'Info', id: 'shared.audiencePicker.infobox' })}
                     color="info"
                     showContent={viewStore.userSettings.showEventAudienceInfo}
-                    onChangeVisibility={action((val) => viewStore.userSettings.setShowEventAudienceInfo(val))}
+                    onChangeVisibility={
+                        props.preventHideInfo
+                            ? undefined
+                            : action((val) => viewStore.userSettings.setShowEventAudienceInfo(val))
+                    }
                 >
                     <Info event={event} showExample />
                 </LabeledBox>
