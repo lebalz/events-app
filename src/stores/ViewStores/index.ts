@@ -188,7 +188,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @computed
     get todayEventsForUser() {
-        return this.todayEvents.filter((e) => e.isAffectedByUser);
+        return this.todayEvents.filter((e) => e.isAffectedByUser && !e.isIgnored);
     }
 
     @action
