@@ -40,6 +40,19 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             }
         },
         {
+            attr: 'displayLetter',
+            transform: (val) => {
+                if (!val) {
+                    return null;
+                }
+                const isCapital = val.toUpperCase() === val;
+                if (this.isCapitalLetter !== isCapital) {
+                    return isCapital ? val.toLowerCase() : val.toUpperCase();
+                }
+                return val;
+            }
+        },
+        {
             attr: 'classLetters',
             update: action((val: string[]) => {
                 this.classLetters.replace([...val].sort());
@@ -60,6 +73,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @observable accessor department2_Id: string | null | undefined;
 
     @observable accessor letter: string;
+    @observable accessor displayLetter: string | null | undefined;
 
     classLetters = observable.set<string>([]);
 
@@ -73,6 +87,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.name = props.name;
         this.color = props.color;
         this.letter = props.letter;
+        this.displayLetter = props.displayLetter;
         this.description = props.description;
         this.classLetters.replace(props.classLetters.sort());
         this.department1_Id = props.department1_Id;
@@ -164,20 +179,13 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.isCapitalLetter ? 'de' : 'fr';
     }
 
-    @computed
-    get schoolDuration(): number {
-        if (Duration4Years.has(this.letter as DepartmentLetter)) {
-            return 4;
-        }
-        return 3;
-    }
-
     get props(): DepartmentProps {
         return {
             id: this.id,
             name: this.name,
             color: this.color,
             letter: this.letter as DepartmentLetter,
+            displayLetter: this.displayLetter as DepartmentLetter | null,
             department1_Id: this.department1_Id,
             department2_Id: this.department2_Id,
             classLetters: [...this.classLetters],

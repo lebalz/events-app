@@ -336,7 +336,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @computed
     get icalListClassesFiltered() {
-        const match = (klass: Klass, s: string) => klass.legacyName?.includes(s) || klass.name.includes(s);
+        const match = (klass: Klass, s: string) => klass._displayName?.includes(s) || klass.name.includes(s);
         return this.root.untisStore.classes.filter((c) => match(c, this.icalListClassFilter));
     }
 

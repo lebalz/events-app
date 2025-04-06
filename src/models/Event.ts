@@ -589,13 +589,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         const classGroups = new Set<string>();
         const departmentIds = new Set<string>();
         this.departmentStore.departments.forEach((d) => {
-            if (d.classes.length > 0 && d.classes.every((c) => cNames.has(c.name))) {
+            if (d.classes.length > 1 && d.classes.every((c) => cNames.has(c.name))) {
                 d.classes.forEach((c) => cNames.delete(c.name));
                 departmentIds.add(d.id);
             }
         });
         this.untisStore.classesGroupedByGroupNames.forEach((classes, group) => {
-            if (classes.every((c) => cNames.has(c.name))) {
+            if (classes.length > 1 && classes.every((c) => cNames.has(c.name))) {
                 classes.forEach((c) => cNames.delete(c.name));
                 classGroups.add(group);
             }
@@ -829,7 +829,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             .filter((c) => c.year >= refYear)
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach((c) => {
-                const year = c.legacyName ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
+                const year = c.isLegacyFormat ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
                 if (!kls[year]) {
                     kls[year] = [];
                 }

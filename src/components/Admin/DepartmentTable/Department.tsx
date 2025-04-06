@@ -15,13 +15,7 @@ import TextInput from '../../shared/TextInput';
 import Select from 'react-select';
 import { DepartmentLetter } from '@site/src/api/department';
 import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
-import {
-    mdiArrowBottomRightThick,
-    mdiArrowCollapseRight,
-    mdiArrowRightBottomBold,
-    mdiCircle,
-    mdiCircleSmall
-} from '@mdi/js';
+import { mdiArrowRightBottomBold, mdiCircleSmall } from '@mdi/js';
 import { Icon, SIZE_S } from '../../shared/icons';
 import Popup from 'reactjs-popup';
 
@@ -139,6 +133,36 @@ const Department = observer((props: Props) => {
                     isMulti={false}
                     isSearchable={true}
                     isClearable={false}
+                />
+            </td>
+            <td>
+                {/* Department displayLetter */}
+                <Select
+                    menuPortalTarget={document.body}
+                    styles={{
+                        menuPortal: (base) => ({ ...base, zIndex: 'var(--ifm-z-index-overlay)' }),
+                        placeholder: (base) => ({
+                            ...base,
+                            color: 'var(--ifm-color-gray-400)',
+                            fontStyle: 'italic'
+                        })
+                    }}
+                    value={
+                        department.displayLetter
+                            ? { value: department.displayLetter, label: department.displayLetter }
+                            : undefined
+                    }
+                    options={ALPHABET.split('').map((l) => ({
+                        value: l,
+                        label: l
+                    }))}
+                    onChange={(opt) => {
+                        department.update({ displayLetter: opt?.value as DepartmentLetter });
+                    }}
+                    placeholder={department.letter}
+                    isMulti={false}
+                    isSearchable={true}
+                    isClearable={true}
                 />
             </td>
             <td className={clsx(styles.colorData)}>

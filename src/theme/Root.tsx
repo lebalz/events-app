@@ -57,11 +57,13 @@ const MsalWrapper = observer(({ children }: { children: React.ReactNode }) => {
          * - no auth
          */
         if (NO_AUTH && !sessionStore?.isLoggedIn) {
-            runInAction(() => {
-                sessionStore.authMethod = 'msal';
-            });
-            rootStore.sessionStore.setAccount({ username: TEST_USERNAME } as any);
-            rootStore.load('authorized');
+            setTimeout(() => {
+                runInAction(() => {
+                    sessionStore.authMethod = 'msal';
+                });
+                rootStore.sessionStore.setAccount({ username: TEST_USERNAME } as any);
+                rootStore.load('authorized');
+            }, 1000);
             return;
         }
 

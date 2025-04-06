@@ -1,10 +1,9 @@
 import { UntisStore } from '@site/src/stores/UntisStore';
-import { computed, makeObservable } from 'mobx';
+import { computed } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
 import Department, { Duration4Years } from '../Department';
 import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
-import Teacher from './Teacher';
 import { DepartmentLetter } from '@site/src/api/department';
 import _ from 'lodash';
 
@@ -14,7 +13,7 @@ const CurrentGradeYear = now.getFullYear() + (now.getMonth() < 7 ? 0 : 1);
 export default class Klass {
     readonly id: number;
     readonly name: KlassName;
-    readonly legacyName?: string;
+    readonly _displayName?: string;
     readonly sf: string;
     readonly year: number;
     readonly departmentId: string;
@@ -26,7 +25,7 @@ export default class Klass {
         this.store = store;
         this.id = props.id;
         this.name = props.name;
-        this.legacyName = props.legacyName;
+        this._displayName = props.displayName;
 
         this.sf = props.sf;
         this.year = props.year;
@@ -57,13 +56,18 @@ export default class Klass {
     }
 
     @computed
+    get isLegacyFormat() {
+        return this.displayName?.length < 4;
+    }
+
+    @computed
     get displayName() {
-        return this.legacyName || this.name;
+        return this._displayName || this.name;
     }
 
     @computed
     get letter() {
-        if (this.legacyName) {
+        if (this.isLegacyFormat) {
             return this.displayName.slice(2);
         }
         return this.name.slice(3);
