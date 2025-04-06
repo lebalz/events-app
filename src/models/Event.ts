@@ -843,7 +843,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             classes: kls[year]
         }));
 
-        return [...this._unknownClassNames.map((c) => ({ text: c, classes: [] })), ...composed];
+        return [
+            ...this._unknownClassNames.map((c) => ({
+                text: this.store.root.departmentStore.formatClassName(c),
+                classes: []
+            })),
+            ...composed
+        ];
     }
 
     @computed

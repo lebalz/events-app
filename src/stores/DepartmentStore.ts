@@ -70,6 +70,27 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         return this.root.untisStore.findClassesByDepartment(department.id);
     }
 
+    @computed
+    get displayLetterMap() {
+        return this.departments.reduce(
+            (acc, d) => {
+                if (d.letter) {
+                    acc[d.letter] = d.displayLetter || d.letter;
+                }
+                return acc;
+            },
+            {} as Record<string, string>
+        );
+    }
+
+    formatClassName(name: string) {
+        if (name.length < 3) {
+            return name;
+        }
+        const departmentLetter = name[2];
+        return `${name.slice(0, 2)}${this.displayLetterMap[departmentLetter] || departmentLetter}${name.slice(3)}`;
+    }
+
     @action
     reload() {
         if (this.root.sessionStore.isLoggedIn) {
