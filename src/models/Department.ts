@@ -22,6 +22,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         'name',
         'description',
         'color',
+        'schoolYears',
         'department1_Id',
         'department2_Id',
         {
@@ -72,6 +73,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @observable accessor department1_Id: string | null | undefined;
     @observable accessor department2_Id: string | null | undefined;
 
+    @observable accessor schoolYears: number;
     @observable accessor letter: string;
     @observable accessor displayLetter: string | null | undefined;
 
@@ -85,6 +87,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this._pristine = props;
         this.id = props.id;
         this.name = props.name;
+        this.schoolYears = props.schoolYears;
         this.color = props.color;
         this.letter = props.letter;
         this.displayLetter = props.displayLetter;
@@ -143,6 +146,11 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
+    get isOneYearDegree(): boolean {
+        return this.schoolYears === 1;
+    }
+
+    @computed
     get classGroups(): Set<string> {
         return new Set<string>(this.classes.map((c) => c.name.slice(0, 3)));
     }
@@ -184,6 +192,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             id: this.id,
             name: this.name,
             color: this.color,
+            schoolYears: this.schoolYears,
             letter: this.letter as DepartmentLetter,
             displayLetter: this.displayLetter as DepartmentLetter | null,
             department1_Id: this.department1_Id,

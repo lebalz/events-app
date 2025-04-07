@@ -1,15 +1,16 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 
 interface Props {
-    text: string;
+    text: string | number;
     onChange: (text: string) => void;
     search?: boolean;
     autoFocus?: boolean;
     className?: string;
     placeholder?: string;
+    htmlType?: React.HTMLInputTypeAttribute;
 }
 
 const TextInput = (props: Props) => {
@@ -25,7 +26,7 @@ const TextInput = (props: Props) => {
         <div className={clsx(props.className, styles.textInput)}>
             <input
                 ref={ref}
-                type={props.search ? 'search' : 'text'}
+                type={props.htmlType ?? (props.search ? 'search' : 'text')}
                 value={props.text}
                 placeholder={props.placeholder}
                 autoFocus={props.autoFocus}

@@ -26,6 +26,7 @@ export interface Department {
     id: string;
     name: string;
     color: string;
+    schoolYears: number;
     letter: DepartmentLetter;
     displayLetter: DepartmentLetter | null;
     classLetters: string[];

@@ -165,6 +165,24 @@ const Department = observer((props: Props) => {
                     isClearable={true}
                 />
             </td>
+            <td>
+                <input
+                    type="number"
+                    value={department.schoolYears}
+                    placeholder="4"
+                    min={1}
+                    max={4}
+                    style={{ float: 'right', width: '3em' }}
+                    onChange={(e) => {
+                        try {
+                            const schoolYears = e.target.value ? Number.parseInt(e.target.value, 10) : 0;
+                            department.update({ schoolYears: schoolYears });
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }}
+                />
+            </td>
             <td className={clsx(styles.colorData)}>
                 <label className={clsx(styles.color)}>
                     <Badge text={department.color} color={department.color} />

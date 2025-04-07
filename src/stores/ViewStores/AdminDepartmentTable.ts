@@ -10,6 +10,7 @@ class AdminDepartmentTable {
         | 'createdAt'
         | 'updatedAt'
         | 'letter'
+        | 'schoolYears'
         | 'displayLetter' = 'letter';
     @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
     constructor(store: ViewStore) {
@@ -26,7 +27,9 @@ class AdminDepartmentTable {
     }
 
     @action
-    setSortColumn(column: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' | 'displayLetter'): void {
+    setSortColumn(
+        column: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' | 'displayLetter' | 'schoolYears'
+    ): void {
         if (this.sortColumn === column) {
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
