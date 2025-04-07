@@ -214,7 +214,6 @@ const AudienceDropdownSelector = observer((props: Props) => {
                             (d.letter === dLetter || d._displayLetter === dLetter) &&
                             d.classLetters.has(cLetter)
                     );
-                    console.log(c, displayName, dep);
                     if (dep) {
                         displayName = c.replace(dep.letter, dep.displayLetter);
                     }

@@ -13,12 +13,12 @@ class LocalUserSettings {
         this.store = store;
         this.localStorage = Storage;
         setTimeout(() => {
-            this.synStorage();
+            this.syncStorage();
         }, 0);
     }
 
     @action
-    synStorage() {
+    syncStorage() {
         this.showEventAudienceInfo = this.localStorage.get(
             StorageKey.PreferenceEventAudienceInfoShow,
             true,
@@ -29,7 +29,6 @@ class LocalUserSettings {
             true,
             (raw) => raw !== '0'
         );
-        console.log(this.showEventAudienceInfo, this.showTeachingAffectedExample);
     }
 
     @action
