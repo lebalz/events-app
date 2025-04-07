@@ -30,6 +30,7 @@ export interface Base {
     target?: '_blank' | `_self`;
     iconSide?: 'left' | 'right';
     noOutline?: boolean;
+    noBorder?: boolean;
     text?: string;
     active?: boolean;
     className?: string;
@@ -66,6 +67,7 @@ export const extractSharedProps = (props: Base) => {
         text: props.text,
         iconSide: props.iconSide,
         noOutline: props.noOutline,
+        noBorder: props.noBorder,
         href: props.href,
         disabled: props.disabled,
         apiState: props.apiState,
@@ -126,6 +128,7 @@ const Button = observer((props: Props) => {
     }
     const commonCls = clsx(
         styles.button,
+        props.noBorder && styles.noBorder,
         props.active && 'button--active',
         !textAndIcon && props.icon && styles.reducedPadding,
         props.children && styles.reducedPadding,

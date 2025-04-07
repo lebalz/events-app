@@ -6,9 +6,9 @@ import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import { DepartmentLetter } from '@site/src/api/department';
 import _ from 'lodash';
+import { currentGradeYear } from '../helpers/time';
 
-const now = new Date();
-const CurrentGradeYear = now.getFullYear() + (now.getMonth() < 7 ? 0 : 1);
+const CURRENT_GRADE_YEAR = currentGradeYear();
 
 export default class Klass {
     readonly id: number;
@@ -34,25 +34,14 @@ export default class Klass {
         this.lessonIds = props.lessonIds;
     }
 
-    static ClassNamesGroupedByYear(classes: Klass[], threshold: number = 3): { [name: string]: string } {
-        const klGroupsRaw = _.groupBy(
-            _.uniqBy(classes, (c) => c.id),
-            (c) => c?.year
-        );
-        const klGroup: { [key: string]: string } = {};
-        Object.keys(klGroupsRaw).forEach((year) => {
-            if (klGroupsRaw[year].length > threshold) {
-                klGroup[year] = `${year.slice(2)}`;
-            } else {
-                klGroup[year] = klGroupsRaw[year].map((c) => c?.displayName).join(', ');
-            }
-        });
-        return klGroup;
-    }
-
     @computed
     get departmentLetter(): DepartmentLetter {
         return this.name.slice(2, 3) as DepartmentLetter;
+    }
+
+    @computed
+    get displayDepartmentLetter(): DepartmentLetter {
+        return this.displayName.slice(2, 3) as DepartmentLetter;
     }
 
     @computed
@@ -119,10 +108,24 @@ export default class Klass {
      * @example '25Gh' -> 'GYM 4'
      *          '28Gj' -> 'GYM 1'
      *          '26Fa' -> 'FMS 2'
+     *          '28Fp' -> 'FMPäd' (only one year degree)
      */
     @computed
     get gradeYearName(): string {
-        const duration = Duration4Years.has(this.departmentLetter) ? 4 : 3;
-        return `${this.departmentName} ${duration - (this.year - CurrentGradeYear)}`;
+        if (this.department.isOneYearDegree) {
+            return this.departmentName;
+        }
+        const duration = this.department.schoolYears || (Duration4Years.has(this.departmentLetter) ? 4 : 3);
+        return `${this.departmentName} ${duration - (this.year - CURRENT_GRADE_YEAR)}`;
+    }
+
+    /**
+     * @param gradeYear number, e.g. 2028
+     * @param range number that specifies, how much the schoolYears can be exceeded on the end.
+     * @returns wheter this class is active for the given school year
+     * @example gradeYear=2028 means in this school year, the 2028er classes will do their grades.
+     */
+    isActiveIn(gradeYear: number, range: number) {
+        return this.year >= gradeYear && this.year < gradeYear + this.department.schoolYears - 1 + range;
     }
 }

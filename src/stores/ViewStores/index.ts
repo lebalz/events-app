@@ -18,7 +18,7 @@ import type {
     ClassOption,
     DepartmentOption,
     Option
-} from '@site/src/components/shared/AudiencePicker/AuienceDropdownSelector';
+} from '@site/src/components/shared/AudiencePicker/AudienceDropdownSelector';
 import { GroupBase } from 'react-select';
 import { translate } from '@docusaurus/Translate';
 import LocalUserSettings from './LocaUserSettings';

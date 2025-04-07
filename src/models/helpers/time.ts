@@ -1,5 +1,9 @@
 import { translate } from '@docusaurus/Translate';
 
+export const currentGradeYear = (refDate = new Date()) => {
+    return refDate.getFullYear() + (refDate.getMonth() < 7 ? 0 : 1);
+};
+
 export const formatTime = (date: Date, trimLeadingZeros: boolean = false) => {
     const hours = `${date.getHours()}`;
     const minutes = `${date.getMinutes()}`.padStart(2, '0');

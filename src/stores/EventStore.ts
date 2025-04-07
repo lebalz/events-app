@@ -136,6 +136,16 @@ export class EventStore extends iStore<
         );
     }
 
+    getDepartmentsByLetter(letter: string): Department[] {
+        return this.root.departmentStore.findByDepartmentLetter(letter);
+    }
+
+    @computed
+    get getUsedUnknownClassNames(): KlassName[] {
+        const cnRegex = /^\d\d([A-Z][a-z]|[a-z][A-Z])$/;
+        return [...new Set(this.events.flatMap((e) => e._unknownClassNames))].filter((c) => cnRegex.test(c));
+    }
+
     @computed
     get eventRangeStartMS() {
         if (this.events.length < 1) {

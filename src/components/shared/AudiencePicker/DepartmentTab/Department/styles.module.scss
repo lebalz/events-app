@@ -1,0 +1,15 @@
+.departmentClasses {
+    .department {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .year {
+        display: flex;
+        .classGroup {
+            min-width: 3em;
+        }
+        .derived {
+            opacity: 0.5;
+        }
+    }
+}

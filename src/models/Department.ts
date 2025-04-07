@@ -6,6 +6,7 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 import _ from 'lodash';
 import { ApiAction } from '../stores/iStore';
 import Klass from './Untis/Klass';
+import { currentGradeYear } from './helpers/time';
 
 export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
@@ -75,7 +76,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
 
     @observable accessor schoolYears: number;
     @observable accessor letter: string;
-    @observable accessor displayLetter: string | null | undefined;
+    @observable accessor _displayLetter: string | null | undefined;
 
     classLetters = observable.set<string>([]);
 
@@ -90,7 +91,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.schoolYears = props.schoolYears;
         this.color = props.color;
         this.letter = props.letter;
-        this.displayLetter = props.displayLetter;
+        this._displayLetter = props.displayLetter;
         this.description = props.description;
         this.classLetters.replace(props.classLetters.sort());
         this.department1_Id = props.department1_Id;
@@ -151,6 +152,33 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
+    get displayLetter(): string {
+        return this._displayLetter || this.letter;
+    }
+
+    @computed
+    get usedUnknownClasses() {
+        return this.store.getUsedUnknownClassNames
+            .filter((n) => n.charAt(2) === this.letter && this.classLetters.has(n.charAt(3)))
+            .map(
+                (c) =>
+                    new Klass(
+                        {
+                            departmentId: this.id,
+                            displayName: c.replace(this.letter, this.displayLetter),
+                            id: -1,
+                            lessonIds: [],
+                            name: c,
+                            sf: '',
+                            teacherIds: [],
+                            year: 2000 + Number.parseInt(c.slice(0, 2), 10)
+                        },
+                        this.store.root.untisStore
+                    )
+            );
+    }
+
+    @computed
     get classGroups(): Set<string> {
         return new Set<string>(this.classes.map((c) => c.name.slice(0, 3)));
     }
@@ -194,7 +222,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             color: this.color,
             schoolYears: this.schoolYears,
             letter: this.letter as DepartmentLetter,
-            displayLetter: this.displayLetter as DepartmentLetter | null,
+            displayLetter: this._displayLetter as DepartmentLetter | null,
             department1_Id: this.department1_Id,
             department2_Id: this.department2_Id,
             classLetters: [...this.classLetters],

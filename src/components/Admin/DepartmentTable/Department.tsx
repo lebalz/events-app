@@ -148,8 +148,8 @@ const Department = observer((props: Props) => {
                         })
                     }}
                     value={
-                        department.displayLetter
-                            ? { value: department.displayLetter, label: department.displayLetter }
+                        department._displayLetter
+                            ? { value: department._displayLetter, label: department._displayLetter }
                             : undefined
                     }
                     options={ALPHABET.split('').map((l) => ({

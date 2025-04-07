@@ -6,6 +6,7 @@ import { Department as DepartmentProps } from '../api/department';
 import Department from '../models/Department';
 import { computedFn } from 'mobx-utils';
 import { EndPoint } from './EndPoint';
+import { translate } from '@docusaurus/Translate';
 
 export class DepartmentStore extends iStore<DepartmentProps> {
     readonly root: RootStore;
@@ -40,17 +41,23 @@ export class DepartmentStore extends iStore<DepartmentProps> {
         const { departmentLetter } = match.groups as {
             year: string;
             departmentLetter: string;
-            classLetter: string;
         };
         return this.departments.some((d) => d.letter === departmentLetter);
     }
 
-    isValidClass(klass: string) {
+    isValidClass(klass: string, matchDisplayLetter?: boolean) {
         if (!klass || klass.length !== 4) {
             return false;
         }
+        const year = Number.parseInt(klass.slice(0, 2));
+        if (Number.isNaN(year)) {
+            return false;
+        }
         const departmentLetter = klass[2];
-        const departments = this.findByDepartmentLetter(departmentLetter);
+        const departments = this.departments.filter(
+            (d) =>
+                d.letter === departmentLetter || (matchDisplayLetter && d._displayLetter === departmentLetter)
+        );
         if (departments.length === 0) {
             return false;
         }
@@ -71,11 +78,16 @@ export class DepartmentStore extends iStore<DepartmentProps> {
     }
 
     @computed
+    get getUsedUnknownClassNames() {
+        return this.root.eventStore.getUsedUnknownClassNames;
+    }
+
+    @computed
     get displayLetterMap() {
         return this.departments.reduce(
             (acc, d) => {
                 if (d.letter) {
-                    acc[d.letter] = d.displayLetter || d.letter;
+                    acc[d.letter] = d._displayLetter || d.letter;
                 }
                 return acc;
             },
@@ -169,8 +181,16 @@ export class DepartmentStore extends iStore<DepartmentProps> {
      */
     @computed
     get groupedByLetter() {
-        const departments = this.departmentsWithClasses.filter((d) => d.classes.length > 0);
-        const grouped = _.groupBy(departments, (d) => d.letter);
-        return grouped;
+        const singleYearDepartments = this.departmentsWithClasses.filter((d) => d.schoolYears <= 1);
+        const multiYearDepartments = this.departmentsWithClasses.filter((d) => d.schoolYears > 1);
+        const grouped = _.groupBy(multiYearDepartments, (d) => d.letter);
+        return {
+            ...grouped,
+            [translate({
+                message: 'Weitere',
+                id: 'departmentStore.groupedByLetter.more',
+                description: 'For the class picker: the rest of the classes, MSOP, FMPäd, Passerelle'
+            })]: singleYearDepartments
+        };
     }
 }

@@ -52,6 +52,9 @@ export const CalendarCheckPartial =
 export const Timeline =
     'M 2 2 H 4 V 20 H 22 V 22 H 2 V 2 M 7 10 H 17 V 13 H 7 V 10 M 11 15 H 21 V 18 H 11 V 15 M 6 5 H 21 V 8 H 6 Z' as const;
 
+export const ToggleHalf =
+    'M17 6H7C3.69 6 1 8.69 1 12S3.69 18 7 18H17C20.31 18 23 15.31 23 12S20.31 6 17 6M17 16H7C4.79 16 3 14.21 3 12S4.79 8 7 8H17C19.21 8 21 9.79 21 12S19.21 16 17 16m-5-7c-1.66 0-3 1.34-3 3S10.34 15 12 15 15 13.66 15 12s-1.34-3-3-3Z' as const;
+
 export const Icon = (props: IcoProps) => {
     let color = props.disabled ? 'var(--ifm-color-disabled)' : props.color;
     switch (color) {
