@@ -56,6 +56,11 @@ export class EventStore extends iStore<
         return !!this.root.userStore.current;
     }
 
+    canDelete(event: Event) {
+        const isAuthor = event.authorId === this.root.userStore.current?.id;
+        return isAuthor || event.groups.some((g) => g.userIds.has(this.root.userStore.current?.id));
+    }
+
     affectsUser(event: Event) {
         return this.root.userStore.getAffectedEventIds.has(event.id);
     }

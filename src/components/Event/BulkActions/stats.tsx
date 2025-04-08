@@ -11,6 +11,9 @@ import { mdiCalendarBlankMultiple, mdiDownloadCircleOutline } from '@mdi/js';
 import Button from '../../shared/Button';
 import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 import { useStore } from '@site/src/stores/hooks';
+import EventTable from '@site/src/stores/ViewStores/EventTable';
+import Filter from '../Filter';
+import useIsMobileView from '@site/src/hookes/useIsMobileView';
 interface ActionConfig {
     downlaod: boolean;
 }
@@ -18,7 +21,7 @@ const DEFAULT_CONFIG: ActionConfig = {
     downlaod: true
 };
 interface Props {
-    events: EventModel[];
+    eventTable: EventTable;
     leftActions?: React.ReactNode | React.ReactNode[];
     middleActions?: React.ReactNode | React.ReactNode[];
     rightActions?: React.ReactNode | React.ReactNode[];
@@ -29,11 +32,12 @@ interface Props {
 const Stats = observer((props: Props) => {
     const departmentStore = useStore('departmentStore');
     const actionConfig: ActionConfig = { ...DEFAULT_CONFIG, ...(props.actionConfig || {}) };
+    const { eventTable } = props;
     return (
         <div className={clsx(styles.bulk, 'card', props.className)}>
             {props.leftActions}
             <Badge
-                text={`${props.events.length}`}
+                text={`${eventTable.events.length}`}
                 className={clsx(styles.badge)}
                 icon={mdiCalendarBlankMultiple}
                 size={SIZE_S}
@@ -44,16 +48,23 @@ const Stats = observer((props: Props) => {
                         message: '{num} Termine',
                         id: 'event.bulk_actions.stats.total_events'
                     },
-                    { num: props.events.length }
+                    { num: eventTable.events.length }
                 )}
             />
+
             <div className={clsx(styles.spacer)} />
+            <Filter
+                eventTable={eventTable}
+                hideMine
+                showCurrentAndFuture={false}
+                showSelectLocation="advanced"
+            />
             {props.middleActions}
             <div className={clsx(styles.spacer)} />
             {actionConfig.downlaod && (
                 <Button
                     onClick={() => {
-                        toExcel(props.events, departmentStore.departments).then((buffer) => {
+                        toExcel(eventTable.events, departmentStore.departments).then((buffer) => {
                             const blob = new Blob([buffer], {
                                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                             });
@@ -73,7 +84,7 @@ const Stats = observer((props: Props) => {
                             id: 'event.bulk_actions.download',
                             message: 'Download {number} Termine als Excel'
                         },
-                        { number: props.events.length }
+                        { number: eventTable.events.length }
                     )}
                 />
             )}

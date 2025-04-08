@@ -12,7 +12,7 @@ const Calendar = observer(() => {
     return (
         <Layout>
             <div>
-                <Filter />
+                <Filter eventTable={viewStore.eventTable} />
                 {eventTable.events.length > 0 && <CalendarComponent events={eventTable.events} />}
             </div>
         </Layout>

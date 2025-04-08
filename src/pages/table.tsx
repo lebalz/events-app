@@ -33,10 +33,11 @@ const Table = observer(() => {
                         showCurrentAndFuture
                         showSelects
                         showSelectLocation={width > 410 ? 'quick' : 'advanced'}
+                        eventTable={viewStore.eventTable}
                     />
                     {viewStore.eventTable.showSelect && (
                         <BulkActions
-                            events={viewStore.eventTable.events}
+                            eventTable={viewStore.eventTable}
                             className={clsx(styles.bulkActions)}
                             leftActions={[
                                 <Button
@@ -55,7 +56,7 @@ const Table = observer(() => {
                     )}
                 </div>
                 <Grid
-                    events={viewStore.eventTable.events}
+                    eventTable={viewStore.eventTable}
                     ref={ref}
                     groupBy="yearsKw"
                     columns={rmUndefined([

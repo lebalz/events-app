@@ -167,8 +167,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable accessor versionsLoaded: boolean = false;
 
-    @observable accessor selected: boolean = false;
-
     @observable.ref accessor _errors: Joi.ValidationError | undefined;
 
     @observable accessor affectsDepartment2: boolean;
@@ -666,11 +664,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setSelected(selected: boolean) {
-        this.selected = selected;
-    }
-
-    @action
     setEditing(editing: boolean) {
         this._isEditing = editing;
         this.triggerInitialValidation();
@@ -678,6 +671,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     get isEditable() {
         return !this.isDeleted && this.store.canEdit(this);
+    }
+
+    @computed
+    get isDeletable() {
+        return this.store.canDelete(this);
     }
 
     /**

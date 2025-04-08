@@ -12,6 +12,7 @@ import { useWindowSize } from '@docusaurus/theme-common';
 import AddButton from '../../AddButton';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import NoEventsAlert from '../NoEventsAlert';
+import useIsMobileView from '@site/src/hookes/useIsMobileView';
 interface Props {
     viewType: View;
     onChangeView: (view: View) => void;
@@ -21,13 +22,18 @@ const AddEventButton = observer(({ addMarginTop }: { addMarginTop?: boolean }) =
     const eventStore = useStore('eventStore');
     const windowSize = useWindowSize();
     const viewStore = useStore('viewStore');
+    const isMobileView = useIsMobileView(600);
     return (
         <AddButton
-            text={translate({
-                message: 'Neuer Termin',
-                description: 'AddButton text',
-                id: 'event.AddButton.text'
-            })}
+            text={
+                isMobileView
+                    ? undefined
+                    : translate({
+                          message: 'Neuer Termin',
+                          description: 'AddButton text',
+                          id: 'event.AddButton.text'
+                      })
+            }
             onAdd={() => {
                 const now = toGlobalDate(new Date());
                 const t1 = new Date(now);

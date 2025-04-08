@@ -13,6 +13,9 @@ import { Timeline as TimelineIcon } from '@site/src/components/shared/icons';
 import _ from 'lodash';
 import { mdiCalendarMonth, mdiCardTextOutline, mdiViewList } from '@mdi/js';
 import { translate } from '@docusaurus/Translate';
+import { useStore } from '@site/src/stores/hooks';
+import Loader from '../shared/Loader';
+import useIsMobileView from '@site/src/hookes/useIsMobileView';
 
 export enum View {
     Grid = 'grid',
@@ -53,25 +56,45 @@ export const ViewTranslations: { [key in View]: string } = {
 interface Props {
     type: View;
     events: Event[];
-    bulkActionConfig?: Omit<BulkActionProps, 'events'>;
-    gridConfig: Omit<GridProps, 'events'>;
+    bulkActionConfig?: Omit<BulkActionProps, 'events' | 'eventTable'>;
+    gridConfig: Omit<GridProps, 'events' | 'eventTable'>;
 }
 
 const EventsViewer = observer((props: Props) => {
     const count = props.events.length;
+    const viewStore = useStore('viewStore');
+    const tableId = React.useId();
+    const eventTable = viewStore.eventTables.get(tableId);
+    React.useEffect(() => {
+        viewStore.getOrCreateEventTable(tableId, props.events);
+        return () => {
+            viewStore.cleanupEventTable(tableId);
+        };
+    }, [viewStore, tableId]);
+    React.useEffect(() => {
+        const eventTable = viewStore.eventTables.get(tableId);
+        if (props.events && eventTable) {
+            console.log('set events!', props.events.length);
+            eventTable.setEvents(props.events);
+        }
+    }, [tableId, viewStore, props.events]);
+
+    if (!eventTable) {
+        return <Loader />;
+    }
     return (
         <div className={clsx(styles.view)}>
-            <BulkActions events={props.events} {...(props.bulkActionConfig || {})} />
-            {count > 0 && props.type === View.Grid && <Grid events={props.events} {...props.gridConfig} />}
-            {count > 0 && props.type === View.List && <List events={props.events} />}
+            <BulkActions eventTable={eventTable} {...(props.bulkActionConfig || {})} />
+            {count > 0 && props.type === View.Grid && <Grid eventTable={eventTable} {...props.gridConfig} />}
+            {count > 0 && props.type === View.List && <List events={eventTable.events} />}
             {count > 0 && props.type === View.Calendar && (
                 <Calendar
-                    events={props.events}
+                    events={eventTable.events}
                     defaultDate={_.minBy(props.events, (e) => e.startTimeMs)?.start}
                     className={clsx(styles.calendar)}
                 />
             )}
-            {count > 0 && props.type === View.Timeline && <Timeline events={props.events} />}
+            {count > 0 && props.type === View.Timeline && <Timeline events={eventTable.events} />}
         </div>
     );
 });

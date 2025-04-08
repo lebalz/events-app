@@ -1,9 +1,10 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, computed, IObservableArray, makeObservable, observable } from 'mobx';
 import User from '../../models/User';
 import { EventAudience, EventState } from '../../api/event';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import { getLastMonday } from '@site/src/models/helpers/time';
+import Event from '@site/src/models/Event';
 
 export interface EventViewProps {
     user?: User;
@@ -21,6 +22,8 @@ export interface EventViewProps {
  */
 class EventTable {
     private readonly store: ViewStore;
+    readonly publicOnly: boolean;
+    _events: IObservableArray<Event> | undefined = undefined;
 
     /** filter props */
     textFilter = observable.set<string>();
@@ -31,6 +34,9 @@ class EventTable {
 
     @observable accessor start: Date | null = null;
     @observable accessor end: Date | null = null;
+
+    selectedEventIds = observable.set<string>();
+
     departmentIds = observable.set<string>();
     classNames = observable.set<string>();
 
@@ -48,13 +54,72 @@ class EventTable {
 
     @observable accessor showSelect = false;
 
-    constructor(store: ViewStore) {
+    constructor(store: ViewStore, events?: Event[], publicOnly?: boolean) {
         this.store = store;
+        this.publicOnly = !!publicOnly;
+        if (events) {
+            this._events = observable<Event>(events, { deep: false });
+        }
+    }
+
+    @action
+    setEvents(events: Event[]) {
+        if (!this._events) {
+            return;
+        }
+        this._events.replace(events);
+        const availableIds = new Set(events.map((e) => e.id));
+        [...this.selectedEventIds].forEach((eid) => {
+            if (!availableIds.has(eid)) {
+                this.selectedEventIds.delete(eid);
+            }
+        });
+    }
+
+    @action
+    setEventSelected(eventId: string, selected: boolean) {
+        if (selected) {
+            this.selectedEventIds.add(eventId);
+        } else {
+            this.selectedEventIds.delete(eventId);
+        }
+    }
+
+    @computed
+    get selectedEvents() {
+        return [...this.selectedEventIds]
+            .map((sid) => this.events.find((e) => e.id === sid))
+            .filter((e) => !!e);
     }
 
     @action
     toggleHideDeleted() {
         this.setHideDeleted(!this.hideDeleted);
+    }
+
+    @computed
+    get selectedStates() {
+        return [...new Set(this.selectedEvents.map((e) => e.state))];
+    }
+
+    @computed
+    get selectedTransitionable() {
+        return this.selectedEvents.every((e) => e.transitionAllowed.allowed);
+    }
+
+    @computed
+    get selectedTransitionIssues() {
+        return new Set(this.selectedEvents.flatMap((e) => e.transitionAllowed.reason).filter((x) => !!x));
+    }
+
+    @computed
+    get selectedDeletable() {
+        return this.selectedEvents.every((e) => e.isDeletable);
+    }
+
+    @computed
+    get selectedSubscriptionIgnored() {
+        return this.selectedEvents.every((e) => e.isIgnored);
     }
 
     @action
@@ -144,15 +209,22 @@ class EventTable {
     }
 
     @computed
-    get events() {
+    get unfilteredEvents() {
+        if (this._events) {
+            return this._events;
+        }
         const { semester } = this.store;
         if (!semester) {
             return [];
         }
+        return semester.events;
+    }
 
+    @computed
+    get events() {
         const currentKwStart = getLastMonday(new Date()).getTime();
-        const s = semester.events.filter((event) => {
-            if (event.state !== EventState.Published) {
+        const s = this.unfilteredEvents.filter((event) => {
+            if (this.publicOnly && event.state !== EventState.Published) {
                 return false;
             }
             if (event.hasParent) {
