@@ -195,7 +195,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
         this.audience = props.audience;
-        this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
         this.publishedVersionIds = props.publishedVersionIds;
@@ -386,11 +385,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             return error;
         }
         return undefined;
-    }
-
-    @action
-    setAllLPs(allLPs: boolean) {
-        this.allLPs = allLPs;
     }
 
     @computed
@@ -984,14 +978,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     /**
-     * all classes that are affected by the className filter
-     */
-    @computed
-    get _selectedClassNames(): KlassName[] {
-        return [...this._selectedClasses.map((c) => c.name), ...this._unknownClassNames];
-    }
-
-    /**
      * returns **only** the classes that are selected through the className filter **and** which
      * are present as a UntisClass
      */
@@ -1010,14 +996,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get _unknownClassGroups(): string[] {
+    get unknownClassGroups(): string[] {
         const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
         return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c, refYear));
-    }
-
-    @computed
-    get unknownClassIdentifiers(): string[] {
-        return [...this._unknownClassNames, ...this._unknownClassGroups];
     }
 
     /**

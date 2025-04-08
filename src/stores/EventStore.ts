@@ -364,7 +364,7 @@ export class EventStore extends iStore<
         const updated = events
             .filter((e) => e.isDraft)
             .map((event) => {
-                const updatedClasses = [...event._selectedClassNames]
+                const updatedClasses = [...event.classes]
                     .map((c) => shifter.audience.get(c))
                     .filter((a) => !!a) as KlassName[];
                 const updatedClassGroups = [...event.classGroups]
@@ -379,7 +379,7 @@ export class EventStore extends iStore<
                     let description = event.description;
                     let descriptionLong = event.descriptionLong;
                     let location = event.location;
-                    [...event._selectedClassNames].forEach((klass) => {
+                    [...event.classes].forEach((klass) => {
                         const untisClass = this.root.untisStore.findClassByName(klass);
                         const newClass = this.root.untisStore.findClassByName(
                             shifter.audience.get(klass) || ''

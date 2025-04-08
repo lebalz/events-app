@@ -126,6 +126,6 @@ export default class Klass {
      * @example gradeYear=2028 means in this school year, the 2028er classes will do their grades.
      */
     isActiveIn(gradeYear: number, range: number) {
-        return this.year >= gradeYear && this.year < gradeYear + this.department.schoolYears - 1 + range;
+        return this.year >= gradeYear && this.year < gradeYear + this.department.schoolYears + range;
     }
 }
