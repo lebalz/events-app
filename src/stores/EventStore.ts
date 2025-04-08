@@ -8,6 +8,7 @@ import {
     clone as apiClone,
     all as apiFetchEvents,
     updateMeta,
+    normalizeAudience as apiNormalizeAudience,
     Meta,
     updateBatched as apiUpdateBatched,
     deleteMany as apiDeleteMany
@@ -21,13 +22,13 @@ import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
 import AudienceShifter from '../components/EventGroup/BulkEditor/ShiftAudience/AudienceShifter';
-import { classes } from '../api/untis';
 import { KlassName } from '../models/helpers/klassNames';
 
 export class EventStore extends iStore<
     EventProps,
     | 'download-excel'
     | `clone-${string}`
+    | `normalize-audience-${string}`
     | `update-meta-${string}`
     | `update-batched-${string}`
     | `load-versions-${string}`
@@ -312,6 +313,29 @@ export class EventStore extends iStore<
                     this.addToStore(data);
                 }
                 return data;
+            });
+        });
+    }
+    @action
+    normalizeAudience(event: Event) {
+        if (!event.isDraft) {
+            return Promise.resolve(event);
+        }
+        const wasEditing = event.isEditing;
+        return this.save(event).then(() => {
+            if (wasEditing) {
+                this.find(event.id)?.setEditing(true);
+            }
+            return this.withAbortController(`normalize-audience-${event.id}`, (sig) => {
+                return apiNormalizeAudience(event.id, sig.signal).then(({ data }) => {
+                    if (data) {
+                        const model = this.addToStore(data) as Event;
+                        if (wasEditing) {
+                            model.setEditing(true);
+                        }
+                    }
+                    return data;
+                });
             });
         });
     }

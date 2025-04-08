@@ -2192,5 +2192,17 @@
   },
   "audiencePicker.className.derived": {
     "message": "{name} bereits aktiv über Jahrgang oder Abteilung {department}"
+  },
+  "audiencePicker.normalize-audience.text": {
+    "message": "Publikum konsolidieren"
+  },
+  "audiencePicker.normalize-audience.title": {
+    "message": "Entfernt redundante Publikums-Informationen, indem bspw. bereits enthaltene Klassen entfernt werden. Beim Einreichen wird das Publikum automatisch normalisiert."
+  },
+  "audiencePicker.onCreate.error.message": {
+    "message": "Fehler beim Erzeugen der Klasse {name}"
+  },
+  "audiencePicker.toggleClasses": {
+    "message": "Alle klassen {action}"
   }
 }

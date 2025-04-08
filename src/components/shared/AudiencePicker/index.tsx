@@ -5,15 +5,13 @@ import styles from './styles.module.scss';
 import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import { default as DepartmentModel } from '@site/src/models/Department';
-import Department from './DepartmentTab/Department';
 import Button from '../Button';
 import _ from 'lodash';
 import Translate, { translate } from '@docusaurus/Translate';
 import AudienceSelector from './AudienceDropdownSelector';
 import DepartmentTab from './DepartmentTab';
+import { mdiSetAll } from '@mdi/js';
+import { SIZE_S } from '../icons';
 
 interface Props {
     event: EventModel;
@@ -23,6 +21,7 @@ interface Props {
 const AudiencePicker = observer((props: Props) => {
     const { event } = props;
     const departmentStore = useStore('departmentStore');
+    const eventStore = useStore('eventStore');
     const userStore = useStore('userStore');
     const { current } = userStore;
     if (!current) {
@@ -98,6 +97,27 @@ const AudiencePicker = observer((props: Props) => {
                     className={clsx(styles.tabItems)}
                 />
                 <AudienceSelector event={event} />
+                {!error && (
+                    <div className={clsx(styles.normalize)}>
+                        <Button
+                            onClick={() => event.normalizeAudience()}
+                            apiState={eventStore.apiStateFor(`normalize-audience-${event.id}`)}
+                            text={translate({
+                                message: 'Publikum konsolidieren',
+                                id: 'audiencePicker.normalize-audience.text'
+                            })}
+                            icon={mdiSetAll}
+                            iconSide="left"
+                            color="primary"
+                            size={SIZE_S}
+                            title={translate({
+                                message:
+                                    'Entfernt redundante Publikums-Informationen, indem bspw. bereits enthaltene Klassen entfernt werden. Beim Einreichen wird das Publikum automatisch normalisiert.',
+                                id: 'audiencePicker.normalize-audience.title'
+                            })}
+                        />
+                    </div>
+                )}
                 {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
         </div>

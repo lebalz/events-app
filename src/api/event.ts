@@ -463,6 +463,10 @@ export function clone(eventId: string, signal: AbortSignal): AxiosPromise<Event>
     return api.post(`events/${eventId}/clone`, {}, { signal });
 }
 
+export function normalizeAudience(eventId: string, signal: AbortSignal): AxiosPromise<Event> {
+    return api.post(`events/${eventId}/normalize_audience`, {}, { signal });
+}
+
 export function all<T>(ids: string[], signal: AbortSignal): AxiosPromise<Event[]> {
     return api.get('events', { params: { ids }, signal });
 }

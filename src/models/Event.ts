@@ -1160,7 +1160,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: [...this.departmentIds],
-            classes: this._selectedClassNames,
+            classes: [...this.classes],
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,
@@ -1418,6 +1418,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (current.subscription.ignoredEventIds.has(this.id)) {
             current.subscription.unignoreEvent(this.id);
         }
+    }
+
+    @action
+    normalizeAudience() {
+        return this.store.normalizeAudience(this);
     }
 
     cleanup(destroyed?: boolean) {
