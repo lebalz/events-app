@@ -77,11 +77,12 @@ class EventTable {
     }
 
     @action
-    setEventSelected(eventId: string, selected: boolean) {
+    setSelectedEvents(eventIds: string[], selected: boolean) {
         if (selected) {
-            this.selectedEventIds.add(eventId);
+            this.selectedEventIds.replace([...this.selectedEventIds, ...eventIds]);
         } else {
-            this.selectedEventIds.delete(eventId);
+            const rm = new Set(eventIds);
+            this.selectedEventIds.replace([...this.selectedEventIds].filter((eid) => !rm.has(eid)));
         }
     }
 

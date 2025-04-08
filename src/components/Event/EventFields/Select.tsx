@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
@@ -27,8 +27,20 @@ const Select = observer((props: Props) => {
             <Checkbox
                 checked={eventTable.selectedEventIds.has(event.id)}
                 onChange={(checked, shiftKey) => {
-                    eventTable.setEventSelected(event.id, checked);
-                    // props.onSelect(event, checked, shiftKey);
+                    if (checked && shiftKey) {
+                        const idx = eventTable.events.findIndex((e) => e.id === event.id);
+                        const topIdx = eventTable.events
+                            .slice(0, idx)
+                            .findLastIndex((e) => eventTable.selectedEventIds.has(e.id));
+                        if (topIdx > -1) {
+                            eventTable.setSelectedEvents(
+                                eventTable.events.slice(topIdx, idx + 1).map((e) => e.id),
+                                true
+                            );
+                        }
+                    } else {
+                        eventTable.setSelectedEvents([event.id], checked);
+                    }
                 }}
             />
         </div>

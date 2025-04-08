@@ -103,9 +103,7 @@ const BulkActions = observer((props: Props) => {
                 icon={
                     <Button
                         onClick={action(() => {
-                            eventTable.selectedEvents.forEach((s) =>
-                                eventTable.setEventSelected(s.id, false)
-                            );
+                            eventTable.setSelectedEvents([...eventTable.selectedEventIds], false);
                         })}
                         icon={mdiClose}
                         size={SIZE_XS}
@@ -402,9 +400,7 @@ const BulkActions = observer((props: Props) => {
                                 const { subscription } = current;
                                 if (subscription) {
                                     subscription.unignoreEvents(eventTable.selectedEvents.map((e) => e.id));
-                                    eventTable.selectedEvents.forEach((s) =>
-                                        eventTable.setEventSelected(s.id, false)
-                                    );
+                                    eventTable.setSelectedEvents([...eventTable.selectedEventIds], false);
                                 }
                             }}
                             color={'green'}
@@ -432,9 +428,7 @@ const BulkActions = observer((props: Props) => {
                                 const { subscription } = current;
                                 if (subscription) {
                                     subscription.ignoreEvents(eventTable.selectedEvents.map((e) => e.id));
-                                    eventTable.selectedEvents.forEach((s) =>
-                                        eventTable.setEventSelected(s.id, false)
-                                    );
+                                    eventTable.setSelectedEvents([...eventTable.selectedEventIds], false);
                                     props.eventTable.setShowSelect(false);
                                 }
                             }}

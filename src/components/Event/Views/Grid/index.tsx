@@ -189,7 +189,10 @@ const Grid = observer(
                         if (name === 'select') {
                             isActive = eventTable.selectedEvents.length === events.length;
                             onClick = () => {
-                                events.forEach((e) => eventTable.setEventSelected(e.id, !isActive));
+                                eventTable.setSelectedEvents(
+                                    events.map((e) => e.id),
+                                    !isActive
+                                );
                             };
                         }
                         return (
