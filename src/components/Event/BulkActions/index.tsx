@@ -38,6 +38,7 @@ import { useHistory } from '@docusaurus/router';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import Filter from '../Filter';
+import useIsMobileView from '@site/src/hookes/useIsMobileView';
 
 interface ActionConfig {
     stateActions: boolean;
@@ -75,6 +76,8 @@ const BulkActions = observer((props: Props) => {
     const ref = React.useRef<PopupActions>(null);
     const history = useHistory();
     const reviewedEventsUrl = useBaseUrl('/user?user-tab=events&events-tab=reviewed');
+    const isMobileViewXS = useIsMobileView(870);
+    const isMobileView = useIsMobileView(1142);
     if (eventTable.selectedEvents.length < 1) {
         return (
             <Stats
@@ -118,20 +121,38 @@ const BulkActions = observer((props: Props) => {
             />
             <Filter
                 eventTable={eventTable}
+                hideMine
+                flexWidth
                 showCurrentAndFuture={false}
-                showSelectLocation="quick"
-                showSelects
+                showSelectLocation="advanced"
             />
             {sameState && actionConfig.stateActions && (
                 <div className={clsx(styles.stateActions)}>
                     <ValidationChecker events={eventTable.selectedEvents} />
                     {eventTable.selectedStates[0] === EventState.Draft && (
                         <Button
-                            text={translate({
-                                message: 'Überprüfung anfordern',
-                                id: 'event.bulk_actions.request_review',
-                                description: 'Request Review'
-                            })}
+                            text={
+                                isMobileViewXS
+                                    ? undefined
+                                    : translate({
+                                          message: 'Überprüfung anfordern',
+                                          id: 'event.bulk_actions.request_review',
+                                          description: 'Request Review'
+                                      })
+                            }
+                            title={
+                                eventTable.selectedTransitionIssues.size > 0
+                                    ? [...eventTable.selectedTransitionIssues]
+                                          .map((issue) => `⚠️ ${InvalidTransitionMessages[issue]}`)
+                                          .join('\n')
+                                    : isMobileViewXS
+                                      ? translate({
+                                            message: 'Überprüfung anfordern',
+                                            id: 'event.bulk_actions.request_review',
+                                            description: 'Request Review'
+                                        })
+                                      : undefined
+                            }
                             icon={<Icon path={mdiBookmarkCheck} color="blue" />}
                             className={clsx(styles.blue)}
                             iconSide="left"
@@ -145,24 +166,30 @@ const BulkActions = observer((props: Props) => {
                                         history.push(reviewedEventsUrl);
                                     });
                             }}
-                            title={
-                                eventTable.selectedTransitionIssues.size > 0
-                                    ? [...eventTable.selectedTransitionIssues]
-                                          .map((issue) => `⚠️ ${InvalidTransitionMessages[issue]}`)
-                                          .join('\n')
-                                    : undefined
-                            }
                             disabled={!eventTable.selectedTransitionable}
                         />
                     )}
                     {eventTable.selectedStates[0] === EventState.Review && (
                         <>
                             <Button
-                                text={translate({
-                                    message: 'Bearbeiten',
-                                    id: 'event.bulk_actions.editing',
-                                    description: 'Edit Event'
-                                })}
+                                text={
+                                    isMobileView
+                                        ? undefined
+                                        : translate({
+                                              message: 'Bearbeiten',
+                                              id: 'event.bulk_actions.editing',
+                                              description: 'Edit Event'
+                                          })
+                                }
+                                title={
+                                    isMobileView
+                                        ? translate({
+                                              message: 'Bearbeiten',
+                                              id: 'event.bulk_actions.editing',
+                                              description: 'Edit Event'
+                                          })
+                                        : undefined
+                                }
                                 icon={<Icon path={mdiBookmarkMinus} color="blue" />}
                                 className={clsx(styles.blue)}
                                 iconSide="left"
@@ -176,11 +203,24 @@ const BulkActions = observer((props: Props) => {
                             {userStore.current?.isAdmin && (
                                 <>
                                     <Button
-                                        text={translate({
-                                            message: 'Veröffentlichen',
-                                            id: 'event.bulk_actions.publish',
-                                            description: 'Publish Event'
-                                        })}
+                                        text={
+                                            isMobileView
+                                                ? undefined
+                                                : translate({
+                                                      message: 'Veröffentlichen',
+                                                      id: 'event.bulk_actions.publish',
+                                                      description: 'Publish Event'
+                                                  })
+                                        }
+                                        title={
+                                            isMobileView
+                                                ? translate({
+                                                      message: 'Veröffentlichen',
+                                                      id: 'event.bulk_actions.publish',
+                                                      description: 'Publish Event'
+                                                  })
+                                                : undefined
+                                        }
                                         icon={<Icon path={mdiFileCertificate} color="green" />}
                                         iconSide="left"
                                         className={clsx(styles.success)}
@@ -192,11 +232,24 @@ const BulkActions = observer((props: Props) => {
                                         }}
                                     />
                                     <Button
-                                        text={translate({
-                                            message: 'Zurückweisen',
-                                            id: 'event.bulk_actions.refuse',
-                                            description: 'Refuse Event review'
-                                        })}
+                                        text={
+                                            isMobileView
+                                                ? undefined
+                                                : translate({
+                                                      message: 'Zurückweisen',
+                                                      id: 'event.bulk_actions.refuse',
+                                                      description: 'Refuse Event review'
+                                                  })
+                                        }
+                                        title={
+                                            isMobileView
+                                                ? translate({
+                                                      message: 'Zurückweisen',
+                                                      id: 'event.bulk_actions.refuse',
+                                                      description: 'Refuse Event review'
+                                                  })
+                                                : undefined
+                                        }
                                         icon={<Icon path={mdiBookCancel} color="orange" />}
                                         iconSide="left"
                                         className={clsx(styles.revoke)}
@@ -215,10 +268,22 @@ const BulkActions = observer((props: Props) => {
             )}
             {actionConfig.share && (
                 <Button
-                    text={translate({
-                        id: 'event.bulk_actions.share',
-                        message: 'Übersicht Öffnen'
-                    })}
+                    text={
+                        isMobileView
+                            ? undefined
+                            : translate({
+                                  id: 'event.bulk_actions.share',
+                                  message: 'Übersicht Öffnen'
+                              })
+                    }
+                    title={
+                        isMobileView
+                            ? translate({
+                                  id: 'event.bulk_actions.share',
+                                  message: 'Übersicht Öffnen'
+                              })
+                            : undefined
+                    }
                     icon={mdiShareAll}
                     size={SIZE_XS}
                     iconSide="left"
@@ -232,7 +297,27 @@ const BulkActions = observer((props: Props) => {
                         ref={ref}
                         trigger={
                             <span>
-                                <Button text="Neue Gruppe" icon={mdiTag} size={SIZE_XS} iconSide="left" />
+                                <Button
+                                    text={
+                                        isMobileView
+                                            ? undefined
+                                            : translate({
+                                                  message: 'Neue Gruppe',
+                                                  id: 'bulkActions.newGroup.text'
+                                              })
+                                    }
+                                    title={
+                                        isMobileView
+                                            ? translate({
+                                                  message: 'Neue Gruppe',
+                                                  id: 'bulkActions.newGroup.text'
+                                              })
+                                            : undefined
+                                    }
+                                    icon={mdiTag}
+                                    size={SIZE_XS}
+                                    iconSide="left"
+                                />
                             </span>
                         }
                         modal
@@ -305,10 +390,14 @@ const BulkActions = observer((props: Props) => {
                     {allUnsubscribed ? (
                         <Button
                             icon={mdiBellPlus}
-                            text={translate({
-                                message: 'Wieder abonnieren',
-                                id: 'event.bulk_actions.resubscribe'
-                            })}
+                            text={
+                                isMobileView
+                                    ? undefined
+                                    : translate({
+                                          message: 'Wieder abonnieren',
+                                          id: 'event.bulk_actions.resubscribe'
+                                      })
+                            }
                             onClick={() => {
                                 const { subscription } = current;
                                 if (subscription) {
@@ -323,10 +412,22 @@ const BulkActions = observer((props: Props) => {
                     ) : (
                         <Button
                             icon={mdiBellRemove}
-                            text={translate({
-                                message: 'Deabonnieren',
-                                id: 'event.bulk_actions.unsubscribe'
-                            })}
+                            text={
+                                isMobileView
+                                    ? undefined
+                                    : translate({
+                                          message: 'Deabonnieren',
+                                          id: 'event.bulk_actions.unsubscribe'
+                                      })
+                            }
+                            title={
+                                isMobileView
+                                    ? translate({
+                                          message: 'Deabonnieren',
+                                          id: 'event.bulk_actions.unsubscribe'
+                                      })
+                                    : undefined
+                            }
                             onClick={() => {
                                 const { subscription } = current;
                                 if (subscription) {

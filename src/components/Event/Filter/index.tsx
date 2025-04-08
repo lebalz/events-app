@@ -65,6 +65,7 @@ interface Props {
     showSelectLocation?: 'quick' | 'advanced';
     eventTable: EventTable;
     hideMine?: boolean;
+    flexWidth?: boolean;
 }
 const Filter = observer((props: Props) => {
     const viewStore = useStore('viewStore');
@@ -126,12 +127,13 @@ const Filter = observer((props: Props) => {
                         />
                     )}
                 </div>
-                <div className={clsx(styles.classes, styles.fuzzyFilter)}>
+                <div className={clsx(styles.fuzzyFilter, props.flexWidth && styles.flexWidth)}>
                     <TextInput
                         placeholder={translate({
                             message: 'Suche',
                             id: 'event.filter.search'
                         })}
+                        inputClassName={clsx(styles.input)}
                         onChange={(txt) => eventTable.setTextFilter(txt)}
                         text={eventTable.klassFilter}
                     />

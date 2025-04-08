@@ -9,6 +9,7 @@ interface Props {
     search?: boolean;
     autoFocus?: boolean;
     className?: string;
+    inputClassName?: string;
     placeholder?: string;
     htmlType?: React.HTMLInputTypeAttribute;
 }
@@ -30,6 +31,7 @@ const TextInput = (props: Props) => {
                 value={props.text}
                 placeholder={props.placeholder}
                 autoFocus={props.autoFocus}
+                className={props.inputClassName}
                 onChange={(e) => {
                     props.onChange(e.currentTarget.value);
                 }}

@@ -16,6 +16,8 @@ import { translate } from '@docusaurus/Translate';
 import { useStore } from '@site/src/stores/hooks';
 import Loader from '../shared/Loader';
 import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import EventTable from '@site/src/stores/ViewStores/EventTable';
+import { useEventTable } from './useEventTable';
 
 export enum View {
     Grid = 'grid',
@@ -58,30 +60,16 @@ interface Props {
     events: Event[];
     bulkActionConfig?: Omit<BulkActionProps, 'events' | 'eventTable'>;
     gridConfig: Omit<GridProps, 'events' | 'eventTable'>;
+    eventTable?: EventTable;
 }
 
 const EventsViewer = observer((props: Props) => {
-    const count = props.events.length;
-    const viewStore = useStore('viewStore');
-    const tableId = React.useId();
-    const eventTable = viewStore.eventTables.get(tableId);
-    React.useEffect(() => {
-        viewStore.getOrCreateEventTable(tableId, props.events);
-        return () => {
-            viewStore.cleanupEventTable(tableId);
-        };
-    }, [viewStore, tableId]);
-    React.useEffect(() => {
-        const eventTable = viewStore.eventTables.get(tableId);
-        if (props.events && eventTable) {
-            console.log('set events!', props.events.length);
-            eventTable.setEvents(props.events);
-        }
-    }, [tableId, viewStore, props.events]);
+    const eventTable = props.eventTable ?? useEventTable(props.events);
 
     if (!eventTable) {
         return <Loader />;
     }
+    const count = eventTable.events.length;
     return (
         <div className={clsx(styles.view)}>
             <BulkActions eventTable={eventTable} {...(props.bulkActionConfig || {})} />
@@ -90,7 +78,7 @@ const EventsViewer = observer((props: Props) => {
             {count > 0 && props.type === View.Calendar && (
                 <Calendar
                     events={eventTable.events}
-                    defaultDate={_.minBy(props.events, (e) => e.startTimeMs)?.start}
+                    defaultDate={_.minBy(eventTable.events, (e) => e.startTimeMs)?.start}
                     className={clsx(styles.calendar)}
                 />
             )}

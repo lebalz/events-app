@@ -194,6 +194,7 @@ const Grid = observer(
                         }
                         return (
                             <ColumnHeader
+                                eventTable={eventTable}
                                 key={idx}
                                 name={name}
                                 gridColumn={idx + 1}

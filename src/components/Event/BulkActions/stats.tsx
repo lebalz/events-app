@@ -13,7 +13,6 @@ import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 import { useStore } from '@site/src/stores/hooks';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import Filter from '../Filter';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
 interface ActionConfig {
     downlaod: boolean;
 }
@@ -56,6 +55,7 @@ const Stats = observer((props: Props) => {
             <Filter
                 eventTable={eventTable}
                 hideMine
+                flexWidth
                 showCurrentAndFuture={false}
                 showSelectLocation="advanced"
             />
