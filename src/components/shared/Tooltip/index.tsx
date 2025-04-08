@@ -10,6 +10,7 @@ interface Props {
     children: React.ReactNode;
     disabled?: boolean;
     wrapTrigger?: boolean;
+    maxWidth?: string;
 }
 
 const MOUSE_ENTER_DELAY_MS = 250;
@@ -28,7 +29,7 @@ const Tooltip = observer((props: Props) => {
             position={['top center', 'top right', 'top left']}
             arrow={false}
             offsetY={8}
-            contentStyle={{ width: 'max-content', maxWidth: '50%' }}
+            contentStyle={{ width: 'max-content', maxWidth: props.maxWidth ?? 'min(50%, 30em)' }}
         >
             <div className={clsx(styles.tooltip)}>{props.title}</div>
         </Popup>

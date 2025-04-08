@@ -29,7 +29,7 @@ const DepartmentTab = observer((props: Props) => {
             CURRENT_LOCALE === 'de'
                 ? [...PRIORITY_MAP_FR, ...PRIORITY_MAP_DE]
                 : [...PRIORITY_MAP_DE, ...PRIORITY_MAP_FR];
-        return _.orderBy(Object.keys(departments), (key) => prios.indexOf(departments[key][0].letter), [
+        return _.orderBy(Object.keys(departments), (key) => prios.indexOf(departments[key][0]?.letter), [
             'desc'
         ]);
     }, [departments]);

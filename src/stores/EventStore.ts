@@ -23,6 +23,7 @@ import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
 import AudienceShifter from '../components/EventGroup/BulkEditor/ShiftAudience/AudienceShifter';
 import { KlassName } from '../models/helpers/klassNames';
+import scheduleMicrotask from '../models/helpers/scheduleMicrotask';
 
 export class EventStore extends iStore<
     EventProps,
@@ -331,7 +332,9 @@ export class EventStore extends iStore<
                     if (data) {
                         const model = this.addToStore(data) as Event;
                         if (wasEditing) {
-                            model.setEditing(true);
+                            scheduleMicrotask(() => {
+                                model.setEditing(true);
+                            });
                         }
                     }
                     return data;

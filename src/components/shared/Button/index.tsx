@@ -158,19 +158,6 @@ const Button = observer((props: Props) => {
         );
     }
 
-    // const Btn = observer(() => {
-    //     return (
-    //         <button
-    //             type="button"
-    //             className={clsx(commonCls)}
-    //             onClick={props.onClick}
-    //             style={style}
-    //             disabled={props.disabled}
-    //         >
-    //             <ButtonInner {...props} />
-    //         </button>
-    //     );
-    // });
     if (props.noWrap) {
         return (
             <Tooltip title={props.title}>

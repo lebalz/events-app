@@ -97,13 +97,13 @@ const AudiencePicker = observer((props: Props) => {
                     className={clsx(styles.tabItems)}
                 />
                 <AudienceSelector event={event} />
-                {!error && (
+                {!error && event.isDraft && (
                     <div className={clsx(styles.normalize)}>
                         <Button
                             onClick={() => event.normalizeAudience()}
                             apiState={eventStore.apiStateFor(`normalize-audience-${event.id}`)}
                             text={translate({
-                                message: 'Publikum konsolidieren',
+                                message: 'Redundanzen Entfernen',
                                 id: 'audiencePicker.normalize-audience.text'
                             })}
                             icon={mdiSetAll}

@@ -2194,7 +2194,7 @@
     "message": "{name} bereits aktiv über Jahrgang oder Abteilung {department}"
   },
   "audiencePicker.normalize-audience.text": {
-    "message": "Publikum konsolidieren"
+    "message": "Redundanzen Entfernen"
   },
   "audiencePicker.normalize-audience.title": {
     "message": "Entfernt redundante Publikums-Informationen, indem bspw. bereits enthaltene Klassen entfernt werden. Beim Einreichen wird das Publikum automatisch normalisiert."
