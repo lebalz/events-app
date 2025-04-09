@@ -328,7 +328,9 @@ const AudienceDropdownSelector = observer((props: Props) => {
                 onInputChange={(newValue) => {
                     setInputValue(newValue);
                 }}
+                menuPortalTarget={document.body}
                 styles={{
+                    menuPortal: (base) => ({ ...base, zIndex: '1000' }),
                     menu: (base) => ({ ...base, zIndex: 'calc(var(--ifm-z-index-dropdown) + 10)' }),
                     container: (base) => ({ ...base, minWidth: '15em' }),
                     multiValueLabel: (base) => ({
