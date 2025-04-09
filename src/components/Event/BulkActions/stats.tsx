@@ -26,6 +26,7 @@ interface Props {
     rightActions?: React.ReactNode | React.ReactNode[];
     className?: string;
     actionConfig?: Partial<ActionConfig>;
+    noFilter?: boolean;
 }
 
 const Stats = observer((props: Props) => {
@@ -52,13 +53,15 @@ const Stats = observer((props: Props) => {
             />
 
             <div className={clsx(styles.spacer)} />
-            <Filter
-                eventTable={eventTable}
-                hideMine
-                flexWidth
-                showCurrentAndFuture={false}
-                showSelectLocation="advanced"
-            />
+            {!props.noFilter && (
+                <Filter
+                    eventTable={eventTable}
+                    hideMine
+                    flexWidth
+                    showCurrentAndFuture={false}
+                    showSelectLocation="advanced"
+                />
+            )}
             {props.middleActions}
             <div className={clsx(styles.spacer)} />
             {actionConfig.downlaod && (

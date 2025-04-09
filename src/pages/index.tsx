@@ -21,6 +21,8 @@ import {
     mdiPalette,
     mdiPen,
     mdiSecurity,
+    mdiToggleSwitch,
+    mdiToggleSwitchOutline,
     mdiViewList
 } from '@mdi/js';
 import Link from '@docusaurus/Link';
@@ -262,28 +264,6 @@ const Home = observer(() => {
                     {i18n?.currentLocale === 'de' ? (
                         <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
                             <div className="card__header">
-                                <h2>Einführung Terminkalender</h2>
-                            </div>
-                            <div className="card__body">
-                                Der Terminkalender ist noch in der Einführungsphase, was folgende
-                                Einschränkungen mit sich bringt:
-                                <ul>
-                                    <li>
-                                        <b>Erfasste Termine werden erst für das FS2025 veröffentlicht.</b>
-                                    </li>
-                                    <li>
-                                        Die URL der abonnierten Kalender könnte sich während der
-                                        Einführungsphase ändern. Dann würden Sie informiert und müssten den
-                                        Kalender erneut abonnieren.
-                                    </li>
-                                    <li>
-                                        Nicht alles wird bereits perfekt funktionieren. Rückmeldungen zu
-                                        Fehlern oder Anregungen sind nach wie vor sehr willkommen.
-                                    </li>
-                                </ul>
-                                <h3>Vielen Dank für die Mithilfe!</h3>
-                            </div>
-                            <div className="card__header">
                                 <h1>Wie funktioniert's?</h1>
                             </div>
                             <div className="card__body">
@@ -314,47 +294,135 @@ const Home = observer(() => {
                                 />
                             </div>
                             <div className="card__body">
-                                <h4>Version: Release Candidate 1.5 (11.3.2025)</h4>
+                                <h4>Version: Release Candidate 1.6 (9.4.2025)</h4>
                                 <ul>
+                                    <li>🚀 Neu: Alle Terminansichten können gefiltert werden.</li>
                                     <li>
-                                        🚀 Neu: Bei der Termineingabe lassen sich Klassen, Klassengruppen und
-                                        Abteilungen auch per Drow-Down hinzufügen.
+                                        🚀 Neu: Selbst erfasste, neue Schulklassen (die noch nicht auf
+                                        WebUntis geführt werden), werden nun auch als Option angezeigt.
                                     </li>
                                     <li>
-                                        🚀 Neu: Für das Feld "Unterricht betroffen" wird nun eine Erklärung
-                                        mit Beispielen angezeigt.
+                                        🚀 Neu: Optimierung der Abteilungs- und Klassenauswahl.
                                         <ul>
                                             <li>
-                                                Die Beispiele werden standardmässig angezeigt, können aber
-                                                auch ausgeblendet werden.
+                                                Toggle-Button{' '}
+                                                <Icon
+                                                    path={mdiToggleSwitchOutline}
+                                                    size={0.8}
+                                                    color="var(--ifm-color-success)"
+                                                />
+                                                , um alle Klassen eines Jahrgangs aus- oder abzuwählen.
                                             </li>
                                             <li>
-                                                <Video
-                                                    src="/videos/Events-Demo-teachingAffected.mp4"
-                                                    autoplay
-                                                    loop
-                                                    style={{ maxWidth: '40em' }}
-                                                />
+                                                Möglichkeit zum Entfernen von Redundanzen - ist bspw. die{' '}
+                                                <strong className="boxed">28Gj</strong> und gleichzeitig die
+                                                Abteilung <strong className="boxed">GYMD</strong> ausgewählt,
+                                                ist die Klasse <strong className="boxed">28Gj</strong>{' '}
+                                                implizit bereits betroffen, so dass sie nicht erfasst werden
+                                                muss.
+                                                <br />
+                                                Dieser Schritt passiert automatisch beim Einreichen eines
+                                                Termins - er kann aber auch manuell vorgängig ausgelöst
+                                                werden.
+                                            </li>
+                                            <li>
+                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                    <div className="card" style={{ maxWidth: '40em' }}>
+                                                        <div className="card__image">
+                                                            <img
+                                                                src={
+                                                                    require('./images/select-audience.png')
+                                                                        .default
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <div className="card__body">
+                                                            <ol type="1" style={{ listStyleType: 'decimal' }}>
+                                                                <li>
+                                                                    Eine ganze Klassenstufe wird ausgewählt -{' '}
+                                                                    <strong className="boxed">25G*</strong>{' '}
+                                                                    wird hinzugefügt
+                                                                </li>
+                                                                <li>
+                                                                    Alle Klassen einer Stufe über den
+                                                                    "Toggle-Button" ausgewählt, es werden{' '}
+                                                                    <code>13</code> Klassen einzeln
+                                                                    hinzugefügt.
+                                                                </li>
+                                                                <li>Einzelne Klasse ausgewählt.</li>
+                                                                <li>Knopf zum Entfernen von Redundanzen</li>
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>
                                     <li>
-                                        💅 Verbesserung: Ist kein Anmeldefenster offen, wird dies als
-                                        Information angezeigt, der Termin erscheint aber nicht mehr als
-                                        invalid.
+                                        🚀 Neu [Administrativ]: Optional zum Abteilungsbuchstaben (bspw.{' '}
+                                        <strong className="boxed">G</strong> für `GYMD`) kann ein{' '}
+                                        <b>Anzeigebuchstaben</b> festgelegt werden. Dadurch kann bspw. die{' '}
+                                        <strong className="boxed">FMPäd</strong> und{' '}
+                                        <strong className="boxed">MSOP</strong> als eigene Abteilung mit den
+                                        Buchstaben <strong className="boxed">E</strong> bzw.{' '}
+                                        <strong className="boxed">e</strong> geführt werden, sie werden jedoch
+                                        nach wie vor mit dem Anzeigebuchstaben{' '}
+                                        <strong className="boxed">F</strong> bzw.{' '}
+                                        <strong className="boxed">s</strong> angezeigt.
+                                        <div className="alert alert--warning">
+                                            Soll die gesamte Klassenstufe ausgewählt werden (wenn es sie noch
+                                            nicht gibt), muss im Eingabefeld{' '}
+                                            <strong className="boxed">26E*</strong> eingegeben werden (
+                                            <strong className="boxed">26F*</strong> wäre ja für die FMS).
+                                        </div>
                                     </li>
                                     <li>
-                                        💅: Verbesserung: Um Warnungen und Hinweise bei neuen Terminen
-                                        anzuzeigen, muss das Symbol nicht mehr angeklickt werden - das
-                                        drüberfahren mit der Maus reicht.
-                                    </li>
-                                    <li>
-                                        🐛 Fix: Bei fehlerhaften Login-Versuchen sollte nun ein Hinweis
-                                        erscheinen, wie das Problem behoben werden kann.
+                                        🚀 Neu [Administrativ]: Bei den Abteilungen kann die Ausbildungsdauer
+                                        in Jahren hinterlegt werden. Somit ist es möglich, die für einen
+                                        Termin relevanten Klassen anzuzeigen.
                                     </li>
                                 </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: Release Candidate 1.5 (11.3.2025)</h4>
+                                    <ul>
+                                        <li>
+                                            🚀 Neu: Bei der Termineingabe lassen sich Klassen, Klassengruppen
+                                            und Abteilungen auch per Drow-Down hinzufügen.
+                                        </li>
+                                        <li>
+                                            🚀 Neu: Für das Feld "Unterricht betroffen" wird nun eine
+                                            Erklärung mit Beispielen angezeigt.
+                                            <ul>
+                                                <li>
+                                                    Die Beispiele werden standardmässig angezeigt, können aber
+                                                    auch ausgeblendet werden.
+                                                </li>
+                                                <li>
+                                                    <Video
+                                                        src="/videos/Events-Demo-teachingAffected.mp4"
+                                                        autoplay
+                                                        loop
+                                                        style={{ maxWidth: '40em' }}
+                                                    />
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            💅 Verbesserung: Ist kein Anmeldefenster offen, wird dies als
+                                            Information angezeigt, der Termin erscheint aber nicht mehr als
+                                            invalid.
+                                        </li>
+                                        <li>
+                                            💅: Verbesserung: Um Warnungen und Hinweise bei neuen Terminen
+                                            anzuzeigen, muss das Symbol nicht mehr angeklickt werden - das
+                                            drüberfahren mit der Maus reicht.
+                                        </li>
+                                        <li>
+                                            🐛 Fix: Bei fehlerhaften Login-Versuchen sollte nun ein Hinweis
+                                            erscheinen, wie das Problem behoben werden kann.
+                                        </li>
+                                    </ul>
                                     <h4>Version: Release Candidate 1.4 (6.1.2025)</h4>
                                     <ul>
                                         <li>

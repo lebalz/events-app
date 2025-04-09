@@ -39,6 +39,7 @@ const Table = observer(() => {
                         <BulkActions
                             eventTable={viewStore.eventTable}
                             className={clsx(styles.bulkActions)}
+                            noFilter
                             leftActions={[
                                 <Button
                                     icon={mdiCheckboxBlankBadge}

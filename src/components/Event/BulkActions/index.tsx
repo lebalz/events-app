@@ -64,6 +64,7 @@ export interface Props {
     className?: string;
     actionConfig?: Partial<ActionConfig>;
     eventTable: EventTable;
+    noFilter?: boolean;
 }
 
 const BulkActions = observer((props: Props) => {
@@ -87,6 +88,7 @@ const BulkActions = observer((props: Props) => {
                 rightActions={props.rightActions}
                 className={clsx(props.className)}
                 actionConfig={props.actionConfig}
+                noFilter={props.noFilter}
             />
         );
     }
@@ -117,13 +119,15 @@ const BulkActions = observer((props: Props) => {
                     />
                 }
             />
-            <Filter
-                eventTable={eventTable}
-                hideMine
-                flexWidth
-                showCurrentAndFuture={false}
-                showSelectLocation="advanced"
-            />
+            {!props.noFilter && (
+                <Filter
+                    eventTable={eventTable}
+                    hideMine
+                    flexWidth
+                    showCurrentAndFuture={false}
+                    showSelectLocation="advanced"
+                />
+            )}
             {sameState && actionConfig.stateActions && (
                 <div className={clsx(styles.stateActions)}>
                     <ValidationChecker events={eventTable.selectedEvents} />

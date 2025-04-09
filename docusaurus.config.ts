@@ -15,7 +15,7 @@ import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/
 import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
 
 
-const VERSION = 'rc-1.5';
+const VERSION = 'rc-1.6';
 
 const defaultLocale = 'de';
 
