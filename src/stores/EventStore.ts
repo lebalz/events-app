@@ -8,6 +8,7 @@ import {
     clone as apiClone,
     all as apiFetchEvents,
     updateMeta,
+    normalizeAudience as apiNormalizeAudience,
     Meta,
     updateBatched as apiUpdateBatched,
     deleteMany as apiDeleteMany
@@ -21,13 +22,14 @@ import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
 import AudienceShifter from '../components/EventGroup/BulkEditor/ShiftAudience/AudienceShifter';
-import { classes } from '../api/untis';
 import { KlassName } from '../models/helpers/klassNames';
+import scheduleMicrotask from '../models/helpers/scheduleMicrotask';
 
 export class EventStore extends iStore<
     EventProps,
     | 'download-excel'
     | `clone-${string}`
+    | `normalize-audience-${string}`
     | `update-meta-${string}`
     | `update-batched-${string}`
     | `load-versions-${string}`
@@ -52,6 +54,11 @@ export class EventStore extends iStore<
             return isAuthor || event.groups.some((g) => g.userIds.has(this.root.userStore.current?.id));
         }
         return !!this.root.userStore.current;
+    }
+
+    canDelete(event: Event) {
+        const isAuthor = event.authorId === this.root.userStore.current?.id;
+        return isAuthor || event.groups.some((g) => g.userIds.has(this.root.userStore.current?.id));
     }
 
     affectsUser(event: Event) {
@@ -134,6 +141,16 @@ export class EventStore extends iStore<
                 return `${d.lang === locale ? '0' : '1'}${/GYM/i.test(d.name) ? '0' : '1'}${d.department2_Id ? '1' : '0'}${d.name}`;
             }
         );
+    }
+
+    getDepartmentsByLetter(letter: string): Department[] {
+        return this.root.departmentStore.findByDepartmentLetter(letter);
+    }
+
+    @computed
+    get getUsedUnknownClassNames(): KlassName[] {
+        const cnRegex = /^\d\d([A-Z][a-z]|[a-z][A-Z])$/;
+        return [...new Set(this.events.flatMap((e) => e._unknownClassNames))].filter((c) => cnRegex.test(c));
     }
 
     @computed
@@ -305,6 +322,31 @@ export class EventStore extends iStore<
             });
         });
     }
+    @action
+    normalizeAudience(event: Event) {
+        if (!event.isDraft) {
+            return Promise.resolve(event);
+        }
+        const wasEditing = event.isEditing;
+        return this.save(event).then(() => {
+            if (wasEditing) {
+                this.find(event.id)?.setEditing(true);
+            }
+            return this.withAbortController(`normalize-audience-${event.id}`, (sig) => {
+                return apiNormalizeAudience(event.id, sig.signal).then(({ data }) => {
+                    if (data) {
+                        const model = this.addToStore(data) as Event;
+                        if (wasEditing) {
+                            scheduleMicrotask(() => {
+                                model.setEditing(true);
+                            });
+                        }
+                    }
+                    return data;
+                });
+            });
+        });
+    }
 
     @action
     shiftEventDates(events: Event[], shiftMs: number) {
@@ -327,7 +369,7 @@ export class EventStore extends iStore<
         const updated = events
             .filter((e) => e.isDraft)
             .map((event) => {
-                const updatedClasses = [...event._selectedClassNames]
+                const updatedClasses = [...event.classes]
                     .map((c) => shifter.audience.get(c))
                     .filter((a) => !!a) as KlassName[];
                 const updatedClassGroups = [...event.classGroups]
@@ -342,7 +384,7 @@ export class EventStore extends iStore<
                     let description = event.description;
                     let descriptionLong = event.descriptionLong;
                     let location = event.location;
-                    [...event._selectedClassNames].forEach((klass) => {
+                    [...event.classes].forEach((klass) => {
                         const untisClass = this.root.untisStore.findClassByName(klass);
                         const newClass = this.root.untisStore.findClassByName(
                             shifter.audience.get(klass) || ''

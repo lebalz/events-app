@@ -124,7 +124,6 @@ export class RootStore {
         }
         return Promise.all(
             this.loadableStores.map((store) => {
-                console.log('load', type, store.constructor.name);
                 if (type === 'public') {
                     return store.loadPublic(semesterId);
                 } else {

@@ -11,7 +11,7 @@ const GanttView = observer(() => {
     const { eventTable } = viewStore;
     return (
         <Layout>
-            <Filter showCurrentAndFuture />
+            <Filter showCurrentAndFuture eventTable={viewStore.eventTable} />
             <Timeline events={eventTable.events} />
         </Layout>
     );

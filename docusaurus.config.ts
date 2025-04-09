@@ -15,7 +15,7 @@ import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/
 import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
 
 
-const VERSION = 'rc-1.5';
+const VERSION = 'rc-1.6';
 
 const defaultLocale = 'de';
 
@@ -121,9 +121,7 @@ const config: Config = {
         /** The application id uri generated in https://portal.azure.com */
         API_URI: process.env.REACT_APP_API_URI,
         GIT_COMMIT_SHA: process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7),
-        CURRENT_LOCALE: (process.env.DOCUSAURUS_CURRENT_LOCALE && process.env.DOCUSAURUS_CURRENT_LOCALE !== 'undefined') ?
-            process.env.DOCUSAURUS_CURRENT_LOCALE :
-            defaultLocale,
+        CURRENT_LOCALE: getLocale()
     },
 
     // Even if you don't use internalization, you can use this field to set useful

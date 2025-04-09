@@ -5,15 +5,13 @@ import styles from './styles.module.scss';
 import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import { default as DepartmentModel } from '@site/src/models/Department';
-import Department from './Department';
 import Button from '../Button';
 import _ from 'lodash';
 import Translate, { translate } from '@docusaurus/Translate';
-import Info from '../../Event/EventFields/AudienceOptions/Info';
-import AudienceSelector from './AuienceDropdownSelector';
+import AudienceSelector from './AudienceDropdownSelector';
+import DepartmentTab from './DepartmentTab';
+import { mdiSetAll } from '@mdi/js';
+import { SIZE_S } from '../icons';
 
 interface Props {
     event: EventModel;
@@ -21,15 +19,15 @@ interface Props {
 }
 
 const AudiencePicker = observer((props: Props) => {
+    const { event } = props;
     const departmentStore = useStore('departmentStore');
+    const eventStore = useStore('eventStore');
     const userStore = useStore('userStore');
     const { current } = userStore;
     if (!current) {
         return null;
     }
 
-    const departments = departmentStore.groupedByLetter;
-    const { event } = props;
     const error = event.errorFor('audience');
     const {
         someDepartments,
@@ -51,7 +49,6 @@ const AudiencePicker = observer((props: Props) => {
                         Schulen/Klassen
                     </Translate>
                 </h4>
-                <AudienceSelector event={event} />
                 <div className={clsx(styles.flex)}>
                     <Button
                         text={translate({
@@ -94,29 +91,33 @@ const AudiencePicker = observer((props: Props) => {
                         }}
                     />
                 </div>
-                <Tabs className={clsx(styles.tabs)} lazy>
-                    {Object.keys(departments)
-                        .sort()
-                        .map((letter, idx) => {
-                            const color = (departments[letter] as DepartmentModel[])[0].color;
-                            const touched = (departments[letter] as DepartmentModel[]).some((d) =>
-                                d.classes.some((c) => event.affectsClass(c))
-                            );
-                            return (
-                                <TabItem
-                                    value={letter}
-                                    label={departmentStore.letterToName(letter)}
-                                    key={letter}
-                                    attributes={{
-                                        className: clsx(touched && styles.touched),
-                                        style: { color: color }
-                                    }}
-                                >
-                                    <Department departments={departments[letter]} event={event} />
-                                </TabItem>
-                            );
-                        })}
-                </Tabs>
+                <DepartmentTab
+                    departments={departmentStore.groupedByLetter}
+                    event={event}
+                    className={clsx(styles.tabItems)}
+                />
+                <AudienceSelector event={event} />
+                {!error && event.isDraft && (
+                    <div className={clsx(styles.normalize)}>
+                        <Button
+                            onClick={() => event.normalizeAudience()}
+                            apiState={eventStore.apiStateFor(`normalize-audience-${event.id}`)}
+                            text={translate({
+                                message: 'Redundanzen Entfernen',
+                                id: 'audiencePicker.normalize-audience.text'
+                            })}
+                            icon={mdiSetAll}
+                            iconSide="left"
+                            color="primary"
+                            size={SIZE_S}
+                            title={translate({
+                                message:
+                                    'Entfernt redundante Publikums-Informationen, indem bspw. bereits enthaltene Klassen entfernt werden. Beim Einreichen wird das Publikum automatisch normalisiert.',
+                                id: 'audiencePicker.normalize-audience.title'
+                            })}
+                        />
+                    </div>
+                )}
                 {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
         </div>

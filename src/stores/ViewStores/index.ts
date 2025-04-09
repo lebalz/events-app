@@ -18,7 +18,7 @@ import type {
     ClassOption,
     DepartmentOption,
     Option
-} from '@site/src/components/shared/AudiencePicker/AuienceDropdownSelector';
+} from '@site/src/components/shared/AudiencePicker/AudienceDropdownSelector';
 import { GroupBase } from 'react-select';
 import { translate } from '@docusaurus/Translate';
 import LocalUserSettings from './LocaUserSettings';
@@ -34,7 +34,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @observable accessor showFullscreenButton = false;
     @observable accessor fullscreen = false;
 
-    @observable.ref accessor eventTable: EventTable;
+    @observable.ref accessor eventTables = observable.map<string, EventTable>();
 
     @observable accessor _semesterId = '';
 
@@ -66,7 +66,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     constructor(store: RootStore) {
         this.root = store;
-        this.eventTable = new EventTable(this);
+        this.eventTables.set('root', new EventTable(this, undefined, true));
         this.colors = new Colors(this);
         this.userSettings = new LocalUserSettings(this);
         this.adminUserTable = new AdminUserTable(this);
@@ -86,6 +86,29 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                 }
             }
         );
+    }
+
+    @computed
+    get eventTable() {
+        return this.eventTables.get('root');
+    }
+
+    @action
+    getOrCreateEventTable(id: string, events?: Event[]) {
+        if (this.eventTables.has(id)) {
+            return this.eventTables.get(id)!;
+        }
+        const table = new EventTable(this, events);
+        this.eventTables.set(id, table);
+        return table;
+    }
+
+    @action
+    cleanupEventTable(id: string) {
+        if (id === 'root') {
+            return;
+        }
+        this.eventTables.delete(id);
     }
 
     usersEvents = ({
@@ -336,7 +359,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @computed
     get icalListClassesFiltered() {
-        const match = (klass: Klass, s: string) => klass.legacyName?.includes(s) || klass.name.includes(s);
+        const match = (klass: Klass, s: string) => klass._displayName?.includes(s) || klass.name.includes(s);
         return this.root.untisStore.classes.filter((c) => match(c, this.icalListClassFilter));
     }
 

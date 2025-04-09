@@ -10,6 +10,7 @@ import Batch from './Batch';
 import Group from './Group';
 import ColumnHeader from './ColumnHeader';
 import { useStore } from '@site/src/stores/hooks';
+import EventTable from '@site/src/stores/ViewStores/EventTable';
 
 interface ConfigOptionsBase {
     width?: string;
@@ -65,7 +66,7 @@ export const BATCH_SIZE = 15 as const;
 export type ColumnConfig = (keyof typeof DefaultConfig | [keyof typeof DefaultConfig, ConfigOptions])[];
 
 export interface Props {
-    events: EventModel[];
+    eventTable: EventTable;
     columns: ColumnConfig;
     defaultSortBy?: keyof typeof DefaultConfig;
     className?: string;
@@ -129,42 +130,29 @@ const Grid = observer(
             props.defaultSortBy || 'start'
         );
         const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('asc');
+        const { eventTable } = props;
+        const { events } = eventTable;
         const groupEvents = React.useMemo(() => {
             const grouped = createGroupEvents({
-                events: props.events,
+                events: events,
                 groupBy: props.groupBy,
                 orderBy: sortBy,
                 direction: sortDirection
             });
             return grouped;
-        }, [props.events, sortBy, sortDirection]);
+        }, [events, sortBy, sortDirection]);
         const [columns, setColumns] = React.useState<[keyof typeof DefaultConfig, ConfigOptions][]>([]);
-        const viewStore = useStore('viewStore');
         React.useEffect(() => {
             const config: [keyof typeof DefaultConfig, ConfigOptions][] = [];
-            const onSelect = (event: EventModel, selected: boolean, shiftKey: boolean) => {
-                if (selected && shiftKey) {
-                    const items = groupEvents
-                        .flat()
-                        .filter((e) => e.type === 'event')
-                        .map((e) => (e as ViewEvent).model);
-                    const idx = items.findIndex((e) => e.id === event.id);
-                    const topIdx = items.slice(0, idx).findLastIndex((e) => e.selected);
-                    if (topIdx > -1) {
-                        items.slice(topIdx, idx).forEach((e) => e.setSelected(selected));
-                    }
-                }
-                event.setSelected(selected);
-            };
 
             props.columns.forEach((col, idx) => {
                 const isConfig = typeof col !== 'string';
                 const name = isConfig ? col[0] : col;
                 const defaultConf = {
                     ...DefaultConfig[name],
-                    ...(name === 'select' ? { componentProps: { onSelect } } : {})
+                    ...(name === 'select' ? { componentProps: { eventTable } } : {})
                 };
-                if (viewStore.eventTable.isDescriptionExpanded && name === 'description') {
+                if (eventTable.isDescriptionExpanded && name === 'description') {
                     defaultConf.width = '45em';
                 }
                 if (!defaultConf) {
@@ -180,7 +168,7 @@ const Grid = observer(
                 ]);
             });
             setColumns(config);
-        }, [props.columns, groupEvents, viewStore.eventTable.isDescriptionExpanded]);
+        }, [props.columns, groupEvents, eventTable.isDescriptionExpanded]);
 
         const gridTemplateColumns = `repeat(${props.columns.length}, max-content)`;
         return (
@@ -199,13 +187,17 @@ const Grid = observer(
                             }
                         };
                         if (name === 'select') {
-                            isActive = props.events.every((e) => e.selected);
+                            isActive = eventTable.selectedEvents.length === events.length;
                             onClick = () => {
-                                props.events.forEach((e) => e.setSelected(!isActive));
+                                eventTable.setSelectedEvents(
+                                    events.map((e) => e.id),
+                                    !isActive
+                                );
                             };
                         }
                         return (
                             <ColumnHeader
+                                eventTable={eventTable}
                                 key={idx}
                                 name={name}
                                 gridColumn={idx + 1}

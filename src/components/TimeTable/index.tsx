@@ -49,8 +49,6 @@ const TimeTable = observer((props: Props) => {
             .filter((l) => l.isFirstSuccessiveLesson)
             .map((l, idx): FullEventProps => {
                 const klGroups = Lesson.GroupedClassesByYear([l]);
-                // const klGroups = Klass.ClassNamesGroupedByYear(l.classes);
-                // const kl = Object.values(klGroups).join(', ');
                 const kl = Object.values(klGroups).sort().join(', ');
                 const lastLesson = l.lastSuccessiveLesson ?? l;
                 return {

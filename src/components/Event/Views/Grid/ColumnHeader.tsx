@@ -20,10 +20,12 @@ import Button, { ButtonIcon } from '../../../shared/Button';
 import { ConfigOptionsSortable, DefaultConfig } from '.';
 import Tooltip from '../../../shared/Tooltip';
 import { useStore } from '@site/src/stores/hooks';
+import EventTable from '@site/src/stores/ViewStores/EventTable';
 
 interface Props extends Partial<ConfigOptionsSortable> {
     gridColumn: number;
     name: keyof typeof DefaultConfig;
+    eventTable: EventTable;
     active?: 'asc' | 'desc' | boolean;
     onClick?: () => void;
 }
@@ -127,7 +129,7 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
 };
 
 const ColumnHeader = observer((props: Props) => {
-    const viewStore = useStore('viewStore');
+    const { eventTable } = props;
     let content: React.ReactNode = HeaderTitles[props.name];
     let title: string | undefined = undefined;
     switch (props.name) {
@@ -165,20 +167,16 @@ const ColumnHeader = observer((props: Props) => {
                     {content}
                     <Button
                         icon={
-                            viewStore.eventTable.isDescriptionExpanded
+                            eventTable.isDescriptionExpanded
                                 ? mdiArrowCollapseHorizontal
                                 : mdiArrowExpandHorizontal
                         }
                         size={0.7}
-                        active={viewStore.eventTable.isDescriptionExpanded}
-                        onClick={() =>
-                            viewStore.eventTable.setDescriptionExpanded(
-                                !viewStore.eventTable.isDescriptionExpanded
-                            )
-                        }
+                        active={eventTable.isDescriptionExpanded}
+                        onClick={() => eventTable.setDescriptionExpanded(!eventTable.isDescriptionExpanded)}
                         className={clsx(styles.expandButton)}
                         title={
-                            viewStore.eventTable.isDescriptionExpanded
+                            eventTable.isDescriptionExpanded
                                 ? translate({
                                       description:
                                           'Message when hovering the expand button when it is expanded',

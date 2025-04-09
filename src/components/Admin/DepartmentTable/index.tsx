@@ -76,6 +76,32 @@ const DepartmentTable = observer((props: Props) => {
                             <Button
                                 size={SIZE_S}
                                 iconSide="left"
+                                icon={adminDepartmentTable.sortColumn === 'displayLetter' && icon}
+                                text={translate({
+                                    message: 'Anzeigebuchstabe',
+                                    description: 'th: department displayLetter',
+                                    id: 'admin.DepartmentTable.th.displayLetter'
+                                })}
+                                onClick={() => adminDepartmentTable.setSortColumn('displayLetter')}
+                            />
+                        </th>
+                        <th>
+                            <Button
+                                size={SIZE_S}
+                                iconSide="left"
+                                icon={adminDepartmentTable.sortColumn === 'schoolYears' && icon}
+                                text={translate({
+                                    message: 'Schuljahre',
+                                    description: 'th: department schoolYears',
+                                    id: 'admin.DepartmentTable.th.schoolYears'
+                                })}
+                                onClick={() => adminDepartmentTable.setSortColumn('schoolYears')}
+                            />
+                        </th>
+                        <th>
+                            <Button
+                                size={SIZE_S}
+                                iconSide="left"
                                 icon={adminDepartmentTable.sortColumn === 'color' && icon}
                                 text={translate({
                                     message: 'Farbe',

@@ -6,6 +6,7 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 import _ from 'lodash';
 import { ApiAction } from '../stores/iStore';
 import Klass from './Untis/Klass';
+import { currentGradeYear } from './helpers/time';
 
 export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
@@ -22,6 +23,7 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         'name',
         'description',
         'color',
+        'schoolYears',
         'department1_Id',
         'department2_Id',
         {
@@ -35,6 +37,19 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
                             isCapital ? l.toLowerCase() : l.toUpperCase()
                         )
                     });
+                }
+                return val;
+            }
+        },
+        {
+            attr: 'displayLetter',
+            transform: (val) => {
+                if (!val) {
+                    return null;
+                }
+                const isCapital = val.toUpperCase() === val;
+                if (this.isCapitalLetter !== isCapital) {
+                    return isCapital ? val.toLowerCase() : val.toUpperCase();
                 }
                 return val;
             }
@@ -59,7 +74,9 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @observable accessor department1_Id: string | null | undefined;
     @observable accessor department2_Id: string | null | undefined;
 
+    @observable accessor schoolYears: number;
     @observable accessor letter: string;
+    @observable accessor _displayLetter: string | null | undefined;
 
     classLetters = observable.set<string>([]);
 
@@ -71,8 +88,10 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this._pristine = props;
         this.id = props.id;
         this.name = props.name;
+        this.schoolYears = props.schoolYears;
         this.color = props.color;
         this.letter = props.letter;
+        this._displayLetter = props.displayLetter;
         this.description = props.description;
         this.classLetters.replace(props.classLetters.sort());
         this.department1_Id = props.department1_Id;
@@ -128,6 +147,38 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
+    get isOneYearDegree(): boolean {
+        return this.schoolYears === 1;
+    }
+
+    @computed
+    get displayLetter(): string {
+        return this._displayLetter || this.letter;
+    }
+
+    @computed
+    get usedUnknownClasses() {
+        return this.store.getUsedUnknownClassNames
+            .filter((n) => n.charAt(2) === this.letter && this.classLetters.has(n.charAt(3)))
+            .map(
+                (c) =>
+                    new Klass(
+                        {
+                            departmentId: this.id,
+                            displayName: c.replace(this.letter, this.displayLetter),
+                            id: -1,
+                            lessonIds: [],
+                            name: c,
+                            sf: '',
+                            teacherIds: [],
+                            year: 2000 + Number.parseInt(c.slice(0, 2), 10)
+                        },
+                        this.store.root.untisStore
+                    )
+            );
+    }
+
+    @computed
     get classGroups(): Set<string> {
         return new Set<string>(this.classes.map((c) => c.name.slice(0, 3)));
     }
@@ -164,20 +215,14 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         return this.isCapitalLetter ? 'de' : 'fr';
     }
 
-    @computed
-    get schoolDuration(): number {
-        if (Duration4Years.has(this.letter as DepartmentLetter)) {
-            return 4;
-        }
-        return 3;
-    }
-
     get props(): DepartmentProps {
         return {
             id: this.id,
             name: this.name,
             color: this.color,
+            schoolYears: this.schoolYears,
             letter: this.letter as DepartmentLetter,
+            displayLetter: this._displayLetter as DepartmentLetter | null,
             department1_Id: this.department1_Id,
             department2_Id: this.department2_Id,
             classLetters: [...this.classLetters],

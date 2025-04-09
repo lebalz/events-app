@@ -55,7 +55,7 @@ export interface Subject {
 export interface UntisClass {
     id: number;
     name: KlassName;
-    legacyName: string | null;
+    displayName: string | null;
     sf: string;
     year: number;
     departmentId: string | null;

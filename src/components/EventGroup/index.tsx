@@ -32,6 +32,8 @@ import Popup from 'reactjs-popup';
 import DiffViewer from '../Event/DiffViewer';
 import ShiftAudience from './BulkEditor/ShiftAudience';
 import Selector from './Groups/Collection/Selector';
+import { useEventTable } from '../EventsViewer/useEventTable';
+import Loader from '../shared/Loader';
 
 interface Props {
     group: EventGroupModel;
@@ -67,6 +69,7 @@ const UserEventGroup = observer((props: Props) => {
     const [viewType, setViewType] = React.useState<View>(View.Grid);
     const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
     const shareUrl = useBaseUrl(group.shareUrl);
+    const eventTable = useEventTable(group.events);
 
     React.useEffect(() => {
         if ((isOpen || props.standalone) && store.isLoggedIn) {
@@ -86,8 +89,13 @@ const UserEventGroup = observer((props: Props) => {
             setColumnConfig([...toAdd, ...DEFAULT_COLUMN_CONFIG]);
         }
     }, [group.isFullyLoaded]);
-    const drafts = group.events.filter((e) => e.isDraft);
-    const toShift = drafts.some((e) => e.selected) ? drafts.filter((e) => e.selected) : drafts;
+    if (!eventTable) {
+        return <Loader />;
+    }
+    const toShift =
+        eventTable.selectedEvents.length > 0
+            ? eventTable.selectedEvents.filter((e) => e.isDraft)
+            : eventTable.events.filter((e) => e.isDraft);
 
     return (
         <div
@@ -327,7 +335,7 @@ const UserEventGroup = observer((props: Props) => {
                                     </dd>
                                 </>
                             )}
-                            {group.events.some((e) => e.isDirty) && (
+                            {eventTable.events.some((e) => e.isDirty) && (
                                 <>
                                     <dt>
                                         <Translate id="group.groupActions">Aktionen</Translate>
@@ -417,6 +425,7 @@ const UserEventGroup = observer((props: Props) => {
                                 />
                             ]
                         }}
+                        eventTable={eventTable}
                         events={group.events}
                         type={viewType}
                         gridConfig={{

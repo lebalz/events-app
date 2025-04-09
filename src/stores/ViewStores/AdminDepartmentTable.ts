@@ -4,7 +4,14 @@ import Department from '@site/src/models/Department';
 import _ from 'lodash';
 class AdminDepartmentTable {
     private readonly store: ViewStore;
-    @observable accessor sortColumn: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' = 'letter';
+    @observable accessor sortColumn:
+        | 'name'
+        | 'color'
+        | 'createdAt'
+        | 'updatedAt'
+        | 'letter'
+        | 'schoolYears'
+        | 'displayLetter' = 'letter';
     @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
     constructor(store: ViewStore) {
         this.store = store;
@@ -20,7 +27,9 @@ class AdminDepartmentTable {
     }
 
     @action
-    setSortColumn(column: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter'): void {
+    setSortColumn(
+        column: 'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' | 'displayLetter' | 'schoolYears'
+    ): void {
         if (this.sortColumn === column) {
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
         } else {

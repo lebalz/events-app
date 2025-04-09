@@ -25,7 +25,8 @@ import {
     getLastMonday,
     DAYS_LONG,
     dateBetween,
-    formatDateLong
+    formatDateLong,
+    currentGradeYear
 } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
@@ -166,8 +167,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable accessor versionsLoaded: boolean = false;
 
-    @observable accessor selected: boolean = false;
-
     @observable.ref accessor _errors: Joi.ValidationError | undefined;
 
     @observable accessor affectsDepartment2: boolean;
@@ -194,7 +193,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.descriptionLong = props.descriptionLong;
         this.location = props.location;
         this.audience = props.audience;
-        this.allLPs = this.departmentIds.size > 0 && props.classes.length === 0;
         this.teachingAffected = props.teachingAffected;
         this.cloned = props.cloned;
         this.publishedVersionIds = props.publishedVersionIds;
@@ -387,11 +385,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return undefined;
     }
 
-    @action
-    setAllLPs(allLPs: boolean) {
-        this.allLPs = allLPs;
-    }
-
     @computed
     get author() {
         return this.store.root.userStore.find<User>(this.authorId);
@@ -459,7 +452,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     toggleClass(klass: KlassName) {
-        this.setClass(klass, !this.affectedClassNames.has(klass));
+        this.setClass(klass, !this.classes.has(klass));
     }
 
     @action
@@ -473,36 +466,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         } else if (currentActive && !value) {
             this.classes.delete(klass);
         }
-        if (!value) {
-            const classGroupName = klass.slice(0, 3);
-            if (this.classGroups.has(classGroupName)) {
-                this.classGroups.delete(classGroupName);
-                const allOfGroup = this.store.root.untisStore.findClassesByGroupName(classGroupName);
-                allOfGroup.forEach((c) => {
-                    if (c.name !== klass) {
-                        this.classes.add(c.name);
-                    }
-                });
-            }
-            const department = this.departments.find((d) => d.classes.some((c) => c.name === klass));
-            if (department) {
-                this.departmentIds.delete(department.id);
-                department.classes.forEach((c) => {
-                    if (c.name !== klass) {
-                        this.setClass(c.name, true);
-                    }
-                });
-            }
-        }
-
-        this.normalizeAffectedClasses();
     }
 
     @action
     toggleClassGroup(groupName: string) {
-        const current = this.untisStore.classesGroupedByGroupNames.get(groupName);
-        const isActive =
-            this.classGroups.has(groupName) || current?.every((c) => this.affectedClassNames.has(c.name));
+        const isActive = this.classGroups.has(groupName);
         this.setClassGroup(groupName, !isActive);
     }
 
@@ -518,21 +486,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         } else if (currentActive && !value) {
             this.classGroups.delete(klassGroup);
         }
-
-        if (!value) {
-            const affectedDeps = this.departments.filter((d) => d.classGroups.has(klassGroup));
-            if (affectedDeps.length > 0) {
-                affectedDeps.forEach((dep) => {
-                    this.departmentIds.delete(dep.id);
-                    dep.classes.forEach((c) => {
-                        if (!c.name.startsWith(klassGroup)) {
-                            this.classes.add(c.name);
-                        }
-                    });
-                });
-            }
-        }
-        this.normalizeAffectedClasses();
     }
 
     /**
@@ -583,44 +536,17 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    normalizeAffectedClasses() {
-        const cNames = new Set<string>(this.affectedClassNames);
-        const classes = new Set<KlassName>();
-        const classGroups = new Set<string>();
-        const departmentIds = new Set<string>();
-        this.departmentStore.departments.forEach((d) => {
-            if (d.classes.length > 0 && d.classes.every((c) => cNames.has(c.name))) {
-                d.classes.forEach((c) => cNames.delete(c.name));
-                departmentIds.add(d.id);
-            }
-        });
-        this.untisStore.classesGroupedByGroupNames.forEach((classes, group) => {
-            if (classes.every((c) => cNames.has(c.name))) {
-                classes.forEach((c) => cNames.delete(c.name));
-                classGroups.add(group);
-            }
-        });
-        this._unknownClassGroups.forEach((cg) => {
-            classGroups.add(cg);
-            cNames.forEach((c) => {
-                if (c.startsWith(cg)) {
-                    cNames.delete(c);
-                }
-            });
-        });
-        cNames.forEach((c) => {
-            if (c.length === 4) {
-                classes.add(c as KlassName);
-            }
-        });
-        this.classes.replace(classes);
-        this.classGroups.replace(classGroups);
-        this.departmentIds.replace(departmentIds);
+    toggleDepartment(department: Department) {
+        this.setDepartment(department, !this.departmentIds.has(department.id));
     }
 
     @action
-    toggleDepartment(department: Department) {
-        this.setDepartment(department, !this.departmentIds.has(department.id));
+    setDepartmentId(departmentId: string, setActive: boolean) {
+        const dep = this.store.root.departmentStore.find<Department>(departmentId);
+        if (!dep) {
+            return;
+        }
+        this.setDepartment(dep, setActive);
     }
 
     @action
@@ -634,7 +560,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         } else if (!currentActive && setActive) {
             this.departmentIds.add(department.id);
         }
-        this.normalizeAffectedClasses();
     }
 
     /**
@@ -652,6 +577,39 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     get affectedDepartments() {
         const depIds = new Set([...this.departmentIds, ...this.untisClasses.map((c) => c.departmentId)]);
         return this.store.getDepartments([...depIds]);
+    }
+
+    @computed
+    get currentGradeYear() {
+        return currentGradeYear(this.start);
+    }
+
+    /**
+     * describes how many grade years should be additionally affected by this event.
+     */
+    @computed
+    get gradeYearRange() {
+        return currentGradeYear(this.end) - this.currentGradeYear;
+    }
+
+    @computed
+    get affectedClassGroups() {
+        const classGroups = new Set<string>(this.classGroups);
+        this.departments.forEach((d) => {
+            const isActive = this.store
+                .getDepartmentsByLetter(d.letter)
+                .map((d) => d.id)
+                .every((id) => this.departmentIds.has(id));
+            if (!isActive) {
+                return;
+            }
+            for (let i = 0; i < d.schoolYears; i++) {
+                const year = `${this.currentGradeYear + i}`.slice(2);
+                const group = `${year}${d.letter}`;
+                classGroups.add(group);
+            }
+        });
+        return classGroups;
     }
 
     /**
@@ -706,11 +664,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @action
-    setSelected(selected: boolean) {
-        this.selected = selected;
-    }
-
-    @action
     setEditing(editing: boolean) {
         this._isEditing = editing;
         this.triggerInitialValidation();
@@ -718,6 +671,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     get isEditable() {
         return !this.isDeleted && this.store.canEdit(this);
+    }
+
+    @computed
+    get isDeletable() {
+        return this.store.canDelete(this);
     }
 
     /**
@@ -829,7 +787,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             .filter((c) => c.year >= refYear)
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach((c) => {
-                const year = c.legacyName ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
+                const year = c.isLegacyFormat ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
                 if (!kls[year]) {
                     kls[year] = [];
                 }
@@ -843,7 +801,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             classes: kls[year]
         }));
 
-        return [...this._unknownClassNames.map((c) => ({ text: c, classes: [] })), ...composed];
+        return [
+            ...this._unknownClassNames.map((c) => ({
+                text: this.store.root.departmentStore.formatClassName(c),
+                classes: []
+            })),
+            ...composed
+        ];
     }
 
     @computed
@@ -1012,14 +976,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     /**
-     * all classes that are affected by the className filter
-     */
-    @computed
-    get _selectedClassNames(): KlassName[] {
-        return [...this._selectedClasses.map((c) => c.name), ...this._unknownClassNames];
-    }
-
-    /**
      * returns **only** the classes that are selected through the className filter **and** which
      * are present as a UntisClass
      */
@@ -1038,14 +994,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get _unknownClassGroups(): string[] {
+    get unknownClassGroups(): string[] {
         const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
         return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c, refYear));
-    }
-
-    @computed
-    get unknownClassIdentifiers(): string[] {
-        return [...this._unknownClassNames, ...this._unknownClassGroups];
     }
 
     /**
@@ -1188,7 +1139,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: [...this.departmentIds],
-            classes: this._selectedClassNames,
+            classes: [...this.classes],
             description: this.description,
             descriptionLong: this.descriptionLong,
             location: this.location,
@@ -1446,6 +1397,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (current.subscription.ignoredEventIds.has(this.id)) {
             current.subscription.unignoreEvent(this.id);
         }
+    }
+
+    @action
+    normalizeAudience() {
+        return this.store.normalizeAudience(this);
     }
 
     cleanup(destroyed?: boolean) {

@@ -10,10 +10,11 @@ interface Props {
     children: React.ReactNode;
     disabled?: boolean;
     wrapTrigger?: boolean;
+    maxWidth?: string;
 }
 
 const MOUSE_ENTER_DELAY_MS = 250;
-const MOUSE_LEAVE_DELAY_MS = 200;
+const MOUSE_LEAVE_DELAY_MS = 0;
 
 const Tooltip = observer((props: Props) => {
     if (!props.title || props.disabled) {
@@ -27,8 +28,8 @@ const Tooltip = observer((props: Props) => {
             on="hover"
             position={['top center', 'top right', 'top left']}
             arrow={false}
-            offsetY={5}
-            contentStyle={{ width: 'max-content', maxWidth: '50%' }}
+            offsetY={8}
+            contentStyle={{ width: 'max-content', maxWidth: props.maxWidth ?? 'min(50%, 30em)' }}
         >
             <div className={clsx(styles.tooltip)}>{props.title}</div>
         </Popup>

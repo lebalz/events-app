@@ -2171,5 +2171,38 @@
   },
   "audienceInfo.teachingAffected.no": {
     "message": "nur teilweise"
+  },
+  "departmentStore.groupedByLetter.more": {
+    "message": "Weitere",
+    "description": "For the class picker: the rest of the classes, MSOP, FMPäd, Passerelle"
+  },
+  "admin.DepartmentTable.th.displayLetter": {
+    "message": "Anzeigebuchstabe",
+    "description": "th: department displayLetter"
+  },
+  "admin.DepartmentTable.th.schoolYears": {
+    "message": "Schuljahre",
+    "description": "th: department schoolYears"
+  },
+  "audiencePicker.groupName": {
+    "message": "{groupName}*: Alle {department}-Klassen des Jahrgangs {year} ausgewählt"
+  },
+  "audiencePicker.groupName.derived": {
+    "message": "Ganzes {department} ausgewählt - alle Klassen ausgewählt"
+  },
+  "audiencePicker.className.derived": {
+    "message": "{name} bereits aktiv über Jahrgang oder Abteilung {department}"
+  },
+  "audiencePicker.normalize-audience.text": {
+    "message": "Redundanzen Entfernen"
+  },
+  "audiencePicker.normalize-audience.title": {
+    "message": "Entfernt redundante Publikums-Informationen, indem bspw. bereits enthaltene Klassen entfernt werden. Beim Einreichen wird das Publikum automatisch normalisiert."
+  },
+  "audiencePicker.onCreate.error.message": {
+    "message": "Fehler beim Erzeugen der Klasse {name}"
+  },
+  "audiencePicker.toggleClasses": {
+    "message": "Alle klassen {action}"
   }
 }

@@ -17,12 +17,7 @@ import _ from 'lodash';
 import Icon from '@mdi/react';
 import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
 import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
-
-interface Props {
-    showCurrentAndFuture?: boolean;
-    showSelects?: boolean;
-    showSelectLocation?: 'quick' | 'advanced';
-}
+import EventTable from '@site/src/stores/ViewStores/EventTable';
 
 export const selectStyleConfig = {
     option: (styles, { data, isFocused }) => ({
@@ -64,17 +59,27 @@ export const selectThemeConfig = (theme: Theme) => ({
     }
 });
 
+interface Props {
+    showCurrentAndFuture?: boolean;
+    showSelects?: boolean;
+    showSelectLocation?: 'quick' | 'advanced';
+    eventTable: EventTable;
+    hideMine?: boolean;
+    flexWidth?: boolean;
+}
 const Filter = observer((props: Props) => {
     const viewStore = useStore('viewStore');
+    const { eventTable } = props;
+
     const departmentStore = useStore('departmentStore');
     const untisStore = useStore('untisStore');
-    const { eventTable } = viewStore;
+
     React.useEffect(() => {
-        if (!props.showCurrentAndFuture && eventTable.onlyCurrentWeekAndFuture) {
+        if (eventTable && !props.showCurrentAndFuture && eventTable.onlyCurrentWeekAndFuture) {
             eventTable.setOnlyCurrentWeekAndFuture(false);
             return () => eventTable.setOnlyCurrentWeekAndFuture(true);
         }
-    }, [props.showCurrentAndFuture]);
+    }, [eventTable, props.showCurrentAndFuture]);
     const showSelectLocation = props.showSelectLocation || 'quick';
     return (
         <div className={clsx(styles.filter)}>
@@ -84,7 +89,7 @@ const Filter = observer((props: Props) => {
                 )}
                 <div className={clsx(styles.spacer)}></div>
                 <div className={clsx(styles.audience, 'button-group', 'button-group--block')}>
-                    {!!viewStore.user && (
+                    {!!viewStore.user && !props.hideMine && (
                         <Button
                             text={translate({
                                 message: 'Meine',
@@ -122,12 +127,13 @@ const Filter = observer((props: Props) => {
                         />
                     )}
                 </div>
-                <div className={clsx(styles.classes, styles.fuzzyFilter)}>
+                <div className={clsx(styles.fuzzyFilter, props.flexWidth && styles.flexWidth)}>
                     <TextInput
                         placeholder={translate({
                             message: 'Suche',
                             id: 'event.filter.search'
                         })}
+                        inputClassName={clsx(styles.input)}
                         onChange={(txt) => eventTable.setTextFilter(txt)}
                         text={eventTable.klassFilter}
                     />
