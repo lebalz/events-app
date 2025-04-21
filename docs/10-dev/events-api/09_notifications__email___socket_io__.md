@@ -275,7 +275,7 @@ The email-specific service functions (`mailOnDelete`, etc.) in `src/services/not
 Let's visualize the end-to-end notification flow when an administrator deletes a published event.
 
 ```mermaid
- secuenciaDiagram
+ sequenceDiagram
     participant Client Admin as Admin Browser App
     participant WS_HTTP as Web Server (Express HTTP)
     participant Middleware as Middleware (Auth, AuthZ, JSON, etc.)
