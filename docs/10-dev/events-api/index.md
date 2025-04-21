@@ -6,7 +6,7 @@ page_id: 23f7fb65-cac7-4c63-8ac4-d8e303e9c856
 This project is an API that *manages* **school events** like timetable changes and appointments. It *syncs* data from **external systems**, stores it in a **database**, and provides access via an **API web server**. It enables **real-time updates** for users and runs **background tasks** like generating calendars. **Access control** ensures security, and **notifications** keep relevant parties informed through email and real-time messages.
 
 
-**Source Repository:** [None](None)
+**Source Repository:** [events-api](https://github.com/lebalz/events-api)
 
 ```mermaid
 flowchart TD
