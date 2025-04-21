@@ -123,6 +123,9 @@ const config: Config = {
         GIT_COMMIT_SHA: process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7),
         CURRENT_LOCALE: getLocale()
     },
+    markdown: {
+        mermaid: true
+    },
 
     // Even if you don't use internalization, you can use this field to set useful
     // metadata like html lang. For example, if your site is Chinese, you may want
@@ -460,7 +463,8 @@ const config: Config = {
                 ]
             } satisfies DynamicRouteConfig
         ],
-    ]
+    ],
+    themes: ['@docusaurus/theme-mermaid'],
 };
 
 export default config
