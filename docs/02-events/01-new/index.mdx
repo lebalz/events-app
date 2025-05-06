@@ -6,12 +6,64 @@ import AudienceOptionsField from './components/AudienceOptionsField'
 import Badge from '@site/src/components/shared/Badge';
 import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 import VideoGrid from '@site/src/components/VideoGrid';
+import Steps from '@site/src/components/Steps';
 
 # Termine erfassen
 
-Neue Termine können jederzeit über __Persönlich > :mdi[plus-circle-outline] Neuer Termin__ erstellt werden.
+<Steps>
+1. Um einen neuen Termin zu erfassen, muss man angemeldet sein.
+    :::cards
+    ![Anmelden](./images/login.png)
+    ::br
+    ![Erfolgreich angemeldet](./images/login-success.png)
+    :::
 
-![__Persönlich > :mdi[plus-circle-outline] Neuer Termin__ [👉 Neuen Termin erstellen](/user?user-tab=events&events-tab=my-events) --width=850px](./images/new-event.png)
+2. Eigene Termine findet man unter dem Menüpunkt __Persönlich__, dort können auch neue Termine erstellt werden.
+    ![__Persönlich > :mdi[plus-circle-outline] Neuer Termin__ [👉 Neuen Termin erstellen](/user?user-tab=events&events-tab=my-events) --width=850px](./images/new-event.png)
+
+3. Die Eingabemaske öffnet sich und der Termin kann erfasst werden. Je nach Bildschirmgrösse wird die Eingabemaske direkt in der Zeile oder im Fenster angezeigt.
+    
+    <Tabs groupId="edit-mode">
+        <TabItem value="row-mask" label="Zeilenmodus" default>
+            ![--width=100%](./images/event-row-mask.jpg)
+
+            <details>
+                <summary>
+                    Ganz rechts in der Zeile kann über die Optionen __:mdi[dots-horizontal-circle-outline] > :mdi[arrow-expand-all] Öffnen__  in den Fenstermodus gewechselt werden.
+                </summary>
+                ![--width=150px](./images/open-window-mode.png)
+            </details>
+        </TabItem>
+        <TabItem value="window-mask" label="Fenstermodus">
+            
+            ![--width=450px](./images/event-mask.png)
+        </TabItem>
+    </Tabs>
+
+4. **Termindetails erfassen**. Eine Beschreibung aller Felder ist [👉 weiter unten](#eingabemaske) zu finden. Änderungen können über die Schaltfläche __:mdi[content-save]{.green} Speichern__ gespeichert werden.  
+    Ein Termin muss also nicht auf anhieb vollständig erfasst werden. Er kann gespeichert und zu einem späteren Zeitpunkt weiter bearbeitet werden.
+    :::warning[Speichern :mdi[not-equal-variant] Einreichen]
+    Gespeicherte Termin-Entwürfe werden nicht automatisch veröffentlicht! Sie müssen im nächsten Schritt zur Überprüfung eingereicht werden. 
+    :::
+5. **Termin zur Überprufung einreichen.**  
+    Ein neuer Termin kann während einem offenen Eingabefenster zur Überprüfung eingereicht werden. Eine Administrator\:in prüft und veröffentlicht den Termin. Erst nach der Veröffentlichung wird der Termin im Kalender angezeigt.
+
+    <Tabs groupId="edit-mode">
+        <TabItem value="row-mask" label="Zeilenmodus" default>
+            ![--width=100%](./images/change-state-row-mode.png)
+        </TabItem>
+        <TabItem value="window-mask" label="Fenstermodus">            
+                ![--width=400px](./images/change-state-window-mode.png)
+        </TabItem>
+    </Tabs>
+6. **Termin kontrollieren**
+    Nach dem Einreichen soll die finale Version nochmals auf Richtigkeit kontrolliert werden.
+
+    ![](./images/check-draft.png)
+
+</Steps>
+
+
 
 ## Eingabemaske
 

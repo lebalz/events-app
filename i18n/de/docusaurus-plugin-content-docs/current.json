@@ -22,5 +22,9 @@
   "sidebar.tutorialSidebar.category.ics": {
     "message": "ics",
     "description": "The label for category ics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Tutorial: events-api": {
+    "message": "Tutorial: events-api",
+    "description": "The label for category Tutorial: events-api in sidebar tutorialSidebar"
   }
 }
