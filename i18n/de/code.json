@@ -801,7 +801,7 @@
     "description": "Request Review"
   },
   "event.bulk_actions.editing": {
-    "message": "Bearbeiten",
+    "message": "Zurückziehen",
     "description": "Edit Event"
   },
   "event.bulk_actions.publish": {
@@ -2207,5 +2207,9 @@
   },
   "bulkActions.newGroup.text": {
     "message": "Neue Gruppe"
+  },
+  "event.bulk_actions.editing.title": {
+    "message": "Termin zurückziehen zum bearbeiten.",
+    "description": "Edit Event"
   }
 }

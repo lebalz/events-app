@@ -32,7 +32,7 @@ const Edit = (props: EditProps) => {
             }
             {...extractSharedProps(props)}
             className={clsx(styles.edit, props.className)}
-            color="orange"
+            color={'orange'}
             onClick={props.onClick}
             icon={
                 props.newVersion ? (

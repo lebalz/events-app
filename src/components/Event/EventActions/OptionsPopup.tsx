@@ -36,6 +36,7 @@ export const EditRowMode = observer((props: ActionProps) => {
     const windowSize = useWindowSize();
     const viewStore = useStore('viewStore');
     const { event } = props;
+
     return (
         <Edit
             onClick={() => {

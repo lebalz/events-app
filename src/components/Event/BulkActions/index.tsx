@@ -13,7 +13,9 @@ import Button from '../../shared/Button';
 import {
     mdiBellPlus,
     mdiBellRemove,
+    mdiBookArrowLeftOutline,
     mdiBookCancel,
+    mdiBookEditOutline,
     mdiBookmarkCheck,
     mdiBookmarkMinus,
     mdiClose,
@@ -77,6 +79,7 @@ const BulkActions = observer((props: Props) => {
     const ref = React.useRef<PopupActions>(null);
     const history = useHistory();
     const reviewedEventsUrl = useBaseUrl('/user?user-tab=events&events-tab=reviewed');
+    const draftEventsUrl = useBaseUrl('/user?user-tab=events&events-tab=my-events');
     const isMobileViewXS = useIsMobileView(870);
     const isMobileView = useIsMobileView(1142);
     if (eventTable.selectedEvents.length < 1) {
@@ -155,7 +158,7 @@ const BulkActions = observer((props: Props) => {
                                         })
                                       : undefined
                             }
-                            icon={<Icon path={mdiBookmarkCheck} color="blue" />}
+                            icon={<Icon path={mdiBookmarkCheck} color="blue" size={SIZE_XS} />}
                             className={clsx(styles.blue)}
                             iconSide="left"
                             onClick={() => {
@@ -178,28 +181,32 @@ const BulkActions = observer((props: Props) => {
                                     isMobileView
                                         ? undefined
                                         : translate({
-                                              message: 'Bearbeiten',
+                                              message: 'Zurückziehen',
                                               id: 'event.bulk_actions.editing',
                                               description: 'Edit Event'
                                           })
                                 }
-                                title={
-                                    isMobileView
-                                        ? translate({
-                                              message: 'Bearbeiten',
-                                              id: 'event.bulk_actions.editing',
-                                              description: 'Edit Event'
-                                          })
-                                        : undefined
-                                }
-                                icon={<Icon path={mdiBookmarkMinus} color="blue" />}
-                                className={clsx(styles.blue)}
+                                title={translate({
+                                    message: 'Termin zurückziehen zum bearbeiten.',
+                                    id: 'event.bulk_actions.editing.title',
+                                    description: 'Edit Event'
+                                })}
+                                icon={<Icon path={mdiBookArrowLeftOutline} color="red" size={SIZE_S} />}
+                                className={clsx(styles.red)}
                                 iconSide="left"
                                 onClick={() => {
-                                    eventStore.requestState(
-                                        eventTable.selectedEvents.map((e) => e.id),
-                                        EventState.Draft
-                                    );
+                                    const currentSelected = [...eventTable.selectedEvents];
+                                    Promise.all(
+                                        currentSelected.map((e) => {
+                                            return eventStore.clone(e);
+                                        })
+                                    ).then((newEvents) => {
+                                        newEvents.forEach((e) => {
+                                            eventStore.find(e.id)?.setEditing(true);
+                                        });
+                                        history.push(draftEventsUrl);
+                                        eventStore.destroyMany(currentSelected);
+                                    });
                                 }}
                             />
                             {userStore.current?.isAdmin && (
