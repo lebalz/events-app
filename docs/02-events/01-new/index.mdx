@@ -25,7 +25,7 @@ import { mdiArrowDownThick } from '@mdi/js';
     Eigene Termine findet man unter dem Menüpunkt __Persönlich__, dort können auch neue Termine erstellt werden.
     ![__Persönlich > :mdi[plus-circle-outline] Neuer Termin__ [👉 Neuen Termin erstellen](/user?user-tab=events&events-tab=my-events) --width=850px](./images/new-event.png)
 
-3. ### Eingabemaske {/*#ansicht*/}
+3. ### Ansicht der Eingabemaske
     Die Eingabemaske öffnet sich und der Termin kann erfasst werden. Je nach Bildschirmgrösse wird die Eingabemaske direkt in der Zeile oder im Fenster angezeigt.
     
     <Tabs groupId="edit-mode">
@@ -93,7 +93,7 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
 
 <Dl>
     <dt>Titel\*</dt>
-    <dd>Kurze Beschreibung des Termins, in der Regel weniger als 80 Zeichen.</dd>
+    <dd>Kurze Beschreibung des Termins, in der Regel weniger als *80* Zeichen.</dd>
     <dt>Beschreibung</dt>
     <dd>Detaillierte Beschreibung des Termins. Kann auch mehrere Absätze enthalten.</dd>
     <dt>Start</dt>
@@ -113,6 +113,11 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
         - :mdi[google-classroom]{.orange} eine bekannte Klasse.
         - :mdi[account-question]{.red} eine künftige Klasse, die noch nicht in WebUntis geführt wird.
         - :mdi[account-multiple]{.blue} ein ganzer Klassenjahrgang. 
+
+        :::danger[Eine Klasse wird nicht angezeigt?]
+        - Überprüfen des **Datums**: Gibt es die Klasse zu diesem Zeitpunkt (noch) an der Schule?
+        - Ist es eine **neue Klasse** und WebUntis zeigt die Klasse noch nicht an? Die Klasse [👉 manuell eingegeben](#künftige-klassen).
+        :::
     </dd>
     <dt>Betrifft</dt>
     <dd style={{marginBottom: '1.2em 0'}}>
@@ -235,34 +240,6 @@ Die folgende Tabelle zeigt eine Übersicht, wann ein Termin für die verschieden
 
 \* Wenn ein Termin während einer Lektion im Regelstundenplan stattfindet (auch, wenn er während der Lektion beginnt oder endet), wird er für betroffene Lehrpersonen angezeigt.
 
-### Künftige Klassen
-
-Für Klassen oder Jahrgänge, die noch nicht in WebUntis geführt werden, können entsprechende Klassen bereits im Voraus hinterlegt werden.
-
-:::info[Jahrgang]
-Ein Klassenjahrgang betrifft alle Klassen eines ganzen Jahrgangs. Dies wird mit einem `*` angezeigt. Z.B. <Badge text="29G*" inline /> für alle 29er Klassen des Gymnasiums oder <Badge text="29F*" inline/> für alle 29er Klassen der FMS.
-:::
-
-
-<VideoGrid
-    videos={[
-        {
-            src: require('./images/event-new-class.mp4').default,
-            title: 'Zukünftige Klasse erfassen',
-            autoplay: true,
-            maxHeight: '300px',
-            loop: true
-        },
-        {
-            src: require('./images/event-new-class-group.mp4').default,
-            title: 'Zukünftigen Jahrgang erfassen',
-            autoplay: true,
-            maxHeight: '300px',
-            loop: true
-        }
-    ]}
-/>
-
 ## Zur Überprüfung einreichen
 
 Ein **neuer Termin** kann während einem offenen Eingabefenster zur Überprüfung eingereicht werden. Die Admins werden benachrichtigt und prüfen den Termin. Nach der Veröffentlichung wird der Termin im Kalender angezeigt.
@@ -293,3 +270,31 @@ Bei **fehlerhaften** Terminen oder **unvollständigen** Angaben (bspw. Zimmerzut
 
 
 
+
+## Künftige Klassen
+
+Für Klassen oder Jahrgänge, die noch nicht in WebUntis geführt werden, können entsprechende Klassen bereits im Voraus hinterlegt werden.
+
+:::info[Jahrgang]
+Ein Klassenjahrgang betrifft alle Klassen eines ganzen Jahrgangs. Dies wird mit einem `*` angezeigt. Z.B. <Badge text="29G*" inline /> für alle 29er Klassen des Gymnasiums oder <Badge text="29F*" inline/> für alle 29er Klassen der FMS.
+:::
+
+
+<VideoGrid
+    videos={[
+        {
+            src: require('./images/event-new-class.mp4').default,
+            title: 'Zukünftige Klasse erfassen',
+            autoplay: true,
+            maxHeight: '300px',
+            loop: true
+        },
+        {
+            src: require('./images/event-new-class-group.mp4').default,
+            title: 'Zukünftigen Jahrgang erfassen',
+            autoplay: true,
+            maxHeight: '300px',
+            loop: true
+        }
+    ]}
+/>
