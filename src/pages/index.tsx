@@ -17,11 +17,11 @@ import {
     mdiBookOpenVariantOutline,
     mdiCalendarAccount,
     mdiCalendarMonth,
+    mdiCalendarPlus,
     mdiCalendarSync,
     mdiPalette,
     mdiPen,
     mdiSecurity,
-    mdiToggleSwitch,
     mdiToggleSwitchOutline,
     mdiViewList
 } from '@mdi/js';
@@ -53,6 +53,8 @@ interface NavProps {
     to: string;
     label: string;
     displayFor: 'public' | 'admin' | 'user';
+    className?: string;
+    style?: React.CSSProperties;
 }
 const NavCard = observer((props: NavProps) => {
     const userStore = useStore('userStore');
@@ -63,7 +65,7 @@ const NavCard = observer((props: NavProps) => {
         return null;
     }
     return (
-        <Link to={props.to} className={clsx('card', styles.navCard)}>
+        <Link to={props.to} className={clsx('card', styles.navCard, props.className)} style={props.style}>
             <div className={clsx('card__image', styles.navCardIcon)}>
                 <Icon path={props.icon} size={3} color={'var(--ifm-color-primary)'} />
             </div>
@@ -80,6 +82,16 @@ const Home = observer(() => {
     const viewStore = useStore('viewStore');
     const [today, setToday] = React.useState(new Date());
     const [showToday, setShowToday] = React.useState<'mine' | 'all'>('mine');
+    const baseUrl = useBaseUrl('/');
+    const withBaseUrl = (url: string) => {
+        if (url.startsWith(baseUrl)) {
+            return url;
+        }
+        if (url.startsWith('/')) {
+            return baseUrl + url.substring(1);
+        }
+        return baseUrl + url;
+    };
     React.useEffect(() => {
         if (ref.current) {
             ref.current.playbackRate = 0.5;
@@ -180,7 +192,7 @@ const Home = observer(() => {
                     <div className={clsx(styles.navCards)}>
                         <NavCard
                             icon={mdiViewList}
-                            to={useBaseUrl('/table')}
+                            to={withBaseUrl('/table')}
                             label={translate({
                                 message: 'Tabelle',
                                 id: 'navcard.table.text',
@@ -190,7 +202,7 @@ const Home = observer(() => {
                         />
                         <NavCard
                             icon={mdiCalendarMonth}
-                            to={useBaseUrl('/calendar')}
+                            to={withBaseUrl('/calendar')}
                             label={translate({
                                 message: 'Kalender',
                                 id: 'navcard.calendar.text',
@@ -200,7 +212,7 @@ const Home = observer(() => {
                         />
                         <NavCard
                             icon={Timeline}
-                            to={useBaseUrl('/gantt')}
+                            to={withBaseUrl('/gantt')}
                             label={translate({
                                 message: 'Zeitachse',
                                 id: 'navcard.gantt.text',
@@ -210,7 +222,7 @@ const Home = observer(() => {
                         />
                         <NavCard
                             icon={mdiCalendarSync}
-                            to={useBaseUrl('/subscribe')}
+                            to={withBaseUrl('/subscribe')}
                             label={translate({
                                 message: 'Abonnieren',
                                 id: 'navcard.subscribe.text',
@@ -220,7 +232,7 @@ const Home = observer(() => {
                         />
                         <NavCard
                             icon={mdiBookOpenVariantOutline}
-                            to={useBaseUrl('/docs')}
+                            to={withBaseUrl('/docs')}
                             label={translate({
                                 message: 'Dokumentation',
                                 id: 'navcard.docs.text',
@@ -230,7 +242,7 @@ const Home = observer(() => {
                         />
                         <NavCard
                             icon={mdiAccountCircleOutline}
-                            to={useBaseUrl('/user?user-tab=account')}
+                            to={withBaseUrl('/user?user-tab=account')}
                             label={translate({
                                 message: 'Account',
                                 id: 'navcard.user.account',
@@ -240,7 +252,7 @@ const Home = observer(() => {
                         />
                         <NavCard
                             icon={mdiCalendarAccount}
-                            to={useBaseUrl('/user?user-tab=events')}
+                            to={withBaseUrl('/user?user-tab=events')}
                             label={translate({
                                 message: 'Meine Events',
                                 id: 'navcard.user.events',
@@ -250,7 +262,7 @@ const Home = observer(() => {
                         />
                         <NavCard
                             icon={mdiSecurity}
-                            to={useBaseUrl('/admin')}
+                            to={withBaseUrl('/admin')}
                             label={translate({
                                 message: 'Admin',
                                 id: 'navcard.admin.text',
@@ -266,6 +278,22 @@ const Home = observer(() => {
                             <div className="card__header">
                                 <h1>Wie funktioniert's?</h1>
                             </div>
+                            {i18n?.currentLocale === 'de' && (
+                                <div className="card__body">
+                                    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                                        <NavCard
+                                            icon={mdiCalendarPlus}
+                                            to={withBaseUrl('/docs/events/new')}
+                                            label={translate({
+                                                message: 'Anleitung: Termin erfassen',
+                                                id: 'navcard.tutorial.newEvent'
+                                            })}
+                                            displayFor="public"
+                                            style={{ maxWidth: '20em' }}
+                                        />
+                                    </div>
+                                </div>
+                            )}
                             <div className="card__body">
                                 <VideoGrid
                                     videos={[
