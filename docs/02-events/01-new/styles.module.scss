@@ -12,10 +12,10 @@
     max-width: 100%;
     width: 660px;
     .left {
-        background-color: #7b2e85;
+        background-color: var(--ifm-color-primary);
         color: var(--ifm-button-color);
         strong:global(.boxed) {
-            color: #fdcf04;
+            color: #5f9cff;
             font-weight: bold;
         }
         white-space: nowrap;
@@ -35,7 +35,7 @@
     }
     
     .line {
-        border-top: 2px solid #fdcf04;
+        border-top: 2px solid var(--ifm-color-primary-darkest);
     } 
 }
 
@@ -43,7 +43,8 @@ html[data-theme='dark'] {
     .left {
         color: white;
         strong:global(.boxed) {
-            color: #fdcf04;
+            color: #0242aa;
+            --ifm-color-gray-600: #0242aa;
         }
     }
 }

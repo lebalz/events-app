@@ -13,7 +13,7 @@ interface Step {
     label: string;
     indentLevel?: number;
 }
-interface Props {
+export interface Props {
     src: string;
     title?: string;
     autoplay?: boolean;
@@ -21,7 +21,8 @@ interface Props {
     playbackRate?: number;
     loop?: boolean;
     steps?: Step[];
-    maxWidth?: number;
+    maxWidth?: number | string;
+    maxHeight?: number | string;
     style?: React.CSSProperties;
 }
 
@@ -55,7 +56,12 @@ const Video = observer((props: Props) => {
                     muted
                     loop={props.loop}
                     ref={ref}
-                    style={{ width: '100%', height: '100%', maxHeight: '1200px' }}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        maxHeight: props.maxHeight ?? '1200px',
+                        maxWidth: props.maxWidth
+                    }}
                 >
                     <source src={vidSrc} type="video/mp4" />
                 </video>

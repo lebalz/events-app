@@ -1,8 +1,0 @@
-- [ ] bei Punkt Eingabemaske wäre es noch hilfreich, wenn erklärt wird, wo man die Ansicht wechseln kann
-- [ ] beim Punkt Unterricht betroffen gibt es einen Schreibfehler im 3. Beispiel von Teilweise: Schüler:iunnen
-- [ ] Beim selben Punkt wäre es evtl. hilfreich, mit einem Pfeil oder einer Kommentarwolke darauf hinzuweisen, dass man durch Klicken auf Ja, Teilweise oder Nein Beispiele erhält. Es ist evtl. nicht allen klar, dass es sich nicht bloss um einen Screenshot handelt, sondern die Schaltflächen aktiv sind. 
-- [ ] dito für Bereich Betrifft
-- [ ] es fehlt der Punkt, wie man den Termin einreicht, auf welche Schaltfläche man drücken muss
-- [ ] Zur Überprüfung einreichen: dort steht, die Eingabefenster sind farbig hinterlegt, ich würde schreiben schwarz. 
-- [ ] Text zu bestehende Termine: ich würde nicht schreiben, dass Termine aktualisiert werden können, sondern, Wenn Fehler und unvollständige Angaben in einem Termin entdeckt werden, kann ein Änderungsantrag an die Admin gemacht werden. 
-- [ ] Mir fehlt noch ein Abschnitt, in dem steht, dass man den Termin nach Eingabe unter Entwürfe in der Listenansicht kontrollieren soll, denn so wird er danach dargestellt. 

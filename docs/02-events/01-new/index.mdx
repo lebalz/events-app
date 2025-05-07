@@ -7,21 +7,26 @@ import Badge from '@site/src/components/shared/Badge';
 import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 import VideoGrid from '@site/src/components/VideoGrid';
 import Steps from '@site/src/components/Steps';
+import { mdiArrowDownThick } from '@mdi/js';
 
 # Termine erfassen
 
-<Steps>
-1. Um einen neuen Termin zu erfassen, muss man angemeldet sein.
-    :::cards
-    ![Anmelden](./images/login.png)
-    ::br
-    ![Erfolgreich angemeldet](./images/login-success.png)
-    :::
+## Übersicht
 
-2. Eigene Termine findet man unter dem Menüpunkt __Persönlich__, dort können auch neue Termine erstellt werden.
+<Steps>
+1. ### Anmelden
+    Um einen neuen Termin zu erfassen, muss man angemeldet sein.\
+
+    ![Anmelden](./images/login.png)
+
+    ![Erfolgreich angemeldet: Der Name ist oben rechts zu sehen.](./images/login-success.png)
+
+2. ### Persönlicher Bereich
+    Eigene Termine findet man unter dem Menüpunkt __Persönlich__, dort können auch neue Termine erstellt werden.
     ![__Persönlich > :mdi[plus-circle-outline] Neuer Termin__ [👉 Neuen Termin erstellen](/user?user-tab=events&events-tab=my-events) --width=850px](./images/new-event.png)
 
-3. Die Eingabemaske öffnet sich und der Termin kann erfasst werden. Je nach Bildschirmgrösse wird die Eingabemaske direkt in der Zeile oder im Fenster angezeigt.
+3. ### Eingabemaske {/*#ansicht*/}
+    Die Eingabemaske öffnet sich und der Termin kann erfasst werden. Je nach Bildschirmgrösse wird die Eingabemaske direkt in der Zeile oder im Fenster angezeigt.
     
     <Tabs groupId="edit-mode">
         <TabItem value="row-mask" label="Zeilenmodus" default>
@@ -40,23 +45,29 @@ import Steps from '@site/src/components/Steps';
         </TabItem>
     </Tabs>
 
-4. **Termindetails erfassen**. Eine Beschreibung aller Felder ist [👉 weiter unten](#eingabemaske) zu finden. Änderungen können über die Schaltfläche __:mdi[content-save]{.green} Speichern__ gespeichert werden.  
-    Ein Termin muss also nicht auf anhieb vollständig erfasst werden. Er kann gespeichert und zu einem späteren Zeitpunkt weiter bearbeitet werden.
+4. ### Termin erfassen
+
+    - Alle wichtigen Termininformationen können nun erfasst werden.
+    - Eine Beschreibung aller Felder ist [👉 weiter unten](#eingabemaske) zu finden.
+    - Änderungen können über die Schaltfläche __:mdi[content-save]{.green} Speichern__ gespeichert werden. Ein Termin muss also nicht auf anhieb vollständig erfasst werden. Er kann gespeichert und zu einem späteren Zeitpunkt weiter bearbeitet werden.
+        ![](./images/save-event.png)
+    
     :::warning[Speichern :mdi[not-equal-variant] Einreichen]
     Gespeicherte Termin-Entwürfe werden nicht automatisch veröffentlicht! Sie müssen im nächsten Schritt zur Überprüfung eingereicht werden. 
     :::
-5. **Termin zur Überprufung einreichen.**  
-    Ein neuer Termin kann während einem offenen Eingabefenster zur Überprüfung eingereicht werden. Eine Administrator\:in prüft und veröffentlicht den Termin. Erst nach der Veröffentlichung wird der Termin im Kalender angezeigt.
+5. ### Zur Überprüfung einreichen
+    Ein neuer Termin kann während einem [👉 offenen Eingabefenster](#eingabefenster) zur Überprüfung eingereicht werden. Eine Administrator\:in prüft und veröffentlicht den Termin. Erst nach der Veröffentlichung wird der Termin im Kalender angezeigt.
 
     <Tabs groupId="edit-mode">
         <TabItem value="row-mask" label="Zeilenmodus" default>
             ![--width=100%](./images/change-state-row-mode.png)
         </TabItem>
         <TabItem value="window-mask" label="Fenstermodus">            
-                ![--width=400px](./images/change-state-window-mode.png)
+                ![--width=300px](./images/change-state-window-mode.png)
         </TabItem>
     </Tabs>
-6. **Termin kontrollieren**
+
+6. ### Kontrolle
     Nach dem Einreichen muss die finale Version nochmals auf Richtigkeit kontrolliert werden.
 
     ![](./images/check-draft.png)
@@ -74,28 +85,14 @@ import Steps from '@site/src/components/Steps';
 
 ## Eingabemaske
 
-Die Eingabemaske kann am Laptop wahlweise direkt in der Zeile oder über ein Terminfeld angezeigt werden. Am Smartphone wird die Eingabemaske immer in einem Fenster angezeigt.
-
-<Tabs>
-  <TabItem value="row-mask" label="Zeilenmodus" default>
-    
-    ![--width=100%](./images/event-row-mask.jpg)
-  </TabItem>
-  <TabItem value="window-mask" label="Fenstermodus">
-    
-    ![--width=450px](./images/event-mask.png)
-  </TabItem>
-</Tabs>
-
+### Felder
 
 :::info[Pflichtfelder]
 Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
 :::
 
-## Felder
-
 <Dl>
-    <dt>Titel</dt>
+    <dt>Titel\*</dt>
     <dd>Kurze Beschreibung des Termins, in der Regel weniger als 80 Zeichen.</dd>
     <dt>Beschreibung</dt>
     <dd>Detaillierte Beschreibung des Termins. Kann auch mehrere Absätze enthalten.</dd>
@@ -105,20 +102,27 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
     <dd>Datum und Uhrzeit, wann der Termin endet. Der Termin kann auch ganztägig sein.</dd>
     <dt>Ort</dt>
     <dd>Wo findet der Termin statt? Darf auch leer bleiben.</dd>
-    <dt>Publikum</dt>
+    <dt>Publikum\*</dt>
     <dd>
         Wer ist vom Termin betroffen?
     </dd>
     <dd>
-        Zusätzlich zu den betroffenen Abteilungs- und Klassen(gruppen) kann auch angegeben werden, wer betroffen ist und ob der Regelunterricht tangiert wird.
+        ![](./images/audience.png)
+        Betrifft
+        - :mdi[office-building]{.info} eine ganze Abteilung.
+        - :mdi[google-classroom]{.orange} eine bekannte Klasse.
+        - :mdi[account-question]{.red} eine künftige Klasse, die noch nicht in WebUntis geführt wird.
+        - :mdi[account-multiple]{.blue} ein ganzer Klassenjahrgang. 
     </dd>
     <dt>Betrifft</dt>
     <dd style={{marginBottom: '1.2em 0'}}>
+        <Badge text="interaktiv!" icon={mdiArrowDownThick} color="orange" iconSide="left" title="Klicke auf die verschiedenen Optionen um die betroffenen Gruppen anzuzeigen." />
         <AudienceOptionsField />
-        Eine präzisere Übersicht findet sich [👉 weiter unten](#betrifft)
+        Eine detailliertere Übersicht findet sich [👉 weiter unten](#betrifft).
     </dd>
     <dt>Unterricht betroffen?</dt>
     <dd>
+        <Badge text="interaktiv!" icon={mdiArrowDownThick} color="orange" iconSide="left" title="Klicke auf die verschiedenen Optionen um die Beispiele anzuzeigen." />
         <TeachingAffectedField />
     </dd>
     <dt>Status</dt>
@@ -168,43 +172,16 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
     <dd>
         :::warning[Veröffentlichte Termine]
         Ist ein Termin einmal veröffentlicht, so kann er nicht mehr direkt bearbeitet oder komplett gelöscht werden.
-        - Gelöschte Termine werden in der Übersicht nicht mehr angezeigt, erscheinen aber weiterhin im abonnierten Kalender.
-        - Änderungen führen stets zu einer neuen Version, wobei stets die aktuellste Version angezeigt wird.
+        - Gelöschte Termine werden in der Übersicht nicht mehr angezeigt, erscheinen aber weiterhin im abonnierten Kalender als gelöschter Termin.
+        - Änderungen bei veröffentlichten Terminen führen stets zu einer neuen Version, wobei stets die aktuellste Version angezeigt wird.
         Anpassungen sind dadurch transparent nachvollziehbar.
         :::
     </dd>
 </Dl>
 
-\* Dies sind Pflichtfelder, die zwingend eingetragen werden müssen.
+\* Pflichtfelder, die zwingend eingetragen werden müssen.
 
-## Zur Überprüfung einreichen
-
-Ein **neuer Termin** kann während einem offenen Eingabefenster zur Überprüfung eingereicht werden. Die Admins werden benachrichtigt und prüfen den Termin. Nach der Veröffentlichung wird der Termin im Kalender angezeigt.
-
-![](./images/event-window.png)
-
-<Dl>
-    <dt><Badge text="1" color="red" /></dt>
-    <dd>Offene Eingabefenster sind farbig hinterlegt.</dd>
-    <dt><Badge text="2" color="red" /></dt>
-    <dd>In dieser Zeitspanne können neue Termine zur Überprüfung eingereicht werden.</dd>
-    <dt><Badge text="3" color="red" /></dt>
-    <dd>Für diese Zeitspanne können die neuen Termine eingereicht werden.</dd>
-    <dt><Badge text="4" color="red" /></dt>
-    <dd>Eine dieser Abteilungen muss im eingereichten Termin vorkommen.</dd>
-</Dl>
-
-Die Eingabefenster werden von der Administration festgelegt und wie bisher in einer Orientierung kommuniziert.
-Ein Eingabefenster ist vom Start- bis zum Enddatum offen und ermöglicht in dieser Zeit, **neue Termine** einzureichen. 
-
-**Bestehende Termine** können auch ausserhalb der Eingabefenster aktualisiert werden, wobei Änderungen auch wieder von der Administration geprüft und veröffentlicht werden.
-
-:::tip[Fehlerhafte Termine]
-Wer fehlerhafte Angaben entdeckt, kann diese selber korrigieren und den Vorschlag zur Prüfung einreichen.
-:::
-
-
-## Betrifft
+### Betrifft
 Schulische Termine betreffen __Lehrpersonen__, __Klassenlehrpersonen__, die __Schülerschaft__ oder __Alle__. Abhängig davon, für wen die Termine erfasst wurden und ob der stundenplanmässige Unterricht betroffen ist, werden sie im Terminplan angezeigt.
 
 Die folgende Tabelle zeigt eine Übersicht, wann ein Termin für die verschiedenen Zielgruppen angezeigt wird.
@@ -258,9 +235,14 @@ Die folgende Tabelle zeigt eine Übersicht, wann ein Termin für die verschieden
 
 \* Wenn ein Termin während einer Lektion im Regelstundenplan stattfindet (auch, wenn er während der Lektion beginnt oder endet), wird er für betroffene Lehrpersonen angezeigt.
 
-## Künftige Klassen
+### Künftige Klassen
 
 Für Klassen oder Jahrgänge, die noch nicht in WebUntis geführt werden, können entsprechende Klassen bereits im Voraus hinterlegt werden.
+
+:::info[Jahrgang]
+Ein Klassenjahrgang betrifft alle Klassen eines ganzen Jahrgangs. Dies wird mit einem `*` angezeigt. Z.B. <Badge text="29G*" inline /> für alle 29er Klassen des Gymnasiums oder <Badge text="29F*" inline/> für alle 29er Klassen der FMS.
+:::
+
 
 <VideoGrid
     videos={[
@@ -268,17 +250,46 @@ Für Klassen oder Jahrgänge, die noch nicht in WebUntis geführt werden, könne
             src: require('./images/event-new-class.mp4').default,
             title: 'Zukünftige Klasse erfassen',
             autoplay: true,
+            maxHeight: '300px',
             loop: true
         },
         {
             src: require('./images/event-new-class-group.mp4').default,
             title: 'Zukünftigen Jahrgang erfassen',
             autoplay: true,
+            maxHeight: '300px',
             loop: true
         }
     ]}
 />
 
-:::info[Jahrgang]
-Ein Klassenjahrgang betrifft alle Klassen eines ganzen Jahrgangs. Dies wird mit einem `*` angezeigt. Z.B. <Badge text="29G*" inline /> für alle 29er Klassen des Gymnasiums oder <Badge text="29F*" inline/> für alle 29er Klassen der FMS.
+## Zur Überprüfung einreichen
+
+Ein **neuer Termin** kann während einem offenen Eingabefenster zur Überprüfung eingereicht werden. Die Admins werden benachrichtigt und prüfen den Termin. Nach der Veröffentlichung wird der Termin im Kalender angezeigt.
+
+### Eingabefenster
+
+![](./images/event-window.png)
+
+<Dl>
+    <dt><Badge text="1" color="red" /></dt>
+    <dd>Offene Eingabefenster sind schwarz hinterlegt.</dd>
+    <dt><Badge text="2" color="red" /></dt>
+    <dd>In dieser Zeitspanne können neue Termine zur Überprüfung eingereicht werden.</dd>
+    <dt><Badge text="3" color="red" /></dt>
+    <dd>Für diese Zeitspanne können die neuen Termine eingereicht werden.</dd>
+    <dt><Badge text="4" color="red" /></dt>
+    <dd>Eine dieser Abteilungen muss im eingereichten Termin vorkommen.</dd>
+</Dl>
+
+:::info[Festlegung der Eingabefenster]
+Die Eingabefenster werden von der Administration festgelegt und wie bisher in einer Orientierung kommuniziert.
+Ein Eingabefenster ist vom Start- bis zum Enddatum offen und ermöglicht in dieser Zeit, **neue Termine** einzureichen.
 :::
+
+:::tip[Terminänderungen]
+Bei **fehlerhaften** Terminen oder **unvollständigen** Angaben (bspw. Zimmerzuteilungen) kann ein Änderungsantrag an die Admins gemacht werden. Diese prüfen den Antrag und veröffentlichen ggf. den aktualisierten Termin.
+:::
+
+
+
