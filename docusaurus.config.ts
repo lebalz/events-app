@@ -232,6 +232,7 @@ const config: Config = {
                                     green: 'var(--ifm-color-success)',
                                     red: 'var(--ifm-color-danger)',
                                     orange: 'var(--ifm-color-warning)',
+                                    info: 'var(--ifm-color-info)',
                                     yellow: '#edcb5a',
                                     blue: '#3578e5',
                                     cyan: '#01f0bc'

@@ -11,6 +11,7 @@ import {
     mdiArrowLeftBoldCircleOutline,
     mdiArrowRightBoldCircleOutline,
     mdiArrowRightBottom,
+    mdiBookArrowLeftOutline,
     mdiCalendarImport,
     mdiClose,
     mdiEqual,
@@ -47,6 +48,8 @@ import IsValid from '../EventFields/IsValid';
 import Transition from '../EventFields/Actions/Transition';
 import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
 import AudienceOptions from '../EventFields/AudienceOptions';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { useHistory } from '@docusaurus/router';
 
 interface Props {
     event: EventModel;
@@ -61,8 +64,13 @@ const EventProps = observer((props: Props) => {
     const { event } = props;
     const [showAllAffectedLessons, setShowAllAffectedLessons] = React.useState(false);
     const userStore = useStore('userStore');
+    const eventStore = useStore('eventStore');
     const socketStore = useStore('socketStore');
+    const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
+    const draftEventsUrl = useBaseUrl('/user?user-tab=events&events-tab=my-events');
+    const history = useHistory();
+
     React.useEffect(() => {
         event?.loadVersions();
     }, [event]);
@@ -369,7 +377,46 @@ const EventProps = observer((props: Props) => {
                 <DefaultActions
                     event={event}
                     hideOpen={props.inModal}
-                    rightActions={<ToggleSubscription event={event} hideText />}
+                    hideEdit={event.isReview}
+                    rightActions={
+                        <>
+                            <ToggleSubscription event={event} hideText />
+                            {event.isReview && (
+                                <>
+                                    <div style={{ flexGrow: 1, flexBasis: '100%' }} />
+                                    <Button
+                                        text={translate({
+                                            message: 'Zurückziehen',
+                                            id: 'event.bulk_actions.editing',
+                                            description: 'Edit Event'
+                                        })}
+                                        title={translate({
+                                            message: 'Termin zurückziehen zum bearbeiten.',
+                                            id: 'event.bulk_actions.editing.title',
+                                            description: 'Edit Event'
+                                        })}
+                                        icon={<Icon path={mdiBookArrowLeftOutline} color="red" size={SIZE} />}
+                                        className={clsx(styles.red)}
+                                        iconSide="left"
+                                        onClick={() => {
+                                            eventStore.clone(event).then((rawEvent) => {
+                                                const newEvent = eventStore.find(rawEvent.id);
+                                                if (!newEvent) {
+                                                    return;
+                                                }
+                                                newEvent.setEditing(true);
+                                                eventStore.destroy(event);
+                                                history.push(draftEventsUrl);
+                                                setTimeout(() => {
+                                                    viewStore.setEventModalId(newEvent.id);
+                                                }, 1);
+                                            });
+                                        }}
+                                    />
+                                </>
+                            )}
+                        </>
+                    }
                 />
             </dd>
             <dt>

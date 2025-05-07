@@ -103,7 +103,7 @@ const UserPage = observer(() => {
                         <TabItem
                             value="events"
                             label={translate({
-                                message: 'Events',
+                                message: 'Termine',
                                 id: 'user.tab.events'
                             })}
                         >
