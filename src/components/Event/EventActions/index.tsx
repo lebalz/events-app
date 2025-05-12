@@ -29,9 +29,11 @@ const BTN_SIZE = SIZE;
 
 const DefaultActions = observer((props: Props) => {
     const { event } = props;
+    const userStore = useStore('userStore');
     const viewStore = useStore('viewStore');
     const eventStore = useStore('eventStore');
     const sessionStore = useStore('sessionStore');
+    const { current } = userStore;
     const shareUrl = useBaseUrl(event.shareUrl);
     const { isLoggedIn } = sessionStore;
     return (
@@ -66,7 +68,7 @@ const DefaultActions = observer((props: Props) => {
                     id: 'button.open.title'
                 })}
             />
-            {isLoggedIn && !(props.hideEdit || event.isEditing) && (
+            {isLoggedIn && !(props.hideEdit || event.isEditing) && !event.isDeleted && (
                 <EditRowMode event={event} onEdit={props.closePopup} iconSize={BTN_SIZE} />
             )}
             {isLoggedIn && (
@@ -145,11 +147,14 @@ const DefaultActions = observer((props: Props) => {
                         }}
                         apiState={event.apiStateFor(`save-${event.id}`)}
                     />
-                    <Delete
-                        onClick={() => event.destroy()}
-                        apiState={event.apiStateFor(`destroy-${event.id}`)}
-                    />
                 </>
+            )}
+            {isLoggedIn && (current.id === event.authorId || current.isAdmin) && !event.isDeleted && (
+                <Delete
+                    onClick={() => event.destroy()}
+                    apiState={event.apiStateFor(`destroy-${event.id}`)}
+                    size={BTN_SIZE}
+                />
             )}
             {props.rightActions}
         </div>

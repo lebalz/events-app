@@ -129,13 +129,29 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
     </dd>
     <dt>Betrifft</dt>
     <dd style={{marginBottom: '1.2em 0'}}>
-        <Badge text="interaktiv!" icon={mdiArrowDownThick} color="orange" iconSide="left" title="Klicke auf die verschiedenen Optionen um die betroffenen Gruppen anzuzeigen." />
+        <Badge 
+            text="Schaltfläche anwählen für Beispiele [KLP], [SuS], [Alle]" 
+            icon={mdiArrowDownThick} 
+            size={0.7}
+            color="orange" 
+            iconSide="left" 
+            className={styles.interactionHint}
+            title="Klicke auf die verschiedenen Optionen um die betroffenen Gruppen anzuzeigen." 
+        />
         <AudienceOptionsField />
         Eine detailliertere Übersicht findet sich [👉 weiter unten](#betrifft).
     </dd>
     <dt>Unterricht betroffen?</dt>
     <dd>
-        <Badge text="interaktiv!" icon={mdiArrowDownThick} color="orange" iconSide="left" title="Klicke auf die verschiedenen Optionen um die Beispiele anzuzeigen." />
+        <Badge 
+            text="Schaltfläche anwählen für Beispiele [Teilweise], [Nein]" 
+            size={0.7}
+            icon={mdiArrowDownThick} 
+            color="orange" 
+            iconSide="left" 
+            className={styles.interactionHint}
+            title="Klicke auf die verschiedenen Optionen um die Beispiele anzuzeigen."
+        />
         <TeachingAffectedField />
     </dd>
     <dt>Status</dt>

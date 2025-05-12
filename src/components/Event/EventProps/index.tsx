@@ -381,7 +381,7 @@ const EventProps = observer((props: Props) => {
                     rightActions={
                         <>
                             <ToggleSubscription event={event} hideText />
-                            {event.isReview && (
+                            {event.isReview && !event.isDeleted && (
                                 <>
                                     <div style={{ flexGrow: 1, flexBasis: '100%' }} />
                                     <Button
@@ -395,21 +395,24 @@ const EventProps = observer((props: Props) => {
                                             id: 'event.bulk_actions.editing.title',
                                             description: 'Edit Event'
                                         })}
-                                        icon={<Icon path={mdiBookArrowLeftOutline} color="red" size={SIZE} />}
+                                        icon={mdiBookArrowLeftOutline}
+                                        size={SIZE}
+                                        color="red"
                                         className={clsx(styles.red)}
                                         iconSide="left"
                                         onClick={() => {
-                                            eventStore.clone(event).then((rawEvent) => {
-                                                const newEvent = eventStore.find(rawEvent.id);
-                                                if (!newEvent) {
-                                                    return;
-                                                }
-                                                newEvent.setEditing(true);
-                                                eventStore.destroy(event);
+                                            eventStore.updateBatched([{ id: event.id }]).then((newEvents) => {
+                                                newEvents.forEach((e) => {
+                                                    eventStore.find(e.id)?.setEditing(true);
+                                                });
                                                 history.push(draftEventsUrl);
-                                                setTimeout(() => {
-                                                    viewStore.setEventModalId(newEvent.id);
-                                                }, 1);
+                                                eventStore.destroy(event);
+                                                const modalId = newEvents[0]?.id;
+                                                if (modalId) {
+                                                    setTimeout(() => {
+                                                        viewStore.setEventModalId(modalId);
+                                                    }, 1);
+                                                }
                                             });
                                         }}
                                     />

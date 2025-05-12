@@ -1,9 +1,6 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Popup from 'reactjs-popup';
 import { View, ViewIcons, ViewTranslations } from '.';
 import Button from '../shared/Button';

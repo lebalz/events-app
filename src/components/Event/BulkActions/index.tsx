@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import { default as EventModel } from '@site/src/models/Event';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
@@ -15,9 +14,7 @@ import {
     mdiBellRemove,
     mdiBookArrowLeftOutline,
     mdiBookCancel,
-    mdiBookEditOutline,
     mdiBookmarkCheck,
-    mdiBookmarkMinus,
     mdiClose,
     mdiDownloadCircleOutline,
     mdiFileCertificate,
@@ -31,7 +28,6 @@ import EventGroup from '@site/src/models/EventGroup';
 import Stats from './stats';
 import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 import { InvalidTransitionMessages } from '../EventFields/Actions/Transition';
-import Loader from '../../shared/Loader';
 import ValidationChecker from './ValidationChecker';
 import Popup from 'reactjs-popup';
 import NewGroup from '../../EventGroup/NewGroup';
@@ -67,6 +63,7 @@ export interface Props {
     actionConfig?: Partial<ActionConfig>;
     eventTable: EventTable;
     noFilter?: boolean;
+    hideRecallAction?: boolean;
 }
 
 const BulkActions = observer((props: Props) => {
@@ -158,7 +155,9 @@ const BulkActions = observer((props: Props) => {
                                         })
                                       : undefined
                             }
-                            icon={<Icon path={mdiBookmarkCheck} color="blue" size={SIZE_XS} />}
+                            icon={mdiBookmarkCheck}
+                            color="blue"
+                            size={SIZE_S}
                             className={clsx(styles.blue)}
                             iconSide="left"
                             onClick={() => {
@@ -176,39 +175,42 @@ const BulkActions = observer((props: Props) => {
                     )}
                     {eventTable.selectedStates[0] === EventState.Review && (
                         <>
-                            <Button
-                                text={
-                                    isMobileView
-                                        ? undefined
-                                        : translate({
-                                              message: 'Zurückziehen',
-                                              id: 'event.bulk_actions.editing',
-                                              description: 'Edit Event'
-                                          })
-                                }
-                                title={translate({
-                                    message: 'Termin zurückziehen zum bearbeiten.',
-                                    id: 'event.bulk_actions.editing.title',
-                                    description: 'Edit Event'
-                                })}
-                                icon={<Icon path={mdiBookArrowLeftOutline} color="red" size={SIZE_S} />}
-                                className={clsx(styles.red)}
-                                iconSide="left"
-                                onClick={() => {
-                                    const currentSelected = [...eventTable.selectedEvents];
-                                    Promise.all(
-                                        currentSelected.map((e) => {
-                                            return eventStore.clone(e);
-                                        })
-                                    ).then((newEvents) => {
-                                        newEvents.forEach((e) => {
-                                            eventStore.find(e.id)?.setEditing(true);
-                                        });
-                                        history.push(draftEventsUrl);
-                                        eventStore.destroyMany(currentSelected);
-                                    });
-                                }}
-                            />
+                            {!props.hideRecallAction && (
+                                <Button
+                                    text={
+                                        isMobileView
+                                            ? undefined
+                                            : translate({
+                                                  message: 'Zurückziehen',
+                                                  id: 'event.bulk_actions.editing',
+                                                  description: 'Edit Event'
+                                              })
+                                    }
+                                    title={translate({
+                                        message: 'Termin zurückziehen zum bearbeiten.',
+                                        id: 'event.bulk_actions.editing.title',
+                                        description: 'Edit Event'
+                                    })}
+                                    disabled={eventTable.selectedEvents.some(
+                                        (e) => e.authorId !== current?.id
+                                    )}
+                                    icon={<Icon path={mdiBookArrowLeftOutline} color="red" size={SIZE_S} />}
+                                    className={clsx(styles.red)}
+                                    iconSide="left"
+                                    onClick={() => {
+                                        const currentSelected = [...eventTable.selectedEvents];
+                                        eventStore
+                                            .updateBatched(currentSelected.map((e) => ({ id: e.id })))
+                                            .then((newEvents) => {
+                                                newEvents.forEach((e) => {
+                                                    eventStore.find(e.id)?.setEditing(true);
+                                                });
+                                                history.push(draftEventsUrl);
+                                                eventStore.destroyMany(currentSelected);
+                                            });
+                                    }}
+                                />
+                            )}
                             {userStore.current?.isAdmin && (
                                 <>
                                     <Button
@@ -230,7 +232,9 @@ const BulkActions = observer((props: Props) => {
                                                   })
                                                 : undefined
                                         }
-                                        icon={<Icon path={mdiFileCertificate} color="green" />}
+                                        size={SIZE_S}
+                                        icon={mdiFileCertificate}
+                                        color="green"
                                         iconSide="left"
                                         className={clsx(styles.success)}
                                         onClick={() => {
@@ -259,7 +263,9 @@ const BulkActions = observer((props: Props) => {
                                                   })
                                                 : undefined
                                         }
-                                        icon={<Icon path={mdiBookCancel} color="orange" />}
+                                        size={SIZE_S}
+                                        icon={mdiBookCancel}
+                                        color="orange"
                                         iconSide="left"
                                         className={clsx(styles.revoke)}
                                         onClick={() => {

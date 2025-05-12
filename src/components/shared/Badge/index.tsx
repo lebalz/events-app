@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React, { ComponentProps, type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
@@ -16,6 +16,7 @@ export interface Base {
     disabled?: boolean;
     size?: number;
     inline?: boolean;
+    tooltipProps?: Partial<ComponentProps<typeof Tooltip>>;
 }
 interface IconProps extends Base {
     icon: ReactNode | string;
@@ -100,7 +101,7 @@ const Badge = (props: Props) => {
         props.disabled && styles.disabled
     );
     return (
-        <Tooltip title={props.title}>
+        <Tooltip title={props.title} {...(props.tooltipProps || {})}>
             <span className={clsx(commonCls, styles.tooltiped, props.inline && styles.inline)} style={style}>
                 <BadgeInner {...props} />
             </span>

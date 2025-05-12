@@ -1,12 +1,11 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { DeleteIcon, SIZE_S } from '../icons';
-import Button, { Base, POPUP_BUTTON_STYLE, extractSharedProps } from '.';
+import Button, { Base, extractSharedProps } from '.';
 import Translate, { translate } from '@docusaurus/Translate';
 import Popup from 'reactjs-popup';
-import { getButtonColorClass } from '../Colors';
 
 interface Props {
     onClick: () => void;
