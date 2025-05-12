@@ -5,7 +5,6 @@ import shared from '../../styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import { translate } from '@docusaurus/Translate';
-import User from '@site/src/models/User';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import { COLUMN_CONFIG } from '..';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
@@ -38,7 +37,8 @@ const ToReviewTab = observer((props: Props) => {
                     className: shared.indent,
                     rightActions: [
                         <ChangeViewAction viewType={viewType} setViewType={setViewType} key="action-r1" />
-                    ]
+                    ],
+                    hideRecallAction: true
                 }}
                 type={viewType}
             />
