@@ -54,12 +54,22 @@ class EventTable {
 
     @observable accessor showSelect = false;
 
+    /**
+     * displays only events that have no parent
+     */
+    @observable accessor onlyRootEvents = true;
+
     constructor(store: ViewStore, events?: Event[], publicOnly?: boolean) {
         this.store = store;
         this.publicOnly = !!publicOnly;
         if (events) {
             this._events = observable<Event>(events, { deep: false });
         }
+    }
+
+    @action
+    setOnlyRootEvents(onlyRootEvents: boolean) {
+        this.onlyRootEvents = onlyRootEvents;
     }
 
     @action
@@ -228,7 +238,7 @@ class EventTable {
             if (this.publicOnly && event.state !== EventState.Published) {
                 return false;
             }
-            if (event.hasParent) {
+            if (this.onlyRootEvents && event.hasParent) {
                 return false;
             }
             let keep = true;
