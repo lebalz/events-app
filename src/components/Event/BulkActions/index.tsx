@@ -199,17 +199,15 @@ const BulkActions = observer((props: Props) => {
                                     iconSide="left"
                                     onClick={() => {
                                         const currentSelected = [...eventTable.selectedEvents];
-                                        Promise.all(
-                                            currentSelected.map((e) => {
-                                                return eventStore.clone(e);
-                                            })
-                                        ).then((newEvents) => {
-                                            newEvents.forEach((e) => {
-                                                eventStore.find(e.id)?.setEditing(true);
+                                        eventStore
+                                            .updateBatched(currentSelected.map((e) => ({ id: e.id })))
+                                            .then((newEvents) => {
+                                                newEvents.forEach((e) => {
+                                                    eventStore.find(e.id)?.setEditing(true);
+                                                });
+                                                history.push(draftEventsUrl);
+                                                eventStore.destroyMany(currentSelected);
                                             });
-                                            history.push(draftEventsUrl);
-                                            eventStore.destroyMany(currentSelected);
-                                        });
                                     }}
                                 />
                             )}

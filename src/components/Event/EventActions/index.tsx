@@ -68,7 +68,7 @@ const DefaultActions = observer((props: Props) => {
                     id: 'button.open.title'
                 })}
             />
-            {isLoggedIn && !(props.hideEdit || event.isEditing) && (
+            {isLoggedIn && !(props.hideEdit || event.isEditing) && !event.isDeleted && (
                 <EditRowMode event={event} onEdit={props.closePopup} iconSize={BTN_SIZE} />
             )}
             {isLoggedIn && (
@@ -149,7 +149,7 @@ const DefaultActions = observer((props: Props) => {
                     />
                 </>
             )}
-            {isLoggedIn && (current.id === event.authorId || current.isAdmin) && (
+            {isLoggedIn && (current.id === event.authorId || current.isAdmin) && !event.isDeleted && (
                 <Delete
                     onClick={() => event.destroy()}
                     apiState={event.apiStateFor(`destroy-${event.id}`)}

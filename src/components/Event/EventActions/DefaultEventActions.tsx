@@ -67,7 +67,7 @@ const DefaultEventActions = observer((props: Props) => {
                     })}
                 />
             </dd>
-            {!props.hideEdit && (
+            {!props.hideEdit && !event.isDeleted && (
                 <>
                     <dt>
                         <Translate id="event.options.edit" description="Text of the button edit">
@@ -95,7 +95,7 @@ const DefaultEventActions = observer((props: Props) => {
             <dd>
                 <AddToGroup event={event} />
             </dd>
-            {(userStore.current?.isAdmin || userStore.current?.id === event.authorId) && (
+            {(userStore.current?.isAdmin || userStore.current?.id === event.authorId) && !event.isDeleted && (
                 <>
                     <dt>
                         <Translate id="event.options.delete" description="Text of the button delete">
