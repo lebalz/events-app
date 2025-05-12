@@ -8,6 +8,7 @@ import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
 import { COLUMN_CONFIG } from '..';
 import NoEventsAlert from '../NoEventsAlert';
+import { useEventTable } from '@site/src/components/EventsViewer/useEventTable';
 interface Props {
     viewType: View;
     onChangeView: (view: View) => void;
@@ -17,6 +18,12 @@ const DeletedTab = observer((props: Props) => {
     const { viewType } = props;
     const viewStore = useStore('viewStore');
     const events = viewStore.usersEvents({ onlyDeleted: true });
+    const eventTable = useEventTable(events);
+    React.useEffect(() => {
+        if (eventTable?.hideDeleted) {
+            eventTable.setHideDeleted(false);
+        }
+    }, [eventTable]);
 
     const label = translate({
         message: 'Gelöscht',
@@ -26,7 +33,6 @@ const DeletedTab = observer((props: Props) => {
     if (events.length === 0) {
         return <NoEventsAlert category={label} />;
     }
-
     return (
         <div className={clsx(shared.card, 'card')}>
             <div className={clsx('card__header')}>
@@ -35,6 +41,7 @@ const DeletedTab = observer((props: Props) => {
             <EventsViewer
                 events={events}
                 gridConfig={{ columns: COLUMN_CONFIG }}
+                eventTable={eventTable}
                 bulkActionConfig={{
                     className: shared.indent,
                     rightActions: [

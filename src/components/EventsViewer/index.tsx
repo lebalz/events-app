@@ -65,7 +65,6 @@ interface Props {
 
 const EventsViewer = observer((props: Props) => {
     const eventTable = useEventTable(props.events, props.eventTable);
-
     if (!eventTable) {
         return <Loader />;
     }
