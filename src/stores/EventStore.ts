@@ -249,9 +249,7 @@ export class EventStore extends iStore<
             return apiRequestState(state, eventIds, sig.signal).then(
                 action(({ data }) => {
                     if (data) {
-                        data.map((d) => {
-                            this.addToStore(d);
-                        });
+                        this.bulkAddToStore(data);
                     }
                     return this.models;
                 })
@@ -299,9 +297,7 @@ export class EventStore extends iStore<
                 return apiFetchEvents(chunkedIds, sig.signal).then(
                     action(({ data }) => {
                         if (data) {
-                            return data.map((d) => {
-                                return this.addToStore(d);
-                            });
+                            return this.bulkAddToStore(data);
                         }
                         return [];
                     })
@@ -420,9 +416,7 @@ export class EventStore extends iStore<
         return this.withAbortController(`update-batched-${events.map((e) => e.id).join(':')}`, (sig) => {
             return apiUpdateBatched(events, sig.signal).then(({ data }) => {
                 if (data) {
-                    data.forEach((d) => {
-                        this.addToStore(d);
-                    });
+                    this.bulkAddToStore(data);
                 }
                 return data;
             });

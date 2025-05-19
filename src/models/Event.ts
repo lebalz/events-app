@@ -367,10 +367,18 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.validationState === ValidState.Error) {
             return { allowed: false, reason: InvalidTransition.Validation };
         }
-
+        if (this.hasOpenRegistrationPeriod) {
+            return { allowed: true };
+        }
+        // a new version is allowed to be transitioned
+        if (this.hasParent && (this.parent?.isPublished || this.parent?.isReview)) {
+            return { allowed: true };
+        }
+        // an event with unknown classes/classGroups should be allowed too
         if (
-            this.hasOpenRegistrationPeriod ||
-            (this.hasParent && (this.parent?.isPublished || this.parent?.isReview))
+            this.affectedDepartments.length === 0 &&
+            this.affectedKnownClasses.size === 0 &&
+            (this.unknownClassGroups.length > 0 || this.affectedClassNames.size > 0)
         ) {
             return { allowed: true };
         }

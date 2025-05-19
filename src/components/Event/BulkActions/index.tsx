@@ -161,14 +161,14 @@ const BulkActions = observer((props: Props) => {
                             className={clsx(styles.blue)}
                             iconSide="left"
                             onClick={() => {
-                                eventStore
-                                    .requestState(
-                                        eventTable.selectedEvents.map((e) => e.id),
-                                        EventState.Review
-                                    )
-                                    .then(() => {
-                                        history.push(reviewedEventsUrl);
-                                    });
+                                const ids = eventTable.selectedEvents.map((e) => e.id);
+                                eventTable.setSelectedEvents(ids, false);
+                                eventStore.requestState(ids, EventState.Review).then(() => {
+                                    if (history.location.search.includes('user-tab=groups')) {
+                                        return;
+                                    }
+                                    history.push(reviewedEventsUrl);
+                                });
                             }}
                             disabled={!eventTable.selectedTransitionable}
                         />

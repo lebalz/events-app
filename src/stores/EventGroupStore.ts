@@ -116,9 +116,7 @@ export class EventGroupStore extends iStore<
             return fetchEvents(model.id, sig.signal);
         })
             .then(({ data }: { data: EventProps[] }) => {
-                return data.map((e) => {
-                    return this.eventStore.addToStore(e);
-                });
+                return this.eventStore.bulkAddToStore(data);
             })
             .catch((err) => {
                 console.log(err);

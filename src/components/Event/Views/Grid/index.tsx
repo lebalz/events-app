@@ -168,7 +168,7 @@ const Grid = observer(
                 ]);
             });
             setColumns(config);
-        }, [props.columns, groupEvents, eventTable.isDescriptionExpanded]);
+        }, [props.columns, eventTable.isDescriptionExpanded]);
 
         const gridTemplateColumns = `repeat(${props.columns.length}, max-content)`;
         return (
