@@ -158,6 +158,27 @@ abstract class iStore<Model extends { id: string }, Api = ''>
     }
 
     @action
+    bulkAddToStore(data: Model[], state?: 'load' | 'create'): ApiModel<Model, Api | ApiAction>[] {
+        /**
+         * Adds a new model to the store. Existing models with the same id are replaced.
+         */
+        if (data.length < 1) {
+            return [];
+        }
+        if (data.length < 30) {
+            return data.map((m) => this.addToStore(m, state));
+        }
+        const newIds = new Set(data.map((m) => m.id).filter(Boolean));
+        const currentModels = this.models.filter((m) => !newIds.has(m.id));
+        const removedModels = this.models.filter((m) => newIds.has(m.id));
+        const newModels = data.map((m) => this.createModel(m, state));
+        const all = [...currentModels, ...newModels];
+        this.models.replace(all);
+        removedModels.forEach((m) => m.cleanup(false));
+        return all;
+    }
+
+    @action
     removeFromStore(id: string, destroyed?: boolean): ApiModel<Model, Api | ApiAction> | undefined {
         /**
          * Removes the model to the store
@@ -189,7 +210,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
                 .then(
                     action(({ data }) => {
                         if (data) {
-                            data.map((d) => this.addToStore(d));
+                            this.bulkAddToStore(data);
                         }
                         return this.postLoad(this.models, models === 'public', true)
                             .then(() => {
