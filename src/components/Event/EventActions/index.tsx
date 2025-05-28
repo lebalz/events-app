@@ -9,7 +9,7 @@ import { translate } from '@docusaurus/Translate';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
 import { DiscardIcon, SIZE, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
-import Event, { ValidState } from '@site/src/models/Event';
+import Event from '@site/src/models/Event';
 import Delete from '../../shared/Button/Delete';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
@@ -69,11 +69,11 @@ const DefaultActions = observer((props: Props) => {
                 })}
             />
             {isLoggedIn && !(props.hideEdit || event.isEditing) && !event.isDeleted && (
-                <EditRowMode event={event} onEdit={props.closePopup} iconSize={BTN_SIZE} />
+                <EditRowMode event={event} onClosePopup={props.closePopup} iconSize={BTN_SIZE} />
             )}
             {isLoggedIn && (
                 <>
-                    <Clone event={event} iconSize={BTN_SIZE} />
+                    <Clone event={event} iconSize={BTN_SIZE} onClosePopup={props.closePopup} />
                     <AddToGroup event={event} iconSize={BTN_SIZE} />
                 </>
             )}

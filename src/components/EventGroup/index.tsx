@@ -34,6 +34,7 @@ import ShiftAudience from './BulkEditor/ShiftAudience';
 import Selector from './Groups/Collection/Selector';
 import { useEventTable } from '../EventsViewer/useEventTable';
 import Loader from '../shared/Loader';
+import { GroupIdProvider } from '../Event/helpers/useEventGroupId';
 
 interface Props {
     group: EventGroupModel;
@@ -387,53 +388,55 @@ const UserEventGroup = observer((props: Props) => {
                 )}
             </div>
             <div className={clsx(styles.spacer)}></div>
-            <LazyDetails
-                className={clsx(styles.eventDetails, 'card__footer')}
-                open={props.standalone}
-                summary={
-                    <summary className={clsx(styles.summary)}>
-                        <div className={clsx(styles.summaryContent)}>
-                            {translate({
-                                message: 'Events',
-                                id: 'components.eventgroup.events',
-                                description: 'text to scroll down the list of events'
-                            })}
-                            <div className={clsx(styles.badges)}>
-                                {group.apiState !== ApiState.IDLE && <ApiIcon state={group.apiState} />}
-                                <Badge text={`${group.eventCount}`} color="primary" />
+            <GroupIdProvider groupId={group.id}>
+                <LazyDetails
+                    className={clsx(styles.eventDetails, 'card__footer')}
+                    open={props.standalone}
+                    summary={
+                        <summary className={clsx(styles.summary)}>
+                            <div className={clsx(styles.summaryContent)}>
+                                {translate({
+                                    message: 'Events',
+                                    id: 'components.eventgroup.events',
+                                    description: 'text to scroll down the list of events'
+                                })}
+                                <div className={clsx(styles.badges)}>
+                                    {group.apiState !== ApiState.IDLE && <ApiIcon state={group.apiState} />}
+                                    <Badge text={`${group.eventCount}`} color="primary" />
+                                </div>
                             </div>
-                        </div>
-                    </summary>
-                }
-                onOpenChange={
-                    props.standalone
-                        ? undefined
-                        : (open) => {
-                              setIsOpen(open);
-                          }
-                }
-            >
-                <div className={clsx(styles.events, 'card__body')}>
-                    <EventsViewer
-                        bulkActionConfig={{
-                            className: styles.bulkActions,
-                            rightActions: [
-                                <ChangeViewAction
-                                    viewType={viewType}
-                                    setViewType={setViewType}
-                                    key="action-r1"
-                                />
-                            ]
-                        }}
-                        eventTable={eventTable}
-                        events={group.events}
-                        type={viewType}
-                        gridConfig={{
-                            columns: columnConfig
-                        }}
-                    />
-                </div>
-            </LazyDetails>
+                        </summary>
+                    }
+                    onOpenChange={
+                        props.standalone
+                            ? undefined
+                            : (open) => {
+                                  setIsOpen(open);
+                              }
+                    }
+                >
+                    <div className={clsx(styles.events, 'card__body')}>
+                        <EventsViewer
+                            bulkActionConfig={{
+                                className: styles.bulkActions,
+                                rightActions: [
+                                    <ChangeViewAction
+                                        viewType={viewType}
+                                        setViewType={setViewType}
+                                        key="action-r1"
+                                    />
+                                ]
+                            }}
+                            eventTable={eventTable}
+                            events={group.events}
+                            type={viewType}
+                            gridConfig={{
+                                columns: columnConfig
+                            }}
+                        />
+                    </div>
+                </LazyDetails>
+            </GroupIdProvider>
         </div>
     );
 });
