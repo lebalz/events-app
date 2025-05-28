@@ -1734,7 +1734,7 @@
   },
   "theme.colorToggle.ariaLabel": {
     "message": "Umschalten zwischen dunkler und heller Ansicht (momentan {mode})",
-    "description": "The ARIA label for the navbar color mode toggle"
+    "description": "The ARIA label for the color mode toggle"
   },
   "theme.colorToggle.ariaLabel.mode.dark": {
     "message": "dunkler Modus",
@@ -2211,5 +2211,26 @@
   "event.bulk_actions.editing.title": {
     "message": "Termin zurückziehen zum bearbeiten.",
     "description": "Edit Event"
+  },
+  "navcard.tutorial.newEvent": {
+    "message": "Anleitung: Termin erfassen"
+  },
+  "teachingAffected.no.example.3": {
+    "message": "LP begleitet eine Exkursion, hätte aber Unterricht mit 28Gj."
+  },
+  "teachingAffected.no.example.description.3": {
+    "message": "Der Unterricht der 28Gj ist nicht betroffen, da die Klasse mit einem Auftrag beschäftigt wird."
+  },
+  "theme.colorToggle.ariaLabel.mode.system": {
+    "message": "System Modus",
+    "description": "The name for the system color mode"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
+    "message": "Dropdown erweitern",
+    "description": "The ARIA label of the button to expand the mobile dropdown navbar item"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
+    "message": "Dropdown schliessen",
+    "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
   }
 }
