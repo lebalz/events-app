@@ -9,7 +9,7 @@ import { translate } from '@docusaurus/Translate';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
 import { DiscardIcon, SIZE, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
-import Event, { ValidState } from '@site/src/models/Event';
+import Event from '@site/src/models/Event';
 import Delete from '../../shared/Button/Delete';
 import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
