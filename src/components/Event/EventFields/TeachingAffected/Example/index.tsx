@@ -50,6 +50,17 @@ export const ExampleMap: { [key in TeachingAffected]: Example[] } = {
                 message: 'Der Unterricht findet normal statt.',
                 id: 'teachingAffected.no.example.description.2'
             })
+        },
+        {
+            example: translate({
+                message: 'LP begleitet eine Exkursion, hätte aber Unterricht mit 28Gj.',
+                id: 'teachingAffected.no.example.3'
+            }),
+            description: translate({
+                message:
+                    'Der Unterricht der 28Gj ist nicht betroffen, da die Klasse mit einem Auftrag beschäftigt wird.',
+                id: 'teachingAffected.no.example.description.3'
+            })
         }
     ],
     [TeachingAffected.PARTIAL]: [
