@@ -158,7 +158,7 @@ const config: Config = {
         rspackBundler: true,
         swcHtmlMinimizer: true,
         swcJsMinimizer: true,
-        rspackPersistentCache: true,
+        rspackPersistentCache: false,
         ssgWorkerThreads: true
       },
     },
