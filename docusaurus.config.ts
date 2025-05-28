@@ -146,10 +146,7 @@ const config: Config = {
         },
     },
     future: {
-      v4: {
-        removeLegacyPostBuildHeadAttribute: true, // required
-        useCssCascadeLayers: true
-      },
+      v4: true,
       experimental_faster: {
         /**
          * no config options for swcJsLoader so far. 
