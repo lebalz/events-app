@@ -131,5 +131,5 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 ### Update Docusaurus
 
 ```bash
-yarn upgrade @docusaurus/core@latest @docusaurus/faster@latest @docusaurus/plugin-pwa@latest @docusaurus/preset-classic@latest @docusaurus/module-type-aliases@latest @docusaurus/tsconfig@latest @docusaurus/types@latest 
+yarn upgrade @docusaurus/core@latest @docusaurus/faster@latest @docusaurus/plugin-pwa@latest @docusaurus/preset-classic@latest @docusaurus/module-type-aliases@latest @docusaurus/tsconfig@latest @docusaurus/types@latest @docusaurus/theme-mermaid@latest
 ```
