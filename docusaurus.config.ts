@@ -148,7 +148,7 @@ const config: Config = {
     future: {
       v4: {
         removeLegacyPostBuildHeadAttribute: true, // required
-        useCssCascadeLayers: false
+        useCssCascadeLayers: true
       },
       experimental_faster: {
         /**

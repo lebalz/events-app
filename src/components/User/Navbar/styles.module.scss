@@ -1,5 +1,7 @@
-:global(.navbar__inner) {
-    .mobile {
-        display: none;
+@layer docusaurus.infima {
+    :global(.navbar__inner) {
+        .mobile {
+            display: none;
+        }
     }
 }
