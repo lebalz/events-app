@@ -146,6 +146,7 @@ const config: Config = {
         },
     },
     future: {
+      v4: true,
       experimental_faster: {
         /**
          * no config options for swcJsLoader so far. 
@@ -157,6 +158,8 @@ const config: Config = {
         rspackBundler: true,
         swcHtmlMinimizer: true,
         swcJsMinimizer: true,
+        rspackPersistentCache: true,
+        ssgWorkerThreads: true
       },
     },
     webpack: {
