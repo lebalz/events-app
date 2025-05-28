@@ -56,6 +56,8 @@ export const EditRowMode = observer((props: ActionProps) => {
 
 export const Clone = observer((props: ActionProps) => {
     const eventStore = useStore('eventStore');
+    const windowSize = useWindowSize();
+    const viewStore = useStore('viewStore');
     const history = useHistory();
     const { event } = props;
     return (
@@ -72,9 +74,17 @@ export const Clone = observer((props: ActionProps) => {
                     if (newEvent) {
                         const id = (newEvent as { id: string }).id;
                         history.push(
-                            `${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events`
+                            `${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events&events-tab=my-events`
                         );
-                        eventStore.find(id)?.setEditing(true);
+                        const cloned = eventStore.find(id);
+                        if (cloned) {
+                            cloned.setEditing(true);
+                            if (windowSize === 'mobile') {
+                                setTimeout(() => {
+                                    viewStore.setEventModalId(cloned.id);
+                                }, 0);
+                            }
+                        }
                     }
                 });
             }}
