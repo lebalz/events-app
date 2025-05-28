@@ -69,11 +69,11 @@ const DefaultActions = observer((props: Props) => {
                 })}
             />
             {isLoggedIn && !(props.hideEdit || event.isEditing) && !event.isDeleted && (
-                <EditRowMode event={event} onEdit={props.closePopup} iconSize={BTN_SIZE} />
+                <EditRowMode event={event} onClosePopup={props.closePopup} iconSize={BTN_SIZE} />
             )}
             {isLoggedIn && (
                 <>
-                    <Clone event={event} iconSize={BTN_SIZE} />
+                    <Clone event={event} iconSize={BTN_SIZE} onClosePopup={props.closePopup} />
                     <AddToGroup event={event} iconSize={BTN_SIZE} />
                 </>
             )}

@@ -75,7 +75,7 @@ const DefaultEventActions = observer((props: Props) => {
                         </Translate>
                     </dt>
                     <dd>
-                        <EditRowMode event={event} onEdit={props.closePopup} />
+                        <EditRowMode event={event} onClosePopup={props.closePopup} />
                     </dd>
                 </>
             )}
@@ -85,7 +85,7 @@ const DefaultEventActions = observer((props: Props) => {
                 </Translate>
             </dt>
             <dd>
-                <Clone event={event} />
+                <Clone event={event} onClosePopup={props.closePopup} />
             </dd>
             <dt>
                 <Translate id="event.options.group" description="Text of the button group">

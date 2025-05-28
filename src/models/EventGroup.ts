@@ -110,7 +110,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
     }
 
     @action
-    addEvents(events: Event[]) {
+    addEvents(events: { id: string }[]) {
         events.forEach((event) => this.eventIds.add(event.id));
         if (this.isDirty) {
             this.save();

@@ -19,6 +19,8 @@ import Popup from 'reactjs-popup';
 import { PopupActions } from 'reactjs-popup/dist/types';
 import clrStyles from '../../shared/Colors/styles.module.scss';
 import { action } from 'mobx';
+import { useGroupId } from '../helpers/useEventGroupId';
+import EventGroup from '@site/src/models/EventGroup';
 
 interface Props {
     trigger?: React.ReactNode;
@@ -28,7 +30,7 @@ interface Props {
 
 interface ActionProps {
     event: Event;
-    onEdit?: () => void;
+    onClosePopup?: () => void;
     iconSize?: number;
 }
 
@@ -44,8 +46,8 @@ export const EditRowMode = observer((props: ActionProps) => {
                 if (windowSize === 'mobile') {
                     viewStore.setEventModalId(event.id);
                 }
-                if (props.onEdit) {
-                    props.onEdit();
+                if (props.onClosePopup) {
+                    props.onClosePopup();
                 }
             }}
             size={props.iconSize || SIZE_S}
@@ -56,9 +58,11 @@ export const EditRowMode = observer((props: ActionProps) => {
 
 export const Clone = observer((props: ActionProps) => {
     const eventStore = useStore('eventStore');
+    const eventGroupStore = useStore('eventGroupStore');
     const windowSize = useWindowSize();
     const viewStore = useStore('viewStore');
     const history = useHistory();
+    const groupId = useGroupId();
     const { event } = props;
     return (
         <Button
@@ -72,10 +76,17 @@ export const Clone = observer((props: ActionProps) => {
             onClick={() => {
                 eventStore.clone(event).then((newEvent) => {
                     if (newEvent) {
-                        const id = (newEvent as { id: string }).id;
-                        history.push(
-                            `${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events&events-tab=my-events`
-                        );
+                        const id = newEvent.id;
+                        if (groupId) {
+                            const group = eventGroupStore.find<EventGroup>(groupId);
+                            if (group) {
+                                group.addEvents([newEvent]);
+                            }
+                        } else {
+                            history.push(
+                                `${i18n.currentLocale === i18n.defaultLocale ? '' : `/${i18n.currentLocale}`}/user?user-tab=events&events-tab=my-events`
+                            );
+                        }
                         const cloned = eventStore.find(id);
                         if (cloned) {
                             cloned.setEditing(true);
@@ -85,6 +96,7 @@ export const Clone = observer((props: ActionProps) => {
                                 }, 0);
                             }
                         }
+                        props.onClosePopup?.();
                     }
                 });
             }}
