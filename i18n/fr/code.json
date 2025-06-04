@@ -73,7 +73,7 @@
   },
   "theme.colorToggle.ariaLabel": {
     "message": "Basculer entre une vue sombre et une vue claire (actuellement {mode})",
-    "description": "The ARIA label for the navbar color mode toggle"
+    "description": "The ARIA label for the color mode toggle"
   },
   "theme.colorToggle.ariaLabel.mode.dark": {
     "message": "mode sombre",
@@ -986,7 +986,7 @@
     "description": "personal ical sync address"
   },
   "ical.section.personal.description": {
-    "message": "Le calendrier personnel n'affiche que les évènement qui vous concernent. Les délais administratifs (comme la saisie des notes), les évènements qui concernent vos propres leçons et, pour les MC, également tous les évènements de votre classe.",
+    "message": "Le calendrier personnel n'affiche que les évènements qui vous concernent. Les délais administratifs (comme la saisie des notes), les évènements qui concernent vos propres leçons et, pour les MC, également tous les évènements de votre classe.",
     "description": "text which explains, which things are included in the personal calendar"
   },
   "ical.user_without_untis.message": {
@@ -1186,16 +1186,13 @@
     "description": "Label for the Event Field"
   },
   "eventField.teachingAffected.no.title": {
-    "message": "N'impacte pas l'enseignement",
-    "description": "Label for the Event Field"
+    "message": "N'impacte pas l'enseignement"
   },
   "eventField.teachingAffected.partial.title": {
-    "message": "Enseignement partiellement impacté",
-    "description": "Label for the Event Field"
+    "message": "Enseignement partiellement impacté"
   },
   "eventField.teachingAffected.yes.title": {
-    "message": "Enseignement impacté",
-    "description": "Label for the Event Field"
+    "message": "Enseignement impacté"
   },
   "eventGrid.header.teachingAffected.title": {
     "message": "Enseignement impacté",
@@ -1947,7 +1944,7 @@
     "description": "Message when hovering the expand button when it is collapsed"
   },
   "admin.tab.event-reviews": {
-    "message": "Avis sur les rendez-vous"
+    "message": "Évènements en attente de révision"
   },
   "home.today.title": {
     "message": "{day} {date}",
@@ -2249,5 +2246,168 @@
   "components.eventgroup.events": {
     "message": "Évènements",
     "description": "text to scroll down the list of events"
+  },
+  "navcard.tutorial.newEvent": {
+    "message": "Instructions :saisir un évènement"
+  },
+  "user.error.login": {
+    "message": "Erreur de connexion."
+  },
+  "user.error.login.text": {
+    "message": "Actualisez les données de connexion (cliquez sur le bouton orange « Actualiser ») et connectez-vous à nouveau. Si le problème persiste, n'hésitez pas à saisir un message d'erreur. Merci ☺️.",
+    "description": "Text for user login error"
+  },
+  "departmentStore.groupedByLetter.more": {
+    "message": "Autres",
+    "description": "For the class picker: the rest of the classes, MSOP, FMPäd, Passerelle"
+  },
+  "components.user.index.untis.account.link.title": {
+    "message": "Lier le compte Untis",
+    "description": "Title for the Untis Account linking"
+  },
+  "components.user.index.untis.account.link.text": {
+    "message": "Pour faire correspondre les évènements avec l'horaire personnel, il faut relier un compte Untis.",
+    "description": "Text for linking"
+  },
+  "basic.class": {
+    "message": "Classes"
+  },
+  "basic.department": {
+    "message": "Filières"
+  },
+  "basic.level": {
+    "message": "Niveau"
+  },
+  "admin.DepartmentTable.th.displayLetter": {
+    "message": "Sigle pour affichage",
+    "description": "th: department displayLetter"
+  },
+  "admin.DepartmentTable.th.schoolYears": {
+    "message": "Années scolaires",
+    "description": "th: department schoolYears"
+  },
+  "event.bulk_actions.editing.title": {
+    "message": "Retirer l'évènement pour le modifier.",
+    "description": "Edit Event"
+  },
+  "bulkActions.newGroup.text": {
+    "message": "Nouveau groupe"
+  },
+  "event.audienceOptions": {
+    "message": "Concerne",
+    "description": "for a single event: who is concerned?"
+  },
+  "audiencePicker.normalize-audience.text": {
+    "message": "Supprimer les redondances"
+  },
+  "audiencePicker.normalize-audience.title": {
+    "message": "Supprime les informations redondantes sur le public, par exemple en supprimant les classes déjà présentes. Lors de la soumission, le public est automatiquement normalisé."
+  },
+  "labeledBox.hide.title": {
+    "message": "{box} masquer?"
+  },
+  "labeledBox.show.title": {
+    "message": "{box} afficher?"
+  },
+  "event.transition.invalid.notAllowed": {
+    "message": "Passage de date non autorisé."
+  },
+  "shared.audiencePicker.infobox": {
+    "message": "Info"
+  },
+  "TeachingAffected.label": {
+    "message": "Enseignement impacté ?"
+  },
+  "audiencePicker.onCreate.error.message": {
+    "message": "Erreur lors de la création de la classe {name}"
+  },
+  "share.audiencePicker.createLabel": {
+    "message": "Créer une future classe :  {inputValue}",
+    "description": "share.audiencePicker.createLabel"
+  },
+  "share.audiencePicker.noOptions": {
+    "message": "Option inconnue: \"{val}\"",
+    "description": "share.audiencePicker.noOptions"
+  },
+  "audienceInfo.teachingAffected.no": {
+    "message": "Partiellement"
+  },
+  "teachingAffected.no.example.1": {
+    "message": "Saisie de notes dans Evento."
+  },
+  "teachingAffected.no.example.description.1": {
+    "message": "Cette date ne concerne pas les cours réguliers."
+  },
+  "teachingAffected.no.example.2": {
+    "message": "Evènement : remise du programme de la semaine spéciale"
+  },
+  "teachingAffected.no.example.description.2": {
+    "message": "Les cours ont lieu normalement."
+  },
+  "teachingAffected.no.example.3": {
+    "message": "L'enseignant·e accompagne une excursion, mais aurait des cours avec 28Gj."
+  },
+  "teachingAffected.no.example.description.3": {
+    "message": "Les cours du 28Gj ne sont pas affectés, car la classe est occupée par une tâche."
+  },
+  "teachingAffected.partial.example.1": {
+    "message": "Excursion en OC-inf"
+  },
+  "teachingAffected.partial.example.description.1": {
+    "message": "Les cours réguliers ont lieu normalement, mais les élèves d'OC-inf sont absent·es."
+  },
+  "teachingAffected.partial.example.2": {
+    "message": "Répétition d'orchestre."
+  },
+  "teachingAffected.partial.example.description.2": {
+    "message": "L'enseignement régulier se déroule normalement, mais les élèves 🎻🎵🎸 d'une classe sont absent·es."
+  },
+  "teachingAffected.partial.example.3": {
+    "message": "GYM4: Visite d'EPF."
+  },
+  "teachingAffected.partial.example.description.3": {
+    "message": "Les cours réguliers ont lieu normalement, mais les élèves inscrit·es le jour de la visite sont absent·es."
+  },
+  "teachingAffected.yes.example.1": {
+    "message": "Excusion  avec la classe 28Gj"
+  },
+  "teachingAffected.yes.example.description.1": {
+    "message": "Les cours réguliers sont annulés - la classe n'est pas là."
+  },
+  "teachingAffected.yes.example.2": {
+    "message": "Heure de classe : bulletins"
+  },
+  "teachingAffected.yes.example.description.2": {
+    "message": "Les cours habituels sont annulés - la classe a un programme spécial au moment donné."
+  },
+  "teachingAffected.exampleBox.label": {
+    "message": "Exemple"
+  },
+  "teachingAffected.example.nr": {
+    "message": "Exemple {nr} von {total}"
+  },
+  "teachingAffected.example.tooltip": {
+    "message": "Exemple d'évènement"
+  },
+  "audiencePicker.groupName": {
+    "message": "{groupName}*: sélectionner toutes les classe {department} de l'année {year}"
+  },
+  "audiencePicker.toggleClasses": {
+    "message": "{action} toutes les classes "
+  },
+  "audiencePicker.className.derived": {
+    "message": "{name} déjà active par année ou par filière {department}"
+  },
+  "theme.colorToggle.ariaLabel.mode.system": {
+    "message": "mode système",
+    "description": "The name for the system color mode"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
+    "message": "Développer la liste déroulante",
+    "description": "The ARIA label of the button to expand the mobile dropdown navbar item"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
+    "message": "Réduire la liste déroulante",
+    "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
   }
 }

@@ -26,5 +26,13 @@
   "sidebar.tutorialSidebar.category.Évènements": {
     "message": "Évènements",
     "description": "The label for category Évènements in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Termine": {
+    "message": "Termine",
+    "description": "The label for category Termine in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Tutorial: events-api": {
+    "message": "Tutorial: events-api",
+    "description": "The label for category Tutorial: events-api in sidebar tutorialSidebar"
   }
 }
