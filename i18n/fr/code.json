@@ -463,7 +463,7 @@
     "description": "admin.section.import.subtitle"
   },
   "admin.tab.reg-periods": {
-    "message": "Période d'enregistrement"
+    "message": "Période du calendrier concernée"
   },
   "calendar.button.nextWeek": {
     "message": "Suivant",
@@ -1442,7 +1442,7 @@
     "message": "Fin"
   },
   "RegistrationPeriod.datePeriod": {
-    "message": "Période d'enregistrement"
+    "message": "Période du calendrier concernée"
   },
   "RegistrationPeriod.datePeriod.FromSemester": {
     "message": "Reprendre du semestre"
