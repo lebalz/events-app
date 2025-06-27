@@ -9,7 +9,6 @@ import clsx from 'clsx';
 import styles from './table.module.scss';
 import Grid from '../components/Event/Views/Grid';
 import { toExcel } from '../stores/helpers/EventsToExcelV1';
-import { rmUndefined } from '../models/helpers/filterHelpers';
 import BulkActions from '../components/Event/BulkActions';
 import useResizeObserver from '../components/shared/hooks/useResizeObserver';
 import { SIZE_S } from '../components/shared/icons';
@@ -56,24 +55,7 @@ const Table = observer(() => {
                         />
                     )}
                 </div>
-                <Grid
-                    eventTable={viewStore.eventTable}
-                    ref={ref}
-                    groupBy="yearsKw"
-                    columns={rmUndefined([
-                        viewStore.eventTable.showSelect ? 'select' : undefined,
-                        ['teachingAffected', { componentProps: { show: 'icon' } }],
-                        'day',
-                        'description',
-                        'start',
-                        'end',
-                        'location',
-                        'departmens',
-                        'classes',
-                        'descriptionLong',
-                        ['actions', { fixed: { right: 0 } }]
-                    ])}
-                />
+                <Grid eventTable={viewStore.eventTable} ref={ref} groupBy="yearsKw" />
                 <Button
                     onClick={() => {
                         toExcel(viewStore.eventTable.events, departmentStore.departments).then((buffer) => {

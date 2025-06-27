@@ -18,7 +18,7 @@ const DeletedTab = observer((props: Props) => {
     const { viewType } = props;
     const viewStore = useStore('viewStore');
     const events = viewStore.usersEvents({ onlyDeleted: true });
-    const eventTable = useEventTable(events);
+    const eventTable = useEventTable(events, COLUMN_CONFIG);
     React.useEffect(() => {
         if (eventTable?.hideDeleted) {
             eventTable.setHideDeleted(false);
@@ -40,7 +40,6 @@ const DeletedTab = observer((props: Props) => {
             </div>
             <EventsViewer
                 events={events}
-                gridConfig={{ columns: COLUMN_CONFIG }}
                 eventTable={eventTable}
                 bulkActionConfig={{
                     className: shared.indent,

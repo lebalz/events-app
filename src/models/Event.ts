@@ -233,10 +233,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.initialValidation || this._initialValidationTriggered) {
             return;
         }
+        this._initialValidationTriggered = true;
         if (!this.isDirty && (this.isPublished || this.isDeleted)) {
             return;
         }
-        this._initialValidationTriggered = true;
         this.validationTimeout = setTimeout(
             () => {
                 this.validate();

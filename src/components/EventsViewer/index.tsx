@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Event from '@site/src/models/Event';
 import BulkActions, { Props as BulkActionProps } from '../Event/BulkActions';
-import Grid, { Props as GridProps } from '../Event/Views/Grid';
+import Grid, { ColumnConfig, Props as GridProps } from '../Event/Views/Grid';
 import List from '../Event/Views/List';
 import Calendar from '../Event/Views/Calendar';
 import Timeline from '../Event/Views/Timeline';
@@ -18,6 +18,7 @@ import Loader from '../shared/Loader';
 import useIsMobileView from '@site/src/hookes/useIsMobileView';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import { useEventTable } from './useEventTable';
+import { COLUMN_CONFIG } from '../Event/UsersEvents';
 
 export enum View {
     Grid = 'grid',
@@ -59,12 +60,16 @@ interface Props {
     type: View;
     events: Event[];
     bulkActionConfig?: Omit<BulkActionProps, 'events' | 'eventTable'>;
-    gridConfig: Omit<GridProps, 'events' | 'eventTable'>;
+    gridConfig?: Omit<GridProps, 'events' | 'eventTable'> & { columns?: ColumnConfig };
     eventTable?: EventTable;
 }
 
 const EventsViewer = observer((props: Props) => {
-    const eventTable = useEventTable(props.events, props.eventTable);
+    const eventTable = useEventTable(
+        props.events,
+        props.gridConfig?.columns ?? COLUMN_CONFIG,
+        props.eventTable
+    );
     if (!eventTable) {
         return <Loader />;
     }

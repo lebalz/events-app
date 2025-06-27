@@ -4,7 +4,15 @@ import { EventAudience, EventState } from '../../api/event';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import { getLastMonday } from '@site/src/models/helpers/time';
-import Event from '@site/src/models/Event';
+import Event, { CURRENT_YYYY_KW } from '@site/src/models/Event';
+import _ from 'lodash';
+import {
+    ColumnConfig,
+    ConfigOptions,
+    DefaultConfig,
+    ViewEvent,
+    ViewGroup
+} from '@site/src/components/Event/Views/Grid';
 
 export interface EventViewProps {
     user?: User;
@@ -16,6 +24,8 @@ export interface EventViewProps {
     ignoreDeleted?: boolean;
     orderBy?: `${'start' | 'isValid'}-${'asc' | 'desc'}`;
 }
+
+export const BATCH_SIZE = 15 as const;
 
 /**
  * route: /table
@@ -54,17 +64,53 @@ class EventTable {
 
     @observable accessor showSelect = false;
 
+    @observable accessor sortBy: keyof typeof DefaultConfig = 'start';
+    @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
+    @observable accessor groupBy: 'yearsKw' | undefined = undefined;
+    @observable.ref accessor columnConfig: ColumnConfig;
+
+    lastSelectedEventId: string | null = null;
+
     /**
      * displays only events that have no parent
      */
     @observable accessor onlyRootEvents = true;
 
-    constructor(store: ViewStore, events?: Event[], publicOnly?: boolean) {
+    constructor(store: ViewStore, columnConfig: ColumnConfig, events?: Event[], publicOnly?: boolean) {
         this.store = store;
+        this.columnConfig = columnConfig;
         this.publicOnly = !!publicOnly;
         if (events) {
             this._events = observable<Event>(events, { deep: false });
         }
+    }
+
+    @action
+    onColumnClicked(columnName: string) {
+        if (columnName === this.sortBy) {
+            this.flipSortDirection();
+        } else {
+            this.setSortBy(columnName);
+        }
+    }
+
+    @computed
+    get allSelected() {
+        return this.selectedEvents.length === this.events.length;
+    }
+
+    @action
+    flipFullSelection() {
+        if (this.allSelected) {
+            this.selectedEventIds.clear();
+        } else {
+            this.selectedEventIds.replace(this.events.map((e) => e.id));
+        }
+    }
+
+    @action
+    setColumnConfig(columnConfig: ColumnConfig) {
+        this.columnConfig = columnConfig;
     }
 
     @action
@@ -88,6 +134,9 @@ class EventTable {
 
     @action
     setSelectedEvents(eventIds: string[], selected: boolean) {
+        if (eventIds.length > 0) {
+            this.lastSelectedEventId = eventIds[eventIds.length - 1];
+        }
         if (selected) {
             this.selectedEventIds.replace([...this.selectedEventIds, ...eventIds]);
         } else {
@@ -96,11 +145,112 @@ class EventTable {
         }
     }
 
+    @action
+    selectUntil(eventId: string) {
+        if (!this.lastSelectedEventId) {
+            return this.setSelectedEvents([eventId], !this.selectedEventIds.has(eventId));
+        }
+        if (this.lastSelectedEventId === eventId) {
+            return this.setSelectedEvents([eventId], !this.selectedEventIds.has(eventId));
+        }
+        const from = this.events.findIndex((e) => e.id === this.lastSelectedEventId);
+        const to = this.events.findIndex((e) => e.id === eventId);
+        if (from === -1 || to === -1) {
+            return;
+        }
+        const selected = this.selectedEventIds.has(this.lastSelectedEventId);
+        this.setSelectedEvents(
+            this.events.slice(Math.min(from, to), Math.max(from, to) + 1).map((e) => e.id),
+            selected
+        );
+        this.lastSelectedEventId = eventId;
+    }
+
     @computed
     get selectedEvents() {
         return [...this.selectedEventIds]
             .map((sid) => this.events.find((e) => e.id === sid))
             .filter((e) => !!e);
+    }
+
+    @action
+    setSortBy(sortBy: string) {
+        if (this.sortBy !== sortBy) {
+            this.sortBy = sortBy;
+            this.setSortDirection('asc');
+        }
+    }
+
+    @action
+    flipSortDirection() {
+        this.setSortDirection(this.sortDirection === 'asc' ? 'desc' : 'asc');
+    }
+
+    @computed
+    get columns(): [keyof typeof DefaultConfig, ConfigOptions][] {
+        return this.columnConfig
+            .map((col) => {
+                const isConfig = typeof col !== 'string';
+                const name = isConfig ? col[0] : col;
+                const defaultConf = {
+                    ...DefaultConfig[name],
+                    ...(name === 'select' ? { componentProps: { eventTable: this } } : {})
+                };
+                if (this.isDescriptionExpanded && name === 'description') {
+                    defaultConf.width = '45em';
+                }
+                if (!defaultConf) {
+                    return null;
+                }
+                return [
+                    name,
+                    {
+                        ...defaultConf,
+                        ...(isConfig ? col[1] : {}),
+                        direction: this.sortBy === name ? this.sortDirection : undefined
+                    }
+                ] satisfies [keyof typeof DefaultConfig, ConfigOptions];
+            })
+            .filter(Boolean);
+    }
+
+    @action
+    setSortDirection(direction: 'asc' | 'desc') {
+        this.sortDirection = direction;
+    }
+
+    @computed
+    get groupedEvents() {
+        const events = _.orderBy(
+            this.events,
+            [this.sortBy === 'author' ? (e: Event) => e.author.shortName : this.sortBy, 'start'],
+            [this.sortDirection, 'asc']
+        );
+        const transformed: (ViewEvent | ViewGroup)[] = [];
+        if (this.groupBy) {
+            const byGroup = _.groupBy(events, this.groupBy);
+            let idx = 0;
+            Object.keys(byGroup)
+                .sort()
+                .forEach((key) => {
+                    transformed.push({
+                        type: 'group',
+                        groupBy: this.groupBy,
+                        group: key.split('-')[1].replace(/^0+/, ''),
+                        isCurrent: key === CURRENT_YYYY_KW,
+                        events: byGroup[key]
+                    });
+                    byGroup[key].forEach((event) => {
+                        transformed.push({ type: 'event', index: idx, model: event });
+                        idx++;
+                    });
+                });
+        } else {
+            events.forEach((event, idx) => {
+                transformed.push({ type: 'event', model: event, index: idx });
+            });
+        }
+        return _.chunk(transformed, BATCH_SIZE);
     }
 
     @action
@@ -139,6 +289,11 @@ class EventTable {
     }
     @action
     setShowSelect(show: boolean) {
+        if (show && this.columnConfig[0] !== 'select') {
+            this.setColumnConfig(['select', ...this.columnConfig]);
+        } else if (!show && this.columnConfig[0] === 'select') {
+            this.setColumnConfig(this.columnConfig.slice(1));
+        }
         this.showSelect = show;
     }
 
