@@ -7,7 +7,6 @@ import shared from '../../styles.module.scss';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
 import { EventState } from '@site/src/api/event';
-import { COLUMN_CONFIG } from '..';
 import NoEventsAlert from '../NoEventsAlert';
 interface Props {
     viewType: View;
@@ -35,7 +34,6 @@ const PublishedTab = observer((props: Props) => {
             </div>
             <EventsViewer
                 events={events}
-                gridConfig={{ columns: COLUMN_CONFIG }}
                 bulkActionConfig={{
                     className: shared.indent,
                     rightActions: [

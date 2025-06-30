@@ -22,11 +22,25 @@ import type {
 import { GroupBase } from 'react-select';
 import { translate } from '@docusaurus/Translate';
 import LocalUserSettings from './LocaUserSettings';
+import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
 const I18n_LABELS = {
     classType: translate({ id: 'basic.class', message: 'Klassen' }),
     departmentType: translate({ id: 'basic.department', message: 'Abteilungen' }),
     levelType: translate({ id: 'basic.level', message: 'Stufen' })
 };
+
+const DEFAULT_TABLE_CONFIG: ColumnConfig = [
+    ['teachingAffected', { componentProps: { show: 'icon' } }],
+    'day',
+    'description',
+    'start',
+    'end',
+    'location',
+    'departmens',
+    'classes',
+    'descriptionLong',
+    ['actions', { fixed: { right: 0 } }]
+] as const;
 
 export class ViewStore implements ResettableStore, LoadeableStore<any> {
     readonly root: RootStore;
@@ -48,14 +62,6 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     @observable accessor initialAuthorizedLoadPerformed = false;
 
-    get initialPublicLoadPerformed() {
-        return this.initialAuthorizedLoadPerformed;
-    }
-
-    get initialLoadPerformed() {
-        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed;
-    }
-
     @observable accessor icalListDepartmentsFilter = '';
 
     @observable accessor icalListClassFilter = '';
@@ -66,7 +72,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
 
     constructor(store: RootStore) {
         this.root = store;
-        this.eventTables.set('root', new EventTable(this, undefined, true));
+        this.eventTables.set('root', new EventTable(this, DEFAULT_TABLE_CONFIG, undefined, true));
         this.colors = new Colors(this);
         this.userSettings = new LocalUserSettings(this);
         this.adminUserTable = new AdminUserTable(this);
@@ -88,17 +94,25 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
         );
     }
 
+    get initialPublicLoadPerformed() {
+        return this.initialAuthorizedLoadPerformed;
+    }
+
+    get initialLoadPerformed() {
+        return this.initialPublicLoadPerformed && this.initialAuthorizedLoadPerformed;
+    }
+
     @computed
     get eventTable() {
         return this.eventTables.get('root');
     }
 
     @action
-    getOrCreateEventTable(id: string, events?: Event[]) {
+    getOrCreateEventTable(id: string, columnConfig: ColumnConfig, events?: Event[]) {
         if (this.eventTables.has(id)) {
             return this.eventTables.get(id)!;
         }
-        const table = new EventTable(this, events);
+        const table = new EventTable(this, columnConfig, events);
         this.eventTables.set(id, table);
         return table;
     }

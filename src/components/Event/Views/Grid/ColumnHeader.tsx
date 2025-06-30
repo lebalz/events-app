@@ -143,7 +143,7 @@ const ColumnHeader = observer((props: Props) => {
         case 'select':
             content = (
                 <div style={{ paddingLeft: '0.2em' }}>
-                    <Checkbox checked={props.active as boolean} onChange={props.onClick} />
+                    <Checkbox checked={eventTable.allSelected} onChange={props.onClick} />
                 </div>
             );
             break;

@@ -27,17 +27,8 @@ const Select = observer((props: Props) => {
             <Checkbox
                 checked={eventTable.selectedEventIds.has(event.id)}
                 onChange={(checked, shiftKey) => {
-                    if (checked && shiftKey) {
-                        const idx = eventTable.events.findIndex((e) => e.id === event.id);
-                        const topIdx = eventTable.events
-                            .slice(0, idx)
-                            .findLastIndex((e) => eventTable.selectedEventIds.has(e.id));
-                        if (topIdx > -1) {
-                            eventTable.setSelectedEvents(
-                                eventTable.events.slice(topIdx, idx + 1).map((e) => e.id),
-                                true
-                            );
-                        }
+                    if (shiftKey) {
+                        eventTable.selectUntil(event.id);
                     } else {
                         eventTable.setSelectedEvents([event.id], checked);
                     }

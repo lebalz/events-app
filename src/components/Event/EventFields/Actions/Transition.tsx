@@ -51,7 +51,9 @@ const Transition = observer((props: Props) => {
     }
     return (
         <>
-            {props.ensureValidation && <ValidationChecker events={[event]} noLoader />}
+            {props.ensureValidation && (
+                <ValidationChecker events={event._initialValidationTriggered ? [] : [event]} noLoader />
+            )}
             {event.possibleStates.map((state, idx) => {
                 const { allowed, reason } = event.transitionAllowed;
                 return (

@@ -4,7 +4,6 @@ import { useStore } from '@site/src/stores/hooks';
 import clsx from 'clsx';
 import Translate, { translate } from '@docusaurus/Translate';
 import styles from '../styles.module.scss';
-import { COLUMN_CONFIG } from '..';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
 import RegPeriodBadge from '@site/src/components/RegistrationPeriod/RegPeriodBadge';
@@ -100,7 +99,6 @@ const DraftTab = observer((props: Props) => {
             <RegPeriodInfo />
             <EventsViewer
                 events={events}
-                gridConfig={{ columns: COLUMN_CONFIG }}
                 bulkActionConfig={{
                     className: styles.indent,
                     middleActions: [<AddEventButton key="action-m1" />],

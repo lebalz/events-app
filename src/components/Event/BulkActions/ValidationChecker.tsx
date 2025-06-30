@@ -27,11 +27,12 @@ const ValidationChecker = observer((props: ValidationCheckerProps) => {
         );
         setChecking(true);
     }, [events]);
+
     React.useEffect(() => {
         if (checking) {
             const cancelId = setTimeout(() => {
                 setChecking(false);
-            }, props.timeout || 1500);
+            }, props.timeout || 800);
             return () => clearTimeout(cancelId);
         }
     }, [checking]);

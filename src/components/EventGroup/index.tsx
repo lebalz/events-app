@@ -68,9 +68,8 @@ const UserEventGroup = observer((props: Props) => {
     const [isShiftDatesOpen, setShiftDatesOpen] = React.useState(false);
     const [isShiftAudienceOpen, setShiftAudienceOpen] = React.useState(false);
     const [viewType, setViewType] = React.useState<View>(View.Grid);
-    const [columnConfig, setColumnConfig] = React.useState<ColumnConfig>(DEFAULT_COLUMN_CONFIG);
     const shareUrl = useBaseUrl(group.shareUrl);
-    const eventTable = useEventTable(group.events);
+    const eventTable = useEventTable(group.events, DEFAULT_COLUMN_CONFIG);
 
     React.useEffect(() => {
         if ((isOpen || props.standalone) && store.isLoggedIn) {
@@ -79,6 +78,9 @@ const UserEventGroup = observer((props: Props) => {
     }, [isOpen, group, group.isFullyLoaded, props.standalone, store.isLoggedIn]);
 
     React.useEffect(() => {
+        if (!group.isFullyLoaded || !eventTable) {
+            return;
+        }
         const toAdd: ('nr' | 'author')[] = [];
         if (group.isFullyLoaded && group.events.some((e) => e.nr > 0)) {
             toAdd.push('nr');
@@ -87,9 +89,10 @@ const UserEventGroup = observer((props: Props) => {
             toAdd.push('author');
         }
         if (toAdd.length > 0) {
-            setColumnConfig([...toAdd, ...DEFAULT_COLUMN_CONFIG]);
+            eventTable.setColumnConfig([...toAdd, ...DEFAULT_COLUMN_CONFIG]);
         }
-    }, [group.isFullyLoaded]);
+    }, [eventTable, group.isFullyLoaded]);
+
     if (!eventTable) {
         return <Loader />;
     }
@@ -430,9 +433,6 @@ const UserEventGroup = observer((props: Props) => {
                             eventTable={eventTable}
                             events={group.events}
                             type={viewType}
-                            gridConfig={{
-                                columns: columnConfig
-                            }}
                         />
                     </div>
                 </LazyDetails>

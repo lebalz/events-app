@@ -3,15 +3,9 @@ import clsx from 'clsx';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
 
-import { EVENTS_API } from '@site/src/authConfig';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import _ from 'lodash';
-import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import { action } from 'mobx';
 import Subscription from '@site/src/models/Subscription';
 import SemesterSelector from '@site/src/components/shared/SemesterSelector';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
@@ -51,7 +45,6 @@ const Content = observer((props: Props) => {
                 </div>
                 <EventsViewer
                     events={subscription.semestersIgnoredEvents}
-                    gridConfig={{ columns: COLUMN_CONFIG }}
                     type={viewType}
                     bulkActionConfig={{
                         className: styles.indent,
