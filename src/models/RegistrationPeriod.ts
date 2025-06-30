@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
+import { action, computed, ObservableSet, observable, override } from 'mobx';
 import { RegistrationPeriod as RegPeriodProps } from '../api/registration_period';
 import { ApiAction } from '../stores/iStore';
 import { RegistrationPeriodStore } from '../stores/RegistrationPeriodStore';
@@ -6,6 +6,28 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 import { formatDateTime, toGlobalDate, toLocalDate } from './helpers/time';
 import { rmUndefined } from './helpers/filterHelpers';
 import Department from './Department';
+
+if (!(Set.prototype as any).intersection) {
+    (Set.prototype as any).intersection = function <T>(otherSet: Set<T> | ObservableSet<T>): Set<T> {
+        const intersectionSet = new Set<T>();
+
+        if (this instanceof ObservableSet) {
+            for (const elem of this.values()) {
+                if (otherSet.has(elem)) {
+                    intersectionSet.add(elem);
+                }
+            }
+        } else {
+            for (const elem of this) {
+                if (otherSet.has(elem)) {
+                    intersectionSet.add(elem);
+                }
+            }
+        }
+
+        return intersectionSet;
+    };
+}
 
 export default class RegistrationPeriod extends ApiModel<RegPeriodProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<RegPeriodProps>[] = [
