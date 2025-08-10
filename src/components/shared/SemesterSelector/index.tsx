@@ -7,11 +7,16 @@ import { useStore } from '@site/src/stores/hooks';
 import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_XS } from '../icons';
 import Button from '../Button';
 import { useWindowSize } from '@docusaurus/theme-common';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 const SemesterSelector = observer(() => {
+    const canUseBrowser = useIsBrowser();
     const viewStore = useStore('viewStore');
     const semesterStore = useStore('semesterStore');
     const windowSize = useWindowSize();
+    if (!canUseBrowser) {
+        return null;
+    }
     if (!semesterStore.currentSemester) {
         return <Loading />;
     }
