@@ -97,6 +97,11 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     }
 
     @computed
+    get startOffset() {
+        return this.start.getTime() - Date.now();
+    }
+
+    @computed
     get isCurrent() {
         const now = Date.now();
         return this.start.getTime() < now && this.end.getTime() > now;
