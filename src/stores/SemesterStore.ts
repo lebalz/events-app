@@ -42,7 +42,11 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
 
     @computed
     get currentSemester(): Semester | undefined {
-        return this.semesters.find((s) => s.isCurrent);
+        // in case no current semester is found, return the semester with the closest start date
+        return (
+            this.semesters.find((s) => s.isCurrent) ??
+            this.semesters.sort((a, b) => Math.abs(a.startOffset) - Math.abs(b.startOffset))[0]
+        );
     }
 
     @computed

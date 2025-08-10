@@ -20,9 +20,6 @@ const SemesterSelector = observer(() => {
     if (!semesterStore.currentSemester) {
         return <Loading />;
     }
-    if (semesterStore.semesters.length < 1) {
-        return null;
-    }
     return (
         <div className={clsx(styles.semesterSelector)}>
             {windowSize === 'desktop' && (
