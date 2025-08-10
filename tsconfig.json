@@ -4,6 +4,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "experimentalDecorators": false,
+        "types": ["docusaurus-plugin-sass", "@docusaurus/module-type-aliases", "@types/node"],
         "module": "esnext",
         "target": "ES2023",
         "lib": ["ES2023", "DOM"],
