@@ -13,7 +13,8 @@ import { JobState } from '@site/src/api/job';
 import { Sync } from '../../shared/icons';
 import Button from '../../shared/Button';
 import Badge from '../../shared/Badge';
-import Translate, { translate } from '@docusaurus/Translate';
+import { translate } from '@docusaurus/Translate';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 interface Props {
     semester: Semester;
@@ -21,9 +22,14 @@ interface Props {
 
 const SyncSemester = observer((props: Props) => {
     const { semester } = props;
+    const canUseBrowser = useIsBrowser();
+
     const semesterStore = useStore('semesterStore');
     const jobStore = useStore('jobStore');
     const isPending = (jobStore.bySemester(semester.id) || []).some((j) => j.state === JobState.PENDING);
+    if (!canUseBrowser) {
+        return null;
+    }
     return (
         <div className={clsx(styles.syncSemester)}>
             {semester.untisSyncJobs.length > 0 ? (

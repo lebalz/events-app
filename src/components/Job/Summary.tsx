@@ -12,8 +12,9 @@ import Delete from '../shared/Button/Delete';
 import { SIZE_S, Sync } from '../shared/icons';
 import Badge from '../shared/Badge';
 import { Color as ColorType } from '../shared/Colors';
-import Translate, { translate } from '@docusaurus/Translate';
+import { translate } from '@docusaurus/Translate';
 import { mdiCancel } from '@mdi/js';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 const State: { [key in JobState]: 'loading' | 'success' | 'error' } = {
     [JobState.PENDING]: 'loading',
@@ -67,9 +68,14 @@ interface SyncProps {
 }
 export const SyncSummary = observer((props: SyncProps) => {
     const semesterStore = useStore('semesterStore');
+    const canUseBrowser = useIsBrowser();
+
     const jobStore = useStore('jobStore');
     const { job } = props;
     const isPending = (jobStore.bySemester(job.semesterId) || []).some((j) => j.state === JobState.PENDING);
+    if (!canUseBrowser) {
+        return null;
+    }
     return (
         <summary className={clsx(styles.summary)}>
             <StateBadge state={State[job.state]} size={SIZE_S} disabled={!job.isInSync} />
