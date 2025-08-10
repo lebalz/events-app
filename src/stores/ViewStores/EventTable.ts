@@ -100,6 +100,11 @@ class EventTable {
     }
 
     @action
+    setGroupBy(groupBy: 'yearsKw' | undefined) {
+        this.groupBy = groupBy;
+    }
+
+    @action
     flipFullSelection() {
         if (this.allSelected) {
             this.selectedEventIds.clear();

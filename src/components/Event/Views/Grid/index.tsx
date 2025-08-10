@@ -89,11 +89,16 @@ const MemoGroup = React.memo(Batch);
 
 const Grid = observer(
     React.forwardRef((props: Props, ref: ForwardedRef<HTMLDivElement>) => {
-        const { eventTable } = props;
-        const { events } = eventTable;
+        const { eventTable, groupBy, defaultSortBy } = props;
         React.useEffect(() => {
-            eventTable.setSortBy(props.defaultSortBy as string);
-        }, [props.defaultSortBy]);
+            eventTable.setSortBy(defaultSortBy as string);
+        }, [eventTable, defaultSortBy]);
+
+        React.useEffect(() => {
+            if (eventTable) {
+                eventTable.setGroupBy(groupBy);
+            }
+        }, [groupBy, eventTable]);
 
         const onColumnClick = React.useCallback(
             (columnName: string) => {
@@ -102,6 +107,7 @@ const Grid = observer(
             [eventTable]
         );
         const onSelectAll = React.useCallback(() => {
+            console.log('Recreate onSelectAll');
             eventTable.flipFullSelection();
         }, [eventTable]);
 
@@ -111,7 +117,6 @@ const Grid = observer(
                 <div className={clsx(styles.grid)} style={{ gridTemplateColumns }}>
                     {eventTable.columns.map((col, idx) => {
                         const [name, config] = col;
-
                         return (
                             <ColumnHeader
                                 eventTable={eventTable}
