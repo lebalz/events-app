@@ -5,5 +5,12 @@
     overflow-x: auto;
     .calendar {
         min-width: 530px;
+        :global(.rbc-event-label) {
+            line-height: 1;
+        }
+        :global(.rbc-event-content) {
+            display: flex;
+            align-items: center;
+        }
     }
 }
