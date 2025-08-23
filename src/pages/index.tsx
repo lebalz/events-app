@@ -324,8 +324,14 @@ const Home = observer(() => {
                             <div className="card__body">
                                 <h4>Version: 1.7 (23.08.2025)</h4>
                                 <ul>
-                                    <li>💅 Verbesserung: Im Stundenplan werden Klassenbezeichnungen nun auch bei Einzellektionen angezeigt.</li>
-                                    <li>🐛 Fix: Auch nicht-angemeldete User können Klassen und Departemente abonnieren.</li>
+                                    <li>
+                                        💅 Verbesserung: Im Stundenplan werden Klassenbezeichnungen nun auch
+                                        bei Einzellektionen angezeigt.
+                                    </li>
+                                    <li>
+                                        🐛 Fix: Auch nicht-angemeldete User können Klassen und Departemente
+                                        abonnieren.
+                                    </li>
                                 </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
