@@ -322,96 +322,111 @@ const Home = observer(() => {
                                 />
                             </div>
                             <div className="card__body">
-                                <h4>Version: Release Candidate 1.6 (9.4.2025)</h4>
+                                <h4>Version: 1.7 (23.08.2025)</h4>
                                 <ul>
-                                    <li>🚀 Neu: Alle Terminansichten können gefiltert werden.</li>
-                                    <li>
-                                        🚀 Neu: Selbst erfasste, neue Schulklassen (die noch nicht auf
-                                        WebUntis geführt werden), werden nun auch als Option angezeigt.
-                                    </li>
-                                    <li>
-                                        🚀 Neu: Optimierung der Abteilungs- und Klassenauswahl.
-                                        <ul>
-                                            <li>
-                                                Toggle-Button{' '}
-                                                <Icon
-                                                    path={mdiToggleSwitchOutline}
-                                                    size={0.8}
-                                                    color="var(--ifm-color-success)"
-                                                />
-                                                , um alle Klassen eines Jahrgangs aus- oder abzuwählen.
-                                            </li>
-                                            <li>
-                                                Möglichkeit zum Entfernen von Redundanzen - ist bspw. die{' '}
-                                                <strong className="boxed">28Gj</strong> und gleichzeitig die
-                                                Abteilung <strong className="boxed">GYMD</strong> ausgewählt,
-                                                ist die Klasse <strong className="boxed">28Gj</strong>{' '}
-                                                implizit bereits betroffen, so dass sie nicht erfasst werden
-                                                muss.
-                                                <br />
-                                                Dieser Schritt passiert automatisch beim Einreichen eines
-                                                Termins - er kann aber auch manuell vorgängig ausgelöst
-                                                werden.
-                                            </li>
-                                            <li>
-                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                    <div className="card" style={{ maxWidth: '40em' }}>
-                                                        <div className="card__image">
-                                                            <img
-                                                                src={
-                                                                    require('./images/select-audience.png')
-                                                                        .default
-                                                                }
-                                                            />
-                                                        </div>
-                                                        <div className="card__body">
-                                                            <ol type="1" style={{ listStyleType: 'decimal' }}>
-                                                                <li>
-                                                                    Eine ganze Klassenstufe wird ausgewählt -{' '}
-                                                                    <strong className="boxed">25G*</strong>{' '}
-                                                                    wird hinzugefügt
-                                                                </li>
-                                                                <li>
-                                                                    Alle Klassen einer Stufe über den
-                                                                    "Toggle-Button" ausgewählt, es werden{' '}
-                                                                    <code>13</code> Klassen einzeln
-                                                                    hinzugefügt.
-                                                                </li>
-                                                                <li>Einzelne Klasse ausgewählt.</li>
-                                                                <li>Knopf zum Entfernen von Redundanzen</li>
-                                                            </ol>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        🚀 Neu [Administrativ]: Optional zum Abteilungsbuchstaben (bspw.{' '}
-                                        <strong className="boxed">G</strong> für `GYMD`) kann ein{' '}
-                                        <b>Anzeigebuchstaben</b> festgelegt werden. Dadurch kann bspw. die{' '}
-                                        <strong className="boxed">FMPäd</strong> und{' '}
-                                        <strong className="boxed">MSOP</strong> als eigene Abteilung mit den
-                                        Buchstaben <strong className="boxed">E</strong> bzw.{' '}
-                                        <strong className="boxed">e</strong> geführt werden, sie werden jedoch
-                                        nach wie vor mit dem Anzeigebuchstaben{' '}
-                                        <strong className="boxed">F</strong> bzw.{' '}
-                                        <strong className="boxed">s</strong> angezeigt.
-                                        <div className="alert alert--warning">
-                                            Soll die gesamte Klassenstufe ausgewählt werden (wenn es sie noch
-                                            nicht gibt), muss im Eingabefeld{' '}
-                                            <strong className="boxed">26E*</strong> eingegeben werden (
-                                            <strong className="boxed">26F*</strong> wäre ja für die FMS).
-                                        </div>
-                                    </li>
-                                    <li>
-                                        🚀 Neu [Administrativ]: Bei den Abteilungen kann die Ausbildungsdauer
-                                        in Jahren hinterlegt werden. Somit ist es möglich, die für einen
-                                        Termin relevanten Klassen anzuzeigen.
-                                    </li>
+                                    <li>💅 Verbesserung: Im Stundenplan werden Klassenbezeichnungen nun auch bei Einzellektionen angezeigt.</li>
+                                    <li>🐛 Fix: Auch nicht-angemeldete User können Klassen und Departemente abonnieren.</li>
                                 </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: Release Candidate 1.6 (9.4.2025)</h4>
+                                    <ul>
+                                        <li>🚀 Neu: Alle Terminansichten können gefiltert werden.</li>
+                                        <li>
+                                            🚀 Neu: Selbst erfasste, neue Schulklassen (die noch nicht auf
+                                            WebUntis geführt werden), werden nun auch als Option angezeigt.
+                                        </li>
+                                        <li>
+                                            🚀 Neu: Optimierung der Abteilungs- und Klassenauswahl.
+                                            <ul>
+                                                <li>
+                                                    Toggle-Button{' '}
+                                                    <Icon
+                                                        path={mdiToggleSwitchOutline}
+                                                        size={0.8}
+                                                        color="var(--ifm-color-success)"
+                                                    />
+                                                    , um alle Klassen eines Jahrgangs aus- oder abzuwählen.
+                                                </li>
+                                                <li>
+                                                    Möglichkeit zum Entfernen von Redundanzen - ist bspw. die{' '}
+                                                    <strong className="boxed">28Gj</strong> und gleichzeitig
+                                                    die Abteilung <strong className="boxed">GYMD</strong>{' '}
+                                                    ausgewählt, ist die Klasse{' '}
+                                                    <strong className="boxed">28Gj</strong> implizit bereits
+                                                    betroffen, so dass sie nicht erfasst werden muss.
+                                                    <br />
+                                                    Dieser Schritt passiert automatisch beim Einreichen eines
+                                                    Termins - er kann aber auch manuell vorgängig ausgelöst
+                                                    werden.
+                                                </li>
+                                                <li>
+                                                    <div
+                                                        style={{ display: 'flex', justifyContent: 'center' }}
+                                                    >
+                                                        <div className="card" style={{ maxWidth: '40em' }}>
+                                                            <div className="card__image">
+                                                                <img
+                                                                    src={
+                                                                        require('./images/select-audience.png')
+                                                                            .default
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            <div className="card__body">
+                                                                <ol
+                                                                    type="1"
+                                                                    style={{ listStyleType: 'decimal' }}
+                                                                >
+                                                                    <li>
+                                                                        Eine ganze Klassenstufe wird
+                                                                        ausgewählt -{' '}
+                                                                        <strong className="boxed">
+                                                                            25G*
+                                                                        </strong>{' '}
+                                                                        wird hinzugefügt
+                                                                    </li>
+                                                                    <li>
+                                                                        Alle Klassen einer Stufe über den
+                                                                        "Toggle-Button" ausgewählt, es werden{' '}
+                                                                        <code>13</code> Klassen einzeln
+                                                                        hinzugefügt.
+                                                                    </li>
+                                                                    <li>Einzelne Klasse ausgewählt.</li>
+                                                                    <li>
+                                                                        Knopf zum Entfernen von Redundanzen
+                                                                    </li>
+                                                                </ol>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            🚀 Neu [Administrativ]: Optional zum Abteilungsbuchstaben (bspw.{' '}
+                                            <strong className="boxed">G</strong> für `GYMD`) kann ein{' '}
+                                            <b>Anzeigebuchstaben</b> festgelegt werden. Dadurch kann bspw. die{' '}
+                                            <strong className="boxed">FMPäd</strong> und{' '}
+                                            <strong className="boxed">MSOP</strong> als eigene Abteilung mit
+                                            den Buchstaben <strong className="boxed">E</strong> bzw.{' '}
+                                            <strong className="boxed">e</strong> geführt werden, sie werden
+                                            jedoch nach wie vor mit dem Anzeigebuchstaben{' '}
+                                            <strong className="boxed">F</strong> bzw.{' '}
+                                            <strong className="boxed">s</strong> angezeigt.
+                                            <div className="alert alert--warning">
+                                                Soll die gesamte Klassenstufe ausgewählt werden (wenn es sie
+                                                noch nicht gibt), muss im Eingabefeld{' '}
+                                                <strong className="boxed">26E*</strong> eingegeben werden (
+                                                <strong className="boxed">26F*</strong> wäre ja für die FMS).
+                                            </div>
+                                        </li>
+                                        <li>
+                                            🚀 Neu [Administrativ]: Bei den Abteilungen kann die
+                                            Ausbildungsdauer in Jahren hinterlegt werden. Somit ist es
+                                            möglich, die für einen Termin relevanten Klassen anzuzeigen.
+                                        </li>
+                                    </ul>
                                     <h4>Version: Release Candidate 1.5 (11.3.2025)</h4>
                                     <ul>
                                         <li>

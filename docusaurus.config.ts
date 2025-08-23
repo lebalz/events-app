@@ -14,9 +14,6 @@ import mdiPlugin from './src/plugins/remark-mdi/plugin';
 import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
 import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
 
-
-const VERSION = 'rc-1.6';
-
 const defaultLocale = 'de';
 
 function getLocale() {
@@ -262,12 +259,6 @@ const config: Config = {
     ],
 
     themeConfig: {
-        announcementBar: {
-            id: VERSION,
-            content: `Einführungsphase: ${VERSION}`,
-            backgroundColor: 'var(--color-current-week-odd-background)',
-            textColor: 'var(--ifm-font-color-base)'
-        },
         docs: {
             sidebar: {
                 hideable: true,
