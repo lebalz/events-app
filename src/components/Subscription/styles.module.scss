@@ -5,3 +5,10 @@
 .hint {
     --ifm-alert-padding-vertical: 0.5em;
 }
+
+.publicSubscriptions {
+    margin-top: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}

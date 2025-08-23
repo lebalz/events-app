@@ -4,24 +4,14 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Translate, { translate } from '@docusaurus/Translate';
-import Button from '../shared/Button';
-import { mdiClipboardText, mdiClose, mdiMicrosoftOutlook } from '@mdi/js';
-import { SIZE_S, SIZE_XS } from '../shared/icons';
-import { EVENTS_API } from '@site/src/authConfig';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Translate from '@docusaurus/Translate';
 import _ from 'lodash';
-import Link from '@docusaurus/Link';
-import Copy from '../shared/Button/Copy';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import { action } from 'mobx';
 import Loader from '../shared/Loader';
-import DefinitionList from '../shared/DefinitionList';
-import Badge from '../shared/Badge';
-import Checkbox from '../shared/Checkbox';
-import Content from './SubscriptionPanel/Content';
 import ForTeachers from './ForTeachers';
 import ForUsers from './ForUsers';
+import ClassSubscriptions from './ClassSubscriptions';
+import DepartmentSubscriptions from './DepartmentSubscription';
 
 interface Props {}
 
@@ -42,7 +32,7 @@ const Subscription = observer((props: Props) => {
     }, [subscriptionStore, user]);
     return (
         <div className={clsx(styles.icalSettings)}>
-            {user && (
+            {user ? (
                 <>
                     <h3>
                         <Translate id="ical.section.personal" description="personal ical sync address">
@@ -61,6 +51,11 @@ const Subscription = observer((props: Props) => {
                         <Loader />
                     )}
                 </>
+            ) : (
+                <div className={clsx(styles.publicSubscriptions)}>
+                    <ClassSubscriptions />
+                    <DepartmentSubscriptions />
+                </div>
             )}
         </div>
     );
