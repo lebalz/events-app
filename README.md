@@ -49,7 +49,6 @@ This command starts a local development server and opens up a browser window. Mo
 
 If you have troubles with npm or yarn, try to delete the `node_modules` folder and run `yarn install` again.
 
-
 #### Use unauthorized backend (e.g. when developping offline)
 
 Set the env variables `TEST_USERNAME` to a valid (existing!) user email.
