@@ -118,9 +118,14 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
     }
 
     @computed
+    get gradeYear() {
+        return this.year + (2 - this.semester);
+    }
+
+    @computed
     get semester(): 1 | 2 {
         const month = this.start.getMonth() + 1;
-        if (month < 8) {
+        if (month < 7) {
             return 2;
         }
         return 1;
