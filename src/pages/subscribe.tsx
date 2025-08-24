@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './user.module.scss';
 import Layout from '@theme/Layout';
-import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
 import Subscription from '../components/Subscription';
 import Section from '../components/shared/Section';

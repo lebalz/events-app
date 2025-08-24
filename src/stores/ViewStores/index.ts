@@ -23,6 +23,7 @@ import { GroupBase } from 'react-select';
 import { translate } from '@docusaurus/Translate';
 import LocalUserSettings from './LocaUserSettings';
 import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
+import { currentGradeYear } from '@site/src/models/helpers/time';
 const I18n_LABELS = {
     classType: translate({ id: 'basic.class', message: 'Klassen' }),
     departmentType: translate({ id: 'basic.department', message: 'Abteilungen' }),
@@ -374,7 +375,10 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @computed
     get icalListClassesFiltered() {
         const match = (klass: Klass, s: string) => klass._displayName?.includes(s) || klass.name.includes(s);
-        return this.root.untisStore.classes.filter((c) => match(c, this.icalListClassFilter));
+        const gradeYear = this.semester?.gradeYear ?? currentGradeYear();
+        return this.root.untisStore.classes.filter(
+            (c) => c.isActiveIn(gradeYear, 1) && match(c, this.icalListClassFilter)
+        );
     }
 
     @computed

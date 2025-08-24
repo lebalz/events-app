@@ -5,18 +5,13 @@ import Translate, { translate } from '@docusaurus/Translate';
 import { useStore } from '@site/src/stores/hooks';
 import TextInput from '../../shared/TextInput';
 import Button from '../../shared/Button';
-import {
-    mdiBellPlus,
-    mdiBellPlusOutline,
-    mdiClipboardText,
-    mdiDownloadOutline,
-    mdiMicrosoftOutlook
-} from '@mdi/js';
-import { SIZE_S, SIZE_XS } from '../../shared/icons';
-import { EVENTS_API } from '@site/src/authConfig';
+import { mdiBellPlus, mdiBellPlusOutline } from '@mdi/js';
+import { SIZE_S } from '../../shared/icons';
 import i18n from '@generated/i18n';
 import _ from 'lodash';
-import Copy from '../../shared/Button/Copy';
+import SubscribeIcs from '../../shared/Button/SubscribeIcs';
+import CopyIcs from '../../shared/Button/CopyIcs';
+import DownloadIcs from '../../shared/Button/DownloadIcs';
 
 const ClassSubscriptions = observer(() => {
     const userStore = useStore('userStore');
@@ -92,49 +87,30 @@ const ClassSubscriptions = observer(() => {
                                             iconSide="left"
                                         />
                                     )}
-                                    <Button
-                                        href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${c.name}.ics&name=${c.displayName}`}
-                                        target="_blank"
-                                        text={c.displayName}
-                                        title={translate({
-                                            message: 'Abonniere den Kalender in Outlook',
-                                            id: 'user.ical.outlook-button.title',
-                                            description: 'Button text for adding the calendar to Outlook'
-                                        })}
-                                        icon={mdiMicrosoftOutlook}
-                                        size={SIZE_S}
+                                    <SubscribeIcs
+                                        name={c.displayName}
+                                        icsName={c.name}
+                                        locale={currentLocale as 'de' | 'fr'}
                                         color={c.department?.color}
                                     />
-                                    <Button
-                                        href={`${EVENTS_API}/ical/${currentLocale}/${c.name}.ics`}
-                                        icon={mdiDownloadOutline}
-                                        title={translate({
-                                            message: 'ICS Date herunterladen',
-                                            id: 'user.ical.download-button.title',
-                                            description: 'Button text for downloading the ics calendar file'
-                                        })}
-                                        text={c.displayName}
+                                    <DownloadIcs
+                                        locale={currentLocale as 'de' | 'fr'}
+                                        icsName={c.name}
+                                        name={c.displayName}
                                         color={c.department?.color}
-                                        size={SIZE_S}
-                                        iconSide="right"
                                     />
                                 </div>
-                                <div className={clsx(styles.ical)}>
-                                    <Copy
-                                        value={`${EVENTS_API}/ical/${currentLocale}/${c.name.replaceAll('/', '_')}.ics`}
-                                        size={SIZE_XS}
-                                        icon={mdiClipboardText}
-                                        title={translate(
-                                            {
-                                                message: 'Kopiere den Link zum Kalender {name}.',
-                                                id: 'user.ical.copy-button.title'
-                                            },
-                                            { name: c.name }
-                                        )}
-                                        className={clsx(styles.copyButton)}
-                                    />
-                                    {`${EVENTS_API}/ical/${currentLocale}/${c.name}.ics`}
-                                </div>
+                                <CopyIcs
+                                    locale={currentLocale as 'de' | 'fr'}
+                                    icsName={c.name.replaceAll('/', '_')}
+                                    title={translate(
+                                        {
+                                            message: 'Kopiere den Link zum Kalender {name}.',
+                                            id: 'user.ical.copy-button.title'
+                                        },
+                                        { name: c.name }
+                                    )}
+                                />
                             </div>
                         );
                     })}

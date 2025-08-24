@@ -13,6 +13,8 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import _ from 'lodash';
 import Copy from '../../shared/Button/Copy';
 import Subscription from '@site/src/models/Subscription';
+import SubscribeIcs from '../../shared/Button/SubscribeIcs';
+import CopyIcs from '../../shared/Button/CopyIcs';
 
 interface Props {
     subscription: Subscription;
@@ -28,47 +30,29 @@ const IcalProps = observer((props: Props) => {
                 <Translate id="subscriptions.ical.openOutlook">In Outlook öffnen</Translate>
             </dt>
             <dd>
-                <Button
-                    href={`https://outlook.office.com/owa?path=%2Fcalendar%2Faction%2Fcompose&rru=addsubscription&url=${EVENTS_API}/ical/${currentLocale}/${subscription.icsLocator}&name=${translate(
-                        {
-                            message: 'GBSL',
-                            id: 'user.ical.outlook.calendar-name',
-                            description: 'Name of the calendar in Outlook'
-                        }
-                    )}`}
-                    target="_blank"
-                    text={translate({
-                        message: 'Outlook',
-                        id: 'user.ical.outlook-button.text',
-                        description: 'Button text for adding the calendar to Outlook'
+                <SubscribeIcs
+                    name={translate({
+                        message: 'GBSL',
+                        id: 'user.ical.outlook.calendar-name',
+                        description: 'Name of the calendar in Outlook'
                     })}
-                    title={translate({
-                        message: 'Abonniere den Kalender in Outlook',
-                        id: 'user.ical.outlook-button.title',
-                        description: 'Button text for adding the calendar to Outlook'
-                    })}
-                    icon={mdiMicrosoftOutlook}
-                    color={'primary'}
-                    size={SIZE_S}
+                    icsName={subscription.icsLocator}
+                    locale={currentLocale as 'de' | 'fr'}
+                    color="primary"
                 />
             </dd>
             <dt>
                 <Translate id="subscriptions.ical.url">Kalender URL</Translate>
             </dt>
             <dd>
-                <div className={clsx(sharedStyles.ical)}>
-                    <Copy
-                        value={`${EVENTS_API}/ical/${currentLocale}/${subscription.icsLocator}`}
-                        size={SIZE_XS}
-                        icon={mdiClipboardText}
-                        title={translate({
-                            message: 'Kopiere den Link zum persönlichen Kalender.',
-                            id: 'user.ical.personal-calendar.copy-button.title'
-                        })}
-                        className={clsx(sharedStyles.copyButton)}
-                    />
-                    {`${EVENTS_API}/ical/${currentLocale}/${subscription.icsLocator}`}
-                </div>
+                <CopyIcs
+                    locale={currentLocale as 'de' | 'fr'}
+                    icsName={subscription.icsLocator}
+                    title={translate({
+                        message: 'Kopiere den Link zum persönlichen Kalender.',
+                        id: 'user.ical.personal-calendar.copy-button.title'
+                    })}
+                />
             </dd>
         </>
     );
