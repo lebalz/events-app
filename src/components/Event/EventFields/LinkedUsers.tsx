@@ -11,6 +11,8 @@ interface Props extends CommonProps {
     flexWrap?: boolean;
 }
 
+export const LINKED_USER_COLOR = 'var(--ifm-color-info-darkest)';
+
 const LinkedUsers = observer((props: Props) => {
     const { event } = props;
     return (
@@ -31,7 +33,7 @@ const LinkedUsers = observer((props: Props) => {
                             key={idx}
                             text={u.displayName}
                             title={u.email}
-                            color="blue"
+                            color={LINKED_USER_COLOR}
                             className={clsx(styles.badge)}
                         />
                     );

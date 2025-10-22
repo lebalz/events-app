@@ -99,6 +99,11 @@ class EventTable {
         return this.selectedEvents.length === this.events.length;
     }
 
+    @computed
+    get isLoggedIn() {
+        return !!this.store.user;
+    }
+
     @action
     setGroupBy(groupBy: 'yearsKw' | undefined) {
         this.groupBy = groupBy;

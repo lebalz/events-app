@@ -64,7 +64,7 @@ const UserPicker = observer((props: Props) => {
                             event.addLinkedUserId(meta.option.value);
                             break;
                         case 'remove-value':
-                            event.removeLinkedUserId(meta.option.value);
+                            event.removeLinkedUserId(meta.removedValue.value);
                             break;
                         case 'clear':
                             event.clearLinkedUserIds();

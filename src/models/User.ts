@@ -5,6 +5,7 @@ import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import Subscription from './Subscription';
+import _ from 'lodash';
 
 export default class User extends ApiModel<UserProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = [

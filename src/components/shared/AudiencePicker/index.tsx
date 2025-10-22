@@ -10,14 +10,22 @@ import _ from 'lodash';
 import Translate, { translate } from '@docusaurus/Translate';
 import AudienceSelector from './AudienceDropdownSelector';
 import DepartmentTab from './DepartmentTab';
-import { mdiSetAll } from '@mdi/js';
-import { SIZE_S } from '../icons';
+import { mdiInformation, mdiSetAll } from '@mdi/js';
+import { SIZE_S, SIZE_XS } from '../icons';
 import UserPicker from './UserPicker';
+import Tooltip from '../Tooltip';
+import Icon from '@mdi/react';
 
 interface Props {
     event: EventModel;
     className?: string;
 }
+
+const LinkedUsersInfoTooltip = translate({
+    id: 'shared.audiencePicker.linkedUsers.tooltip',
+    message:
+        'Den ausgewählten Lehrpersonen wird dieser Termin angezeigt, unabhängig von Schul- und Klassen-Zuordnungen.'
+});
 
 const AudiencePicker = observer((props: Props) => {
     const { event } = props;
@@ -98,6 +106,21 @@ const AudiencePicker = observer((props: Props) => {
                     className={clsx(styles.tabItems)}
                 />
                 <AudienceSelector event={event} />
+                <div className={clsx(styles.flex)}>
+                    <h4>
+                        <Translate
+                            id="shared.header.linked_users"
+                            description="The title in the window for the event."
+                        >
+                            Lehrpersonen
+                        </Translate>
+                    </h4>
+                    <Tooltip title={LinkedUsersInfoTooltip}>
+                        <span style={{ cursor: 'pointer' }}>
+                            <Icon path={mdiInformation} size={SIZE_XS} />
+                        </span>
+                    </Tooltip>
+                </div>
                 <UserPicker event={event} />
                 {!error && event.isDraft && (
                     <div className={clsx(styles.normalize)}>

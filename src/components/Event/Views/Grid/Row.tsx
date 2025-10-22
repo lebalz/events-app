@@ -77,6 +77,9 @@ const Row = observer((props: Props) => {
                 if (span === 0) {
                     return null;
                 }
+                if (name === 'linkedUsers' && !viewStore.user) {
+                    return null;
+                }
 
                 const gridColumn = `${index + 1} / span ${span}`;
                 return (

@@ -24,6 +24,7 @@ import { mdiCircle, mdiMinusThick } from '@mdi/js';
 import Icon from '@mdi/react';
 import { getDifferences } from '@site/src/models/helpers';
 import Info from '../Event/EventFields/AudienceOptions/Info';
+import { LINKED_USER_COLOR } from '../Event/EventFields/LinkedUsers';
 
 interface Props {
     event: Event;
@@ -432,6 +433,50 @@ const EventOverviewSmall = observer((props: Props) => {
                                         color={
                                             untisStore.findClassByName(c)?.color || 'var(--ifm-color-danger)'
                                         }
+                                        className={clsx(styles.badge)}
+                                    />
+                                ))}
+                            </div>
+                        </Popup>
+                    </div>
+                )}
+                {event.linkedUserIds.size > 0 && (
+                    <div
+                        className={clsx(
+                            styles.linkedUsers,
+                            styles.audience,
+                            diffs.has('linkedUsers') && styles.highlight
+                        )}
+                    >
+                        <Popup
+                            trigger={
+                                <span style={{ display: 'flex' }}>
+                                    {[...event.linkedUsers].slice(0, 3).map((u) => (
+                                        <Badge
+                                            key={u.id}
+                                            text={u.displayName}
+                                            color={LINKED_USER_COLOR}
+                                            className={clsx(styles.badge)}
+                                        />
+                                    ))}
+                                    {event.linkedUserIds.size > 2 && (
+                                        <span style={{ fontSize: '1rem', lineHeight: 1, marginLeft: '4px' }}>
+                                            ...
+                                        </span>
+                                    )}
+                                </span>
+                            }
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                                {[...event.linkedUsers].map((u) => (
+                                    <Badge
+                                        key={u.id}
+                                        text={u.displayName}
+                                        color={LINKED_USER_COLOR}
                                         className={clsx(styles.badge)}
                                     />
                                 ))}
