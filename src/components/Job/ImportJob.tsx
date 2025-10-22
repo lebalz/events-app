@@ -78,7 +78,7 @@ const ImportJob = observer((props: Props) => {
                             'end',
                             ['userGroup', { sortable: false }],
                             'location',
-                            'departmens',
+                            'departments',
                             'classes',
                             'descriptionLong',
                             ['actions', { fixed: { right: 0 } }]

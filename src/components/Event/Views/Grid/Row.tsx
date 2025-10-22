@@ -27,6 +27,7 @@ import CreatedAt from '../../EventFields/CreatedAt';
 import UpdatedAt from '../../EventFields/UpdatedAt';
 import Nr from '../../EventFields/Nr';
 import TeachingAffectedIndicator from '../../EventFields/TeachingAffected/TeachingAffectedIndicator';
+import LinkedUsers from '../../EventFields/LinkedUsers';
 
 interface Props {
     event: Event;
@@ -52,8 +53,9 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
     end: EndDateTime,
     location: Location,
     userGroup: EventGroup,
-    departmens: DepartmentsOrAudiencePicker,
+    departments: DepartmentsOrAudiencePicker,
     classes: Klasses,
+    linkedUsers: LinkedUsers,
     descriptionLong: DescriptionLong
 };
 

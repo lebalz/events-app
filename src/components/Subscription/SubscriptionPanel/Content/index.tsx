@@ -29,7 +29,7 @@ export const COLUMN_CONFIG: ColumnConfig = [
     'start',
     'end',
     ['location', { sortable: true }],
-    ['departmens', {}],
+    ['departments', {}],
     ['classes', {}],
     'descriptionLong'
 ];

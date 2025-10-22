@@ -12,6 +12,7 @@ import AudienceSelector from './AudienceDropdownSelector';
 import DepartmentTab from './DepartmentTab';
 import { mdiSetAll } from '@mdi/js';
 import { SIZE_S } from '../icons';
+import UserPicker from './UserPicker';
 
 interface Props {
     event: EventModel;
@@ -97,6 +98,7 @@ const AudiencePicker = observer((props: Props) => {
                     className={clsx(styles.tabItems)}
                 />
                 <AudienceSelector event={event} />
+                <UserPicker event={event} />
                 {!error && event.isDraft && (
                     <div className={clsx(styles.normalize)}>
                         <Button

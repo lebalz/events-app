@@ -5,6 +5,7 @@ import { Props as CommonProps } from '../iEventField';
 import Departments from '../Departments';
 import Klasses from '../Klasses';
 import Edit from './Edit';
+import LinkedUsers from '../LinkedUsers';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean /** true when at least one element of the grid is edited */;
@@ -19,6 +20,7 @@ const Audience = observer((props: Props) => {
         <React.Fragment>
             <Departments {...props} />
             <Klasses {...props} />
+            <LinkedUsers {...props} />
         </React.Fragment>
     );
 });

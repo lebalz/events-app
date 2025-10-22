@@ -1,4 +1,4 @@
-import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
+import { IReactionDisposer, action, computed, observable, reaction } from 'mobx';
 import {
     EventAudience,
     Event as EventProps,
@@ -116,6 +116,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classGroups',
         'classes',
         'departmentIds',
+        'linkedUserIds',
         'teachingAffected',
         'affectsDepartment2'
     ];
@@ -142,6 +143,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      *         which is the **union** of this and the departments of the classes
      */
     departmentIds = observable.set<string>([]);
+    linkedUserIds = observable.set<string>([]);
     classes = observable.set<KlassName>([]);
     classGroups = observable.set<string>([]);
 
@@ -187,6 +189,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.state = props.state;
         this.authorId = props.authorId;
         this.departmentIds.replace(props.departmentIds);
+        this.linkedUserIds.replace(props.linkedUserIds ?? []);
         this.classes.replace(props.classes);
         this.classGroups.replace(props.classGroups);
         this.description = props.description;
@@ -568,6 +571,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         } else if (!currentActive && setActive) {
             this.departmentIds.add(department.id);
         }
+    }
+
+    @action
+    addLinkedUserId(userId: string) {
+        this.linkedUserIds.add(userId);
+    }
+
+    @action
+    removeLinkedUserId(userId: string) {
+        this.linkedUserIds.delete(userId);
+    }
+
+    @action
+    clearLinkedUserIds() {
+        this.linkedUserIds.clear();
+    }
+
+    @computed
+    get linkedUsers() {
+        return [...this.linkedUserIds].map((u) => this.store.root.userStore.find<User>(u)).filter((u) => u);
     }
 
     /**
@@ -1147,6 +1170,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: [...this.departmentIds],
+            linkedUserIds: [...this.linkedUserIds],
             classes: [...this.classes],
             description: this.description,
             descriptionLong: this.descriptionLong,

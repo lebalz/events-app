@@ -37,8 +37,9 @@ const DEFAULT_TABLE_CONFIG: ColumnConfig = [
     'start',
     'end',
     'location',
-    'departmens',
+    'departments',
     'classes',
+    'linkedUsers',
     'descriptionLong',
     ['actions', { fixed: { right: 0 } }]
 ] as const;

@@ -716,7 +716,7 @@
     "message": "Groupe",
     "description": "Label for the Event Grid Columns"
   },
-  "eventGrid.header.departmens": {
+  "eventGrid.header.departments": {
     "message": "Filières",
     "description": "Label for the Event Grid Columns"
   },

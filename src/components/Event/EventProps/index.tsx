@@ -50,6 +50,7 @@ import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
 import AudienceOptions from '../EventFields/AudienceOptions';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { useHistory } from '@docusaurus/router';
+import LinkedUsers from '../EventFields/LinkedUsers';
 
 interface Props {
     event: EventModel;
@@ -259,6 +260,21 @@ const EventProps = observer((props: Props) => {
                             </dt>
                             <dd className={clsx(styles.lighterFont)}>
                                 <Departments {...commonProps} flexWrap />
+                            </dd>
+                        </>
+                    )}
+                    {event.linkedUserIds.size > 0 && (
+                        <>
+                            <dt>
+                                <Translate
+                                    id="event.linkedUsers"
+                                    description="for a single event: linkedUsers"
+                                >
+                                    Verknüpfte LP's
+                                </Translate>
+                            </dt>
+                            <dd className={clsx(styles.lighterFont)}>
+                                <LinkedUsers {...commonProps} flexWrap />
                             </dd>
                         </>
                     )}

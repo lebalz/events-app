@@ -56,7 +56,10 @@ export const DefaultConfig: { [key: string]: ConfigOptions } = {
     end: { sortable: true },
     location: { maxWidth: '10em' },
     userGroup: { maxContentWidth: '7em' },
-    departmens: { maxContentWidth: '7em', onEdit: { maxWidth: '50em', colSpan: 2, maxContentWidth: '50em' } },
+    departments: {
+        maxContentWidth: '7em',
+        onEdit: { maxWidth: '50em', colSpan: 2, maxContentWidth: '50em' }
+    },
     classes: { maxContentWidth: '8em', onEdit: { colSpan: 0 } },
     descriptionLong: { width: '20em' },
     actions: {}

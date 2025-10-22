@@ -433,7 +433,7 @@ class EventTable {
                 const depNames = event.departmentNames.join(' ');
                 if (!keep) {
                     keep = tokens.some((tkn) => {
-                        return `${event.description} ${event.descriptionLong} ${event.dayFullStart} ${event.fStartDate} ${event.fStartTime} ${event.fEndDate} ${event.fEndTime} ${event.location} ${depNames}`.match(
+                        return `${event.linkedUsers.map((u) => u.displayName)} ${event.linkedUsers.map((e) => e.fullName)} ${event.description} ${event.descriptionLong} ${event.dayFullStart} ${event.fStartDate} ${event.fStartTime} ${event.fEndDate} ${event.fEndTime} ${event.location} ${depNames}`.match(
                             new RegExp(tkn, 'i')
                         );
                     });

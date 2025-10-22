@@ -27,7 +27,7 @@ export const COLUMN_CONFIG: ColumnConfig = [
     'createdAt',
     'updatedAt',
     'userGroup',
-    ['departmens', {}],
+    ['departments', {}],
     ['classes', {}],
     'descriptionLong',
     ['actions', { fixed: { right: 0 } }]

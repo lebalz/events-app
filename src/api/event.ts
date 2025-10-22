@@ -1,7 +1,7 @@
 import { AxiosPromise } from 'axios';
 import api from './base';
 import { Job } from './job';
-import Joi, { CustomHelpers } from 'joi';
+import Joi, { CustomHelpers, link } from 'joi';
 import { KlassName } from '../models/helpers/klassNames';
 import { translate } from '@docusaurus/Translate';
 import { Color } from '../components/shared/Colors';
@@ -294,6 +294,7 @@ export interface PrismaEvent {
     descriptionLong: string;
     state: EventState;
     cloned: boolean;
+    linkedUserIds: string[];
     jobId: string | null;
     classes: KlassName[];
     classGroups: string[];
@@ -368,6 +369,7 @@ export const JoiEvent = Joi.object<Event>({
     teachingAffected: Joi.string()
         .valid(...Object.values(TeachingAffected))
         .required(),
+    linkedUserIds: Joi.array().items(Joi.string()).required(),
     affectsDepartment2: Joi.boolean().required(),
     parentId: Joi.string().allow(null),
     publishedVersionIds: Joi.array().items(Joi.string()).required(),
@@ -377,7 +379,13 @@ export const JoiEvent = Joi.object<Event>({
     meta: Joi.object().allow(null),
     clonedFromId: Joi.string().allow(null)
 }).custom((value: Event, helpers: CustomHelpers<Event>) => {
-    if (value.classes.length + value.classGroups.length + value.departmentIds.length === 0) {
+    if (
+        value.classes.length +
+            value.classGroups.length +
+            value.departmentIds.length +
+            value.linkedUserIds.length ===
+        0
+    ) {
         return helpers.error('custom.event.emptyAudience', {
             key: 'audience',
             value: [],
@@ -433,7 +441,8 @@ export const JoiMessages: Joi.LanguageMessages = {
         description: 'Joi validation error for date min'
     }),
     'custom.event.emptyAudience': translate({
-        message: 'Es muss mindestens eine Klasse, Klassengruppe oder Abteilung ausgewählt werden',
+        message:
+            'Es muss mindestens eine Klasse, Klassengruppe, Lehrperson oder Abteilung ausgewählt werden.',
         id: 'joi.event.emptyAudience',
         description: 'Joi validation error for empty audience'
     })

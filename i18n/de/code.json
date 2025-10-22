@@ -112,7 +112,7 @@
     "description": "Description of event must not be empty"
   },
   "joi.event.emptyAudience": {
-    "message": "Es muss mindestens eine Klasse, Klassengruppe oder Abteilung ausgewählt werden",
+    "message": "Es muss mindestens eine Klasse, Klassengruppe, Lehrperson oder Abteilung ausgewählt werden.",
     "description": "Joi validation error for empty audience"
   },
   "joi.string.empty": {
@@ -1544,7 +1544,7 @@
     "message": "Gruppe",
     "description": "Label for the Event Grid Columns"
   },
-  "eventGrid.header.departmens": {
+  "eventGrid.header.departments": {
     "message": "Abteilungen",
     "description": "Label for the Event Grid Columns"
   },
@@ -2222,15 +2222,23 @@
     "message": "Der Unterricht der 28Gj ist nicht betroffen, da die Klasse mit einem Auftrag beschäftigt wird."
   },
   "theme.colorToggle.ariaLabel.mode.system": {
-    "message": "System Modus",
+    "message": "system mode",
     "description": "The name for the system color mode"
   },
   "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
-    "message": "Dropdown erweitern",
+    "message": "Expand the dropdown",
     "description": "The ARIA label of the button to expand the mobile dropdown navbar item"
   },
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
-    "message": "Dropdown schliessen",
+    "message": "Collapse the dropdown",
     "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
+  },
+  "event.linkedUsers": {
+    "message": "Verknüpfte LP's",
+    "description": "for a single event: linkedUsers"
+  },
+  "share.audiencePicker.placeholder.linkedUsers": {
+    "message": "Lehrpersonen auswählen",
+    "description": "share.audiencePicker.placeholder.linkedUsers"
   }
 }
