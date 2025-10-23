@@ -29,6 +29,7 @@ export const COLUMN_CONFIG: ColumnConfig = [
     'userGroup',
     ['departments', {}],
     ['classes', {}],
+    ['linkedUsers', {}],
     'descriptionLong',
     ['actions', { fixed: { right: 0 } }]
 ];
