@@ -18,11 +18,11 @@ const LinkedUsers = observer((props: Props) => {
     const { event } = props;
     return (
         <div
-            style={{ gridColumn: 'departments' }}
+            style={{ gridColumn: 'linkedUsers' }}
             className={clsx(
                 props.className,
-                styles.departments,
-                'grid-departments',
+                styles.linkedUsers,
+                'grid-linkedUsers',
                 props.isEditGrid && styles.editGrid,
                 (event.isExpanded || props.flexWrap) && styles.expanded
             )}

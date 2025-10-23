@@ -16,10 +16,7 @@ const Edit = observer((props: Props) => {
         return null;
     }
     return (
-        <div
-            style={{ gridColumnStart: 'departments', gridColumnEnd: 'classesEnd' }}
-            className={clsx(sharedStyles.audience, 'grid-audience', props.className)}
-        >
+        <div className={clsx(sharedStyles.audience, 'grid-audience', props.className)}>
             <AudiencePicker event={event} />
         </div>
     );

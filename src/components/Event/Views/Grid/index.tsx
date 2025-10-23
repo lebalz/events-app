@@ -58,7 +58,7 @@ export const DefaultConfig: { [key: string]: ConfigOptions } = {
     userGroup: { maxContentWidth: '7em' },
     departments: {
         maxContentWidth: '7em',
-        onEdit: { maxWidth: '50em', colSpan: 2, maxContentWidth: '50em' }
+        onEdit: { maxWidth: '52em', colSpan: 3, maxContentWidth: '55em' }
     },
     classes: { maxContentWidth: '8em', onEdit: { colSpan: 0 } },
     linkedUsers: { maxContentWidth: '8em', onEdit: { colSpan: 0 } },
