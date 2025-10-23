@@ -44,18 +44,12 @@ const LinkedUsers = observer((props: Props) => {
                             })
                         ) : (
                             <Badge
-                                text={translate(
-                                    {
-                                        id: 'event.linkedUserIds.size',
-                                        message: '${count} Personen verknüpft',
-                                        description: 'Badge text for linked users'
-                                    },
-                                    { count: event.linkedUserIds.size }
-                                )}
+                                text={`${event.linkedUserIds.size}`}
                                 title={translate(
                                     {
                                         id: 'event.linkedUserIds.size.title',
-                                        message: 'Es sind ${count} Personen mit diesem Ereignis verknüpft.',
+                                        message:
+                                            'Diesem Ereignis zugewiesene Personen: {count}. (Namen nur für angemeldete Benutzer:innen einsehbar).',
                                         description: 'Badge title for linked users'
                                     },
                                     { count: event.linkedUserIds.size }

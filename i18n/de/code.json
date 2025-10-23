@@ -2240,5 +2240,24 @@
   "share.audiencePicker.placeholder.linkedUsers": {
     "message": "Lehrpersonen auswählen",
     "description": "share.audiencePicker.placeholder.linkedUsers"
+  },
+  "event.linkedUserIds.size": {
+    "message": "Verknüpfte Personen: {count}",
+    "description": "Badge text for linked users"
+  },
+  "event.linkedUserIds.size.title": {
+    "message": "Diesem Ereignis zugewiesene Personen: {count}. (Namen nur für angemeldete Benutzer:innen einsehbar).",
+    "description": "Badge title for linked users"
+  },
+  "shared.audiencePicker.linkedUsers.tooltip": {
+    "message": "Den ausgewählten Lehrpersonen wird dieser Termin angezeigt, unabhängig von Schul- und Klassen-Zuordnungen."
+  },
+  "shared.header.linked_users": {
+    "message": "Lehrpersonen",
+    "description": "The title in the window for the event."
+  },
+  "eventGrid.header.linkedUsers": {
+    "message": "LP's",
+    "description": "Label for the Event Grid Columns"
   }
 }
