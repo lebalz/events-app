@@ -377,11 +377,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.hasParent && (this.parent?.isPublished || this.parent?.isReview)) {
             return { allowed: true };
         }
+        if (!this.store.root.registrationPeriodStore.hasOpenRegistrationPeriods) {
+            return { allowed: false, reason: InvalidTransition.NoOpenRegistrationPeriod };
+        }
         // an event with unknown classes/classGroups should be allowed too
         if (
             this.affectedDepartments.length === 0 &&
             this.affectedKnownClasses.size === 0 &&
             (this.unknownClassGroups.length > 0 || this.affectedClassNames.size > 0)
+        ) {
+            return { allowed: true };
+        }
+        // an event with only linked users should be allowed too
+        if (
+            this.linkedUserIds.size > 0 &&
+            this.departmentIds.size === 0 &&
+            this.classes.size === 0 &&
+            this.classGroups.size === 0
         ) {
             return { allowed: true };
         }

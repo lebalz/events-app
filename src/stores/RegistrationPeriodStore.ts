@@ -29,4 +29,9 @@ export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
     get openRegistrationPeriods() {
         return this.registrationPeriods.filter((rp) => rp.isPeriodOpen);
     }
+
+    @computed
+    get hasOpenRegistrationPeriods() {
+        return this.openRegistrationPeriods.length > 0;
+    }
 }
