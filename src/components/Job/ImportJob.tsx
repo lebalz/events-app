@@ -81,6 +81,7 @@ const ImportJob = observer((props: Props) => {
                             'departments',
                             'classes',
                             'descriptionLong',
+                            'linkedUsers',
                             ['actions', { fixed: { right: 0 } }]
                         ]
                     }}

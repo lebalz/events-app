@@ -121,9 +121,6 @@ const Grid = observer(
                 <div className={clsx(styles.grid)} style={{ gridTemplateColumns }}>
                     {eventTable.columns.map((col, idx) => {
                         const [name, config] = col;
-                        if (name === 'linkedUsers' && !eventTable.isLoggedIn) {
-                            return null;
-                        }
                         return (
                             <ColumnHeader
                                 eventTable={eventTable}

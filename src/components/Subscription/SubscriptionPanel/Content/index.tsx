@@ -20,20 +20,6 @@ interface Props {
     subscription: Subscription;
 }
 
-export const COLUMN_CONFIG: ColumnConfig = [
-    'select',
-    ['teachingAffected', { componentProps: { show: 'icon' } }],
-    'kw',
-    'day',
-    'description',
-    'start',
-    'end',
-    ['location', { sortable: true }],
-    ['departments', {}],
-    ['classes', {}],
-    'descriptionLong'
-];
-
 const Content = observer((props: Props) => {
     const { subscription } = props;
     const [viewType, setViewType] = React.useState<View>(View.Grid);

@@ -61,6 +61,8 @@ const ComponentMap: Record<keyof typeof DefaultConfig, React.ComponentType<any>>
 
 const Row = observer((props: Props) => {
     const viewStore = useStore('viewStore');
+    const linkedUsersIdx = props.columns.findIndex((c) => (Array.isArray(c) ? c[0] : c) === 'linkedUsers');
+    const canExpand = linkedUsersIdx > 0 ? (props.columns[linkedUsersIdx][1].colSpan ?? 1) > 0 : false;
     return (
         <>
             {props.columns.map((column, index) => {
@@ -73,6 +75,18 @@ const Row = observer((props: Props) => {
                     span = config.onEdit.colSpan ?? 1;
                     maxWidth = config.onEdit.maxWidth ?? maxWidth;
                     maxContentWidth = config.onEdit.maxContentWidth ?? maxContentWidth;
+                }
+                if (
+                    canExpand &&
+                    linkedUsersIdx > 0 &&
+                    index === linkedUsersIdx - 1 &&
+                    props.event.linkedUserIds.size === 0
+                ) {
+                    span += 1;
+                    maxContentWidth = `calc(${maxContentWidth} + ${props.columns[linkedUsersIdx][1].maxContentWidth ?? 0})`;
+                }
+                if (canExpand && name === 'linkedUsers' && props.event.linkedUserIds.size === 0) {
+                    return null;
                 }
                 if (span === 0) {
                     return null;

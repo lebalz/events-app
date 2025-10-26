@@ -57,6 +57,7 @@ const DEFAULT_COLUMN_CONFIG: ColumnConfig = [
     'location',
     'departments',
     'classes',
+    'linkedUsers',
     'descriptionLong',
     ['actions', { fixed: { right: 0 } }]
 ] as const;
