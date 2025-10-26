@@ -35,6 +35,13 @@ interface Props {
     showDayname?: boolean;
 }
 
+const FlexStyle: React.CSSProperties = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    maxWidth: '60vw',
+    gap: '0.2em'
+};
+
 const EventOverviewSmall = observer((props: Props) => {
     const untisStore = useStore('untisStore');
     const viewStore = useStore('viewStore');
@@ -283,7 +290,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     >
                         <Popup
                             trigger={
-                                <span style={{ display: 'flex' }}>
+                                <span className={clsx(styles.flexBadges)}>
                                     {event.departments.slice(0, 2).map((d, idx) => {
                                         return (
                                             <Badge
@@ -307,7 +314,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             nested
                             repositionOnResize
                         >
-                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                            <div style={FlexStyle}>
                                 {event.departments.map((d, idx) => {
                                     return (
                                         <Badge
@@ -333,7 +340,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     >
                         <Popup
                             trigger={
-                                <span style={{ display: 'flex' }}>
+                                <span className={clsx(styles.flexBadges)}>
                                     {[...event.classGroups].slice(0, 3).map((c) => (
                                         <Badge
                                             key={c}
@@ -367,7 +374,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             nested
                             repositionOnResize
                         >
-                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                            <div style={FlexStyle}>
                                 {[...event.classGroups].map((c) => (
                                     <Badge
                                         key={c}
@@ -401,7 +408,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     >
                         <Popup
                             trigger={
-                                <span style={{ display: 'flex' }}>
+                                <span className={clsx(styles.flexBadges)}>
                                     {[...event.classes].slice(0, 3).map((c) => (
                                         <Badge
                                             key={c}
@@ -425,7 +432,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             nested
                             repositionOnResize
                         >
-                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                            <div style={FlexStyle}>
                                 {[...event.classes].map((c) => (
                                     <Badge
                                         key={c}
@@ -450,7 +457,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     >
                         <Popup
                             trigger={
-                                <span style={{ display: 'flex' }}>
+                                <span className={clsx(styles.flexBadges)}>
                                     {[...event.linkedUsers].slice(0, 3).map((u) => (
                                         <Badge
                                             key={u.id}
@@ -471,7 +478,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             nested
                             repositionOnResize
                         >
-                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                            <div style={FlexStyle}>
                                 {[...event.linkedUsers].map((u) => (
                                     <Badge
                                         key={u.id}
