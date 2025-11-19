@@ -423,7 +423,9 @@ class EventTable {
                 keep = false;
             }
             if (keep && this.departmentIds.size > 0) {
-                keep = [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
+                keep =
+                    event.linkedUserIds.has(this.store.user.id) ||
+                    [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.classNames.size > 0) {
                 const intersection = new Set(
