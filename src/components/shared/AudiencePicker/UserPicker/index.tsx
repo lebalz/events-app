@@ -3,24 +3,55 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Select from 'react-select';
+import Select, { ActionMeta, FilterOptionOption } from 'react-select';
 import Event from '@site/src/models/Event';
 import _ from 'lodash';
 import { translate } from '@docusaurus/Translate';
+
+interface BaseOption {
+    label: string;
+    value: string;
+}
+
+interface UserOption extends BaseOption {
+    type: 'user';
+}
+
+interface GroupOption extends BaseOption {
+    type: 'group';
+    lang: 'de' | 'fr';
+}
+
+export type SelectOption = UserOption | GroupOption;
 
 interface Props {
     event: Event;
 }
 
+const sanitized = (str: string) => {
+    return str.replaceAll(/(\s|\d|;|:|\(|\)|@)/g, '');
+};
+
 const UserPicker = observer((props: Props) => {
     const [inputValue, setInputValue] = React.useState('');
     const userStore = useStore('userStore');
+    const untisStore = useStore('untisStore');
+    const viewStore = useStore('viewStore');
+    const filter = React.useCallback((candidate: FilterOptionOption<SelectOption>, input: string) => {
+        if (input) {
+            return new RegExp(_.escapeRegExp(sanitized(input)), 'i').test(
+                sanitized(`${candidate.label} ${candidate.value}`)
+            );
+        }
+        return true;
+    }, []);
     const { event } = props;
 
     return (
         <div className={clsx(styles.UserPicker)}>
             <Select
                 menuPortalTarget={document.body}
+                filterOption={filter}
                 styles={{
                     menuPortal: (base) => ({ ...base, zIndex: '1000' }),
                     menu: (base) => ({ ...base, zIndex: 'calc(var(--ifm-z-index-dropdown) + 10)' }),
@@ -35,7 +66,8 @@ const UserPicker = observer((props: Props) => {
                 value={event.linkedUsers.map((user) => {
                     return {
                         value: user.id,
-                        label: user.displayName
+                        label: user.displayName,
+                        type: 'user'
                     };
                 })}
                 placeholder={translate({
@@ -43,12 +75,7 @@ const UserPicker = observer((props: Props) => {
                     id: 'share.audiencePicker.placeholder.linkedUsers',
                     description: 'share.audiencePicker.placeholder.linkedUsers'
                 })}
-                options={_.orderBy(userStore.models.slice(), ['lastName', 'firstName'], ['asc', 'asc']).map(
-                    (t) => ({
-                        value: t.id,
-                        label: `${t.displayName} - ${t.fullName}`
-                    })
-                )}
+                options={viewStore.linkingUsersOptions}
                 noOptionsMessage={(val) => {
                     return translate(
                         {
@@ -89,10 +116,30 @@ const UserPicker = observer((props: Props) => {
                     });
                     setInputValue(remainingInput.join(' '));
                 }}
-                onChange={(opt, meta) => {
+                onChange={(opt, meta: ActionMeta<SelectOption>) => {
                     switch (meta.action) {
                         case 'select-option':
-                            event.addLinkedUserId(meta.option.value);
+                            switch (meta.option.type) {
+                                case 'user':
+                                    event.addLinkedUserId(meta.option.value);
+                                    break;
+                                case 'group':
+                                    const { lang, value } = meta.option;
+                                    const teachersSubjects =
+                                        untisStore.teachersSubjects.get(viewStore.semesterId || '') || [];
+
+                                    const usersToAdd = teachersSubjects
+                                        .filter(
+                                            (ts) =>
+                                                ts.lang === lang &&
+                                                ts.subjects.map((s) => s.name).includes(value)
+                                        )
+                                        .map((ts) => ts.userId);
+                                    usersToAdd.forEach((uId) => {
+                                        event.addLinkedUserId(uId);
+                                    });
+                                    break;
+                            }
                             break;
                         case 'remove-value':
                             event.removeLinkedUserId(meta.removedValue.value);

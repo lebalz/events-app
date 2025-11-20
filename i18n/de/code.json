@@ -2259,5 +2259,22 @@
   "eventGrid.header.linkedUsers": {
     "message": "LP's",
     "description": "Label for the Event Grid Columns"
+  },
+  "basic.user": {
+    "message": "User:in"
+  },
+  "share.audiencePicker.groupOption": {
+    "message": "Fachgruppen"
+  },
+  "share.audiencePicker.fsGroupPrefixDe": {
+    "message": "FS",
+    "description": "Abbrev for Fachschaft in German"
+  },
+  "share.audiencePicker.fsGroupPrefixFr": {
+    "message": "CS",
+    "description": "French term for FS (Fachschaft)"
+  },
+  "event.linkedUser.affectedLessons.badge": {
+    "message": "Betroffene Lektionen von {user} ({shortName})"
   }
 }

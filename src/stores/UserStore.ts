@@ -7,7 +7,6 @@ import {
     setRole,
     affectedEventIds as apiAffectedEventIds
 } from '../api/user';
-import { update as apiUpdateSubscription } from '../api/subscription';
 
 import { RootStore } from './stores';
 import User from '../models/User';
@@ -54,6 +53,13 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         }
     }
 
+    findByTeacherId = computedFn(function (this: UserStore, id?: number): User | undefined {
+        if (id === undefined) {
+            return undefined;
+        }
+        return this.models.find((u) => u.untisId === id);
+    });
+
     matchByNameOrEmail = computedFn(function (this: UserStore, val: string): User | undefined {
         if (!val || val.trim().length === 0) {
             return undefined;
@@ -89,13 +95,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @computed
     get currentUsersEvents() {
         return this.root.eventStore.byUser(this.current?.id);
-    }
-
-    postLoad(models: User[], publicModels: boolean, success?: boolean): Promise<any> {
-        if (!publicModels && success && this.current) {
-            return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id);
-        }
-        return Promise.resolve();
     }
 
     usersEvents(user: User) {

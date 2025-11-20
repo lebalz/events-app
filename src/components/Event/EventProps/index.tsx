@@ -508,6 +508,7 @@ const EventProps = observer((props: Props) => {
                                     { user: user.fullName, shortName: user.displayName }
                                 )}
                                 color={LINKED_USER_COLOR}
+                                className={clsx(styles.linkedUser)}
                             />
                         </dt>
                         <dd className={clsx(sharedStyles.lessons)}>

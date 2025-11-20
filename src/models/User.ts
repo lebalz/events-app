@@ -23,7 +23,6 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     readonly email: string;
     readonly firstName: string;
     readonly lastName: string;
-    readonly department: string;
     readonly role: Role;
     readonly createdAt: Date;
     readonly updatedAt: Date;

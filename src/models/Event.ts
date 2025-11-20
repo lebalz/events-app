@@ -1070,10 +1070,13 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      */
     @computed
     get affectedLessonsOfLinkedUsers() {
-        return this.linkedUsers.map((u) => ({
-            user: u,
-            lessons: u.lessons.filter((l) => this.hasOverlap(l))
-        }));
+        return _.orderBy(
+            this.linkedUsers.map((u) => ({
+                user: u,
+                lessons: u.lessons.filter((l) => this.hasOverlap(l))
+            })),
+            ['user.displayName']
+        );
     }
 
     get affectedLessonsGroupedByClass(): { class: string; lessons: Lesson[] }[] {

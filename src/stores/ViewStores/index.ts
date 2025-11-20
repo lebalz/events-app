@@ -24,11 +24,25 @@ import { translate } from '@docusaurus/Translate';
 import LocalUserSettings from './LocaUserSettings';
 import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
 import { currentGradeYear } from '@site/src/models/helpers/time';
+import { SelectOption } from '@site/src/components/shared/AudiencePicker/UserPicker';
 const I18n_LABELS = {
     classType: translate({ id: 'basic.class', message: 'Klassen' }),
     departmentType: translate({ id: 'basic.department', message: 'Abteilungen' }),
-    levelType: translate({ id: 'basic.level', message: 'Stufen' })
+    levelType: translate({ id: 'basic.level', message: 'Stufen' }),
+    userType: translate({ id: 'basic.user', message: 'User:in' }),
+    groupType: translate({ id: 'share.audiencePicker.groupOption', message: 'Fachgruppen' })
 };
+
+const FS_GROUP_PREFIX_DE = translate({
+    id: 'share.audiencePicker.fsGroupPrefixDe',
+    message: 'FS',
+    description: 'Abbrev for Fachschaft in German'
+});
+const FS_GROUP_PREFIX_FR = translate({
+    id: 'share.audiencePicker.fsGroupPrefixFr',
+    message: 'CS',
+    description: 'French term for FS (Fachschaft)'
+});
 
 const DEFAULT_TABLE_CONFIG: ColumnConfig = [
     ['teachingAffected', { componentProps: { show: 'icon' } }],
@@ -428,6 +442,61 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                     ['label'],
                     ['asc']
                 )
+            }
+        ];
+    }
+
+    @computed
+    get linkingUsersOptions(): GroupBase<SelectOption>[] {
+        const subjectsDe = _.uniqBy(
+            (this.root.untisStore.teachersSubjects.get(this.semesterId) || [])
+                .filter((ts) => ts.lang === 'de')
+                .flatMap((ts) => ts.subjects),
+            (s) => `${s.name}-${s.description}`
+        );
+        const subjectsFr = _.uniqBy(
+            (this.root.untisStore.teachersSubjects.get(this.semesterId) || [])
+                .filter((ts) => ts.lang === 'fr')
+                .flatMap((ts) => ts.subjects),
+            (s) => `${s.name}-${s.description}`
+        );
+        return [
+            {
+                label: I18n_LABELS.userType,
+                options: _.orderBy(
+                    this.root.userStore.models.slice(),
+                    ['lastName', 'firstName'],
+                    ['asc', 'asc']
+                ).map((t) => ({
+                    value: t.id,
+                    label: `${t.displayName} - ${t.fullName}`,
+                    type: 'user'
+                }))
+            },
+            {
+                label: I18n_LABELS.groupType,
+                options: _.orderBy(
+                    [
+                        ...subjectsDe.flatMap((subject) => {
+                            return {
+                                label: `${FS_GROUP_PREFIX_DE} ${subject.description} (${subject.name})`,
+                                value: subject.name,
+                                lang: 'de',
+                                type: 'group'
+                            };
+                        }),
+                        ...subjectsFr.flatMap((subject) => {
+                            return {
+                                label: `${FS_GROUP_PREFIX_FR} ${subject.description} (${subject.name})`,
+                                value: subject.name,
+                                lang: 'fr',
+                                type: 'group'
+                            };
+                        })
+                    ],
+                    ['label'],
+                    ['asc']
+                ) as SelectOption[]
             }
         ];
     }
