@@ -13,6 +13,7 @@ interface Props {
 }
 
 const UserPicker = observer((props: Props) => {
+    const [inputValue, setInputValue] = React.useState('');
     const userStore = useStore('userStore');
     const { event } = props;
 
@@ -57,6 +58,36 @@ const UserPicker = observer((props: Props) => {
                         },
                         { val: val.inputValue }
                     );
+                }}
+                inputValue={inputValue} /** used for the current typed input */
+                onInputChange={(newValue) => {
+                    const hasChunks = /(;|\s|\t|,\n)/.test(newValue);
+                    if (!hasChunks) {
+                        setInputValue(newValue);
+                        return;
+                    }
+                    const splittedValues = newValue
+                        .split(/\s*(;|\s|\t|,\n)+\s*/g)
+                        .map((v) => v.trim())
+                        .filter((v) => !!v);
+                    const remainingInput: string[] = [];
+                    const users = splittedValues
+                        .map((val) => {
+                            const user = userStore.matchByNameOrEmail(val);
+                            if (!user) {
+                                remainingInput.push(val);
+                            }
+                            return user;
+                        })
+                        .filter((u) => !!u);
+                    if (users.length === 0) {
+                        setInputValue(newValue);
+                        return;
+                    }
+                    users.forEach((user) => {
+                        event.addLinkedUserId(user!.id);
+                    });
+                    setInputValue(remainingInput.join(' '));
                 }}
                 onChange={(opt, meta) => {
                     switch (meta.action) {

@@ -16,6 +16,7 @@ import iStore from './iStore';
 import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
 import Storage, { PersistedData, StorageKey } from './utils/Storage';
+import { computedFn } from 'mobx-utils';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
@@ -52,6 +53,20 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             }
         }
     }
+
+    matchByNameOrEmail = computedFn(function (this: UserStore, val: string): User | undefined {
+        if (!val || val.trim().length === 0) {
+            return undefined;
+        }
+        const lowerVal = val.toLowerCase();
+        const foundUser = this.models.find(
+            (u) =>
+                u.email.toLowerCase() === lowerVal ||
+                u.displayName.toLowerCase() === lowerVal ||
+                u.fullName.toLowerCase() === lowerVal
+        );
+        return foundUser;
+    });
 
     createModel(data: UserProps): User {
         return new User(data, this, this.root.untisStore);
