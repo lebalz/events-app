@@ -149,7 +149,7 @@ const DefaultActions = observer((props: Props) => {
                     />
                 </>
             )}
-            {isLoggedIn && (current.id === event.authorId || current.isAdmin) && !event.isDeleted && (
+            {isLoggedIn && (current?.id === event.authorId || current?.isAdmin) && !event.isDeleted && (
                 <Delete
                     onClick={() => event.destroy()}
                     apiState={event.apiStateFor(`destroy-${event.id}`)}

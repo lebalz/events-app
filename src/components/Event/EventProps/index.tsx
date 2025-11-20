@@ -50,7 +50,7 @@ import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
 import AudienceOptions from '../EventFields/AudienceOptions';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { useHistory } from '@docusaurus/router';
-import LinkedUsers from '../EventFields/LinkedUsers';
+import LinkedUsers, { LINKED_USER_COLOR } from '../EventFields/LinkedUsers';
 
 interface Props {
     event: EventModel;
@@ -479,6 +479,40 @@ const EventProps = observer((props: Props) => {
                         <dd className={clsx(sharedStyles.lessons)}>
                             <div className={clsx(commonClasses)}>
                                 {kl.lessons.map((l, idx) => (
+                                    <Lesson lesson={l} key={l.id} className={commonClasses} />
+                                ))}
+                            </div>
+                        </dd>
+                    </React.Fragment>
+                );
+            })}
+            {event.affectedLessonsOfLinkedUsers.map(({ user, lessons }, idx) => {
+                if (
+                    !user ||
+                    lessons.length === 0 ||
+                    (!showAllAffectedLessons && user.id !== viewStore.user.id)
+                ) {
+                    return null;
+                }
+                return (
+                    <React.Fragment key={`linked-user-${user.id}`}>
+                        <dt className={commonClasses}>
+                            <Badge
+                                key={idx}
+                                text={user.displayName}
+                                title={translate(
+                                    {
+                                        id: 'event.linkedUser.affectedLessons.badge',
+                                        message: 'Betroffene Lektionen von {user} ({shortName})'
+                                    },
+                                    { user: user.fullName, shortName: user.displayName }
+                                )}
+                                color={LINKED_USER_COLOR}
+                            />
+                        </dt>
+                        <dd className={clsx(sharedStyles.lessons)}>
+                            <div className={clsx(commonClasses)}>
+                                {lessons.map((l, idx) => (
                                     <Lesson lesson={l} key={l.id} className={commonClasses} />
                                 ))}
                             </div>

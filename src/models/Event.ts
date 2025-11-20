@@ -1056,19 +1056,28 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.getUntisClasses(this);
     }
 
+    /**
+     * Returns all lessons of the affected classes (through linked classes, classGroups and departments)
+     * which overlap with the event time, excluding the lessons of linked users
+     */
     @computed
-    get affectedLessons(): Lesson[] {
-        const lessons = this.untisClasses
-            .map((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)))
-            .flat();
-        return _.uniqBy(lessons, 'id').sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start);
+    get affectedLessonsWithoutLinkedUsers() {
+        return this.untisClasses.flatMap((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)));
+    }
+
+    /**
+     * Returns all lessons of the linked users which overlap with the event time
+     */
+    @computed
+    get affectedLessonsOfLinkedUsers() {
+        return this.linkedUsers.map((u) => ({
+            user: u,
+            lessons: u.lessons.filter((l) => this.hasOverlap(l))
+        }));
     }
 
     get affectedLessonsGroupedByClass(): { class: string; lessons: Lesson[] }[] {
-        const lessons = this.untisClasses
-            .slice()
-            .map((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)))
-            .flat();
+        const lessons = this.affectedLessonsWithoutLinkedUsers;
         const affected: { [kl: string]: Lesson[] } = {};
         const placedLessonIds = new Set<number>();
         lessons.forEach((l) => {
