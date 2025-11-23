@@ -270,7 +270,7 @@ const EventProps = observer((props: Props) => {
                                     id="event.linkedUsers"
                                     description="for a single event: linkedUsers"
                                 >
-                                    Verknüpfte LP's
+                                    Lehrpersonen
                                 </Translate>
                             </dt>
                             <dd className={clsx(styles.lighterFont)}>
