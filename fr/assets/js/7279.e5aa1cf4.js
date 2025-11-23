@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkevents_app=self.webpackChunkevents_app||[]).push([["7279"],{3490:function(e,s,n){n.d(s,{createInfoServices:()=>p.v});var p=n(91885);n(47342)}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkevents_app=self.webpackChunkevents_app||[]).push([["1276"],{29016:function(e){e.exports=JSON.parse('{"name":"dynamic-router-plugin","id":"default"}')}}]);
