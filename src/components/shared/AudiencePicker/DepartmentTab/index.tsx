@@ -37,8 +37,8 @@ const DepartmentTab = observer((props: Props) => {
     return (
         <Tabs className={clsx(styles.tabs)} lazy>
             {departmentKeys.map((letter, idx) => {
-                const color = (departments[letter] as DepartmentModel[])[0].color;
-                const touched = (departments[letter] as DepartmentModel[]).some((d) =>
+                const color = (departments[letter] as DepartmentModel[])[0]?.color;
+                const touched = ((departments[letter] ?? []) as DepartmentModel[]).some((d) =>
                     d.classes.some((c) => event.affectsClass(c))
                 );
                 return (

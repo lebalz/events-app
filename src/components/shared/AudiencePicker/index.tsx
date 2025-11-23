@@ -21,12 +21,6 @@ interface Props {
     className?: string;
 }
 
-const LinkedUsersInfoTooltip = translate({
-    id: 'shared.audiencePicker.linkedUsers.tooltip',
-    message:
-        'Den ausgewählten Lehrpersonen wird dieser Termin angezeigt, unabhängig von Schul- und Klassen-Zuordnungen.'
-});
-
 const AudiencePicker = observer((props: Props) => {
     const { event } = props;
     const departmentStore = useStore('departmentStore');
@@ -136,7 +130,22 @@ const AudiencePicker = observer((props: Props) => {
                             Lehrpersonen
                         </Translate>
                     </h4>
-                    <Tooltip title={LinkedUsersInfoTooltip}>
+                    <Tooltip
+                        title={
+                            <div>
+                                <Translate id="shared.audiencePicker.linkedUsers.tooltip">
+                                    Den ausgewählten Lehrpersonen wird dieser Termin angezeigt, unabhängig von
+                                    Schul- und Klassen-Zuordnungen.
+                                </Translate>
+                                <div className={clsx('alert', 'alert--warning', styles.infoBox)}>
+                                    <Translate id="shared.audiencePicker.linkedUsers.tooltip.notFoundHint">
+                                        LP nicht gefunden? Es werden nur LP's angezeigt, welche sich bereits
+                                        im System angemeldet haben.
+                                    </Translate>
+                                </div>
+                            </div>
+                        }
+                    >
                         <span style={{ cursor: 'pointer' }}>
                             <Icon path={mdiInformation} size={SIZE_XS} />
                         </span>

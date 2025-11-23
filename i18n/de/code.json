@@ -2238,5 +2238,8 @@
   "event.linkedUserIds.size.title": {
     "message": "Diesem Ereignis zugewiesene Personen: {count}. (Namen nur für angemeldete Benutzer:innen einsehbar).",
     "description": "Badge title for linked users"
+  },
+  "shared.audiencePicker.linkedUsers.tooltip.notFoundHint": {
+    "message": "LP nicht gefunden? Es werden nur LP's angezeigt, welche sich bereits im System angemeldet haben."
   }
 }
