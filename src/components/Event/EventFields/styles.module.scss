@@ -139,8 +139,6 @@ dd {
     }
 }
 .audience {
-    grid-column-start: departments;
-    grid-column-end: classesEnd;
     overflow: visible;
     &.cell {
         overflow: visible;

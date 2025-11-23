@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import Event from '@site/src/models/Event';
 import { EventAudience as EA, EventState, TeachingAffected as TA } from '@site/src/api/event';
-import {default as TeachingAffected} from '@site/src/components/Event/EventFields/TeachingAffected/Edit';
 import {default as AudienceOptions} from '@site/src/components/Event/EventFields/AudienceOptions/Edit';
 
 interface Props {}

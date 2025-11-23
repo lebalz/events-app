@@ -112,7 +112,7 @@
     "description": "Description of event must not be empty"
   },
   "joi.event.emptyAudience": {
-    "message": "Es muss mindestens eine Klasse, Klassengruppe oder Abteilung ausgewählt werden",
+    "message": "Es muss mindestens eine Klasse, Klassengruppe, Lehrperson oder Abteilung ausgewählt werden.",
     "description": "Joi validation error for empty audience"
   },
   "joi.string.empty": {
@@ -1232,10 +1232,6 @@
     "message": "GBSL",
     "description": "Name of the calendar in Outlook"
   },
-  "user.ical.outlook-button.text": {
-    "message": "Outlook",
-    "description": "Button text for adding the calendar to Outlook"
-  },
   "subscriptions.ical.url": {
     "message": "Kalender URL"
   },
@@ -1305,9 +1301,6 @@
   "navbar.item.label.personal": {
     "message": "Persönlich"
   },
-  "EventAudience.forExample": {
-    "message": "z.B."
-  },
   "share.audiencePicker.classSelector.errorMsg.department": {
     "message": "Abteilung \"{letter}\" nicht gefunden",
     "description": "Error message department not found"
@@ -1340,10 +1333,6 @@
     "message": "Betrifft",
     "description": "The text in the window used to select the participants involved in the event asking which people is concerned by an event"
   },
-  "shared.text.lesson.concerned": {
-    "message": "Unterricht Betroffen?",
-    "description": "The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
-  },
   "shared.text.bilingual.people.concerned": {
     "message": "Bilingue Lehrpersonen betroffen?",
     "description": "The text in the window used to select the participants concerned in the event asking if the bilingual people are concerned by an event"
@@ -1363,13 +1352,6 @@
   "shared.AudiencePicker": {
     "message": "Alle Schulen",
     "description": "Button text to toggle all schools on/off"
-  },
-  "shared.button.title.expand": {
-    "message": "Erweitert",
-    "description": "Text appearing on the expand button"
-  },
-  "shared.audiencePicker.title.futureClasses": {
-    "message": "Künftige Klassen"
   },
   "share.badge.error.title": {
     "message": "Erreur",
@@ -1544,7 +1526,7 @@
     "message": "Gruppe",
     "description": "Label for the Event Grid Columns"
   },
-  "eventGrid.header.departmens": {
+  "eventGrid.header.departments": {
     "message": "Abteilungen",
     "description": "Label for the Event Grid Columns"
   },
@@ -2044,16 +2026,6 @@
   "group.collection": {
     "message": "Sammlung"
   },
-  "eventField.teachingAffected.no.example": {
-    "message": "Noteneingabe in Evento. Der Unterricht findet normal statt"
-  },
-  "eventField.teachingAffected.partial.example": {
-    "message": "Exkursion im EF-IN. Der Unterricht findet für andere LP's normal statt, die EF-IN Schüler:innen fehlen aber."
-  },
-  "eventField.teachingAffected.yes.example": {
-    "message": "\"Exkursion mit der Klasse 28Gj\" oder \"Klassenstunde: Zeugnisse\". Der Regelunterricht fällt aus - die Klasse ist nicht da oder es gibt Spezialprogramm.",
-    "description": "Label for the Event Field"
-  },
   "collection.NoGroupsAlert.text": {
     "message": "In der Sammlung \"{collection}\" sind keine Gruppen vorhanden."
   },
@@ -2094,9 +2066,6 @@
   },
   "teachingAffected.partial.example.description.1": {
     "message": "Der Regelunterricht findet normal statt, die EF-IN Schüler:innen fehlen aber."
-  },
-  "teachingAffected.partial.example.hint.1": {
-    "message": "Proben sollten nicht geplant werden, da nicht die ganze Klasse anwesend ist."
   },
   "teachingAffected.partial.example.2": {
     "message": "Orchesterprobe."
@@ -2187,9 +2156,6 @@
   "audiencePicker.groupName": {
     "message": "{groupName}*: Alle {department}-Klassen des Jahrgangs {year} ausgewählt"
   },
-  "audiencePicker.groupName.derived": {
-    "message": "Ganzes {department} ausgewählt - alle Klassen ausgewählt"
-  },
   "audiencePicker.className.derived": {
     "message": "{name} bereits aktiv über Jahrgang oder Abteilung {department}"
   },
@@ -2222,15 +2188,58 @@
     "message": "Der Unterricht der 28Gj ist nicht betroffen, da die Klasse mit einem Auftrag beschäftigt wird."
   },
   "theme.colorToggle.ariaLabel.mode.system": {
-    "message": "System Modus",
+    "message": "system mode",
     "description": "The name for the system color mode"
   },
   "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
-    "message": "Dropdown erweitern",
+    "message": "Expand the dropdown",
     "description": "The ARIA label of the button to expand the mobile dropdown navbar item"
   },
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
-    "message": "Dropdown schliessen",
+    "message": "Collapse the dropdown",
     "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
+  },
+  "event.linkedUsers": {
+    "message": "Lehrpersonen",
+    "description": "for a single event: linkedUsers"
+  },
+  "share.audiencePicker.placeholder.linkedUsers": {
+    "message": "Lehrpersonen auswählen",
+    "description": "share.audiencePicker.placeholder.linkedUsers"
+  },
+  "shared.audiencePicker.linkedUsers.tooltip": {
+    "message": "Den ausgewählten Lehrpersonen wird dieser Termin angezeigt, unabhängig von Schul- und Klassen-Zuordnungen."
+  },
+  "shared.header.linked_users": {
+    "message": "Lehrpersonen",
+    "description": "The title in the window for the event."
+  },
+  "eventGrid.header.linkedUsers": {
+    "message": "LP's",
+    "description": "Label for the Event Grid Columns"
+  },
+  "basic.user": {
+    "message": "User:in"
+  },
+  "share.audiencePicker.groupOption": {
+    "message": "Fachgruppen"
+  },
+  "share.audiencePicker.fsGroupPrefixDe": {
+    "message": "FS",
+    "description": "Abbrev for Fachschaft in German"
+  },
+  "share.audiencePicker.fsGroupPrefixFr": {
+    "message": "CS",
+    "description": "French term for FS (Fachschaft)"
+  },
+  "event.linkedUser.affectedLessons.badge": {
+    "message": "Betroffene Lektionen von {user} ({shortName})"
+  },
+  "event.linkedUserIds.size.title": {
+    "message": "Diesem Ereignis zugewiesene Personen: {count}. (Namen nur für angemeldete Benutzer:innen einsehbar).",
+    "description": "Badge title for linked users"
+  },
+  "shared.audiencePicker.linkedUsers.tooltip.notFoundHint": {
+    "message": "LP nicht gefunden? Es werden nur LP's angezeigt, welche sich bereits im System angemeldet haben."
   }
 }

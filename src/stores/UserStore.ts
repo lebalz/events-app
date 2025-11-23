@@ -7,7 +7,6 @@ import {
     setRole,
     affectedEventIds as apiAffectedEventIds
 } from '../api/user';
-import { update as apiUpdateSubscription } from '../api/subscription';
 
 import { RootStore } from './stores';
 import User from '../models/User';
@@ -16,6 +15,7 @@ import iStore from './iStore';
 import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
 import Storage, { PersistedData, StorageKey } from './utils/Storage';
+import { computedFn } from 'mobx-utils';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
@@ -53,6 +53,27 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         }
     }
 
+    findByTeacherId = computedFn(function (this: UserStore, id?: number): User | undefined {
+        if (id === undefined) {
+            return undefined;
+        }
+        return this.models.find((u) => u.untisId === id);
+    });
+
+    matchByNameOrEmail = computedFn(function (this: UserStore, val: string): User | undefined {
+        if (!val || val.trim().length === 0) {
+            return undefined;
+        }
+        const lowerVal = val.toLowerCase();
+        const foundUser = this.models.find(
+            (u) =>
+                u.email.toLowerCase() === lowerVal ||
+                u.displayName.toLowerCase() === lowerVal ||
+                u.fullName.toLowerCase() === lowerVal
+        );
+        return foundUser;
+    });
+
     createModel(data: UserProps): User {
         return new User(data, this, this.root.untisStore);
     }
@@ -74,13 +95,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @computed
     get currentUsersEvents() {
         return this.root.eventStore.byUser(this.current?.id);
-    }
-
-    postLoad(models: User[], publicModels: boolean, success?: boolean): Promise<any> {
-        if (!publicModels && success && this.current) {
-            return this.loadAffectedEventIds(this.current, this.root.semesterStore?.currentSemester?.id);
-        }
-        return Promise.resolve();
     }
 
     usersEvents(user: User) {

@@ -10,8 +10,11 @@ import _ from 'lodash';
 import Translate, { translate } from '@docusaurus/Translate';
 import AudienceSelector from './AudienceDropdownSelector';
 import DepartmentTab from './DepartmentTab';
-import { mdiSetAll } from '@mdi/js';
-import { SIZE_S } from '../icons';
+import { mdiInformation, mdiSetAll } from '@mdi/js';
+import { SIZE_S, SIZE_XS } from '../icons';
+import UserPicker from './UserPicker';
+import Tooltip from '../Tooltip';
+import Icon from '@mdi/react';
 
 interface Props {
     event: EventModel;
@@ -118,6 +121,37 @@ const AudiencePicker = observer((props: Props) => {
                         />
                     </div>
                 )}
+                <div className={clsx(styles.flex, styles.container)}>
+                    <h4>
+                        <Translate
+                            id="shared.header.linked_users"
+                            description="The title in the window for the event."
+                        >
+                            Lehrpersonen
+                        </Translate>
+                    </h4>
+                    <Tooltip
+                        title={
+                            <div>
+                                <Translate id="shared.audiencePicker.linkedUsers.tooltip">
+                                    Den ausgewählten Lehrpersonen wird dieser Termin angezeigt, unabhängig von
+                                    Schul- und Klassen-Zuordnungen.
+                                </Translate>
+                                <div className={clsx('alert', 'alert--warning', styles.infoBox)}>
+                                    <Translate id="shared.audiencePicker.linkedUsers.tooltip.notFoundHint">
+                                        LP nicht gefunden? Es werden nur LP's angezeigt, welche sich bereits
+                                        im System angemeldet haben.
+                                    </Translate>
+                                </div>
+                            </div>
+                        }
+                    >
+                        <span style={{ cursor: 'pointer' }}>
+                            <Icon path={mdiInformation} size={SIZE_XS} />
+                        </span>
+                    </Tooltip>
+                </div>
+                <UserPicker event={event} />
                 {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
         </div>

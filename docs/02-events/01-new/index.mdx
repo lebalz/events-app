@@ -122,10 +122,14 @@ Die Felder __Titel__ und __Publikum__ sind Pflichtfelder.
         - :mdi[google-classroom]{.orange} eine bekannte Klasse.
         - :mdi[account-question]{.red} eine künftige Klasse, die noch nicht in WebUntis geführt wird.
         - :mdi[account-multiple]{.blue} ein ganzer Klassenjahrgang. 
+        - Lehrpersonen können direkt über das Suchfeld hinzugefügt werden. [👉 Ganze Fachschaften hinzufügen](#fachschaften-hinzufügen)
 
         :::danger[Eine Klasse wird nicht angezeigt?]
         - Überprüfen des **Datums**: Gibt es die Klasse zu diesem Zeitpunkt (noch) an der Schule?
         - Ist es eine **neue Klasse** und WebUntis zeigt die Klasse noch nicht an? Die Klasse [👉 manuell eingegeben](#künftige-klassen).
+        :::
+        :::danger[Eine Lehrperson wird nicht angezeigt?]
+        Aktuell sind nur Lehrpersonen sichtbar, welche sich bereits im System angemeldet haben.
         :::
     </dd>
     <dt>Betrifft</dt>
@@ -293,6 +297,21 @@ Ein zeitliches Eingabefenster ist vom Start- bis zum Enddatum offen und ermögli
 Bei **fehlerhaften** Terminen oder **unvollständigen** Angaben (bspw. Zimmerzuteilungen) kann ein Änderungsantrag an die Admins gemacht werden. Diese prüfen den Antrag und veröffentlichen ggf. den aktualisierten Termin.
 :::
 
+## Fachschaften Hinzufügen
+
+Es lassen sich auch ganze Fachschaften als Publikum hinzufügen. Die Fachschaftszugehörigkeit wird dabei auf Basis der unterrichteten Fächer der Lehrpersonen ermittelt.
+
+<VideoGrid
+    videos={[
+        {
+            src: require('./images/audience-fs.mp4').default,
+            title: 'Alle Lehrpersonen einer Fachschaft hinzufügen',
+            autoplay: true,
+            maxHeight: '300px',
+            loop: true
+        }
+    ]}
+/>
 
 
 

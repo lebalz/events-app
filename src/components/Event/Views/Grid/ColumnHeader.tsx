@@ -106,14 +106,19 @@ const HeaderTitles: Record<keyof typeof DefaultConfig, string> = {
         id: 'eventGrid.header.userGroup',
         description: 'Label for the Event Grid Columns'
     }),
-    departmens: translate({
+    departments: translate({
         message: 'Abteilungen',
-        id: 'eventGrid.header.departmens',
+        id: 'eventGrid.header.departments',
         description: 'Label for the Event Grid Columns'
     }),
     classes: translate({
         message: 'Klassen',
         id: 'eventGrid.header.classes',
+        description: 'Label for the Event Grid Columns'
+    }),
+    linkedUsers: translate({
+        message: "LP's",
+        id: 'eventGrid.header.linkedUsers',
         description: 'Label for the Event Grid Columns'
     }),
     descriptionLong: translate({

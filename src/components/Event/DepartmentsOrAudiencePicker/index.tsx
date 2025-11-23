@@ -19,8 +19,8 @@ const DepartmentsOrAudiencePicker = observer((props: Props) => {
         return (
             <div className={clsx(styles.departmentsOrAudience)}>
                 <div className={clsx(styles.left)}>
-                    <TeachingAffected event={props.event} isEditable />
-                    <AudienceOptions event={props.event} />
+                    <TeachingAffected event={event} isEditable />
+                    <AudienceOptions event={event} />
                 </div>
                 <AudiencePicker event={event} className={clsx(styles.right)} />
             </div>

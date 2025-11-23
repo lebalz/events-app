@@ -146,7 +146,7 @@
         justify-content: space-between;
         align-items: flex-end;
         flex-wrap: wrap;
-        gap: 0 1em;
+        gap: 0 0.5em;
         font-size: 10px;
         .teachingAffected {
             .teachingAffectedIcon {
@@ -168,6 +168,16 @@
             flex-wrap: wrap;
             &.target {
                 font-weight: 400;
+            }
+            &.linkedUsers {
+                flex-basis: 6em;
+            }
+            .flexBadges {
+                display: flex;
+                gap: 0.2em;
+                &.wrap {
+                    flex-wrap: wrap;
+                }
             }
         }
     }

@@ -24,6 +24,7 @@ import { mdiCircle, mdiMinusThick } from '@mdi/js';
 import Icon from '@mdi/react';
 import { getDifferences } from '@site/src/models/helpers';
 import Info from '../Event/EventFields/AudienceOptions/Info';
+import { LINKED_USER_COLOR } from '../Event/EventFields/LinkedUsers';
 
 interface Props {
     event: Event;
@@ -33,6 +34,13 @@ interface Props {
     expandDescriptionLong?: boolean;
     showDayname?: boolean;
 }
+
+const FlexStyle: React.CSSProperties = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    maxWidth: '60vw',
+    gap: '0.2em'
+};
 
 const EventOverviewSmall = observer((props: Props) => {
     const untisStore = useStore('untisStore');
@@ -282,7 +290,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     >
                         <Popup
                             trigger={
-                                <span style={{ display: 'flex' }}>
+                                <span className={clsx(styles.flexBadges)}>
                                     {event.departments.slice(0, 2).map((d, idx) => {
                                         return (
                                             <Badge
@@ -306,7 +314,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             nested
                             repositionOnResize
                         >
-                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                            <div style={FlexStyle}>
                                 {event.departments.map((d, idx) => {
                                     return (
                                         <Badge
@@ -332,7 +340,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     >
                         <Popup
                             trigger={
-                                <span style={{ display: 'flex' }}>
+                                <span className={clsx(styles.flexBadges)}>
                                     {[...event.classGroups].slice(0, 3).map((c) => (
                                         <Badge
                                             key={c}
@@ -366,7 +374,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             nested
                             repositionOnResize
                         >
-                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                            <div style={FlexStyle}>
                                 {[...event.classGroups].map((c) => (
                                     <Badge
                                         key={c}
@@ -400,7 +408,7 @@ const EventOverviewSmall = observer((props: Props) => {
                     >
                         <Popup
                             trigger={
-                                <span style={{ display: 'flex' }}>
+                                <span className={clsx(styles.flexBadges)}>
                                     {[...event.classes].slice(0, 3).map((c) => (
                                         <Badge
                                             key={c}
@@ -424,7 +432,7 @@ const EventOverviewSmall = observer((props: Props) => {
                             nested
                             repositionOnResize
                         >
-                            <div style={{ display: 'flex', flexWrap: 'wrap', maxWidth: '60vw' }}>
+                            <div style={FlexStyle}>
                                 {[...event.classes].map((c) => (
                                     <Badge
                                         key={c}
@@ -432,6 +440,50 @@ const EventOverviewSmall = observer((props: Props) => {
                                         color={
                                             untisStore.findClassByName(c)?.color || 'var(--ifm-color-danger)'
                                         }
+                                        className={clsx(styles.badge)}
+                                    />
+                                ))}
+                            </div>
+                        </Popup>
+                    </div>
+                )}
+                {event.linkedUserIds.size > 0 && (
+                    <div
+                        className={clsx(
+                            styles.linkedUsers,
+                            styles.audience,
+                            diffs.has('linkedUsers') && styles.highlight
+                        )}
+                    >
+                        <Popup
+                            trigger={
+                                <span className={clsx(styles.flexBadges)}>
+                                    {[...event.linkedUsers].slice(0, 3).map((u) => (
+                                        <Badge
+                                            key={u.id}
+                                            text={u.displayName}
+                                            color={LINKED_USER_COLOR}
+                                            className={clsx(styles.badge)}
+                                        />
+                                    ))}
+                                    {event.linkedUserIds.size > 2 && (
+                                        <span style={{ fontSize: '1rem', lineHeight: 1, marginLeft: '4px' }}>
+                                            ...
+                                        </span>
+                                    )}
+                                </span>
+                            }
+                            on="hover"
+                            position={['top center', 'top right', 'top left']}
+                            nested
+                            repositionOnResize
+                        >
+                            <div style={FlexStyle}>
+                                {[...event.linkedUsers].map((u) => (
+                                    <Badge
+                                        key={u.id}
+                                        text={u.displayName}
+                                        color={LINKED_USER_COLOR}
                                         className={clsx(styles.badge)}
                                     />
                                 ))}

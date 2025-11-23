@@ -148,10 +148,17 @@ export class RootStore {
 
     @action
     loadSemester(semesterId: string) {
-        if (!this._initialSemesterLoaded || this.semesterStore.loadedSemesters.has(semesterId)) {
+        if (this.semesterStore.loadedSemesters.has(semesterId)) {
             return;
         }
+        if (this.sessionStore.isLoggedIn) {
+            this.untisStore.loadTeachersSubjectsIfNeeded(semesterId);
+            this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
+        }
         this.semesterStore.loadedSemesters.add(semesterId);
+        if (!this._initialSemesterLoaded) {
+            return;
+        }
         this.semesterizedStores.forEach((store) => {
             store.loadPublic(semesterId);
         });
@@ -160,7 +167,6 @@ export class RootStore {
             this.semesterStore.currentSemester &&
             this.semesterStore.currentSemester.id !== semesterId
         ) {
-            this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
             this.semesterizedStores.forEach((store) => {
                 store.loadAuthorized(semesterId);
             });

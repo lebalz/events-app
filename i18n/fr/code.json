@@ -636,10 +636,6 @@
     "message": "Synchroniser mon calendrier",
     "description": "Button (hover) title for (re)syncing the calendar"
   },
-  "user.ical.outlook-button.text": {
-    "message": "Outlook",
-    "description": "Button text for adding the calendar to Outlook"
-  },
   "user.ical.outlook-button.title": {
     "message": "Abonner le calendrier dans Outlook",
     "description": "Button text for adding the calendar to Outlook"
@@ -716,7 +712,7 @@
     "message": "Groupe",
     "description": "Label for the Event Grid Columns"
   },
-  "eventGrid.header.departmens": {
+  "eventGrid.header.departments": {
     "message": "Filières",
     "description": "Label for the Event Grid Columns"
   },
@@ -771,9 +767,6 @@
   "shared.AudiencePicker": {
     "message": "Toutes les écoles",
     "description": "Button text to toggle all schools on/off"
-  },
-  "shared.audiencePicker.title.futureClasses": {
-    "message": "Futures classes"
   },
   "shared.AudiencePicker.Department": {
     "message": "Tous",
@@ -1065,10 +1058,6 @@
     "message": "Concerne",
     "description": "The title in the window used to select the participants involved in the event"
   },
-  "shared.text.lesson.concerned": {
-    "message": "Leçons impactées ?",
-    "description": "The text in the window used to select the participants involved in the event asking if the lessons are concerned by an event"
-  },
   "shared.text.people.concerned": {
     "message": "Qui ?",
     "description": "The text in the window used to select the participants involved in the event asking which people is concerned by an event"
@@ -1088,10 +1077,6 @@
   "shared.header.school_departement": {
     "message": "Écoles/classes",
     "description": "The title in the window for the event."
-  },
-  "shared.button.title.expand": {
-    "message": "Étendre",
-    "description": "Text appearing on the expand button"
   },
   "share.audiencePicker.placeholder.unknownClasses": {
     "message": "Classes inconnues",
@@ -1272,9 +1257,6 @@
   "event.reduce.title": {
     "message": "Réduire sur une ligne",
     "description": "Button Title (hover) to reduce an expanded event in the table view"
-  },
-  "EventAudience.forExample": {
-    "message": "p. ex."
   },
   "share.button.delete.confirm": {
     "message": "Voulez-vous vraiment supprimer ?",

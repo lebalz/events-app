@@ -55,8 +55,9 @@ const DEFAULT_COLUMN_CONFIG: ColumnConfig = [
     'end',
     ['userGroup', { sortable: false }],
     'location',
-    'departmens',
+    'departments',
     'classes',
+    'linkedUsers',
     'descriptionLong',
     ['actions', { fixed: { right: 0 } }]
 ] as const;

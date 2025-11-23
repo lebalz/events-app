@@ -1,4 +1,4 @@
-import { IReactionDisposer, action, computed, makeObservable, observable, override, reaction } from 'mobx';
+import { IReactionDisposer, action, computed, observable, reaction } from 'mobx';
 import {
     EventAudience,
     Event as EventProps,
@@ -116,6 +116,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         'classGroups',
         'classes',
         'departmentIds',
+        'linkedUserIds',
         'teachingAffected',
         'affectsDepartment2'
     ];
@@ -142,6 +143,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      *         which is the **union** of this and the departments of the classes
      */
     departmentIds = observable.set<string>([]);
+    linkedUserIds = observable.set<string>([]);
     classes = observable.set<KlassName>([]);
     classGroups = observable.set<string>([]);
 
@@ -187,6 +189,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         this.state = props.state;
         this.authorId = props.authorId;
         this.departmentIds.replace(props.departmentIds);
+        this.linkedUserIds.replace(props.linkedUserIds ?? []);
         this.classes.replace(props.classes);
         this.classGroups.replace(props.classGroups);
         this.description = props.description;
@@ -374,11 +377,23 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this.hasParent && (this.parent?.isPublished || this.parent?.isReview)) {
             return { allowed: true };
         }
+        if (!this.store.root.registrationPeriodStore.hasOpenRegistrationPeriods) {
+            return { allowed: false, reason: InvalidTransition.NoOpenRegistrationPeriod };
+        }
         // an event with unknown classes/classGroups should be allowed too
         if (
             this.affectedDepartments.length === 0 &&
             this.affectedKnownClasses.size === 0 &&
             (this.unknownClassGroups.length > 0 || this.affectedClassNames.size > 0)
+        ) {
+            return { allowed: true };
+        }
+        // an event with only linked users should be allowed too
+        if (
+            this.linkedUserIds.size > 0 &&
+            this.departmentIds.size === 0 &&
+            this.classes.size === 0 &&
+            this.classGroups.size === 0
         ) {
             return { allowed: true };
         }
@@ -568,6 +583,26 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         } else if (!currentActive && setActive) {
             this.departmentIds.add(department.id);
         }
+    }
+
+    @action
+    addLinkedUserId(userId: string) {
+        this.linkedUserIds.add(userId);
+    }
+
+    @action
+    removeLinkedUserId(userId: string) {
+        this.linkedUserIds.delete(userId);
+    }
+
+    @action
+    clearLinkedUserIds() {
+        this.linkedUserIds.clear();
+    }
+
+    @computed
+    get linkedUsers() {
+        return [...this.linkedUserIds].map((u) => this.store.root.userStore.find<User>(u)).filter((u) => u);
     }
 
     /**
@@ -1021,19 +1056,31 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return this.store.getUntisClasses(this);
     }
 
+    /**
+     * Returns all lessons of the affected classes (through linked classes, classGroups and departments)
+     * which overlap with the event time, excluding the lessons of linked users
+     */
     @computed
-    get affectedLessons(): Lesson[] {
-        const lessons = this.untisClasses
-            .map((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)))
-            .flat();
-        return _.uniqBy(lessons, 'id').sort((a, b) => a.weekOffsetMS_start - b.weekOffsetMS_start);
+    get affectedLessonsWithoutLinkedUsers() {
+        return this.untisClasses.flatMap((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)));
+    }
+
+    /**
+     * Returns all lessons of the linked users which overlap with the event time
+     */
+    @computed
+    get affectedLessonsOfLinkedUsers() {
+        return _.orderBy(
+            this.linkedUsers.map((u) => ({
+                user: u,
+                lessons: u.lessons.filter((l) => this.hasOverlap(l))
+            })),
+            ['user.displayName']
+        );
     }
 
     get affectedLessonsGroupedByClass(): { class: string; lessons: Lesson[] }[] {
-        const lessons = this.untisClasses
-            .slice()
-            .map((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)))
-            .flat();
+        const lessons = this.affectedLessonsWithoutLinkedUsers;
         const affected: { [kl: string]: Lesson[] } = {};
         const placedLessonIds = new Set<number>();
         lessons.forEach((l) => {
@@ -1147,6 +1194,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             state: this.state,
             authorId: this.authorId,
             departmentIds: [...this.departmentIds],
+            linkedUserIds: [...this.linkedUserIds],
             classes: [...this.classes],
             description: this.description,
             descriptionLong: this.descriptionLong,

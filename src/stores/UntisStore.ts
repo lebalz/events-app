@@ -4,8 +4,11 @@ import {
     classes as fetchClasses,
     subjects as fetchSubjects,
     teacher as fetchTeacher,
+    teachersSubjects as fetchTeachersSubjects,
     UntisTeacher,
-    CheckedUntisLesson
+    CheckedUntisLesson,
+    UntisLesson,
+    UntisTeacherSubject
 } from '../api/untis';
 import _ from 'lodash';
 import axios from 'axios';
@@ -29,6 +32,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     teachers = observable<Teacher>([]);
     subjects = observable<Subject>([]);
     @observable accessor initialPublicLoadPerformed = false;
+    teachersSubjects = observable.map<string, UntisTeacherSubject[]>([], { deep: false });
 
     get initialAuthorizedLoadPerformed() {
         return this.initialPublicLoadPerformed;
@@ -284,6 +288,25 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                     this.initialPublicLoadPerformed = true;
                 })
             );
+    }
+
+    @action
+    loadTeachersSubjectsIfNeeded(semesterId: string): Promise<void | UntisLesson[]> {
+        if (this.teachersSubjects.has(semesterId)) {
+            return Promise.resolve();
+        }
+        this.teachersSubjects.set(semesterId, []);
+        return this.withAbortController(`untis-teachers-subjects-${semesterId}`, (sig) => {
+            return fetchTeachersSubjects(semesterId, sig.signal).catch(() => {
+                this.teachersSubjects.delete(semesterId);
+                return { data: [] };
+            });
+        }).then(
+            action(({ data }) => {
+                this.teachersSubjects.set(semesterId, data || []);
+                return data;
+            })
+        );
     }
 
     @computed

@@ -99,6 +99,11 @@ class EventTable {
         return this.selectedEvents.length === this.events.length;
     }
 
+    @computed
+    get isLoggedIn() {
+        return !!this.store.user;
+    }
+
     @action
     setGroupBy(groupBy: 'yearsKw' | undefined) {
         this.groupBy = groupBy;
@@ -418,7 +423,9 @@ class EventTable {
                 keep = false;
             }
             if (keep && this.departmentIds.size > 0) {
-                keep = [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
+                keep =
+                    event.linkedUserIds.has(this.store.user.id) ||
+                    [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.classNames.size > 0) {
                 const intersection = new Set(
@@ -433,7 +440,7 @@ class EventTable {
                 const depNames = event.departmentNames.join(' ');
                 if (!keep) {
                     keep = tokens.some((tkn) => {
-                        return `${event.description} ${event.descriptionLong} ${event.dayFullStart} ${event.fStartDate} ${event.fStartTime} ${event.fEndDate} ${event.fEndTime} ${event.location} ${depNames}`.match(
+                        return `${event.linkedUsers.map((u) => u.displayName)} ${event.linkedUsers.map((e) => e.fullName)} ${event.description} ${event.descriptionLong} ${event.dayFullStart} ${event.fStartDate} ${event.fStartTime} ${event.fEndDate} ${event.fEndTime} ${event.location} ${depNames}`.match(
                             new RegExp(tkn, 'i')
                         );
                     });
