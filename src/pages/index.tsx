@@ -322,19 +322,50 @@ const Home = observer(() => {
                                 />
                             </div>
                             <div className="card__body">
-                                <h4>Version: 1.7 (23.08.2025)</h4>
+                                <h4>Version: 1.8 (23.11.2025)</h4>
                                 <ul>
                                     <li>
-                                        💅 Verbesserung: Im Stundenplan werden Klassenbezeichnungen nun auch
-                                        bei Einzellektionen angezeigt.
+                                        🚀 Neu: Terminen können nun Lehrpersonen hinzugefügt werden.
+                                        <ul>
+                                            <li>
+                                                Lehrpersonen können bei der Termineingabe hinzugefügt werden.
+                                            </li>
+                                            <li>
+                                                Zugewiesene LP's werden <b>nur angemeldeten</b> Benutzer:innen
+                                                angezeigt.
+                                            </li>
+                                            <li>
+                                                Bei den "betroffenen Lektionen" werden auch die von den
+                                                zugewiesenen Lehrpersonen betroffenen Klassen angezeigt.
+                                            </li>
+                                            <li>
+                                                LP's erhalten zugewiesene Termine in ihrer persönlichen
+                                                Übersicht und im Kalender-Abo angezeigt.
+                                            </li>
+                                            <li>
+                                                Ist eine LP aufgrund einer Zuweisung zu einem Termin
+                                                betroffen, werden deren Klassen aber <b>nicht</b> automatisch
+                                                als betroffen markiert. Andernfalls wäre der Datenschutz nicht
+                                                gewährleistet, da dann die Zuweisung von Lehrpersonen
+                                                öffentlich zugänglich sein müsste.
+                                            </li>
+                                        </ul>
                                     </li>
-                                    <li>
-                                        🐛 Fix: Auch nicht-angemeldete User können Klassen und Departemente
-                                        abonnieren.
-                                    </li>
+                                    <li>💅 Verbesserung: diverse Optimierungen beim Erfassen von Terminen</li>
                                 </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: 1.7 (23.08.2025)</h4>
+                                    <ul>
+                                        <li>
+                                            💅 Verbesserung: Im Stundenplan werden Klassenbezeichnungen nun
+                                            auch bei Einzellektionen angezeigt.
+                                        </li>
+                                        <li>
+                                            🐛 Fix: Auch nicht-angemeldete User können Klassen und
+                                            Departemente abonnieren.
+                                        </li>
+                                    </ul>
                                     <h4>Version: Release Candidate 1.6 (9.4.2025)</h4>
                                     <ul>
                                         <li>🚀 Neu: Alle Terminansichten können gefiltert werden.</li>
