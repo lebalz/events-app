@@ -48,7 +48,7 @@ const UserPicker = observer((props: Props) => {
     const { event } = props;
 
     return (
-        <div className={clsx(styles.UserPicker)}>
+        <div className={clsx(styles.userPicker)}>
             <Select
                 menuPortalTarget={document.body}
                 filterOption={filter}

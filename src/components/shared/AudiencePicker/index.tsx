@@ -106,22 +106,6 @@ const AudiencePicker = observer((props: Props) => {
                     className={clsx(styles.tabItems)}
                 />
                 <AudienceSelector event={event} />
-                <div className={clsx(styles.flex)}>
-                    <h4>
-                        <Translate
-                            id="shared.header.linked_users"
-                            description="The title in the window for the event."
-                        >
-                            Lehrpersonen
-                        </Translate>
-                    </h4>
-                    <Tooltip title={LinkedUsersInfoTooltip}>
-                        <span style={{ cursor: 'pointer' }}>
-                            <Icon path={mdiInformation} size={SIZE_XS} />
-                        </span>
-                    </Tooltip>
-                </div>
-                <UserPicker event={event} />
                 {!error && event.isDraft && (
                     <div className={clsx(styles.normalize)}>
                         <Button
@@ -143,6 +127,22 @@ const AudiencePicker = observer((props: Props) => {
                         />
                     </div>
                 )}
+                <div className={clsx(styles.flex, styles.container)}>
+                    <h4>
+                        <Translate
+                            id="shared.header.linked_users"
+                            description="The title in the window for the event."
+                        >
+                            Lehrpersonen
+                        </Translate>
+                    </h4>
+                    <Tooltip title={LinkedUsersInfoTooltip}>
+                        <span style={{ cursor: 'pointer' }}>
+                            <Icon path={mdiInformation} size={SIZE_XS} />
+                        </span>
+                    </Tooltip>
+                </div>
+                <UserPicker event={event} />
                 {error && <div className={clsx(styles.errorMessage)}>{error.message}</div>}
             </div>
         </div>

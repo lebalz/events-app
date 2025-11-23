@@ -1,4 +1,5 @@
 .audience {
+    --ifm-leading: 0.5rem;
     h4 {
         margin-bottom: 0.3rem;
     }
@@ -8,6 +9,9 @@
         gap: 0.5em;
         justify-content: flex-start;
         align-items: center;
+    }
+    .container {
+        margin-top: 0.5rem;
     }
     .affects {
         :global(.button-group) {

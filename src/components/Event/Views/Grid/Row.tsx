@@ -75,18 +75,19 @@ const Row = observer((props: Props) => {
                     span = config.onEdit.colSpan ?? 1;
                     maxWidth = config.onEdit.maxWidth ?? maxWidth;
                     maxContentWidth = config.onEdit.maxContentWidth ?? maxContentWidth;
-                }
-                if (
-                    canExpand &&
-                    linkedUsersIdx > 0 &&
-                    index === linkedUsersIdx - 1 &&
-                    props.event.linkedUserIds.size === 0
-                ) {
-                    span += 1;
-                    maxContentWidth = `calc(${maxContentWidth} + ${props.columns[linkedUsersIdx][1].maxContentWidth ?? 0})`;
-                }
-                if (canExpand && name === 'linkedUsers' && props.event.linkedUserIds.size === 0) {
-                    return null;
+                } else {
+                    if (
+                        canExpand &&
+                        linkedUsersIdx > 0 &&
+                        index === linkedUsersIdx - 1 &&
+                        props.event.linkedUserIds.size === 0
+                    ) {
+                        span += 1;
+                        maxContentWidth = `calc(${maxContentWidth} + ${props.columns[linkedUsersIdx][1].maxContentWidth ?? 0})`;
+                    }
+                    if (canExpand && name === 'linkedUsers' && props.event.linkedUserIds.size === 0) {
+                        return null;
+                    }
                 }
                 if (span === 0) {
                     return null;
