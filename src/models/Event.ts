@@ -400,6 +400,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         return { allowed: false, reason: InvalidTransition.NoOpenRegistrationPeriod };
     }
 
+    @computed
+    get canIgnoreValidationErrors() {
+        return (
+            this.store.root.userStore.current?.isAdmin &&
+            (this.transitionAllowed.allowed ||
+                this.transitionAllowed.reason === InvalidTransition.NoOpenRegistrationPeriod)
+        );
+    }
+
     errorFor(attr: keyof EventProps) {
         if (this._errors) {
             const error = this._errors.details.find((e) => e.context?.key === attr);

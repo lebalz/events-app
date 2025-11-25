@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { observer } from 'mobx-react-lite';
-import Button from '@site/src/components/shared/Button';
 import { SIZE_S } from '@site/src/components/shared/icons';
 import { useStore } from '@site/src/stores/hooks';
 import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
@@ -12,7 +11,7 @@ import ValidationChecker from '../../BulkActions/ValidationChecker';
 import { ApiState } from '@site/src/stores/iStore';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { useHistory } from '@docusaurus/router';
-import { ViewStore } from '@site/src/stores/ViewStores';
+import Confirm from '@site/src/components/shared/Button/Confirm';
 
 export const InvalidTransitionMessages: Record<InvalidTransition, string> = {
     [InvalidTransition.InitialValidation]: translate({
@@ -57,14 +56,29 @@ const Transition = observer((props: Props) => {
             {event.possibleStates.map((state, idx) => {
                 const { allowed, reason } = event.transitionAllowed;
                 return (
-                    <Button
+                    <Confirm
                         key={state}
                         text={EventStateActions[state]}
                         icon={EventStateButton[state]}
                         color={EventStateColor[state]}
                         size={size || SIZE_S}
+                        confirmTitle={`⚠️ ${InvalidTransitionMessages[reason]}`}
+                        modal
+                        consentText={translate(
+                            {
+                                id: 'event.actions.transitionAnyway',
+                                message: 'Trotzdem {state}'
+                            },
+                            { state: EventStateActions[state] }
+                        )}
+                        confirmColor="green"
+                        rejectText={translate({
+                            id: 'share.button.deleteGroup.confirm.no',
+                            message: 'Abbrechen'
+                        })}
                         iconSide="left"
-                        disabled={!allowed}
+                        noConfirm={allowed}
+                        disabled={!allowed && !event.canIgnoreValidationErrors}
                         title={reason ? `⚠️ ${InvalidTransitionMessages[reason]}` : undefined}
                         onClick={() => {
                             event.requestState(state);

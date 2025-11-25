@@ -2,13 +2,11 @@ import React, { MouseEventHandler, type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import styles from './styles.module.scss';
-import clrStyles from '../Colors/styles.module.scss';
 import { ApiState } from '@site/src/stores/iStore';
 import { ApiIcon, Icon, SIZE_S } from '../icons';
 import Link from '@docusaurus/Link';
 import { Color, getButtonColorClass } from '../Colors';
 import Tooltip from '../Tooltip';
-import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 
 export const POPUP_BUTTON_STYLE = clsx(
@@ -60,9 +58,9 @@ interface ChildrenProps extends Base {
     children: ReactNode | ReactNode[];
 }
 
-type Props = IconProps | TextProps | ChildrenProps | TextIconProps;
+export type Props = IconProps | TextProps | ChildrenProps | TextIconProps;
 
-export const extractSharedProps = (props: Base) => {
+export const extractSharedProps = (props: Base): Props => {
     return {
         text: props.text,
         iconSide: props.iconSide,
