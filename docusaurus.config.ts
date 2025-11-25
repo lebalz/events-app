@@ -61,15 +61,15 @@ function getLocalizedCopyright() {
 const scripts = [
 ]
 
-if (process.env.NODE_ENV === 'production') {
-    scripts.push(
-        {
-            src: 'https://app.ruttl.com/plugin.js?id=zkNcmoSeOgS1ykIZJ5fl&e=1',
-            ['id']: 'ruttl-site-embed-script',
-            async: true,
-            defer: true
-        });
-}
+// if (process.env.NODE_ENV === 'production') {
+//     scripts.push(
+//         {
+//             src: 'https://app.ruttl.com/plugin.js?id=zkNcmoSeOgS1ykIZJ5fl&e=1',
+//             ['id']: 'ruttl-site-embed-script',
+//             async: true,
+//             defer: true
+//         });
+// }
 
 if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
     scripts.push(
