@@ -7,7 +7,7 @@ import { useStore } from '@site/src/stores/hooks';
 import Badge from '../../shared/Badge';
 import Delete from '../../shared/Button/Delete';
 import { action } from 'mobx';
-import { EventState } from '@site/src/api/event';
+import { EventState, EventStateActions } from '@site/src/api/event';
 import Button from '../../shared/Button';
 import {
     mdiBellPlus,
@@ -37,6 +37,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import Filter from '../Filter';
 import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import Confirm from '../../shared/Button/Confirm';
 
 interface ActionConfig {
     stateActions: boolean;
@@ -132,7 +133,7 @@ const BulkActions = observer((props: Props) => {
                 <div className={clsx(styles.stateActions)}>
                     <ValidationChecker events={eventTable.selectedEvents} />
                     {eventTable.selectedStates[0] === EventState.Draft && (
-                        <Button
+                        <Confirm
                             text={
                                 isMobileViewXS
                                     ? undefined
@@ -171,6 +172,32 @@ const BulkActions = observer((props: Props) => {
                                 });
                             }}
                             disabled={!eventTable.selectedTransitionable}
+                            noConfirm={!eventTable.hasIgnoredValidationErrors}
+                            confirmTitle={
+                                eventTable.hasIgnoredValidationErrors
+                                    ? [
+                                          ...new Set(
+                                              eventTable.selectedEvents
+                                                  .map((e) => e.transitionAllowed.reason)
+                                                  .filter((r) => r)
+                                          )
+                                      ]
+                                          .map((reason) => `⚠️ ${InvalidTransitionMessages[reason!]}`)
+                                          .join('\n')
+                                    : ''
+                            }
+                            consentText={translate(
+                                {
+                                    id: 'event.actions.transitionAnyway',
+                                    message: 'Trotzdem {state}'
+                                },
+                                { state: EventStateActions[EventState.Review] }
+                            )}
+                            confirmColor="green"
+                            rejectText={translate({
+                                id: 'share.button.deleteGroup.confirm.no',
+                                message: 'Abbrechen'
+                            })}
                         />
                     )}
                     {eventTable.selectedStates[0] === EventState.Review && (

@@ -275,7 +275,12 @@ class EventTable {
 
     @computed
     get selectedTransitionable() {
-        return this.selectedEvents.every((e) => e.transitionAllowed.allowed);
+        return this.selectedEvents.every((e) => e.transitionAllowed.allowed || e.canIgnoreValidationErrors);
+    }
+
+    @computed
+    get hasIgnoredValidationErrors() {
+        return this.selectedEvents.some((e) => !e.transitionAllowed.allowed && e.canIgnoreValidationErrors);
     }
 
     @computed
