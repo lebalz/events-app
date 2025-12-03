@@ -3,4 +3,8 @@
     align-items: flex-start;
     justify-content: start;
     width: 100%;
+    flex-wrap: wrap;
+    .regPeriod {
+        flex-basis: 450px;
+    }
 }

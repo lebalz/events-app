@@ -28,6 +28,7 @@ import { PopupActions } from 'reactjs-popup/dist/types';
 
 interface Props {
     period: RegistrationPeriodModel;
+    className?: string;
 }
 
 const IS_OPEN_CB_LABEL = {
@@ -47,7 +48,7 @@ const EditRegPeriod = observer((props: Props) => {
     const semesterStore = useStore('semesterStore');
     const ref = React.useRef<PopupActions>(null);
     return (
-        <div className={clsx('card', styles.regPeriod)}>
+        <div className={clsx('card', styles.regPeriod, props.className)}>
             <div className={clsx('card__header', styles.header)}>
                 <h4>{period.name}</h4>
                 <div className={clsx(styles.actions)}>
@@ -251,10 +252,10 @@ const EditRegPeriod = observer((props: Props) => {
 const RegistrationPeriod = observer((props: Props) => {
     const { period } = props;
     if (period.isEditing) {
-        return <EditRegPeriod period={period} />;
+        return <EditRegPeriod period={period} className={props.className} />;
     }
     return (
-        <div className={clsx('card', styles.regPeriod)}>
+        <div className={clsx('card', styles.regPeriod, props.className)}>
             <div className={clsx(styles.header, 'card__header')}>
                 <h4>{period.name}</h4>
                 <Edit onClick={() => period.setEditing(true)} />

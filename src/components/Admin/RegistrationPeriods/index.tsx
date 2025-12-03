@@ -41,7 +41,13 @@ const RegistrationPeriods = observer((props: Props) => {
             />
             <div className={clsx(styles.regPeriods)}>
                 {regPeriodStore.registrationPeriods.map((period) => {
-                    return <RegistrationPeriod period={period} key={period.id} />;
+                    return (
+                        <RegistrationPeriod
+                            period={period}
+                            key={period.id}
+                            className={clsx(styles.regPeriod)}
+                        />
+                    );
                 })}
             </div>
         </div>
