@@ -802,7 +802,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      * @example 17.05.2024
      */
     get fEndDateLong() {
-        if (this.isAllDay) {
+        if (this.isAllDay || this.fEndTime === '24:00') {
             return formatDateLong(new Date(this.end.getTime() - 1));
         }
         return formatDateLong(this.end);
