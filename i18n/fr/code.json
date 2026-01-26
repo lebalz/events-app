@@ -2152,8 +2152,7 @@
     "description": "Text of the button confirm"
   },
   "share.button.deleteGroup.confirm.no": {
-    "message": "Annuler",
-    "description": "Text of the button confirm no"
+    "message": "Annuler"
   },
   "share.button.deleteGroup.confirm.groupOnly": {
     "message": "Seulement le groupe",
@@ -2391,5 +2390,74 @@
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
     "message": "Réduire la liste déroulante",
     "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
+  },
+  "basic.user": {
+    "message": "Utilisateur·rice"
+  },
+  "share.audiencePicker.groupOption": {
+    "message": "Groupes de matières"
+  },
+  "share.audiencePicker.fsGroupPrefixDe": {
+    "message": "FS",
+    "description": "Abréviation de Fachschaft en allemand"
+  },
+  "share.audiencePicker.fsGroupPrefixFr": {
+    "message": "CS",
+    "description": "Terme français pour FS (commission de matière)"
+  },
+  "event.actions.transitionAnyway": {
+    "message": "{state} quand même"
+  },
+  "event.linkedUserIds.size.title": {
+    "message": "Personnes associées à cet événement : {count}. (Les noms ne sont visibles que pour les utilisateur·rice·s connecté·e·s.)",
+    "description": "Badge title for linked users"
+  },
+  "event.linkedUsers": {
+    "message": "Enseignant·e·s",
+    "description": "for a single event: linkedUsers"
+  },
+  "event.linkedUser.affectedLessons.badge": {
+    "message": "Leçons concernées de {user} ({shortName})"
+  },
+  "shared.header.linked_users": {
+    "message": "Enseignant·e·s",
+    "description": "The title in the window for the event."
+  },
+  "shared.audiencePicker.linkedUsers.tooltip": {
+    "message": "Cet événement sera visible pour les enseignant·e·s sélectionné·e·s, indépendamment des affectations d’école ou de classe."
+  },
+  "shared.audiencePicker.linkedUsers.tooltip.notFoundHint": {
+    "message": "Enseignant·e non trouvé·e ? Seuls les enseignant·e·s déjà connecté·e·s au système sont affiché·e·s."
+  },
+  "share.button.confirm.title": {
+    "message": "Confirmer",
+    "description": "Default title of the confirmation dialog"
+  },
+  "share.button.confirm.no": {
+    "message": "Non",
+    "description": "Text of the button confirm no"
+  },
+  "share.button.confirm.yes": {
+    "message": "Oui",
+    "description": "Text of the button confirm yes"
+  },
+  "userEvents.regPeriod.alert.showCurrent": {
+    "message": "Afficher les actuels"
+  },
+  "userEvents.regPeriod.alert.showAll": {
+    "message": "Afficher les passés"
+  },
+  "eventGrid.header.linkedUsers": {
+    "message": "Ens.",
+    "description": "Label for the Event Grid Columns"
+  },
+  "share.audiencePicker.placeholder.linkedUsers": {
+    "message": "Sélectionner des enseignant·e·s",
+    "description": "share.audiencePicker.placeholder.linkedUsers"
+  },
+  "theme.IconExternalLink.ariaLabel": {
+    "message": "(s’ouvre dans un nouvel onglet)",
+    "description": "The ARIA label for the external link icon"
   }
 }
+

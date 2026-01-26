@@ -1102,8 +1102,7 @@
     "description": "Text of the button confirm"
   },
   "share.button.deleteGroup.confirm.no": {
-    "message": "Abbrechen",
-    "description": "Text of the button confirm no"
+    "message": "Abbrechen"
   },
   "share.button.deleteGroup.confirm.groupOnly": {
     "message": "Nur die Gruppe",
@@ -2241,5 +2240,30 @@
   },
   "shared.audiencePicker.linkedUsers.tooltip.notFoundHint": {
     "message": "LP nicht gefunden? Es werden nur LP's angezeigt, welche sich bereits im System angemeldet haben."
+  },
+  "event.actions.transitionAnyway": {
+    "message": "Trotzdem {state}"
+  },
+  "share.button.confirm.title": {
+    "message": "Bestätigen",
+    "description": "Default title of the confirmation dialog"
+  },
+  "share.button.confirm.no": {
+    "message": "Nein",
+    "description": "Text of the button confirm no"
+  },
+  "share.button.confirm.yes": {
+    "message": "Ja",
+    "description": "Text of the button confirm yes"
+  },
+  "userEvents.regPeriod.alert.showCurrent": {
+    "message": "Aktuelle anzeigen"
+  },
+  "userEvents.regPeriod.alert.showAll": {
+    "message": "Vergangene anzeigen"
+  },
+  "theme.IconExternalLink.ariaLabel": {
+    "message": "(öffnet in neuem Tab)",
+    "description": "The ARIA label for the external link icon"
   }
 }

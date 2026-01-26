@@ -5,15 +5,15 @@
   },
   "sidebar.tutorialSidebar.category.Scenes": {
     "message": "Scenes",
-    "description": "The label for category Scenes in sidebar tutorialSidebar"
+    "description": "The label for category 'Scenes' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Services": {
     "message": "Services",
-    "description": "The label for category Services in sidebar tutorialSidebar"
+    "description": "The label for category 'Services' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.ics": {
     "message": "ics",
-    "description": "The label for category ics in sidebar tutorialSidebar"
+    "description": "The label for category 'ics' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Evénements": {
     "message": "Evénements",
@@ -21,7 +21,7 @@
   },
   "sidebar.tutorialSidebar.category.API Reference": {
     "message": "API Reference",
-    "description": "The label for category API Reference in sidebar tutorialSidebar"
+    "description": "The label for category 'API Reference' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Évènements": {
     "message": "Évènements",
@@ -29,10 +29,10 @@
   },
   "sidebar.tutorialSidebar.category.Termine": {
     "message": "Termine",
-    "description": "The label for category Termine in sidebar tutorialSidebar"
+    "description": "The label for category 'Termine' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.Tutorial: events-api": {
     "message": "Tutorial: events-api",
-    "description": "The label for category Tutorial: events-api in sidebar tutorialSidebar"
+    "description": "The label for category 'Tutorial: events-api' in sidebar 'tutorialSidebar'"
   }
 }
