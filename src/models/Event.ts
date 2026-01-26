@@ -821,9 +821,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     setAllDay(allDay: boolean) {
         this.showAsAllDay = allDay;
         if (allDay) {
+            const dStart = new Date(toGlobalDate(this.start).getTime());
+            dStart.setUTCHours(0, 0, 0, 0);
             const dEnd = new Date(toGlobalDate(this.end).getTime() - 1);
             dEnd.setUTCHours(24, 0, 0, 0);
-            this.update({ end: dEnd.toISOString() });
+            this.update({ end: dEnd.toISOString(), start: dStart.toISOString() });
         }
         if (!allDay) {
             const d = new Date(this.end.getTime() - 1);
