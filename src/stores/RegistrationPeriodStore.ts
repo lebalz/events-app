@@ -6,6 +6,9 @@ import { RegistrationPeriod as RegPeriodProps } from '../api/registration_period
 import RegistrationPeriod from '../models/RegistrationPeriod';
 import { EndPoint } from './EndPoint';
 
+const TODAY = new Date();
+TODAY.setHours(0, 0, 0, 0);
+
 export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
     @observable.ref accessor ApiEndpoint = new EndPoint('registration_periods', { authorized: true });
     readonly root: RootStore;
@@ -23,6 +26,11 @@ export class RegistrationPeriodStore extends iStore<RegPeriodProps> {
     @computed
     get registrationPeriods() {
         return _.sortBy(this.models, ['_pristine.start', '_pristine.eventRangeStart'], ['desc', 'desc']);
+    }
+
+    @computed
+    get futurePeriods() {
+        return this.registrationPeriods.filter((rp) => rp.end >= TODAY);
     }
 
     @computed
