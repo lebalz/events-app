@@ -26,6 +26,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     models = observable<User>([]);
 
     @observable.ref accessor affectedEventIds = observable.set<string>([]);
+    _loadedSemesterIds = new Set<string>();
 
     constructor(root: RootStore) {
         super();
@@ -151,9 +152,15 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     }
 
     @action
-    loadAffectedEventIds(user?: User, semesterId?: string) {
+    loadAffectedEventIds(user?: User, semesterId?: string, force?: boolean) {
         if (!user) {
             return Promise.resolve([]);
+        }
+        if (semesterId && this._loadedSemesterIds.has(semesterId) && !force) {
+            return Promise.resolve([]);
+        }
+        if (semesterId) {
+            this._loadedSemesterIds.add(semesterId);
         }
         return this.withAbortController(`load-affected-events-${user.id}-${semesterId}`, (sig) => {
             return apiAffectedEventIds(user.id, semesterId, sig.signal).then(

@@ -136,6 +136,10 @@ export class RootStore {
                     this._isLoadingPublic = false;
                 } else {
                     this._isLoadingPrivate = false;
+                    const semesterId = this.semesterStore.currentSemester?.id;
+                    if (semesterId) {
+                        this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
+                    }
                 }
             })
         );
@@ -153,7 +157,7 @@ export class RootStore {
         }
         if (this.sessionStore.isLoggedIn) {
             this.untisStore.loadTeachersSubjectsIfNeeded(semesterId);
-            this.userStore.loadAffectedEventIds(this.userStore.current, semesterId);
+            this.userStore.loadAffectedEventIds(this.userStore.current, semesterId, true);
         }
         this.semesterStore.loadedSemesters.add(semesterId);
         if (!this._initialSemesterLoaded) {
