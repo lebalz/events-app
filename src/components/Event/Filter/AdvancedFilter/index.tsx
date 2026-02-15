@@ -10,6 +10,7 @@ import DatePicker from '../../../shared/DatePicker';
 import Checkbox from '../../../shared/Checkbox';
 import Translate, { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
 import ShowSelectCheckBoxes from '../../BulkActions/ShowSelectCheckBoxes';
@@ -68,7 +69,7 @@ const AdvancedFilter = observer((props: Props) => {
                 </div>
 
                 <div className={clsx(styles.classes)}>
-                    <Select
+                    <CreatableSelect
                         isMulti
                         closeMenuOnSelect={false}
                         placeholder={translate({
@@ -83,18 +84,67 @@ const AdvancedFilter = observer((props: Props) => {
                             label: c.displayName,
                             color: c.department?.color
                         }))}
+                        formatCreateLabel={(inputValue) => {
+                            if (inputValue.endsWith('*')) {
+                                return translate(
+                                    {
+                                        id: 'event.filter.wildcard_class',
+                                        message: 'Alle Klassen die mit "{inputValue}" beginnen'
+                                    },
+                                    { inputValue: inputValue.replace('*', '') }
+                                );
+                            }
+                            return translate(
+                                {
+                                    id: 'event.filter.createClass',
+                                    message: 'Neuer Filter: {inputValue}'
+                                },
+                                { inputValue }
+                            );
+                        }}
+                        isValidNewOption={(inputValue) => {
+                            if (inputValue.length < 1 || inputValue.length > 3) {
+                                return false;
+                            }
+                            return inputValue.endsWith('*');
+                        }}
+                        onCreateOption={(inputValue) => {
+                            if (!inputValue.endsWith('*')) {
+                                return;
+                            }
+                            eventTable.toggleWildcardClassFilter(inputValue);
+                        }}
                         styles={selectStyleConfig}
                         className={clsx(styles.select)}
                         classNames={selectClassNamesConfig}
-                        value={[...eventTable.classNames].map((id) => {
-                            const klass = untisStore.findClassByName(id);
-                            return {
-                                value: id,
-                                label: klass?.displayName || '',
-                                color: klass?.department?.color || '#ccc'
-                            };
-                        })}
-                        onChange={(opt) => {
+                        value={[
+                            ...[...eventTable.classNames].map((id) => {
+                                const klass = untisStore.findClassByName(id);
+                                return {
+                                    value: id,
+                                    label: klass?.displayName || '',
+                                    color: klass?.department?.color || '#ccc'
+                                };
+                            }),
+                            [...eventTable.wildcardClassFilter].map((wc) => ({
+                                value: wc,
+                                label: wc,
+                                color: 'var(--ifm-color-warning)'
+                            }))
+                        ]}
+                        onChange={(opt, meta) => {
+                            switch (meta.action) {
+                                case 'create-option':
+                                    eventTable.toggleWildcardClassFilter(meta.option.value);
+                                    return;
+                                case 'select-option':
+                                case 'deselect-option':
+                                case 'remove-value':
+                                case 'clear':
+                                    break;
+                                default:
+                                    return;
+                            }
                             const cNames = opt.map((o) => o.value);
                             eventTable.setClassNames(cNames);
                         }}
