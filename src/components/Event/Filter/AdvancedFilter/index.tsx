@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Button from '../../../shared/Button';
-import { mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
+import { mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
 import DatePicker from '../../../shared/DatePicker';
 import Checkbox from '../../../shared/Checkbox';
 import Translate, { translate } from '@docusaurus/Translate';
@@ -14,10 +14,13 @@ import CreatableSelect from 'react-select/creatable';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
 import ShowSelectCheckBoxes from '../../BulkActions/ShowSelectCheckBoxes';
-import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
+import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import { selectClassNamesConfig, selectStyleConfig, selectThemeConfig } from '..';
 import { DAYS } from '@site/src/models/helpers/time';
+import { DescriptionMap, TeachingAffectedColors } from '../../EventFields/TeachingAffected';
+import Icon from '@mdi/react';
+import { SIZE_XXS } from '@site/src/components/shared/icons';
 
 interface Props {
     eventTable: EventTable;
@@ -26,9 +29,9 @@ interface Props {
 }
 
 const AdvancedFilter = observer((props: Props) => {
-    const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
     const untisStore = useStore('untisStore');
+    const userStore = useStore('userStore');
     const { eventTable } = props;
     return (
         <div className={clsx(styles.advanced)}>
@@ -154,6 +157,67 @@ const AdvancedFilter = observer((props: Props) => {
                     })}
                 </div>
             </div>
+            {userStore.current?.untisId && (
+                <div>
+                    <Checkbox
+                        label={translate({
+                            message: 'Während meinen Unterrichtslektionen?',
+                            id: 'event.filter.affectedLessons',
+                            description: 'Filter: affected lessons'
+                        })}
+                        checked={eventTable.duringTaughtLessonFilter}
+                        onChange={(checked) => eventTable.setDuringTaughtLessonFilter(checked)}
+                        labelSide="left"
+                    />
+                </div>
+            )}
+            <div>
+                <div>
+                    <Translate
+                        id="event.teachingAffected"
+                        description="for a single event: teaching affected?"
+                    >
+                        Unterricht betroffen?
+                    </Translate>
+                </div>
+                <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
+                    {[TeachingAffected.YES, TeachingAffected.PARTIAL, TeachingAffected.NO].map((ta) => {
+                        return (
+                            <Button
+                                text={DescriptionMap[ta]}
+                                active={eventTable.teachingAffectedFilter === ta}
+                                key={ta}
+                                color="primary"
+                                icon={
+                                    <Icon
+                                        path={mdiCircle}
+                                        size={SIZE_XXS}
+                                        color={TeachingAffectedColors[ta]}
+                                        style={{ transform: 'translateY(-20%)' }}
+                                    />
+                                }
+                                iconSide="left"
+                                onClick={() =>
+                                    eventTable.setTeachingAffectedFilter(
+                                        eventTable.teachingAffectedFilter === ta ? null : ta
+                                    )
+                                }
+                                noWrap
+                            />
+                        );
+                    })}
+                </div>
+            </div>
+            {props.showSelects && !eventTable.showSelect && props.showSelectLocation === 'advanced' && (
+                <div>
+                    <ShowSelectCheckBoxes
+                        label={translate({
+                            id: 'event.filter.show_select',
+                            message: 'Termine auswählen'
+                        })}
+                    />
+                </div>
+            )}
             <div>
                 <div>
                     <Translate id="event.filter.advanced.dayFilter">Betroffene Tage</Translate>
@@ -174,6 +238,77 @@ const AdvancedFilter = observer((props: Props) => {
                 </div>
             </div>
             <div>
+                <div>
+                    <Translate id="event.filter.advanced.dateRange">Datumsbereich</Translate>
+                </div>
+                <div className={clsx(styles.dates)}>
+                    <div className={clsx(styles.date, styles.start)}>
+                        {!!eventTable.start ? (
+                            <>
+                                <DatePicker
+                                    date={eventTable.start || new Date()}
+                                    onChange={(date) => eventTable.setStartFilter(date)}
+                                    time="start"
+                                />
+                                <Button
+                                    icon={mdiMinusCircleOutline}
+                                    iconSide="left"
+                                    text={translate({
+                                        message: 'Start',
+                                        id: 'event.filter.index.button.start',
+                                        description: 'Text of button start time'
+                                    })}
+                                    onClick={() => eventTable.setStartFilter(null)}
+                                />
+                            </>
+                        ) : (
+                            <Button
+                                icon={mdiPlusCircleOutline}
+                                iconSide="left"
+                                text={translate({
+                                    message: 'Start',
+                                    id: 'event.filter.index.button.start',
+                                    description: 'Text of button start time'
+                                })}
+                                onClick={() => eventTable.setStartFilter(new Date())}
+                            />
+                        )}
+                    </div>
+                    <div className={clsx(styles.date, styles.end)}>
+                        {!!eventTable.end ? (
+                            <>
+                                <DatePicker
+                                    date={eventTable.end || new Date()}
+                                    onChange={(date) => eventTable.setEndFilter(date)}
+                                    time="end"
+                                />
+                                <Button
+                                    icon={mdiMinusCircleOutline}
+                                    iconSide="left"
+                                    text={translate({
+                                        message: 'Ende',
+                                        id: 'event.filter.index.button.end',
+                                        description: 'Text of button end time'
+                                    })}
+                                    onClick={() => eventTable.setEndFilter(null)}
+                                />
+                            </>
+                        ) : (
+                            <Button
+                                icon={mdiPlusCircleOutline}
+                                iconSide="left"
+                                text={translate({
+                                    message: 'Ende',
+                                    id: 'event.filter.index.button.end',
+                                    description: 'Text of button end time'
+                                })}
+                                onClick={() => eventTable.setEndFilter(new Date())}
+                            />
+                        )}
+                    </div>
+                </div>
+            </div>
+            <div>
                 <Checkbox
                     label={translate({
                         message: 'Gelöschte Verstecken?',
@@ -184,82 +319,6 @@ const AdvancedFilter = observer((props: Props) => {
                     onChange={(checked) => eventTable.setHideDeleted(checked)}
                     labelSide="left"
                 />
-            </div>
-            {props.showSelects && !eventTable.showSelect && props.showSelectLocation === 'advanced' && (
-                <div>
-                    <ShowSelectCheckBoxes
-                        label={translate({
-                            id: 'event.filter.show_select',
-                            message: 'Termine auswählen'
-                        })}
-                    />
-                </div>
-            )}
-            <div className={clsx(styles.dates)}>
-                <div className={clsx(styles.date, styles.start)}>
-                    {!!eventTable.start ? (
-                        <>
-                            <DatePicker
-                                date={eventTable.start || new Date()}
-                                onChange={(date) => eventTable.setStartFilter(date)}
-                                time="start"
-                            />
-                            <Button
-                                icon={mdiMinusCircleOutline}
-                                iconSide="left"
-                                text={translate({
-                                    message: 'Start',
-                                    id: 'event.filter.index.button.start',
-                                    description: 'Text of button start time'
-                                })}
-                                onClick={() => eventTable.setStartFilter(null)}
-                            />
-                        </>
-                    ) : (
-                        <Button
-                            icon={mdiPlusCircleOutline}
-                            iconSide="left"
-                            text={translate({
-                                message: 'Start',
-                                id: 'event.filter.index.button.start',
-                                description: 'Text of button start time'
-                            })}
-                            onClick={() => eventTable.setStartFilter(new Date())}
-                        />
-                    )}
-                </div>
-                <div className={clsx(styles.date, styles.end)}>
-                    {!!eventTable.end ? (
-                        <>
-                            <DatePicker
-                                date={eventTable.end || new Date()}
-                                onChange={(date) => eventTable.setEndFilter(date)}
-                                time="end"
-                            />
-                            <Button
-                                icon={mdiMinusCircleOutline}
-                                iconSide="left"
-                                text={translate({
-                                    message: 'Ende',
-                                    id: 'event.filter.index.button.end',
-                                    description: 'Text of button end time'
-                                })}
-                                onClick={() => eventTable.setEndFilter(null)}
-                            />
-                        </>
-                    ) : (
-                        <Button
-                            icon={mdiPlusCircleOutline}
-                            iconSide="left"
-                            text={translate({
-                                message: 'Ende',
-                                id: 'event.filter.index.button.end',
-                                description: 'Text of button end time'
-                            })}
-                            onClick={() => eventTable.setEndFilter(new Date())}
-                        />
-                    )}
-                </div>
             </div>
         </div>
     );
