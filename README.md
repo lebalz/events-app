@@ -69,6 +69,7 @@ Prettier is used to format the codebase. To format the codebase run:
 yarn run format
 ```
 
+
 This will format all files in the `src` folder and the files in the root folder, which are not excluded in the `.prettierignore` file.
 
 To check if all files are formatted correctly, run:
