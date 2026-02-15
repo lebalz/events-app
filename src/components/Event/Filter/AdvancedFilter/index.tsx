@@ -85,25 +85,16 @@ const AdvancedFilter = observer((props: Props) => {
                             color: c.department?.color
                         }))}
                         formatCreateLabel={(inputValue) => {
-                            if (inputValue.endsWith('*')) {
-                                return translate(
-                                    {
-                                        id: 'event.filter.wildcard_class',
-                                        message: 'Alle Klassen die mit "{inputValue}" beginnen'
-                                    },
-                                    { inputValue: inputValue.replace('*', '') }
-                                );
-                            }
                             return translate(
                                 {
-                                    id: 'event.filter.createClass',
-                                    message: 'Neuer Filter: {inputValue}'
+                                    id: 'event.filter.wildcard_class',
+                                    message: 'Alle Klassen die mit "{inputValue}" beginnen'
                                 },
-                                { inputValue }
+                                { inputValue: inputValue.replace('*', '') }
                             );
                         }}
                         isValidNewOption={(inputValue) => {
-                            if (inputValue.length < 1 || inputValue.length > 3) {
+                            if (inputValue.length < 2 || inputValue.length > 4) {
                                 return false;
                             }
                             return inputValue.endsWith('*');
@@ -112,7 +103,7 @@ const AdvancedFilter = observer((props: Props) => {
                             if (!inputValue.endsWith('*')) {
                                 return;
                             }
-                            eventTable.toggleWildcardClassFilter(inputValue);
+                            eventTable.addWildcardClassFilter(inputValue);
                         }}
                         styles={selectStyleConfig}
                         className={clsx(styles.select)}
@@ -126,27 +117,19 @@ const AdvancedFilter = observer((props: Props) => {
                                     color: klass?.department?.color || '#ccc'
                                 };
                             }),
-                            [...eventTable.wildcardClassFilter].map((wc) => ({
+                            ...[...eventTable.wildcardClassFilter].map((wc) => ({
                                 value: wc,
                                 label: wc,
                                 color: 'var(--ifm-color-warning)'
                             }))
                         ]}
-                        onChange={(opt, meta) => {
-                            switch (meta.action) {
-                                case 'create-option':
-                                    eventTable.toggleWildcardClassFilter(meta.option.value);
-                                    return;
-                                case 'select-option':
-                                case 'deselect-option':
-                                case 'remove-value':
-                                case 'clear':
-                                    break;
-                                default:
-                                    return;
-                            }
-                            const cNames = opt.map((o) => o.value);
-                            eventTable.setClassNames(cNames);
+                        onChange={(opt) => {
+                            const cNames = _.groupBy(
+                                opt.map((o) => o.value),
+                                (val) => (val.endsWith('*') ? 'wildcard' : 'normal')
+                            );
+                            eventTable.setClassNames(cNames.normal || []);
+                            eventTable.setWildcardClassFilter(cNames.wildcard || []);
                         }}
                         theme={selectThemeConfig}
                     />

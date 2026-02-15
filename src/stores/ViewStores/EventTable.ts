@@ -122,12 +122,13 @@ class EventTable {
     }
 
     @action
-    toggleWildcardClassFilter(wildcardClass: string) {
-        if (this.wildcardClassFilter.has(wildcardClass)) {
-            this.wildcardClassFilter.delete(wildcardClass);
-        } else {
-            this.wildcardClassFilter.add(wildcardClass);
-        }
+    addWildcardClassFilter(wildcardClass: string) {
+        this.wildcardClassFilter.add(wildcardClass);
+    }
+
+    @action
+    setWildcardClassFilter(wildcardClasses: string[]) {
+        this.wildcardClassFilter.replace(wildcardClasses);
     }
 
     @action
