@@ -1,6 +1,6 @@
 import { action, computed, IObservableArray, observable } from 'mobx';
 import User from '../../models/User';
-import { EventAudience, EventState } from '../../api/event';
+import { EventAudience, EventState, TeachingAffected } from '../../api/event';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import { getLastMonday } from '@site/src/models/helpers/time';
@@ -64,6 +64,8 @@ class EventTable {
     @observable accessor showAdvancedFilter = false;
 
     @observable accessor hideDeleted = true;
+    @observable accessor duringTaughtLessonFilter = false;
+    @observable accessor teachingAffectedFilter: null | TeachingAffected = null;
 
     @observable accessor showSelect = false;
 
@@ -281,6 +283,16 @@ class EventTable {
         this.setHideDeleted(!this.hideDeleted);
     }
 
+    @action
+    setDuringTaughtLessonFilter(onlyWhenTeachersLessonsAffected: boolean) {
+        this.duringTaughtLessonFilter = onlyWhenTeachersLessonsAffected;
+    }
+
+    @action
+    setTeachingAffectedFilter(state: TeachingAffected | null) {
+        this.teachingAffectedFilter = state;
+    }
+
     @computed
     get selectedStates() {
         return [...new Set(this.selectedEvents.map((e) => e.state))];
@@ -431,6 +443,7 @@ class EventTable {
     @computed
     get events() {
         const currentKwStart = getLastMonday(new Date()).getTime();
+
         const s = this.unfilteredEvents.filter((event) => {
             if (this.publicOnly && event.state !== EventState.Published) {
                 return false;
@@ -438,11 +451,15 @@ class EventTable {
             if (this.onlyRootEvents && event.hasParent) {
                 return false;
             }
-            if (this.hasActiveDayFilter && !event.affectedDays.some((d) => this.dayFilter.has(d))) {
-                return false;
-            }
             let keep = true;
-            if (this.onlyMine && !event.isAffectedByUser) {
+            if (keep && this.onlyMine && !event.isAffectedByUser) {
+                keep = false;
+            }
+            if (
+                keep &&
+                !!this.teachingAffectedFilter &&
+                event.teachingAffected !== this.teachingAffectedFilter
+            ) {
                 keep = false;
             }
             if (keep && this.onlyMine && event.isIgnored) {
@@ -454,6 +471,19 @@ class EventTable {
             if (keep && this.hideDeleted && event.isDeleted) {
                 keep = false;
             }
+            if (keep && this.duringTaughtLessonFilter && !event.duringTaughtLesson) {
+                keep = false;
+            }
+            if (keep && this.hasActiveDayFilter) {
+                if (!event.affectedDays.some((d) => this.dayFilter.has(d))) {
+                    keep = false;
+                } else if (this.duringTaughtLessonFilter) {
+                    keep = this.store.user?.lessons
+                        .filter((l) => this.dayFilter.has(l.day))
+                        .some((l) => event.hasOverlap(l));
+                }
+            }
+
             if (keep && this.onlyCurrentWeekAndFuture && event.endTimeMs < currentKwStart) {
                 keep = false;
             }

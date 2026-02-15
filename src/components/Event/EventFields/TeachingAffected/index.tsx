@@ -5,13 +5,12 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { ReadonlyProps } from '../iEventField';
 import { mdiCircle } from '@mdi/js';
-import { Icon, SIZE_XXS } from '../../../shared/icons';
+import { SIZE_XXS } from '../../../shared/icons';
 import { TeachingAffected as TeachingAffectedType } from '@site/src/api/event';
 import { translate } from '@docusaurus/Translate';
 import Tooltip from '../../../shared/Tooltip';
 import Button from '../../../shared/Button';
 import Edit from './Edit';
-import Example from './Example';
 
 export interface Props extends ReadonlyProps {
     align?: 'left' | 'center' | 'right';
@@ -25,7 +24,7 @@ export const TeachingAffectedColors: { [key in TeachingAffectedType]: string } =
     [TeachingAffectedType.YES]: 'red'
 };
 
-const DescriptionMap: { [key in TeachingAffectedType]: string } = {
+export const DescriptionMap: { [key in TeachingAffectedType]: string } = {
     [TeachingAffectedType.NO]: translate({
         message: 'Nein',
         id: 'eventField.teachingAffected.no',

@@ -1089,6 +1089,18 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     /**
+     * Returns whether the current user has at least one lesson which overlaps with the event time
+     */
+    @computed
+    get duringTaughtLesson() {
+        const currentUser = this.store.root.userStore.current;
+        if (!currentUser) {
+            return false;
+        }
+        return currentUser.lessons.some((l) => this.hasOverlap(l));
+    }
+
+    /**
      * Returns all lessons of the linked users which overlap with the event time
      */
     @computed
