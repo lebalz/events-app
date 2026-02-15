@@ -478,9 +478,10 @@ class EventTable {
                 if (!event.affectedDays.some((d) => this.dayFilter.has(d))) {
                     keep = false;
                 } else if (this.duringTaughtLessonFilter) {
-                    keep = this.store.user?.lessons
-                        .filter((l) => this.dayFilter.has(l.day))
-                        .some((l) => event.hasOverlap(l));
+                    keep =
+                        this.store.user?.lessons?.some(
+                            (l) => this.dayFilter.has(l.day) && event.hasOverlap(l)
+                        ) ?? false;
                 }
             }
 
