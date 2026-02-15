@@ -10,6 +10,7 @@ import DatePicker from '../../../shared/DatePicker';
 import Checkbox from '../../../shared/Checkbox';
 import Translate, { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import Department from '@site/src/models/Department';
 import _ from 'lodash';
 import ShowSelectCheckBoxes from '../../BulkActions/ShowSelectCheckBoxes';
@@ -68,7 +69,7 @@ const AdvancedFilter = observer((props: Props) => {
                 </div>
 
                 <div className={clsx(styles.classes)}>
-                    <Select
+                    <CreatableSelect
                         isMulti
                         closeMenuOnSelect={false}
                         placeholder={translate({
@@ -83,20 +84,52 @@ const AdvancedFilter = observer((props: Props) => {
                             label: c.displayName,
                             color: c.department?.color
                         }))}
+                        formatCreateLabel={(inputValue) => {
+                            return translate(
+                                {
+                                    id: 'event.filter.wildcard_class',
+                                    message: 'Alle Klassen die mit "{inputValue}" beginnen'
+                                },
+                                { inputValue: inputValue.replace('*', '') }
+                            );
+                        }}
+                        isValidNewOption={(inputValue) => {
+                            if (inputValue.length < 2 || inputValue.length > 4) {
+                                return false;
+                            }
+                            return inputValue.endsWith('*');
+                        }}
+                        onCreateOption={(inputValue) => {
+                            if (!inputValue.endsWith('*')) {
+                                return;
+                            }
+                            eventTable.addWildcardClassFilter(inputValue);
+                        }}
                         styles={selectStyleConfig}
                         className={clsx(styles.select)}
                         classNames={selectClassNamesConfig}
-                        value={[...eventTable.classNames].map((id) => {
-                            const klass = untisStore.findClassByName(id);
-                            return {
-                                value: id,
-                                label: klass?.displayName || '',
-                                color: klass?.department?.color || '#ccc'
-                            };
-                        })}
+                        value={[
+                            ...[...eventTable.classNames].map((id) => {
+                                const klass = untisStore.findClassByName(id);
+                                return {
+                                    value: id,
+                                    label: klass?.displayName || '',
+                                    color: klass?.department?.color || '#ccc'
+                                };
+                            }),
+                            ...[...eventTable.wildcardClassFilter].map((wc) => ({
+                                value: wc,
+                                label: wc,
+                                color: 'var(--ifm-color-warning)'
+                            }))
+                        ]}
                         onChange={(opt) => {
-                            const cNames = opt.map((o) => o.value);
-                            eventTable.setClassNames(cNames);
+                            const cNames = _.groupBy(
+                                opt.map((o) => o.value),
+                                (val) => (val.endsWith('*') ? 'wildcard' : 'normal')
+                            );
+                            eventTable.setClassNames(cNames.normal || []);
+                            eventTable.setWildcardClassFilter(cNames.wildcard || []);
                         }}
                         theme={selectThemeConfig}
                     />
