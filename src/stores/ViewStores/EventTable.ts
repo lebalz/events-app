@@ -1,4 +1,4 @@
-import { action, computed, IObservableArray, makeObservable, observable } from 'mobx';
+import { action, computed, IObservableArray, observable } from 'mobx';
 import User from '../../models/User';
 import { EventAudience, EventState } from '../../api/event';
 import { ViewStore } from '.';
@@ -13,6 +13,7 @@ import {
     ViewEvent,
     ViewGroup
 } from '@site/src/components/Event/Views/Grid';
+import { DAYS } from '@site/src/models/helpers/time';
 
 export interface EventViewProps {
     user?: User;
@@ -41,6 +42,7 @@ class EventTable {
     @observable accessor klassFilter = '';
 
     audienceFilter = observable.set<EventAudience>();
+    dayFilter = observable.set<(typeof DAYS)[number]>();
 
     @observable accessor start: Date | null = null;
     @observable accessor end: Date | null = null;
@@ -389,6 +391,15 @@ class EventTable {
         }
     }
 
+    @action
+    toggleDayFilter(day: (typeof DAYS)[number]): void {
+        if (this.dayFilter.has(day)) {
+            this.dayFilter.delete(day);
+        } else {
+            this.dayFilter.add(day);
+        }
+    }
+
     @computed
     get unfilteredEvents() {
         if (this._events) {
@@ -402,6 +413,11 @@ class EventTable {
     }
 
     @computed
+    get hasActiveDayFilter() {
+        return this.dayFilter.size > 0 && this.dayFilter.size < 7;
+    }
+
+    @computed
     get events() {
         const currentKwStart = getLastMonday(new Date()).getTime();
         const s = this.unfilteredEvents.filter((event) => {
@@ -409,6 +425,9 @@ class EventTable {
                 return false;
             }
             if (this.onlyRootEvents && event.hasParent) {
+                return false;
+            }
+            if (this.hasActiveDayFilter && !event.affectedDays.some((d) => this.dayFilter.has(d))) {
                 return false;
             }
             let keep = true;

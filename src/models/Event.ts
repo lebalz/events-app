@@ -943,6 +943,18 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
+    get affectedDays() {
+        const fullDaySpan = Math.ceil((this.durationMS - 1) / DAY_2_MS);
+        if (fullDaySpan === 0) {
+            return [this.dayStart];
+        }
+        if (fullDaySpan >= 6) {
+            return DAYS;
+        }
+        return DAYS.slice(this.start.getDay(), this.start.getDay() + fullDaySpan);
+    }
+
+    @computed
     get dayFullStart(): (typeof DAYS_LONG)[number] {
         return DAYS_LONG[this.start.getDay()];
     }

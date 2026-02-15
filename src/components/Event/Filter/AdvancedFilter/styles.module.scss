@@ -1,0 +1,35 @@
+.advanced {
+    min-width: min(25em, 95vw);
+    .selects {
+        margin: 0.4rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        .fuzzyFilter {
+            min-width: 21em;
+        }
+        .indicatorsContainer {
+            > div {
+                padding: 4px;
+            }
+        }
+        .multiValue {
+            background: var(--docusaurus-collapse-button-bg-hover);
+            > div[class$='MultiValueGeneric'] {
+                padding: 0px;
+                padding-left: 6px;
+                padding-right: 3px;
+            }
+        }
+    }
+    .dates {
+        display: flex;
+        .date {
+            display: flex;
+            align-items: center;
+        }
+    }
+    .buttonGroup {
+        max-height: 1.3em;
+    }
+}
