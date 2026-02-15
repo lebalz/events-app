@@ -13,6 +13,7 @@ import deflistPlugin from './src/plugins/remark-deflist/plugin';
 import mdiPlugin from './src/plugins/remark-mdi/plugin';
 import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
 import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
+import { sentryPluginConfig } from './src/plugins/sentry-plugin';
 
 const defaultLocale = 'de';
 
@@ -92,7 +93,6 @@ const config: Config = {
     url: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
     baseUrl: '/',
     onBrokenLinks: 'throw',
-    onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.ico',
     deploymentBranch: 'gh-pages',
     trailingSlash: false,
@@ -113,6 +113,7 @@ const config: Config = {
         EVENTS_API: process.env.REACT_APP_EVENTS_API || 'http://localhost:3002',
         /** The application id generated in https://portal.azure.com */
         CLIENT_ID: process.env.REACT_APP_CLIENT_ID,
+        SENTRY_DSN: process.env.SENTRY_DSN,
         /** Tenant / Verzeichnis-ID (Mandant) */
         TENANT_ID: process.env.REACT_APP_TENANT_ID,
         /** The application id uri generated in https://portal.azure.com */
@@ -121,7 +122,11 @@ const config: Config = {
         CURRENT_LOCALE: getLocale()
     },
     markdown: {
-        mermaid: true
+        mermaid: true,
+        hooks: {    
+            onBrokenMarkdownLinks: 'warn',
+            onBrokenMarkdownImages: 'warn'
+        }
     },
 
     // Even if you don't use internalization, you can use this field to set useful
@@ -472,7 +477,8 @@ const config: Config = {
                     };
                 }
             };
-        }
+        },
+        sentryPluginConfig
     ],
     themes: ['@docusaurus/theme-mermaid'],
 };

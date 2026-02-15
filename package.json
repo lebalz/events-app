@@ -31,6 +31,8 @@
         "@mdi/js": "^7.1.96",
         "@mdi/react": "^1.6.1",
         "@mdx-js/react": "^3.0.0",
+        "@sentry/react": "^10.38.0",
+        "@sentry/webpack-plugin": "^4.9.1",
         "axios": "^1.7.2",
         "clsx": "^2.1.0",
         "color": "^4.2.3",

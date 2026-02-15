@@ -16,16 +16,20 @@ Copy the `example.env` file to `.env` and fill in the values.
 cp example.env .env
 ```
 
-| Variable               | For         | Default                 | Example                                | Description                                                                                                                        |
-|:-----------------------|:------------|:------------------------|:---------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------|
-| REACT_APP_DOMAIN       | Production  | `http://localhost:3000` |                                        | Domain of the hosted app                                                                                                           |
-| REACT_APP_EVENTS_API   | Production  | `http://localhost:3002` |                                        | Url of the API Endpoint                                                                                                            |
-| REACT_APP_CLIENT_ID    | Production  |                         |                                        | Azure ID: Client ID                                                                                                                |
-| REACT_APP_TENANT_ID    | Production  |                         |                                        | Azure AD: Tenant Id                                                                                                                |
-| REACT_APP_API_URI      | Production  |                         |                                        | Azure AD: API Url                                                                                                                  |
-| REACT_APP_UMAMI_ID     | Production  |                         |                                        | For user stats                                                                                                                     |
-| CROWDIN_PERSONAL_TOKEN | Production  |                         |                                        | Used to download translations during build step. (Not used currently)                                                              |
-| TEST_USERNAME          | Development |                         | `admin.bar@bazz.ch`                    | To log in offline. Must be the same as `ADMIN_EMAIL` or `USER_EMAIL` in [👉 Dev-Backend](https://github.com/lebalz/events-api#env) |
+| Variable                | For         | Default                 | Example                                | Description                                                                                                                        |
+|:------------------------|:------------|:------------------------|:---------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------|
+| `REACT_APP_DOMAIN`      | Production  | `http://localhost:3000` |                                        | Domain of the hosted app                                                                                                           |
+| `REACT_APP_EVENTS_API`  | Production  | `http://localhost:3002` |                                        | Url of the API Endpoint                                                                                                            |
+| `REACT_APP_CLIENT_ID`   | Production  |                         |                                        | Azure ID: Client ID                                                                                                                |
+| `REACT_APP_TENANT_ID`   | Production  |                         |                                        | Azure AD: Tenant Id                                                                                                                |
+| `REACT_APP_API_URI`     | Production  |                         |                                        | Azure AD: API Url                                                                                                                  |
+| `REACT_APP_UMAMI_ID`    | Production  |                         |                                        | For user stats                                                                                                                     |
+| `CROWDIN_PERSONAL_TOKEN`| Production  |                         |                                        | Used to download translations during build step. (Not used currently)                                                              |
+| `TEST_USERNAME`         | Development |                         | `admin.bar@bazz.ch`                    | To log in offline. Must be the same as `ADMIN_EMAIL` or `USER_EMAIL` in [👉 Dev-Backend](https://github.com/lebalz/events-api#env) |
+| `SENTRY_DSN`            | Production  |                         |                                        | Sentry DSN for error tracking                                                                                                      |
+| `SENTRY_AUTH_TOKEN`     | Production  |                         |                                        | Sentry Auth Token for error tracking                                                                                               |
+| `SENTRY_ORG`            | Production  |                         |                                        | Sentry Org for error tracking                                                                                                      |
+| `SENTRY_PROJECT`        | Production  |                         |                                        | Sentry Project for error tracking                                                                                                  |
 
 ### Local Development
 

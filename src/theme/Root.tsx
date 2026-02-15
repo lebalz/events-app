@@ -10,10 +10,11 @@ import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } fr
 import { setupMsalAxios, setupDefaultAxios } from '../api/base';
 import { useStore } from '../stores/hooks';
 import { action, runInAction } from 'mobx';
-const { NO_AUTH, TEST_USERNAME, CURRENT_LOCALE } = siteConfig.customFields as {
+const { NO_AUTH, TEST_USERNAME, CURRENT_LOCALE, SENTRY_DSN } = siteConfig.customFields as {
     TEST_USERNAME?: string;
     NO_AUTH?: boolean;
     CURRENT_LOCALE?: 'de' | 'fr';
+    SENTRY_DSN?: string;
 };
 
 export const msalInstance = new PublicClientApplication({
@@ -48,6 +49,26 @@ if (NO_AUTH) {
         ].join('\n')
     );
 }
+
+const Sentry = observer(() => {
+    React.useEffect(() => {
+        import('@sentry/react')
+            .then((Sentry) => {
+                if (Sentry) {
+                    Sentry.init({
+                        dsn: SENTRY_DSN
+                        // integrations: [Sentry.browserTracingIntegration()],
+                        // tracesSampleRate: 1.0, //  Capture 100% of the transactions
+                        // tracePropagationTargets: ['localhost', /^https:\/\/yourserver\.io\/api/]
+                    });
+                }
+            })
+            .catch(() => {
+                console.error('Sentry failed to load');
+            });
+    }, [SENTRY_DSN]);
+    return null;
+});
 
 const MsalWrapper = observer(({ children }: { children: React.ReactNode }) => {
     const sessionStore = useStore('sessionStore');
@@ -194,6 +215,7 @@ function Root({ children }) {
             </Head>
             <StoresProvider value={rootStore}>
                 <MsalWrapper>{children}</MsalWrapper>
+                {SENTRY_DSN && <Sentry />}
             </StoresProvider>
         </>
     );
