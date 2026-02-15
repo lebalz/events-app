@@ -43,6 +43,7 @@ class EventTable {
 
     audienceFilter = observable.set<EventAudience>();
     dayFilter = observable.set<(typeof DAYS)[number]>();
+    wildcardClassFilter = observable.set<string>();
 
     @observable accessor start: Date | null = null;
     @observable accessor end: Date | null = null;
@@ -118,6 +119,16 @@ class EventTable {
         } else {
             this.selectedEventIds.replace(this.events.map((e) => e.id));
         }
+    }
+
+    @action
+    addWildcardClassFilter(wildcardClass: string) {
+        this.wildcardClassFilter.add(wildcardClass);
+    }
+
+    @action
+    setWildcardClassFilter(wildcardClasses: string[]) {
+        this.wildcardClassFilter.replace(wildcardClasses);
     }
 
     @action
@@ -456,6 +467,14 @@ class EventTable {
                     [...this.classNames].filter((c) => event.affectedClassNames.has(c))
                 );
                 keep = intersection.size > 0;
+            }
+            if (keep && this.wildcardClassFilter.size > 0) {
+                const startsWith = [...this.wildcardClassFilter].map((wc) => wc.replace('*', ''));
+                keep =
+                    event.affectedClassNames.size > 0 &&
+                    startsWith.some((sw) => {
+                        return [...event.affectedClassNames].some((acn) => acn.startsWith(sw));
+                    });
             }
             if (keep && this.textFilter.size > 0) {
                 const tokens = [...this.textFilter];
