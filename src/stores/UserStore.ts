@@ -163,12 +163,17 @@ export class UserStore extends iStore<UserProps, ApiAction> {
             this._loadedSemesterIds.add(semesterId);
         }
         return this.withAbortController(`load-affected-events-${user.id}-${semesterId}`, (sig) => {
-            return apiAffectedEventIds(user.id, semesterId, sig.signal).then(
-                action(({ data }) => {
-                    this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
-                    return data;
-                })
-            );
+            return apiAffectedEventIds(user.id, semesterId, sig.signal)
+                .then(
+                    action(({ data }) => {
+                        this.affectedEventIds.replace([...this.getAffectedEventIds, ...data]);
+                        return data;
+                    })
+                )
+                .catch((e) => {
+                    this._loadedSemesterIds.delete(semesterId || '');
+                    return Promise.resolve([]);
+                });
         });
     }
 }

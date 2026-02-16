@@ -283,6 +283,13 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             .then(({ data }) => {
                 return data || [];
             })
+            .catch((e) => {
+                console.warn('Failed to load untis data', e);
+                action(() => {
+                    this.initialized = false;
+                });
+                return Promise.resolve([]);
+            })
             .finally(
                 action(() => {
                     this.initialPublicLoadPerformed = true;
