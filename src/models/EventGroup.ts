@@ -129,7 +129,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     removeEvents(events: Event[]) {
-        events.forEach((event) => this.eventIds.delete(event.id));
+        events.forEach((event) => this.eventIds.delete(event?.id));
         if (this.isDirty) {
             this.save();
         }
@@ -137,7 +137,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     addUsers(users: User[]) {
-        users.forEach((user) => this.userIds.add(user.id));
+        users.forEach((user) => this.userIds.add(user?.id));
         if (this.isDirty) {
             this.save();
         }
@@ -145,7 +145,7 @@ export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `c
 
     @action
     removeUsers(users: User[]) {
-        users.forEach((user) => this.userIds.delete(user.id));
+        users.forEach((user) => this.userIds.delete(user?.id));
         if (this.isDirty) {
             this.save();
         }

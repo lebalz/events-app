@@ -1,4 +1,4 @@
-import { action, computed, observable, reaction } from 'mobx';
+import { action, computed, observable, reaction, runInAction } from 'mobx';
 import {
     teachers as fetchTeachers,
     classes as fetchClasses,
@@ -108,6 +108,18 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         },
         { keepAlive: true }
     );
+
+    @action
+    updateTeacher(teacher: UntisTeacher) {
+        const existing = this.findTeacher(teacher.id);
+        const newTeacher = new Teacher(teacher, this);
+        runInAction(() => {
+            if (existing) {
+                this.teachers.remove(existing);
+            }
+            this.teachers.push(newTeacher);
+        });
+    }
 
     findTeacherByName = computedFn(
         function (this: UntisStore, name?: string): Teacher | undefined {

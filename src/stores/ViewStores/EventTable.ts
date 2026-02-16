@@ -490,7 +490,7 @@ class EventTable {
             }
             if (keep && this.departmentIds.size > 0) {
                 keep =
-                    event.linkedUserIds.has(this.store.user.id) ||
+                    event.linkedUserIds.has(this.store.user?.id) ||
                     [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.classNames.size > 0) {

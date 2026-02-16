@@ -111,7 +111,15 @@ export default class User extends ApiModel<UserProps, ApiAction> {
 
     @action
     linkUntis(untisId: number | undefined) {
+        const prevTeacher = this.untisTeacher;
+        if (prevTeacher) {
+            this.store.root.untisStore.updateTeacher({ ...prevTeacher.props, hasUser: false });
+        }
         this.store.linkUserToUntis(this, untisId);
+        const currentTeacher = this.untisTeacher;
+        if (currentTeacher) {
+            this.store.root.untisStore.updateTeacher({ ...currentTeacher.props, hasUser: true });
+        }
     }
 
     @computed
