@@ -431,7 +431,7 @@ const config: Config = {
                 {
                   tagName: 'link',
                   rel: 'apple-touch-icon',
-                  href: '/img/logo_x512.png',
+                  href: '/img/icon_x512.png',
                 },
                 {
                   tagName: 'link',
@@ -442,7 +442,7 @@ const config: Config = {
                 {
                   tagName: 'meta',
                   name: 'msapplication-TileImage',
-                  content: '/img/logo_x512.png',
+                  content: '/img/icon_x512.png',
                 },
                 {
                   tagName: 'meta',
