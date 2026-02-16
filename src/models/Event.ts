@@ -1006,6 +1006,9 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (!lesson) {
             return false;
         }
+        if (!this.affectedSemesters.some((s) => lesson.semesterId === s.id)) {
+            return false;
+        }
         const { weeks, minutes } = this.duration;
         const dayOffset = (lesson.weekDay + weeks * 7 - this.weekDay) % 7;
         const startOffset =
