@@ -10,8 +10,7 @@
         -ms-user-select: none; /* IE 10 and IE 11 */
         user-select: none; /* Standard syntax */
         --cb-color: currentColor;
-        padding: 2px;
-
+        padding: 2px 0px;
         &.disabled {
             --cb-color: var(--ifm-color-disabled);
             cursor: not-allowed;

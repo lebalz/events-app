@@ -123,7 +123,7 @@ const AdvancedFilter = observer((props: Props) => {
                             ...[...eventTable.wildcardClassFilter].map((wc) => ({
                                 value: wc,
                                 label: wc,
-                                color: 'var(--ifm-color-warning)'
+                                color: 'var(--ifm-color-warning-darkest)'
                             }))
                         ]}
                         onChange={(opt) => {
@@ -208,16 +208,6 @@ const AdvancedFilter = observer((props: Props) => {
                     })}
                 </div>
             </div>
-            {props.showSelects && !eventTable.showSelect && props.showSelectLocation === 'advanced' && (
-                <div>
-                    <ShowSelectCheckBoxes
-                        label={translate({
-                            id: 'event.filter.show_select',
-                            message: 'Termine auswählen'
-                        })}
-                    />
-                </div>
-            )}
             <div>
                 <div>
                     <Translate id="event.filter.advanced.dayFilter">Betroffene Tage</Translate>
@@ -320,6 +310,19 @@ const AdvancedFilter = observer((props: Props) => {
                     labelSide="left"
                 />
             </div>
+            {props.showSelects && !eventTable.showSelect && props.showSelectLocation === 'advanced' && (
+                <>
+                    <hr />
+                    <div>
+                        <ShowSelectCheckBoxes
+                            label={translate({
+                                id: 'event.filter.show_select',
+                                message: 'Termine auswählen'
+                            })}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 });
