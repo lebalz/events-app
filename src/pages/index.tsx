@@ -311,50 +311,64 @@ const Home = observer(() => {
                                             src: '/videos/Events-Abonnieren.mp4',
                                             title: '👉 Abonnieren',
                                             href: 'docs/events/subscribe'
-                                        },
-                                        {
-                                            src: '/videos/events-ruttl-de.mp4',
-                                            title: '👉 Feedback',
-                                            href: 'docs/betaphase',
-                                            playbackRate: 0.5
                                         }
+                                        // {
+                                        //     src: '/videos/events-ruttl-de.mp4',
+                                        //     title: '👉 Feedback',
+                                        //     href: 'docs/betaphase',
+                                        //     playbackRate: 0.5
+                                        // }
                                     ]}
                                 />
                             </div>
                             <div className="card__body">
-                                <h4>Version: 1.8 (23.11.2025)</h4>
+                                <h4>Version: 1.9 (16.02.2026)</h4>
                                 <ul>
                                     <li>
-                                        🚀 Neu: Terminen können nun Lehrpersonen hinzugefügt werden.
-                                        <ul>
-                                            <li>
-                                                Lehrpersonen können bei der Termineingabe hinzugefügt werden.
-                                            </li>
-                                            <li>
-                                                Zugewiesene LP's werden <b>nur angemeldeten</b> Benutzer:innen
-                                                angezeigt.
-                                            </li>
-                                            <li>
-                                                Bei den "betroffenen Lektionen" werden auch die von den
-                                                zugewiesenen Lehrpersonen betroffenen Klassen angezeigt.
-                                            </li>
-                                            <li>
-                                                LP's erhalten zugewiesene Termine in ihrer persönlichen
-                                                Übersicht und im Kalender-Abo angezeigt.
-                                            </li>
-                                            <li>
-                                                Ist eine LP aufgrund einer Zuweisung zu einem Termin
-                                                betroffen, werden deren Klassen aber <b>nicht</b> automatisch
-                                                als betroffen markiert. Andernfalls wäre der Datenschutz nicht
-                                                gewährleistet, da dann die Zuweisung von Lehrpersonen
-                                                öffentlich zugänglich sein müsste.
-                                            </li>
-                                        </ul>
+                                        🚀 Neu: Filterung von Terminen nach Wochentag, Lektion, Jahrgang und
+                                        Klassen.
                                     </li>
-                                    <li>💅 Verbesserung: diverse Optimierungen beim Erfassen von Terminen</li>
+                                    <li>
+                                        🐛 Fix: Webseite stürzt nicht mehr ab, wenn nicht angemeldete
+                                        User:innen den Terminfilter verwenden.
+                                    </li>
                                 </ul>
                                 <Details summary="Neuerungen des Terminkalenders">
                                     <h3>Changelog</h3>
+                                    <h4>Version: 1.8 (23.11.2025)</h4>
+                                    <ul>
+                                        <li>
+                                            🚀 Neu: Terminen können nun Lehrpersonen hinzugefügt werden.
+                                            <ul>
+                                                <li>
+                                                    Lehrpersonen können bei der Termineingabe hinzugefügt
+                                                    werden.
+                                                </li>
+                                                <li>
+                                                    Zugewiesene LP's werden <b>nur angemeldeten</b>{' '}
+                                                    Benutzer:innen angezeigt.
+                                                </li>
+                                                <li>
+                                                    Bei den "betroffenen Lektionen" werden auch die von den
+                                                    zugewiesenen Lehrpersonen betroffenen Klassen angezeigt.
+                                                </li>
+                                                <li>
+                                                    LP's erhalten zugewiesene Termine in ihrer persönlichen
+                                                    Übersicht und im Kalender-Abo angezeigt.
+                                                </li>
+                                                <li>
+                                                    Ist eine LP aufgrund einer Zuweisung zu einem Termin
+                                                    betroffen, werden deren Klassen aber <b>nicht</b>{' '}
+                                                    automatisch als betroffen markiert. Andernfalls wäre der
+                                                    Datenschutz nicht gewährleistet, da dann die Zuweisung von
+                                                    Lehrpersonen öffentlich zugänglich sein müsste.
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            💅 Verbesserung: diverse Optimierungen beim Erfassen von Terminen
+                                        </li>
+                                    </ul>
                                     <h4>Version: 1.7 (23.08.2025)</h4>
                                     <ul>
                                         <li>
