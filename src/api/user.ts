@@ -30,7 +30,7 @@ export function logout(signal: AbortSignal): AxiosPromise<void> {
     return api.post('/logout', {}, { signal });
 }
 
-export function linkToUntis(userId: string, untisId: number, signal: AbortSignal): AxiosPromise<User> {
+export function linkToUntis(userId: string, untisId: number | null, signal: AbortSignal): AxiosPromise<User> {
     return api.put(`users/${userId}/link_to_untis`, { data: { untisId: untisId } }, { signal });
 }
 

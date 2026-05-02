@@ -28,6 +28,11 @@ export interface EventViewProps {
 
 export const BATCH_SIZE = 15 as const;
 
+const SORT_BY_FUNCTIONS: { [key: string]: string | ((e: Event) => any) } = {
+    start: (e) => e.startTimeMs,
+    author: (e) => e.author.shortName
+};
+
 /**
  * route: /table
  */
@@ -248,7 +253,7 @@ class EventTable {
     get groupedEvents() {
         const events = _.orderBy(
             this.events,
-            [this.sortBy === 'author' ? (e: Event) => e.author.shortName : this.sortBy, 'start'],
+            [SORT_BY_FUNCTIONS[this.sortBy] ? SORT_BY_FUNCTIONS[this.sortBy] : 'startTimeMs', 'startTimeMs'],
             [this.sortDirection, 'asc']
         );
         const transformed: (ViewEvent | ViewGroup)[] = [];

@@ -24,7 +24,7 @@ const List = observer((props: Props) => {
 
     return (
         <div className={clsx(styles.events)}>
-            {props.events.map((event, idx) => {
+            {events.map((event, idx) => {
                 return (
                     <EventModelView
                         key={idx}

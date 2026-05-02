@@ -260,8 +260,9 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             });
         }).then(
             action(({ data }) => {
-                if (this.classes.length === 0 && data?.length > 0) {
-                    this.classes.replace(data.map((c) => new Klass(c, this)));
+                const raw = data || [];
+                if (this.classes.length === 0 && raw.length > 0) {
+                    this.classes.replace(raw.map((c) => new Klass(c, this)));
                 }
                 return this.teachers; /** only classes were loaded, no untis teachers */
             })
@@ -325,7 +326,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
                 this.teachersSubjects.set(semesterId, data || []);
                 return data;
             })
-        );
+        ) as Promise<void | UntisLesson[]>;
     }
 
     @computed
@@ -381,7 +382,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     }
 
     @action
-    save(model) {
+    save(model: any) {
         throw new Error('Not implemented');
     }
 
@@ -403,7 +404,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
             return [];
         }
         return this.root.viewStore.semester.events.filter((e) => {
-            if (!lesson.classes.some((c) => e.affectsClass(c))) {
+            if (!lesson.classes.some((c) => e.affectsClass(c!))) {
                 return false;
             }
             const unaffected =

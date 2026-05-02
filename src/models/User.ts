@@ -118,7 +118,7 @@ export default class User extends ApiModel<UserProps, ApiAction> {
 
     @action
     linkUntis(untisId: number | undefined) {
-        this.store.linkUserToUntis(this, untisId);
+        this.store.linkUserToUntis(this, untisId ?? null);
     }
 
     @computed

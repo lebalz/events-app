@@ -103,7 +103,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     }
 
     @action
-    linkUserToUntis(user: User, untisId: number) {
+    linkUserToUntis(user: User, untisId: number | null) {
         return this.withAbortController('linkUserToUntis', (sig) => {
             return linkToUntis(user.id, untisId, sig.signal).then(({ data }) => {
                 user.setUntisId(data.untisId);
