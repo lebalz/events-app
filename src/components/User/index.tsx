@@ -212,7 +212,10 @@ const User = observer((props: Props) => {
                     {
                         user.events.filter(
                             (e) =>
-                                e.isPublished && !e.hasParent && e.affectedSemesters.includes(currentSemester)
+                                e.isPublished &&
+                                !e.hasParent &&
+                                currentSemester &&
+                                e.affectedSemesters.includes(currentSemester)
                         ).length
                     }
                 </dd>

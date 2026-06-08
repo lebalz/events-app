@@ -1,15 +1,12 @@
 import React from 'react';
-import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { StoresProvider, rootStore } from '../stores/stores';
-import { observer } from 'mobx-react-lite';
-import { TENANT_ID, msalConfig } from '../authConfig';
+import { enableStaticRendering, observer } from 'mobx-react-lite';
 import Head from '@docusaurus/Head';
 import siteConfig from '@generated/docusaurus.config';
 import { useLocation } from '@docusaurus/router';
-import { AccountInfo, EventType, InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
-import { setupMsalAxios, setupDefaultAxios } from '../api/base';
-import { useStore } from '../stores/hooks';
-import { action, runInAction } from 'mobx';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import { authClient } from '../auth-client';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 const { NO_AUTH, TEST_USERNAME, CURRENT_LOCALE, SENTRY_DSN } = siteConfig.customFields as {
     TEST_USERNAME?: string;
     NO_AUTH?: boolean;
@@ -17,38 +14,38 @@ const { NO_AUTH, TEST_USERNAME, CURRENT_LOCALE, SENTRY_DSN } = siteConfig.custom
     SENTRY_DSN?: string;
 };
 
-export const msalInstance = new PublicClientApplication({
-    ...msalConfig,
-    auth: {
-        ...msalConfig.auth,
-        postLogoutRedirectUri:
-            CURRENT_LOCALE === 'fr' ? `${siteConfig.url}/fr` : msalConfig.auth.postLogoutRedirectUri
-    }
-});
-
-if (NO_AUTH) {
-    const n = TEST_USERNAME.length >= 40 ? 0 : 40 - TEST_USERNAME.length;
-    console.log(
-        [
-            '',
-            '┌──────────────────────────────────────────────────────────┐',
-            '│                                                          │',
-            '│   _   _                       _   _                      │',
-            '│  | \\ | |           /\\        | | | |                     │',
-            '│  |  \\| | ___      /  \\  _   _| |_| |__                   │',
-            "│  | . ` |/ _ \\    / /\\ \\| | | | __| '_ \\                  │",
-            '│  | |\\  | (_) |  / ____ \\ |_| | |_| | | |                 │',
-            '│  |_| \\_|\\___/  /_/    \\_\\__,_|\\__|_| |_|                 │',
-            '│                                                          │',
-            '│                                                          │',
-            `│   TEST_USERNAME: ${TEST_USERNAME + ' '.repeat(n)}│`,
-            '│                                                          │',
-            '│   --> enable authentication by removing "TEST_USERNAME"  │',
-            '│       from the environment (or the .env file)            │',
-            '└──────────────────────────────────────────────────────────┘'
-        ].join('\n')
-    );
+if (!ExecutionEnvironment.canUseDOM) {
+    enableStaticRendering(true);
+    console.log('ℹ️ SSG Mode for MobX Stores enabled.');
 }
+
+const ExposeRootStoreToWindow = observer(() => {
+    React.useEffect(() => {
+        /**
+         * Expose the store to the window object
+         */
+        (window as any).store = rootStore;
+    }, [rootStore]);
+    return null;
+});
+const Authentication = observer(() => {
+    const { data: session } = authClient.useSession();
+    React.useEffect(() => {
+        if (!rootStore) {
+            return;
+        }
+        if (session?.user) {
+            rootStore.load(session.user.id);
+        } else {
+            rootStore.cleanup();
+        }
+    }, [session?.user, rootStore]);
+    React.useEffect(() => {
+        // load public
+        rootStore.load();
+    }, []);
+    return null;
+});
 
 const Sentry = observer(() => {
     React.useEffect(() => {
@@ -70,134 +67,55 @@ const Sentry = observer(() => {
     return null;
 });
 
-const MsalWrapper = observer(({ children }: { children: React.ReactNode }) => {
-    const sessionStore = useStore('sessionStore');
+const LivenessChecker = observer(() => {
+    const lastHiddenTimeRef = React.useRef<number | null>(null);
     React.useEffect(() => {
-        /**
-         * DEV MODE
-         * - no auth
-         */
-        if (NO_AUTH && !sessionStore?.isLoggedIn) {
-            setTimeout(() => {
-                runInAction(() => {
-                    sessionStore.authMethod = 'msal';
-                });
-                rootStore.sessionStore.setAccount({ username: TEST_USERNAME } as any);
-                rootStore.load('authorized');
-            }, 1000);
-            return;
-        }
-
-        if (!sessionStore?.initialized) {
-            return;
-        }
-        /**
-         * PROD MODE
-         * - auth over cookie
-         */
-        if (sessionStore.authMethod === 'apiKey') {
-            return;
-        }
-
-        /**
-         * PROD MODE
-         * - auth over msal
-         */
-        msalInstance.initialize().then(() => {
-            if (!msalInstance.getActiveAccount() && msalInstance.getAllAccounts().length > 0) {
-                // Account selection logic is app dependent. Adjust as needed for different use cases.
-                const account = msalInstance
-                    .getAllAccounts()
-                    .filter((a) => a.tenantId === TENANT_ID)
-                    .find((a) => /@(edu\.)?(gbsl|gbjb)\.ch/.test(a.username));
-                if (account) {
-                    msalInstance.setActiveAccount(account);
-                }
+        const handleVisibilityChange = () => {
+            if (!rootStore.sessionStore.isLoggedIn) {
+                return;
             }
-            msalInstance.enableAccountStorageEvents();
-            msalInstance.addEventCallback((event) => {
-                if (
-                    event.eventType === EventType.LOGIN_SUCCESS &&
-                    (event.payload as { account: AccountInfo }).account
-                ) {
-                    const account = (event.payload as { account: AccountInfo }).account;
-                    msalInstance.setActiveAccount(account);
-                }
-            });
-        });
-    }, [msalInstance, sessionStore?.authMethod]);
-
-    React.useEffect(() => {
-        if (NO_AUTH) {
-            if (!rootStore._isLoadingPublic) {
-                rootStore.load('public');
-            }
-            if (!rootStore._isLoadingPrivate) {
-                rootStore.load('authorized');
-            }
-        }
-    }, [NO_AUTH, rootStore]);
-
-    if (NO_AUTH) {
-        return children;
-    }
-    return (
-        <MsalProvider instance={msalInstance}>
-            <MsalAccount />
-            {children}
-        </MsalProvider>
-    );
-});
-
-const MsalAccount = observer(() => {
-    const { accounts, inProgress, instance } = useMsal();
-    const isAuthenticated = useIsAuthenticated();
-    const sessionStore = useStore('sessionStore');
-
-    React.useEffect(() => {
-        if (sessionStore.authMethod === 'apiKey' && !NO_AUTH) {
-            return;
-        }
-        if (isAuthenticated && inProgress === InteractionStatus.None) {
-            const active = instance.getActiveAccount();
-            if (active) {
+            if (document.hidden) {
                 /**
-                 * order matters
-                 * 1. setup axios with the correct tokens
-                 * 2. set the msal instance and account to the session store
-                 * 3. load authorized entities
+                 * The Browser-Window is now hidden
+                 * we could indicate to admins that the user has left the page
+                 * (e.g. for exams)
                  */
-                setupMsalAxios();
-                setTimeout(() => {
-                    rootStore.sessionStore.setAccount(active);
-                    rootStore.load('authorized');
-                }, 0);
+                lastHiddenTimeRef.current = Date.now();
+            } else {
+                /**
+                 * The Browser-Window is now visible again
+                 */
+                const elapsedSec = lastHiddenTimeRef.current
+                    ? (Date.now() - lastHiddenTimeRef.current) / 1000
+                    : 0;
+                lastHiddenTimeRef.current = null;
+                if (elapsedSec < 5) {
+                    return;
+                }
+                authClient.getSession().then((res) => {
+                    if (!res || res.error) {
+                        window.location.reload();
+                        return;
+                    } else {
+                        rootStore.socketStore?.checkLiveState();
+                    }
+                });
             }
-        }
-    }, [sessionStore?.authMethod, accounts, inProgress, instance, isAuthenticated]);
-    return (
-        <div
-            data--isauthenticated={isAuthenticated}
-            data--account={instance.getActiveAccount()?.username}
-        ></div>
-    );
-});
+        };
 
-// Default implementation, that you can customize
-function Root({ children }) {
-    const location = useLocation();
-    React.useEffect(() => {
-        if (!rootStore) {
-            return;
-        }
-        rootStore.sessionStore.setupStorageSync();
-        if (window) {
-            (window as any).store = rootStore;
-        }
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
         return () => {
-            rootStore?.cleanup();
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
         };
     }, [rootStore]);
+
+    return null;
+});
+
+function Root({ children }: { children: React.ReactNode }) {
+    const { siteConfig } = useDocusaurusContext();
+    const location = useLocation();
 
     React.useEffect(() => {
         const modalId = rootStore?.viewStore?.openEventModalId;
@@ -211,11 +129,17 @@ function Root({ children }) {
         <>
             <Head>
                 <meta property="og:description" content={siteConfig.tagline} />
-                <meta property="og:image" content={`${siteConfig.customFields.DOMAIN}/img/og-preview.jpeg`} />
+                <meta
+                    property="og:image"
+                    content={`${siteConfig.customFields?.DOMAIN}/img/og-preview.jpeg`}
+                />
             </Head>
             <StoresProvider value={rootStore}>
-                <MsalWrapper>{children}</MsalWrapper>
+                <ExposeRootStoreToWindow />
+                <Authentication />
+                <LivenessChecker />
                 {SENTRY_DSN && <Sentry />}
+                {children}
             </StoresProvider>
         </>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { action, makeObservable, observable, reaction } from 'mobx';
+import { action, observable, reaction } from 'mobx';
 import { SessionStore } from './SessionStore';
 import { UserStore } from './UserStore';
 import { EventStore } from './EventStore';
@@ -87,23 +87,15 @@ export class RootStore {
                 }
             }
         );
-        setTimeout(() => {
-            this.load('public').then((res) => {
-                console.log('Auth Method:', this.sessionStore.authMethod);
-                if (this.sessionStore.authMethod === 'apiKey' && this.sessionStore.currentUserId) {
-                    this.load('authorized');
-                }
-            });
-        }, 0);
     }
 
-    subscribeTo(store: ResettableStore, events: ['reset']);
-    subscribeTo(store: LoadeableStore<any>, events: ['load']);
-    subscribeTo(store: LoadeableStore<any>, events: ['load', 'semester']);
-    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset']);
-    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset', 'semester']);
+    subscribeTo(store: ResettableStore, events: ['reset']): void;
+    subscribeTo(store: LoadeableStore<any>, events: ['load']): void;
+    subscribeTo(store: LoadeableStore<any>, events: ['load', 'semester']): void;
+    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset']): void;
+    subscribeTo(store: ResettableStore & LoadeableStore<any>, events: ['load', 'reset', 'semester']): void;
     @action
-    subscribeTo(store: any, events: StoreActions[]) {
+    subscribeTo(store: any, events: StoreActions[]): void {
         if (events.includes('load')) {
             this.loadableStores.push(store);
         }
@@ -116,7 +108,11 @@ export class RootStore {
     }
 
     @action
-    load(type: 'public' | 'authorized', semesterId?: string) {
+    load(userId?: string, semesterId?: string) {
+        const type = userId ? 'authorized' : 'public';
+        if (userId) {
+            this.sessionStore.setCurrentUserId(userId);
+        }
         if (type === 'public') {
             this._isLoadingPublic = true;
         } else {
