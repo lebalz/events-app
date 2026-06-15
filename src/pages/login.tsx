@@ -5,15 +5,17 @@ import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { default as indexStyles } from './index.module.scss';
 import Link from '@docusaurus/Link';
-import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
-import { tokenRequest } from '../authConfig';
+import { authClient } from '@site/src/auth-client';
 import siteConfig from '@generated/docusaurus.config';
 import { useStore } from '../stores/hooks';
-import Translate from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-const { NO_AUTH } = siteConfig.customFields as { NO_AUTH?: boolean };
+import { mdiMicrosoft } from '@mdi/js';
+import Button from '../components/shared/Button';
+import customFields from '@site/src/components/shared/customFields';
+const { NO_AUTH, DOMAIN } = customFields;
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -27,36 +29,49 @@ function HomepageHeader() {
     );
 }
 
-const Login = observer(() => {
-    const sessionStore = useStore('sessionStore');
-    const { instance } = useMsal();
-    const isMsalAuthenticated = useIsAuthenticated();
-    const isAuthenticated = sessionStore.isLoggedIn || isMsalAuthenticated;
+const LoginPage = observer(() => {
+    const { data: session } = authClient.useSession();
+    const rootUrl = useBaseUrl('/');
     const homeRoute = useBaseUrl('/user?user-tab=account');
-    if (isAuthenticated || NO_AUTH) {
-        return <Redirect to={homeRoute} />;
+    if (session?.user || NO_AUTH) {
+        return <Redirect to={rootUrl} />;
     }
     return (
         <Layout>
             <HomepageHeader />
             <main>
                 <div className={clsx(styles.loginPage)}>
-                    <Link
-                        to="/"
-                        onClick={() => instance.acquireTokenRedirect(tokenRequest)}
-                        className="button button--warning"
-                        style={{ color: 'black' }}
-                    >
-                        <Translate
-                            id="login.button.with.school.account.text"
-                            description="the text of the button login with school account"
-                        >
-                            Login mit Schul-Account
-                        </Translate>
-                    </Link>
+                    <Button
+                        onClick={() =>
+                            authClient.signIn.social({
+                                provider: 'microsoft',
+                                callbackURL: DOMAIN
+                            })
+                        }
+                        text={translate({
+                            id: 'login.button.with_school_account.text',
+                            message: 'Login mit Schul-Account',
+                            description: 'the text of the button login with school account'
+                        })}
+                        icon={mdiMicrosoft}
+                        iconSide="left"
+                        color="blue"
+                        size={2}
+                        className={clsx(styles.mainLoginMethod)}
+                    />
                 </div>
             </main>
         </Layout>
     );
+});
+
+const Login = observer(() => {
+    const { data: session } = authClient.useSession();
+    const rootUrl = useBaseUrl('/');
+
+    if (session?.user || NO_AUTH) {
+        return <Redirect to={rootUrl} />;
+    }
+    return <LoginPage />;
 });
 export default Login;

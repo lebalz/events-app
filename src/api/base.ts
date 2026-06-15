@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { BACKEND_URL } from './config';
+import customFiels from '@site/src/components/shared/customFields';
+const { EVENTS_API } = customFiels;
 export namespace Api {
     export const BASE_API_URL = eventsApiUrl();
 
     function eventsApiUrl() {
-        return `${BACKEND_URL}/api/v1/`;
+        return `${EVENTS_API}/api/v1/`;
     }
 }
 

@@ -3,13 +3,24 @@
     "extends": "@docusaurus/tsconfig",
     "compilerOptions": {
         "baseUrl": ".",
+        "ignoreDeprecations": "6.0",
         "experimentalDecorators": false,
-        "types": ["docusaurus-plugin-sass", "@docusaurus/module-type-aliases", "@types/node"],
+        "types": ["docusaurus-plugin-sass", "@docusaurus/module-type-aliases", "node"],
         "module": "esnext",
-        "target": "ES2023",
-        "lib": ["ES2023", "DOM"],
+        "target": "esnext",
+        "strict": true,
         // "strict": true,
         "resolveJsonModule": true
     },
-    "exclude": ["src/plugins/**/*.test.ts", "node_modules", "dist", "build"]
+    "exclude": [
+        "src/plugins/**/*.test.ts",
+        "docs/tdev/packages",
+        "node_modules",
+        "_node_modules",
+        "dist",
+        "build"
+    ],
+    "mdx": {
+        "plugins": [["remark-frontmatter", ["toml", "yaml"]], "remark-directive", "remark-math"]
+    }
 }

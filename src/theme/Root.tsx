@@ -30,13 +30,15 @@ const ExposeRootStoreToWindow = observer(() => {
 });
 const Authentication = observer(() => {
     const { data: session } = authClient.useSession();
+    const initialLoad = React.useRef(false);
     React.useEffect(() => {
         if (!rootStore) {
             return;
         }
+        console.log('user', session?.user);
         if (session?.user) {
             rootStore.load(session.user.id);
-        } else {
+        } else if (initialLoad.current) {
             rootStore.cleanup();
         }
     }, [session?.user, rootStore]);

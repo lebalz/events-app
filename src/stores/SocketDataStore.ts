@@ -1,7 +1,7 @@
 import { RootStore } from './stores';
 // @ts-ignore
 import { io, Socket } from 'socket.io-client';
-import { action, makeObservable, observable, reaction } from 'mobx';
+import { action, observable, reaction } from 'mobx';
 import { default as api } from '../api/base';
 import iStore, { LoadeableStore, ResettableStore } from './iStore';
 import {
@@ -15,9 +15,9 @@ import {
     RecordType,
     ServerToClientEvents
 } from './IoEventTypes';
-import { EVENTS_API } from '../authConfig';
 import { Event as EventProps } from '../api/event';
 import { authClient, BACKEND_URL } from '../auth-client';
+
 interface Message {
     type: string;
     message: string;

@@ -55,6 +55,11 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         this.updatedAt = new Date(props.updatedAt);
     }
 
+    @computed
+    get isStudent() {
+        return /@edu\./i.test(this.email);
+    }
+
     get subscription(): Subscription | undefined {
         return this.store.root.subscriptionStore.find(this.subscriptionId);
     }

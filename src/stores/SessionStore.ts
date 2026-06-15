@@ -1,8 +1,7 @@
-import { AccountInfo } from '@azure/msal-browser';
 import { action, computed, observable, reaction } from 'mobx';
 import { RootStore } from './stores';
-import { Role, logout } from '../api/user';
-import Storage, { PersistedData, StorageKey } from './utils/Storage';
+import { logout } from '../api/user';
+import Storage from './utils/Storage';
 
 export class SessionStore {
     private readonly root: RootStore;
@@ -26,6 +25,11 @@ export class SessionStore {
         } else {
             this.setIsLoggedIn(false);
         }
+    }
+
+    @computed
+    get isStudent() {
+        return this.root.userStore.current?.isStudent;
     }
 
     @action

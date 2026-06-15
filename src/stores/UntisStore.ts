@@ -57,13 +57,15 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         reaction(
             () => this.root.userStore.current?.untisTeacher?.lessons,
             (lessons) => {
-                if (lessons?.length > 0) {
+                if ((lessons?.length ?? 0) > 0) {
                     const teacher = this.root.userStore?.current?.untisTeacher;
                     if (teacher) {
                         /**
                          * configure the filter for this user
                          */
-                        this.root.viewStore.eventTable.setDepartmentIds(teacher.departments.map((d) => d.id));
+                        this.root.viewStore.eventTable?.setDepartmentIds(
+                            teacher.departments.map((d) => d.id)
+                        );
                     }
                 }
             }
@@ -78,7 +80,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     withAbortController<T>(sigId: string, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
         if (this.abortControllers.has(sigId)) {
-            this.abortControllers.get(sigId).abort();
+            this.abortControllers.get(sigId)?.abort();
         }
         this.abortControllers.set(sigId, sig);
         return fn(sig)

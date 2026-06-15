@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { useState, useEffect } from 'react';
-import { EVENTS_API } from '../authConfig';
+import customFiels from '@site/src/components/shared/customFields';
+const { EVENTS_API } = customFiels;
 
 export const getIcsUrl = (locale: 'de' | 'fr', ics: string) => {
     return `${EVENTS_API}/ical/${locale}/${ics}${ics.endsWith('.ics') ? '' : '.ics'}`;
