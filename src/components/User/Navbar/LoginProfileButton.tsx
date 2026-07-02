@@ -19,13 +19,13 @@ const LoginButton = () => {
 
 const LoginProfileButton = observer(() => {
     const isBrowser = useIsBrowser();
-    const { data: session } = authClient.useSession();
+    const { data: sessionData } = authClient.useSession();
     const userStore = useStore('userStore');
     const userUrl = useBaseUrl('/user?user-tab=account');
     if (!isBrowser) {
         return null;
     }
-    if (!session?.user && !NO_AUTH) {
+    if (!sessionData?.user && !NO_AUTH) {
         return <LoginButton />;
     }
     return (
@@ -33,7 +33,6 @@ const LoginProfileButton = observer(() => {
             text={userStore.current?.shortName || userStore.current?.firstName || 'Profil'}
             icon={mdiAccountCircleOutline}
             iconSide="left"
-            apiState={userStore.current ? ApiState.IDLE : ApiState.LOADING}
             color="primary"
             href={userUrl}
             title={translate({

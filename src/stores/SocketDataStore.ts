@@ -16,7 +16,9 @@ import {
     ServerToClientEvents
 } from './IoEventTypes';
 import { Event as EventProps } from '../api/event';
-import { authClient, BACKEND_URL } from '../auth-client';
+import { authClient } from '../auth-client';
+import customFields from '../components/shared/customFields';
+export const { EVENTS_API } = customFields;
 
 interface Message {
     type: string;
@@ -185,7 +187,7 @@ export class SocketDataStore implements ResettableStore, LoadeableStore<void> {
             setTimeout(() => this.connect(), 1000);
             return;
         }
-        const ws_url = BACKEND_URL;
+        const ws_url = EVENTS_API;
         const socket = io(ws_url, {
             autoConnect: false,
             auth: {

@@ -56,9 +56,10 @@ const LoginPage = observer(() => {
                         icon={mdiMicrosoft}
                         iconSide="left"
                         color="blue"
-                        size={2}
+                        size={1.5}
                         className={clsx(styles.mainLoginMethod)}
                     />
+                    {DOMAIN}
                 </div>
             </main>
         </Layout>
