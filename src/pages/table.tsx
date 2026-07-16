@@ -15,7 +15,7 @@ import { SIZE_S } from '../components/shared/icons';
 import { translate } from '@docusaurus/Translate';
 
 const Table = observer(() => {
-    const [width, setWidth] = React.useState<number | undefined>(undefined);
+    const [width, setWidth] = React.useState<number>(800);
     const viewStore = useStore('viewStore');
     const departmentStore = useStore('departmentStore');
     const onResize = React.useCallback((target: HTMLDivElement) => {
@@ -24,6 +24,10 @@ const Table = observer(() => {
     }, []);
 
     const ref = useResizeObserver(onResize);
+
+    if (!viewStore.eventTable) {
+        return null;
+    }
     return (
         <Layout>
             <div className={clsx(styles.table)}>
@@ -34,7 +38,7 @@ const Table = observer(() => {
                         showSelectLocation={width > 410 ? 'quick' : 'advanced'}
                         eventTable={viewStore.eventTable}
                     />
-                    {viewStore.eventTable.showSelect && (
+                    {viewStore.eventTable?.showSelect && (
                         <BulkActions
                             eventTable={viewStore.eventTable}
                             className={clsx(styles.bulkActions)}
@@ -49,7 +53,7 @@ const Table = observer(() => {
                                         id: 'event.bulk_actions.hide_select',
                                         message: 'Terminauswahl verbergen'
                                     })}
-                                    onClick={() => viewStore.eventTable.toggleShowSelect()}
+                                    onClick={() => viewStore.eventTable!.toggleShowSelect()}
                                 />
                             ]}
                         />
@@ -58,7 +62,7 @@ const Table = observer(() => {
                 <Grid eventTable={viewStore.eventTable} ref={ref} groupBy="yearsKw" />
                 <Button
                     onClick={() => {
-                        toExcel(viewStore.eventTable.events, departmentStore.departments).then((buffer) => {
+                        toExcel(viewStore.eventTable!.events, departmentStore.departments).then((buffer) => {
                             const blob = new Blob([buffer], {
                                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                             });

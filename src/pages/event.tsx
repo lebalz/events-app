@@ -41,7 +41,7 @@ const EventView = observer((props: Props) => {
             if (typeof parsed.id === 'string') {
                 _ids.push(parsed.id);
             } else {
-                _ids.push(...parsed.id);
+                _ids.push(...(parsed.id as string[]));
             }
             setIds(_ids);
             _ids.filter((id) => !eventStore.find(id)).forEach((id) => eventStore.loadModel(id));

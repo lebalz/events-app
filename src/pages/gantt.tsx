@@ -9,9 +9,12 @@ import Timeline from '../components/Event/Views/Timeline';
 const GanttView = observer(() => {
     const viewStore = useStore('viewStore');
     const { eventTable } = viewStore;
+    if (!eventTable) {
+        return null;
+    }
     return (
         <Layout>
-            <Filter showCurrentAndFuture eventTable={viewStore.eventTable} />
+            <Filter showCurrentAndFuture eventTable={eventTable} />
             <Timeline events={eventTable.events} />
         </Layout>
     );
