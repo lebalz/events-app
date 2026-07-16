@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import {

@@ -4,13 +4,10 @@ import styles from './login.module.scss';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { default as indexStyles } from './index.module.scss';
-import Link from '@docusaurus/Link';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
 import { authClient } from '@site/src/auth-client';
-import siteConfig from '@generated/docusaurus.config';
-import { useStore } from '../stores/hooks';
-import Translate, { translate } from '@docusaurus/Translate';
+import { translate } from '@docusaurus/Translate';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { mdiMicrosoft } from '@mdi/js';
 import Button from '../components/shared/Button';
@@ -59,7 +56,6 @@ const LoginPage = observer(() => {
                         size={1.5}
                         className={clsx(styles.mainLoginMethod)}
                     />
-                    {DOMAIN}
                 </div>
             </main>
         </Layout>

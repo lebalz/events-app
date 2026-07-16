@@ -12,7 +12,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import Department from '@site/src/models/Department';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import ShowSelectCheckBoxes from '../../BulkActions/ShowSelectCheckBoxes';
 import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
 import EventTable from '@site/src/stores/ViewStores/EventTable';

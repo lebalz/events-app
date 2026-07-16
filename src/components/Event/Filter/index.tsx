@@ -10,7 +10,7 @@ import TextInput from '../../shared/TextInput';
 import { SIZE_S, FilterSvgPath, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import { Theme } from 'react-select';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Icon from '@mdi/react';
 import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
 import EventTable from '@site/src/stores/ViewStores/EventTable';

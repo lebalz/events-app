@@ -11,7 +11,7 @@ import { SIZE_S, SIZE_XS } from '../../shared/icons';
 import customFiels from '@site/src/components/shared/customFields';
 const { EVENTS_API } = customFiels;
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Copy from '../../shared/Button/Copy';
 import Subscription from '@site/src/models/Subscription';
 import SubscribeIcs from '../../shared/Button/SubscribeIcs';

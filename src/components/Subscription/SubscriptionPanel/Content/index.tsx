@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Translate, { translate } from '@docusaurus/Translate';
 
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Subscription from '@site/src/models/Subscription';
 import SemesterSelector from '@site/src/components/shared/SemesterSelector';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';

@@ -3,7 +3,7 @@ import { DepartmentLetter, Department as DepartmentProps } from '../api/departme
 import { DepartmentStore } from '../stores/DepartmentStore';
 import Event from '../models/Event';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { ApiAction } from '../stores/iStore';
 import Klass from './Untis/Klass';
 import { currentGradeYear } from './helpers/time';

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import ApiModel from './ApiModel';
 
 export const notEqual = (a: any, b: any) => {

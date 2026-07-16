@@ -96,35 +96,37 @@ const UserPage = observer(() => {
                             )}
                         </TabItem>
                         {current && (
-                            <>
-                                <TabItem
-                                    value="events"
-                                    label={translate({
-                                        message: 'Termine',
-                                        id: 'user.tab.events'
-                                    })}
-                                >
-                                    <UsersEvents user={current} />
-                                </TabItem>
-                                <TabItem
-                                    value="groups"
-                                    label={translate({
-                                        message: 'Gruppen',
-                                        id: 'user.tab.groups'
-                                    })}
-                                >
-                                    <Groups />
-                                </TabItem>
-                                <TabItem
-                                    value="time-table"
-                                    label={translate({
-                                        message: 'Stundenplan',
-                                        id: 'user.tab.time-table'
-                                    })}
-                                >
-                                    <TimeTable />
-                                </TabItem>
-                            </>
+                            <TabItem
+                                value="events"
+                                label={translate({
+                                    message: 'Termine',
+                                    id: 'user.tab.events'
+                                })}
+                            >
+                                <UsersEvents user={current} />
+                            </TabItem>
+                        )}
+                        {current && (
+                            <TabItem
+                                value="groups"
+                                label={translate({
+                                    message: 'Gruppen',
+                                    id: 'user.tab.groups'
+                                })}
+                            >
+                                <Groups />
+                            </TabItem>
+                        )}
+                        {current && (
+                            <TabItem
+                                value="time-table"
+                                label={translate({
+                                    message: 'Stundenplan',
+                                    id: 'user.tab.time-table'
+                                })}
+                            >
+                                <TimeTable />
+                            </TabItem>
                         )}
                     </Tabs>
                 </Section>

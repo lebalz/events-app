@@ -1,5 +1,5 @@
 import { action } from 'mobx';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import type { RootStore } from './stores';
 import { authClient } from '../auth-client';
 

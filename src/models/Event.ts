@@ -32,7 +32,7 @@ import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
 import Joi from 'joi';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { KlassName } from './helpers/klassNames';
 import humanize from 'humanize-duration';
 import Department from './Department';
@@ -611,7 +611,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get linkedUsers() {
-        return [...this.linkedUserIds].map((u) => this.store.root.userStore.find<User>(u)).filter((u) => u);
+        return [...this.linkedUserIds].map((u) => this.store.root.userStore.find<User>(u)).filter((u) => !!u);
     }
 
     /**

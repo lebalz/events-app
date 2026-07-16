@@ -10,7 +10,7 @@ import {
     UntisLesson,
     UntisTeacherSubject
 } from '../api/untis';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import axios from 'axios';
 import Klass from '../models/Untis/Klass';
 import Lesson from '../models/Untis/Lesson';

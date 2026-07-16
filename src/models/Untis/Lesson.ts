@@ -3,7 +3,7 @@ import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
 import Event, { iEvent } from '../Event';
 import { DAYS, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, getLastMonday } from '../helpers/time';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { translate } from '@docusaurus/Translate';
 
 const MONDAY = Object.freeze(getLastMonday());

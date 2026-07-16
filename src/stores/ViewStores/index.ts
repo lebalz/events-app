@@ -4,7 +4,7 @@ import Semester from '../../models/Semester';
 import User from '../../models/User';
 import Event from '../../models/Event';
 import Lesson from '../../models/Untis/Lesson';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { LoadeableStore, ResettableStore } from '../iStore';
 import EventTable, { EventViewProps } from './EventTable';
 import AdminUserTable from './AdminUserTable';

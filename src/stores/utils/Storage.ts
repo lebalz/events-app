@@ -1,5 +1,5 @@
 import siteConfig from '@generated/docusaurus.config';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import MemoryStorage from './MemoryStorage';
 import { User } from '@site/src/api/user';
@@ -9,7 +9,11 @@ export type PersistedData = {
 };
 
 export const StorageKey = Object.freeze({
-    SessionStore: _.upperFirst(_.camelCase(`SessionStore${siteConfig.projectName || ''}`))
+    SessionStore: _.upperFirst(_.camelCase(`SessionStore${siteConfig.projectName || ''}`)),
+    ColorPrefs: 'ColorPrefs',
+    EventGroupCollection: 'EventGroupCollection',
+    PreferenceEventAudienceInfoShow: 'PreferenceEventAudienceInfoShow',
+    PreferenceEventTeachingAffectedExampleShow: 'PreferenceEventTeachingAffectedExampleShow'
 });
 
 /**
@@ -85,6 +89,17 @@ class Storage {
             // ignore errors
         }
         return fallback;
+    }
+
+    /**
+     * Sets a value in the storage asynchronous.
+     * @param key The key to set under.
+     * @param value The value to set
+     */
+    public sync<T>(key: keyof typeof StorageKey, value: T, storeAsJson = true) {
+        setTimeout(() => {
+            this.set(key, value, storeAsJson);
+        }, 0);
     }
 
     /**

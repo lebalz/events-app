@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { useState, useEffect } from 'react';
 import customFiels from '@site/src/components/shared/customFields';
 const { EVENTS_API } = customFiels;

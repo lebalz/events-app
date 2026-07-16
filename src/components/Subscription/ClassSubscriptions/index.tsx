@@ -8,7 +8,7 @@ import Button from '../../shared/Button';
 import { mdiBellPlus, mdiBellPlusOutline } from '@mdi/js';
 import { SIZE_S } from '../../shared/icons';
 import i18n from '@generated/i18n';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import SubscribeIcs from '../../shared/Button/SubscribeIcs';
 import CopyIcs from '../../shared/Button/CopyIcs';
 import DownloadIcs from '../../shared/Button/DownloadIcs';

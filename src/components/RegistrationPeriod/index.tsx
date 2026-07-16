@@ -15,7 +15,7 @@ import DateTimePicker from '../shared/DateTimePicker';
 import Select from 'react-select';
 import { selectClassNamesConfig, selectStyleConfig, selectThemeConfig } from '../Event/Filter';
 import Department from '@site/src/models/Department';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Save from '../shared/Button/Save';
 import Discard from '../shared/Button/Discard';
 import Delete from '../shared/Button/Delete';

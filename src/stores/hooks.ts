@@ -8,8 +8,8 @@ export const useStore = <T extends keyof typeof rootStore>(store: T): (typeof ro
 
 // Hook
 export const useOnScreen = (
-    ref: React.MutableRefObject<HTMLDivElement>,
-    rootSelector: string = undefined,
+    ref: React.RefObject<HTMLDivElement>,
+    rootSelector: string | undefined = undefined,
     rootMargin: string = '0px'
 ) => {
     const [isIntersecting, setIntersecting] = React.useState(false);

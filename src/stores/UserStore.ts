@@ -10,7 +10,7 @@ import {
 
 import { RootStore } from './stores';
 import User from '../models/User';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import iStore from './iStore';
 import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
@@ -142,7 +142,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @computed
     get getAffectedEventIds() {
         if (!this.current) {
-            return new Set([]);
+            return new Set<string>([]);
         }
         return this.affectedEventIds;
     }

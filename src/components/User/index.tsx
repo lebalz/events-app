@@ -21,7 +21,7 @@ import { ApiIcon, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
 import Translate, { translate } from '@docusaurus/Translate';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Subscription from '../Subscription';
 import Checkbox from '../shared/Checkbox';
 import { ApiState } from '@site/src/stores/iStore';

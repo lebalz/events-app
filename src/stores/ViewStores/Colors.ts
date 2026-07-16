@@ -1,7 +1,7 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
+import { action, observable, reaction } from 'mobx';
 import { ViewStore } from '.';
 import Color from 'color';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Storage, { StorageKey } from '../utils/Storage';
 import { updateDOMColors } from '@site/src/components/ColorGenerator/colorUtils';
 

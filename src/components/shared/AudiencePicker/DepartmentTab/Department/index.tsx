@@ -7,7 +7,7 @@ import { default as DepartmentModel } from '@site/src/models/Department';
 import { default as EventModel } from '@site/src/models/Event';
 import { translate } from '@docusaurus/Translate';
 import Button from '../../../Button';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import GraduationYear from './GraduationYear';
 interface Props {
     event: EventModel;

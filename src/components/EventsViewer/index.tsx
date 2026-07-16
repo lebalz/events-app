@@ -10,7 +10,7 @@ import List from '../Event/Views/List';
 import Calendar from '../Event/Views/Calendar';
 import Timeline from '../Event/Views/Timeline';
 import { Timeline as TimelineIcon } from '@site/src/components/shared/icons';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { mdiCalendarMonth, mdiCardTextOutline, mdiViewList } from '@mdi/js';
 import { translate } from '@docusaurus/Translate';
 import { useStore } from '@site/src/stores/hooks';

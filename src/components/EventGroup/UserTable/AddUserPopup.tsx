@@ -11,7 +11,7 @@ import TextInput from '../../shared/TextInput';
 import { translate } from '@docusaurus/Translate';
 import Badge from '../../shared/Badge';
 import EventGroup from '@site/src/models/EventGroup';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Popup from 'reactjs-popup';
 
 interface Props {

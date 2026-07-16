@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Select, { ActionMeta, FilterOptionOption } from 'react-select';
 import Event from '@site/src/models/Event';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { translate } from '@docusaurus/Translate';
 
 interface BaseOption {

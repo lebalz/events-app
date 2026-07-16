@@ -18,7 +18,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import { mdiAccount, mdiAccountGroup, mdiCalendarClock, mdiShareCircle } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import UserTable from './UserTable';
 import ShiftDates from './BulkEditor/ShiftDates';
 import AddUserPopup from './UserTable/AddUserPopup';

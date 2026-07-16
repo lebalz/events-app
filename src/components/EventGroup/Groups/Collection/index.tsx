@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { translate } from '@docusaurus/Translate';
 import UserEventGroup from '../..';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import EventGroup from '@site/src/models/EventGroup';
 import Selector from './Selector';
 import NoGroupsAlert from './NoGroupsAlert';

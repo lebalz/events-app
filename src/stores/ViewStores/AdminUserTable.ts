@@ -1,18 +1,12 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { ViewStore } from '.';
 import User from '@site/src/models/User';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 
 class AdminUserTable {
     private readonly store: ViewStore;
     @observable accessor sortColumn:
-        | 'id'
-        | 'email'
-        | 'shortName'
-        | 'role'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'notifyOnEventUpdate' = 'email';
+        'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' | 'notifyOnEventUpdate' = 'email';
     @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
 
     @observable accessor _filter = '';

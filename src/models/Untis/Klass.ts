@@ -5,7 +5,7 @@ import Department, { Duration4Years } from '../Department';
 import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import { DepartmentLetter } from '@site/src/api/department';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { currentGradeYear } from '../helpers/time';
 
 const CURRENT_GRADE_YEAR = currentGradeYear();
