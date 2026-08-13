@@ -6,7 +6,6 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 import _ from 'lodash';
 import { ApiAction } from '../stores/iStore';
 import Klass from './Untis/Klass';
-import { currentGradeYear } from './helpers/time';
 
 export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
@@ -25,6 +24,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         'color',
         'schoolYears',
         'department1_Id',
+        'semesterTransitionDay',
+        'semesterTransitionMonth',
         'department2_Id',
         {
             attr: 'letter',
@@ -77,6 +78,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @observable accessor schoolYears: number;
     @observable accessor letter: string;
     @observable accessor _displayLetter: string | null | undefined;
+    @observable accessor semesterTransitionDay: number;
+    @observable accessor semesterTransitionMonth: number;
 
     classLetters = observable.set<string>([]);
 
@@ -89,6 +92,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.id = props.id;
         this.name = props.name;
         this.schoolYears = props.schoolYears;
+        this.semesterTransitionDay = props.semesterTransitionDay;
+        this.semesterTransitionMonth = props.semesterTransitionMonth;
         this.color = props.color;
         this.letter = props.letter;
         this._displayLetter = props.displayLetter;
@@ -221,6 +226,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             name: this.name,
             color: this.color,
             schoolYears: this.schoolYears,
+            semesterTransitionDay: this.semesterTransitionDay,
+            semesterTransitionMonth: this.semesterTransitionMonth,
             letter: this.letter as DepartmentLetter,
             displayLetter: this._displayLetter as DepartmentLetter | null,
             department1_Id: this.department1_Id,

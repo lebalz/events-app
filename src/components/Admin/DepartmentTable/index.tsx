@@ -99,6 +99,14 @@ const DepartmentTable = observer((props: Props) => {
                             />
                         </th>
                         <th>
+                            <Translate
+                                id="admin.DepartmentTable.th.semesterTransition"
+                                description="th: semester transition"
+                            >
+                                Semesterwechsel
+                            </Translate>
+                        </th>
+                        <th>
                             <Button
                                 size={SIZE_S}
                                 iconSide="left"

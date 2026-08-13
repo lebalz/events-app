@@ -18,6 +18,7 @@ import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
 import { mdiArrowRightBottomBold, mdiCircleSmall } from '@mdi/js';
 import { Icon, SIZE_S } from '../../shared/icons';
 import Popup from 'reactjs-popup';
+import { translate } from '@docusaurus/Translate';
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -177,6 +178,55 @@ const Department = observer((props: Props) => {
                         try {
                             const schoolYears = e.target.value ? Number.parseInt(e.target.value, 10) : 0;
                             department.update({ schoolYears: schoolYears });
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }}
+                />
+            </td>
+            <td>
+                <input
+                    type="number"
+                    value={department.semesterTransitionMonth}
+                    placeholder="1"
+                    title={translate({
+                        message: 'Monat des Semesterwechsels',
+                        description: 'input: semester transition month',
+                        id: 'admin.DepartmentTable.input.semesterTransitionMonth'
+                    })}
+                    min={1}
+                    max={12}
+                    style={{ width: '3em' }}
+                    onChange={(e) => {
+                        try {
+                            const semesterTransitionMonth = e.target.value
+                                ? Number.parseInt(e.target.value, 10)
+                                : 0;
+                            department.update({ semesterTransitionMonth: semesterTransitionMonth });
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }}
+                />
+                .
+                <input
+                    type="number"
+                    value={department.semesterTransitionDay}
+                    placeholder="14"
+                    title={translate({
+                        message: 'Tag des Semesterwechsels',
+                        description: 'input: semester transition day',
+                        id: 'admin.DepartmentTable.input.semesterTransitionDay'
+                    })}
+                    min={1}
+                    max={31}
+                    style={{ width: '4em' }}
+                    onChange={(e) => {
+                        try {
+                            const semesterTransitionDay = e.target.value
+                                ? Number.parseInt(e.target.value, 10)
+                                : 0;
+                            department.update({ semesterTransitionDay: semesterTransitionDay });
                         } catch (e) {
                             console.error(e);
                         }

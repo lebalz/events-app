@@ -28,8 +28,13 @@
             padding: 0;
         }
     }
+    &:hover {
+        background-color: var(--ifm-color-secondary-lighter);
+    }
     &.subDepartment {
-        td {
+        // only indent first and second td
+        td:nth-child(1),
+        td:nth-child(2) {
             padding-left: 2em;
             padding-top: 2px;
         }
