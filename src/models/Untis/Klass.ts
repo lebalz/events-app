@@ -102,24 +102,6 @@ export default class Klass {
     }
 
     /**
-     * the grade year name, for 2025
-     * @example '25Gh' -> 'GYM 4'
-     *          '28Gj' -> 'GYM 1'
-     *          '26Fa' -> 'FMS 2'
-     *          '28Fp' -> 'FMPäd' (only one year degree)
-     */
-    @computed
-    get gradeYearName(): string {
-        if (this.department?.schoolYears === 1) {
-            return this.departmentName;
-        }
-        const dateNow = new Date();
-        const currentGradeDateValue = currentGradeDate(dateNow, this.department);
-        const duration = this.department?.schoolYears ?? (Duration4Years.has(this.departmentLetter) ? 4 : 3);
-        return `${this.departmentName} ${duration - (this.year - currentGradeDateValue.getFullYear()) + (dateNow < currentGradeDateValue ? 0 : 1)}`;
-    }
-
-    /**
      * @param gradeYear number, e.g. 2028
      * @param range number that specifies, how much the schoolYears can be exceeded on the end.
      * @returns wheter this class is active for the given school year
