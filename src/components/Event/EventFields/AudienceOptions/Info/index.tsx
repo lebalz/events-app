@@ -61,12 +61,7 @@ const AudienceInfo = observer(({ scenario, audience }: InfoProps<EventAudience>)
                 <Tooltip
                     title={`Betrifft ${EventAudienceTranslationLong[scenario]} ${TeachingAffectedTranslation[color]}`}
                 >
-                    <Icon
-                        path={iconPath}
-                        color={color}
-                        size={SIZE_S}
-                        className={clsx(styles.icon)}
-                    />
+                    <Icon path={iconPath} color={color} size={SIZE_S} className={clsx(styles.icon)} />
                 </Tooltip>
                 {config.description || EventAudienceTranslationLong[scenario]}
             </dd>
