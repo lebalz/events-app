@@ -15,7 +15,7 @@ import {
 } from '../api/event';
 import Event from '../models/Event';
 import { RootStore } from './stores';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import iStore from './iStore';
 import Department from '../models/Department';
 import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
@@ -49,16 +49,24 @@ export class EventStore extends iStore<
     }
 
     canEdit(event: Event) {
-        if (event.state === EventState.Draft) {
-            const isAuthor = event.authorId === this.root.userStore.current?.id;
-            return isAuthor || event.groups.some((g) => g.userIds.has(this.root.userStore.current?.id));
+        const { current } = this.root.userStore;
+        if (!current) {
+            return false;
         }
-        return !!this.root.userStore.current;
+        if (event.state === EventState.Draft) {
+            const isAuthor = event.authorId === current.id;
+            return isAuthor || event.groups.some((g) => g.userIds.has(current.id));
+        }
+        return true;
     }
 
     canDelete(event: Event) {
-        const isAuthor = event.authorId === this.root.userStore.current?.id;
-        return isAuthor || event.groups.some((g) => g.userIds.has(this.root.userStore.current?.id));
+        const { current } = this.root.userStore;
+        if (!current) {
+            return false;
+        }
+        const isAuthor = event.authorId === current.id;
+        return isAuthor || event.groups.some((g) => g.userIds.has(current.id));
     }
 
     affectsUser(event: Event) {
@@ -370,7 +378,7 @@ export class EventStore extends iStore<
                     .filter((a) => !!a) as KlassName[];
                 const updatedClassGroups = [...event.classGroups]
                     .map((c) => shifter.audience.get(c))
-                    .filter((a) => !!a);
+                    .filter((a) => !!a) as string[];
                 const change: Partial<EventProps> & { id: string } = {
                     id: event.id,
                     classes: updatedClasses,

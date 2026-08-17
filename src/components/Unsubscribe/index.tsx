@@ -174,7 +174,10 @@ const WithUser = observer((props: WithParentRootProps): React.ReactNode => {
     const { eventId } = routeParams?.params || {};
     const userStore = useStore('userStore');
     const { current } = userStore;
-    if (!userStore.current) {
+    if (!eventId) {
+        return null;
+    }
+    if (!current) {
         return <NoUser />;
     }
 

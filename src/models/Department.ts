@@ -3,7 +3,7 @@ import { DepartmentLetter, Department as DepartmentProps } from '../api/departme
 import { DepartmentStore } from '../stores/DepartmentStore';
 import Event from '../models/Event';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { ApiAction } from '../stores/iStore';
 import Klass from './Untis/Klass';
 
@@ -127,12 +127,12 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
-    get department1(): Department | null {
+    get department1(): Department | undefined {
         return this.store.find(this.department1_Id);
     }
 
     @computed
-    get department2(): Department | null {
+    get department2(): Department | undefined {
         return this.store.find(this.department2_Id);
     }
 
@@ -229,8 +229,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             semesterTransitionMonth: this.semesterTransitionMonth,
             letter: this.letter as DepartmentLetter,
             displayLetter: this._displayLetter as DepartmentLetter | null,
-            department1_Id: this.department1_Id,
-            department2_Id: this.department2_Id,
+            department1_Id: this.department1_Id ?? null,
+            department2_Id: this.department2_Id ?? null,
             classLetters: [...this.classLetters],
             description: this.description,
             createdAt: this.createdAt.toISOString(),

@@ -12,14 +12,14 @@ interface Props {
 }
 
 const TextArea = (props: Props) => {
-    const [textAreaRef, setTextAreaRef] = React.useState<HTMLTextAreaElement>(null);
+    const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
     useAutosizeTextArea(textAreaRef, props.text, props.rows || 3);
 
     return (
         <div className={clsx(styles.textarea)}>
             <textarea
                 value={props.text}
-                ref={setTextAreaRef}
+                ref={textAreaRef}
                 rows={props.rows || 3}
                 onChange={(e) => props.onChange(e.target.value)}
                 placeholder={props.placeholder}

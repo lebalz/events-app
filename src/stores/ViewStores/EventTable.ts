@@ -5,7 +5,7 @@ import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import { getLastMonday } from '@site/src/models/helpers/time';
 import Event, { CURRENT_YYYY_KW } from '@site/src/models/Event';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import {
     ColumnConfig,
     ConfigOptions,
@@ -30,7 +30,7 @@ export const BATCH_SIZE = 15 as const;
 
 const SORT_BY_FUNCTIONS: { [key: string]: string | ((e: Event) => any) } = {
     start: (e) => e.startTimeMs,
-    author: (e) => e.author.shortName
+    author: (e) => e.author?.shortName
 };
 
 /**
@@ -218,10 +218,10 @@ class EventTable {
 
     @computed
     get columns(): [keyof typeof DefaultConfig, ConfigOptions][] {
-        return this.columnConfig
+        const cols = this.columnConfig
             .map((col) => {
                 const isConfig = typeof col !== 'string';
-                const name = isConfig ? col[0] : col;
+                const name = isConfig ? (col as [string, ConfigOptions])[0] : col;
                 const defaultConf = {
                     ...DefaultConfig[name],
                     ...(name === 'select' ? { componentProps: { eventTable: this } } : {})
@@ -236,12 +236,13 @@ class EventTable {
                     name,
                     {
                         ...defaultConf,
-                        ...(isConfig ? col[1] : {}),
+                        ...(isConfig ? (col as [string, ConfigOptions])[1] : {}),
                         direction: this.sortBy === name ? this.sortDirection : undefined
                     }
                 ] satisfies [keyof typeof DefaultConfig, ConfigOptions];
             })
-            .filter(Boolean);
+            .filter((col) => !!col);
+        return cols;
     }
 
     @action
@@ -265,7 +266,7 @@ class EventTable {
                 .forEach((key) => {
                     transformed.push({
                         type: 'group',
-                        groupBy: this.groupBy,
+                        groupBy: this.groupBy!,
                         group: key.split('-')[1].replace(/^0+/, ''),
                         isCurrent: key === CURRENT_YYYY_KW,
                         events: byGroup[key]
@@ -387,7 +388,7 @@ class EventTable {
     @computed
     get showCurrentAndFutureFilter(): boolean {
         const { semester } = this.store;
-        return semester?.isCurrent;
+        return !!semester?.isCurrent;
     }
 
     @computed
@@ -495,7 +496,7 @@ class EventTable {
             }
             if (keep && this.departmentIds.size > 0) {
                 keep =
-                    event.linkedUserIds.has(this.store.user?.id) ||
+                    (this.store.user?.id && event.linkedUserIds.has(this.store.user.id)) ||
                     [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.classNames.size > 0) {

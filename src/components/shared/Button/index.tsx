@@ -49,7 +49,7 @@ interface TextProps extends Base {
 }
 interface TextIconProps extends Base {
     icon: ReactNode | string;
-    text: string;
+    text?: string;
     children?: never;
 }
 interface ChildrenProps extends Base {
@@ -60,7 +60,7 @@ interface ChildrenProps extends Base {
 
 export type Props = IconProps | TextProps | ChildrenProps | TextIconProps;
 
-export const extractSharedProps = (props: Base): Props => {
+export const extractSharedProps = (props: Base) => {
     return {
         text: props.text,
         iconSide: props.iconSide,
@@ -117,8 +117,10 @@ const ButtonInner = (props: Props) => {
 const Button = observer((props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
-    let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary');
-    const style: React.CSSProperties = {};
+    let colorCls = getButtonColorClass(props.color!, props.color ? undefined : 'secondary');
+    const style: React.CSSProperties & {
+        [key: `--${string}`]: string | number | undefined;
+    } = {};
     if (props.color && !colorCls) {
         style['--ifm-color-primary'] = props.color;
         style['--ifm-color-primary-darker'] = props.color;

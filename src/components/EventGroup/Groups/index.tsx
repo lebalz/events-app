@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import AddButton from '../../Event/AddButton';
 import { translate } from '@docusaurus/Translate';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Collection from './Collection';
@@ -25,7 +25,7 @@ const Groups = observer((props: Props) => {
                     id: 'user.button.add-group'
                 })}
                 onAdd={() => {
-                    const collection = Storage.get(StorageKey.EventGroupCollection, '', (str) => str);
+                    const collection = Storage.get(StorageKey.EventGroupCollection, '');
                     eventGroupStore
                         .create({ event_ids: [], name: 'Neue Gruppe', collection: collection })
                         .then((group) => {
@@ -49,11 +49,7 @@ const Groups = observer((props: Props) => {
                                     name={name || DEFAULT_COLLECTION}
                                     groups={eventGroupStore.byCollection(name)}
                                     onChangeCollection={(name) => {
-                                        Storage.set(
-                                            StorageKey.EventGroupCollection,
-                                            name,
-                                            (val) => val || DEFAULT_COLLECTION
-                                        );
+                                        Storage.set(StorageKey.EventGroupCollection, name);
                                     }}
                                 />
                             </TabItem>

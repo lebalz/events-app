@@ -8,7 +8,7 @@ import { mdiMinusCircle, mdiSortAscending, mdiSortDescending } from '@mdi/js';
 import Button from '../../shared/Button';
 import { SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Badge from '../../shared/Badge';
 import { useStore } from '@site/src/stores/hooks';
 
@@ -104,7 +104,7 @@ const UserTable = observer((props: Props) => {
                                 <td>{member.firstName}</td>
                                 <td>{member.lastName}</td>
                                 <td>
-                                    {userStore.current.id !== member.id && (
+                                    {userStore.current?.id !== member.id && (
                                         <Button
                                             icon={mdiMinusCircle}
                                             size={SIZE_S}

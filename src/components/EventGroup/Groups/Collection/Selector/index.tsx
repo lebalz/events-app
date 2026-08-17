@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import { translate } from '@docusaurus/Translate';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import EventGroup from '@site/src/models/EventGroup';
 
 import CreatableSelect from 'react-select/creatable';
@@ -49,6 +49,9 @@ const Selector = observer((props: Props) => {
                     switch (meta.action) {
                         case 'create-option':
                         case 'select-option':
+                            if (!option) {
+                                return;
+                            }
                             if (option.value === DEFAULT_COLLECTION) {
                                 props.onSelect('');
                             } else {

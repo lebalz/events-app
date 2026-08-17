@@ -114,7 +114,7 @@ const OptionsPopup = observer((props: Props) => {
     return (
         <Popup
             ref={ref}
-            trigger={action((open) => (
+            trigger={action((open: boolean) => (
                 <button
                     className={clsx(
                         POPUP_BUTTON_STYLE,

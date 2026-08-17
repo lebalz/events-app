@@ -3,8 +3,10 @@ import { computed, makeObservable } from 'mobx';
 import { UntisLessonWithTeacher } from '../../api/untis';
 import Event, { iEvent } from '../Event';
 import { DAYS, DAY_2_MS, HOUR_2_MS, MINUTE_2_MS, getLastMonday } from '../helpers/time';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { translate } from '@docusaurus/Translate';
+import Klass from './Klass';
+import Teacher from './Teacher';
 
 const MONDAY = Object.freeze(getLastMonday());
 const EF_ABBREVS = ['EF', 'OC'] as const;
@@ -62,7 +64,7 @@ export default class Lesson implements iEvent {
             (c) => c?.id
         );
         const klGroupsRaw = _.groupBy(
-            _.uniqBy(nonEfs, (l) => l.id),
+            _.uniqBy(nonEfs, (l) => l?.id),
             (c) => c?.year
         );
         const klGroup: { [key: string]: string } = {};
@@ -73,7 +75,9 @@ export default class Lesson implements iEvent {
                 klGroup[year] = klGroupsRaw[year].map((c) => c?.displayName).join(', ');
             }
         });
-        const efYears = _.uniqBy(efs, (c) => c?.year).map((c) => c?.year);
+        const efYears = _.uniqBy(efs, (c) => c?.year)
+            .map((c) => c?.year)
+            .filter((y) => !!y) as number[];
         const efAbbrev = translate({
             message: 'EF',
             description: 'Abbreviation of the Ergänzungsfach',
@@ -87,7 +91,7 @@ export default class Lesson implements iEvent {
 
     @computed
     get firstSuccessiveLesson(): Lesson | undefined {
-        const first = this.semester.lessons.find((lesson) => {
+        const first = this.semester?.lessons.find((lesson) => {
             if (lesson.id === this.id) {
                 return false;
             }
@@ -105,7 +109,7 @@ export default class Lesson implements iEvent {
 
     @computed
     get lastSuccessiveLesson(): Lesson | undefined {
-        const last = this.semester.lessons.find((lesson) => {
+        const last = this.semester?.lessons.find((lesson) => {
             if (lesson.id === this.id) {
                 return false;
             }
@@ -165,13 +169,13 @@ export default class Lesson implements iEvent {
     }
 
     @computed
-    get teachers() {
-        return this.teacherIds.map((t) => this.store.findTeacher(t)).filter((t) => t);
+    get teachers(): Teacher[] {
+        return this.teacherIds.map((t) => this.store.findTeacher(t)).filter((t): t is Teacher => !!t);
     }
 
     @computed
     get classes() {
-        return this.classIds.map((t) => this.store.findClass(t)).filter((t) => t);
+        return this.classIds.map((t) => this.store.findClass(t)).filter((t) => !!t) as Klass[];
     }
 
     @computed

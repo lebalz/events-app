@@ -24,7 +24,7 @@ const DeleteGroup = (props: DeleteProps) => {
     return (
         <span className={clsx(styles.delete, props.className)}>
             <Popup
-                trigger={(open) => (
+                trigger={() => (
                     <span>
                         <Button
                             {...extractSharedProps(props)}

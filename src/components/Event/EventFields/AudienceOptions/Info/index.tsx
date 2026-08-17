@@ -34,41 +34,40 @@ const TeachingAffectedTranslation: { [color: string]: string } = {
     green: ''
 };
 
-const AudienceInfo = observer(
-    ({ scenario, audience }: { audience: EventAudience; scenario: EventAudience }) => {
-        const color = AffectedAudience[audience][scenario].color;
-        return (
-            <>
-                <dt>
-                    <span className={clsx(styles.audience)}>
-                        <Tooltip title={EventAudienceTranslationLong[scenario]}>
-                            <Icon
-                                path={EventAudienceIcons[scenario]}
-                                size={SIZE_S}
-                                className={clsx(styles.icon)}
-                                color="var(--ifm-color-emphasis-700)"
-                            />
-                        </Tooltip>
-                    </span>
-                </dt>
-                <dd className={clsx(styles.scenario)}>
-                    <Tooltip
-                        title={`Betrifft ${EventAudienceTranslationLong[scenario]} ${TeachingAffectedTranslation[color]}`}
-                    >
+interface InfoProps<T extends EventAudience> {
+    audience: T;
+    scenario: Exclude<EventAudience, EventAudience.ALL>;
+}
+
+const AudienceInfo = observer(({ scenario, audience }: InfoProps<EventAudience>) => {
+    const config = AffectedAudience[audience][scenario];
+    const color = config.color ?? 'green';
+    const iconPath = config.icon ?? EventAudienceIcons[scenario];
+    return (
+        <>
+            <dt>
+                <span className={clsx(styles.audience)}>
+                    <Tooltip title={EventAudienceTranslationLong[scenario]}>
                         <Icon
-                            path={AffectedAudience[audience][scenario].icon}
-                            color={color}
+                            path={EventAudienceIcons[scenario]}
                             size={SIZE_S}
                             className={clsx(styles.icon)}
+                            color="var(--ifm-color-emphasis-700)"
                         />
                     </Tooltip>
-                    {AffectedAudience[audience][scenario].description ||
-                        EventAudienceTranslationLong[scenario]}
-                </dd>
-            </>
-        );
-    }
-);
+                </span>
+            </dt>
+            <dd className={clsx(styles.scenario)}>
+                <Tooltip
+                    title={`Betrifft ${EventAudienceTranslationLong[scenario]} ${TeachingAffectedTranslation[color]}`}
+                >
+                    <Icon path={iconPath} color={color} size={SIZE_S} className={clsx(styles.icon)} />
+                </Tooltip>
+                {config.description || EventAudienceTranslationLong[scenario]}
+            </dd>
+        </>
+    );
+});
 
 const Info = observer((props: Props) => {
     const { event } = props;

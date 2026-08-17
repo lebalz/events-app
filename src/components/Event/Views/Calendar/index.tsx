@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
 import { createTransformer } from 'mobx-utils';
-import { Calendar as BigCalendar, ToolbarProps, momentLocalizer } from 'react-big-calendar';
+import { Calendar as BigCalendar, type EventPropGetter, Formats, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import siteConfig from '@generated/docusaurus.config';
 import { translate } from '@docusaurus/Translate';
@@ -22,6 +22,16 @@ interface Props {
     className?: string;
 }
 
+interface TransformedEvent {
+    start: Date;
+    end: Date;
+    title: string;
+    description?: string;
+    isDeleted: boolean;
+    backgroundColor?: string;
+    id: string;
+}
+
 const createTasks = createTransformer((events: Event[]) => {
     return events.map((e, idx) => {
         return {
@@ -32,14 +42,14 @@ const createTasks = createTransformer((events: Event[]) => {
             isDeleted: e.isDeleted,
             backgroundColor: e.affectedDepartments.length === 1 ? e.affectedDepartments[0].color : undefined,
             id: e.id
-        };
+        } as TransformedEvent;
     });
 });
 
 const Calendar = observer((props: Props) => {
     const tasks = createTasks(props.events);
     const viewStore = useStore('viewStore');
-    const eventStyleGetter = React.useMemo(() => {
+    const eventStyleGetter = React.useMemo((): EventPropGetter<TransformedEvent> => {
         return (event, start, end, isSelected) => {
             const style: React.CSSProperties = { backgroundColor: event.backgroundColor };
             if (event.isDeleted) {
@@ -55,8 +65,9 @@ const Calendar = observer((props: Props) => {
             defaultDate: props.defaultDate ? props.defaultDate : new Date(viewStore.calendarViewDate),
             components: {},
             formats: {
-                dayFormat: (date, culture, localizer) => localizer.format(date, 'dd D.M', culture)
-            }
+                dayFormat: (date, culture, localizer) =>
+                    localizer ? localizer.format(date, 'dd D.M', culture) : '?'
+            } satisfies Formats
         }),
         [viewStore.calendarViewDate]
     );

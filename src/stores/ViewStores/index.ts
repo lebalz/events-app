@@ -4,7 +4,7 @@ import Semester from '../../models/Semester';
 import User from '../../models/User';
 import Event from '../../models/Event';
 import Lesson from '../../models/Untis/Lesson';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { LoadeableStore, ResettableStore } from '../iStore';
 import EventTable, { EventViewProps } from './EventTable';
 import AdminUserTable from './AdminUserTable';
@@ -102,7 +102,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                         /**
                          * configure the filter for this user
                          */
-                        this.root.viewStore.eventTable.setDepartmentIds(teacher.departments.map((d) => d.id));
+                        this.root.viewStore.eventTable?.setDepartmentIds(
+                            teacher.departments.map((d) => d.id)
+                        );
                     }
                 }
             }
@@ -247,6 +249,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     setCalendarViewDate(date: Date) {
         this.calendarViewDate = date.toISOString().split('T')[0];
         const viewedSemester = this.semester;
+        if (!viewedSemester) {
+            return;
+        }
         /**
          * Side-Effect: Change the viewed semester if the date is not in the current semester
          */
@@ -315,6 +320,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     nextSemester(direction: number = 1): void {
         const offset = direction > 0 ? -1 : 1;
         const semester = this.root.semesterStore.nextSemester(this.semesterId, offset);
+        if (!semester) {
+            return;
+        }
         this.setSemester(semester);
     }
 
@@ -327,7 +335,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @computed
-    get semester(): Semester {
+    get semester(): Semester | undefined {
         return this.root.semesterStore.find(this.semesterId);
     }
 

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Translate from '@docusaurus/Translate';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import DefinitionList from '../../shared/DefinitionList';
 import Badge from '../../shared/Badge';
 import Subscription from '@site/src/models/Subscription';

@@ -9,14 +9,14 @@ import { mdiCircle, mdiStar } from '@mdi/js';
 import TextInput from '../../shared/TextInput';
 import { SIZE_S, FilterSvgPath, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
-import { Theme } from 'react-select';
-import _ from 'lodash';
+import { StylesConfig, Theme } from 'react-select';
+import _ from 'es-toolkit/compat';
 import Icon from '@mdi/react';
 import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import AdvancedFilter from './AdvancedFilter';
 
-export const selectStyleConfig = {
+export const selectStyleConfig: StylesConfig = {
     option: (styles, { data, isFocused }) => ({
         ...styles,
         color: (data as unknown as { color: string })?.color,

@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import {
@@ -102,7 +102,10 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         });
     }
 
-    bySemester(semesterId: string) {
+    bySemester(semesterId?: string) {
+        if (!semesterId) {
+            return [];
+        }
         return this.syncJobs.filter((j) => j.semesterId === semesterId);
     }
 

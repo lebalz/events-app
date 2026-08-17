@@ -6,7 +6,7 @@ import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
 import Button from '../Button';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Translate, { translate } from '@docusaurus/Translate';
 import AudienceSelector from './AudienceDropdownSelector';
 import DepartmentTab from './DepartmentTab';

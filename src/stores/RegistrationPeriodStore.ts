@@ -1,5 +1,5 @@
 import { computed, makeObservable, observable } from 'mobx';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { RegistrationPeriod as RegPeriodProps } from '../api/registration_period';

@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { Department as DepartmentProps } from '../api/department';

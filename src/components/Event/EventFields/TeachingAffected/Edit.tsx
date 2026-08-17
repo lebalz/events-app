@@ -49,7 +49,7 @@ const Edit = observer((props: Props) => {
                     </div>
                 )}
                 <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                    {Object.keys(TeachingAffected).map((affected) => {
+                    {(Object.keys(TeachingAffected) as (keyof typeof TeachingAffected)[]).map((affected) => {
                         return (
                             <Button
                                 text={TranslationsTA[affected]}

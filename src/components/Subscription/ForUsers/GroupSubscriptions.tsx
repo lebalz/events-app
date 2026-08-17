@@ -7,7 +7,7 @@ import Translate from '@docusaurus/Translate';
 import Button from '../../shared/Button';
 import { SIZE_XS } from '../../shared/icons';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Subscription from '@site/src/models/Subscription';
 import { mdiClose } from '@mdi/js';
 import Badge from '../../shared/Badge';

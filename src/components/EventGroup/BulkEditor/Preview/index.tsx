@@ -13,7 +13,7 @@ import { mdiEye } from '@mdi/js';
 
 interface Props {
     events: EventModel[];
-    changedEvent?: EventModel;
+    changedEvent?: EventModel | null;
     onChange: (idx: number) => void;
 }
 

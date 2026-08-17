@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Select from 'react-select';
 import { default as UserModel } from '@site/src/models/User';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 
 interface Props {
     user: UserModel;

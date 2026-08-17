@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import Klass from '@site/src/models/Untis/Klass';
 import Button from '../../../Button';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { translate } from '@docusaurus/Translate';
 import { mdiToggleSwitchOffOutline, mdiToggleSwitchOutline } from '@mdi/js';
 import { action } from 'mobx';

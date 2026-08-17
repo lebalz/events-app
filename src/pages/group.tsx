@@ -23,8 +23,8 @@ const GroupView = observer((props: Props) => {
             const parsed = queryString.parse(location.search);
             if (typeof parsed.id === 'string') {
                 setId(parsed.id);
-            } else if (parsed.id.length > 0) {
-                setId(parsed.id[0]);
+            } else if (parsed.id && parsed.id.length > 0) {
+                setId((parsed.id as string[])[0]);
             }
         }
     }, [location.search, groupStore.initialAuthorizedLoadPerformed]);

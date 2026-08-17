@@ -24,30 +24,21 @@ steps:
   - echo "$GITHUB_PRIVATE_KEY" > "$HOME/.ssh/id_rsa"
   - chmod 0600 $HOME/.ssh/id_rsa
   - yarn install --frozen-lockfile
-# - npm run crowdin:sync
   - npm run deploy
   environment:
     USE_SSH: true
     GIT_USER: $DRONE_COMMIT_AUTHOR
     NODE_OPTIONS: "--max_old_space_size=12288"
-    CROWDIN_PERSONAL_TOKEN:
-      from_secret: "CROWDIN_PERSONAL_TOKEN"
     GITHUB_PRIVATE_KEY:
       from_secret: "git_deploy_private_key"
-    REACT_APP_DOMAIN:
-      from_secret: "REACT_APP_DOMAIN"
-    REACT_APP_EVENTS_API:
-      from_secret: "REACT_APP_EVENTS_API"
-    REACT_APP_CLIENT_ID:
-      from_secret: "REACT_APP_CLIENT_ID"
-    REACT_APP_TENANT_ID:
-      from_secret: "REACT_APP_TENANT_ID"
-    REACT_APP_API_URI:
-      from_secret: "REACT_APP_API_URI"
-    REACT_APP_UMAMI_SRC:
-      from_secret: "REACT_APP_UMAMI_SRC"
-    REACT_APP_UMAMI_ID:
-      from_secret: "REACT_APP_UMAMI_ID"
+    APP_URL:
+      from_secret: "APP_URL"
+    BACKEND_URL:
+      from_secret: "BACKEND_URL"
+    UMAMI_SRC:
+      from_secret: "UMAMI_SRC"
+    UMAMI_ID:
+      from_secret: "UMAMI_ID"
     SENTRY_DSN:
       from_secret: "SENTRY_DSN"
     SENTRY_AUTH_TOKEN:

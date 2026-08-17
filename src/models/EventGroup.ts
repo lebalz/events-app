@@ -1,4 +1,4 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import {
     DEFAULT_COLLECTION,
     DestroyEventAction,
@@ -10,7 +10,7 @@ import ApiModel, { UpdateableProps } from './ApiModel';
 import { EventGroupStore } from '../stores/EventGroupStore';
 import Event from './Event';
 import User from './User';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
     readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = ['name', 'description', 'collection'];

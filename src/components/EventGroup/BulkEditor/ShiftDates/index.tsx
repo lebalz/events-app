@@ -38,7 +38,7 @@ const ShiftDates = observer((props: Props) => {
     const [shift, setShift] = React.useState(0);
     const [shiftedHours, setShiftedHours] = React.useState(0);
     const [shiftedEventIdx, setShiftedEventIdx] = React.useState(0);
-    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
+    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel | null>(null);
     const [apiState, setApiState] = React.useState(ApiState.IDLE);
     const eventStore = useStore('eventStore');
 

@@ -5,7 +5,7 @@ import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
 import Subscription from './Subscription';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 
 export default class User extends ApiModel<UserProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<UserProps>[] = [
@@ -53,6 +53,11 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         }
         this.createdAt = new Date(props.createdAt);
         this.updatedAt = new Date(props.updatedAt);
+    }
+
+    @computed
+    get isStudent() {
+        return /@edu\./i.test(this.email);
     }
 
     get subscription(): Subscription | undefined {

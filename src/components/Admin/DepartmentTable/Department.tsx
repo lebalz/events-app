@@ -48,7 +48,7 @@ const Department = observer((props: Props) => {
                                 size={SIZE_S}
                                 color={
                                     department.isSubDepartment
-                                        ? department.department1.color
+                                        ? department.department1?.color
                                         : department.color
                                 }
                             />

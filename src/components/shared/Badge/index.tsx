@@ -30,7 +30,7 @@ interface TextProps extends Base {
 }
 interface TextIconProps extends Base {
     icon: ReactNode | string;
-    text: string;
+    text?: string;
     children?: never;
 }
 interface ChildrenProps extends Base {
@@ -82,8 +82,10 @@ const BadgeInner = (props: Props) => {
 const Badge = (props: Props) => {
     const textOnly = props.text && !(props.children || props.icon);
     const iconOnly = props.icon && !(props.children || props.text);
-    const colorCls = getColorClass(props.color, props.color ? undefined : 'secondary');
-    const style: React.CSSProperties = {};
+    const colorCls = getColorClass(props.color!, props.color ? undefined : 'secondary');
+    const style: React.CSSProperties & {
+        [key: `--${string}`]: string | number | undefined;
+    } = {};
     if (props.color && !colorCls) {
         style['--ifm-badge-background-color'] = props.color;
         style['--ifm-badge-border-color'] = props.color;

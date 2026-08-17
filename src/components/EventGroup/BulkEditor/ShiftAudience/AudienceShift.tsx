@@ -20,7 +20,7 @@ interface ShiftProps {
     name: string;
 }
 
-const displayName = (name: string | null) => {
+const displayName = (name?: string | null) => {
     if (!name) {
         return '';
     }

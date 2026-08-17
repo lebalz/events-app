@@ -12,7 +12,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import Department from '@site/src/models/Department';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import ShowSelectCheckBoxes from '../../BulkActions/ShowSelectCheckBoxes';
 import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
@@ -27,6 +27,8 @@ interface Props {
     showSelectLocation: 'quick' | 'advanced';
     showSelects?: boolean;
 }
+
+type ValueType = { value: string; label: string; color: string };
 
 const AdvancedFilter = observer((props: Props) => {
     const departmentStore = useStore('departmentStore');
@@ -64,7 +66,7 @@ const AdvancedFilter = observer((props: Props) => {
                             };
                         })}
                         onChange={(opt) => {
-                            const ids = opt.map((o) => o.value);
+                            const ids = (opt as ValueType[]).map((o) => o.value);
                             eventTable.setDepartmentIds(ids);
                         }}
                         theme={selectThemeConfig}
@@ -85,7 +87,7 @@ const AdvancedFilter = observer((props: Props) => {
                         options={_.orderBy(untisStore.classes, ['name']).map((c) => ({
                             value: c.name,
                             label: c.displayName,
-                            color: c.department?.color
+                            color: c.color
                         }))}
                         formatCreateLabel={(inputValue) => {
                             return translate(
@@ -111,24 +113,26 @@ const AdvancedFilter = observer((props: Props) => {
                         styles={selectStyleConfig}
                         className={clsx(styles.select)}
                         classNames={selectClassNamesConfig}
-                        value={[
-                            ...[...eventTable.classNames].map((id) => {
-                                const klass = untisStore.findClassByName(id);
-                                return {
-                                    value: id,
-                                    label: klass?.displayName || '',
-                                    color: klass?.department?.color || '#ccc'
-                                };
-                            }),
-                            ...[...eventTable.wildcardClassFilter].map((wc) => ({
-                                value: wc,
-                                label: wc,
-                                color: 'var(--ifm-color-warning-darkest)'
-                            }))
-                        ]}
+                        value={
+                            [
+                                ...[...eventTable.classNames].map((id) => {
+                                    const klass = untisStore.findClassByName(id);
+                                    return {
+                                        value: id,
+                                        label: klass?.displayName || '',
+                                        color: klass?.department?.color || '#ccc'
+                                    };
+                                }),
+                                ...[...eventTable.wildcardClassFilter].map((wc) => ({
+                                    value: wc,
+                                    label: wc,
+                                    color: 'var(--ifm-color-warning-darkest)'
+                                }))
+                            ] as ValueType[]
+                        }
                         onChange={(opt) => {
                             const cNames = _.groupBy(
-                                opt.map((o) => o.value),
+                                (opt as ValueType[]).map((o) => o.value),
                                 (val) => (val.endsWith('*') ? 'wildcard' : 'normal')
                             );
                             eventTable.setClassNames(cNames.normal || []);
@@ -146,7 +150,7 @@ const AdvancedFilter = observer((props: Props) => {
                     {Object.keys(EventAudience).map((audience) => {
                         return (
                             <Button
-                                text={EventAudienceTranslationShort[audience]}
+                                text={EventAudienceTranslationShort[audience as EventAudience]}
                                 active={eventTable.audienceFilter.has(audience as EventAudience)}
                                 key={audience}
                                 color="primary"

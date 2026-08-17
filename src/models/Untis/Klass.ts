@@ -5,8 +5,10 @@ import Department, { Duration4Years } from '../Department';
 import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import { DepartmentLetter } from '@site/src/api/department';
-import _ from 'lodash';
-import { currentGradeDate } from '../helpers/time';
+import _ from 'es-toolkit/compat';
+import { currentGradeYear } from '../helpers/time';
+
+const CURRENT_GRADE_YEAR = currentGradeYear();
 
 export default class Klass {
     readonly id: number;
@@ -23,7 +25,7 @@ export default class Klass {
         this.store = store;
         this.id = props.id;
         this.name = props.name;
-        this._displayName = props.displayName;
+        this._displayName = props.displayName ?? undefined;
 
         this.sf = props.sf;
         this.year = props.year;
@@ -65,7 +67,7 @@ export default class Klass {
         if (this.department?.name) {
             return this.department.name;
         }
-        return toDepartmentName(this.name);
+        return toDepartmentName(this.name) ?? '-';
     }
 
     @computed

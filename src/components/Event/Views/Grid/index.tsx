@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Row from './Row';
 import { createTransformer } from 'mobx-utils';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Batch from './Batch';
 import Group from './Group';
 import ColumnHeader from './ColumnHeader';

@@ -58,7 +58,7 @@ const NavColorPicker = observer((props: Props) => {
                             size={SIZE_S}
                             icon={mdiClose}
                             iconSide="left"
-                            onClick={() => ref.current.close()}
+                            onClick={() => ref.current?.close()}
                         />
                     </div>
                     <ColorGenerator />

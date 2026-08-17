@@ -58,7 +58,7 @@ const MultiValueLabel = (props: MultiValueGenericProps<Option>) => {
     return (
         <div className={clsx(styles.multiValue)}>
             <div className={clsx(styles.icon, styles[valType])}>
-                <Icon path={IconMap[valType]} size={0.6} />
+                <Icon path={IconMap[valType as keyof typeof IconMap]} size={0.6} />
             </div>
             <components.MultiValueLabel {...props} />
         </div>
@@ -71,7 +71,7 @@ const OptionComponent = (props: OptionProps<Option>) => {
     return (
         <div className={clsx(styles.multiValue)}>
             <div className={clsx(styles.icon, styles[valType])}>
-                <Icon path={IconMap[valType]} size={0.6} />
+                <Icon path={IconMap[valType as keyof typeof IconMap]} size={0.6} />
             </div>
             <components.Option {...props} />
         </div>
@@ -301,7 +301,7 @@ const AudienceDropdownSelector = observer((props: Props) => {
                             });
                             break;
                         case 'select-option':
-                            switch (meta.option.type) {
+                            switch (meta.option?.type) {
                                 case 'departmentType':
                                     event.setDepartment(meta.option.model, true);
                                     break;
@@ -312,10 +312,12 @@ const AudienceDropdownSelector = observer((props: Props) => {
                                     event.setClassGroup(meta.option.value, true);
                                     break;
                             }
-                            handleToken(meta.option.value, 'add');
+                            if (meta.option) {
+                                handleToken(meta.option.value, 'add');
+                            }
                             break;
                         case 'deselect-option':
-                            switch (meta.option.type) {
+                            switch (meta.option?.type) {
                                 case 'departmentType':
                                     event.setDepartment(meta.option.model, false);
                                     break;

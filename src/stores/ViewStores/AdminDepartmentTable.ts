@@ -1,17 +1,11 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 class AdminDepartmentTable {
     private readonly store: ViewStore;
     @observable accessor sortColumn:
-        | 'name'
-        | 'color'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'letter'
-        | 'schoolYears'
-        | 'displayLetter' = 'letter';
+        'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' | 'schoolYears' | 'displayLetter' = 'letter';
     @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
     constructor(store: ViewStore) {
         this.store = store;

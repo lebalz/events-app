@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import React from 'react';
 
-const GroupIdContext = React.createContext<string>(null);
+const GroupIdContext = React.createContext<string | null>(null);
 
 export const useGroupId = (): string | null => {
     const groupId = React.useContext(GroupIdContext);

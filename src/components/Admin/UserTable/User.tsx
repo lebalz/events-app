@@ -26,7 +26,7 @@ const UserTable = observer((props: Props) => {
             <td>{user.email}</td>
             <td>
                 <div className={clsx(styles.role)}>
-                    {Object.keys(Role).map((key, idx) => {
+                    {(Object.keys(Role) as (keyof typeof Role)[]).map((key, idx) => {
                         return (
                             <Button
                                 text={Role[key]}
