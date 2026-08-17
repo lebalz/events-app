@@ -46,8 +46,15 @@ const IconMap = {
     unknwon: mdiAccountQuestion
 };
 
+const extractType = (option: Option) => {
+    if ('type' in option && option.type in IconMap) {
+        return option.type;
+    }
+    return 'unknwon';
+};
+
 const MultiValueLabel = (props: MultiValueGenericProps<Option>) => {
-    const valType = !!props.data.model ? props.data.type : 'unknwon';
+    const valType = extractType(props.data);
     return (
         <div className={clsx(styles.multiValue)}>
             <div className={clsx(styles.icon, styles[valType])}>
@@ -59,7 +66,7 @@ const MultiValueLabel = (props: MultiValueGenericProps<Option>) => {
 };
 
 const OptionComponent = (props: OptionProps<Option>) => {
-    const valType = !!props.data.model ? props.data.type : 'unknwon';
+    const valType = extractType(props.data);
 
     return (
         <div className={clsx(styles.multiValue)}>

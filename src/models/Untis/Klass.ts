@@ -104,28 +104,20 @@ export default class Klass {
     }
 
     /**
-     * the grade year name, for 2025
-     * @example '25Gh' -> 'GYM 4'
-     *          '28Gj' -> 'GYM 1'
-     *          '26Fa' -> 'FMS 2'
-     *          '28Fp' -> 'FMPäd' (only one year degree)
-     */
-    @computed
-    get gradeYearName(): string {
-        if (this.department?.isOneYearDegree) {
-            return this.departmentName;
-        }
-        const duration = this.department?.schoolYears || (Duration4Years.has(this.departmentLetter) ? 4 : 3);
-        return `${this.departmentName} ${duration - (this.year - CURRENT_GRADE_YEAR)}`;
-    }
-
-    /**
      * @param gradeYear number, e.g. 2028
      * @param range number that specifies, how much the schoolYears can be exceeded on the end.
      * @returns wheter this class is active for the given school year
      * @example gradeYear=2028 means in this school year, the 2028er classes will do their grades.
      */
-    isActiveIn(gradeYear: number, range: number) {
-        return this.year >= gradeYear && this.year < gradeYear + (this.department?.schoolYears ?? 4) + range;
+    isActiveFor(start: Date, end?: Date) {
+        const dStart = currentGradeDate(start, this.department);
+        const startShift = start < dStart ? 0 : 1;
+        const dEnd = end ? currentGradeDate(end, this.department) : dStart;
+        const endShift = (end ?? start) < dEnd ? 0 : 1;
+
+        const range = this.department?.schoolYears ?? (Duration4Years.has(this.departmentLetter) ? 4 : 3);
+        const startYear = start.getFullYear() + startShift;
+        const endYear = (end ?? start).getFullYear() + endShift + range;
+        return this.year >= startYear && this.year < endYear;
     }
 }

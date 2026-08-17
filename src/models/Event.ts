@@ -26,7 +26,7 @@ import {
     DAYS_LONG,
     dateBetween,
     formatDateLong,
-    currentGradeYear
+    currentGradeDate
 } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
@@ -632,19 +632,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get currentGradeYear() {
-        return currentGradeYear(this.start);
-    }
-
-    /**
-     * describes how many grade years should be additionally affected by this event.
-     */
-    @computed
-    get gradeYearRange() {
-        return currentGradeYear(this.end) - this.currentGradeYear;
-    }
-
-    @computed
     get affectedClassGroups() {
         const classGroups = new Set<string>(this.classGroups);
         this.departments.forEach((d) => {
@@ -655,8 +642,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             if (!isActive) {
                 return;
             }
+            const gradeDate = currentGradeDate(this.start, d);
+            const gradeYear = gradeDate.getFullYear() + (this.start <= gradeDate ? 0 : 1);
             for (let i = 0; i < d.schoolYears; i++) {
-                const year = `${this.currentGradeYear + i}`.slice(2);
+                const year = `${gradeYear + i}`.slice(2);
                 const group = `${year}${d.letter}`;
                 classGroups.add(group);
             }
@@ -836,9 +825,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fClasses(): { text: string; classes: Klass[] }[] {
         const kls: { [year: string]: Klass[] } = {};
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
         [...this.affectedKnownClasses]
-            .filter((c) => c.year >= refYear)
+            .filter((c) => c.isActiveFor(this.start, this.end))
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach((c) => {
                 const year = c.isLegacyFormat ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
@@ -1051,21 +1039,22 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get _selectedClasses(): Klass[] {
         const wildcard = new Set(this._wildcardClasses.map((c) => c.id));
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
-        return this.untisClasses.filter((c) => !wildcard.has(c.id)).filter((k) => k.year >= refYear);
+        return this.untisClasses
+            .filter((c) => !wildcard.has(c.id))
+            .filter((k) => k.isActiveFor(this.start, this.end));
     }
 
     @computed
     get _unknownClassNames(): KlassName[] {
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
-        const known = new Set(this.untisClasses.filter((c) => c.year >= refYear).map((c) => c.name));
+        const known = new Set(
+            this.untisClasses.filter((c) => c.isActiveFor(this.start, this.end)).map((c) => c.name)
+        );
         return [...this.classes].filter((c) => !known.has(c));
     }
 
     @computed
     get unknownClassGroups(): string[] {
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
-        return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c, refYear));
+        return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c, this.start));
     }
 
     /**

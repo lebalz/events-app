@@ -20,7 +20,7 @@ const Department = observer((props: Props) => {
     const departments = props.departments.filter((d) => d.classes.length > 0);
     const allKlasses = departments
         .flatMap((d) => [...d.classes, ...d.usedUnknownClasses])
-        .filter((k) => k.isActiveIn(event.currentGradeYear, event.gradeYearRange));
+        .filter((k) => k.isActiveFor(event.start, event.end));
     const klasses = props.isSpecial
         ? _.groupBy(allKlasses, (c) => c.groupName)
         : _.groupBy(allKlasses, (c) => c.year);

@@ -1,7 +1,13 @@
 import { translate } from '@docusaurus/Translate';
+import Department from '../Department';
 
-export const currentGradeYear = (refDate = new Date()) => {
-    return refDate.getFullYear() + (refDate.getMonth() < 7 ? 0 : 1);
+export const currentGradeDate = (year: Date | string = new Date(), department?: Department): Date => {
+    const refDate = typeof year === 'string' ? new Date(year) : new Date(year.getFullYear(), 6, 14);
+    const dMonth = department?.semesterTransitionMonth ? department.semesterTransitionMonth - 1 : 6; // JS months are 0-indexed
+    const dDay = department?.semesterTransitionDay ?? 14;
+    refDate.setMonth(dMonth);
+    refDate.setDate(dDay);
+    return refDate;
 };
 
 export const formatTime = (date: Date, trimLeadingZeros: boolean = false) => {
