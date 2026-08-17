@@ -6,9 +6,7 @@ import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import { DepartmentLetter } from '@site/src/api/department';
 import _ from 'es-toolkit/compat';
-import { currentGradeYear } from '../helpers/time';
-
-const CURRENT_GRADE_YEAR = currentGradeYear();
+import { currentGradeDate } from '../helpers/time';
 
 export default class Klass {
     readonly id: number;
