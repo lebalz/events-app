@@ -7,7 +7,7 @@ import { mdiPlusCircleOutline } from '@mdi/js';
 import { Icon, SIZE } from '../shared/icons';
 import { ApiState } from '@site/src/stores/iStore';
 interface Props {
-    text: string;
+    text?: string;
     onAdd: () => void;
     color?: string;
     apiState?: ApiState;

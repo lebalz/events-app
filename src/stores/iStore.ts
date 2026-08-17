@@ -134,7 +134,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
 
     // function <V extends ApiModel<Model, Api | ApiAction>>(this: iStore<Model, Api>, id?: string): V {
     find = computedFn(
-        function <T>(this: iStore<Model, Api>, id?: string): (T & ApiModel<any>) | undefined {
+        function <T>(this: iStore<Model, Api>, id?: string | null): (T & ApiModel<any>) | undefined {
             if (!id) {
                 return;
             }

@@ -40,7 +40,7 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     get dirtyProps(): Partial<T> {
         const { _pristine, props } = this;
         const changes: Partial<T> = {};
-        Object.keys(props).forEach((key) => {
+        (Object.keys(props) as Array<keyof T>).forEach((key) => {
             if (notEqual(props[key], _pristine[key])) {
                 changes[key] = props[key];
             }
@@ -75,9 +75,11 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
             const key = hasConfiguration ? val.attr : val;
             if (key in props) {
                 if (isUpdater) {
-                    return val.update(props[key]);
+                    return (val as { update: (value: any) => void }).update(props[key]);
                 }
-                const value = isTransformer ? val.transform(props[key]) : props[key];
+                const value = isTransformer
+                    ? (val as { transform: (value: any) => AnyExceptUndefined }).transform(props[key])
+                    : props[key];
                 if (Array.isArray(value)) {
                     ((this as any)[key] as IObservableArray<T>).replace(value as T[]);
                 } else {

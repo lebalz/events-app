@@ -34,7 +34,7 @@ const ShiftAudience = observer((props: Props) => {
     const eventStore = useStore('eventStore');
     const [shiftedYears, setShiftedYears] = React.useState(0);
     const [apiState, setApiState] = React.useState(ApiState.IDLE);
-    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel>(null);
+    const [shiftedEvent, setShiftedEvent] = React.useState<EventModel | null>(null);
     const [shifter, setShifter] = React.useState(
         new AudienceShifter(
             events.flatMap((e) => [...e.classes]),

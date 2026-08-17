@@ -25,7 +25,7 @@ export default class Klass {
         this.store = store;
         this.id = props.id;
         this.name = props.name;
-        this._displayName = props.displayName;
+        this._displayName = props.displayName ?? undefined;
 
         this.sf = props.sf;
         this.year = props.year;
@@ -67,7 +67,7 @@ export default class Klass {
         if (this.department?.name) {
             return this.department.name;
         }
-        return toDepartmentName(this.name);
+        return toDepartmentName(this.name) ?? '-';
     }
 
     @computed
@@ -112,10 +112,10 @@ export default class Klass {
      */
     @computed
     get gradeYearName(): string {
-        if (this.department.isOneYearDegree) {
+        if (this.department?.isOneYearDegree) {
             return this.departmentName;
         }
-        const duration = this.department.schoolYears || (Duration4Years.has(this.departmentLetter) ? 4 : 3);
+        const duration = this.department?.schoolYears || (Duration4Years.has(this.departmentLetter) ? 4 : 3);
         return `${this.departmentName} ${duration - (this.year - CURRENT_GRADE_YEAR)}`;
     }
 
@@ -126,6 +126,6 @@ export default class Klass {
      * @example gradeYear=2028 means in this school year, the 2028er classes will do their grades.
      */
     isActiveIn(gradeYear: number, range: number) {
-        return this.year >= gradeYear && this.year < gradeYear + this.department.schoolYears + range;
+        return this.year >= gradeYear && this.year < gradeYear + (this.department?.schoolYears ?? 4) + range;
     }
 }

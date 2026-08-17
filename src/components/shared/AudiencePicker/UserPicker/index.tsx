@@ -68,7 +68,7 @@ const UserPicker = observer((props: Props) => {
                         value: user.id,
                         label: user.displayName,
                         type: 'user'
-                    };
+                    } as SelectOption;
                 })}
                 placeholder={translate({
                     message: 'Lehrpersonen auswählen',
@@ -119,7 +119,7 @@ const UserPicker = observer((props: Props) => {
                 onChange={(opt, meta: ActionMeta<SelectOption>) => {
                     switch (meta.action) {
                         case 'select-option':
-                            switch (meta.option.type) {
+                            switch (meta.option?.type) {
                                 case 'user':
                                     event.addLinkedUserId(meta.option.value);
                                     break;

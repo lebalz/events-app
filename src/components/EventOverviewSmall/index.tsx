@@ -20,7 +20,7 @@ import {
     TeachingAffectedColors,
     TitleMap as TeachingAffectedTitle
 } from '../Event/EventFields/TeachingAffected';
-import { mdiCircle, mdiMinusThick } from '@mdi/js';
+import { mdiAccountRemove, mdiCircle, mdiMinusThick } from '@mdi/js';
 import Icon from '@mdi/react';
 import { getDifferences } from '@site/src/models/helpers';
 import Info from '../Event/EventFields/AudienceOptions/Info';
@@ -175,6 +175,7 @@ const EventOverviewSmall = observer((props: Props) => {
                         text={event.author?.shortName}
                         title={event.author?.fullName}
                         className={clsx(styles.badge)}
+                        icon={!!event.author?.shortName ? undefined : mdiAccountRemove}
                     />
                 </div>
             </div>

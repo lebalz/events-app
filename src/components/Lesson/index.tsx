@@ -26,7 +26,7 @@ const Lesson = observer((props: Props) => {
                         key={idx}
                         text={teacher.name}
                         className={clsx(styles.teacher)}
-                        color={teacher.name === current.shortName ? 'primary' : undefined}
+                        color={teacher.name === current?.shortName ? 'primary' : undefined}
                     />
                 ))}
                 <Badge

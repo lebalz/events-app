@@ -14,7 +14,7 @@ export const notEqual = (a: any, b: any) => {
 export const getChanges = <T extends { id: string }>(model: ApiModel<T>) => {
     const { _pristine, props } = model;
     const changes: Partial<T> = {};
-    Object.keys(props).forEach((key) => {
+    (Object.keys(props) as Array<keyof T>).forEach((key) => {
         if (notEqual(props[key], _pristine[key])) {
             changes[key] = props[key];
         }
@@ -27,9 +27,9 @@ export const getDifferences = <T extends { id: string }>(
     modelB: ApiModel<T, any>
 ) => {
     const changes = new Set<keyof T>();
-    Object.keys(modelA.props).forEach((key) => {
+    (Object.keys(modelA.props) as Array<keyof T>).forEach((key) => {
         if (notEqual(modelA.props[key], modelB.props[key])) {
-            changes.add(key as keyof T);
+            changes.add(key);
         }
     });
     return changes;

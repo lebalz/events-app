@@ -11,7 +11,6 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
-import Klass from '@site/src/models/Untis/Klass';
 import { DAYS } from '@site/src/models/helpers/time';
 import Lesson from '@site/src/models/Untis/Lesson';
 
@@ -29,7 +28,7 @@ interface FullEventProps extends EventProps {
     end: Date;
 }
 
-const Event = (props) => {
+const Event = (props: { event: EventProps }) => {
     const event: EventProps = props.event;
     return (
         <span>

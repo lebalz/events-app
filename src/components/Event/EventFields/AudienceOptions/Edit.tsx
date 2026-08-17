@@ -36,11 +36,11 @@ const Edit = observer((props: Props) => {
                     </span>
                 )}
                 <div className={clsx(styles.buttonGroup, 'button-group', 'button-group--block')}>
-                    {Object.keys(EventAudience).map((audience) => {
+                    {(Object.values(EventAudience) as EventAudience[]).map((audience) => {
                         return (
                             <Button
                                 text={EventAudienceTranslationShort[audience]}
-                                onClick={() => event.update({ audience: EventAudience[audience] })}
+                                onClick={() => event.update({ audience })}
                                 active={event.audience === audience}
                                 key={audience}
                                 noWrap

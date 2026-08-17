@@ -42,6 +42,8 @@ const IS_OPEN_CB_LABEL = {
     })
 };
 
+type ValueType = { value: string; label: string; color: string };
+
 const EditRegPeriod = observer((props: Props) => {
     const { period } = props;
     const departmentStore = useStore('departmentStore');
@@ -167,7 +169,7 @@ const EditRegPeriod = observer((props: Props) => {
                                                         eventRangeStart: semester.props.start,
                                                         eventRangeEnd: semester.props.end
                                                     });
-                                                    ref.current.close();
+                                                    ref.current?.close();
                                                 }}
                                             />
                                         </div>
@@ -226,7 +228,7 @@ const EditRegPeriod = observer((props: Props) => {
                                 };
                             })}
                             onChange={(opt) => {
-                                const ids = opt.map((o) => o.value);
+                                const ids = (opt as ValueType[]).map((o) => o.value);
                                 period.setDepartmentIds(ids);
                             }}
                             theme={selectThemeConfig}

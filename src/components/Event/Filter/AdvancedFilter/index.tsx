@@ -28,6 +28,8 @@ interface Props {
     showSelects?: boolean;
 }
 
+type ValueType = { value: string; label: string; color: string };
+
 const AdvancedFilter = observer((props: Props) => {
     const departmentStore = useStore('departmentStore');
     const untisStore = useStore('untisStore');
@@ -64,7 +66,7 @@ const AdvancedFilter = observer((props: Props) => {
                             };
                         })}
                         onChange={(opt) => {
-                            const ids = opt.map((o) => o.value);
+                            const ids = (opt as ValueType[]).map((o) => o.value);
                             eventTable.setDepartmentIds(ids);
                         }}
                         theme={selectThemeConfig}
@@ -111,24 +113,26 @@ const AdvancedFilter = observer((props: Props) => {
                         styles={selectStyleConfig}
                         className={clsx(styles.select)}
                         classNames={selectClassNamesConfig}
-                        value={[
-                            ...[...eventTable.classNames].map((id) => {
-                                const klass = untisStore.findClassByName(id);
-                                return {
-                                    value: id,
-                                    label: klass?.displayName || '',
-                                    color: klass?.department?.color || '#ccc'
-                                };
-                            }),
-                            ...[...eventTable.wildcardClassFilter].map((wc) => ({
-                                value: wc,
-                                label: wc,
-                                color: 'var(--ifm-color-warning-darkest)'
-                            }))
-                        ]}
+                        value={
+                            [
+                                ...[...eventTable.classNames].map((id) => {
+                                    const klass = untisStore.findClassByName(id);
+                                    return {
+                                        value: id,
+                                        label: klass?.displayName || '',
+                                        color: klass?.department?.color || '#ccc'
+                                    };
+                                }),
+                                ...[...eventTable.wildcardClassFilter].map((wc) => ({
+                                    value: wc,
+                                    label: wc,
+                                    color: 'var(--ifm-color-warning-darkest)'
+                                }))
+                            ] as ValueType[]
+                        }
                         onChange={(opt) => {
                             const cNames = _.groupBy(
-                                opt.map((o) => o.value),
+                                (opt as ValueType[]).map((o) => o.value),
                                 (val) => (val.endsWith('*') ? 'wildcard' : 'normal')
                             );
                             eventTable.setClassNames(cNames.normal || []);

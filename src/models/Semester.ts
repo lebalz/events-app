@@ -25,8 +25,6 @@ export default class Semester extends ApiModel<SemesterProps, ApiAction> {
 
     @observable.ref accessor untisSyncDate: Date;
 
-    @observable accessor description: string;
-
     readonly createdAt: Date;
 
     @observable.ref accessor updatedAt: Date;

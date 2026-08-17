@@ -28,7 +28,7 @@ const GroupSelect = observer((props: Props) => {
             onChange={(options, meta) => {
                 switch (meta.action) {
                     case 'select-option':
-                        const group = eventGroupStore.find<EventGroup>(meta.option.value);
+                        const group = eventGroupStore.find<EventGroup>(meta.option?.value);
                         if (group) {
                             group.addEvents([event]);
                         }

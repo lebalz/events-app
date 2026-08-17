@@ -164,7 +164,7 @@ const TimePathes = {
     11: mdiClockTimeElevenOutline
 };
 export const Clock = (props: Props & { hour: number }) => {
-    return <Icon path={TimePathes[props.hour % 12]} {...props} />;
+    return <Icon path={TimePathes[(props.hour % 12) as keyof typeof TimePathes]} {...props} />;
 };
 
 export const ApiIcon = (props: { state: ApiState } & Partial<IconProps>) => {

@@ -83,10 +83,10 @@ const UserEventGroup = observer((props: Props) => {
             return;
         }
         const toAdd: ('nr' | 'author')[] = [];
-        if (group.isFullyLoaded && group.events.some((e) => e.nr > 0)) {
+        if (group.isFullyLoaded && group.events.some((e) => (e.nr ?? 0) > 0)) {
             toAdd.push('nr');
         }
-        if (group.isFullyLoaded && group.events.some((e) => e.author.id !== group.events[0].author.id)) {
+        if (group.isFullyLoaded && group.events.some((e) => e.author?.id !== group.events[0]?.author?.id)) {
             toAdd.push('author');
         }
         if (toAdd.length > 0) {

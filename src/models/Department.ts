@@ -122,12 +122,12 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
-    get department1(): Department | null {
+    get department1(): Department | undefined {
         return this.store.find(this.department1_Id);
     }
 
     @computed
-    get department2(): Department | null {
+    get department2(): Department | undefined {
         return this.store.find(this.department2_Id);
     }
 
@@ -223,8 +223,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             schoolYears: this.schoolYears,
             letter: this.letter as DepartmentLetter,
             displayLetter: this._displayLetter as DepartmentLetter | null,
-            department1_Id: this.department1_Id,
-            department2_Id: this.department2_Id,
+            department1_Id: this.department1_Id ?? null,
+            department2_Id: this.department2_Id ?? null,
             classLetters: [...this.classLetters],
             description: this.description,
             createdAt: this.createdAt.toISOString(),

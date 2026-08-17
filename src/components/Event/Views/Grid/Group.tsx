@@ -13,7 +13,7 @@ interface Props extends ViewGroup {
 
 const Group = observer((props: Props) => {
     const { events } = props;
-    if (events.length === 0) {
+    if (!events || events.length === 0) {
         return null;
     }
     return (

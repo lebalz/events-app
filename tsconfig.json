@@ -6,6 +6,7 @@
         "types": ["docusaurus-plugin-sass", "@docusaurus/module-type-aliases", "node"],
         "module": "esnext",
         "target": "esnext",
+        "lib": ["ES2023", "DOM"],
         "strict": true,
         // "strict": true,
         "resolveJsonModule": true

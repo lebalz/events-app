@@ -55,6 +55,8 @@ const Transition = observer((props: Props) => {
             )}
             {event.possibleStates.map((state, idx) => {
                 const { allowed, reason } = event.transitionAllowed;
+                const invalidReason = reason ? InvalidTransitionMessages[reason] : undefined;
+                const confirmTitle = invalidReason ? `⚠️ ${invalidReason}` : 'Bestätigen';
                 return (
                     <Confirm
                         key={state}
@@ -62,7 +64,7 @@ const Transition = observer((props: Props) => {
                         icon={EventStateButton[state]}
                         color={EventStateColor[state]}
                         size={size || SIZE_S}
-                        confirmTitle={`⚠️ ${InvalidTransitionMessages[reason]}`}
+                        confirmTitle={confirmTitle}
                         modal
                         consentText={translate(
                             {
@@ -79,7 +81,7 @@ const Transition = observer((props: Props) => {
                         iconSide="left"
                         noConfirm={allowed}
                         disabled={!allowed && !event.canIgnoreValidationErrors}
-                        title={reason ? `⚠️ ${InvalidTransitionMessages[reason]}` : undefined}
+                        title={invalidReason ? `⚠️ ${invalidReason}` : undefined}
                         onClick={() => {
                             event.requestState(state);
                             if (state === EventState.Review) {

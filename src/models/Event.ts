@@ -123,7 +123,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
-    readonly jobId: string;
+    readonly jobId: string | null;
     readonly state: EventState;
     readonly _pristine_end: Date;
     readonly _pristine_start: Date;
@@ -131,7 +131,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly cloned: boolean;
     /** this contains only! the published child versions! */
     readonly publishedVersionIds: string[];
-    readonly meta: Meta;
+    readonly meta?: Meta;
     readonly clonedFromId: string | null;
     readonly _initializedAt: number;
 
@@ -155,11 +155,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable.ref accessor end: Date;
 
-    @observable.ref accessor deletedAt: Date | undefined;
+    @observable.ref accessor deletedAt: Date | null;
 
     @observable.ref accessor start: Date;
 
-    @observable accessor allLPs: boolean;
+    @observable accessor allLPs: boolean = false;
 
     @observable accessor audience: EventAudience;
 
@@ -175,7 +175,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable accessor initialValidation: boolean = false;
 
     validationDisposer: IReactionDisposer;
-    validationTimeout: NodeJS.Timeout;
+    validationTimeout: NodeJS.Timeout | undefined;
     _initialValidationTriggered: boolean = false;
 
     constructor(props: EventProps, store: EventStore) {
@@ -257,7 +257,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get clonedFrom() {
+    get clonedFrom(): Event | undefined {
         if (!this.clonedFromId) {
             return;
         }
@@ -319,10 +319,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this._errors && this._errors.details?.length > 0) {
             return ValidState.Error;
         }
-        if (!this.meta?.warningsReviewed && this.meta?.warnings?.length > 0) {
+        if (!this.meta?.warningsReviewed && (this.meta?.warnings?.length ?? 0) > 0) {
             return ValidState.Warning;
         }
-        if (!this.meta?.infosReviewed && this.meta?.infos?.length > 0) {
+        if (!this.meta?.infosReviewed && (this.meta?.infos?.length ?? 0) > 0) {
             return ValidState.Info;
         }
         if (this.overlappingEvents.length > 0) {
@@ -1087,8 +1087,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      * which overlap with the event time, excluding the lessons of linked users
      */
     @computed
-    get affectedLessonsWithoutLinkedUsers() {
-        return this.untisClasses.flatMap((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)));
+    get affectedLessonsWithoutLinkedUsers(): Lesson[] {
+        return this.untisClasses.flatMap(
+            (c) => c.lessons.slice().filter((l) => !!l && this.hasOverlap(l)) as Lesson[]
+        );
     }
 
     /**
@@ -1248,7 +1250,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
-            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null,
+            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt!).toISOString() : null,
             clonedFromId: this.clonedFromId,
             meta: this.meta
         };
@@ -1266,7 +1268,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get publishedParent(): Event | undefined {
-        let root: Event = this.parent;
+        let root: Event | undefined = this.parent;
         while (root?.hasParent) {
             root = root.parent;
         }
@@ -1274,15 +1276,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get parents() {
-        if (!this.parentId) {
+    get parents(): Event[] {
+        if (!this.parent) {
             return [];
         }
         return [this.parent, ...this.parent.parents];
     }
 
     @computed
-    get publishedVersions() {
+    get publishedVersions(): Event[] {
         if (this.hasParent) {
             return this.publishedParent?.publishedVersions || [];
         }
@@ -1314,7 +1316,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     loadParent(force?: boolean) {
-        if (!this.hasParent || (this.parent && !force)) {
+        if (!this.parentId || (this.parent && !force)) {
             return Promise.resolve(this.parent);
         }
         return this.store.loadEvents([this.parentId], this.parentId);

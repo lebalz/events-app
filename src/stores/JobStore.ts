@@ -102,7 +102,10 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         });
     }
 
-    bySemester(semesterId: string) {
+    bySemester(semesterId?: string) {
+        if (!semesterId) {
+            return [];
+        }
         return this.syncJobs.filter((j) => j.semesterId === semesterId);
     }
 

@@ -28,11 +28,11 @@ const State = observer((props: Props) => {
                     color={EventStateColor[state]}
                     size={SIZE_S}
                     title={EventStateTranslation[state]}
-                    text={showText && EventStateTranslation[state]}
+                    text={showText ? EventStateTranslation[state] : undefined}
                     iconSide="left"
                 />
             </div>
-            {event.isDeleted && (
+            {event.deletedAt && (
                 <Badge
                     icon={mdiDeleteForever}
                     color="red"

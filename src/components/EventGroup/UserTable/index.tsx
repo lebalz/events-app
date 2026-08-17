@@ -104,7 +104,7 @@ const UserTable = observer((props: Props) => {
                                 <td>{member.firstName}</td>
                                 <td>{member.lastName}</td>
                                 <td>
-                                    {userStore.current.id !== member.id && (
+                                    {userStore.current?.id !== member.id && (
                                         <Button
                                             icon={mdiMinusCircle}
                                             size={SIZE_S}

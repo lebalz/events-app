@@ -30,7 +30,7 @@ const FileIconColor: { [key in ImportType]: string } = {
 };
 
 const Upload = observer((props: Props) => {
-    const [selectedFile, setSelectedFile] = useState<File>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [fileInputKey, setFileInputKey] = useState<number>(1);
     const jobStore = useStore('jobStore');
 

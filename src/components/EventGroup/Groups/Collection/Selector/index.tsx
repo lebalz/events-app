@@ -49,6 +49,9 @@ const Selector = observer((props: Props) => {
                     switch (meta.action) {
                         case 'create-option':
                         case 'select-option':
+                            if (!option) {
+                                return;
+                            }
                             if (option.value === DEFAULT_COLLECTION) {
                                 props.onSelect('');
                             } else {

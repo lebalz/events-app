@@ -490,7 +490,7 @@ const EventProps = observer((props: Props) => {
                 if (
                     !user ||
                     lessons.length === 0 ||
-                    (!showAllAffectedLessons && user.id !== viewStore.user.id)
+                    (!showAllAffectedLessons && user.id !== viewStore.user?.id)
                 ) {
                     return null;
                 }
@@ -584,7 +584,7 @@ const EventProps = observer((props: Props) => {
                                         size={SIZE_S}
                                         icon={mdiClose}
                                         iconSide="left"
-                                        onClick={() => metaRef.current.close()}
+                                        onClick={() => metaRef.current?.close()}
                                     />
                                 </div>
                                 <MetaWarningAlert event={event} />

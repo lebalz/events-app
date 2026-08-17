@@ -59,7 +59,10 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
         this.loadedSemesters.clear();
     }
 
-    nextSemester(currentId: string, offset: number) {
+    nextSemester(currentId: string | undefined, offset: number) {
+        if (!currentId) {
+            return;
+        }
         const currentIdx = this.semesters.findIndex((s) => s.id === currentId);
         if (currentIdx === -1) {
             return;

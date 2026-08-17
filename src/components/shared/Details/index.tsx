@@ -93,7 +93,6 @@ const LazyDetails = ({ summary, children, onOpenChange, ...props }: DetailsProps
             <Collapsible
                 lazy={true} // Here we don't care about SEO
                 collapsed={collapsed}
-                disableSSRStyle // Allows component to work fine even with JS disabled!
                 onCollapseTransitionEnd={(newCollapsed) => {
                     setCollapsed(newCollapsed);
                     setOpen(!newCollapsed);
