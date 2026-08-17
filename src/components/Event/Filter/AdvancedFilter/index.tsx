@@ -85,7 +85,7 @@ const AdvancedFilter = observer((props: Props) => {
                         options={_.orderBy(untisStore.classes, ['name']).map((c) => ({
                             value: c.name,
                             label: c.displayName,
-                            color: c.department?.color
+                            color: c.color
                         }))}
                         formatCreateLabel={(inputValue) => {
                             return translate(
@@ -146,7 +146,7 @@ const AdvancedFilter = observer((props: Props) => {
                     {Object.keys(EventAudience).map((audience) => {
                         return (
                             <Button
-                                text={EventAudienceTranslationShort[audience]}
+                                text={EventAudienceTranslationShort[audience as EventAudience]}
                                 active={eventTable.audienceFilter.has(audience as EventAudience)}
                                 key={audience}
                                 color="primary"
