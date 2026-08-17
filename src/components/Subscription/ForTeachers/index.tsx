@@ -8,7 +8,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import Button from '../../shared/Button';
 import { mdiClipboardText, mdiClose, mdiMicrosoftOutlook } from '@mdi/js';
 import { SIZE_S, SIZE_XS } from '../../shared/icons';
-import customFiels from '@site/src/components/shared/customFields';
+import customFiels from '@site/src/components/utils/customFields';
 const { EVENTS_API } = customFiels;
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import _ from 'es-toolkit/compat';

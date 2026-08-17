@@ -1,6 +1,6 @@
 import _ from 'es-toolkit/compat';
 import { useState, useEffect } from 'react';
-import customFiels from '@site/src/components/shared/customFields';
+import customFiels from '@site/src/components/utils/customFields';
 const { EVENTS_API } = customFiels;
 
 export const getIcsUrl = (locale: 'de' | 'fr', ics: string) => {

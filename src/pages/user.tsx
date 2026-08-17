@@ -18,7 +18,7 @@ import Groups from '../components/EventGroup/Groups';
 import { Loading } from '../components/shared/icons';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Admonition from '@theme/Admonition';
-import customFields from '@site/src/components/shared/customFields';
+import customFields from '@site/src/components/utils/customFields';
 const { NO_AUTH } = customFields;
 
 const UserPage = observer(() => {

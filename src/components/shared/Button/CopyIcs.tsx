@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './CopyIcs.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useIcsUrl } from '@site/src/hookes/useSubscriptionUrl';
+import { useIcsUrl } from '@site/src/hooks/useSubscriptionUrl';
 import { mdiClipboardText } from '@mdi/js';
 import { SIZE_XS } from '../icons';
 import Copy from './Copy';

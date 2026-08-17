@@ -15,7 +15,7 @@ import { mdiCalendarMonth, mdiCardTextOutline, mdiViewList } from '@mdi/js';
 import { translate } from '@docusaurus/Translate';
 import { useStore } from '@site/src/stores/hooks';
 import Loader from '../shared/Loader';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import { useEventTable } from './useEventTable';
 import { COLUMN_CONFIG } from '../Event/UsersEvents';

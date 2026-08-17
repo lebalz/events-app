@@ -36,6 +36,7 @@ const User = observer((props: Props) => {
     const { user } = props;
     const current = user;
     const iconSide = 'right';
+    const authStore = useStore('authStore');
     const sessionStore = useStore('sessionStore');
     const semesterStore = useStore('semesterStore');
     const currentSemester = semesterStore.currentSemester;
@@ -173,7 +174,11 @@ const User = observer((props: Props) => {
                 </dt>
                 <dd>
                     <Button
-                        onClick={() => sessionStore.logout()}
+                        onClick={() => {
+                            authStore.signOut().then(() => {
+                                window.location.reload();
+                            });
+                        }}
                         text={translate({
                             message: 'Logout',
                             id: 'components.user.index.logout',

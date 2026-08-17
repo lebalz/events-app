@@ -1,5 +1,5 @@
 import axios from 'axios';
-import customFiels from '@site/src/components/shared/customFields';
+import customFiels from '@site/src/components/utils/customFields';
 const { EVENTS_API } = customFiels;
 export namespace Api {
     export const BASE_API_URL = eventsApiUrl();

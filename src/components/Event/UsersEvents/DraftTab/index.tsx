@@ -11,7 +11,7 @@ import { useWindowSize } from '@docusaurus/theme-common';
 import AddButton from '../../AddButton';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import NoEventsAlert from '../NoEventsAlert';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import Button from '@site/src/components/shared/Button';
 import { SIZE_XS, SIZE_XXS } from '@site/src/components/shared/icons';
 import { mdiMinusBox, mdiPlusBox } from '@mdi/js';

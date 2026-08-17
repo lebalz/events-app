@@ -8,6 +8,7 @@ import Link from '@docusaurus/Link';
 import { Color, getButtonColorClass } from '../Colors';
 import Tooltip from '../Tooltip';
 import { observer } from 'mobx-react-lite';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 export const POPUP_BUTTON_STYLE = clsx(
     styles.button,
@@ -35,7 +36,9 @@ export interface Base {
     disabled?: boolean;
     size?: number;
     color?: Color | string;
+    spin?: boolean | number;
     noWrap?: boolean;
+    noTransform?: boolean;
 }
 interface IconProps extends Base {
     icon: ReactNode | string;
@@ -77,13 +80,16 @@ export const extractSharedProps = (props: Base) => {
 
 export const ButtonIcon = (props: Props) => {
     let icon = props.icon;
+    const isBrowser = useIsBrowser();
     if (typeof icon === 'string') {
-        icon = <Icon path={icon} size={props.size} />;
+        icon = <Icon path={icon} size={props.size} spin={isBrowser && props.spin} />;
     }
     return (
         <>
-            {icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
-                <span className={clsx(styles.icon, props.className)}>{icon}</span>
+            {icon && (!isBrowser || !(props.apiState && props.apiState !== ApiState.IDLE)) && (
+                <span className={clsx(styles.icon, props.className, props.noTransform && styles.noTransform)}>
+                    {icon}
+                </span>
             )}
             {props.apiState && props.apiState !== ApiState.IDLE && (
                 <span className={clsx(styles.icon)}>

@@ -14,7 +14,7 @@ import mdiPlugin from './src/plugins/remark-mdi/plugin';
 import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
 import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
 import { sentryPluginConfig } from './src/plugins/sentry-plugin';
-import { EventsCustomFields } from './src/types/eventsCustomFields';
+import type { EventsCustomFields } from './src/types/eventsCustomFields';
 
 
 const envs = process.env as {
@@ -111,7 +111,7 @@ const config: Config = {
         TEST_USERNAME: envs.TEST_USERNAME,
         NO_AUTH: envs.NODE_ENV !== 'production' && (envs.TEST_USERNAME?.length ?? 0) > 0,
         /** The Domain Name where the api is running */
-        DOMAIN: envs.NETLIFY
+        APP_URL: envs.NETLIFY
             ? envs.DEPLOY_PRIME_URL!
             : envs.APP_URL || 'http://localhost:3000',
         /** The Domain Name of this app */

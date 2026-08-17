@@ -17,7 +17,7 @@ import {
 } from './IoEventTypes';
 import { Event as EventProps } from '../api/event';
 import { authClient } from '../auth-client';
-import customFields from '../components/shared/customFields';
+import customFields from '../components/utils/customFields';
 export const { EVENTS_API } = customFields;
 
 interface Message {

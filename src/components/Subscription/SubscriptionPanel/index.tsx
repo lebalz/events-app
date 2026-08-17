@@ -11,7 +11,7 @@ import Subscription from '@site/src/models/Subscription';
 import Popup from 'reactjs-popup';
 import Button from '../../shared/Button';
 import { mdiCog } from '@mdi/js';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import { PopupPosition } from 'reactjs-popup/dist/types';
 import Content from './Content';
 

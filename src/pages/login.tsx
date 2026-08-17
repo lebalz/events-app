@@ -7,12 +7,14 @@ import { default as indexStyles } from './index.module.scss';
 import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
 import { authClient } from '@site/src/auth-client';
-import { translate } from '@docusaurus/Translate';
+import Translate, { translate } from '@docusaurus/Translate';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import { mdiMicrosoft } from '@mdi/js';
+import { mdiLoading, mdiMicrosoft } from '@mdi/js';
 import Button from '../components/shared/Button';
-import customFields from '@site/src/components/shared/customFields';
-const { NO_AUTH, DOMAIN } = customFields;
+import customFields from '@site/src/components/utils/customFields';
+import { useStore } from '../stores/hooks';
+import Alert from '../components/shared/Alert';
+const { NO_AUTH, APP_URL } = customFields;
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -29,31 +31,43 @@ function HomepageHeader() {
 const LoginPage = observer(() => {
     const { data: session } = authClient.useSession();
     const rootUrl = useBaseUrl('/');
-    const homeRoute = useBaseUrl('/user?user-tab=account');
+    const authStore = useStore('authStore');
     if (session?.user || NO_AUTH) {
         return <Redirect to={rootUrl} />;
     }
     return (
         <Layout>
             <HomepageHeader />
-            <main>
+            <main className={clsx(styles.main)}>
+                <Alert type="info" className={clsx(styles.alert)}>
+                    <Translate id="login.info.text">
+                        Nur Lehrkräfte und Administrationsmitglieder der Schule können sich mit ihrem
+                        Schul-Account anmelden.
+                    </Translate>
+                </Alert>
+                {authStore.authErrorMessage && (
+                    <Alert
+                        type="danger"
+                        className={clsx(styles.authErrorMessage)}
+                        onDiscard={() => authStore.setAuthErrorMessage(null)}
+                    >
+                        {authStore.authErrorMessage}
+                    </Alert>
+                )}
                 <div className={clsx(styles.loginPage)}>
                     <Button
-                        onClick={() =>
-                            authClient.signIn.social({
-                                provider: 'microsoft',
-                                callbackURL: DOMAIN
-                            })
-                        }
+                        noTransform
+                        onClick={() => authStore.socialSignIn('microsoft')}
                         text={translate({
                             id: 'login.button.with_school_account.text',
                             message: 'Login mit Schul-Account',
                             description: 'the text of the button login with school account'
                         })}
-                        icon={mdiMicrosoft}
+                        icon={authStore.isAuthenticating === 'microsoft' ? mdiLoading : mdiMicrosoft}
+                        spin={authStore.isAuthenticating === 'microsoft'}
                         iconSide="left"
                         color="blue"
-                        size={1.5}
+                        size={2}
                         className={clsx(styles.mainLoginMethod)}
                     />
                 </div>

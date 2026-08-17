@@ -133,7 +133,7 @@ function Root({ children }: { children: React.ReactNode }) {
                 <meta property="og:description" content={siteConfig.tagline} />
                 <meta
                     property="og:image"
-                    content={`${siteConfig.customFields?.DOMAIN}/img/og-preview.jpeg`}
+                    content={`${siteConfig.customFields?.APP_URL}/img/og-preview.jpeg`}
                 />
             </Head>
             <StoresProvider value={rootStore}>

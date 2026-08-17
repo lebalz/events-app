@@ -12,7 +12,7 @@ import { translate } from '@docusaurus/Translate';
 import Popup from 'reactjs-popup';
 import CreatableSelect from 'react-select/creatable';
 import { useStore } from '@site/src/stores/hooks';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import { PopupActions } from 'reactjs-popup/dist/types';
 
 interface ShiftProps {

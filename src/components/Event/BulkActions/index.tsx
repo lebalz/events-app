@@ -36,7 +36,7 @@ import { useHistory } from '@docusaurus/router';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import Filter from '../Filter';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import Confirm from '../../shared/Button/Confirm';
 
 interface ActionConfig {
