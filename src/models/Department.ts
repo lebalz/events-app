@@ -152,13 +152,12 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
-    get isOneYearDegree(): boolean {
-        return this.schoolYears === 1;
-    }
-
-    @computed
     get displayLetter(): string {
         return this._displayLetter || this.letter;
+    }
+
+    semesterTransitionDate(year: number): Date {
+        return new Date(year, this.semesterTransitionMonth - 1, this.semesterTransitionDay);
     }
 
     @computed

@@ -6,9 +6,7 @@ import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
 import { DepartmentLetter } from '@site/src/api/department';
 import _ from 'lodash';
-import { currentGradeYear } from '../helpers/time';
-
-const CURRENT_GRADE_YEAR = currentGradeYear();
+import { currentGradeDate } from '../helpers/time';
 
 export default class Klass {
     readonly id: number;
@@ -112,11 +110,13 @@ export default class Klass {
      */
     @computed
     get gradeYearName(): string {
-        if (this.department.isOneYearDegree) {
+        if (this.department?.schoolYears === 1) {
             return this.departmentName;
         }
-        const duration = this.department.schoolYears || (Duration4Years.has(this.departmentLetter) ? 4 : 3);
-        return `${this.departmentName} ${duration - (this.year - CURRENT_GRADE_YEAR)}`;
+        const dateNow = new Date();
+        const currentGradeDateValue = currentGradeDate(dateNow, this.department);
+        const duration = this.department?.schoolYears ?? (Duration4Years.has(this.departmentLetter) ? 4 : 3);
+        return `${this.departmentName} ${duration - (this.year - currentGradeDateValue.getFullYear()) + (dateNow < currentGradeDateValue ? 0 : 1)}`;
     }
 
     /**
@@ -125,7 +125,15 @@ export default class Klass {
      * @returns wheter this class is active for the given school year
      * @example gradeYear=2028 means in this school year, the 2028er classes will do their grades.
      */
-    isActiveIn(gradeYear: number, range: number) {
-        return this.year >= gradeYear && this.year < gradeYear + this.department.schoolYears + range;
+    isActiveFor(start: Date, end?: Date) {
+        const dStart = currentGradeDate(start, this.department);
+        const startShift = start < dStart ? 0 : 1;
+        const dEnd = end ? currentGradeDate(end, this.department) : dStart;
+        const endShift = (end ?? start) < dEnd ? 0 : 1;
+
+        const range = this.department?.schoolYears ?? (Duration4Years.has(this.departmentLetter) ? 4 : 3);
+        const startYear = start.getFullYear() + startShift;
+        const endYear = (end ?? start).getFullYear() + endShift + range;
+        return this.year >= startYear && this.year < endYear;
     }
 }

@@ -224,12 +224,12 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         return this.classes.filter((kl) => kl.name.startsWith(startPart));
     };
 
-    hasClassesWithGroupName = (startPart?: string, referenceYear?: number): boolean => {
+    hasClassesWithGroupName = (startPart?: string, refDate?: Date): boolean => {
         if (!startPart) {
             return false;
         }
         return this.classes.some(
-            (kl) => kl.name.startsWith(startPart) && (!referenceYear || kl.year >= referenceYear)
+            (kl) => kl.name.startsWith(startPart) && (!refDate || kl.isActiveFor(refDate))
         );
     };
 
@@ -340,8 +340,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @computed
     get currentClasses() {
         const now = new Date();
-        const minYear = now.getFullYear() + (now.getMonth() < 7 ? 0 : 1);
-        return this.sortedClasses.filter((c) => c.year >= minYear);
+        return this.sortedClasses.filter((c) => c.isActiveFor(now));
     }
 
     @computed
