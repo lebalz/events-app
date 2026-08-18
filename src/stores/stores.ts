@@ -15,6 +15,7 @@ import { EventGroupStore } from './EventGroupStore';
 import siteConfig from '@generated/docusaurus.config';
 import { SubscriptionStore } from './SubscriptionStore';
 import { AuthStore } from './AuthStore';
+import { AdminStore } from './AdminStore';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 type StoreActions = 'load' | 'reset' | 'semester';
@@ -28,6 +29,7 @@ export class RootStore {
     @observable accessor _initialSemesterLoaded = false;
 
     sessionStore: SessionStore;
+    adminStore: AdminStore;
     authStore: AuthStore;
     untisStore: UntisStore;
     userStore: UserStore;
@@ -46,6 +48,8 @@ export class RootStore {
     @observable accessor _isLoadingPrivate = false;
 
     constructor() {
+        this.adminStore = new AdminStore(this);
+
         this.semesterStore = new SemesterStore(this);
         this.subscribeTo(this.semesterStore, ['load', 'reset']);
 

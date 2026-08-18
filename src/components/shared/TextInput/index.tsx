@@ -19,11 +19,14 @@ interface Props {
     noAutoFocus?: boolean;
     noSpellCheck?: boolean;
     onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+    validator?: (text: string) => string | null;
+    isDirty?: boolean;
 }
 
 const TextInput = (props: Props) => {
     const ref = React.useRef<HTMLInputElement>(null);
     const id = React.useId();
+    const validator = React.useCallback(props.validator ?? ((text: string) => null), [props.validator]);
 
     React.useEffect(() => {
         if (ref.current && props.autoFocus) {
@@ -35,7 +38,12 @@ const TextInput = (props: Props) => {
         <div className={clsx(props.className, styles.textInput)}>
             {props.label && (
                 <label
-                    className={clsx(styles.label, props.labelClassName, props.required && styles.required)}
+                    className={clsx(
+                        styles.label,
+                        props.labelClassName,
+                        props.required && styles.required,
+                        props.isDirty && styles.dirty
+                    )}
                     htmlFor={id}
                     title={props.title}
                 >
@@ -58,6 +66,16 @@ const TextInput = (props: Props) => {
                     if (e.key === 'Enter') {
                         props.onEnter?.(e);
                     }
+                }}
+                onInput={(e) => {
+                    const error = validator(e.currentTarget.value);
+                    if (error === null) {
+                        e.currentTarget.setCustomValidity('');
+                    } else {
+                        e.currentTarget.setCustomValidity(error);
+                    }
+                    e.currentTarget.classList.add(styles.touched);
+                    e.currentTarget.reportValidity();
                 }}
                 autoComplete="off"
                 autoCorrect="off"

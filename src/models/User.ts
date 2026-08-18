@@ -1,5 +1,5 @@
 import { action, computed, observable } from 'mobx';
-import { Role, User as UserProps } from '../api/user';
+import { AuthProvider, Role, User as UserProps } from '../api/user';
 import { ApiAction } from '../stores/iStore';
 import { UntisStore } from '../stores/UntisStore';
 import { UserStore } from '../stores/UserStore';
@@ -19,13 +19,18 @@ export default class User extends ApiModel<UserProps, ApiAction> {
     readonly isUserModel = true;
     readonly _pristine: UserProps;
     private readonly untisStore: UntisStore;
+    readonly authProviders: AuthProvider[];
     readonly id: string;
     readonly email: string;
+    readonly name: string;
     readonly firstName: string;
     readonly lastName: string;
     readonly role: Role;
     readonly createdAt: Date;
     readonly updatedAt: Date;
+    readonly banned?: boolean;
+    readonly banReason: string | undefined;
+    readonly banExpires: Date | undefined;
 
     @observable accessor subscriptionId: string | undefined = undefined;
     @observable accessor notifyOnEventUpdate: boolean;
@@ -39,11 +44,16 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         this.store = store;
         this.untisStore = untisStore;
         this.id = props.id;
+        this.name = props.name;
         this.email = props.email;
         this.notifyOnEventUpdate = props.notifyOnEventUpdate;
         this.notifyAdminOnReviewRequest = props.notifyAdminOnReviewRequest;
         this.notifyAdminOnReviewDecision = props.notifyAdminOnReviewDecision;
         this.role = props.role;
+        this.authProviders = props.authProviders || [];
+        this.banned = props.banned;
+        this.banReason = props.banReason;
+        this.banExpires = props.banExpires ? new Date(props.banExpires) : undefined;
         this.firstName = props.firstName;
         this.lastName = props.lastName;
         this.untisId = props.untisId;
@@ -139,6 +149,8 @@ export default class User extends ApiModel<UserProps, ApiAction> {
         return {
             id: this.id,
             email: this.email,
+            name: this.name,
+            authProviders: this.authProviders,
             firstName: this.firstName,
             lastName: this.lastName,
             notifyOnEventUpdate: this.notifyOnEventUpdate,
@@ -149,5 +161,10 @@ export default class User extends ApiModel<UserProps, ApiAction> {
             createdAt: this.createdAt.toISOString(),
             updatedAt: this.updatedAt.toISOString()
         };
+    }
+
+    @computed
+    get hasEmailPasswordAuth() {
+        return this.authProviders.includes(AuthProvider.CREDENTIAL);
     }
 }

@@ -91,6 +91,7 @@ const UserTable = observer((props: Props) => {
                                 onClick={() => adminUserTable.setSortColumn('role')}
                             />
                         </th>
+                        <th></th>
                         <th>
                             <Button
                                 size={SIZE_S}
@@ -115,6 +116,19 @@ const UserTable = observer((props: Props) => {
                                     description: 'th: shortName'
                                 })}
                                 onClick={() => adminUserTable.setSortColumn('shortName')}
+                            />
+                        </th>
+                        <th>
+                            <Button
+                                size={SIZE_S}
+                                iconSide="left"
+                                icon={adminUserTable.sortColumn === 'authProviders' && icon}
+                                text={translate({
+                                    message: 'Auth Provider',
+                                    id: 'admin.userTable.th.authProviders',
+                                    description: 'th: authProviders'
+                                })}
+                                onClick={() => adminUserTable.setSortColumn('authProviders')}
                             />
                         </th>
                         <th>
