@@ -16,6 +16,8 @@ import { SIZE_XS } from '../../shared/icons';
 import TextInput from '../../shared/TextInput';
 import Alert from '../../shared/Alert';
 import Loader from '../../shared/Loader';
+import Copy from '../../shared/Button/Copy';
+import DefinitionList from '../../shared/DefinitionList';
 
 interface Props {
     user: User;
@@ -59,6 +61,7 @@ const EditUser = observer((props: Props) => {
         }, 5000);
         return () => clearTimeout(timeout);
     }, [pwState]);
+    const isDirty = name !== user.name || firstName !== user.firstName || lastName !== user.lastName;
     return (
         <Card
             classNames={{ card: clsx(styles.editUser), body: clsx(styles.body) }}
@@ -72,6 +75,7 @@ const EditUser = observer((props: Props) => {
                         color="black"
                         text="Schliessen"
                         disabled={!!spinState}
+                        noWrap
                     />
                     <Button
                         className={clsx('button--block')}
@@ -96,11 +100,53 @@ const EditUser = observer((props: Props) => {
                                 });
                         }}
                         text="Speichern"
-                        disabled={!!spinState}
+                        disabled={!isDirty || !!spinState}
+                        noWrap
                     />
                 </div>
             }
         >
+            <Card header={<h4>Eigenschaften</h4>}>
+                <DefinitionList>
+                    <dt>Email</dt>
+                    <dd className={clsx(styles.prop)}>
+                        {user.email}
+                        <Copy value={user.email} />
+                    </dd>
+                    <dt>ID</dt>
+                    <dd className={clsx(styles.prop)}>
+                        {user.id}
+                        <Copy value={user.id} />
+                    </dd>
+                </DefinitionList>
+                <TextInput
+                    label="Nickname"
+                    text={name}
+                    onChange={setName}
+                    isDirty={name !== user.name}
+                    className={styles.input}
+                    labelClassName={styles.label}
+                    inputClassName={styles.inputField}
+                />
+                <TextInput
+                    label="Vorname"
+                    text={firstName}
+                    onChange={setFirstName}
+                    isDirty={firstName !== user.firstName}
+                    className={styles.input}
+                    labelClassName={styles.label}
+                    inputClassName={styles.inputField}
+                />
+                <TextInput
+                    label="Nachname"
+                    text={lastName}
+                    onChange={setLastName}
+                    isDirty={lastName !== user.lastName}
+                    className={styles.input}
+                    labelClassName={styles.label}
+                    inputClassName={styles.inputField}
+                />
+            </Card>
             <Card header={<h4>Berechtigung</h4>}>
                 <div className={clsx(styles.role, 'button-group')}>
                     {Object.values(Role).map((role, idx) => (
@@ -156,21 +202,6 @@ const EditUser = observer((props: Props) => {
                     )}
                 </div>
             </Card>
-            <Card header={<h4>Eigenschaften</h4>}>
-                <TextInput label="Nickname" text={name} onChange={setName} isDirty={name !== user.name} />
-                <TextInput
-                    label="Vorname"
-                    text={firstName}
-                    onChange={setFirstName}
-                    isDirty={firstName !== user.firstName}
-                />
-                <TextInput
-                    label="Nachname"
-                    text={lastName}
-                    onChange={setLastName}
-                    isDirty={lastName !== user.lastName}
-                />
-            </Card>
             <Card
                 header={
                     <>
@@ -196,6 +227,9 @@ const EditUser = observer((props: Props) => {
                             validator={pwValidator}
                             onChange={setPassword}
                             isDirty={!!password}
+                            className={styles.input}
+                            labelClassName={styles.label}
+                            inputClassName={styles.inputField}
                         />
                     </div>
                     {user.hasEmailPasswordAuth ? (

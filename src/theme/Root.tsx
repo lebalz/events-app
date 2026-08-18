@@ -35,7 +35,6 @@ const Authentication = observer(() => {
         if (!rootStore) {
             return;
         }
-        console.log('user', session?.user);
         if (session?.user) {
             rootStore.load(session.user.id);
         } else if (initialLoad.current) {

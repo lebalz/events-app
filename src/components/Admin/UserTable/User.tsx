@@ -62,6 +62,7 @@ const UserTable = observer((props: Props) => {
                             </span>
                         }
                         modal
+                        nested
                         ref={ref}
                         overlayStyle={{ background: 'rgba(0,0,0,0.5)' }}
                         on={'click'}
