@@ -10,4 +10,5 @@ export interface EventsCustomFields {
     SENTRY_DSN?: string;
     GIT_COMMIT_SHA: string;
     CURRENT_LOCALE: 'de' | 'fr';
+    IS_PREVIEW: boolean;
 }

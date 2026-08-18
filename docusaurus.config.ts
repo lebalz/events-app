@@ -114,6 +114,7 @@ const config: Config = {
         APP_URL: envs.NETLIFY
             ? envs.DEPLOY_PRIME_URL!
             : envs.APP_URL || 'http://localhost:3000',
+        IS_PREVIEW: !!(envs.NODE_ENV !== 'production' || envs.NETLIFY),
         /** The Domain Name of this app */
         EVENTS_API: envs.BACKEND_URL || 'http://localhost:3002',
         /** The application id generated in https://portal.azure.com */
