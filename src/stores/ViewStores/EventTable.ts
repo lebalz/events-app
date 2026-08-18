@@ -5,7 +5,7 @@ import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import { getLastMonday } from '@site/src/models/helpers/time';
 import Event, { CURRENT_YYYY_KW } from '@site/src/models/Event';
-import _ from 'es-toolkit/compat';
+import { groupBy, orderBy, chunk } from 'es-toolkit/array';
 import {
     ColumnConfig,
     ConfigOptions,
@@ -28,9 +28,18 @@ export interface EventViewProps {
 
 export const BATCH_SIZE = 15 as const;
 
-const SORT_BY_FUNCTIONS: { [key: string]: string | ((e: Event) => any) } = {
-    start: (e) => e.startTimeMs,
-    author: (e) => e.author?.shortName
+const SORT_BY_FUNCTIONS: { [key: string]: keyof Event | ((e: Event) => any) } = {
+    start: 'startTimeMs',
+    end: 'endTimeMs',
+    nr: 'nr',
+    author: (e) => e.author?.shortName,
+    isValid: 'validationState',
+    teachingAffected: 'teachingAffected',
+    state: 'state',
+    kw: 'kw',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    location: 'location'
 };
 
 /**
@@ -205,6 +214,7 @@ class EventTable {
 
     @action
     setSortBy(sortBy: string) {
+        console.log('setSortBy', sortBy, this.sortBy);
         if (this.sortBy !== sortBy) {
             this.sortBy = sortBy;
             this.setSortDirection('asc');
@@ -252,14 +262,14 @@ class EventTable {
 
     @computed
     get groupedEvents() {
-        const events = _.orderBy(
+        const events = orderBy(
             this.events,
             [SORT_BY_FUNCTIONS[this.sortBy] ? SORT_BY_FUNCTIONS[this.sortBy] : 'startTimeMs', 'startTimeMs'],
             [this.sortDirection, 'asc']
         );
         const transformed: (ViewEvent | ViewGroup)[] = [];
         if (this.groupBy) {
-            const byGroup = _.groupBy(events, this.groupBy);
+            const byGroup = groupBy(events, (e) => e[this.groupBy!]);
             let idx = 0;
             Object.keys(byGroup)
                 .sort()
@@ -281,7 +291,7 @@ class EventTable {
                 transformed.push({ type: 'event', model: event, index: idx });
             });
         }
-        return _.chunk(transformed, BATCH_SIZE);
+        return chunk(transformed, BATCH_SIZE);
     }
 
     @action
