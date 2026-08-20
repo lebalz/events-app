@@ -27,6 +27,8 @@ import Checkbox from '../shared/Checkbox';
 import { ApiState } from '@site/src/stores/iStore';
 import { useStore } from '@site/src/stores/hooks';
 import Admonition from '@theme/Admonition';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { useHistory } from '@docusaurus/router';
 
 interface Props {
     user: UserModel;
@@ -37,9 +39,10 @@ const User = observer((props: Props) => {
     const current = user;
     const iconSide = 'right';
     const authStore = useStore('authStore');
-    const sessionStore = useStore('sessionStore');
     const semesterStore = useStore('semesterStore');
     const currentSemester = semesterStore.currentSemester;
+    const homeUrl = useBaseUrl('/');
+    const history = useHistory();
 
     const classes = React.useMemo(() => {
         const klGroups = Lesson.GroupedClassesByYear(user.untisTeacher?.lessons || [], 10);
@@ -176,6 +179,7 @@ const User = observer((props: Props) => {
                     <Button
                         onClick={() => {
                             authStore.signOut().then(() => {
+                                history.push(homeUrl);
                                 window.location.reload();
                             });
                         }}

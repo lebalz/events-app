@@ -214,7 +214,6 @@ class EventTable {
 
     @action
     setSortBy(sortBy: string) {
-        console.log('setSortBy', sortBy, this.sortBy);
         if (this.sortBy !== sortBy) {
             this.sortBy = sortBy;
             this.setSortDirection('asc');

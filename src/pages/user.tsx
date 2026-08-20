@@ -6,8 +6,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
-import { Redirect } from '@docusaurus/router';
-import { mdiRefresh } from '@mdi/js';
+import { mdiLogin, mdiRefresh } from '@mdi/js';
 import Button from '../components/shared/Button';
 import User from '../components/User';
 import Section from '../components/shared/Section';
@@ -15,27 +14,50 @@ import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
 import Translate, { translate } from '@docusaurus/Translate';
 import Groups from '../components/EventGroup/Groups';
-import { Loading } from '../components/shared/icons';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Admonition from '@theme/Admonition';
 import customFields from '@site/src/components/utils/customFields';
+import PageLayout from '../components/PageLayout';
+import Alert from '../components/shared/Alert';
+import Loader from '../components/shared/Loader';
 const { NO_AUTH } = customFields;
+
+const LoadingPage = () => {
+    const loginRoute = useBaseUrl('/login');
+    return (
+        <PageLayout>
+            <Alert type="info">
+                <Loader
+                    label={translate({
+                        message: 'Benutzerinformationen werden geladen...',
+                        id: 'user.loading.title'
+                    })}
+                    align="left"
+                    noBadge
+                />
+            </Alert>
+            <Button
+                href={loginRoute}
+                text={translate({
+                    message: 'Zur Anmeldung',
+                    id: 'user.loading.login'
+                })}
+                icon={mdiLogin}
+                iconSide="left"
+                color="primary"
+            />
+        </PageLayout>
+    );
+};
 
 const UserPage = observer(() => {
     const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
-    const { isStudent, isLoggedIn, currentUserId } = sessionStore;
+    const { isLoggedIn } = sessionStore;
     const { current } = userStore;
     const loginRoute = useBaseUrl('/login');
-    const homeRoute = useBaseUrl('/');
-    if (!NO_AUTH && currentUserId && !isLoggedIn) {
-        return <Loading />;
-    }
     if (!NO_AUTH && !isLoggedIn) {
-        return <Redirect to={loginRoute} />;
-    }
-    if (!NO_AUTH && isStudent) {
-        return <Redirect to={homeRoute} />;
+        return <LoadingPage />;
     }
     return (
         <Layout>

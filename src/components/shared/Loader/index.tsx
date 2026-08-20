@@ -14,6 +14,7 @@ interface Props {
     noLabel?: boolean;
     title?: string;
     align?: 'center' | 'left' | 'right';
+    noBadge?: boolean;
 }
 
 const Loader = (props: Props) => {
@@ -30,7 +31,7 @@ const Loader = (props: Props) => {
         >
             <Icon path={mdiLoading} spin={canUseBrowser} size={props.size || 1} className={styles.icon} />
             {!props.noLabel && (
-                <span className={clsx('badge', styles.badge)}>
+                <span className={clsx(!props.noBadge && 'badge', !props.noBadge && styles.badge)}>
                     {props.label ||
                         translate({
                             message: 'Laden...',
