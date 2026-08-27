@@ -1,1 +1,0 @@
-{"version":3,"file":"assets/js/95bac07a.215a9a66.js","sources":["webpack://events-app/json|/drone/src/.docusaurus/dynamic-router-plugin/default/__plugin.json"],"sourcesContent":["module.exports = JSON.parse('{\"name\":\"dynamic-router-plugin\",\"id\":\"default\"}')"],"names":["JSON"],"mappings":"qfAAA,EAAO,OAAO,CAAGA,KAAK,KAAK,CAAC,kD"}
