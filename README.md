@@ -1,5 +1,7 @@
 # Website
 
+[![Build Status](https://drone.gbsl.website/api/badges/lebalz/events-app/status.svg)](https://drone.gbsl.website/lebalz/events-app)
+
 This website is built using [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
 
 ### Installation
