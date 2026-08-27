@@ -5,13 +5,13 @@ import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Translate from '@docusaurus/Translate';
 
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { action } from 'mobx';
 import Subscription from '@site/src/models/Subscription';
 import Popup from 'reactjs-popup';
 import Button from '../../shared/Button';
 import { mdiCog } from '@mdi/js';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import { PopupPosition } from 'reactjs-popup/dist/types';
 import Content from './Content';
 

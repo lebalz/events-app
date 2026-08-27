@@ -15,7 +15,7 @@ import DateTimePicker from '../shared/DateTimePicker';
 import Select from 'react-select';
 import { selectClassNamesConfig, selectStyleConfig, selectThemeConfig } from '../Event/Filter';
 import Department from '@site/src/models/Department';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Save from '../shared/Button/Save';
 import Discard from '../shared/Button/Discard';
 import Delete from '../shared/Button/Delete';
@@ -41,6 +41,8 @@ const IS_OPEN_CB_LABEL = {
         id: 'RegistrationPeriod.isOpen.disabled'
     })
 };
+
+type ValueType = { value: string; label: string; color: string };
 
 const EditRegPeriod = observer((props: Props) => {
     const { period } = props;
@@ -167,7 +169,7 @@ const EditRegPeriod = observer((props: Props) => {
                                                         eventRangeStart: semester.props.start,
                                                         eventRangeEnd: semester.props.end
                                                     });
-                                                    ref.current.close();
+                                                    ref.current?.close();
                                                 }}
                                             />
                                         </div>
@@ -226,7 +228,7 @@ const EditRegPeriod = observer((props: Props) => {
                                 };
                             })}
                             onChange={(opt) => {
-                                const ids = opt.map((o) => o.value);
+                                const ids = (opt as ValueType[]).map((o) => o.value);
                                 period.setDepartmentIds(ids);
                             }}
                             theme={selectThemeConfig}

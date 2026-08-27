@@ -8,6 +8,7 @@ import Link from '@docusaurus/Link';
 import { Color, getButtonColorClass } from '../Colors';
 import Tooltip from '../Tooltip';
 import { observer } from 'mobx-react-lite';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 export const POPUP_BUTTON_STYLE = clsx(
     styles.button,
@@ -35,7 +36,9 @@ export interface Base {
     disabled?: boolean;
     size?: number;
     color?: Color | string;
+    spin?: boolean | number;
     noWrap?: boolean;
+    noTransform?: boolean;
 }
 interface IconProps extends Base {
     icon: ReactNode | string;
@@ -49,7 +52,7 @@ interface TextProps extends Base {
 }
 interface TextIconProps extends Base {
     icon: ReactNode | string;
-    text: string;
+    text?: string;
     children?: never;
 }
 interface ChildrenProps extends Base {
@@ -60,7 +63,7 @@ interface ChildrenProps extends Base {
 
 export type Props = IconProps | TextProps | ChildrenProps | TextIconProps;
 
-export const extractSharedProps = (props: Base): Props => {
+export const extractSharedProps = (props: Base) => {
     return {
         text: props.text,
         iconSide: props.iconSide,
@@ -77,13 +80,16 @@ export const extractSharedProps = (props: Base): Props => {
 
 export const ButtonIcon = (props: Props) => {
     let icon = props.icon;
+    const isBrowser = useIsBrowser();
     if (typeof icon === 'string') {
-        icon = <Icon path={icon} size={props.size} />;
+        icon = <Icon path={icon} size={props.size} spin={isBrowser && props.spin} />;
     }
     return (
         <>
-            {icon && !(props.apiState && props.apiState !== ApiState.IDLE) && (
-                <span className={clsx(styles.icon, props.className)}>{icon}</span>
+            {icon && (!isBrowser || !(props.apiState && props.apiState !== ApiState.IDLE)) && (
+                <span className={clsx(styles.icon, props.className, props.noTransform && styles.noTransform)}>
+                    {icon}
+                </span>
             )}
             {props.apiState && props.apiState !== ApiState.IDLE && (
                 <span className={clsx(styles.icon)}>
@@ -117,8 +123,10 @@ const ButtonInner = (props: Props) => {
 const Button = observer((props: Props) => {
     const textAndIcon = (props.children || props.text) && props.icon;
     const textOnly = props.text && !(props.children || props.icon);
-    let colorCls = getButtonColorClass(props.color, props.color ? undefined : 'secondary');
-    const style: React.CSSProperties = {};
+    let colorCls = getButtonColorClass(props.color!, props.color ? undefined : 'secondary');
+    const style: React.CSSProperties & {
+        [key: `--${string}`]: string | number | undefined;
+    } = {};
     if (props.color && !colorCls) {
         style['--ifm-color-primary'] = props.color;
         style['--ifm-color-primary-darker'] = props.color;

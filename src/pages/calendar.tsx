@@ -9,10 +9,13 @@ import Filter from '../components/Event/Filter';
 const Calendar = observer(() => {
     const viewStore = useStore('viewStore');
     const { eventTable } = viewStore;
+    if (!eventTable) {
+        return null;
+    }
     return (
         <Layout>
             <div>
-                <Filter eventTable={viewStore.eventTable} />
+                <Filter eventTable={eventTable} />
                 {eventTable.events.length > 0 && <CalendarComponent events={eventTable.events} />}
             </div>
         </Layout>

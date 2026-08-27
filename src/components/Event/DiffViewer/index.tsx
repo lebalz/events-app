@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
 import Translate from '@docusaurus/Translate';
 import EventOverviewSmall from '../../EventOverviewSmall';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 interface Props {
     compare: { a: EventModel; b: EventModel }[];
     labels?: {

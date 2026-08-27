@@ -2,7 +2,7 @@ import { action, observable } from 'mobx';
 import { Subscription as SubscriptionProps } from '../api/subscription';
 
 import { RootStore } from './stores';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import iStore from './iStore';
 import { EndPoint } from './EndPoint';
 import Subscription from '../models/Subscription';

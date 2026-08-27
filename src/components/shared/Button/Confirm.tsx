@@ -31,7 +31,7 @@ const Confirm = (props: ConfirmProps) => {
     return (
         <span className={clsx(styles.confirm, props.className)}>
             <Popup
-                trigger={(open) => (
+                trigger={() => (
                     <span>
                         <Button
                             {...props}
@@ -88,7 +88,7 @@ const Confirm = (props: ConfirmProps) => {
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
-                                    props.onClick(e);
+                                    props.onClick?.(e);
                                 }}
                                 text={
                                     props.consentText ||

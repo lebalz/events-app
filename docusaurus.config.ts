@@ -14,21 +14,26 @@ import mdiPlugin from './src/plugins/remark-mdi/plugin';
 import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
 import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
 import { sentryPluginConfig } from './src/plugins/sentry-plugin';
+import type { EventsCustomFields } from './src/types/eventsCustomFields';
 
+
+const envs = process.env as {
+    [key: string]: string | undefined;
+};
 const defaultLocale = 'de';
 
-function getLocale() {
-    return (process.env.DOCUSAURUS_CURRENT_LOCALE && process.env.DOCUSAURUS_CURRENT_LOCALE !== 'undefined')
-        ? process.env.DOCUSAURUS_CURRENT_LOCALE
+function getLocale(): 'de' | 'fr' {
+    return (envs.DOCUSAURUS_CURRENT_LOCALE && envs.DOCUSAURUS_CURRENT_LOCALE !== 'undefined')
+        ? envs.DOCUSAURUS_CURRENT_LOCALE as 'de' | 'fr'
         : defaultLocale;
 }
 
-function getLocalizedConfigValue(key: string) {
+function getLocalizedConfigValue(key: keyof typeof ConfigLocalized) {
     const values = ConfigLocalized[key];
     if (!values) {
         throw new Error(`Localized config key=${key} not found`);
     }
-    const currentLocale = getLocale();
+    const currentLocale = getLocale() as 'de' | 'fr';
     const value = values[currentLocale] ?? values[defaultLocale];
     if (!value) {
         throw new Error(
@@ -62,7 +67,7 @@ function getLocalizedCopyright() {
 const scripts = [
 ]
 
-// if (process.env.NODE_ENV === 'production') {
+// if (envs.NODE_ENV === 'production') {
 //     scripts.push(
 //         {
 //             src: 'https://app.ruttl.com/plugin.js?id=zkNcmoSeOgS1ykIZJ5fl&e=1',
@@ -72,12 +77,12 @@ const scripts = [
 //         });
 // }
 
-if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
+if (envs.UMAMI_SRC && envs.UMAMI_ID) {
     scripts.push(
         {
-            src: process.env.REACT_APP_UMAMI_SRC,
-            ['data-website-id']: process.env.REACT_APP_UMAMI_ID,
-            ['data-domains']: (process.env.REACT_APP_DOMAIN || 'http://localhost:3000').split('/').filter(w => !!w)[1],
+            src: envs.UMAMI_SRC,
+            ['data-website-id']: envs.UMAMI_ID,
+            ['data-domains']: (envs.APP_URL || 'http://localhost:3000').split('/').filter(w => !!w)[1],
             async: true,
             defer: true
         }
@@ -85,12 +90,12 @@ if (process.env.REACT_APP_UMAMI_SRC && process.env.REACT_APP_UMAMI_ID) {
 }
 
 
-const GIT_COMMIT_SHA = process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7);
+const GIT_COMMIT_SHA = envs.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7);
 
 const config: Config = {
     title: getLocalizedConfigValue('title'),
     tagline: getLocalizedConfigValue('tagline'),
-    url: process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
+    url: envs.APP_URL || 'http://localhost:3000',
     baseUrl: '/',
     onBrokenLinks: 'throw',
     favicon: 'img/favicon.ico',
@@ -103,24 +108,20 @@ const config: Config = {
     projectName: 'events-app', // Usually your repo name.
     customFields: {
         /** Use Testuser in local dev: set TEST_USERNAME to the test users email adress*/
-        TEST_USERNAME: process.env.TEST_USERNAME,
-        NO_AUTH: process.env.NODE_ENV !== 'production' && process.env.TEST_USERNAME?.length > 0,
+        TEST_USERNAME: envs.TEST_USERNAME,
+        NO_AUTH: envs.NODE_ENV !== 'production' && (envs.TEST_USERNAME?.length ?? 0) > 0,
         /** The Domain Name where the api is running */
-        DOMAIN: process.env.NETLIFY
-            ? process.env.DEPLOY_PRIME_URL
-            : process.env.REACT_APP_DOMAIN || 'http://localhost:3000',
+        APP_URL: envs.NETLIFY
+            ? envs.DEPLOY_PRIME_URL!
+            : envs.APP_URL || 'http://localhost:3000',
+        IS_PREVIEW: !!(envs.NODE_ENV !== 'production' || envs.NETLIFY),
         /** The Domain Name of this app */
-        EVENTS_API: process.env.REACT_APP_EVENTS_API || 'http://localhost:3002',
+        EVENTS_API: envs.BACKEND_URL || 'http://localhost:3002',
         /** The application id generated in https://portal.azure.com */
-        CLIENT_ID: process.env.REACT_APP_CLIENT_ID,
-        SENTRY_DSN: process.env.SENTRY_DSN,
-        /** Tenant / Verzeichnis-ID (Mandant) */
-        TENANT_ID: process.env.REACT_APP_TENANT_ID,
-        /** The application id uri generated in https://portal.azure.com */
-        API_URI: process.env.REACT_APP_API_URI,
-        GIT_COMMIT_SHA: process.env.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7),
+        SENTRY_DSN: envs.SENTRY_DSN,
+        GIT_COMMIT_SHA: envs.DRONE_COMMIT_SHA || Math.random().toString(36).substring(7),
         CURRENT_LOCALE: getLocale()
-    },
+    } satisfies EventsCustomFields,
     markdown: {
         mermaid: true,
         hooks: {    
@@ -149,7 +150,7 @@ const config: Config = {
     },
     future: {
       v4: true,
-      experimental_faster: {
+      faster: {
         /**
          * no config options for swcJsLoader so far. 
          * Instead configure it over the jsLoader in the next step 
@@ -163,6 +164,7 @@ const config: Config = {
         rspackPersistentCache: false, // TODO: turn it on when rspack persistent cache is stable
         ssgWorkerThreads: true
       },
+      experimental_vcs: 'default-v2'
     },
     webpack: {
       jsLoader: (isServer) => {
@@ -396,7 +398,7 @@ const config: Config = {
         [
             '@docusaurus/plugin-pwa',
             {
-              debug: process.env.NODE_ENV === 'development',
+              debug: envs.NODE_ENV === 'development',
               offlineModeActivationStrategies: [
                 'appInstalled',
                 'standalone',
@@ -470,8 +472,8 @@ const config: Config = {
                     return {
                         plugins: [
                             new currentBundler.instance.DefinePlugin({
-                                'process.env.WS_NO_BUFFER_UTIL': JSON.stringify('true'),
-                                'process.env.WS_NO_UTF_8_VALIDATE': JSON.stringify('true')
+                                'envs.WS_NO_BUFFER_UTIL': JSON.stringify('true'),
+                                'envs.WS_NO_UTF_8_VALIDATE': JSON.stringify('true')
                             })
                         ]
                     };

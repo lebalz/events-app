@@ -8,7 +8,6 @@ import Button from '../Button';
 import { translate } from '@docusaurus/Translate';
 import { mdiMinusCircle, mdiPlusCircle } from '@mdi/js';
 import { SIZE_XS } from '../icons';
-import Storage, { StorageKey } from '@site/src/stores/utils/Storage';
 
 interface Props {
     label: string;
@@ -23,7 +22,7 @@ interface Props {
 const LabeledBox = observer((props: Props) => {
     const { color, onChangeVisibility } = props;
     const showContent = props.showContent ?? true;
-    const ifmColor = color ? IfmColors[color] || color : IfmColors.blue;
+    const ifmColor = color ? (IfmColors[color as keyof typeof IfmColors] ?? color) : IfmColors.blue;
     return (
         <div
             className={clsx(styles.labeledBox, props.className, showContent && styles.showContent)}

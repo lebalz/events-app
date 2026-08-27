@@ -17,7 +17,7 @@ interface Props {
 }
 
 const HistoryPopup = observer((props: Props) => {
-    const ref = React.useRef<PopupActions>();
+    const ref = React.useRef<PopupActions>(null);
     const { event } = props;
     return (
         <Popup
@@ -65,7 +65,7 @@ const HistoryPopup = observer((props: Props) => {
                         size={SIZE_S}
                         icon={mdiClose}
                         iconSide="left"
-                        onClick={() => ref.current.close()}
+                        onClick={() => ref.current?.close()}
                     />
                 </div>
                 <div className={clsx('card__body', styles.history)}>

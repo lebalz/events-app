@@ -2399,11 +2399,11 @@
   },
   "share.audiencePicker.fsGroupPrefixDe": {
     "message": "FS",
-    "description": "Abréviation de Fachschaft en allemand"
+    "description": "Abbrev for Fachschaft in German"
   },
   "share.audiencePicker.fsGroupPrefixFr": {
     "message": "CS",
-    "description": "Terme français pour FS (commission de matière)"
+    "description": "French term for FS (Fachschaft)"
   },
   "event.actions.transitionAnyway": {
     "message": "{state} quand même"
@@ -2458,6 +2458,50 @@
   "theme.IconExternalLink.ariaLabel": {
     "message": "(s’ouvre dans un nouvel onglet)",
     "description": "The ARIA label for the external link icon"
+  },
+  "login.info.text": {
+    "message": "Seuls les enseignants et les membres de l'administration de l'école peuvent se connecter avec leur compte scolaire."
+  },
+  "login.button.with_school_account.text": {
+    "message": "Connexion avec compte scolaire",
+    "description": "the text of the button login with school account"
+  },
+  "user.loading.title": {
+    "message": "Chargement des informations utilisateur..."
+  },
+  "user.loading.login": {
+    "message": "Vers la connexion"
+  },
+  "Semester.notFound": {
+    "message": "Le semestre indiqué n'a pas été trouvé."
+  },
+  "admin.DepartmentTable.input.semesterTransitionMonth": {
+    "message": "Mois du changement de semestre",
+    "description": "input: semester transition month"
+  },
+  "admin.DepartmentTable.input.semesterTransitionDay": {
+    "message": "Jour du changement de semestre",
+    "description": "input: semester transition day"
+  },
+  "admin.DepartmentTable.th.semesterTransition": {
+    "message": "Changement de semestre",
+    "description": "th: semester transition"
+  },
+  "admin.userTable.th.authProviders": {
+    "message": "Fournisseur d'authentification",
+    "description": "th: authProviders"
+  },
+  "event.filter.wildcard_class": {
+    "message": "Toutes les classes commençant par \"{inputValue}\""
+  },
+  "event.filter.affectedLessons": {
+    "message": "Pendant mes leçons ?",
+    "description": "Filter: affected lessons"
+  },
+  "event.filter.advanced.dayFilter": {
+    "message": "Jours concernés"
+  },
+  "event.filter.advanced.dateRange": {
+    "message": "Période"
   }
 }
-

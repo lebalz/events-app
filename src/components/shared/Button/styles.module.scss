@@ -41,7 +41,9 @@
             padding-right: 0.2rem;
         }
         .icon {
-            transform: translateY(10%);
+            &:not(.noTransform) {
+                transform: translateY(10%);
+            }
             &.withText {
                 margin: 0;
             }

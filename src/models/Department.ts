@@ -3,10 +3,9 @@ import { DepartmentLetter, Department as DepartmentProps } from '../api/departme
 import { DepartmentStore } from '../stores/DepartmentStore';
 import Event from '../models/Event';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { ApiAction } from '../stores/iStore';
 import Klass from './Untis/Klass';
-import { currentGradeYear } from './helpers/time';
 
 export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export const ALPHABET_SMALL = 'abcdefghijklmnopqrstuvwxyz';
@@ -25,6 +24,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         'color',
         'schoolYears',
         'department1_Id',
+        'semesterTransitionDay',
+        'semesterTransitionMonth',
         'department2_Id',
         {
             attr: 'letter',
@@ -77,6 +78,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     @observable accessor schoolYears: number;
     @observable accessor letter: string;
     @observable accessor _displayLetter: string | null | undefined;
+    @observable accessor semesterTransitionDay: number;
+    @observable accessor semesterTransitionMonth: number;
 
     classLetters = observable.set<string>([]);
 
@@ -89,6 +92,8 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
         this.id = props.id;
         this.name = props.name;
         this.schoolYears = props.schoolYears;
+        this.semesterTransitionDay = props.semesterTransitionDay;
+        this.semesterTransitionMonth = props.semesterTransitionMonth;
         this.color = props.color;
         this.letter = props.letter;
         this._displayLetter = props.displayLetter;
@@ -122,12 +127,12 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
-    get department1(): Department | null {
+    get department1(): Department | undefined {
         return this.store.find(this.department1_Id);
     }
 
     @computed
-    get department2(): Department | null {
+    get department2(): Department | undefined {
         return this.store.find(this.department2_Id);
     }
 
@@ -147,13 +152,12 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
     }
 
     @computed
-    get isOneYearDegree(): boolean {
-        return this.schoolYears === 1;
-    }
-
-    @computed
     get displayLetter(): string {
         return this._displayLetter || this.letter;
+    }
+
+    semesterTransitionDate(year: number): Date {
+        return new Date(year, this.semesterTransitionMonth - 1, this.semesterTransitionDay);
     }
 
     @computed
@@ -221,10 +225,12 @@ export default class Department extends ApiModel<DepartmentProps, ApiAction> {
             name: this.name,
             color: this.color,
             schoolYears: this.schoolYears,
+            semesterTransitionDay: this.semesterTransitionDay,
+            semesterTransitionMonth: this.semesterTransitionMonth,
             letter: this.letter as DepartmentLetter,
             displayLetter: this._displayLetter as DepartmentLetter | null,
-            department1_Id: this.department1_Id,
-            department2_Id: this.department2_Id,
+            department1_Id: this.department1_Id ?? null,
+            department2_Id: this.department2_Id ?? null,
             classLetters: [...this.classLetters],
             description: this.description,
             createdAt: this.createdAt.toISOString(),

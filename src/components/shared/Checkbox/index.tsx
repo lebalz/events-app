@@ -32,7 +32,7 @@ const Checkbox = observer((props: Props) => {
                     type="checkbox"
                     disabled={props.disabled}
                     onChange={action((e) => {
-                        props.onChange(!props.checked, (e.nativeEvent as any).shiftKey);
+                        props.onChange?.(!props.checked, (e.nativeEvent as any).shiftKey);
                     })}
                     checked={!!props.checked}
                 />

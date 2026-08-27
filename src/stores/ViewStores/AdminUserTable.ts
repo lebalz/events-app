@@ -1,18 +1,21 @@
 import { action, computed, makeObservable, observable, reaction } from 'mobx';
 import { ViewStore } from '.';
 import User from '@site/src/models/User';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
+
+type SortColumn =
+    | 'id'
+    | 'email'
+    | 'shortName'
+    | 'authProviders'
+    | 'role'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'notifyOnEventUpdate';
 
 class AdminUserTable {
     private readonly store: ViewStore;
-    @observable accessor sortColumn:
-        | 'id'
-        | 'email'
-        | 'shortName'
-        | 'role'
-        | 'createdAt'
-        | 'updatedAt'
-        | 'notifyOnEventUpdate' = 'email';
+    @observable accessor sortColumn: SortColumn = 'email';
     @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
 
     @observable accessor _filter = '';
@@ -44,9 +47,7 @@ class AdminUserTable {
     }
 
     @action
-    setSortColumn(
-        column: 'id' | 'email' | 'shortName' | 'role' | 'createdAt' | 'updatedAt' | 'notifyOnEventUpdate'
-    ): void {
+    setSortColumn(column: SortColumn): void {
         if (this.sortColumn === column) {
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
         } else {

@@ -49,7 +49,7 @@ const DatePicker = observer((props: Props) => {
     const [date, setDate] = React.useState<string>(
         initDate(props.date, props.time).toISOString().substring(0, 10)
     );
-    const [_id, _setId] = React.useState<string>(props.id);
+    const [_id, _setId] = React.useState<string | undefined>(props.id);
 
     React.useEffect(() => {
         if (props.id !== _id) {

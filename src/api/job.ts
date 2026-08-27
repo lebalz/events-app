@@ -18,7 +18,7 @@ export type UntisImportJob = JobBase & {
 
 export type UntisSyncJob = JobBase & {
     type: JobType.SYNC_UNTIS;
-    semesterId: string;
+    semesterId?: string;
     syncDate: Date;
 };
 

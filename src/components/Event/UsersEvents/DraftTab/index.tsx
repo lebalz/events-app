@@ -11,7 +11,7 @@ import { useWindowSize } from '@docusaurus/theme-common';
 import AddButton from '../../AddButton';
 import { toGlobalDate } from '@site/src/models/helpers/time';
 import NoEventsAlert from '../NoEventsAlert';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import Button from '@site/src/components/shared/Button';
 import { SIZE_XS, SIZE_XXS } from '@site/src/components/shared/icons';
 import { mdiMinusBox, mdiPlusBox } from '@mdi/js';
@@ -42,7 +42,7 @@ const AddEventButton = observer(({ addMarginTop }: { addMarginTop?: boolean }) =
                 t1.setHours(t1.getHours() + 1);
                 eventStore.create({ start: now.toISOString(), end: t1.toISOString() }).then((newEvent) => {
                     if (windowSize === 'mobile') {
-                        viewStore.setEventModalId(newEvent.id);
+                        viewStore.setEventModalId(newEvent?.id);
                     }
                 });
             }}

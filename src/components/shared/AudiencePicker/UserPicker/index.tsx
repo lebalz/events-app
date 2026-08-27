@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '@site/src/stores/hooks';
 import Select, { ActionMeta, FilterOptionOption } from 'react-select';
 import Event from '@site/src/models/Event';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { translate } from '@docusaurus/Translate';
 
 interface BaseOption {
@@ -68,7 +68,7 @@ const UserPicker = observer((props: Props) => {
                         value: user.id,
                         label: user.displayName,
                         type: 'user'
-                    };
+                    } as SelectOption;
                 })}
                 placeholder={translate({
                     message: 'Lehrpersonen auswählen',
@@ -119,7 +119,7 @@ const UserPicker = observer((props: Props) => {
                 onChange={(opt, meta: ActionMeta<SelectOption>) => {
                     switch (meta.action) {
                         case 'select-option':
-                            switch (meta.option.type) {
+                            switch (meta.option?.type) {
                                 case 'user':
                                     event.addLinkedUserId(meta.option.value);
                                     break;

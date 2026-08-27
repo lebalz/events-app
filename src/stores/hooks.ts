@@ -8,12 +8,16 @@ export const useStore = <T extends keyof typeof rootStore>(store: T): (typeof ro
 
 // Hook
 export const useOnScreen = (
-    ref: React.MutableRefObject<HTMLDivElement>,
-    rootSelector: string = undefined,
+    ref: React.RefObject<HTMLDivElement | null>,
+    rootSelector: string | undefined = undefined,
     rootMargin: string = '0px'
 ) => {
     const [isIntersecting, setIntersecting] = React.useState(false);
     React.useEffect(() => {
+        const currentRef = ref?.current;
+        if (!currentRef) {
+            return;
+        }
         const observer = new IntersectionObserver(
             ([entry]) => {
                 // Update our state when observer callback fires
@@ -21,11 +25,11 @@ export const useOnScreen = (
             },
             {
                 rootMargin,
-                root: rootSelector ? ref.current.closest(rootSelector) : undefined
+                root: rootSelector ? currentRef.closest(rootSelector) : undefined
             }
         );
-        if (ref.current) {
-            observer.observe(ref.current);
+        if (currentRef) {
+            observer.observe(currentRef);
         }
         return () => {
             observer.disconnect();

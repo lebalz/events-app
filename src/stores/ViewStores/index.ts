@@ -4,7 +4,7 @@ import Semester from '../../models/Semester';
 import User from '../../models/User';
 import Event from '../../models/Event';
 import Lesson from '../../models/Untis/Lesson';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { LoadeableStore, ResettableStore } from '../iStore';
 import EventTable, { EventViewProps } from './EventTable';
 import AdminUserTable from './AdminUserTable';
@@ -23,7 +23,6 @@ import { GroupBase } from 'react-select';
 import { translate } from '@docusaurus/Translate';
 import LocalUserSettings from './LocaUserSettings';
 import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
-import { currentGradeYear } from '@site/src/models/helpers/time';
 import { SelectOption } from '@site/src/components/shared/AudiencePicker/UserPicker';
 const I18n_LABELS = {
     classType: translate({ id: 'basic.class', message: 'Klassen' }),
@@ -103,7 +102,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                         /**
                          * configure the filter for this user
                          */
-                        this.root.viewStore.eventTable.setDepartmentIds(teacher.departments.map((d) => d.id));
+                        this.root.viewStore.eventTable?.setDepartmentIds(
+                            teacher.departments.map((d) => d.id)
+                        );
                     }
                 }
             }
@@ -248,6 +249,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     setCalendarViewDate(date: Date) {
         this.calendarViewDate = date.toISOString().split('T')[0];
         const viewedSemester = this.semester;
+        if (!viewedSemester) {
+            return;
+        }
         /**
          * Side-Effect: Change the viewed semester if the date is not in the current semester
          */
@@ -316,6 +320,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     nextSemester(direction: number = 1): void {
         const offset = direction > 0 ? -1 : 1;
         const semester = this.root.semesterStore.nextSemester(this.semesterId, offset);
+        if (!semester) {
+            return;
+        }
         this.setSemester(semester);
     }
 
@@ -328,7 +335,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @computed
-    get semester(): Semester {
+    get semester(): Semester | undefined {
         return this.root.semesterStore.find(this.semesterId);
     }
 
@@ -390,9 +397,9 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     @computed
     get icalListClassesFiltered() {
         const match = (klass: Klass, s: string) => klass._displayName?.includes(s) || klass.name.includes(s);
-        const gradeYear = this.semester?.gradeYear ?? currentGradeYear();
+        const dateNow = new Date();
         return this.root.untisStore.classes.filter(
-            (c) => c.isActiveIn(gradeYear, 1) && match(c, this.icalListClassFilter)
+            (c) => c.isActiveFor(dateNow) && match(c, this.icalListClassFilter)
         );
     }
 

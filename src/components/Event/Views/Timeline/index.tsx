@@ -8,7 +8,7 @@ import { createTransformer } from 'mobx-utils';
 import siteConfig from '@generated/docusaurus.config';
 import { useStore } from '@site/src/stores/hooks';
 import Event from '@site/src/models/Event';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 const ISO_639_CODES = {

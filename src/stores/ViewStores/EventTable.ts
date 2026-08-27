@@ -5,7 +5,7 @@ import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import { getLastMonday } from '@site/src/models/helpers/time';
 import Event, { CURRENT_YYYY_KW } from '@site/src/models/Event';
-import _ from 'lodash';
+import { groupBy, orderBy, chunk } from 'es-toolkit/array';
 import {
     ColumnConfig,
     ConfigOptions,
@@ -28,9 +28,18 @@ export interface EventViewProps {
 
 export const BATCH_SIZE = 15 as const;
 
-const SORT_BY_FUNCTIONS: { [key: string]: string | ((e: Event) => any) } = {
-    start: (e) => e.startTimeMs,
-    author: (e) => e.author.shortName
+const SORT_BY_FUNCTIONS: { [key: string]: keyof Event | ((e: Event) => any) } = {
+    start: 'startTimeMs',
+    end: 'endTimeMs',
+    nr: 'nr',
+    author: (e) => e.author?.shortName,
+    isValid: 'validationState',
+    teachingAffected: 'teachingAffected',
+    state: 'state',
+    kw: 'kw',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    location: 'location'
 };
 
 /**
@@ -218,10 +227,10 @@ class EventTable {
 
     @computed
     get columns(): [keyof typeof DefaultConfig, ConfigOptions][] {
-        return this.columnConfig
+        const cols = this.columnConfig
             .map((col) => {
                 const isConfig = typeof col !== 'string';
-                const name = isConfig ? col[0] : col;
+                const name = isConfig ? (col as [string, ConfigOptions])[0] : col;
                 const defaultConf = {
                     ...DefaultConfig[name],
                     ...(name === 'select' ? { componentProps: { eventTable: this } } : {})
@@ -236,12 +245,13 @@ class EventTable {
                     name,
                     {
                         ...defaultConf,
-                        ...(isConfig ? col[1] : {}),
+                        ...(isConfig ? (col as [string, ConfigOptions])[1] : {}),
                         direction: this.sortBy === name ? this.sortDirection : undefined
                     }
                 ] satisfies [keyof typeof DefaultConfig, ConfigOptions];
             })
-            .filter(Boolean);
+            .filter((col) => !!col);
+        return cols;
     }
 
     @action
@@ -251,21 +261,21 @@ class EventTable {
 
     @computed
     get groupedEvents() {
-        const events = _.orderBy(
+        const events = orderBy(
             this.events,
             [SORT_BY_FUNCTIONS[this.sortBy] ? SORT_BY_FUNCTIONS[this.sortBy] : 'startTimeMs', 'startTimeMs'],
             [this.sortDirection, 'asc']
         );
         const transformed: (ViewEvent | ViewGroup)[] = [];
         if (this.groupBy) {
-            const byGroup = _.groupBy(events, this.groupBy);
+            const byGroup = groupBy(events, (e) => e[this.groupBy!]);
             let idx = 0;
             Object.keys(byGroup)
                 .sort()
                 .forEach((key) => {
                     transformed.push({
                         type: 'group',
-                        groupBy: this.groupBy,
+                        groupBy: this.groupBy!,
                         group: key.split('-')[1].replace(/^0+/, ''),
                         isCurrent: key === CURRENT_YYYY_KW,
                         events: byGroup[key]
@@ -280,7 +290,7 @@ class EventTable {
                 transformed.push({ type: 'event', model: event, index: idx });
             });
         }
-        return _.chunk(transformed, BATCH_SIZE);
+        return chunk(transformed, BATCH_SIZE);
     }
 
     @action
@@ -387,7 +397,7 @@ class EventTable {
     @computed
     get showCurrentAndFutureFilter(): boolean {
         const { semester } = this.store;
-        return semester?.isCurrent;
+        return !!semester?.isCurrent;
     }
 
     @computed
@@ -495,7 +505,7 @@ class EventTable {
             }
             if (keep && this.departmentIds.size > 0) {
                 keep =
-                    event.linkedUserIds.has(this.store.user?.id) ||
+                    (this.store.user?.id && event.linkedUserIds.has(this.store.user.id)) ||
                     [...event.departmentIdsAll].some((d) => this.departmentIds.has(d));
             }
             if (keep && this.classNames.size > 0) {

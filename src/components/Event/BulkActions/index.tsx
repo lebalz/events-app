@@ -36,7 +36,7 @@ import { useHistory } from '@docusaurus/router';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import Filter from '../Filter';
-import useIsMobileView from '@site/src/hookes/useIsMobileView';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import Confirm from '../../shared/Button/Confirm';
 
 interface ActionConfig {
@@ -388,7 +388,7 @@ const BulkActions = observer((props: Props) => {
                         onChange={(options, meta) => {
                             switch (meta.action) {
                                 case 'select-option':
-                                    const group = eventGroupStore.find<EventGroup>(meta.option.value);
+                                    const group = eventGroupStore.find<EventGroup>(meta.option?.value);
                                     if (group) {
                                         group.addEvents(eventTable.selectedEvents);
                                     }
@@ -441,9 +441,10 @@ const BulkActions = observer((props: Props) => {
                                       })
                             }
                             onClick={() => {
-                                const { subscription } = current;
-                                if (subscription) {
-                                    subscription.unignoreEvents(eventTable.selectedEvents.map((e) => e.id));
+                                if (current?.subscription) {
+                                    current.subscription.unignoreEvents(
+                                        eventTable.selectedEvents.map((e) => e.id)
+                                    );
                                     eventTable.setSelectedEvents([...eventTable.selectedEventIds], false);
                                 }
                             }}
@@ -469,9 +470,10 @@ const BulkActions = observer((props: Props) => {
                                     : undefined
                             }
                             onClick={() => {
-                                const { subscription } = current;
-                                if (subscription) {
-                                    subscription.ignoreEvents(eventTable.selectedEvents.map((e) => e.id));
+                                if (current?.subscription) {
+                                    current.subscription.ignoreEvents(
+                                        eventTable.selectedEvents.map((e) => e.id)
+                                    );
                                     eventTable.setSelectedEvents([...eventTable.selectedEventIds], false);
                                     props.eventTable.setShowSelect(false);
                                 }

@@ -10,7 +10,7 @@ import {
     UntisLesson,
     UntisTeacherSubject
 } from '../api/untis';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import axios from 'axios';
 import Klass from '../models/Untis/Klass';
 import Lesson from '../models/Untis/Lesson';
@@ -57,13 +57,15 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         reaction(
             () => this.root.userStore.current?.untisTeacher?.lessons,
             (lessons) => {
-                if (lessons?.length > 0) {
+                if ((lessons?.length ?? 0) > 0) {
                     const teacher = this.root.userStore?.current?.untisTeacher;
                     if (teacher) {
                         /**
                          * configure the filter for this user
                          */
-                        this.root.viewStore.eventTable.setDepartmentIds(teacher.departments.map((d) => d.id));
+                        this.root.viewStore.eventTable?.setDepartmentIds(
+                            teacher.departments.map((d) => d.id)
+                        );
                     }
                 }
             }
@@ -78,7 +80,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     withAbortController<T>(sigId: string, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
         if (this.abortControllers.has(sigId)) {
-            this.abortControllers.get(sigId).abort();
+            this.abortControllers.get(sigId)?.abort();
         }
         this.abortControllers.set(sigId, sig);
         return fn(sig)
@@ -224,12 +226,12 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
         return this.classes.filter((kl) => kl.name.startsWith(startPart));
     };
 
-    hasClassesWithGroupName = (startPart?: string, referenceYear?: number): boolean => {
+    hasClassesWithGroupName = (startPart?: string, refDate?: Date): boolean => {
         if (!startPart) {
             return false;
         }
         return this.classes.some(
-            (kl) => kl.name.startsWith(startPart) && (!referenceYear || kl.year >= referenceYear)
+            (kl) => kl.name.startsWith(startPart) && (!refDate || kl.isActiveFor(refDate))
         );
     };
 
@@ -340,8 +342,7 @@ export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher>
     @computed
     get currentClasses() {
         const now = new Date();
-        const minYear = now.getFullYear() + (now.getMonth() < 7 ? 0 : 1);
-        return this.sortedClasses.filter((c) => c.year >= minYear);
+        return this.sortedClasses.filter((c) => c.isActiveFor(now));
     }
 
     @computed

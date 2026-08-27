@@ -7,7 +7,7 @@ import { default as DepartmentModel } from '@site/src/models/Department';
 import { default as EventModel } from '@site/src/models/Event';
 import { translate } from '@docusaurus/Translate';
 import Button from '../../../Button';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import GraduationYear from './GraduationYear';
 interface Props {
     event: EventModel;
@@ -20,7 +20,7 @@ const Department = observer((props: Props) => {
     const departments = props.departments.filter((d) => d.classes.length > 0);
     const allKlasses = departments
         .flatMap((d) => [...d.classes, ...d.usedUnknownClasses])
-        .filter((k) => k.isActiveIn(event.currentGradeYear, event.gradeYearRange));
+        .filter((k) => k.isActiveFor(event.start, event.end));
     const klasses = props.isSpecial
         ? _.groupBy(allKlasses, (c) => c.groupName)
         : _.groupBy(allKlasses, (c) => c.year);

@@ -58,7 +58,7 @@ export default class Teacher {
         const semesterId = this.store.currentSemester?.id;
         return this.store
             .findClassesByTeacher(this.id)
-            .filter((c) => c.lessons.some((l) => l.semesterId === semesterId));
+            .filter((c) => c.lessons.some((l) => l?.semesterId === semesterId));
     }
 
     @computed

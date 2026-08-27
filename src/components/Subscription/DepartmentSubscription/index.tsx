@@ -13,9 +13,8 @@ import {
     mdiMicrosoftOutlook
 } from '@mdi/js';
 import { SIZE_S, SIZE_XS } from '../../shared/icons';
-import { EVENTS_API } from '@site/src/authConfig';
 import i18n from '@generated/i18n';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Copy from '../../shared/Button/Copy';
 import SubscribeIcs from '../../shared/Button/SubscribeIcs';
 import CopyIcs from '../../shared/Button/CopyIcs';

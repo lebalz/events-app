@@ -19,6 +19,9 @@ interface Props {
 
 const ParentDetails = observer((props: Props) => {
     const { event } = props;
+    if (!event.publishedParent) {
+        return null;
+    }
     return (
         <LazyDetails
             summary={
@@ -39,7 +42,7 @@ const ParentDetails = observer((props: Props) => {
                 if (isOpen) {
                     event.loadParent();
                 }
-                props.onOpenChange(isOpen);
+                props.onOpenChange?.(isOpen);
             }}
         >
             <EventProps event={event.publishedParent} inModal={props.inModal} showVersionHeader />

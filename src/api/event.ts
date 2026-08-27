@@ -170,12 +170,13 @@ interface AudienceConfig {
     description?: string;
 }
 
-interface AffectedAudienceConfig {
-    [EventAudience.LP]: AudienceConfig;
-    [EventAudience.KLP]?: AudienceConfig;
-    [EventAudience.STUDENTS]: AudienceConfig;
+type AffectedAudienceScenarioKey = Exclude<EventAudience, EventAudience.ALL>;
+
+export type AffectedAudienceConfig = {
+    [key in AffectedAudienceScenarioKey]: AudienceConfig;
+} & {
     example: string;
-}
+};
 
 export const AffectedAudience: { [key in EventAudience]: AffectedAudienceConfig } = {
     [EventAudience.LP]: {
@@ -305,7 +306,7 @@ export interface PrismaEvent {
     affectsDepartment2: boolean;
     createdAt: string;
     updatedAt: string;
-    deletedAt?: string;
+    deletedAt: string | null;
     publishedVersionIds: string[];
     meta?: Meta;
 }

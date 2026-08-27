@@ -6,8 +6,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import { useStore } from '../stores/hooks';
 import { observer } from 'mobx-react-lite';
-import { Redirect, useHistory } from '@docusaurus/router';
-import { mdiRefresh } from '@mdi/js';
+import { mdiLogin, mdiRefresh } from '@mdi/js';
 import Button from '../components/shared/Button';
 import User from '../components/User';
 import Section from '../components/shared/Section';
@@ -15,32 +14,50 @@ import UsersEvents from '../components/Event/UsersEvents';
 import TimeTable from '../components/TimeTable';
 import Translate, { translate } from '@docusaurus/Translate';
 import Groups from '../components/EventGroup/Groups';
-import { useMsal } from '@azure/msal-react';
-import { useIsAuthenticated } from '@azure/msal-react';
-import { InteractionStatus } from '@azure/msal-browser';
-import { Loading } from '../components/shared/icons';
-import siteConfig from '@generated/docusaurus.config';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Admonition from '@theme/Admonition';
-const { NO_AUTH } = siteConfig.customFields as { TEST_USERNAME?: string; NO_AUTH?: boolean };
+import customFields from '@site/src/components/utils/customFields';
+import PageLayout from '../components/PageLayout';
+import Alert from '../components/shared/Alert';
+import Loader from '../components/shared/Loader';
+const { NO_AUTH } = customFields;
+
+const LoadingPage = () => {
+    const loginRoute = useBaseUrl('/login');
+    return (
+        <PageLayout>
+            <Alert type="info">
+                <Loader
+                    label={translate({
+                        message: 'Benutzerinformationen werden geladen...',
+                        id: 'user.loading.title'
+                    })}
+                    align="left"
+                    noBadge
+                />
+            </Alert>
+            <Button
+                href={loginRoute}
+                text={translate({
+                    message: 'Zur Anmeldung',
+                    id: 'user.loading.login'
+                })}
+                icon={mdiLogin}
+                iconSide="left"
+                color="primary"
+            />
+        </PageLayout>
+    );
+};
 
 const UserPage = observer(() => {
     const sessionStore = useStore('sessionStore');
     const userStore = useStore('userStore');
-    const isAuthenticated = useIsAuthenticated();
-    const { inProgress } = useMsal();
-    const { isStudent, isLoggedIn, currentUserId } = sessionStore;
+    const { isLoggedIn } = sessionStore;
     const { current } = userStore;
     const loginRoute = useBaseUrl('/login');
-    const homeRoute = useBaseUrl('/');
-    if (!NO_AUTH && ((currentUserId && !isLoggedIn) || inProgress !== InteractionStatus.None)) {
-        return <Loading />;
-    }
-    if (!NO_AUTH && !(isLoggedIn || isAuthenticated)) {
-        return <Redirect to={loginRoute} />;
-    }
-    if (!NO_AUTH && isStudent) {
-        return <Redirect to={homeRoute} />;
+    if (!NO_AUTH && !isLoggedIn) {
+        return <LoadingPage />;
     }
     return (
         <Layout>
@@ -100,33 +117,39 @@ const UserPage = observer(() => {
                                 </div>
                             )}
                         </TabItem>
-                        <TabItem
-                            value="events"
-                            label={translate({
-                                message: 'Termine',
-                                id: 'user.tab.events'
-                            })}
-                        >
-                            <UsersEvents user={current} />
-                        </TabItem>
-                        <TabItem
-                            value="groups"
-                            label={translate({
-                                message: 'Gruppen',
-                                id: 'user.tab.groups'
-                            })}
-                        >
-                            <Groups />
-                        </TabItem>
-                        <TabItem
-                            value="time-table"
-                            label={translate({
-                                message: 'Stundenplan',
-                                id: 'user.tab.time-table'
-                            })}
-                        >
-                            <TimeTable />
-                        </TabItem>
+                        {current && (
+                            <TabItem
+                                value="events"
+                                label={translate({
+                                    message: 'Termine',
+                                    id: 'user.tab.events'
+                                })}
+                            >
+                                <UsersEvents user={current} />
+                            </TabItem>
+                        )}
+                        {current && (
+                            <TabItem
+                                value="groups"
+                                label={translate({
+                                    message: 'Gruppen',
+                                    id: 'user.tab.groups'
+                                })}
+                            >
+                                <Groups />
+                            </TabItem>
+                        )}
+                        {current && (
+                            <TabItem
+                                value="time-table"
+                                label={translate({
+                                    message: 'Stundenplan',
+                                    id: 'user.tab.time-table'
+                                })}
+                            >
+                                <TimeTable />
+                            </TabItem>
+                        )}
                     </Tabs>
                 </Section>
             </main>

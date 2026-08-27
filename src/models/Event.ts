@@ -26,13 +26,13 @@ import {
     DAYS_LONG,
     dateBetween,
     formatDateLong,
-    currentGradeYear
+    currentGradeDate
 } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
 import Joi from 'joi';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { KlassName } from './helpers/klassNames';
 import humanize from 'humanize-duration';
 import Department from './Department';
@@ -123,7 +123,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly id: string;
     readonly authorId: string;
     readonly createdAt: Date;
-    readonly jobId: string;
+    readonly jobId: string | null;
     readonly state: EventState;
     readonly _pristine_end: Date;
     readonly _pristine_start: Date;
@@ -131,7 +131,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     readonly cloned: boolean;
     /** this contains only! the published child versions! */
     readonly publishedVersionIds: string[];
-    readonly meta: Meta;
+    readonly meta?: Meta;
     readonly clonedFromId: string | null;
     readonly _initializedAt: number;
 
@@ -155,11 +155,11 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @observable.ref accessor end: Date;
 
-    @observable.ref accessor deletedAt: Date | undefined;
+    @observable.ref accessor deletedAt: Date | null;
 
     @observable.ref accessor start: Date;
 
-    @observable accessor allLPs: boolean;
+    @observable accessor allLPs: boolean = false;
 
     @observable accessor audience: EventAudience;
 
@@ -175,7 +175,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @observable accessor initialValidation: boolean = false;
 
     validationDisposer: IReactionDisposer;
-    validationTimeout: NodeJS.Timeout;
+    validationTimeout: NodeJS.Timeout | undefined;
     _initialValidationTriggered: boolean = false;
 
     constructor(props: EventProps, store: EventStore) {
@@ -257,7 +257,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get clonedFrom() {
+    get clonedFrom(): Event | undefined {
         if (!this.clonedFromId) {
             return;
         }
@@ -319,10 +319,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
         if (this._errors && this._errors.details?.length > 0) {
             return ValidState.Error;
         }
-        if (!this.meta?.warningsReviewed && this.meta?.warnings?.length > 0) {
+        if (!this.meta?.warningsReviewed && (this.meta?.warnings?.length ?? 0) > 0) {
             return ValidState.Warning;
         }
-        if (!this.meta?.infosReviewed && this.meta?.infos?.length > 0) {
+        if (!this.meta?.infosReviewed && (this.meta?.infos?.length ?? 0) > 0) {
             return ValidState.Info;
         }
         if (this.overlappingEvents.length > 0) {
@@ -611,7 +611,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get linkedUsers() {
-        return [...this.linkedUserIds].map((u) => this.store.root.userStore.find<User>(u)).filter((u) => u);
+        return [...this.linkedUserIds].map((u) => this.store.root.userStore.find<User>(u)).filter((u) => !!u);
     }
 
     /**
@@ -632,19 +632,6 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get currentGradeYear() {
-        return currentGradeYear(this.start);
-    }
-
-    /**
-     * describes how many grade years should be additionally affected by this event.
-     */
-    @computed
-    get gradeYearRange() {
-        return currentGradeYear(this.end) - this.currentGradeYear;
-    }
-
-    @computed
     get affectedClassGroups() {
         const classGroups = new Set<string>(this.classGroups);
         this.departments.forEach((d) => {
@@ -655,8 +642,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             if (!isActive) {
                 return;
             }
+            const gradeDate = currentGradeDate(this.start, d);
+            const gradeYear = gradeDate.getFullYear() + (this.start <= gradeDate ? 0 : 1);
             for (let i = 0; i < d.schoolYears; i++) {
-                const year = `${this.currentGradeYear + i}`.slice(2);
+                const year = `${gradeYear + i}`.slice(2);
                 const group = `${year}${d.letter}`;
                 classGroups.add(group);
             }
@@ -836,9 +825,8 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get fClasses(): { text: string; classes: Klass[] }[] {
         const kls: { [year: string]: Klass[] } = {};
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
         [...this.affectedKnownClasses]
-            .filter((c) => c.year >= refYear)
+            .filter((c) => c.isActiveFor(this.start, this.end))
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach((c) => {
                 const year = c.isLegacyFormat ? c.displayName.slice(0, 2) : c.displayName.slice(0, 3);
@@ -1051,21 +1039,22 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     @computed
     get _selectedClasses(): Klass[] {
         const wildcard = new Set(this._wildcardClasses.map((c) => c.id));
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
-        return this.untisClasses.filter((c) => !wildcard.has(c.id)).filter((k) => k.year >= refYear);
+        return this.untisClasses
+            .filter((c) => !wildcard.has(c.id))
+            .filter((k) => k.isActiveFor(this.start, this.end));
     }
 
     @computed
     get _unknownClassNames(): KlassName[] {
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
-        const known = new Set(this.untisClasses.filter((c) => c.year >= refYear).map((c) => c.name));
+        const known = new Set(
+            this.untisClasses.filter((c) => c.isActiveFor(this.start, this.end)).map((c) => c.name)
+        );
         return [...this.classes].filter((c) => !known.has(c));
     }
 
     @computed
     get unknownClassGroups(): string[] {
-        const refYear = this.start.getFullYear() + (this.start.getMonth() > 6 ? 1 : 0);
-        return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c, refYear));
+        return [...this.classGroups].filter((c) => !this.store.hasUntisClassesInClassGroup(c, this.start));
     }
 
     /**
@@ -1087,8 +1076,10 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
      * which overlap with the event time, excluding the lessons of linked users
      */
     @computed
-    get affectedLessonsWithoutLinkedUsers() {
-        return this.untisClasses.flatMap((c) => c.lessons.slice().filter((l) => this.hasOverlap(l)));
+    get affectedLessonsWithoutLinkedUsers(): Lesson[] {
+        return this.untisClasses.flatMap(
+            (c) => c.lessons.slice().filter((l) => !!l && this.hasOverlap(l)) as Lesson[]
+        );
     }
 
     /**
@@ -1248,7 +1239,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
             start: toGlobalDate(this.start).toISOString(),
             end: toGlobalDate(this.end).toISOString(),
             publishedVersionIds: this.publishedVersionIds,
-            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt).toISOString() : null,
+            deletedAt: this.isDeleted ? toGlobalDate(this.deletedAt!).toISOString() : null,
             clonedFromId: this.clonedFromId,
             meta: this.meta
         };
@@ -1266,7 +1257,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @computed
     get publishedParent(): Event | undefined {
-        let root: Event = this.parent;
+        let root: Event | undefined = this.parent;
         while (root?.hasParent) {
             root = root.parent;
         }
@@ -1274,15 +1265,15 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
     }
 
     @computed
-    get parents() {
-        if (!this.parentId) {
+    get parents(): Event[] {
+        if (!this.parent) {
             return [];
         }
         return [this.parent, ...this.parent.parents];
     }
 
     @computed
-    get publishedVersions() {
+    get publishedVersions(): Event[] {
         if (this.hasParent) {
             return this.publishedParent?.publishedVersions || [];
         }
@@ -1314,7 +1305,7 @@ export default class Event extends ApiModel<EventProps, ApiAction> implements iE
 
     @action
     loadParent(force?: boolean) {
-        if (!this.hasParent || (this.parent && !force)) {
+        if (!this.parentId || (this.parent && !force)) {
             return Promise.resolve(this.parent);
         }
         return this.store.loadEvents([this.parentId], this.parentId);

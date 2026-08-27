@@ -21,12 +21,14 @@ import { ApiIcon, SIZE_S } from '../shared/icons';
 import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
 import Translate, { translate } from '@docusaurus/Translate';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Subscription from '../Subscription';
 import Checkbox from '../shared/Checkbox';
 import { ApiState } from '@site/src/stores/iStore';
 import { useStore } from '@site/src/stores/hooks';
 import Admonition from '@theme/Admonition';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { useHistory } from '@docusaurus/router';
 
 interface Props {
     user: UserModel;
@@ -36,9 +38,11 @@ const User = observer((props: Props) => {
     const { user } = props;
     const current = user;
     const iconSide = 'right';
-    const sessionStore = useStore('sessionStore');
+    const authStore = useStore('authStore');
     const semesterStore = useStore('semesterStore');
     const currentSemester = semesterStore.currentSemester;
+    const homeUrl = useBaseUrl('/');
+    const history = useHistory();
 
     const classes = React.useMemo(() => {
         const klGroups = Lesson.GroupedClassesByYear(user.untisTeacher?.lessons || [], 10);
@@ -173,7 +177,12 @@ const User = observer((props: Props) => {
                 </dt>
                 <dd>
                     <Button
-                        onClick={() => sessionStore.logout()}
+                        onClick={() => {
+                            authStore.signOut().then(() => {
+                                history.push(homeUrl);
+                                window.location.reload();
+                            });
+                        }}
                         text={translate({
                             message: 'Logout',
                             id: 'components.user.index.logout',
@@ -212,7 +221,10 @@ const User = observer((props: Props) => {
                     {
                         user.events.filter(
                             (e) =>
-                                e.isPublished && !e.hasParent && e.affectedSemesters.includes(currentSemester)
+                                e.isPublished &&
+                                !e.hasParent &&
+                                currentSemester &&
+                                e.affectedSemesters.includes(currentSemester)
                         ).length
                     }
                 </dd>

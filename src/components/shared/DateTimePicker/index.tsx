@@ -19,7 +19,7 @@ interface Props {
 
 const DateTimePicker = (props: Props) => {
     const [date, setDate] = React.useState<string>(toGlobalDate(props.date).toISOString().substring(0, 16));
-    const [_id, _setId] = React.useState<string>(props.id);
+    const [_id, _setId] = React.useState<string | undefined>(props.id);
 
     React.useEffect(
         action(() => {

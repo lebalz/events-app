@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable, override } from 'mobx';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import { RootStore } from './stores';
 import iStore from './iStore';
 import { Semester as SemesterProps } from '../api/semester';
@@ -59,7 +59,10 @@ export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${
         this.loadedSemesters.clear();
     }
 
-    nextSemester(currentId: string, offset: number) {
+    nextSemester(currentId: string | undefined, offset: number) {
+        if (!currentId) {
+            return;
+        }
         const currentIdx = this.semesters.findIndex((s) => s.id === currentId);
         if (currentIdx === -1) {
             return;

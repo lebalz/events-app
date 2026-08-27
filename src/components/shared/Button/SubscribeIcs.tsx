@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import Button from '.';
-import { useSubscriptionUrl } from '@site/src/hookes/useSubscriptionUrl';
+import { useSubscriptionUrl } from '@site/src/hooks/useSubscriptionUrl';
 import { mdiMicrosoftOutlook } from '@mdi/js';
 import { SIZE_S } from '../icons';
 import { translate } from '@docusaurus/Translate';

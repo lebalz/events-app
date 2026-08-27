@@ -35,9 +35,9 @@ export class LoadeableStore<T> {
          */
         throw new Error('Not implemented');
     }
-    initialPublicLoadPerformed: boolean;
-    initialAuthorizedLoadPerformed: boolean;
-    initialLoadPerformed: boolean;
+    initialPublicLoadPerformed: boolean = false;
+    initialAuthorizedLoadPerformed: boolean = false;
+    initialLoadPerformed: boolean = false;
 }
 
 export type ApiAction =
@@ -72,7 +72,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
     withAbortController<T>(sigId: Api | ApiAction, fn: (ct: AbortController) => Promise<T>) {
         const sig = new AbortController();
         if (this.abortControllers.has(sigId)) {
-            this.abortControllers.get(sigId).abort();
+            this.abortControllers.get(sigId)?.abort();
         }
         this.abortControllers.set(sigId, sig);
         this.apiState.set(sigId, ApiState.LOADING);
@@ -134,7 +134,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
 
     // function <V extends ApiModel<Model, Api | ApiAction>>(this: iStore<Model, Api>, id?: string): V {
     find = computedFn(
-        function <T>(this: iStore<Model, Api>, id?: string): T & ApiModel<any> {
+        function <T>(this: iStore<Model, Api>, id?: string | null): (T & ApiModel<any>) | undefined {
             if (!id) {
                 return;
             }
@@ -144,7 +144,7 @@ abstract class iStore<Model extends { id: string }, Api = ''>
     );
 
     @action
-    addToStore(data: Model, state?: 'load' | 'create'): ApiModel<Model, Api | ApiAction> {
+    addToStore(data: Model, state?: 'load' | 'create'): ApiModel<Model, Api | ApiAction> | undefined {
         /**
          * Adds a new model to the store. Existing models with the same id are replaced.
          */
@@ -166,7 +166,9 @@ abstract class iStore<Model extends { id: string }, Api = ''>
             return [];
         }
         if (data.length < 30) {
-            return data.map((m) => this.addToStore(m, state));
+            return data
+                .map((m) => this.addToStore(m, state))
+                .filter((m): m is ApiModel<Model, Api | ApiAction> => !!m);
         }
         const newIds = new Set(data.map((m) => m.id).filter(Boolean));
         const currentModels = this.models.filter((m) => !newIds.has(m.id));
@@ -231,8 +233,6 @@ abstract class iStore<Model extends { id: string }, Api = ''>
                         err.response?.status === 401 &&
                         err.response?.data?.error === 'Unauthorized'
                     ) {
-                        console.log('using msal strategy');
-                        this.root.sessionStore.setMsalStrategy();
                         return;
                     }
                     if (err.code !== 'ERR_CANCELED') {
@@ -257,7 +257,9 @@ abstract class iStore<Model extends { id: string }, Api = ''>
             this.ApiEndpoint.routeWithSemesterId('public', semesterId),
             'public',
             `loadPublic-${this.ApiEndpoint.Base}-${semesterId}`
-        );
+        ).then((models) => {
+            return models ?? [];
+        });
     }
 
     @action
@@ -271,7 +273,9 @@ abstract class iStore<Model extends { id: string }, Api = ''>
             this.ApiEndpoint.routeWithSemesterId('authorized', semesterId),
             'authorized',
             `loadAuthorized-${semesterId}`
-        );
+        ).then((models) => {
+            return models ?? [];
+        });
     }
 
     @action

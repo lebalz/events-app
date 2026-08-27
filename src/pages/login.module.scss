@@ -1,7 +1,28 @@
-.loginPage {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
+.main {
     margin: 3em;
+    margin-top: 0;
+    .alert {
+        margin: 1em;
+        margin-bottom: 0;
+    }
+    .loginPage {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1em;
+        margin: 3em;
+        .mainLoginMethod {
+            span[class^='icon'] {
+                line-height: 1;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .main {
+        margin: 1em;
+        margin-top: 0;
+    }
 }

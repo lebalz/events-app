@@ -1,5 +1,5 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
-import _ from 'lodash';
+import { action, computed, observable } from 'mobx';
+import _ from 'es-toolkit/compat';
 import { RootStore } from './stores';
 import iStore, { ApiAction } from './iStore';
 import { Event as EventProps } from '../api/event';
@@ -16,7 +16,6 @@ import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
 import { EndPoint } from './EndPoint';
 import { destroy as apiDestroy } from '../api/api_model';
-import { translate } from '@docusaurus/Translate';
 import { computedFn } from 'mobx-utils';
 
 export class EventGroupStore extends iStore<
@@ -100,7 +99,7 @@ export class EventGroupStore extends iStore<
         })
             .then(({ data }: { data: EventGroupProps }) => {
                 const group = this.addToStore(data);
-                return this.reloadEvents(group);
+                return this.reloadEvents(group!);
             })
             .catch((err) => {
                 console.log(err);
@@ -110,7 +109,7 @@ export class EventGroupStore extends iStore<
     @action
     reloadEvents(model: ApiModel<EventGroupProps, ApiAction>) {
         if (!model) {
-            return;
+            return Promise.resolve([]);
         }
         return this.withAbortController(`fetch-${model.id}`, (sig) => {
             return fetchEvents(model.id, sig.signal);

@@ -27,6 +27,8 @@ export interface Department {
     name: string;
     color: string;
     schoolYears: number;
+    semesterTransitionMonth: number;
+    semesterTransitionDay: number;
     letter: DepartmentLetter;
     displayLetter: DepartmentLetter | null;
     classLetters: string[];

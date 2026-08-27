@@ -10,12 +10,13 @@ import {
 
 import { RootStore } from './stores';
 import User from '../models/User';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import iStore from './iStore';
 import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
 import Storage, { PersistedData, StorageKey } from './utils/Storage';
 import { computedFn } from 'mobx-utils';
+import scheduleMicrotask from '../models/helpers/scheduleMicrotask';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 
@@ -32,10 +33,10 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         super();
         this.root = root;
 
-        setTimeout(() => {
+        scheduleMicrotask(() => {
             // attempt to load the previous state of this store from localstorage
             this.rehydrate();
-        }, 1);
+        });
     }
 
     @action
@@ -43,13 +44,13 @@ export class UserStore extends iStore<UserProps, ApiAction> {
         if (this.models.length > 0) {
             return;
         }
-        const data = _data || Storage.get(StorageKey.SessionStore) || {};
-        if (data.user) {
+        const data = Storage.get('SessionStore', _data);
+        if (data?.user) {
             try {
                 this.addToStore(data.user);
             } catch (e) {
                 console.error(e);
-                Storage.remove(StorageKey.SessionStore);
+                Storage.remove('SessionStore');
             }
         }
     }
@@ -85,11 +86,6 @@ export class UserStore extends iStore<UserProps, ApiAction> {
 
     @computed
     get current(): User | undefined {
-        if (this.root.sessionStore?.authMethod === 'msal') {
-            return this.models.find(
-                (u) => u.email.toLowerCase() === this.root.sessionStore?.account?.username?.toLowerCase()
-            );
-        }
         return this.models.find((u) => u.id === this.root.sessionStore?.currentUserId);
     }
 
@@ -146,7 +142,7 @@ export class UserStore extends iStore<UserProps, ApiAction> {
     @computed
     get getAffectedEventIds() {
         if (!this.current) {
-            return new Set([]);
+            return new Set<string>([]);
         }
         return this.affectedEventIds;
     }

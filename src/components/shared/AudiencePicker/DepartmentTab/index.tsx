@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 import Department from './Department';
 import Tabs from '@theme/Tabs';
 import siteConfig from '@generated/docusaurus.config';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 interface Props {

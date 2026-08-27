@@ -6,8 +6,8 @@ class LocalUserSettings {
     private readonly store: ViewStore;
     private readonly localStorage: typeof Storage;
 
-    @observable accessor showEventAudienceInfo: boolean;
-    @observable accessor showTeachingAffectedExample: boolean;
+    @observable accessor showEventAudienceInfo: boolean = true;
+    @observable accessor showTeachingAffectedExample: boolean = true;
 
     constructor(store: ViewStore) {
         this.store = store;
@@ -19,36 +19,26 @@ class LocalUserSettings {
 
     @action
     syncStorage() {
-        this.showEventAudienceInfo = this.localStorage.get(
+        this.showEventAudienceInfo = !!this.localStorage.get(
             StorageKey.PreferenceEventAudienceInfoShow,
-            true,
-            (raw) => raw !== '0'
+            true
         );
-        this.showTeachingAffectedExample = this.localStorage.get(
+        this.showTeachingAffectedExample = !!this.localStorage.get(
             StorageKey.PreferenceEventTeachingAffectedExampleShow,
-            true,
-            (raw) => raw !== '0'
+            true
         );
     }
 
     @action
     setShowEventAudienceInfo(value: boolean) {
         this.showEventAudienceInfo = value;
-        this.localStorage.sync(
-            StorageKey.PreferenceEventAudienceInfoShow,
-            value ? undefined : '0',
-            (val) => val
-        );
+        this.localStorage.sync(StorageKey.PreferenceEventAudienceInfoShow, value ? true : false);
     }
 
     @action
     setShowTeachingAffectedExample(value: boolean) {
         this.showTeachingAffectedExample = value;
-        this.localStorage.sync(
-            StorageKey.PreferenceEventTeachingAffectedExampleShow,
-            value ? undefined : '0',
-            (val) => val
-        );
+        this.localStorage.sync(StorageKey.PreferenceEventTeachingAffectedExampleShow, value ? true : false);
     }
 }
 

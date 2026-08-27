@@ -21,7 +21,7 @@ const ShowSelectCheckBoxes = observer((props: Props) => {
                 icon={mdiCheckboxBlankBadgeOutline}
                 text={props.label}
                 size={SIZE_S}
-                onClick={() => viewStore.eventTable.toggleShowSelect()}
+                onClick={() => viewStore.eventTable?.toggleShowSelect()}
                 title={translate({
                     id: 'event.bulkActions.show_select',
                     message: 'Terminauswahl anzeigen'

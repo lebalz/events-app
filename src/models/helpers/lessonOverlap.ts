@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import Lesson from '../Untis/Lesson';
 import { MINUTE_2_MS } from './time';
 

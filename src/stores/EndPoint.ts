@@ -29,7 +29,7 @@ export class EndPoint {
         return !!this.AuthorizedRoute;
     }
 
-    loaded(type: 'public' | 'authorized' | 'all' = 'all') {
+    loaded(type: 'public' | 'authorized' | 'all' = 'all'): boolean {
         switch (type) {
             case 'public':
                 return this.hasPublicRoute ? this.publicRouteLoaded : true;

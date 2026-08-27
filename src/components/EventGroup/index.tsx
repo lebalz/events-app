@@ -18,7 +18,7 @@ import Translate, { translate } from '@docusaurus/Translate';
 import { mdiAccount, mdiAccountGroup, mdiCalendarClock, mdiShareCircle } from '@mdi/js';
 import { formatDateTime } from '@site/src/models/helpers/time';
 import DefinitionList from '../shared/DefinitionList';
-import _ from 'lodash';
+import _ from 'es-toolkit/compat';
 import UserTable from './UserTable';
 import ShiftDates from './BulkEditor/ShiftDates';
 import AddUserPopup from './UserTable/AddUserPopup';
@@ -83,10 +83,10 @@ const UserEventGroup = observer((props: Props) => {
             return;
         }
         const toAdd: ('nr' | 'author')[] = [];
-        if (group.isFullyLoaded && group.events.some((e) => e.nr > 0)) {
+        if (group.isFullyLoaded && group.events.some((e) => (e.nr ?? 0) > 0)) {
             toAdd.push('nr');
         }
-        if (group.isFullyLoaded && group.events.some((e) => e.author.id !== group.events[0].author.id)) {
+        if (group.isFullyLoaded && group.events.some((e) => e.author?.id !== group.events[0]?.author?.id)) {
             toAdd.push('author');
         }
         if (toAdd.length > 0) {

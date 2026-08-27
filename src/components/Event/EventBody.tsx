@@ -31,7 +31,7 @@ const EventBody = observer((props: Props) => {
         const disposer = reaction(
             () => event.hasParent && !event.parent,
             (loadParent) => {
-                if (loadParent) {
+                if (loadParent && event.parentId) {
                     eventStore.loadModel(event.parentId);
                 }
             }
