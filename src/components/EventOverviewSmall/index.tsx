@@ -171,12 +171,13 @@ const EventOverviewSmall = observer((props: Props) => {
                     </div>
                 )}
                 <div className={clsx(styles.author)}>
-                    <Badge
-                        text={event.author?.shortName}
-                        title={event.author?.fullName}
-                        className={clsx(styles.badge)}
-                        icon={!!event.author?.shortName ? undefined : mdiAccountRemove}
-                    />
+                    {event.author && (
+                        <Badge
+                            text={event.author.displayName}
+                            title={event.author.fullName}
+                            className={clsx(styles.badge)}
+                        />
+                    )}
                 </div>
             </div>
             <div className={clsx(styles.body, props.expandDescriptionLong && styles.descriptionExpanded)}>
