@@ -34,7 +34,7 @@ import { default as AudiencePicker } from '../EventFields/Audience';
 import State from '../EventFields/State';
 import Departments from '../EventFields/Departments';
 import Klasses from '../EventFields/Klasses';
-import { EventAudienceOverviewTranslation, EventState } from '@site/src/api/event';
+import { EventState } from '@site/src/api/event';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import Version from '../EventFields/Version';
 import HistoryPopup from '../VersionHistory/HistoryPopup';
@@ -97,7 +97,13 @@ const EventProps = observer((props: Props) => {
                                 <Icon path={mdiArrowRightBoldCircleOutline} color="primary" />
                             </dt>
                             <dd>
-                                <Badge color="green" text="Neue Version" />
+                                <Badge
+                                    color="green"
+                                    text={translate({
+                                        message: 'Neue Version',
+                                        id: 'event.version.new.short'
+                                    })}
+                                />
                             </dd>
                             <dt className="line"></dt>
                         </>
@@ -107,7 +113,13 @@ const EventProps = observer((props: Props) => {
                                 <Icon path={mdiArrowLeftBoldCircleOutline} color="grey" />
                             </dt>
                             <dd>
-                                <Badge color="grey" text="Alte Version" />
+                                <Badge
+                                    color="grey"
+                                    text={translate({
+                                        message: 'Alte Version',
+                                        id: 'event.version.old.short'
+                                    })}
+                                />
                             </dd>
                             <dt className="line"></dt>
                         </>
