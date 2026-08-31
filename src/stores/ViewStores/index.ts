@@ -218,6 +218,14 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
     }
 
     @computed
+    get adminRejectedEvents() {
+        if (!this.root.userStore.current?.isAdmin) {
+            return [];
+        }
+        return this.allEvents({ states: [EventState.Refused], ignoreDeleted: false });
+    }
+
+    @computed
     get inReviewEvents() {
         return this.usersEvents({
             ignoreImported: true,
