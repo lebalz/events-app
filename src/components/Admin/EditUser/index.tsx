@@ -18,6 +18,8 @@ import Alert from '../../shared/Alert';
 import Loader from '../../shared/Loader';
 import Copy from '../../shared/Button/Copy';
 import DefinitionList from '../../shared/DefinitionList';
+import Translate, { translate } from '@docusaurus/Translate';
+import { formatDateLong, formatDateTime } from '@site/src/models/helpers/time';
 
 interface Props {
     user: User;
@@ -118,6 +120,14 @@ const EditUser = observer((props: Props) => {
                         {user.id}
                         <Copy value={user.id} />
                     </dd>
+                    <dt>
+                        <Translate id="createdAt">Erstellt am</Translate>
+                    </dt>
+                    <dd className={clsx(styles.prop)}>{formatDateTime(user.createdAt)}</dd>
+                    <dt>
+                        <Translate id="updatedAt">Aktualisiert am</Translate>
+                    </dt>
+                    <dd className={clsx(styles.prop)}>{formatDateTime(user.updatedAt)}</dd>
                 </DefinitionList>
                 <TextInput
                     label="Nickname"
@@ -167,12 +177,28 @@ const EditUser = observer((props: Props) => {
                     ))}
                 </div>
                 <div>
-                    <h4>User Blockieren</h4>
-                    <small>Verhindert das Einloggen des Users.</small>
+                    <h4>
+                        <Translate id="admin.editUser.blockUser">User Blockieren</Translate>
+                    </h4>
+                    <small>
+                        <Translate id="admin.editUser.blockUserDescription">
+                            Verhindert das Einloggen des Users.
+                        </Translate>
+                    </small>
                     {user.banned ? (
                         <Confirm
-                            confirmTitle="Blockierung aufheben"
-                            consentText="Wirklick aufheben?"
+                            text={translate({
+                                id: 'admin.editUser.unblockUser',
+                                message: 'Blockierung aufheben'
+                            })}
+                            confirmTitle={translate({
+                                id: 'admin.editUser.unblockUser',
+                                message: 'Blockierung aufheben'
+                            })}
+                            consentText={translate({
+                                id: 'admin.editUser.unblockUserConsent',
+                                message: 'Wirklick aufheben?'
+                            })}
                             icon={mdiAccountCheck}
                             color="warning"
                             disabled={!!spinState || user.id === userStore.current?.id}
@@ -186,8 +212,15 @@ const EditUser = observer((props: Props) => {
                         />
                     ) : (
                         <Confirm
-                            confirmTitle="User blockieren"
-                            consentText="Wirklick blockieren?"
+                            text={translate({ id: 'admin.editUser.blockUser', message: 'User blockieren' })}
+                            confirmTitle={translate({
+                                id: 'admin.editUser.blockUser',
+                                message: 'User blockieren'
+                            })}
+                            consentText={translate({
+                                id: 'admin.editUser.blockUserConsent',
+                                message: 'Wirklick blockieren?'
+                            })}
                             color="red"
                             icon={mdiAccountCancel}
                             disabled={!!spinState || user.id === userStore.current?.id}
@@ -205,14 +238,20 @@ const EditUser = observer((props: Props) => {
             <Card
                 header={
                     <>
-                        <h4>Account</h4>
+                        <h4>
+                            <Translate id="admin.editUser.account">Account</Translate>
+                        </h4>
                         <small>
-                            Ein Mail-Passwort Authentifizierungs hinterlegen. Nützlich um sich bspw. auf
-                            Deploy-Previews anzumelden oder um jemandem temporät Zugriff auf den Account zu
-                            geben.
+                            <Translate id="admin.editUser.accountDescription">
+                                Ein Mail-Passwort Authentifizierungs hinterlegen. Nützlich um sich bspw. auf
+                                Deploy-Previews anzumelden oder um jemandem temporät Zugriff auf den Account
+                                zu geben.
+                            </Translate>
                             <Alert type="warning">
-                                Das permanente Hinterlegen eines Passworts stellt ein Sicherheitsrisiko dar,
-                                da bspw. keine 2FA nötig ist.
+                                <Translate id="admin.editUser.accountWarning">
+                                    Das permanente Hinterlegen eines Passworts stellt ein Sicherheitsrisiko
+                                    dar, da bspw. keine 2FA nötig ist.
+                                </Translate>
                             </Alert>
                         </small>
                     </>
@@ -300,10 +339,10 @@ const EditUser = observer((props: Props) => {
             </Card>
             <Confirm
                 icon={spinState ? mdiLoading : mdiTrashCan}
-                confirmTitle="Löschen"
                 size={SIZE_XS}
                 spin={spinState === 'deleting'}
                 className={clsx(styles.delete)}
+                text={translate({ id: 'admin.editUser.delete', message: 'User löschen' })}
                 onClick={() => {
                     setSpinState('deleting');
                     authClient.admin.removeUser({ userId: user.id }).then(
@@ -316,7 +355,8 @@ const EditUser = observer((props: Props) => {
                     );
                 }}
                 color="red"
-                consentText="Wirklich löschen?"
+                confirmTitle={translate({ id: 'admin.editUser.delete', message: 'User löschen' })}
+                consentText={translate({ id: 'admin.editUser.delete.confirm', message: 'Wirklich löschen?' })}
                 disabled={!userStore.current?.isAdmin || user.id === userStore.current?.id}
             />
             {!!spinState && <Loader overlay label={SPIN_TEXT[spinState]} />}
