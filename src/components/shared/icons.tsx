@@ -30,6 +30,7 @@ import {
 } from '@mdi/js';
 import { IconProps } from '@mdi/react/dist/IconProps';
 import { ApiState } from '@site/src/stores/iStore';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 
 export const SIZE = 1;
 export const SIZE_S = 0.8;
@@ -130,7 +131,9 @@ export const Calendar = (props: Props) => {
 };
 
 export const Sync = (props: Props) => {
-    return <Icon path={mdiSyncCircle} horizontal {...props} />;
+    const isBrowser = useIsBrowser();
+    const spin = isBrowser && props.spin;
+    return <Icon path={mdiSyncCircle} horizontal {...props} spin={spin} />;
 };
 
 export const Idle = (props: Props) => {
@@ -138,7 +141,9 @@ export const Idle = (props: Props) => {
 };
 
 export const Loading = (props: Props) => {
-    return <Icon path={mdiLoading} horizontal spin color={'var(--ifm-color-primary)'} {...props} />;
+    const isBrowser = useIsBrowser();
+    const spin = isBrowser;
+    return <Icon path={mdiLoading} horizontal spin={spin} color={'var(--ifm-color-primary)'} {...props} />;
 };
 
 export const Error = (props: Props) => {

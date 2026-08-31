@@ -2,17 +2,12 @@ import React from 'react';
 import { StoresProvider, rootStore } from '../stores/stores';
 import { enableStaticRendering, observer } from 'mobx-react-lite';
 import Head from '@docusaurus/Head';
-import siteConfig from '@generated/docusaurus.config';
 import { useLocation } from '@docusaurus/router';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import { authClient } from '../auth-client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-const { NO_AUTH, TEST_USERNAME, CURRENT_LOCALE, SENTRY_DSN } = siteConfig.customFields as {
-    TEST_USERNAME?: string;
-    NO_AUTH?: boolean;
-    CURRENT_LOCALE?: 'de' | 'fr';
-    SENTRY_DSN?: string;
-};
+import customFields from '../components/utils/customFields';
+const { SENTRY_DSN } = customFields;
 
 if (!ExecutionEnvironment.canUseDOM) {
     enableStaticRendering(true);
@@ -42,6 +37,7 @@ const Authentication = observer(() => {
         }
     }, [session?.user, rootStore]);
     React.useEffect(() => {
+        console.log('Initial load of the app');
         // load public
         rootStore.load();
     }, []);
@@ -76,11 +72,6 @@ const LivenessChecker = observer(() => {
                 return;
             }
             if (document.hidden) {
-                /**
-                 * The Browser-Window is now hidden
-                 * we could indicate to admins that the user has left the page
-                 * (e.g. for exams)
-                 */
                 lastHiddenTimeRef.current = Date.now();
             } else {
                 /**
@@ -122,6 +113,7 @@ function Root({ children }: { children: React.ReactNode }) {
         const modalId = rootStore?.viewStore?.openEventModalId;
         /** ensure no modal is open when changing the routes */
         if (modalId) {
+            console.log('Closing modal on route change', modalId);
             rootStore.viewStore.setEventModalId();
         }
     }, [location, rootStore?.viewStore]);

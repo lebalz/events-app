@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 /**
  *
@@ -7,14 +7,20 @@ import { useEffect, useRef } from 'react';
 const useResizeObserver = <T extends HTMLElement>(
     callback: (target: T, entry: ResizeObserverEntry) => void
 ) => {
-    const ref = useRef<T>(null);
+    /**
+     * a plain `useRef` does not trigger a re-render/effect when the underlying DOM node is
+     * swapped out (e.g. when a `Popup` unmounts/remounts its content on open/close). Using a
+     * state-backed callback ref ensures the effect below re-runs for every newly mounted node.
+     */
+    const [element, setElement] = useState<T | null>(null);
+    const ref = useCallback((node: T | null) => {
+        setElement(node);
+    }, []);
 
     /**
      * in the blog post, a useLayoutEffect is proposed. However, this causes a warning hydration mismatch warning when building
      */
     useEffect(() => {
-        const element = ref?.current;
-
         if (!element) {
             return;
         }
@@ -35,7 +41,7 @@ const useResizeObserver = <T extends HTMLElement>(
         return () => {
             observer.disconnect();
         };
-    }, [callback, ref]);
+    }, [callback, element]);
 
     return ref;
 };
