@@ -37,7 +37,6 @@ const Authentication = observer(() => {
         }
     }, [session?.user, rootStore]);
     React.useEffect(() => {
-        console.log('Initial load of the app');
         // load public
         rootStore.load();
     }, []);
