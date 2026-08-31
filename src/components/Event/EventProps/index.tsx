@@ -397,43 +397,47 @@ const EventProps = observer((props: Props) => {
                     rightActions={
                         <>
                             <ToggleSubscription event={event} hideText />
-                            {event.isReview && !event.isDeleted && (
-                                <>
-                                    <div style={{ flexGrow: 1, flexBasis: '100%' }} />
-                                    <Button
-                                        text={translate({
-                                            message: 'Zurückziehen',
-                                            id: 'event.bulk_actions.editing',
-                                            description: 'Edit Event'
-                                        })}
-                                        title={translate({
-                                            message: 'Termin zurückziehen zum bearbeiten.',
-                                            id: 'event.bulk_actions.editing.title',
-                                            description: 'Edit Event'
-                                        })}
-                                        icon={mdiBookArrowLeftOutline}
-                                        size={SIZE}
-                                        color="red"
-                                        className={clsx(styles.red)}
-                                        iconSide="left"
-                                        onClick={() => {
-                                            eventStore.updateBatched([{ id: event.id }]).then((newEvents) => {
-                                                newEvents.forEach((e) => {
-                                                    eventStore.find(e.id)?.setEditing(true);
-                                                });
-                                                history.push(draftEventsUrl);
-                                                eventStore.destroy(event);
-                                                const modalId = newEvents[0]?.id;
-                                                if (modalId) {
-                                                    setTimeout(() => {
-                                                        viewStore.setEventModalId(modalId);
-                                                    }, 1);
-                                                }
-                                            });
-                                        }}
-                                    />
-                                </>
-                            )}
+                            {event.isReview &&
+                                !event.isDeleted &&
+                                event.authorId === userStore.current?.id && (
+                                    <>
+                                        <div style={{ flexGrow: 1, flexBasis: '100%' }} />
+                                        <Button
+                                            text={translate({
+                                                message: 'Zurückziehen',
+                                                id: 'event.bulk_actions.editing',
+                                                description: 'Edit Event'
+                                            })}
+                                            title={translate({
+                                                message: 'Termin zurückziehen zum bearbeiten.',
+                                                id: 'event.bulk_actions.editing.title',
+                                                description: 'Edit Event'
+                                            })}
+                                            icon={mdiBookArrowLeftOutline}
+                                            size={SIZE}
+                                            color="red"
+                                            className={clsx(styles.red)}
+                                            iconSide="left"
+                                            onClick={() => {
+                                                eventStore
+                                                    .updateBatched([{ id: event.id }])
+                                                    .then((newEvents) => {
+                                                        newEvents.forEach((e) => {
+                                                            eventStore.find(e.id)?.setEditing(true);
+                                                        });
+                                                        history.push(draftEventsUrl);
+                                                        eventStore.destroy(event);
+                                                        const modalId = newEvents[0]?.id;
+                                                        if (modalId) {
+                                                            setTimeout(() => {
+                                                                viewStore.setEventModalId(modalId);
+                                                            }, 1);
+                                                        }
+                                                    });
+                                            }}
+                                        />
+                                    </>
+                                )}
                         </>
                     }
                 />
