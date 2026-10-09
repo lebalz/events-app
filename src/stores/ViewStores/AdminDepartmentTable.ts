@@ -5,7 +5,13 @@ import _ from 'es-toolkit/compat';
 class AdminDepartmentTable {
     private readonly store: ViewStore;
     @observable accessor sortColumn:
-        'name' | 'color' | 'createdAt' | 'updatedAt' | 'letter' | 'schoolYears' | 'displayLetter' = 'letter';
+        | 'name'
+        | 'color'
+        | 'createdAt'
+        | 'updatedAt'
+        | 'letter'
+        | 'schoolYears'
+        | 'displayLetter' = 'letter';
     @observable accessor sortDirection: 'asc' | 'desc' = 'asc';
     constructor(store: ViewStore) {
         this.store = store;

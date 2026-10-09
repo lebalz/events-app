@@ -67,7 +67,6 @@ const EventModal = observer((props: Props) => {
                             <div className={clsx(styles.closeButton)}>
                                 <Button
                                     color="red"
-
                                     title={translate({
                                         message: 'Schliessen',
                                         id: 'button.close',
