@@ -54,6 +54,7 @@ const EditUser = observer((props: Props) => {
     const [name, setName] = React.useState(user.name);
     const [firstName, setFirstName] = React.useState(user.firstName);
     const [lastName, setLastName] = React.useState(user.lastName);
+
     React.useEffect(() => {
         if (!pwState) {
             return;
@@ -63,7 +64,9 @@ const EditUser = observer((props: Props) => {
         }, 5000);
         return () => clearTimeout(timeout);
     }, [pwState]);
+
     const isDirty = name !== user.name || firstName !== user.firstName || lastName !== user.lastName;
+
     return (
         <Card
             classNames={{ card: clsx(styles.editUser), body: clsx(styles.body) }}
