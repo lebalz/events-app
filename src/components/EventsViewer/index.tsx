@@ -19,6 +19,7 @@ import useIsMobileView from '@site/src/hooks/useIsMobileView';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
 import { useEventTable } from './useEventTable';
 import { COLUMN_CONFIG } from '../Event/UsersEvents';
+import { EventTableContext } from '../Event/hooks/useEventTable';
 
 export enum View {
     Grid = 'grid',
@@ -76,17 +77,21 @@ const EventsViewer = observer((props: Props) => {
     const count = eventTable.events.length;
     return (
         <div className={clsx(styles.view)}>
-            <BulkActions eventTable={eventTable} {...(props.bulkActionConfig || {})} />
-            {count > 0 && props.type === View.Grid && <Grid eventTable={eventTable} {...props.gridConfig} />}
-            {count > 0 && props.type === View.List && <List events={eventTable.events} />}
-            {count > 0 && props.type === View.Calendar && (
-                <Calendar
-                    events={eventTable.events}
-                    defaultDate={_.minBy(eventTable.events, (e) => e.startTimeMs)?.start}
-                    className={clsx(styles.calendar)}
-                />
-            )}
-            {count > 0 && props.type === View.Timeline && <Timeline events={eventTable.events} />}
+            <EventTableContext.Provider value={eventTable}>
+                <BulkActions eventTable={eventTable} {...(props.bulkActionConfig || {})} />
+                {count > 0 && props.type === View.Grid && (
+                    <Grid eventTable={eventTable} {...props.gridConfig} />
+                )}
+                {count > 0 && props.type === View.List && <List events={eventTable.events} />}
+                {count > 0 && props.type === View.Calendar && (
+                    <Calendar
+                        events={eventTable.events}
+                        defaultDate={_.minBy(eventTable.events, (e) => e.startTimeMs)?.start}
+                        className={clsx(styles.calendar)}
+                    />
+                )}
+                {count > 0 && props.type === View.Timeline && <Timeline events={eventTable.events} />}
+            </EventTableContext.Provider>
         </div>
     );
 });
