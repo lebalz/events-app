@@ -37,6 +37,13 @@ const FS_GROUP_PREFIX_DE = translate({
     message: 'FS',
     description: 'Abbrev for Fachschaft in German'
 });
+const ALIAS_FS_GROUPS = [
+    {
+        regex: /Turnen/i,
+        replacer: (text: string) => text.replace(/Turnen/gi, 'Sport')
+    }
+];
+
 const FS_GROUP_PREFIX_FR = translate({
     id: 'share.audiencePicker.fsGroupPrefixFr',
     message: 'CS',
@@ -475,6 +482,18 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                 .flatMap((ts) => ts.subjects),
             (s) => `${s.name}-${s.description}`
         );
+        const aliasesDe = ALIAS_FS_GROUPS.flatMap((a) => {
+            return subjectsDe
+                .filter((s) => a.regex.test(s.description))
+                .map((subject) => {
+                    return {
+                        label: `${FS_GROUP_PREFIX_DE} ${a.replacer(subject.description)} (${subject.name})`,
+                        value: subject.name,
+                        lang: 'de',
+                        type: 'group'
+                    };
+                });
+        });
         return [
             {
                 label: I18n_LABELS.userType,
@@ -500,6 +519,7 @@ export class ViewStore implements ResettableStore, LoadeableStore<any> {
                                 type: 'group'
                             };
                         }),
+                        ...aliasesDe,
                         ...subjectsFr.flatMap((subject) => {
                             return {
                                 label: `${FS_GROUP_PREFIX_FR} ${subject.description} (${subject.name})`,

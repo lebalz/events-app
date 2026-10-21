@@ -1,6 +1,13 @@
 .card {
     max-height: min(90vh, calc(100vh - 4em));
     height: fit-content;
+    .header {
+        .closeButton {
+            position: absolute;
+            top: 0.5em;
+            right: 0.5em;
+        }
+    }
     .body {
         overflow: auto;
         flex-shrink: 1;

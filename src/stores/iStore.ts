@@ -152,7 +152,13 @@ abstract class iStore<Model extends { id: string }, Api = ''>
             return;
         }
         const model = this.createModel(data, state);
-        this.removeFromStore(model.id);
+        const old = this.find<ApiModel<Model, Api | ApiAction>>(model.id);
+        if (old && old.updatedAt.getTime() >= model.updatedAt.getTime()) {
+            return old;
+        }
+        if (old) {
+            this.models.remove(old);
+        }
         this.models.push(model);
         return model;
     }
@@ -171,9 +177,16 @@ abstract class iStore<Model extends { id: string }, Api = ''>
                 .filter((m): m is ApiModel<Model, Api | ApiAction> => !!m);
         }
         const newIds = new Set(data.map((m) => m.id).filter(Boolean));
+        const newModels = data.map((m) => {
+            const model = this.createModel(m, state);
+            const old = this.find<ApiModel<Model, Api | ApiAction>>(model.id);
+            if (old && old.updatedAt.getTime() >= model.updatedAt.getTime()) {
+                return old;
+            }
+            return model;
+        });
         const currentModels = this.models.filter((m) => !newIds.has(m.id));
         const removedModels = this.models.filter((m) => newIds.has(m.id));
-        const newModels = data.map((m) => this.createModel(m, state));
         const all = [...currentModels, ...newModels];
         this.models.replace(all);
         removedModels.forEach((m) => m.cleanup(false));

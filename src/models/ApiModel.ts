@@ -19,6 +19,8 @@ export default abstract class ApiModel<T extends { id: string }, Api = ''> {
     abstract readonly _pristine: T;
     abstract readonly store: iStore<T, any>;
     abstract readonly id: string;
+    abstract readonly createdAt: Date;
+    abstract updatedAt: Date;
     abstract readonly UPDATEABLE_PROPS: UpdateableProps<T>[];
     abstract readonly isUserModel: boolean;
 

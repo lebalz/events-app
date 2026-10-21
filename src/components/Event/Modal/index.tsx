@@ -13,11 +13,15 @@ import useResizeObserver from '../../shared/hooks/useResizeObserver';
 import { translate } from '@docusaurus/Translate';
 import Popup from 'reactjs-popup';
 import { useHistory } from '@docusaurus/router';
+import { SIZE_S } from '../../shared/icons';
+import { PopupActions } from 'reactjs-popup/dist/types';
 
 interface Props {}
 
 const EventModal = observer((props: Props) => {
     const viewStore = useStore('viewStore');
+    const modalRef = React.useRef<PopupActions>(null);
+
     const eventStore = useStore('eventStore');
     const history = useHistory();
     const [expandedButtons, setExpandedButtons] = React.useState(4);
@@ -49,8 +53,8 @@ const EventModal = observer((props: Props) => {
             open={!!event}
             onClose={() => viewStore.setEventModalId()}
             modal
-            closeOnEscape
-            closeOnDocumentClick
+            ref={modalRef}
+            closeOnEscape={!event?.isEditing}
             lockScroll
             nested
             overlayStyle={{ background: 'rgba(0, 0, 0, 0.2)' }}
@@ -60,9 +64,24 @@ const EventModal = observer((props: Props) => {
                     <>
                         <div className={clsx(styles.header, 'card__header')}>
                             <h3>{event.description}</h3>
+                            <div className={clsx(styles.closeButton)}>
+                                <Button
+                                    color="red"
+
+                                    title={translate({
+                                        message: 'Schliessen',
+                                        id: 'button.close',
+                                        description: 'Button text to close a modal'
+                                    })}
+                                    size={SIZE_S}
+                                    icon={mdiClose}
+                                    iconSide="left"
+                                    onClick={() => modalRef.current?.close()}
+                                />
+                            </div>
                         </div>
                         <div className={clsx(styles.body, 'card__body')}>
-                            <EventBody event={event} hideTitle />
+                            <EventBody event={event} />
                         </div>
                         <div className={clsx(styles.footer, 'card__footer')}>
                             <div className={clsx('button-group button-group--block')}>
