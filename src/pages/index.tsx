@@ -984,28 +984,6 @@ const Home = observer(() => {
                         </div>
                     ) : (
                         <div className="card" style={{ boxShadow: 'var(--ifm-global-shadow-md)' }}>
-                            <div className="card__body">
-                                L'agenda est encore en phase de lancement, ce qui implique les contraintes
-                                suivantes :
-                                <ul>
-                                    <li>
-                                        <b>
-                                            Les évènements saisies ne seront publiées que pour le semestre de
-                                            printemps 2025.
-                                        </b>
-                                    </li>
-                                    <li>
-                                        L'URL des calendriers abonnés pourrait changer pendant la phase de
-                                        lancement. Dans ce cas, vous seriez informé et vous devriez s'abonner
-                                        à nouveau au calendrier.
-                                    </li>
-                                    <li>
-                                        Tout ne fonctionnera pas déjà parfaitement. Les commentaires sur les
-                                        erreurs ou des suggestions sont toujours les bienvenues.
-                                    </li>
-                                </ul>
-                                <h3>Merci beaucoup pour votre compréhension et votre aide</h3>
-                            </div>
                             <div className="card__header">
                                 <h1>Comment ça marche ?</h1>
                             </div>
@@ -1031,90 +1009,12 @@ const Home = observer(() => {
                                         {
                                             src: '/videos/ME-exporter-imprimer.mp4',
                                             title: 'Exporter son agenda en format PDF ou papier'
-                                        },
-                                        {
-                                            src: '/videos/events-ruttl-de.mp4',
-                                            title: 'Feedback',
-                                            playbackRate: 0.5
                                         }
                                     ]}
                                 />
                                 <div className="card__body">
-                                    <h4>Version: Release Candidate 1.4 (6.1.2025)</h4>
-                                    <ul>
-                                        <li>
-                                            🚀 Nouveauté : Les évènements peuvent être ajoutés à des groupes
-                                            créés par l'utilisateur..
-                                            <ul>
-                                                <li>
-                                                    Les groupes sont comme des <b>dossiers</b> qui peuvent
-                                                    être partagés au choix avec d'autres personnes.
-                                                </li>
-                                                <li>
-                                                    Les groupes peuvent être copiés - tous les évèmements
-                                                    qu'ils contiennent sont également copiés, avec leur statut
-                                                    de « brouillon »{' '}
-                                                    <Icon
-                                                        path={mdiPen}
-                                                        size={0.8}
-                                                        color="var(--ifm-color-blue)"
-                                                    />{' '}
-                                                    activé.
-                                                </li>
-                                                <li>
-                                                    Tous les projets d'un groupe peuvent être déplacés :
-                                                    <ul>
-                                                        <li>
-                                                            <b>Éditeur de dates</b>: toutes les dates peuvent
-                                                            être reportées d'un an, par exemple.
-                                                        </li>
-                                                        <li>
-                                                            <b>Éditeur de classes</b>: les classes des
-                                                            évènements peuvent être réaffectées
-                                                            individuellement ou être déplacées par exemple
-                                                            d'un an.
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    Les modifications entre les dates des groupes copiés
-                                                    peuvent être suivies.
-                                                </li>
-                                                <li>
-                                                    📚 Documentation :
-                                                    <Link to="/docs/events/shift">
-                                                        👉 Reporter des dates sur l'année suivante
-                                                    </Link>
-                                                </li>
-                                                <li>
-                                                    <Link to="/user?user-tab=groups">
-                                                        👉 Faire des essais : Vers les groupes de d'évènements
-                                                    </Link>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            🚀 Amélioration des performances : l'aperçu personnel des
-                                            évènements est plus rapide et se charge désormais plus rapidement.
-                                        </li>
-                                        <li>
-                                            🔧 Mise à niveau technologique (en arrière-plan):{' '}
-                                            <a
-                                                href="https://nodejs.org/en/blog/release/v22.12.0"
-                                                target="_blank"
-                                            >
-                                                👉 Node 22 et
-                                            </a>{' '}
-                                            und
-                                            <a
-                                                href="https://react.dev/blog/2024/12/05/react-19"
-                                                target="_blank"
-                                            >
-                                                👉 React 19
-                                            </a>{' '}
-                                            .
-                                        </li>
-                                    </ul>
+                                    Pour les notes de mises à jour, veuillez basculez sur la version
+                                    allemande.
                                 </div>
                             </div>
                         </div>
