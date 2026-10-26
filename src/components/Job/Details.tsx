@@ -48,6 +48,12 @@ const Details = observer((props: Props) => {
                             <dd>{(job as SyncJob).fSyncDate}</dd>
                         </>
                     )}
+                    {job.user && (
+                        <>
+                            <dt>Author</dt>
+                            <dd>{job.user?.fullName}</dd>
+                        </>
+                    )}
                     <dt>Created At</dt>
                     <dd>{job.createdAt.toLocaleString()}</dd>
                     <dt>Updated At</dt>
