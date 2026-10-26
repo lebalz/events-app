@@ -1,3 +1,4 @@
+import { orderBy } from 'es-toolkit/array';
 import { action, computed, observable } from 'mobx';
 import { find } from '../api/api_model';
 import { ImportType, importEvents as postImportEvents } from '../api/event';
@@ -105,7 +106,11 @@ export class JobStore extends iStore<JobProps, `importFile-${string}`> {
         if (!semesterId) {
             return [];
         }
-        return this.syncJobs.filter((j) => j.semesterId === semesterId);
+        return orderBy(
+            this.syncJobs.filter((j) => j.semesterId === semesterId),
+            ['createdAt'],
+            ['desc']
+        );
     }
 
     @action
