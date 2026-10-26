@@ -1,30 +1,22 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import { default as UserModel } from '@site/src/models/User';
-import { formatDateTime } from '@site/src/models/helpers/time';
-import Badge from '../../shared/Badge';
+import { mdiAccountEdit, mdiCheckboxBlank, mdiCheckboxMarked, mdiCloudQuestion } from '@mdi/js';
+import Icon from '@mdi/react';
 import { AuthProviderColor, AuthProviderIcons, Role } from '@site/src/api/user';
-import Button from '../../shared/Button';
-import UntisLinker from '../../User/UntisLinker';
+import { formatDateTime } from '@site/src/models/helpers/time';
+import { default as UserModel } from '@site/src/models/User';
+import { useStore } from '@site/src/stores/hooks';
 import { ApiState } from '@site/src/stores/iStore';
-import {
-    mdiAccountEdit,
-    mdiCheck,
-    mdiCheckboxBlank,
-    mdiCheckboxBlankBadge,
-    mdiCheckboxMarked,
-    mdiCloseBox,
-    mdiCloudQuestion
-} from '@mdi/js';
-import { SIZE_S, SIZE_XS } from '../../shared/icons';
+import { observer } from 'mobx-react-lite';
 import Popup from 'reactjs-popup';
 import { type PopupActions } from 'reactjs-popup/dist/types';
+import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
+import { SIZE_S, SIZE_XS } from '../../shared/icons';
+import UntisLinker from '../../User/UntisLinker';
 import EditUser from '../EditUser';
-import Icon from '@mdi/react';
+import styles from './styles.module.scss';
 
 interface Props {
     user: UserModel;

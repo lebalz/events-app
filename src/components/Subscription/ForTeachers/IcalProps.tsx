@@ -1,21 +1,11 @@
-import React from 'react';
-import clsx from 'clsx';
-
-import sharedStyles from '../shared.module.scss';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import Translate, { translate } from '@docusaurus/Translate';
-import Button from '../../shared/Button';
-import { mdiClipboardText, mdiMicrosoftOutlook } from '@mdi/js';
-import { SIZE_S, SIZE_XS } from '../../shared/icons';
-import customFiels from '@site/src/components/utils/customFields';
-const { EVENTS_API } = customFiels;
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import _ from 'es-toolkit/compat';
-import Copy from '../../shared/Button/Copy';
+import customFiels from '@site/src/components/utils/customFields';
 import Subscription from '@site/src/models/Subscription';
-import SubscribeIcs from '../../shared/Button/SubscribeIcs';
+import { observer } from 'mobx-react-lite';
 import CopyIcs from '../../shared/Button/CopyIcs';
+import SubscribeIcs from '../../shared/Button/SubscribeIcs';
+const { EVENTS_API } = customFiels;
 
 interface Props {
     subscription: Subscription;

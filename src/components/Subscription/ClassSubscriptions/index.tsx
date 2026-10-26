@@ -1,17 +1,17 @@
-import clsx from 'clsx';
-import styles from '../shared.module.scss';
-import { observer } from 'mobx-react-lite';
 import Translate, { translate } from '@docusaurus/Translate';
-import { useStore } from '@site/src/stores/hooks';
-import TextInput from '../../shared/TextInput';
-import Button from '../../shared/Button';
-import { mdiBellPlus, mdiBellPlusOutline } from '@mdi/js';
-import { SIZE_S } from '../../shared/icons';
 import i18n from '@generated/i18n';
+import { mdiBellPlus, mdiBellPlusOutline } from '@mdi/js';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
 import _ from 'es-toolkit/compat';
-import SubscribeIcs from '../../shared/Button/SubscribeIcs';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
 import CopyIcs from '../../shared/Button/CopyIcs';
 import DownloadIcs from '../../shared/Button/DownloadIcs';
+import SubscribeIcs from '../../shared/Button/SubscribeIcs';
+import { SIZE_S } from '../../shared/icons';
+import TextInput from '../../shared/TextInput';
+import styles from '../shared.module.scss';
 
 const ClassSubscriptions = observer(() => {
     const userStore = useStore('userStore');

@@ -1,12 +1,11 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import Event from '@site/src/models/Event';
-import sharedStyles from '../../styles.module.scss';
 import Translate, { translate } from '@docusaurus/Translate';
 import EventOverviewSmall from '@site/src/components/EventOverviewSmall';
+import Event from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
+import sharedStyles from '../../styles.module.scss';
+import styles from './styles.module.scss';
 
 interface Props {
     event: Event;

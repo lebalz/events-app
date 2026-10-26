@@ -1,10 +1,10 @@
-import React, { type MouseEventHandler, type ReactNode } from 'react';
 import clsx from 'clsx';
+import { type MouseEventHandler } from 'react';
 
-import styles from './styles.module.scss';
-import { SaveIcon, SaveVersionIcon, SIZE_S } from '../icons';
+import { translate } from '@docusaurus/Translate';
 import Button, { Base, extractSharedProps } from '.';
-import Translate, { translate } from '@docusaurus/Translate';
+import { SaveIcon, SaveVersionIcon, SIZE_S } from '../icons';
+import styles from './styles.module.scss';
 
 interface Props {
     onClick: MouseEventHandler<HTMLButtonElement>;

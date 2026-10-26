@@ -1,8 +1,7 @@
+import customFields from '@site/src/components/utils/customFields';
 import { action, observable } from 'mobx';
-import _ from 'es-toolkit/compat';
 import { authClient } from '../auth-client';
 import { RootStore } from './stores';
-import customFields from '@site/src/components/utils/customFields';
 const { APP_URL } = customFields;
 
 export class AuthStore {

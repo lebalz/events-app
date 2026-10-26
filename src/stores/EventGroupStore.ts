@@ -1,22 +1,22 @@
-import { action, computed, observable } from 'mobx';
 import _ from 'es-toolkit/compat';
-import { RootStore } from './stores';
-import iStore, { ApiAction } from './iStore';
+import { action, computed, observable } from 'mobx';
+import { computedFn } from 'mobx-utils';
+import { destroy as apiDestroy } from '../api/api_model';
 import { Event as EventProps } from '../api/event';
 import {
+    DEFAULT_COLLECTION,
+    DestroyEventAction,
     EventGroupCreate,
     EventGroup as EventGroupProps,
-    create as apiCreate,
     clone as apiClone,
-    events as fetchEvents,
-    DestroyEventAction,
-    DEFAULT_COLLECTION
+    create as apiCreate,
+    events as fetchEvents
 } from '../api/event_group';
-import EventGroup from '../models/EventGroup';
 import ApiModel from '../models/ApiModel';
+import EventGroup from '../models/EventGroup';
 import { EndPoint } from './EndPoint';
-import { destroy as apiDestroy } from '../api/api_model';
-import { computedFn } from 'mobx-utils';
+import iStore, { ApiAction } from './iStore';
+import { RootStore } from './stores';
 
 export class EventGroupStore extends iStore<
     EventGroupProps,

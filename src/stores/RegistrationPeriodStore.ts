@@ -1,10 +1,10 @@
-import { computed, makeObservable, observable } from 'mobx';
 import _ from 'es-toolkit/compat';
-import { RootStore } from './stores';
-import iStore from './iStore';
+import { computed, observable } from 'mobx';
 import { RegistrationPeriod as RegPeriodProps } from '../api/registration_period';
 import RegistrationPeriod from '../models/RegistrationPeriod';
 import { EndPoint } from './EndPoint';
+import iStore from './iStore';
+import { RootStore } from './stores';
 
 const TODAY = new Date();
 TODAY.setHours(0, 0, 0, 0);

@@ -1,20 +1,19 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Button from '../../shared/Button';
-import { mdiCircle, mdiStar } from '@mdi/js';
-import TextInput from '../../shared/TextInput';
-import { SIZE_S, FilterSvgPath, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
-import { StylesConfig, Theme } from 'react-select';
-import _ from 'es-toolkit/compat';
+import { mdiCircle, mdiStar } from '@mdi/js';
 import Icon from '@mdi/react';
-import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import { StylesConfig, Theme } from 'react-select';
+import Button from '../../shared/Button';
+import TextInput from '../../shared/TextInput';
+import { FilterSvgPath, SIZE_S, SIZE_XS } from '../../shared/icons';
+import ShowSelectCheckBoxes from '../BulkActions/ShowSelectCheckBoxes';
 import AdvancedFilter from './AdvancedFilter';
+import styles from './styles.module.scss';
 
 export const selectStyleConfig: StylesConfig = {
     option: (styles, { data, isFocused }) => ({

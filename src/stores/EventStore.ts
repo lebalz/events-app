@@ -1,29 +1,29 @@
+import _ from 'es-toolkit/compat';
 import { action, computed, observable } from 'mobx';
 import { computedFn } from 'mobx-utils';
 import {
     Event as EventProps,
     EventState,
-    requestState as apiRequestState,
-    excel as apiDownloadExcel,
-    clone as apiClone,
-    all as apiFetchEvents,
-    updateMeta,
-    normalizeAudience as apiNormalizeAudience,
     Meta,
+    clone as apiClone,
+    deleteMany as apiDeleteMany,
+    excel as apiDownloadExcel,
+    all as apiFetchEvents,
+    normalizeAudience as apiNormalizeAudience,
+    requestState as apiRequestState,
     updateBatched as apiUpdateBatched,
-    deleteMany as apiDeleteMany
+    updateMeta
 } from '../api/event';
-import Event from '../models/Event';
-import { RootStore } from './stores';
-import _ from 'es-toolkit/compat';
-import iStore from './iStore';
+import AudienceShifter from '../components/EventGroup/BulkEditor/ShiftAudience/AudienceShifter';
 import Department from '../models/Department';
+import Event from '../models/Event';
+import { KlassName } from '../models/helpers/klassNames';
+import scheduleMicrotask from '../models/helpers/scheduleMicrotask';
 import { HOUR_2_MS, toGlobalDate } from '../models/helpers/time';
 import Lesson from '../models/Untis/Lesson';
 import { EndPoint } from './EndPoint';
-import AudienceShifter from '../components/EventGroup/BulkEditor/ShiftAudience/AudienceShifter';
-import { KlassName } from '../models/helpers/klassNames';
-import scheduleMicrotask from '../models/helpers/scheduleMicrotask';
+import iStore from './iStore';
+import { RootStore } from './stores';
 
 export class EventStore extends iStore<
     EventProps,

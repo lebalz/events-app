@@ -1,12 +1,8 @@
-import React from 'react';
-import clsx from 'clsx';
-
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import { translate } from '@docusaurus/Translate';
 import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 import Section from '../../shared/Section';
 import SyncSemester from './SyncSemester';
-import Translate, { translate } from '@docusaurus/Translate';
 
 interface Props {}
 

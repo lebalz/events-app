@@ -1,10 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { EditIcon, EditVersionIcon, SIZE_S } from '../icons';
-import Button, { Base, extractSharedProps } from '.';
 import { translate } from '@docusaurus/Translate';
+import Button, { Base, extractSharedProps } from '.';
+import { EditIcon, EditVersionIcon, SIZE_S } from '../icons';
+import styles from './styles.module.scss';
 
 interface Props {
     onClick: () => void;

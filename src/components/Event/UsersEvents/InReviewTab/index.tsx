@@ -1,13 +1,11 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import TabItem from '@theme/TabItem';
-import { useStore } from '@site/src/stores/hooks';
-import clsx from 'clsx';
 import { translate } from '@docusaurus/Translate';
-import shared from '../../styles.module.scss';
-import { COLUMN_CONFIG_ADMIN } from '..';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import { COLUMN_CONFIG_ADMIN } from '..';
+import shared from '../../styles.module.scss';
 import NoEventsAlert from '../NoEventsAlert';
 interface Props {
     viewType: View;

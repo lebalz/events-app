@@ -1,7 +1,7 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { ViewStore } from '.';
 import User from '@site/src/models/User';
 import _ from 'es-toolkit/compat';
+import { action, computed, observable } from 'mobx';
+import { ViewStore } from '.';
 
 type SortColumn =
     | 'id'

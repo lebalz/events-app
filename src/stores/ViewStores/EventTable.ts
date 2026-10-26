@@ -1,11 +1,3 @@
-import { action, computed, IObservableArray, observable } from 'mobx';
-import User from '../../models/User';
-import { EventAudience, EventState, TeachingAffected } from '../../api/event';
-import { ViewStore } from '.';
-import Department from '@site/src/models/Department';
-import { getLastMonday } from '@site/src/models/helpers/time';
-import Event, { CURRENT_YYYY_KW } from '@site/src/models/Event';
-import { groupBy, orderBy, chunk } from 'es-toolkit/array';
 import {
     ColumnConfig,
     ConfigOptions,
@@ -13,7 +5,14 @@ import {
     ViewEvent,
     ViewGroup
 } from '@site/src/components/Event/Views/Grid';
-import { DAYS } from '@site/src/models/helpers/time';
+import Department from '@site/src/models/Department';
+import Event, { CURRENT_YYYY_KW } from '@site/src/models/Event';
+import { DAYS, getLastMonday } from '@site/src/models/helpers/time';
+import { chunk, groupBy, orderBy } from 'es-toolkit/array';
+import { action, computed, IObservableArray, observable } from 'mobx';
+import { ViewStore } from '.';
+import { EventAudience, EventState, TeachingAffected } from '../../api/event';
+import User from '../../models/User';
 
 export interface EventViewProps {
     user?: User;

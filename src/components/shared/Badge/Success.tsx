@@ -1,10 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { Success as SuccessIcon, SIZE_S } from '../icons';
-import Badge, { Base, extractSharedProps } from '.';
 import { translate } from '@docusaurus/Translate';
+import Badge, { Base, extractSharedProps } from '.';
+import { SIZE_S, Success as SuccessIcon } from '../icons';
+import styles from './styles.module.scss';
 
 interface IconProps {
     size?: number;

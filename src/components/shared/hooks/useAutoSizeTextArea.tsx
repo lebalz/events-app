@@ -1,4 +1,4 @@
-import { useEffectEvent, useEffect } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 
 const MIN_PX = 16;
 // Updates the height of a <textarea> when the value changes.

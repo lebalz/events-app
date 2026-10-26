@@ -1,24 +1,24 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
+import { translate } from '@docusaurus/Translate';
+import { mdiArrowRightBottomBold, mdiCircleSmall } from '@mdi/js';
+import { DepartmentLetter } from '@site/src/api/department';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import { formatDateTime } from '@site/src/models/helpers/time';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Select from 'react-select';
+import Popup from 'reactjs-popup';
 import Badge from '../../shared/Badge';
-import Save from '../../shared/Button/Save';
+import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
 import Delete from '../../shared/Button/Delete';
 import Discard from '../../shared/Button/Discard';
+import Save from '../../shared/Button/Save';
+import { Icon, SIZE_S } from '../../shared/icons';
 import TextArea from '../../shared/TextArea';
 import TextInput from '../../shared/TextInput';
-import Select from 'react-select';
-import { DepartmentLetter } from '@site/src/api/department';
-import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
-import { mdiArrowRightBottomBold, mdiCircleSmall } from '@mdi/js';
-import { Icon, SIZE_S } from '../../shared/icons';
-import Popup from 'reactjs-popup';
-import { translate } from '@docusaurus/Translate';
+import styles from './styles.module.scss';
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 

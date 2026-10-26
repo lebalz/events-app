@@ -1,16 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import Translate from '@docusaurus/Translate';
+import { mdiClose } from '@mdi/js';
+import Subscription from '@site/src/models/Subscription';
+import { observer } from 'mobx-react-lite';
+import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import { SIZE_XS } from '../../shared/icons';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import _ from 'es-toolkit/compat';
-import Subscription from '@site/src/models/Subscription';
-import { mdiClose } from '@mdi/js';
-import Badge from '../../shared/Badge';
+import styles from './styles.module.scss';
 
 interface Props {
     subscription: Subscription;

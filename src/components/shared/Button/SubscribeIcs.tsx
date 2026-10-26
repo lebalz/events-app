@@ -1,10 +1,9 @@
-import React from 'react';
+import { translate } from '@docusaurus/Translate';
+import { mdiMicrosoftOutlook } from '@mdi/js';
+import { useSubscriptionUrl } from '@site/src/hooks/useSubscriptionUrl';
 import { observer } from 'mobx-react-lite';
 import Button from '.';
-import { useSubscriptionUrl } from '@site/src/hooks/useSubscriptionUrl';
-import { mdiMicrosoftOutlook } from '@mdi/js';
 import { SIZE_S } from '../icons';
-import { translate } from '@docusaurus/Translate';
 
 interface Props {
     locale: 'de' | 'fr';

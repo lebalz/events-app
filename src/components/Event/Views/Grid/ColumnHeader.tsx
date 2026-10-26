@@ -1,10 +1,7 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import { translate } from '@docusaurus/Translate';
-import { Icon, SIZE_S } from '../../../shared/icons';
 import {
     mdiArrowCollapseHorizontal,
     mdiArrowExpandHorizontal,
@@ -15,12 +12,14 @@ import {
     mdiSortDescending,
     mdiTools
 } from '@mdi/js';
-import Checkbox from '../../../shared/Checkbox';
-import Button, { ButtonIcon } from '../../../shared/Button';
-import { ConfigOptionsSortable, DefaultConfig } from '.';
-import Tooltip from '../../../shared/Tooltip';
-import { useStore } from '@site/src/stores/hooks';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
+import { observer } from 'mobx-react-lite';
+import { ConfigOptionsSortable, DefaultConfig } from '.';
+import Button, { ButtonIcon } from '../../../shared/Button';
+import Checkbox from '../../../shared/Checkbox';
+import { Icon, SIZE_S } from '../../../shared/icons';
+import Tooltip from '../../../shared/Tooltip';
+import styles from './styles.module.scss';
 
 interface Props extends Partial<ConfigOptionsSortable> {
     gridColumn: number;

@@ -1,25 +1,22 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './admin.module.scss';
-import { observer } from 'mobx-react-lite';
+import Translate, { translate } from '@docusaurus/Translate';
+import { mdiPlusCircleOutline } from '@mdi/js';
 import Layout from '@theme/Layout';
-import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { useStore } from '../stores/hooks';
+import Tabs from '@theme/Tabs';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import DepartmentTable from '../components/Admin/DepartmentTable';
+import RegistrationPeriods from '../components/Admin/RegistrationPeriods';
+import UserTable from '../components/Admin/UserTable';
+import ToReviewTab from '../components/Event/UsersEvents/ToReviewTab';
+import ImportEvents from '../components/ImportEvents';
+import SyncUntis from '../components/Job/SyncUntis';
 import SemesterList from '../components/Semester/List';
 import Button from '../components/shared/Button';
 import { Icon } from '../components/shared/icons';
-import { mdiFileExcel, mdiPlusCircleOutline } from '@mdi/js';
-import UserTable from '../components/Admin/UserTable';
-import DepartmentTable from '../components/Admin/DepartmentTable';
-import SyncUntis from '../components/Job/SyncUntis';
 import Section from '../components/shared/Section';
-import Upload from '../components/ImportEvents/Upload';
-import Job from '../components/Job';
-import Translate, { translate } from '@docusaurus/Translate';
-import ImportEvents from '../components/ImportEvents';
-import RegistrationPeriods from '../components/Admin/RegistrationPeriods';
-import ToReviewTab from '../components/Event/UsersEvents/ToReviewTab';
+import { useStore } from '../stores/hooks';
+import styles from './admin.module.scss';
 
 const AdminView = observer(() => {
     const userStore = useStore('userStore');

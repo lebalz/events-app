@@ -1,12 +1,12 @@
-import { mdiAccountCircleOutline } from '@mdi/js';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import useIsMobileView from '@site/src/hooks/useIsMobileView';
-import Button from '../../shared/Button';
 import { translate } from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { mdiAccountCircleOutline } from '@mdi/js';
+import useIsMobileView from '@site/src/hooks/useIsMobileView';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
+import styles from './styles.module.scss';
 
 interface Props {
     preventClick?: boolean;

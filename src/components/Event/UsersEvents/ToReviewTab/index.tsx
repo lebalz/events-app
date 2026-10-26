@@ -1,17 +1,17 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import shared from '../../styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { translate } from '@docusaurus/Translate';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
-import { COLUMN_CONFIG } from '..';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
-import NoEventsAlert from '../NoEventsAlert';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 import ShowDeletedAction from '@site/src/components/EventsViewer/ShowDeletedAction';
+import { useStore } from '@site/src/stores/hooks';
+import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs';
+import { observer } from 'mobx-react-lite';
+import { COLUMN_CONFIG } from '..';
+import shared from '../../styles.module.scss';
+import NoEventsAlert from '../NoEventsAlert';
 
 interface Props {}
 

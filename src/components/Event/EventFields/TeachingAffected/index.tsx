@@ -1,15 +1,14 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-import { observer } from 'mobx-react-lite';
-import { ReadonlyProps } from '../iEventField';
-import { mdiCircle } from '@mdi/js';
-import { SIZE_XXS } from '../../../shared/icons';
-import { TeachingAffected as TeachingAffectedType } from '@site/src/api/event';
 import { translate } from '@docusaurus/Translate';
-import Tooltip from '../../../shared/Tooltip';
+import { mdiCircle } from '@mdi/js';
+import { TeachingAffected as TeachingAffectedType } from '@site/src/api/event';
+import { observer } from 'mobx-react-lite';
 import Button from '../../../shared/Button';
+import { SIZE_XXS } from '../../../shared/icons';
+import Tooltip from '../../../shared/Tooltip';
+import { ReadonlyProps } from '../iEventField';
 import Edit from './Edit';
 
 export interface Props extends ReadonlyProps {

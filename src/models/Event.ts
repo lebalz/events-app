@@ -1,3 +1,6 @@
+import _ from 'es-toolkit/compat';
+import humanize from 'humanize-duration';
+import Joi from 'joi';
 import { IReactionDisposer, action, computed, observable, reaction } from 'mobx';
 import {
     EventAudience,
@@ -11,32 +14,29 @@ import {
 import { EventStore } from '../stores/EventStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
+import Department from './Department';
+import { KlassName } from './helpers/klassNames';
+import { LessonOverlap, lessonOverlap } from './helpers/lessonOverlap';
 import {
-    toLocalDate,
-    formatTime,
-    formatDate,
-    getKW,
     DAYS,
-    toGlobalDate,
+    DAYS_LONG,
     DAY_2_MS,
     HOUR_2_MS,
     MINUTE_2_MS,
     WEEK_2_MS,
-    getLastMonday,
-    DAYS_LONG,
+    currentGradeDate,
     dateBetween,
+    formatDate,
     formatDateLong,
-    currentGradeDate
+    formatTime,
+    getKW,
+    getLastMonday,
+    toGlobalDate,
+    toLocalDate
 } from './helpers/time';
 import Klass from './Untis/Klass';
 import Lesson from './Untis/Lesson';
 import User from './User';
-import Joi from 'joi';
-import _ from 'es-toolkit/compat';
-import { KlassName } from './helpers/klassNames';
-import humanize from 'humanize-duration';
-import Department from './Department';
-import { LessonOverlap, lessonOverlap } from './helpers/lessonOverlap';
 
 export interface iEvent {
     weekOffsetMS_start: number;

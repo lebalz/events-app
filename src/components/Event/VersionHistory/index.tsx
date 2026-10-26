@@ -1,14 +1,14 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { default as EventModel } from '@site/src/models/Event';
 import { mdiRecordCircleOutline } from '@mdi/js';
+import { default as EventModel } from '@site/src/models/Event';
+import { formatDateTime } from '@site/src/models/helpers/time';
+import { observer } from 'mobx-react-lite';
 import Badge from '../../shared/Badge';
 import { Icon } from '../../shared/icons';
 import EventProps from '../EventProps';
-import { formatDateTime } from '@site/src/models/helpers/time';
+import styles from './styles.module.scss';
 
 interface Props {
     event: EventModel;

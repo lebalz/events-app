@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import Event from '@site/src/models/Event';
 import { default as EventModelView } from '@site/src/components/Event';
+import Event from '@site/src/models/Event';
 import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
+import styles from './styles.module.scss';
 
 interface Props {
     events: Event[];

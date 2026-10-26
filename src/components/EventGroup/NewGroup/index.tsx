@@ -1,17 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import AddButton from '../../Event/AddButton';
 import { translate } from '@docusaurus/Translate';
-import UserEventGroup from '..';
-import TextInput from '../../shared/TextInput';
-import TextArea from '../../shared/TextArea';
-import Button from '../../shared/Button';
 import { mdiCloseCircle, mdiPlusCircleOutline, mdiTag } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
+import TextArea from '../../shared/TextArea';
+import TextInput from '../../shared/TextInput';
+import styles from './styles.module.scss';
 
 interface Props {
     onDone: () => void;

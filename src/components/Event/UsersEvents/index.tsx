@@ -1,18 +1,18 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import { useStore } from '@site/src/stores/hooks';
-import User from '@site/src/models/User';
-import { ColumnConfig } from '../Views/Grid';
 import { translate } from '@docusaurus/Translate';
+import User from '@site/src/models/User';
+import { useStore } from '@site/src/stores/hooks';
+import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { View } from '../../EventsViewer';
-import InReviewTab from './InReviewTab';
-import DraftTab from './DraftTab';
-import ToReviewTab from './ToReviewTab';
-import PublishedTab from './PublishedTab';
+import { ColumnConfig } from '../Views/Grid';
 import DeletedTab from './DeletedTab';
+import DraftTab from './DraftTab';
+import InReviewTab from './InReviewTab';
 import JobTab from './JobTab';
+import PublishedTab from './PublishedTab';
+import ToReviewTab from './ToReviewTab';
 export const COLUMN_CONFIG: ColumnConfig = [
     'isValid',
     ['state', { sortable: false, width: undefined }],

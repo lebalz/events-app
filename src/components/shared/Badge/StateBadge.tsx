@@ -1,8 +1,7 @@
-import React from 'react';
 import { Base } from '.';
-import Success from './Success';
 import Error from './Error';
 import Loading from './Loading';
+import Success from './Success';
 
 interface IconProps {
     size?: number;

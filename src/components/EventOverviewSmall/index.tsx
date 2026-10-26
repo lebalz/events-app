@@ -1,30 +1,30 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Event from '@site/src/models/Event';
+import Translate, { translate } from '@docusaurus/Translate';
+import { mdiCircle, mdiMinusThick } from '@mdi/js';
+import Icon from '@mdi/react';
 import {
     EventAudienceOverviewTranslation,
     EventStateButton,
     EventStateColor,
     EventStateTranslation
 } from '@site/src/api/event';
-import Badge from '../shared/Badge';
+import Event from '@site/src/models/Event';
+import { getDifferences } from '@site/src/models/helpers';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 import Popup from 'reactjs-popup';
-import { IfmColors } from '../shared/Colors';
-import Translate, { translate } from '@docusaurus/Translate';
-import Tooltip from '../shared/Tooltip';
+import Info from '../Event/EventFields/AudienceOptions/Info';
+import { LINKED_USER_COLOR } from '../Event/EventFields/LinkedUsers';
 import {
     TeachingAffectedColors,
     TitleMap as TeachingAffectedTitle
 } from '../Event/EventFields/TeachingAffected';
-import { mdiAccountRemove, mdiCircle, mdiMinusThick } from '@mdi/js';
-import Icon from '@mdi/react';
-import { getDifferences } from '@site/src/models/helpers';
-import Info from '../Event/EventFields/AudienceOptions/Info';
-import { LINKED_USER_COLOR } from '../Event/EventFields/LinkedUsers';
+import Badge from '../shared/Badge';
+import { IfmColors } from '../shared/Colors';
+import Tooltip from '../shared/Tooltip';
+import styles from './styles.module.scss';
 
 interface Props {
     event: Event;

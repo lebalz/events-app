@@ -1,15 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { translate } from '@docusaurus/Translate';
-import _ from 'es-toolkit/compat';
 import EventGroup from '@site/src/models/EventGroup';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import styles from './styles.module.scss';
 
-import CreatableSelect from 'react-select/creatable';
 import { DEFAULT_COLLECTION } from '@site/src/api/event_group';
+import CreatableSelect from 'react-select/creatable';
 
 interface Props {
     group: EventGroup;

@@ -1,19 +1,18 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './event.module.scss';
-import { observer } from 'mobx-react-lite';
+import { useLocation } from '@docusaurus/router';
 import { useStore } from '@site/src/stores/hooks';
 import Layout from '@theme/Layout';
-import { useLocation } from '@docusaurus/router';
+import { observer } from 'mobx-react-lite';
+import styles from './event.module.scss';
 // @ts-ignore
-import queryString from 'query-string';
-import { default as EventModelView } from '@site/src/components/Event';
-import Section from '../components/shared/Section';
-import ParentDetails from '../components/Event/ParentDetails';
-import { translate } from '@docusaurus/Translate';
 import Head from '@docusaurus/Head';
+import { translate } from '@docusaurus/Translate';
+import queryString from 'query-string';
+import ParentDetails from '../components/Event/ParentDetails';
 import List from '../components/Event/Views/List';
+import Section from '../components/shared/Section';
 
 interface Props {}
 

@@ -1,15 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { default as EventModel } from '@site/src/models/Event';
-import { ArrowLeft, ArrowRight, SIZE_S } from '../../../shared/icons';
 import { translate } from '@docusaurus/Translate';
-import Button from '../../../shared/Button';
-import DiffViewer from '../../../Event/DiffViewer';
-import Icon from '@mdi/react';
 import { mdiEye } from '@mdi/js';
+import Icon from '@mdi/react';
+import { default as EventModel } from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
+import DiffViewer from '../../../Event/DiffViewer';
+import Button from '../../../shared/Button';
+import { ArrowLeft, ArrowRight, SIZE_S } from '../../../shared/icons';
+import styles from './styles.module.scss';
 
 interface Props {
     events: EventModel[];

@@ -1,13 +1,12 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
-import Badge from '../shared/Badge';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import { formatSeconds } from '@site/src/models/helpers/time';
+import { observer } from 'mobx-react-lite';
+import Badge from '../shared/Badge';
+import styles from './styles.module.scss';
 interface Step {
     time: number;
     label: string;

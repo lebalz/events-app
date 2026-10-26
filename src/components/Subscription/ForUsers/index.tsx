@@ -1,17 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import Translate from '@docusaurus/Translate';
-import _ from 'es-toolkit/compat';
-import DefinitionList from '../../shared/DefinitionList';
-import Badge from '../../shared/Badge';
-import Subscription from '@site/src/models/Subscription';
-import GroupSubscriptions from './GroupSubscriptions';
-import IcalProps from '../ForTeachers/IcalProps';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
+import Translate from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import Subscription from '@site/src/models/Subscription';
+import { observer } from 'mobx-react-lite';
+import Badge from '../../shared/Badge';
+import DefinitionList from '../../shared/DefinitionList';
+import IcalProps from '../ForTeachers/IcalProps';
+import GroupSubscriptions from './GroupSubscriptions';
+import styles from './styles.module.scss';
 
 interface Props {
     subscription: Subscription;

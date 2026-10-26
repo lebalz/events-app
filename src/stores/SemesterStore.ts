@@ -1,11 +1,9 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
-import _ from 'es-toolkit/compat';
-import { RootStore } from './stores';
-import iStore from './iStore';
-import { Semester as SemesterProps } from '../api/semester';
+import { action, computed, observable } from 'mobx';
+import { syncUntis as apiStartSyncJob, Semester as SemesterProps } from '../api/semester';
 import Semester from '../models/Semester';
-import { syncUntis as apiStartSyncJob } from '../api/semester';
 import { EndPoint } from './EndPoint';
+import iStore from './iStore';
+import { RootStore } from './stores';
 
 export class SemesterStore extends iStore<SemesterProps, `sync-untis-semester-${string}`> {
     @observable.ref accessor ApiEndpoint = new EndPoint('semesters', { public: true });

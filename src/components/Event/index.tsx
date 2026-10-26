@@ -1,10 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
 import EventBody from './EventBody';
+import styles from './styles.module.scss';
 interface Props {
     event: EventModel;
     inModal?: boolean;

@@ -1,10 +1,9 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Layout from '@theme/Layout';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import HomepageHeader from '../HomepageHeader';
+import styles from './styles.module.scss';
 
 interface Props {
     children?: React.ReactNode;

@@ -1,22 +1,21 @@
-import { override, action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import {
-    User as UserProps,
-    linkToUntis,
+    affectedEventIds as apiAffectedEventIds,
     createIcs,
+    linkToUntis,
     Role,
     setRole,
-    affectedEventIds as apiAffectedEventIds
+    User as UserProps
 } from '../api/user';
 
-import { RootStore } from './stores';
-import User from '../models/User';
-import _ from 'es-toolkit/compat';
-import iStore from './iStore';
-import EventGroup from '../models/EventGroup';
-import { EndPoint } from './EndPoint';
-import Storage, { PersistedData, StorageKey } from './utils/Storage';
 import { computedFn } from 'mobx-utils';
+import EventGroup from '../models/EventGroup';
 import scheduleMicrotask from '../models/helpers/scheduleMicrotask';
+import User from '../models/User';
+import { EndPoint } from './EndPoint';
+import iStore from './iStore';
+import { RootStore } from './stores';
+import Storage, { PersistedData } from './utils/Storage';
 
 type ApiAction = 'linkUserToUntis' | 'createIcs';
 

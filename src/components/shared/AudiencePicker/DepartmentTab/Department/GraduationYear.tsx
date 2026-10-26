@@ -1,16 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { default as EventModel } from '@site/src/models/Event';
-import Klass from '@site/src/models/Untis/Klass';
-import Button from '../../../Button';
-import _ from 'es-toolkit/compat';
 import { translate } from '@docusaurus/Translate';
 import { mdiToggleSwitchOffOutline, mdiToggleSwitchOutline } from '@mdi/js';
+import { default as EventModel } from '@site/src/models/Event';
+import Klass from '@site/src/models/Untis/Klass';
+import _ from 'es-toolkit/compat';
 import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import Button from '../../../Button';
 import { SIZE_S, ToggleHalf } from '../../../icons';
+import styles from './styles.module.scss';
 
 interface Props {
     event: EventModel;

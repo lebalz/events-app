@@ -1,8 +1,8 @@
 import { action, computed, observable } from 'mobx';
 import { Subscription as SubscriptionProps } from '../api/subscription';
 import { ApiAction } from '../stores/iStore';
-import ApiModel, { UpdateableProps } from './ApiModel';
 import { SubscriptionStore } from '../stores/SubscriptionStore';
+import ApiModel, { UpdateableProps } from './ApiModel';
 
 export default class Subscription extends ApiModel<SubscriptionProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<SubscriptionProps>[] = [

@@ -1,15 +1,15 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from '../styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
+import siteConfig from '@generated/docusaurus.config';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import Event from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
 import TabItem from '@theme/TabItem';
-import Department from './Department';
 import Tabs from '@theme/Tabs';
-import siteConfig from '@generated/docusaurus.config';
+import clsx from 'clsx';
 import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import styles from '../styles.module.scss';
+import Department from './Department';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 interface Props {

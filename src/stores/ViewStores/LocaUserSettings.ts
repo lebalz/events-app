@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { ViewStore } from '.';
 import Storage, { StorageKey } from '../utils/Storage';
 

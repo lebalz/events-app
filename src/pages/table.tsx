@@ -1,18 +1,18 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '../stores/hooks';
-import Layout from '@theme/Layout';
-import Button from '../components/shared/Button';
+import { translate } from '@docusaurus/Translate';
 import { mdiCheckboxBlankBadge, mdiDownloadCircleOutline } from '@mdi/js';
-import Filter from '../components/Event/Filter';
+import Layout from '@theme/Layout';
 import clsx from 'clsx';
-import styles from './table.module.scss';
-import Grid from '../components/Event/Views/Grid';
-import { toExcel } from '../stores/helpers/EventsToExcelV1';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import BulkActions from '../components/Event/BulkActions';
+import Filter from '../components/Event/Filter';
+import Grid from '../components/Event/Views/Grid';
+import Button from '../components/shared/Button';
 import useResizeObserver from '../components/shared/hooks/useResizeObserver';
 import { SIZE_S } from '../components/shared/icons';
-import { translate } from '@docusaurus/Translate';
+import { toExcel } from '../stores/helpers/EventsToExcelV1';
+import { useStore } from '../stores/hooks';
+import styles from './table.module.scss';
 
 const Table = observer(() => {
     const [width, setWidth] = React.useState<number>(800);

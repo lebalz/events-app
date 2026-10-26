@@ -1,12 +1,11 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { default as EventModel } from '@site/src/models/Event';
 import Translate from '@docusaurus/Translate';
-import EventOverviewSmall from '../../EventOverviewSmall';
 import useIsMobileView from '@site/src/hooks/useIsMobileView';
+import { default as EventModel } from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
+import EventOverviewSmall from '../../EventOverviewSmall';
+import styles from './styles.module.scss';
 interface Props {
     compare: { a: EventModel; b: EventModel }[];
     labels?: {

@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { observer } from 'mobx-react-lite';
-import { Props as CommonProps } from '../iEventField';
 import Departments from '../Departments';
+import { Props as CommonProps } from '../iEventField';
 import Klasses from '../Klasses';
-import Edit from './Edit';
 import LinkedUsers from '../LinkedUsers';
+import Edit from './Edit';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean /** true when at least one element of the grid is edited */;

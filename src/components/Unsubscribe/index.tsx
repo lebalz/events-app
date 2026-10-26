@@ -1,36 +1,26 @@
-import React from 'react';
-import styles from './styles.module.scss';
-import clsx from 'clsx';
-import Layout from '@theme/Layout';
-import Icon from '@mdi/react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import {
-    mdiAccountAlert,
-    mdiBellMinus,
-    mdiBellPlus,
-    mdiCalendarPlusOutline,
-    mdiCalendarRemove,
-    mdiClockAlert,
-    mdiUndo
-} from '@mdi/js';
-import { observer } from 'mobx-react-lite';
+import Link from '@docusaurus/Link';
 import { matchPath, useHistory, useLocation } from '@docusaurus/router';
 import Translate, { translate } from '@docusaurus/Translate';
-import Loader from '../shared/Loader';
-import { useStore } from '@site/src/stores/hooks';
-import User from '@site/src/models/User';
-import Subscription from '@site/src/components/Subscription';
-import { default as SubscriptionModel } from '@site/src/models/Subscription';
-import { action } from 'mobx';
-import { ApiState } from '@site/src/stores/iStore';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { mdiAccountAlert, mdiBellMinus, mdiCalendarRemove, mdiClockAlert, mdiUndo } from '@mdi/js';
+import Icon from '@mdi/react';
 import Event from '@site/src/models/Event';
+import { default as SubscriptionModel } from '@site/src/models/Subscription';
+import User from '@site/src/models/User';
+import { useStore } from '@site/src/stores/hooks';
+import { ApiState } from '@site/src/stores/iStore';
+import Admonition from '@theme/Admonition';
+import Layout from '@theme/Layout';
+import clsx from 'clsx';
+import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import EventOverviewSmall from '../EventOverviewSmall';
 import Button from '../shared/Button';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import Link from '@docusaurus/Link';
-import { SIZE, SIZE_S } from '../shared/icons';
-import { MDXProvider } from '@mdx-js/react';
-import Admonition from '@theme/Admonition';
+import { SIZE } from '../shared/icons';
+import Loader from '../shared/Loader';
+import styles from './styles.module.scss';
 type PathParams = { eventId: string };
 const PATHNAME_PATTERN = '/unsubscribe/:eventId' as const;
 

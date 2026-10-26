@@ -1,13 +1,12 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Button from '../../shared/Button';
-import { mdiCheckboxBlankBadgeOutline } from '@mdi/js';
-import { SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
+import { mdiCheckboxBlankBadgeOutline } from '@mdi/js';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
+import { SIZE_S } from '../../shared/icons';
+import styles from './styles.module.scss';
 
 interface Props {
     label?: string;

@@ -1,24 +1,22 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import DatePicker from '../../../shared/DatePicker';
-import { default as EventModel } from '@site/src/models/Event';
-import Icon from '@mdi/react';
-import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
-import { SIZE } from '../../../shared/icons';
-import { toGlobalDate } from '@site/src/models/helpers/time';
 import Translate, { translate } from '@docusaurus/Translate';
-import Button from '../../../shared/Button';
-import { EventStateButton, EventStateColor } from '@site/src/api/event';
-import Badge from '../../../shared/Badge';
+import { mdiArrowRightBoldCircle, mdiCheckCircleOutline } from '@mdi/js';
+import Icon from '@mdi/react';
+import { default as EventModel } from '@site/src/models/Event';
+import { toGlobalDate } from '@site/src/models/helpers/time';
+import { useStore } from '@site/src/stores/hooks';
 import { ApiState } from '@site/src/stores/iStore';
+import { observer } from 'mobx-react-lite';
+import Button from '../../../shared/Button';
+import DatePicker from '../../../shared/DatePicker';
+import { SIZE } from '../../../shared/icons';
 import Preview from '../Preview';
 import DraftAlert from '../helpers/DraftAlert';
 import EditableDrafts from '../helpers/EditeableDrafts';
 import NoDraftEventsAlert from '../helpers/NoDraftEventsAlert';
+import styles from './styles.module.scss';
 
 interface Props {
     events: EventModel[];

@@ -1,28 +1,28 @@
+import axios from 'axios';
+import _ from 'es-toolkit/compat';
 import { action, computed, observable, reaction, runInAction } from 'mobx';
+import { computedFn } from 'mobx-utils';
 import {
-    teachers as fetchTeachers,
+    CheckedUntisLesson,
     classes as fetchClasses,
     subjects as fetchSubjects,
     teacher as fetchTeacher,
+    teachers as fetchTeachers,
     teachersSubjects as fetchTeachersSubjects,
-    UntisTeacher,
-    CheckedUntisLesson,
     UntisLesson,
+    UntisTeacher,
     UntisTeacherSubject
 } from '../api/untis';
-import _ from 'es-toolkit/compat';
-import axios from 'axios';
+import Department from '../models/Department';
+import Event from '../models/Event';
+import Semester from '../models/Semester';
 import Klass from '../models/Untis/Klass';
 import Lesson from '../models/Untis/Lesson';
-import Teacher from '../models/Untis/Teacher';
-import { RootStore } from './stores';
-import Event from '../models/Event';
-import { LoadeableStore, ResettableStore } from './iStore';
-import { computedFn } from 'mobx-utils';
-import { replaceOrAdd } from './helpers/replaceOrAdd';
-import Department from '../models/Department';
 import Subject from '../models/Untis/Subjet';
-import Semester from '../models/Semester';
+import Teacher from '../models/Untis/Teacher';
+import { replaceOrAdd } from './helpers/replaceOrAdd';
+import { LoadeableStore, ResettableStore } from './iStore';
+import { RootStore } from './stores';
 
 export class UntisStore implements ResettableStore, LoadeableStore<UntisTeacher> {
     private readonly root: RootStore;

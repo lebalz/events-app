@@ -1,15 +1,14 @@
 import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Event from '@site/src/models/Event';
-import { createTransformer } from 'mobx-utils';
-import { Calendar as BigCalendar, type EventPropGetter, Formats, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import siteConfig from '@generated/docusaurus.config';
 import { translate } from '@docusaurus/Translate';
+import siteConfig from '@generated/docusaurus.config';
+import Event from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import { createTransformer } from 'mobx-utils';
+import moment from 'moment';
+import { Calendar as BigCalendar, type EventPropGetter, Formats, momentLocalizer } from 'react-big-calendar';
 
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 moment.locale(`${CURRENT_LOCALE}-CH`);

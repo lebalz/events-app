@@ -1,14 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import LazyDetails from '../shared/Details';
-import Badge from '../shared/Badge';
-import { mdiRecordCircleOutline } from '@mdi/js';
 import { translate } from '@docusaurus/Translate';
-import EventProps from './EventProps';
+import { mdiRecordCircleOutline } from '@mdi/js';
 import { default as EventModel } from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
+import Badge from '../shared/Badge';
+import LazyDetails from '../shared/Details';
+import EventProps from './EventProps';
+import styles from './styles.module.scss';
 
 interface Props {
     event: EventModel;

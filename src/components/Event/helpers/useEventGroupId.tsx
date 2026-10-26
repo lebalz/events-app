@@ -1,4 +1,3 @@
-import _ from 'es-toolkit/compat';
 import React from 'react';
 
 const GroupIdContext = React.createContext<string | null>(null);

@@ -1,14 +1,14 @@
-import React from 'react';
+import siteConfig from '@generated/docusaurus.config';
+import Event from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
 import clsx from 'clsx';
-import styles from './styles.module.scss';
+import _ from 'es-toolkit/compat';
 import { Gantt, Task, ViewMode } from 'gantt-task-react';
 import 'gantt-task-react/dist/index.css';
 import { observer } from 'mobx-react-lite';
 import { createTransformer } from 'mobx-utils';
-import siteConfig from '@generated/docusaurus.config';
-import { useStore } from '@site/src/stores/hooks';
-import Event from '@site/src/models/Event';
-import _ from 'es-toolkit/compat';
+import React from 'react';
+import styles from './styles.module.scss';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 const ISO_639_CODES = {

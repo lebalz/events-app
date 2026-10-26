@@ -1,9 +1,9 @@
-import { action, observable, reaction } from 'mobx';
-import { ViewStore } from '.';
+import { updateDOMColors } from '@site/src/components/ColorGenerator/colorUtils';
 import Color from 'color';
 import _ from 'es-toolkit/compat';
+import { action, observable, reaction } from 'mobx';
+import { ViewStore } from '.';
 import Storage, { StorageKey } from '../utils/Storage';
-import { updateDOMColors } from '@site/src/components/ColorGenerator/colorUtils';
 
 export type ColorState = {
     baseColor: string;

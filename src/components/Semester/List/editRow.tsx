@@ -1,16 +1,16 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import { mdiAlertOutline } from '@mdi/js';
 import Semester from '@site/src/models/Semester';
-import TextInput from '../../shared/TextInput';
-import DatePicker from '../../shared/DatePicker';
+import { observer } from 'mobx-react-lite';
+import Badge from '../../shared/Badge';
 import Delete from '../../shared/Button/Delete';
 import Discard from '../../shared/Button/Discard';
 import Save from '../../shared/Button/Save';
-import Badge from '../../shared/Badge';
-import { mdiAlertOutline } from '@mdi/js';
+import DatePicker from '../../shared/DatePicker';
+import TextInput from '../../shared/TextInput';
+import styles from './styles.module.scss';
 
 interface Props {
     semester: Semester;

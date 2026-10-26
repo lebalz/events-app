@@ -1,9 +1,7 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { toGlobalDate, toLocalDate } from '@site/src/models/helpers/time';
-import { action } from 'mobx';
+import { toGlobalDate } from '@site/src/models/helpers/time';
 import { observer } from 'mobx-react-lite';
 
 interface Props {

@@ -1,18 +1,18 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Button from '../../shared/Button';
+import { translate } from '@docusaurus/Translate';
 import { mdiCheckCircle, mdiPlusCircleOutline } from '@mdi/js';
+import EventGroup from '@site/src/models/EventGroup';
+import { useStore } from '@site/src/stores/hooks';
+import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
+import Popup from 'reactjs-popup';
+import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
 import { Icon, SIZE_S } from '../../shared/icons';
 import TextInput from '../../shared/TextInput';
-import { translate } from '@docusaurus/Translate';
-import Badge from '../../shared/Badge';
-import EventGroup from '@site/src/models/EventGroup';
-import _ from 'es-toolkit/compat';
-import Popup from 'reactjs-popup';
+import styles from './styles.module.scss';
 
 interface Props {
     group: EventGroup;

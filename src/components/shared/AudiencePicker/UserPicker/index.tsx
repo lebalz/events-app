@@ -1,12 +1,12 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Select, { ActionMeta, FilterOptionOption } from 'react-select';
-import Event from '@site/src/models/Event';
-import _ from 'es-toolkit/compat';
 import { translate } from '@docusaurus/Translate';
+import Event from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import Select, { ActionMeta, FilterOptionOption } from 'react-select';
+import styles from './styles.module.scss';
 
 interface BaseOption {
     label: string;

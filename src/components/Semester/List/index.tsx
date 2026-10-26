@@ -1,12 +1,11 @@
-import React from 'react';
+import { useStore } from '@site/src/stores/hooks';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 
-import styles from './styles.module.scss';
+import Translate from '@docusaurus/Translate';
 import EditTr from './editRow';
 import Tr from './row';
-import Translate from '@docusaurus/Translate';
+import styles from './styles.module.scss';
 
 interface Props {}
 

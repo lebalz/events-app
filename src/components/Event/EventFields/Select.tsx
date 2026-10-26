@@ -1,12 +1,11 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import { observer } from 'mobx-react-lite';
-import { ReadonlyProps } from './iEventField';
 import Checkbox from '@site/src/components/shared/Checkbox';
-import styles from './styles.module.scss';
 import Event from '@site/src/models/Event';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
+import { observer } from 'mobx-react-lite';
+import { ReadonlyProps } from './iEventField';
+import styles from './styles.module.scss';
 
 interface Props extends ReadonlyProps {
     onSelect: (event: Event, selected: boolean, shiftKey: boolean) => void;

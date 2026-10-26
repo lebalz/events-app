@@ -1,16 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import { observer } from 'mobx-react-lite';
-import styles from './styles.module.scss';
-import Button from '@site/src/components/shared/Button';
-import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
 import Translate, { translate } from '@docusaurus/Translate';
+import { EventAudience, EventAudienceTranslationShort } from '@site/src/api/event';
+import Button from '@site/src/components/shared/Button';
 import LabeledBox from '@site/src/components/shared/LabeledBox';
-import Info from './Info';
-import { Props as DefaultProps } from '.';
 import { useStore } from '@site/src/stores/hooks';
 import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { Props as DefaultProps } from '.';
+import Info from './Info';
+import styles from './styles.module.scss';
 
 interface Props extends DefaultProps {
     preventHideInfo?: boolean;

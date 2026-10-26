@@ -1,17 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import AddButton from '../../Event/AddButton';
 import { translate } from '@docusaurus/Translate';
-import _ from 'es-toolkit/compat';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import Collection from './Collection';
 import { DEFAULT_COLLECTION } from '@site/src/api/event_group';
+import { useStore } from '@site/src/stores/hooks';
 import Storage, { StorageKey } from '@site/src/stores/utils/Storage';
+import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs';
+import { observer } from 'mobx-react-lite';
+import AddButton from '../../Event/AddButton';
+import Collection from './Collection';
+import styles from './styles.module.scss';
 
 interface Props {}
 

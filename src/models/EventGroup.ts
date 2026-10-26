@@ -1,3 +1,4 @@
+import _ from 'es-toolkit/compat';
 import { action, computed, observable } from 'mobx';
 import {
     DEFAULT_COLLECTION,
@@ -5,12 +6,11 @@ import {
     EventGroup as EventGroupProps,
     Meta
 } from '../api/event_group';
+import { EventGroupStore } from '../stores/EventGroupStore';
 import { ApiAction } from '../stores/iStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { EventGroupStore } from '../stores/EventGroupStore';
 import Event from './Event';
 import User from './User';
-import _ from 'es-toolkit/compat';
 
 export default class EventGroup extends ApiModel<EventGroupProps, ApiAction | `clone-${string}`> {
     readonly UPDATEABLE_PROPS: UpdateableProps<EventGroupProps>[] = ['name', 'description', 'collection'];

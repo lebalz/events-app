@@ -1,20 +1,19 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import { translate } from '@docusaurus/Translate';
+import useIsBrowser from '@docusaurus/useIsBrowser';
+import { mdiCancel } from '@mdi/js';
+import { JobState, JobType } from '@site/src/api/job';
+import { ImportJob, SyncJob } from '@site/src/models/Job';
 import { useStore } from '@site/src/stores/hooks';
-import Job, { ImportJob, JobType as JobModel, SyncJob } from '@site/src/models/Job';
-import { JobType, JobState } from '@site/src/api/job';
+import { observer } from 'mobx-react-lite';
+import Badge from '../shared/Badge';
 import StateBadge from '../shared/Badge/StateBadge';
 import Button from '../shared/Button';
 import Delete from '../shared/Button/Delete';
-import { SIZE_S, Sync } from '../shared/icons';
-import Badge from '../shared/Badge';
 import { Color as ColorType } from '../shared/Colors';
-import { translate } from '@docusaurus/Translate';
-import { mdiCancel } from '@mdi/js';
-import useIsBrowser from '@docusaurus/useIsBrowser';
+import { SIZE_S, Sync } from '../shared/icons';
+import styles from './styles.module.scss';
 
 const State: { [key in JobState]: 'loading' | 'success' | 'error' } = {
     [JobState.PENDING]: 'loading',

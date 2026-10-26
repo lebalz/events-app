@@ -1,14 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Badge from '../../shared/Badge';
-import Delete from '../../shared/Button/Delete';
-import { action } from 'mobx';
-import { EventState, EventStateActions } from '@site/src/api/event';
-import Button from '../../shared/Button';
+import { useHistory } from '@docusaurus/router';
+import { translate } from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {
     mdiBellPlus,
     mdiBellRemove,
@@ -21,23 +16,28 @@ import {
     mdiShareAll,
     mdiTag
 } from '@mdi/js';
-import { Icon, SIZE_S, SIZE_XS } from '../../shared/icons';
-import { translate } from '@docusaurus/Translate';
-import Select from 'react-select';
-import EventGroup from '@site/src/models/EventGroup';
-import Stats from './stats';
-import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
-import { InvalidTransitionMessages } from '../EventFields/Actions/Transition';
-import ValidationChecker from './ValidationChecker';
-import Popup from 'reactjs-popup';
-import NewGroup from '../../EventGroup/NewGroup';
-import { PopupActions } from 'reactjs-popup/dist/types';
-import { useHistory } from '@docusaurus/router';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import EventTable from '@site/src/stores/ViewStores/EventTable';
-import Filter from '../Filter';
+import { EventState, EventStateActions } from '@site/src/api/event';
 import useIsMobileView from '@site/src/hooks/useIsMobileView';
+import EventGroup from '@site/src/models/EventGroup';
+import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
+import { useStore } from '@site/src/stores/hooks';
+import EventTable from '@site/src/stores/ViewStores/EventTable';
+import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import Select from 'react-select';
+import Popup from 'reactjs-popup';
+import { PopupActions } from 'reactjs-popup/dist/types';
+import NewGroup from '../../EventGroup/NewGroup';
+import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
 import Confirm from '../../shared/Button/Confirm';
+import Delete from '../../shared/Button/Delete';
+import { Icon, SIZE_S, SIZE_XS } from '../../shared/icons';
+import { InvalidTransitionMessages } from '../EventFields/Actions/Transition';
+import Filter from '../Filter';
+import Stats from './stats';
+import styles from './styles.module.scss';
+import ValidationChecker from './ValidationChecker';
 
 interface ActionConfig {
     stateActions: boolean;

@@ -1,11 +1,8 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Example from '.';
-import Event from '@site/src/models/Event';
 import { EventAudience, EventState, TeachingAffected } from '@site/src/api/event';
+import Event from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import Example from '.';
 
 interface Props {}
 

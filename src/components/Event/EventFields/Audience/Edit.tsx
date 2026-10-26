@@ -1,10 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import sharedStyles from '../styles.module.scss';
+import AudiencePicker from '@site/src/components/shared/AudiencePicker';
 import { observer } from 'mobx-react-lite';
 import { Props as CommonProps } from '../iEventField';
-import AudiencePicker from '@site/src/components/shared/AudiencePicker';
+import sharedStyles from '../styles.module.scss';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean /** true when at least one element of the grid is edited */;

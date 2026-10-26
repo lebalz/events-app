@@ -1,10 +1,9 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { DepartmentLetter, Department as DepartmentProps } from '../api/department';
-import { DepartmentStore } from '../stores/DepartmentStore';
 import Event from '../models/Event';
-import ApiModel, { UpdateableProps } from './ApiModel';
-import _ from 'es-toolkit/compat';
+import { DepartmentStore } from '../stores/DepartmentStore';
 import { ApiAction } from '../stores/iStore';
+import ApiModel, { UpdateableProps } from './ApiModel';
 import Klass from './Untis/Klass';
 
 export const ALPHABET_CAPITAL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

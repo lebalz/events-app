@@ -1,10 +1,10 @@
-import { makeObservable, computed, observable, action, override } from 'mobx';
-import { JobType as ApiJobType, JobState, Job as JobProps, UntisSyncJob, UntisImportJob } from '../api/job';
+import { action, computed, observable } from 'mobx';
+import { JobType as ApiJobType, Job as JobProps, JobState, UntisImportJob, UntisSyncJob } from '../api/job';
 import { ApiAction } from '../stores/iStore';
 import { JobStore } from '../stores/JobStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import Semester from './Semester';
 import { formatDate } from './helpers/time';
+import Semester from './Semester';
 
 export default class Job extends ApiModel<JobProps, ApiAction> {
     readonly UPDATEABLE_PROPS: UpdateableProps<JobProps>[] = [];

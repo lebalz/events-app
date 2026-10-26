@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { DeleteIcon, SIZE_S } from '../icons';
-import { Base } from '.';
 import { translate } from '@docusaurus/Translate';
+import { Base } from '.';
+import { DeleteIcon, SIZE_S } from '../icons';
 import Confirm from './Confirm';
 
 interface Props {

@@ -1,14 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import sharedStyles from '../styles.module.scss';
+import Translate, { translate } from '@docusaurus/Translate';
+import { TeachingAffected } from '@site/src/api/event';
+import Button from '@site/src/components/shared/Button';
 import { observer } from 'mobx-react-lite';
 import { Props as DefaultProps } from '.';
-import styles from './styles.module.scss';
-import Button from '@site/src/components/shared/Button';
-import { TeachingAffected } from '@site/src/api/event';
-import Translate, { translate } from '@docusaurus/Translate';
+import sharedStyles from '../styles.module.scss';
 import Example from './Example';
+import styles from './styles.module.scss';
 
 export const TranslationsTA: { [key in TeachingAffected]: string } = {
     [TeachingAffected.YES]: translate({

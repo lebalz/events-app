@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Color from 'color';
 import { createStorageSlot } from '@docusaurus/theme-common';
+import Color from 'color';
 
 // These values are shared between the Toggle component and the ColorGenerator
 

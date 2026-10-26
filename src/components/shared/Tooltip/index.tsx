@@ -1,10 +1,10 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import Popup from 'reactjs-popup';
 import type { PopupPosition } from 'reactjs-popup/dist/types';
+import styles from './styles.module.scss';
 
 interface Props {
     title?: React.ReactNode;

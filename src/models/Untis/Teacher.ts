@@ -1,5 +1,5 @@
 import { UntisStore } from '@site/src/stores/UntisStore';
-import { computed, makeObservable, observable } from 'mobx';
+import { computed } from 'mobx';
 import { UntisTeacher } from '../../api/untis';
 import Department from '../Department';
 

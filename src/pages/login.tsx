@@ -1,18 +1,17 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './login.module.scss';
-import Layout from '@theme/Layout';
-import { observer } from 'mobx-react-lite';
 import { Redirect } from '@docusaurus/router';
-import { authClient } from '@site/src/auth-client';
 import Translate, { translate } from '@docusaurus/Translate';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { mdiEmail, mdiLoading, mdiMicrosoft } from '@mdi/js';
-import Button from '../components/shared/Button';
+import { authClient } from '@site/src/auth-client';
 import customFields from '@site/src/components/utils/customFields';
-import { useStore } from '../stores/hooks';
-import Alert from '../components/shared/Alert';
+import Layout from '@theme/Layout';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
 import HomepageHeader from '../components/HomepageHeader';
+import Alert from '../components/shared/Alert';
+import Button from '../components/shared/Button';
+import { useStore } from '../stores/hooks';
+import styles from './login.module.scss';
 const { NO_AUTH, IS_PREVIEW } = customFields;
 
 const LoginPage = observer(() => {

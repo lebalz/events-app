@@ -1,16 +1,16 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './group.module.scss';
-import { observer } from 'mobx-react-lite';
+import { useLocation } from '@docusaurus/router';
+import Translate, { translate } from '@docusaurus/Translate';
 import { useStore } from '@site/src/stores/hooks';
 import Layout from '@theme/Layout';
-import { useLocation } from '@docusaurus/router';
+import { observer } from 'mobx-react-lite';
 import queryString from 'query-string';
-import Section from '../components/shared/Section';
-import Translate, { translate } from '@docusaurus/Translate';
 import EventGroup from '../components/EventGroup';
+import Section from '../components/shared/Section';
 import { default as EventGroupModel } from '../models/EventGroup';
+import styles from './group.module.scss';
 
 interface Props {}
 

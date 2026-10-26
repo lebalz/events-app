@@ -1,12 +1,11 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import Translate from '@docusaurus/Translate';
 import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 import { default as SemesterModel } from '../../models/Semester';
 import Alert from '../shared/Alert';
-import Translate from '@docusaurus/Translate';
+import styles from './styles.module.scss';
 
 interface Props {
     semesterId: string;

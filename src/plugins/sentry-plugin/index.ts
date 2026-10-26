@@ -1,5 +1,5 @@
-import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 import type { PluginConfig } from '@docusaurus/types';
+import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 
 export const sentryPluginConfig: PluginConfig = () => {
     const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN;

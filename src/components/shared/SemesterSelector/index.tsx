@@ -1,13 +1,12 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_XS } from '../icons';
-import Button from '../Button';
 import { useWindowSize } from '@docusaurus/theme-common';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Button from '../Button';
+import { ArrowLeft, ArrowRight, Calendar, Loading, SIZE_XS } from '../icons';
+import styles from './styles.module.scss';
 
 const SemesterSelector = observer(() => {
     const canUseBrowser = useIsBrowser();

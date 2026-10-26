@@ -1,11 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { default as UserModel } from '@site/src/models/User';
-import DefinitionList from '../shared/DefinitionList';
-import Badge from '../shared/Badge';
+import Translate, { translate } from '@docusaurus/Translate';
+import { useHistory } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {
     mdiAccountCircleOutline,
     mdiAccountGroup,
@@ -16,19 +14,20 @@ import {
     mdiOfficeBuilding,
     mdiSchool
 } from '@mdi/js';
-import UntisLinker from './UntisLinker';
-import { ApiIcon, SIZE_S } from '../shared/icons';
-import Button from '../shared/Button';
 import Lesson from '@site/src/models/Untis/Lesson';
-import Translate, { translate } from '@docusaurus/Translate';
-import _ from 'es-toolkit/compat';
-import Subscription from '../Subscription';
-import Checkbox from '../shared/Checkbox';
-import { ApiState } from '@site/src/stores/iStore';
+import { default as UserModel } from '@site/src/models/User';
 import { useStore } from '@site/src/stores/hooks';
+import { ApiState } from '@site/src/stores/iStore';
 import Admonition from '@theme/Admonition';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import { useHistory } from '@docusaurus/router';
+import { observer } from 'mobx-react-lite';
+import Subscription from '../Subscription';
+import Badge from '../shared/Badge';
+import Button from '../shared/Button';
+import Checkbox from '../shared/Checkbox';
+import DefinitionList from '../shared/DefinitionList';
+import { ApiIcon, SIZE_S } from '../shared/icons';
+import UntisLinker from './UntisLinker';
+import styles from './styles.module.scss';
 
 interface Props {
     user: UserModel;

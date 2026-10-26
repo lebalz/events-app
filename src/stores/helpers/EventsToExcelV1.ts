@@ -1,8 +1,8 @@
-import Excel from 'exceljs';
-import Event from '@site/src/models/Event';
 import { translate } from '@docusaurus/Translate';
 import Department from '@site/src/models/Department';
+import Event from '@site/src/models/Event';
 import { toGlobalDate } from '@site/src/models/helpers/time';
+import Excel from 'exceljs';
 
 const DEP_ORDER = [
     'GYMD',

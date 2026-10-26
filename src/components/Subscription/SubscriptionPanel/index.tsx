@@ -1,18 +1,17 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import Translate from '@docusaurus/Translate';
+import { observer } from 'mobx-react-lite';
+import styles from './styles.module.scss';
 
-import _ from 'es-toolkit/compat';
-import { action } from 'mobx';
-import Subscription from '@site/src/models/Subscription';
-import Popup from 'reactjs-popup';
-import Button from '../../shared/Button';
 import { mdiCog } from '@mdi/js';
 import useIsMobileView from '@site/src/hooks/useIsMobileView';
+import Subscription from '@site/src/models/Subscription';
+import { action } from 'mobx';
+import Popup from 'reactjs-popup';
 import { PopupPosition } from 'reactjs-popup/dist/types';
+import Button from '../../shared/Button';
 import Content from './Content';
 
 interface Props {

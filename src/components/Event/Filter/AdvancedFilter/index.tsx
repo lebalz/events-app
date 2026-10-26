@@ -1,26 +1,25 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Button from '../../../shared/Button';
-import { mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
-import DatePicker from '../../../shared/DatePicker';
-import Checkbox from '../../../shared/Checkbox';
 import Translate, { translate } from '@docusaurus/Translate';
+import { mdiCircle, mdiMinusCircleOutline, mdiPlusCircleOutline } from '@mdi/js';
+import Icon from '@mdi/react';
+import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
+import { SIZE_XXS } from '@site/src/components/shared/icons';
+import Department from '@site/src/models/Department';
+import { DAYS } from '@site/src/models/helpers/time';
+import { useStore } from '@site/src/stores/hooks';
+import EventTable from '@site/src/stores/ViewStores/EventTable';
+import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import Department from '@site/src/models/Department';
-import _ from 'es-toolkit/compat';
-import ShowSelectCheckBoxes from '../../BulkActions/ShowSelectCheckBoxes';
-import { EventAudience, EventAudienceTranslationShort, TeachingAffected } from '@site/src/api/event';
-import EventTable from '@site/src/stores/ViewStores/EventTable';
 import { selectClassNamesConfig, selectStyleConfig, selectThemeConfig } from '..';
-import { DAYS } from '@site/src/models/helpers/time';
+import Button from '../../../shared/Button';
+import Checkbox from '../../../shared/Checkbox';
+import DatePicker from '../../../shared/DatePicker';
+import ShowSelectCheckBoxes from '../../BulkActions/ShowSelectCheckBoxes';
 import { DescriptionMap, TeachingAffectedColors } from '../../EventFields/TeachingAffected';
-import Icon from '@mdi/react';
-import { SIZE_XXS } from '@site/src/components/shared/icons';
+import styles from './styles.module.scss';
 
 interface Props {
     eventTable: EventTable;

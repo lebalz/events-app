@@ -1,17 +1,17 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import { default as UserModel } from '@site/src/models/User';
-import User from './User';
-import Button from '../../shared/Button';
-import { mdiSortAscending, mdiSortDescending } from '@mdi/js';
-import { SIZE_S } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
-import TextInput from '../../shared/TextInput';
+import { mdiSortAscending, mdiSortDescending } from '@mdi/js';
+import { default as UserModel } from '@site/src/models/User';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
+import { SIZE_S } from '../../shared/icons';
+import TextInput from '../../shared/TextInput';
+import styles from './styles.module.scss';
+import User from './User';
 
 interface Props {
     users: UserModel[];

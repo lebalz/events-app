@@ -1,10 +1,9 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { Error as ErrorIcon, SIZE_S } from '../icons';
+import { translate } from '@docusaurus/Translate';
 import Badge, { Base, extractSharedProps } from '.';
-import Translate, { translate } from '@docusaurus/Translate';
+import { Error as ErrorIcon, SIZE_S } from '../icons';
+import styles from './styles.module.scss';
 
 interface IconProps {
     size?: number;

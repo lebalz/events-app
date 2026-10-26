@@ -1,29 +1,18 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Translate, { translate } from '@docusaurus/Translate';
-import Button from '../../shared/Button';
-import { mdiClipboardText, mdiClose, mdiMicrosoftOutlook } from '@mdi/js';
-import { SIZE_S, SIZE_XS } from '../../shared/icons';
-import customFiels from '@site/src/components/utils/customFields';
-const { EVENTS_API } = customFiels;
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import _ from 'es-toolkit/compat';
-import Link from '@docusaurus/Link';
-import Copy from '../../shared/Button/Copy';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import { action } from 'mobx';
-import Loader from '../../shared/Loader';
-import DefinitionList from '../../shared/DefinitionList';
+import customFiels from '@site/src/components/utils/customFields';
+import Subscription from '@site/src/models/Subscription';
+import { observer } from 'mobx-react-lite';
 import Badge from '../../shared/Badge';
 import Checkbox from '../../shared/Checkbox';
-import Content from '../SubscriptionPanel/Content';
-import Subscription from '@site/src/models/Subscription';
-import IcalProps from './IcalProps';
+import DefinitionList from '../../shared/DefinitionList';
 import GroupSubscriptions from '../ForUsers/GroupSubscriptions';
+import Content from '../SubscriptionPanel/Content';
+import IcalProps from './IcalProps';
+import styles from './styles.module.scss';
+const { EVENTS_API } = customFiels;
 
 interface Props {
     subscription: Subscription;

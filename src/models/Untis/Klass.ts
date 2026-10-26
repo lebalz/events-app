@@ -1,11 +1,10 @@
+import { DepartmentLetter } from '@site/src/api/department';
 import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed } from 'mobx';
 import { UntisClassWithTeacher } from '../../api/untis';
 import Department, { Duration4Years } from '../Department';
-import { KlassName } from '../helpers/klassNames';
 import { toDepartmentName } from '../helpers/departmentNames';
-import { DepartmentLetter } from '@site/src/api/department';
-import _ from 'es-toolkit/compat';
+import { KlassName } from '../helpers/klassNames';
 import { currentGradeDate } from '../helpers/time';
 
 export default class Klass {

@@ -1,29 +1,29 @@
-import { action, computed, observable, reaction } from 'mobx';
-import { RootStore } from '../stores';
-import Semester from '../../models/Semester';
-import User from '../../models/User';
-import Event from '../../models/Event';
-import Lesson from '../../models/Untis/Lesson';
-import _ from 'es-toolkit/compat';
-import { LoadeableStore, ResettableStore } from '../iStore';
-import EventTable, { EventViewProps } from './EventTable';
-import AdminUserTable from './AdminUserTable';
-import AdminDepartmentTable from './AdminDepartmentTable';
+import { translate } from '@docusaurus/Translate';
 import { EventState } from '@site/src/api/event';
-import Klass from '@site/src/models/Untis/Klass';
-import Department from '@site/src/models/Department';
-import Colors from './Colors';
+import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
 import type {
     ClassGroupOption,
     ClassOption,
     DepartmentOption,
     Option
 } from '@site/src/components/shared/AudiencePicker/AudienceDropdownSelector';
-import { GroupBase } from 'react-select';
-import { translate } from '@docusaurus/Translate';
-import LocalUserSettings from './LocaUserSettings';
-import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
 import { SelectOption } from '@site/src/components/shared/AudiencePicker/UserPicker';
+import Department from '@site/src/models/Department';
+import Klass from '@site/src/models/Untis/Klass';
+import _ from 'es-toolkit/compat';
+import { action, computed, observable, reaction } from 'mobx';
+import { GroupBase } from 'react-select';
+import Event from '../../models/Event';
+import Semester from '../../models/Semester';
+import Lesson from '../../models/Untis/Lesson';
+import User from '../../models/User';
+import { LoadeableStore, ResettableStore } from '../iStore';
+import { RootStore } from '../stores';
+import AdminDepartmentTable from './AdminDepartmentTable';
+import AdminUserTable from './AdminUserTable';
+import Colors from './Colors';
+import EventTable, { EventViewProps } from './EventTable';
+import LocalUserSettings from './LocaUserSettings';
 const I18n_LABELS = {
     classType: translate({ id: 'basic.class', message: 'Klassen' }),
     departmentType: translate({ id: 'basic.department', message: 'Abteilungen' }),

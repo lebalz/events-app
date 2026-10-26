@@ -1,16 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
 import sharedStyles from '../styles.module.scss';
 
-import { observer } from 'mobx-react-lite';
-import { ReadonlyProps } from '../iEventField';
+import { EventState } from '@site/src/api/event';
+import Delete from '@site/src/components/shared/Button/Delete';
 import Discard from '@site/src/components/shared/Button/Discard';
 import Save from '@site/src/components/shared/Button/Save';
-import Delete from '@site/src/components/shared/Button/Delete';
 import { useStore } from '@site/src/stores/hooks';
-import { EventState } from '@site/src/api/event';
 import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import OptionsPopup from '../../EventActions/OptionsPopup';
+import { ReadonlyProps } from '../iEventField';
 
 interface Props extends ReadonlyProps {
     hideShare?: boolean;

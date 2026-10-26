@@ -1,8 +1,7 @@
-import React from 'react';
 import Translate from '@docusaurus/Translate';
-import clsx from 'clsx';
 import { EventStateButton, EventStateColor } from '@site/src/api/event';
 import Badge from '@site/src/components/shared/Badge';
+import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 interface Props {

@@ -1,14 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 import sharedStyles from '../styles.module.scss';
 
-import { observer } from 'mobx-react-lite';
-import { ReadonlyProps } from '../iEventField';
-import Button from '@site/src/components/shared/Button';
-import { mdiArrowExpandUp } from '@mdi/js';
-import { SIZE_S } from '@site/src/components/shared/icons';
 import { translate } from '@docusaurus/Translate';
+import { mdiArrowExpandUp } from '@mdi/js';
+import Button from '@site/src/components/shared/Button';
+import { SIZE_S } from '@site/src/components/shared/icons';
+import { observer } from 'mobx-react-lite';
 import OptionsPopup, { EditRowMode } from '../../EventActions/OptionsPopup';
+import { ReadonlyProps } from '../iEventField';
 import Edit from './Edit';
 
 interface Props extends ReadonlyProps {

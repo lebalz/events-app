@@ -1,14 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import { translate } from '@docusaurus/Translate';
 import { default as DepartmentModel } from '@site/src/models/Department';
 import { default as EventModel } from '@site/src/models/Event';
-import { translate } from '@docusaurus/Translate';
-import Button from '../../../Button';
 import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
+import Button from '../../../Button';
 import GraduationYear from './GraduationYear';
+import styles from './styles.module.scss';
 interface Props {
     event: EventModel;
     departments: DepartmentModel[];

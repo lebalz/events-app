@@ -1,9 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
 import { isValidDate, toGlobalDate } from '@site/src/models/helpers/time';
 import { action } from 'mobx';
+import styles from './styles.module.scss';
 
 interface Props {
     date: Date;

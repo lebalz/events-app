@@ -1,16 +1,16 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import EventGroup from '@site/src/models/EventGroup';
+import { translate } from '@docusaurus/Translate';
 import { mdiMinusCircle, mdiSortAscending, mdiSortDescending } from '@mdi/js';
+import EventGroup from '@site/src/models/EventGroup';
+import { useStore } from '@site/src/stores/hooks';
+import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
+import Badge from '../../shared/Badge';
 import Button from '../../shared/Button';
 import { SIZE_S } from '../../shared/icons';
-import { translate } from '@docusaurus/Translate';
-import _ from 'es-toolkit/compat';
-import Badge from '../../shared/Badge';
-import { useStore } from '@site/src/stores/hooks';
+import styles from './styles.module.scss';
 
 interface Props {
     group: EventGroup;

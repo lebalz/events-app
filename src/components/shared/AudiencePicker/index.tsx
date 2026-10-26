@@ -1,20 +1,18 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
+import Translate, { translate } from '@docusaurus/Translate';
+import { mdiInformation, mdiSetAll } from '@mdi/js';
+import Icon from '@mdi/react';
 import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
 import Button from '../Button';
-import _ from 'es-toolkit/compat';
-import Translate, { translate } from '@docusaurus/Translate';
+import { SIZE_S, SIZE_XS } from '../icons';
+import Tooltip from '../Tooltip';
 import AudienceSelector from './AudienceDropdownSelector';
 import DepartmentTab from './DepartmentTab';
-import { mdiInformation, mdiSetAll } from '@mdi/js';
-import { SIZE_S, SIZE_XS } from '../icons';
+import styles from './styles.module.scss';
 import UserPicker from './UserPicker';
-import Tooltip from '../Tooltip';
-import Icon from '@mdi/react';
 
 interface Props {
     event: EventModel;
