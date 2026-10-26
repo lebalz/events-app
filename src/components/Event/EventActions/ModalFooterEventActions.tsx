@@ -1,13 +1,11 @@
-import React from 'react';
-
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
+import { translate } from '@docusaurus/Translate';
+import { EventState } from '@site/src/api/event';
 import Event from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
+import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import Button from '../../shared/Button';
 import { DiscardIcon, SaveIcon, SaveVersionIcon } from '../../shared/icons';
-import { EventState } from '@site/src/api/event';
-import { action } from 'mobx';
-import { translate } from '@docusaurus/Translate';
 
 type SortableButton = 'delete' | 'discard' | 'save' | 'open';
 

@@ -1,8 +1,8 @@
-import api from './base';
-import { AxiosPromise } from 'axios';
-import { Subscription } from './subscription';
-import { IfmColors } from '../components/shared/Colors';
 import { mdiEmailLock, mdiMicrosoft } from '@mdi/js';
+import { AxiosPromise } from 'axios';
+import { IfmColors } from '../components/shared/Colors';
+import api from './base';
+import { Subscription } from './subscription';
 
 export enum Role {
     USER = 'user',

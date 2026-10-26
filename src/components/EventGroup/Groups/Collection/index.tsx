@@ -1,17 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { translate } from '@docusaurus/Translate';
-import UserEventGroup from '../..';
-import _ from 'es-toolkit/compat';
-import EventGroup from '@site/src/models/EventGroup';
-import Selector from './Selector';
-import NoGroupsAlert from './NoGroupsAlert';
 import { DEFAULT_COLLECTION } from '@site/src/api/event_group';
 import Button from '@site/src/components/shared/Button';
 import { DiscardIcon, EditIcon, SIZE_S } from '@site/src/components/shared/icons';
+import EventGroup from '@site/src/models/EventGroup';
+import { observer } from 'mobx-react-lite';
+import UserEventGroup from '../..';
+import NoGroupsAlert from './NoGroupsAlert';
+import Selector from './Selector';
+import styles from './styles.module.scss';
 
 interface Props {
     name: string;

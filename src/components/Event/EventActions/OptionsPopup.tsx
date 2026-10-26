@@ -1,26 +1,26 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
-import { Icon, SIZE_S } from '../../shared/icons';
-import { mdiContentDuplicate, mdiDotsHorizontalCircleOutline } from '@mdi/js';
-import { translate } from '@docusaurus/Translate';
-import Edit from '../../shared/Button/Edit';
-import Event from '@site/src/models/Event';
-import { useWindowSize } from '@docusaurus/theme-common';
-import i18n from '@generated/i18n';
 import { useHistory } from '@docusaurus/router';
-import EventsGroupPopup from '../../EventGroup/EventsGroupPopup';
-import DefaultEventActions from './DefaultEventActions';
+import { useWindowSize } from '@docusaurus/theme-common';
+import { translate } from '@docusaurus/Translate';
+import i18n from '@generated/i18n';
+import { mdiContentDuplicate, mdiDotsHorizontalCircleOutline } from '@mdi/js';
+import Event from '@site/src/models/Event';
+import EventGroup from '@site/src/models/EventGroup';
+import { useStore } from '@site/src/stores/hooks';
+import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import Popup from 'reactjs-popup';
 import { PopupActions } from 'reactjs-popup/dist/types';
+import EventsGroupPopup from '../../EventGroup/EventsGroupPopup';
+import Button, { POPUP_BUTTON_STYLE } from '../../shared/Button';
+import Edit from '../../shared/Button/Edit';
 import clrStyles from '../../shared/Colors/styles.module.scss';
-import { action } from 'mobx';
+import { Icon, SIZE_S } from '../../shared/icons';
 import { useGroupId } from '../helpers/useEventGroupId';
-import EventGroup from '@site/src/models/EventGroup';
+import DefaultEventActions from './DefaultEventActions';
+import styles from './styles.module.scss';
 
 interface Props {
     trigger?: React.ReactNode;

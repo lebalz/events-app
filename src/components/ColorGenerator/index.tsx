@@ -5,20 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import clsx from 'clsx';
-import Color from 'color';
 import Translate, { translate } from '@docusaurus/Translate';
 import { useColorMode } from '@docusaurus/theme-common';
 import CodeBlock from '@theme/CodeBlock';
 import Details from '@theme/Details';
+import Color from 'color';
 
-import { getAdjustedColors } from './colorUtils';
-import styles from './styles.module.css';
+import { mdiMoonWaningCrescent, mdiRestore, mdiWhiteBalanceSunny } from '@mdi/js';
 import { useStore } from '@site/src/stores/hooks';
 import { observer } from 'mobx-react-lite';
 import Button from '../shared/Button';
-import { mdiMoonWaningCrescent, mdiRestore, mdiWhiteBalanceSunny } from '@mdi/js';
+import { getAdjustedColors } from './colorUtils';
+import styles from './styles.module.css';
 
 function wcagContrast(foreground: string, background: string) {
     const contrast = Color(foreground).contrast(Color(background));

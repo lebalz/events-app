@@ -1,16 +1,14 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './badge.styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
+import { translate } from '@docusaurus/Translate';
+import { mdiCalendarEdit, mdiCalendarMonth } from '@mdi/js';
 import RegistrationPeriod from '@site/src/models/RegistrationPeriod';
+import { observer } from 'mobx-react-lite';
 import Badge from '../shared/Badge';
 import DateTimeBadge from '../shared/DateTimeBadge';
-import { mdiCalendar, mdiCalendarEdit, mdiCalendarMonth } from '@mdi/js';
-import { Icon, SIZE_S, SIZE_XS } from '../shared/icons';
+import { Icon, SIZE_XS } from '../shared/icons';
 import Tooltip from '../shared/Tooltip';
-import { translate } from '@docusaurus/Translate';
+import styles from './badge.styles.module.scss';
 
 interface Props {
     period: RegistrationPeriod;

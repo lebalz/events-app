@@ -1,10 +1,8 @@
-import React from 'react';
-
-import { observer } from 'mobx-react-lite';
-import Button from '../shared/Button';
-import { useEventTable } from '../Event/hooks/useEventTable';
 import { translate } from '@docusaurus/Translate';
 import { mdiEye, mdiEyeOffOutline } from '@mdi/js';
+import { observer } from 'mobx-react-lite';
+import { useEventTable } from '../Event/hooks/useEventTable';
+import Button from '../shared/Button';
 
 const ShowDeletedTitle = translate({
     message: 'Gelöschte Termine anzeigen',

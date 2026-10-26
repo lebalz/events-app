@@ -1,17 +1,17 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import LazyDetails from '../shared/Details';
-import User from '@site/src/models/User';
-import Delete from '../shared/Button/Delete';
-import { ImportJob as ImportJobModel } from '@site/src/models/Job';
 import { translate } from '@docusaurus/Translate';
-import { Loading, SIZE } from '../shared/icons';
+import { ImportJob as ImportJobModel } from '@site/src/models/Job';
+import User from '@site/src/models/User';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 import EventsViewer, { View } from '../EventsViewer';
 import ChangeViewAction from '../EventsViewer/ChangeViewAction';
+import Delete from '../shared/Button/Delete';
+import LazyDetails from '../shared/Details';
+import { Loading, SIZE } from '../shared/icons';
+import styles from './styles.module.scss';
 
 interface Props {
     job: ImportJobModel;

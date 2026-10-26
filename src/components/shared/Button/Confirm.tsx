@@ -1,12 +1,12 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import Button, { Props as ButtonProps } from '.';
 import { translate } from '@docusaurus/Translate';
 import Popup from 'reactjs-popup';
-import { Color } from '../Colors';
 import { PopupPosition } from 'reactjs-popup/dist/types';
+import Button, { Props as ButtonProps } from '.';
+import { Color } from '../Colors';
+import styles from './styles.module.scss';
 
 interface Props {
     flyoutSide?: 'left' | 'right';

@@ -1,5 +1,5 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 import styles from './styles.module.scss';
 
 const defaultUnit = (value: string | number, unit: string = 'px') => {

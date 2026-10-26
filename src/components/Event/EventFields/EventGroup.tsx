@@ -1,10 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 import { observer } from 'mobx-react-lite';
-import { Props as CommonProps } from './iEventField';
 import EventsGroupPopup from '../../EventGroup/EventsGroupPopup';
+import { Props as CommonProps } from './iEventField';
 
 interface Props extends CommonProps {
     isEditGrid?: boolean /** true when at least one element of the grid is edited */;

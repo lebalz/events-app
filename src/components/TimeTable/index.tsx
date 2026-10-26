@@ -1,18 +1,18 @@
+import siteConfig from '@generated/docusaurus.config';
+import clsx from 'clsx';
+import moment from 'moment';
 import React from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import siteConfig from '@generated/docusaurus.config';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 const { CURRENT_LOCALE } = siteConfig.customFields as { CURRENT_LOCALE?: 'de' | 'fr' };
 
 moment.locale(`${CURRENT_LOCALE}-CH`);
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { DAYS } from '@site/src/models/helpers/time';
 import Lesson from '@site/src/models/Untis/Lesson';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import styles from './styles.module.scss';
 
 const localizer = momentLocalizer(moment);
 interface Props {}

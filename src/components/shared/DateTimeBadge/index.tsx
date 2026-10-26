@@ -1,10 +1,8 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { formatDate, formatTime } from '@site/src/models/helpers/time';
+import { observer } from 'mobx-react-lite';
+import styles from './styles.module.scss';
 
 interface Props {
     date: Date;

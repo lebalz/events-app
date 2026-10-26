@@ -1,14 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-import { observer } from 'mobx-react-lite';
-import { ReadonlyProps } from './iEventField';
-import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 import { mdiDeleteForever } from '@mdi/js';
+import { EventState, EventStateButton, EventStateColor, EventStateTranslation } from '@site/src/api/event';
 import Badge from '@site/src/components/shared/Badge';
 import { SIZE_S } from '@site/src/components/shared/icons';
 import Event from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
+import { ReadonlyProps } from './iEventField';
 
 interface Props extends ReadonlyProps {
     showText?: boolean;

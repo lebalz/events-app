@@ -1,17 +1,15 @@
-import React from 'react';
-
-import { observer } from 'mobx-react-lite';
-import { SIZE_S } from '@site/src/components/shared/icons';
-import { useStore } from '@site/src/stores/hooks';
-import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
-import { translate } from '@docusaurus/Translate';
-import Edit from './Edit';
-import Event, { InvalidTransition } from '@site/src/models/Event';
-import ValidationChecker from '../../BulkActions/ValidationChecker';
-import { ApiState } from '@site/src/stores/iStore';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import { useHistory } from '@docusaurus/router';
+import { translate } from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import { EventState, EventStateActions, EventStateButton, EventStateColor } from '@site/src/api/event';
 import Confirm from '@site/src/components/shared/Button/Confirm';
+import { SIZE_S } from '@site/src/components/shared/icons';
+import Event, { InvalidTransition } from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
+import { ApiState } from '@site/src/stores/iStore';
+import { observer } from 'mobx-react-lite';
+import ValidationChecker from '../../BulkActions/ValidationChecker';
+import Edit from './Edit';
 
 export const InvalidTransitionMessages: Record<InvalidTransition, string> = {
     [InvalidTransition.InitialValidation]: translate({

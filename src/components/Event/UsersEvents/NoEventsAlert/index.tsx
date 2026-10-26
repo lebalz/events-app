@@ -1,9 +1,8 @@
-import React from 'react';
-import clsx from 'clsx';
 import { translate } from '@docusaurus/Translate';
-import { SIZE } from '@site/src/components/shared/icons';
 import { mdiAlert } from '@mdi/js';
 import Icon from '@mdi/react';
+import { SIZE } from '@site/src/components/shared/icons';
+import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 interface Props {

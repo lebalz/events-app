@@ -1,17 +1,17 @@
-import React, { KeyboardEventHandler } from 'react';
-import clsx from 'clsx';
-import { default as EventModel } from '@site/src/models/Event';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import CreatableSelect from 'react-select/creatable';
-import { ActionMeta, type MultiValueGenericProps, OptionProps, components } from 'react-select';
-import { KlassName } from '@site/src/models/helpers/klassNames';
 import { translate } from '@docusaurus/Translate';
-import Department from '@site/src/models/Department';
-import Klass from '@site/src/models/Untis/Klass';
-import Icon from '@mdi/react';
 import { mdiAccountMultiple, mdiAccountQuestion, mdiGoogleClassroom, mdiOfficeBuilding } from '@mdi/js';
+import Icon from '@mdi/react';
+import Department from '@site/src/models/Department';
+import { default as EventModel } from '@site/src/models/Event';
+import { KlassName } from '@site/src/models/helpers/klassNames';
+import Klass from '@site/src/models/Untis/Klass';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React, { KeyboardEventHandler } from 'react';
+import { ActionMeta, type MultiValueGenericProps, OptionProps, components } from 'react-select';
+import CreatableSelect from 'react-select/creatable';
+import styles from './styles.module.scss';
 
 interface Props {
     event: EventModel;

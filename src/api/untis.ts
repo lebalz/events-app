@@ -1,6 +1,6 @@
-import api from './base';
 import { AxiosPromise } from 'axios';
 import { KlassName } from '../models/helpers/klassNames';
+import api from './base';
 
 /**
  * Model UntisTeacher

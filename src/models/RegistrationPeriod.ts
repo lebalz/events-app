@@ -1,11 +1,11 @@
-import { action, computed, ObservableSet, observable, override } from 'mobx';
+import { action, computed, observable, ObservableSet } from 'mobx';
 import { RegistrationPeriod as RegPeriodProps } from '../api/registration_period';
 import { ApiAction } from '../stores/iStore';
 import { RegistrationPeriodStore } from '../stores/RegistrationPeriodStore';
 import ApiModel, { UpdateableProps } from './ApiModel';
-import { formatDateTime, toGlobalDate, toLocalDate } from './helpers/time';
-import { rmUndefined } from './helpers/filterHelpers';
 import Department from './Department';
+import { rmUndefined } from './helpers/filterHelpers';
+import { formatDateTime, toGlobalDate, toLocalDate } from './helpers/time';
 
 if (!(Set.prototype as any).intersection) {
     (Set.prototype as any).intersection = function <T>(otherSet: Set<T> | ObservableSet<T>): Set<T> {

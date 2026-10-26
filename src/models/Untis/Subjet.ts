@@ -1,6 +1,6 @@
+import { UntisStore } from '@site/src/stores/UntisStore';
 import { computed } from 'mobx';
 import { Subject as SubjectProps } from '../../api/untis';
-import { UntisStore } from '@site/src/stores/UntisStore';
 
 export default class Subject {
     private readonly store: UntisStore;

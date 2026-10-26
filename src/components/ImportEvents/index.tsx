@@ -1,18 +1,14 @@
-import React from 'react';
-import clsx from 'clsx';
-
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Section from '../shared/Section';
 import Translate, { translate } from '@docusaurus/Translate';
-import { Icon } from '../shared/icons';
-import { mdiFileExcel, mdiFileImport } from '@mdi/js';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import { mdiFileImport } from '@mdi/js';
 import { ImportType } from '@site/src/api/event';
-import Upload from './Upload';
+import { useStore } from '@site/src/stores/hooks';
+import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs';
+import { observer } from 'mobx-react-lite';
 import Job from '../Job';
+import { Icon } from '../shared/icons';
+import Section from '../shared/Section';
+import Upload from './Upload';
 
 interface Props {}
 

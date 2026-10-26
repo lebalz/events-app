@@ -1,12 +1,10 @@
-import React from 'react';
-
-import { observer } from 'mobx-react-lite';
+import { translate } from '@docusaurus/Translate';
+import { mdiBellPlus, mdiBellRemove } from '@mdi/js';
 import Button from '@site/src/components/shared/Button';
 import { SIZE } from '@site/src/components/shared/icons';
-import { useStore } from '@site/src/stores/hooks';
-import { translate } from '@docusaurus/Translate';
 import Event from '@site/src/models/Event';
-import { mdiBellPlus, mdiBellRemove } from '@mdi/js';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
     event: Event;

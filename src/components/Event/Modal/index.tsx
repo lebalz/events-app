@@ -1,20 +1,20 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import { default as EventModel } from '@site/src/models/Event';
-import Button from '../../shared/Button';
+import { useHistory } from '@docusaurus/router';
+import { translate } from '@docusaurus/Translate';
 import { mdiClose, mdiShareCircle } from '@mdi/js';
+import { default as EventModel } from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Popup from 'reactjs-popup';
+import { PopupActions } from 'reactjs-popup/dist/types';
+import Button from '../../shared/Button';
+import useResizeObserver from '../../shared/hooks/useResizeObserver';
+import { SIZE_S } from '../../shared/icons';
 import ModalFooterEventActions from '../EventActions/ModalFooterEventActions';
 import EventBody from '../EventBody';
-import useResizeObserver from '../../shared/hooks/useResizeObserver';
-import { translate } from '@docusaurus/Translate';
-import Popup from 'reactjs-popup';
-import { useHistory } from '@docusaurus/router';
-import { SIZE_S } from '../../shared/icons';
-import { PopupActions } from 'reactjs-popup/dist/types';
+import styles from './styles.module.scss';
 
 interface Props {}
 

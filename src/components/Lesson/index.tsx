@@ -1,12 +1,11 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import { default as LessonModel } from '@site/src/models/Untis/Lesson';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 import Badge from '../shared/Badge';
 import { Clock } from '../shared/icons';
+import styles from './styles.module.scss';
 
 interface Props {
     lesson: LessonModel;

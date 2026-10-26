@@ -1,12 +1,12 @@
-import { action, computed, makeObservable, observable } from 'mobx';
+import { translate } from '@docusaurus/Translate';
 import _ from 'es-toolkit/compat';
-import { RootStore } from './stores';
-import iStore from './iStore';
+import { action, computed, observable } from 'mobx';
+import { computedFn } from 'mobx-utils';
 import { Department as DepartmentProps } from '../api/department';
 import Department from '../models/Department';
-import { computedFn } from 'mobx-utils';
 import { EndPoint } from './EndPoint';
-import { translate } from '@docusaurus/Translate';
+import iStore from './iStore';
+import { RootStore } from './stores';
 
 export class DepartmentStore extends iStore<DepartmentProps> {
     readonly root: RootStore;

@@ -1,10 +1,8 @@
 import React, { type ReactNode } from 'react';
-import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { EditIcon, SIZE_S, Copy as CopyIcon, Loading, Success, Error } from '../icons';
+import { translate } from '@docusaurus/Translate';
 import Button, { Base, extractSharedProps } from '.';
-import Translate, { translate } from '@docusaurus/Translate';
+import { Copy as CopyIcon, Error, Loading, Success } from '../icons';
 
 interface Props {
     size?: number;

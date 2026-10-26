@@ -1,8 +1,7 @@
 import { inferAdditionalFields } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 
-import { adminClient } from 'better-auth/client/plugins';
-import { oneTimeTokenClient } from 'better-auth/client/plugins';
+import { adminClient, oneTimeTokenClient } from 'better-auth/client/plugins';
 import { adminAc, userAc } from 'better-auth/plugins/admin/access';
 import customFields from './components/utils/customFields';
 

@@ -1,12 +1,11 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import clsx from 'clsx';
 import { translate } from '@docusaurus/Translate';
-import shared from '../../styles.module.scss';
+import { EventState } from '@site/src/api/event';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
-import { EventState } from '@site/src/api/event';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import shared from '../../styles.module.scss';
 import NoEventsAlert from '../NoEventsAlert';
 interface Props {
     viewType: View;

@@ -1,15 +1,15 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
 import { observer } from 'mobx-react-lite';
 import sharedStyles from '../styles.module.scss';
 
-import { ReadonlyProps } from '../iEventField';
+import { mdiAlertCircle, mdiCheckCircle, mdiCloseCircle, mdiInformation } from '@mdi/js';
+import { ValidState } from '@site/src/models/Event';
 import Popup from 'reactjs-popup';
 import Button from '../../../shared/Button';
-import { mdiCloseCircle, mdiAlertCircle, mdiInformation, mdiCheckCircle } from '@mdi/js';
 import { Icon, SIZE_S } from '../../../shared/icons';
-import { ValidState } from '@site/src/models/Event';
+import { ReadonlyProps } from '../iEventField';
 import PopupContent from './PopupContent';
 
 const StateIcon: { [key in ValidState]: string } = {

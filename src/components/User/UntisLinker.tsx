@@ -1,12 +1,11 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './untisLinker.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Select from 'react-select';
 import { default as UserModel } from '@site/src/models/User';
+import { useStore } from '@site/src/stores/hooks';
 import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
+import Select from 'react-select';
+import styles from './untisLinker.module.scss';
 
 interface Props {
     user: UserModel;

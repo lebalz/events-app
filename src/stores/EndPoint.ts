@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, observable } from 'mobx';
 
 export class EndPoint {
     readonly Base: string;

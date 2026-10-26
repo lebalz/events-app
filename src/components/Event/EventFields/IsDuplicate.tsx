@@ -1,13 +1,12 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
 import { observer } from 'mobx-react-lite';
 import styles from './styles.module.scss';
 
-import { ReadonlyProps } from './iEventField';
-import { Icon } from '../../shared/icons';
 import { mdiAlert } from '@mdi/js';
 import Button from '../../shared/Button';
+import { Icon } from '../../shared/icons';
+import { ReadonlyProps } from './iEventField';
 
 const IsDuplicate = observer((props: ReadonlyProps) => {
     const { event } = props;

@@ -1,28 +1,20 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import { translate } from '@docusaurus/Translate';
+import { mdiCalendarBlankOutline, mdiCircle, mdiInformationVariantCircle } from '@mdi/js';
+import { TeachingAffected } from '@site/src/api/event';
+import Badge from '@site/src/components/shared/Badge';
+import Button from '@site/src/components/shared/Button';
+import DefinitionList from '@site/src/components/shared/DefinitionList';
+import { ArrowLeft, ArrowRight, Icon, SIZE_S, SIZE_XS, SIZE_XXS } from '@site/src/components/shared/icons';
+import LabeledBox from '@site/src/components/shared/LabeledBox';
+import Tooltip from '@site/src/components/shared/Tooltip';
 import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { TeachingAffectedColors } from '..';
 import { Props } from '../Edit';
-import Translate, { translate } from '@docusaurus/Translate';
-import { TeachingAffected } from '@site/src/api/event';
-import { Stack } from '@mdi/react';
-import {
-    mdiArrowRight,
-    mdiCalendarBlankOutline,
-    mdiCircle,
-    mdiCircleSmall,
-    mdiInformationVariantCircle
-} from '@mdi/js';
-import { ArrowLeft, ArrowRight, Icon, SIZE_S, SIZE_XS, SIZE_XXS } from '@site/src/components/shared/icons';
-import DefinitionList from '@site/src/components/shared/DefinitionList';
-import Tooltip from '@site/src/components/shared/Tooltip';
-import Button from '@site/src/components/shared/Button';
-import Badge from '@site/src/components/shared/Badge';
-import LabeledBox from '@site/src/components/shared/LabeledBox';
-import { StorageKey } from '@site/src/stores/utils/Storage';
-import { action } from 'mobx';
+import styles from './styles.module.scss';
 
 interface Example {
     example: string;

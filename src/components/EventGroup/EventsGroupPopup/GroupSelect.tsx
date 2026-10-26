@@ -1,12 +1,8 @@
-import React from 'react';
-import clsx from 'clsx';
-
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Select from 'react-select';
 import Event from '@site/src/models/Event';
 import EventGroup from '@site/src/models/EventGroup';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Select from 'react-select';
 
 interface Props {
     event: Event;

@@ -1,10 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
+import { formatDate, formatTime } from '@site/src/models/helpers/time';
 import { observer } from 'mobx-react-lite';
 import { Props as DefaultProps } from './iEventField';
-import { formatDate, formatDateTime, formatTime } from '@site/src/models/helpers/time';
 
 interface Props extends DefaultProps {
     showAlways?: boolean;

@@ -1,9 +1,9 @@
+import { translate } from '@docusaurus/Translate';
+import Event from '@site/src/models/Event';
+import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Loader from '../../shared/Loader';
-import { observer } from 'mobx-react-lite';
-import Event from '@site/src/models/Event';
-import { translate } from '@docusaurus/Translate';
-import { action } from 'mobx';
 
 interface ValidationCheckerProps {
     events: Event[];

@@ -1,14 +1,14 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import { default as EventModel } from '@site/src/models/Event';
-import EventProps from './EventProps';
-import ParentDetails from './ParentDetails';
-import EventOverviewSmall from '../EventOverviewSmall';
 import { useStore } from '@site/src/stores/hooks';
 import { reaction } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import EventOverviewSmall from '../EventOverviewSmall';
+import EventProps from './EventProps';
+import ParentDetails from './ParentDetails';
+import styles from './styles.module.scss';
 interface Props {
     event: EventModel;
     inModal?: boolean;

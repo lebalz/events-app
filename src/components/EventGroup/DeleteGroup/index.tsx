@@ -1,13 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
 import Translate, { translate } from '@docusaurus/Translate';
+import { mdiCloseCircle, mdiTrashCan, mdiTrashCanOutline } from '@mdi/js';
+import { DestroyEventAction } from '@site/src/api/event_group';
 import Popup from 'reactjs-popup';
 import Button, { Base, extractSharedProps } from '../../shared/Button';
 import { DeleteIcon, SIZE_S } from '../../shared/icons';
-import { mdiCloseCircle, mdiTrashCan, mdiTrashCanOutline } from '@mdi/js';
-import { DestroyEventAction } from '@site/src/api/event_group';
+import styles from './styles.module.scss';
 
 interface Props {
     onDelete: (eventAction: DestroyEventAction) => void;

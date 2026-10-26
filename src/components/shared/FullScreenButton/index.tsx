@@ -1,13 +1,12 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
+import { translate } from '@docusaurus/Translate';
 import { mdiFullscreen, mdiFullscreenExit } from '@mdi/js';
-import { Icon, SIZE, SIZE_S, SIZE_XS } from '../icons';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
 import Button from '../Button';
-import Translate, { translate } from '@docusaurus/Translate';
+import { Icon, SIZE_S } from '../icons';
+import styles from './styles.module.scss';
 
 const FullScreenButton = observer(() => {
     const store = useStore('viewStore');

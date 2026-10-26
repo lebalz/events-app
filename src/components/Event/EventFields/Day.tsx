@@ -1,12 +1,11 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-import { observer } from 'mobx-react-lite';
-import { ReadonlyProps } from './iEventField';
-import Button from '../../shared/Button';
 import { mdiArrowExpandUp } from '@mdi/js';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
 import { SIZE_S } from '../../shared/icons';
+import { ReadonlyProps } from './iEventField';
 
 interface Props extends ReadonlyProps {
     showFullName?: boolean;

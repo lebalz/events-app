@@ -1,17 +1,16 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import clsx from 'clsx';
 import { translate } from '@docusaurus/Translate';
-import styles from '../styles.module.scss';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
-import { COLUMN_CONFIG } from '..';
-import LazyDetails from '@site/src/components/shared/Details';
-import { formatDate } from '@site/src/models/helpers/time';
 import Delete from '@site/src/components/shared/Button/Delete';
+import LazyDetails from '@site/src/components/shared/Details';
 import { SIZE } from '@site/src/components/shared/icons';
+import { formatDate } from '@site/src/models/helpers/time';
 import User from '@site/src/models/User';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import { COLUMN_CONFIG } from '..';
+import styles from '../styles.module.scss';
 interface Props {
     viewType: View;
     onChangeView: (view: View) => void;

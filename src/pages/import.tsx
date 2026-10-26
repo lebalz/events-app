@@ -1,5 +1,4 @@
 import Layout from '@theme/Layout';
-import React from 'react';
 import { observer } from 'mobx-react-lite';
 import ImportEvents from '../components/ImportEvents';
 

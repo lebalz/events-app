@@ -1,17 +1,16 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
 import Translate from '@docusaurus/Translate';
-import _ from 'es-toolkit/compat';
+import { useStore } from '@site/src/stores/hooks';
 import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import Loader from '../shared/Loader';
-import ForTeachers from './ForTeachers';
-import ForUsers from './ForUsers';
 import ClassSubscriptions from './ClassSubscriptions';
 import DepartmentSubscriptions from './DepartmentSubscription';
+import ForTeachers from './ForTeachers';
+import ForUsers from './ForUsers';
+import styles from './styles.module.scss';
 
 interface Props {}
 

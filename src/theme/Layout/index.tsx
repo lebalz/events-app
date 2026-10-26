@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
-import Layout from '@theme-original/Layout';
-import type LayoutType from '@theme/Layout';
 import type { WrapperProps } from '@docusaurus/types';
 import EventModal from '@site/src/components/Event/Modal';
+import Layout from '@theme-original/Layout';
+import type LayoutType from '@theme/Layout';
+import React, { ReactNode } from 'react';
 
 type Props = WrapperProps<typeof LayoutType>;
 

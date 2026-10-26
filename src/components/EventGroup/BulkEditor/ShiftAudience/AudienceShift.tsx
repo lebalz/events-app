@@ -1,19 +1,19 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import AudienceShifter from './AudienceShifter';
-import Badge from '@site/src/components/shared/Badge';
-import Icon from '@mdi/react';
-import styles from './styles.module.scss';
-import clsx from 'clsx';
-import { mdiArrowRightBoldCircle, mdiClose, mdiRestore, mdiShuffle } from '@mdi/js';
-import { SIZE, SIZE_S, SIZE_XS } from '@site/src/components/shared/icons';
-import Button from '@site/src/components/shared/Button';
 import { translate } from '@docusaurus/Translate';
-import Popup from 'reactjs-popup';
-import CreatableSelect from 'react-select/creatable';
-import { useStore } from '@site/src/stores/hooks';
+import { mdiArrowRightBoldCircle, mdiClose, mdiRestore, mdiShuffle } from '@mdi/js';
+import Icon from '@mdi/react';
+import Badge from '@site/src/components/shared/Badge';
+import Button from '@site/src/components/shared/Button';
+import { SIZE, SIZE_XS } from '@site/src/components/shared/icons';
 import useIsMobileView from '@site/src/hooks/useIsMobileView';
+import { useStore } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import CreatableSelect from 'react-select/creatable';
+import Popup from 'reactjs-popup';
 import { PopupActions } from 'reactjs-popup/dist/types';
+import AudienceShifter from './AudienceShifter';
+import styles from './styles.module.scss';
 
 interface ShiftProps {
     audienceShifter: AudienceShifter;

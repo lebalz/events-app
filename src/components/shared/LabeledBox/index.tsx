@@ -1,13 +1,13 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { Color, IfmColors } from '../Colors';
-import Badge from '../Badge';
-import Button from '../Button';
 import { translate } from '@docusaurus/Translate';
 import { mdiMinusCircle, mdiPlusCircle } from '@mdi/js';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import Badge from '../Badge';
+import Button from '../Button';
+import { Color, IfmColors } from '../Colors';
 import { SIZE_XS } from '../icons';
+import styles from './styles.module.scss';
 
 interface Props {
     label: string;

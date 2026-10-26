@@ -1,13 +1,11 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import Semester from '@site/src/models/Semester';
-import Edit from '../../shared/Button/Edit';
-import { Icon } from '../../shared/icons';
-import Badge from '../../shared/Badge';
 import { mdiAlertOutline } from '@mdi/js';
+import Semester from '@site/src/models/Semester';
+import { observer } from 'mobx-react-lite';
+import Badge from '../../shared/Badge';
+import Edit from '../../shared/Button/Edit';
+import styles from './styles.module.scss';
 
 interface Props {
     semester: Semester;

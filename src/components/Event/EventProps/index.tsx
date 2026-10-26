@@ -1,12 +1,9 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import sharedStyles from '../styles.module.scss';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { default as EventModel } from '@site/src/models/Event';
-import DefinitionList from '../../shared/DefinitionList';
-import Badge from '../../shared/Badge';
+import { useHistory } from '@docusaurus/router';
+import Translate, { translate } from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {
     mdiArrowLeftBoldCircleOutline,
     mdiArrowRightBoldCircleOutline,
@@ -19,38 +16,41 @@ import {
     mdiText,
     mdiTextLong
 } from '@mdi/js';
-import { Icon, SIZE, SIZE_S } from '../../shared/icons';
-import Button from '../../shared/Button';
+import { EventState } from '@site/src/api/event';
+import { default as EventModel } from '@site/src/models/Event';
 import { useStore } from '@site/src/stores/hooks';
+import CodeBlock from '@theme/CodeBlock';
+import { observer } from 'mobx-react-lite';
+import Popup from 'reactjs-popup';
+import { PopupActions } from 'reactjs-popup/dist/types';
 import Lesson from '../../Lesson';
-import Translate, { translate } from '@docusaurus/Translate';
+import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
+import DefinitionList from '../../shared/DefinitionList';
+import { Icon, SIZE, SIZE_S } from '../../shared/icons';
+import DefaultActions from '../EventActions';
+import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
+import Transition from '../EventFields/Actions/Transition';
+import { default as AudiencePicker } from '../EventFields/Audience';
+import AudienceOptions from '../EventFields/AudienceOptions';
+import { EndDateTime, StartDateTime } from '../EventFields/DateTime';
+import Day from '../EventFields/Day';
+import Departments from '../EventFields/Departments';
 import Description from '../EventFields/Description';
 import DescriptionLong from '../EventFields/DescriptionLong';
-import KW from '../EventFields/Kw';
-import Day from '../EventFields/Day';
-import { EndDateTime, StartDateTime } from '../EventFields/DateTime';
-import Location from '../EventFields/Location';
-import { default as AudiencePicker } from '../EventFields/Audience';
-import State from '../EventFields/State';
-import Departments from '../EventFields/Departments';
+import IsValid from '../EventFields/IsValid';
 import Klasses from '../EventFields/Klasses';
-import { EventState } from '@site/src/api/event';
+import KW from '../EventFields/Kw';
+import LinkedUsers, { LINKED_USER_COLOR } from '../EventFields/LinkedUsers';
+import Location from '../EventFields/Location';
+import State from '../EventFields/State';
 import TeachingAffected from '../EventFields/TeachingAffected';
 import Version from '../EventFields/Version';
-import HistoryPopup from '../VersionHistory/HistoryPopup';
-import DefaultActions from '../EventActions';
-import Popup from 'reactjs-popup';
-import CodeBlock from '@theme/CodeBlock';
-import { PopupActions } from 'reactjs-popup/dist/types';
-import MetaWarningAlert from '../MetaAlert/warning';
 import MetaInfoAlert from '../MetaAlert/info';
-import IsValid from '../EventFields/IsValid';
-import Transition from '../EventFields/Actions/Transition';
-import ToggleSubscription from '../EventFields/Actions/ToggleSubscription';
-import AudienceOptions from '../EventFields/AudienceOptions';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import { useHistory } from '@docusaurus/router';
-import LinkedUsers, { LINKED_USER_COLOR } from '../EventFields/LinkedUsers';
+import MetaWarningAlert from '../MetaAlert/warning';
+import sharedStyles from '../styles.module.scss';
+import HistoryPopup from '../VersionHistory/HistoryPopup';
+import styles from './styles.module.scss';
 
 interface Props {
     event: EventModel;

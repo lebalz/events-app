@@ -1,12 +1,12 @@
-import React from 'react';
-import { StoresProvider, rootStore } from '../stores/stores';
-import { enableStaticRendering, observer } from 'mobx-react-lite';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Head from '@docusaurus/Head';
 import { useLocation } from '@docusaurus/router';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import { authClient } from '../auth-client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { enableStaticRendering, observer } from 'mobx-react-lite';
+import React from 'react';
+import { authClient } from '../auth-client';
 import customFields from '../components/utils/customFields';
+import { StoresProvider, rootStore } from '../stores/stores';
 const { SENTRY_DSN } = customFields;
 
 if (!ExecutionEnvironment.canUseDOM) {

@@ -1,16 +1,13 @@
-import React, { ForwardedRef } from 'react';
-import clsx from 'clsx';
-import { CURRENT_YYYY_KW, default as EventModel } from '@site/src/models/Event';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import Row from './Row';
-import { createTransformer } from 'mobx-utils';
-import _ from 'es-toolkit/compat';
-import Batch from './Batch';
-import Group from './Group';
-import ColumnHeader from './ColumnHeader';
-import { useStore } from '@site/src/stores/hooks';
+import { default as EventModel } from '@site/src/models/Event';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React, { ForwardedRef } from 'react';
+import Batch from './Batch';
+import ColumnHeader from './ColumnHeader';
+import Group from './Group';
+import Row from './Row';
+import styles from './styles.module.scss';
 
 interface ConfigOptionsBase {
     width?: string;

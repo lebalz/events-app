@@ -1,11 +1,9 @@
-import React, { type ReactNode } from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { EditIcon, SIZE_S } from '../icons';
-import Button, { Base, extractSharedProps } from '.';
+import { translate } from '@docusaurus/Translate';
 import { mdiContentDuplicate } from '@mdi/js';
-import Translate, { translate } from '@docusaurus/Translate';
+import Button, { Base, extractSharedProps } from '.';
+import { SIZE_S } from '../icons';
 
 interface Props {
     onClick: () => void;

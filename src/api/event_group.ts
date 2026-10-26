@@ -1,7 +1,7 @@
+import { translate } from '@docusaurus/Translate';
 import { AxiosPromise } from 'axios';
 import api from './base';
 import { Event } from './event';
-import { translate } from '@docusaurus/Translate';
 
 export interface Meta {}
 

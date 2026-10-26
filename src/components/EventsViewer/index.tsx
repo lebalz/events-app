@@ -1,25 +1,22 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import { translate } from '@docusaurus/Translate';
+import { mdiCalendarMonth, mdiCardTextOutline, mdiViewList } from '@mdi/js';
+import { Timeline as TimelineIcon } from '@site/src/components/shared/icons';
 import Event from '@site/src/models/Event';
+import EventTable from '@site/src/stores/ViewStores/EventTable';
+import _ from 'es-toolkit/compat';
+import { observer } from 'mobx-react-lite';
 import BulkActions, { Props as BulkActionProps } from '../Event/BulkActions';
+import { COLUMN_CONFIG } from '../Event/UsersEvents';
+import Calendar from '../Event/Views/Calendar';
 import Grid, { ColumnConfig, Props as GridProps } from '../Event/Views/Grid';
 import List from '../Event/Views/List';
-import Calendar from '../Event/Views/Calendar';
 import Timeline from '../Event/Views/Timeline';
-import { Timeline as TimelineIcon } from '@site/src/components/shared/icons';
-import _ from 'es-toolkit/compat';
-import { mdiCalendarMonth, mdiCardTextOutline, mdiViewList } from '@mdi/js';
-import { translate } from '@docusaurus/Translate';
-import { useStore } from '@site/src/stores/hooks';
-import Loader from '../shared/Loader';
-import useIsMobileView from '@site/src/hooks/useIsMobileView';
-import EventTable from '@site/src/stores/ViewStores/EventTable';
-import { useEventTable } from './useEventTable';
-import { COLUMN_CONFIG } from '../Event/UsersEvents';
 import { EventTableContext } from '../Event/hooks/useEventTable';
+import Loader from '../shared/Loader';
+import styles from './styles.module.scss';
+import { useEventTable } from './useEventTable';
 
 export enum View {
     Grid = 'grid',

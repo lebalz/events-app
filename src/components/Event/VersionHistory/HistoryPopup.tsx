@@ -1,16 +1,16 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import Popup from 'reactjs-popup';
-import Button from '../../shared/Button';
 import Translate, { translate } from '@docusaurus/Translate';
 import { mdiClose, mdiHistory } from '@mdi/js';
 import { default as EventModel } from '@site/src/models/Event';
-import VersionHistory from '.';
+import { observer } from 'mobx-react-lite';
+import Popup from 'reactjs-popup';
 import { PopupActions } from 'reactjs-popup/dist/types';
+import VersionHistory from '.';
+import Button from '../../shared/Button';
 import { SIZE_S } from '../../shared/icons';
+import styles from './styles.module.scss';
 
 interface Props {
     event: EventModel;

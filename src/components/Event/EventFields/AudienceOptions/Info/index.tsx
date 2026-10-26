@@ -1,20 +1,19 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
+import { translate } from '@docusaurus/Translate';
+import { mdiInformationVariantCircle } from '@mdi/js';
 import {
     AffectedAudience,
     EventAudience,
     EventAudienceIcons,
     EventAudienceTranslationLong
 } from '@site/src/api/event';
-import { Icon, SIZE_S } from '../../../../shared/icons';
-import Event from '@site/src/models/Event';
-import { translate } from '@docusaurus/Translate';
 import DefinitionList from '@site/src/components/shared/DefinitionList';
 import Tooltip from '@site/src/components/shared/Tooltip';
-import { mdiInformationVariantCircle } from '@mdi/js';
+import Event from '@site/src/models/Event';
+import { observer } from 'mobx-react-lite';
+import { Icon, SIZE_S } from '../../../../shared/icons';
+import styles from './styles.module.scss';
 
 interface Props {
     event: Event;

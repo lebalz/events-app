@@ -1,12 +1,11 @@
-import React from 'react';
+import { JobType } from '@site/src/api/job';
+import { JobType as JobTypeModel } from '@site/src/models/Job';
 import clsx from 'clsx';
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import LazyDetails from '../shared/Details';
-import { JobType as JobTypeModel } from '@site/src/models/Job';
-import { ImportSummary, SyncSummary } from './Summary';
 import Details from './Details';
-import { JobType } from '@site/src/api/job';
+import styles from './styles.module.scss';
+import { ImportSummary, SyncSummary } from './Summary';
 
 interface Props {
     job: JobTypeModel;

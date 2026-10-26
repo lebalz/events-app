@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { observer } from 'mobx-react-lite';
 import Popup from 'reactjs-popup';
 import { View, ViewIcons, ViewTranslations } from '.';

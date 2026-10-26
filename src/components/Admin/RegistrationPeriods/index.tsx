@@ -1,13 +1,12 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import RegistrationPeriod from '../../RegistrationPeriod';
-import AddButton from '../../Event/AddButton';
-import { SEC_2_MS, WEEK_2_MS, toGlobalDate } from '@site/src/models/helpers/time';
 import { translate } from '@docusaurus/Translate';
+import { WEEK_2_MS, toGlobalDate } from '@site/src/models/helpers/time';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import AddButton from '../../Event/AddButton';
+import RegistrationPeriod from '../../RegistrationPeriod';
+import styles from './styles.module.scss';
 
 interface Props {}
 

@@ -1,14 +1,14 @@
-import React, { MouseEventHandler, type ReactNode } from 'react';
 import clsx from 'clsx';
+import React, { MouseEventHandler, type ReactNode } from 'react';
 
-import styles from './styles.module.scss';
-import { ApiState } from '@site/src/stores/iStore';
-import { ApiIcon, Icon, SIZE_S } from '../icons';
 import Link from '@docusaurus/Link';
-import { Color, getButtonColorClass } from '../Colors';
-import Tooltip from '../Tooltip';
-import { observer } from 'mobx-react-lite';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import { ApiState } from '@site/src/stores/iStore';
+import { observer } from 'mobx-react-lite';
+import { Color, getButtonColorClass } from '../Colors';
+import { ApiIcon, Icon, SIZE_S } from '../icons';
+import Tooltip from '../Tooltip';
+import styles from './styles.module.scss';
 
 export const POPUP_BUTTON_STYLE = clsx(
     styles.button,

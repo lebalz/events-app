@@ -1,20 +1,20 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 require('dotenv').config();
-import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type { Config } from '@docusaurus/types';
+import ConfigLocalized from './docusaurus.config.localized.json';
+import dynamicRouterPlugin, { Config as DynamicRouteConfig } from './src/plugins/plugin-dynamic-routes';
+import deflistPlugin from './src/plugins/remark-deflist/plugin';
+import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
+import mdiPlugin from './src/plugins/remark-mdi/plugin';
+import strongPlugin, { transformer as captionVisitor } from './src/plugins/remark-strong/plugin';
+import { sentryPluginConfig } from './src/plugins/sentry-plugin';
+import type { EventsCustomFields } from './src/types/eventsCustomFields';
 
 const { themes } = require('prism-react-renderer');
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
-import ConfigLocalized from './docusaurus.config.localized.json';
-import strongPlugin, { transformer as captionVisitor } from './src/plugins/remark-strong/plugin';
-import deflistPlugin from './src/plugins/remark-deflist/plugin';
-import mdiPlugin from './src/plugins/remark-mdi/plugin';
-import dynamicRouterPlugin, { Config as DynamicRouteConfig} from './src/plugins/plugin-dynamic-routes';
-import imagePlugin, { CaptionVisitor } from './src/plugins/remark-images/plugin';
-import { sentryPluginConfig } from './src/plugins/sentry-plugin';
-import type { EventsCustomFields } from './src/types/eventsCustomFields';
 
 
 const envs = process.env as {

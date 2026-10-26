@@ -1,6 +1,6 @@
-import { action, computed, observable, reaction } from 'mobx';
-import { RootStore } from './stores';
+import { action, computed, observable } from 'mobx';
 import { logout } from '../api/user';
+import { RootStore } from './stores';
 import Storage from './utils/Storage';
 
 export class SessionStore {

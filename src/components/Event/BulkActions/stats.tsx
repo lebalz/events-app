@@ -1,18 +1,17 @@
-import React from 'react';
 import clsx from 'clsx';
-import { default as EventModel } from '@site/src/models/Event';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import Badge from '../../shared/Badge';
-import { Calendar, SIZE_S, SIZE_XS } from '../../shared/icons';
 import { translate } from '@docusaurus/Translate';
 import { mdiCalendarBlankMultiple, mdiDownloadCircleOutline } from '@mdi/js';
-import Button from '../../shared/Button';
 import { toExcel } from '@site/src/stores/helpers/EventsToExcelV1';
 import { useStore } from '@site/src/stores/hooks';
 import EventTable from '@site/src/stores/ViewStores/EventTable';
+import { observer } from 'mobx-react-lite';
+import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
+import { SIZE_S } from '../../shared/icons';
 import Filter from '../Filter';
+import styles from './styles.module.scss';
 interface ActionConfig {
     downlaod: boolean;
 }

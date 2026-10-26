@@ -1,10 +1,10 @@
-import React, { ComponentProps, type ReactNode } from 'react';
 import clsx from 'clsx';
+import React, { ComponentProps, type ReactNode } from 'react';
 
-import styles from './styles.module.scss';
-import { Icon } from '../icons';
 import { Color, getColorClass } from '../Colors';
+import { Icon } from '../icons';
 import Tooltip from '../Tooltip';
+import styles from './styles.module.scss';
 
 export interface Base {
     color?: Color | string;

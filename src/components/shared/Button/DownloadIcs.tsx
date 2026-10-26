@@ -1,13 +1,9 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './CopyIcs.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useIcsUrl } from '@site/src/hooks/useSubscriptionUrl';
-import { mdiClipboardText, mdiDownloadOutline } from '@mdi/js';
-import { SIZE_S } from '../icons';
-import Copy from './Copy';
-import Button from '.';
 import { translate } from '@docusaurus/Translate';
+import { mdiDownloadOutline } from '@mdi/js';
+import { useIcsUrl } from '@site/src/hooks/useSubscriptionUrl';
+import { observer } from 'mobx-react-lite';
+import Button from '.';
+import { SIZE_S } from '../icons';
 
 interface Props {
     locale: 'de' | 'fr';

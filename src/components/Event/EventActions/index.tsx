@@ -1,19 +1,19 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Button from '../../shared/Button';
 import { translate } from '@docusaurus/Translate';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
+import { EventState } from '@site/src/api/event';
+import Event from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
+import { action } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
+import Delete from '../../shared/Button/Delete';
 import { DiscardIcon, SIZE, SaveIcon, SaveVersionIcon } from '../../shared/icons';
 import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
-import Event from '@site/src/models/Event';
-import Delete from '../../shared/Button/Delete';
-import { EventState } from '@site/src/api/event';
-import { action } from 'mobx';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import styles from './styles.module.scss';
 
 interface Props {
     event: Event;

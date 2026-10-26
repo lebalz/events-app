@@ -1,14 +1,11 @@
-import React from 'react';
-import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
+import clsx from 'clsx';
+import React from 'react';
 
-import styles from './index.module.scss';
-import { observer } from 'mobx-react-lite';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import Section from '../components/shared/Section';
+import Link from '@docusaurus/Link';
 import Translate, { translate } from '@docusaurus/Translate';
-import Icon from '@mdi/react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {
     mdiAccountCircleOutline,
     mdiArrowExpandHorizontal,
@@ -25,15 +22,18 @@ import {
     mdiToggleSwitchOutline,
     mdiViewList
 } from '@mdi/js';
-import Link from '@docusaurus/Link';
-import { useStore } from '../stores/hooks';
+import Icon from '@mdi/react';
+import VideoGrid from '@site/src/components/VideoGrid';
+import Details from '@theme/Details';
+import { observer } from 'mobx-react-lite';
+import EventOverviewSmall from '../components/EventOverviewSmall';
 import Badge from '../components/shared/Badge';
 import { Timeline } from '../components/shared/icons';
-import Details from '@theme/Details';
-import VideoGrid from '@site/src/components/VideoGrid';
-import EventOverviewSmall from '../components/EventOverviewSmall';
-import { DAYS_LONG, formatDate } from '../models/helpers/time';
+import Section from '../components/shared/Section';
 import Video from '../components/VideoGrid/Video';
+import { DAYS_LONG, formatDate } from '../models/helpers/time';
+import { useStore } from '../stores/hooks';
+import styles from './index.module.scss';
 
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();

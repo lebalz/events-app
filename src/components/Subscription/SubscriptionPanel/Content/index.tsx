@@ -1,20 +1,18 @@
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import Translate, { translate } from '@docusaurus/Translate';
+import { observer } from 'mobx-react-lite';
+import styles from './styles.module.scss';
 
-import _ from 'es-toolkit/compat';
-import Subscription from '@site/src/models/Subscription';
-import SemesterSelector from '@site/src/components/shared/SemesterSelector';
 import EventsViewer, { View } from '@site/src/components/EventsViewer';
-import { ColumnConfig } from '@site/src/components/Event/Views/Grid';
 import ChangeViewAction from '@site/src/components/EventsViewer/ChangeViewAction';
-import ClassSubscriptions from '../../ClassSubscriptions';
-import DepartmentSubscriptions from '../../DepartmentSubscription';
 import Badge from '@site/src/components/shared/Badge';
 import LazyDetails from '@site/src/components/shared/Details';
+import SemesterSelector from '@site/src/components/shared/SemesterSelector';
+import Subscription from '@site/src/models/Subscription';
+import ClassSubscriptions from '../../ClassSubscriptions';
+import DepartmentSubscriptions from '../../DepartmentSubscription';
 
 interface Props {
     subscription: Subscription;

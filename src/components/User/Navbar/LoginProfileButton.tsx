@@ -1,12 +1,10 @@
-import React from 'react';
-
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import { mdiLogin } from '@mdi/js';
+import { authClient } from '@site/src/auth-client';
 import { observer } from 'mobx-react-lite';
 import Button from '../../shared/Button';
-import { mdiLogin } from '@mdi/js';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import customFields from '../../utils/customFields';
-import { authClient } from '@site/src/auth-client';
 import ProfileButton from './ProfileButton';
 const { NO_AUTH } = customFields;
 const LoginButton = () => {

@@ -1,7 +1,7 @@
-import { action, computed, makeObservable, observable, reaction } from 'mobx';
-import { ViewStore } from '.';
 import Department from '@site/src/models/Department';
 import _ from 'es-toolkit/compat';
+import { action, computed, observable } from 'mobx';
+import { ViewStore } from '.';
 class AdminDepartmentTable {
     private readonly store: ViewStore;
     @observable accessor sortColumn:

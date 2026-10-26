@@ -1,5 +1,5 @@
 import { Department } from '../api/department';
-import { Event, EventState } from '../api/event';
+import { Event } from '../api/event';
 import { EventGroup } from '../api/event_group';
 import { Job } from '../api/job';
 import { RegistrationPeriod } from '../api/registration_period';

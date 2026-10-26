@@ -1,18 +1,17 @@
-import { action, computed, makeObservable, observable, override } from 'mobx';
-import _ from 'es-toolkit/compat';
-import { RootStore } from './stores';
-import iStore from './iStore';
+import { action, computed, observable } from 'mobx';
+import { find } from '../api/api_model';
+import { ImportType, importEvents as postImportEvents } from '../api/event';
 import {
+    JobType as ApiJobType,
     JobAndEvents as JobAndEventsProps,
     Job as JobProps,
-    JobState,
-    JobType as ApiJobType
+    JobState
 } from '../api/job';
-import { EventState, ImportType, importEvents as postImportEvents } from '../api/event';
 import Job, { ImportJob, SyncJob } from '../models/Job';
 import User from '../models/User';
-import { find } from '../api/api_model';
 import { EndPoint } from './EndPoint';
+import iStore from './iStore';
+import { RootStore } from './stores';
 
 export class JobStore extends iStore<JobProps, `importFile-${string}`> {
     readonly root: RootStore;

@@ -1,20 +1,19 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Semester from '@site/src/models/Semester';
-import LazyDetails from '../../shared/Details';
-import { SyncSummary } from '../Summary';
-import Details from '../Details';
-import Job from '..';
-import { JobState } from '@site/src/api/job';
-import { Sync } from '../../shared/icons';
-import Button from '../../shared/Button';
-import Badge from '../../shared/Badge';
 import { translate } from '@docusaurus/Translate';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import { JobState } from '@site/src/api/job';
+import Semester from '@site/src/models/Semester';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Job from '..';
+import Badge from '../../shared/Badge';
+import Button from '../../shared/Button';
+import LazyDetails from '../../shared/Details';
+import { Sync } from '../../shared/icons';
+import Details from '../Details';
+import { SyncSummary } from '../Summary';
+import styles from './styles.module.scss';
 
 interface Props {
     semester: Semester;

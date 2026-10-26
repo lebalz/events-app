@@ -1,11 +1,10 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './user.module.scss';
+import Translate, { translate } from '@docusaurus/Translate';
 import Layout from '@theme/Layout';
+import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import Subscription from '../components/Subscription';
 import Section from '../components/shared/Section';
-import Translate, { translate } from '@docusaurus/Translate';
+import styles from './user.module.scss';
 
 const UserPage = observer(() => {
     return (

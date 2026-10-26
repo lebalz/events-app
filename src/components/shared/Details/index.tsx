@@ -1,8 +1,8 @@
-import React, { useRef, useState, type ComponentProps, type ReactElement } from 'react';
-import clsx from 'clsx';
 import useIsBrowser from '@docusaurus/useIsBrowser';
+import clsx from 'clsx';
+import React, { useRef, useState, type ComponentProps, type ReactElement } from 'react';
 
-import { useCollapsible, Collapsible } from '@docusaurus/theme-common';
+import { Collapsible, useCollapsible } from '@docusaurus/theme-common';
 
 import styles from './styles.module.css';
 

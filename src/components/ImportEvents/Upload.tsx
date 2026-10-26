@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
 import clsx from 'clsx';
+import { useState } from 'react';
 
-import styles from './Upload.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import Button from '../shared/Button';
-import { mdiFileUploadOutline, mdiFileExcel, mdiFileDelimited } from '@mdi/js';
-import { Icon, SIZE_S } from '../shared/icons';
+import { translate } from '@docusaurus/Translate';
+import { mdiFileDelimited, mdiFileExcel, mdiFileUploadOutline } from '@mdi/js';
 import { ImportType } from '@site/src/api/event';
-import Translate, { translate } from '@docusaurus/Translate';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Button from '../shared/Button';
+import { Icon, SIZE_S } from '../shared/icons';
+import styles from './Upload.module.scss';
 
 interface Props {
     type: ImportType;

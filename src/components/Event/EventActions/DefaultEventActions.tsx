@@ -1,15 +1,13 @@
-import React from 'react';
-
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import DefinitionList from '../../shared/DefinitionList';
 import Translate, { translate } from '@docusaurus/Translate';
-import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
-import Event from '@site/src/models/Event';
-import Button from '../../shared/Button';
 import { mdiArrowExpandAll, mdiShareCircle } from '@mdi/js';
-import { SIZE_S } from '../../shared/icons';
+import Event from '@site/src/models/Event';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
 import Delete from '../../shared/Button/Delete';
+import DefinitionList from '../../shared/DefinitionList';
+import { SIZE_S } from '../../shared/icons';
+import { AddToGroup, Clone, EditRowMode } from './OptionsPopup';
 
 interface Props {
     event: Event;

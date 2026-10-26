@@ -1,13 +1,13 @@
-import { visit } from 'unist-util-visit';
-import type { MdxJsxAttribute, MdxJsxTextElement } from 'mdast-util-mdx';
-import { remark } from 'remark';
-import remarkMdx from 'remark-mdx';
-import remarkDirective from 'remark-directive';
-import { describe, expect, it } from 'vitest';
-import { fileURLToPath } from 'url';
-import { CaptionVisitor } from '../plugin';
-import { VFile } from 'vfile';
 import { Parent } from 'mdast';
+import type { MdxJsxTextElement } from 'mdast-util-mdx';
+import { remark } from 'remark';
+import remarkDirective from 'remark-directive';
+import remarkMdx from 'remark-mdx';
+import { visit } from 'unist-util-visit';
+import { fileURLToPath } from 'url';
+import { VFile } from 'vfile';
+import { describe, expect, it } from 'vitest';
+import { CaptionVisitor } from '../plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 

@@ -1,36 +1,35 @@
-import React from 'react';
-import { default as ReactIcon } from '@mdi/react';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import {
-    mdiCalendarMonth,
-    mdiCircleEditOutline,
-    mdiTrashCan,
-    mdiContentSave,
-    mdiCloseCircle,
-    mdiArrowRightCircle,
     mdiArrowLeftCircle,
-    mdiSyncCircle,
+    mdiArrowRightCircle,
+    mdiCalendarEditOutline,
+    mdiCalendarMonth,
     mdiCheckCircle,
-    mdiLoading,
     mdiCircle,
-    mdiContentCopy,
-    mdiClockTimeTwelveOutline,
-    mdiClockTimeOneOutline,
-    mdiClockTimeTwoOutline,
-    mdiClockTimeThreeOutline,
-    mdiClockTimeFourOutline,
-    mdiClockTimeFiveOutline,
-    mdiClockTimeSixOutline,
-    mdiClockTimeSevenOutline,
+    mdiCircleEditOutline,
     mdiClockTimeEightOutline,
-    mdiClockTimeNineOutline,
-    mdiClockTimeTenOutline,
     mdiClockTimeElevenOutline,
+    mdiClockTimeFiveOutline,
+    mdiClockTimeFourOutline,
+    mdiClockTimeNineOutline,
+    mdiClockTimeOneOutline,
+    mdiClockTimeSevenOutline,
+    mdiClockTimeSixOutline,
+    mdiClockTimeTenOutline,
+    mdiClockTimeThreeOutline,
+    mdiClockTimeTwelveOutline,
+    mdiClockTimeTwoOutline,
+    mdiCloseCircle,
+    mdiContentCopy,
+    mdiContentSave,
     mdiContentSavePlus,
-    mdiCalendarEditOutline
+    mdiLoading,
+    mdiSyncCircle,
+    mdiTrashCan
 } from '@mdi/js';
+import { default as ReactIcon } from '@mdi/react';
 import { IconProps } from '@mdi/react/dist/IconProps';
 import { ApiState } from '@site/src/stores/iStore';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 
 export const SIZE = 1;
 export const SIZE_S = 0.8;

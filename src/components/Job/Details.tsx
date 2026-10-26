@@ -1,13 +1,11 @@
-import React from 'react';
-
-import { observer } from 'mobx-react-lite';
-import Job, { ImportJob as ImportJobModel, SyncJob } from '@site/src/models/Job';
-import DefinitionList from '../shared/DefinitionList';
 import { JobType } from '@site/src/api/job';
+import Job, { ImportJob as ImportJobModel, SyncJob } from '@site/src/models/Job';
 import CodeBlock from '@theme/CodeBlock';
-import ImportJob from './ImportJob';
-import Button from '../shared/Button';
+import { observer } from 'mobx-react-lite';
 import Badge from '../shared/Badge';
+import Button from '../shared/Button';
+import DefinitionList from '../shared/DefinitionList';
+import ImportJob from './ImportJob';
 
 interface Props {
     job: Job;

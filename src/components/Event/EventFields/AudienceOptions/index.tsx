@@ -1,13 +1,12 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from '../styles.module.scss';
 
-import { observer } from 'mobx-react-lite';
-import { Props as CommonProps } from '../iEventField';
-import Edit from './Edit';
 import { EventAudienceOverviewTranslation } from '@site/src/api/event';
 import Badge from '@site/src/components/shared/Badge';
+import { observer } from 'mobx-react-lite';
 import Popup from 'reactjs-popup';
+import { Props as CommonProps } from '../iEventField';
+import Edit from './Edit';
 import Info from './Info';
 export interface Props extends CommonProps {
     hideLabel?: boolean;

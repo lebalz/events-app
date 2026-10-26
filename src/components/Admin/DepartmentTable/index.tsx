@@ -1,16 +1,12 @@
 import React from 'react';
-import clsx from 'clsx';
 
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@site/src/stores/hooks';
-import { default as UserModel } from '@site/src/models/User';
-import Department from './Department';
-import Button from '../../shared/Button';
-import { mdiDotsSquare, mdiPlusCircleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js';
-import { Icon, SIZE, SIZE_S } from '../../shared/icons';
-import { default as DepartmentModel } from '@site/src/models/Department';
 import Translate, { translate } from '@docusaurus/Translate';
+import { mdiDotsSquare, mdiPlusCircleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js';
+import { useStore } from '@site/src/stores/hooks';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
+import { Icon, SIZE_S } from '../../shared/icons';
+import Department from './Department';
 
 interface Props {}
 

@@ -1,9 +1,9 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 import { useOnScreen } from '@site/src/stores/hooks';
+import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { BATCH_SIZE } from '.';
+import styles from './styles.module.scss';
 
 interface Props {
     tableCssSelector: string;

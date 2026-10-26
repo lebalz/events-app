@@ -1,10 +1,4 @@
-import { AxiosPromise } from 'axios';
-import api from './base';
-import { Job } from './job';
-import Joi, { CustomHelpers, link } from 'joi';
-import { KlassName } from '../models/helpers/klassNames';
 import { translate } from '@docusaurus/Translate';
-import { Color } from '../components/shared/Colors';
 import {
     mdiAccountGroup,
     mdiAccountHeart,
@@ -17,7 +11,13 @@ import {
     mdiProgressCheck,
     mdiSchool
 } from '@mdi/js';
+import { AxiosPromise } from 'axios';
+import Joi, { CustomHelpers } from 'joi';
+import { Color } from '../components/shared/Colors';
 import { CalendarCheckPartial } from '../components/shared/icons';
+import { KlassName } from '../models/helpers/klassNames';
+import api from './base';
+import { Job } from './job';
 
 export enum EventState {
     Draft = 'DRAFT',

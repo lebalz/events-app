@@ -1,19 +1,16 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-import { observer } from 'mobx-react-lite';
-import { ReadonlyProps } from './iEventField';
-import { mdiArrowRightCircle, mdiRecordCircleOutline, mdiShareAllOutline, mdiShareOutline } from '@mdi/js';
-import Badge from '@site/src/components/shared/Badge';
-import { Icon, SIZE_S, SIZE_XS } from '../../shared/icons';
-import Button from '../../shared/Button';
 import Translate, { translate } from '@docusaurus/Translate';
+import { mdiRecordCircleOutline, mdiShareAllOutline, mdiShareOutline } from '@mdi/js';
+import Badge from '@site/src/components/shared/Badge';
+import { observer } from 'mobx-react-lite';
+import Button from '../../shared/Button';
 import DefinitionList from '../../shared/DefinitionList';
+import { Icon, SIZE_S } from '../../shared/icons';
 import CreatedAt from './CreatedAt';
+import { ReadonlyProps } from './iEventField';
 import UpdatedAt from './UpdatedAt';
-import { formatDateTime } from '@site/src/models/helpers/time';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface Props extends ReadonlyProps {
     hideVersion?: boolean;

@@ -1,11 +1,10 @@
-import React from 'react';
 import clsx from 'clsx';
 
-import styles from './styles.module.scss';
+import Translate from '@docusaurus/Translate';
+import { formatDate } from '@site/src/models/helpers/time';
 import { observer } from 'mobx-react-lite';
 import { ViewGroup } from '.';
-import { formatDate } from '@site/src/models/helpers/time';
-import Translate from '@docusaurus/Translate';
+import styles from './styles.module.scss';
 
 interface Props extends ViewGroup {
     isCurrent?: boolean;
